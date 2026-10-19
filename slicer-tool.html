@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sporelight 切图工具</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; background: #1a1a2e; color: #e0e0e0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+/* 顶部工具栏 */
+.toolbar {
+  display: flex; align-items: center; gap: 10px; padding: 8px 16px;
+  background: #16213e; border-bottom: 1px solid #0f3460; z-index: 10;
+}
+.toolbar h1 { font-size: 16px; color: #a8d8a8; margin-right: 16px; white-space: nowrap; }
+.toolbar button, .toolbar label {
+  padding: 6px 14px; border: 1px solid #0f3460; border-radius: 6px;
+  background: #1a1a2e; color: #e0e0e0; cursor: pointer; font-size: 13px;
+  transition: all 0.2s;
+}
+.toolbar button:hover, .toolbar label:hover { background: #0f3460; border-color: #a8d8a8; }
+.toolbar .sep { width: 1px; height: 24px; background: #0f3460; }
+.toolbar .info { font-size: 12px; color: #888; margin-left: auto; }
+#fileInput { display: none; }
+
+/* 主区域 */
+.main { display: flex; flex: 1; overflow: hidden; }
+
+/* 画布区域 */
+.canvas-wrap {
+  flex: 1; position: relative; overflow: hidden; background: #111;
+  background-image: linear-gradient(45deg, #1a1a1a 25%, transparent 25%),
+    linear-gradient(-45deg, #1a1a1a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1a1a1a 75%),
+    linear-gradient(-45deg, transparent 75%, #1a1a1a 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+#mainCanvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+
+/* 右侧面板 */
+.sidebar {
+  width: 320px; min-width: 320px; background: #16213e; border-left: 1px solid #0f3460;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.sidebar-header {
+  padding: 12px; border-bottom: 1px solid #0f3460;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sidebar-header h2 { font-size: 14px; color: #a8d8a8; }
+.sidebar-header .count { font-size: 12px; color: #888; }
+
+/* 命名输入区 */
+.name-input-area { padding: 10px 12px; border-bottom: 1px solid #0f3460; }
+.name-input-area label { font-size: 12px; color: #888; display: block; margin-bottom: 4px; }
+.name-input-row { display: flex; gap: 6px; }
+.name-input-row input {
+  flex: 1; padding: 6px 10px; border: 1px solid #0f3460; border-radius: 4px;
+  background: #1a1a2e; color: #e0e0e0; font-size: 13px; outline: none;
+}
+.name-input-row input:focus { border-color: #a8d8a8; }
+.name-input-row select {
+  padding: 6px 8px; border: 1px solid #0f3460; border-radius: 4px;
+  background: #1a1a2e; color: #e0e0e0; font-size: 13px; outline: none;
+}
+
+/* 预设前缀 */
+.prefix-row { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+.prefix-btn {
+  padding: 3px 8px; border: 1px solid #0f3460; border-radius: 4px;
+  background: #1a1a2e; color: #ccc; font-size: 11px; cursor: pointer;
+}
+.prefix-btn:hover, .prefix-btn.active { background: #0f3460; color: #a8d8a8; border-color: #a8d8a8; }
+
+/* 区域列表 */
+.region-list { flex: 1; overflow-y: auto; padding: 6px; }
+.region-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px;
+  border: 1px solid transparent; border-radius: 6px; margin-bottom: 4px;
+  cursor: pointer; transition: all 0.15s;
+}
+.region-item:hover { background: #1a1a2e; border-color: #0f3460; }
+.region-item.selected { background: #1a1a2e; border-color: #a8d8a8; }
+.region-item .color-dot {
+  width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0;
+}
+.region-item .r-info { flex: 1; min-width: 0; }
+.region-item .r-name { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.region-item .r-size { font-size: 11px; color: #888; }
+.region-item .r-actions { display: flex; gap: 2px; opacity: 0; transition: opacity 0.15s; }
+.region-item:hover .r-actions, .region-item.selected .r-actions { opacity: 1; }
+.r-actions button {
+  width: 24px; height: 24px; border: none; border-radius: 4px;
+  background: transparent; color: #888; cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.r-actions button:hover { background: #0f3460; color: #e0e0e0; }
+.r-actions .del-btn:hover { background: #5c2020; color: #ff6b6b; }
+
+/* 底部导出区 */
+.export-area { padding: 10px 12px; border-top: 1px solid #0f3460; }
+.export-area button {
+  width: 100%; padding: 10px; border: none; border-radius: 6px;
+  font-size: 14px; cursor: pointer; margin-bottom: 6px; transition: all 0.2s;
+}
+.export-zip { background: #a8d8a8; color: #1a1a2e; font-weight: bold; }
+.export-zip:hover { background: #8bc88b; }
+.export-zip:disabled { background: #555; color: #888; cursor: not-allowed; }
+.export-single { background: #1a1a2e; color: #e0e0e0; border: 1px solid #0f3460 !important; }
+.export-single:hover { border-color: #a8d8a8 !important; }
+
+/* 缩放控制 */
+.zoom-controls {
+  position: absolute; bottom: 16px; right: 340px; display: flex; gap: 4px;
+  background: #16213e; border: 1px solid #0f3460; border-radius: 8px; padding: 4px;
+  z-index: 5;
+}
+.zoom-controls button {
+  width: 32px; height: 32px; border: none; border-radius: 4px;
+  background: transparent; color: #e0e0e0; cursor: pointer; font-size: 16px;
+}
+.zoom-controls button:hover { background: #0f3460; }
+.zoom-controls .zoom-label { display: flex; align-items: center; font-size: 12px; padding: 0 8px; color: #888; }
+
+/* 提示 */
+.hint {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  text-align: center; color: #555; pointer-events: none; z-index: 1;
+}
+.hint .icon { font-size: 64px; margin-bottom: 16px; }
+.hint .text { font-size: 16px; }
+.hint .sub { font-size: 12px; margin-top: 8px; color: #444; }
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #0f3460; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #a8d8a8; }
+
+/* 快捷键提示 */
+.shortcuts { font-size: 11px; color: #555; padding: 6px 12px; border-top: 1px solid #0f3460; }
+.shortcuts kbd {
+  padding: 1px 5px; border: 1px solid #333; border-radius: 3px;
+  background: #1a1a2e; font-size: 10px;
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部工具栏 -->
+<div class="toolbar">
+  <h1>🍄 Sporelight 切图工具</h1>
+  <label for="fileInput">📂 加载图片</label>
+  <input type="file" id="fileInput" accept="image/*">
+  <div class="sep"></div>
+  <button onclick="undoLast()" title="撤销最后一个 (Ctrl+Z)">↩ 撤销</button>
+  <button onclick="clearAll()" title="清空所有区域">🗑 清空</button>
+  <div class="sep"></div>
+  <button onclick="autoDetect()" title="自动检测可点击区域">✨ 智能识别</button>
+  <div class="sep"></div>
+  <button onclick="toggleSnap()" id="snapBtn" title="吸附到边缘">🧲 吸附: 开</button>
+  <span class="info" id="cursorInfo">-</span>
+</div>
+
+<!-- 主体 -->
+<div class="main">
+  <!-- 画布 -->
+  <div class="canvas-wrap" id="canvasWrap">
+    <canvas id="mainCanvas"></canvas>
+    <div class="hint" id="hint">
+      <div class="icon">🖼️</div>
+      <div class="text">拖拽图片到此处，或点击「加载图片」</div>
+      <div class="sub">支持 PNG / JPG / WebP · 鼠标滚轮缩放 · 空格+拖拽平移</div>
+    </div>
+  </div>
+
+  <!-- 右侧面板 -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>📋 切图区域</h2>
+      <span class="count" id="regionCount">0 个区域</span>
+    </div>
+
+    <!-- 命名 -->
+    <div class="name-input-area">
+      <label>下一个区域名称：</label>
+      <div class="name-input-row">
+        <input type="text" id="regionName" placeholder="例: ui_btn_start" autofocus>
+        <select id="extSelect">
+          <option value=".png">.png</option>
+          <option value=".jpg">.jpg</option>
+          <option value=".webp">.webp</option>
+        </select>
+      </div>
+      <div class="prefix-row">
+        <span class="prefix-btn" data-prefix="ui_btn_" onclick="setPrefix(this)">ui_btn_</span>
+        <span class="prefix-btn" data-prefix="ui_icon_" onclick="setPrefix(this)">ui_icon_</span>
+        <span class="prefix-btn" data-prefix="ui_panel_" onclick="setPrefix(this)">ui_panel_</span>
+        <span class="prefix-btn" data-prefix="char_" onclick="setPrefix(this)">char_</span>
+        <span class="prefix-btn" data-prefix="world_" onclick="setPrefix(this)">world_</span>
+        <span class="prefix-btn" data-prefix="bg_" onclick="setPrefix(this)">bg_</span>
+        <span class="prefix-btn" data-prefix="fx_" onclick="setPrefix(this)">fx_</span>
+        <span class="prefix-btn" data-prefix="gallery_" onclick="setPrefix(this)">gallery_</span>
+      </div>
+    </div>
+
+    <!-- 列表 -->
+    <div class="region-list" id="regionList"></div>
+
+    <!-- 快捷键 -->
+    <div class="shortcuts">
+      <kbd>Ctrl+Z</kbd> 撤销 &nbsp; <kbd>Space</kbd>+拖拽 平移 &nbsp; <kbd>滚轮</kbd> 缩放 &nbsp; <kbd>Delete</kbd> 删除选中
+    </div>
+
+    <!-- 导出 -->
+    <div class="export-area">
+      <button class="export-zip" id="exportZipBtn" onclick="exportZip()" disabled>📦 导出全部为 ZIP</button>
+      <button class="export-single" onclick="exportSelected()">💾 导出选中区域</button>
+    </div>
+  </div>
+</div>
+
+<!-- 缩放控制 -->
+<div class="zoom-controls">
+  <button onclick="zoomTo(fitZoom)">适应</button>
+  <button onclick="zoomTo(zoom / 1.2)">−</button>
+  <span class="zoom-label" id="zoomLabel">100%</span>
+  <button onclick="zoomTo(zoom * 1.2)">+</button>
+  <button onclick="zoomTo(1)">1:1</button>
+</div>
+
+<script>
+// ========== 全局状态 ==========
+const canvas = document.getElementById('mainCanvas');
+const ctx = canvas.getContext('2d');
+const wrap = document.getElementById('canvasWrap');
+const hint = document.getElementById('hint');
+
+let img = null;           // 加载的图片
+let imgW = 0, imgH = 0;
+let zoom = 1;             // 当前缩放比例
+let fitZoom = 1;
+let panX = 0, panY = 0;   // 平移偏移
+let regions = [];          // 所有切图区域
+let selectedIdx = -1;      // 当前选中区域
+let currentPrefix = '';
+let snapEnabled = true;
+let nextColor = 0;
+
+// 绘制中状态
+let isDrawing = false;
+let drawStart = null;
+let drawCurrent = null;
+
+// 平移状态
+let isPanning = false;
+let panStart = null;
+let spaceDown = false;
+
+// 颜色表
+const COLORS = [
+  '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+  '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+  '#F1948A', '#82E0AA', '#F8C471', '#AED6F1', '#D2B4DE',
+  '#A3E4D7', '#FAD7A0', '#FADBD8', '#D5F5E3', '#FCF3CF',
+];
+
+function getColor() {
+  const c = COLORS[nextColor % COLORS.length];
+  nextColor++;
+  return c;
+}
+
+// ========== 图片加载 ==========
+document.getElementById('fileInput').addEventListener('change', (e) => {
+  if (e.target.files[0]) loadImageFile(e.target.files[0]);
+});
+
+// 拖拽加载
+wrap.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
+wrap.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) loadImageFile(file);
+});
+
+function loadImageFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const newImg = new Image();
+    newImg.onload = () => {
+      img = newImg;
+      imgW = img.naturalWidth;
+      imgH = img.naturalHeight;
+      hint.style.display = 'none';
+      // 自动适应
+      fitZoom = Math.min(
+        (wrap.clientWidth - 40) / imgW,
+        (wrap.clientHeight - 40) / imgH,
+        1
+      );
+      zoomTo(fitZoom);
+      panX = (wrap.clientWidth - imgW * zoom) / 2;
+      panY = (wrap.clientHeight - imgH * zoom) / 2;
+      render();
+    };
+    newImg.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ========== 缩放 & 平移 ==========
+function zoomTo(newZoom) {
+  const cx = wrap.clientWidth / 2;
+  const cy = wrap.clientHeight / 2;
+  // 以画面中心为缩放锚点
+  const worldX = (cx - panX) / zoom;
+  const worldY = (cy - panY) / zoom;
+  zoom = Math.max(0.05, Math.min(10, newZoom));
+  panX = cx - worldX * zoom;
+  panY = cy - worldY * zoom;
+  document.getElementById('zoomLabel').textContent = Math.round(zoom * 100) + '%';
+  render();
+}
+
+wrap.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const rect = wrap.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  const worldX = (mx - panX) / zoom;
+  const worldY = (my - panY) / zoom;
+  const factor = e.deltaY < 0 ? 1.1 : 0.9;
+  zoom = Math.max(0.05, Math.min(10, zoom * factor));
+  panX = mx - worldX * zoom;
+  panY = my - worldY * zoom;
+  document.getElementById('zoomLabel').textContent = Math.round(zoom * 100) + '%';
+  render();
+}, { passive: false });
+
+// ========== 鼠标交互 ==========
+function screenToImage(sx, sy) {
+  return {
+    x: (sx - panX) / zoom,
+    y: (sy - panY) / zoom
+  };
+}
+
+function imageToScreen(ix, iy) {
+  return {
+    x: ix * zoom + panX,
+    y: iy * zoom + panY
+  };
+}
+
+canvas.addEventListener('mousedown', (e) => {
+  if (!img) return;
+  const rect = wrap.getBoundingClientRect();
+  const sx = e.clientX - rect.left;
+  const sy = e.clientY - rect.top;
+
+  // 空格+拖拽 = 平移
+  if (spaceDown || e.button === 1) {
+    isPanning = true;
+    panStart = { x: sx - panX, y: sy - panY };
+    canvas.style.cursor = 'grabbing';
+    return;
+  }
+
+  if (e.button !== 0) return;
+
+  // 检查是否点击了已有区域（选中）
+  const ip = screenToImage(sx, sy);
+  for (let i = regions.length - 1; i >= 0; i--) {
+    const r = regions[i];
+    if (ip.x >= r.x && ip.x <= r.x + r.w && ip.y >= r.y && ip.y <= r.y + r.h) {
+      selectedIdx = i;
+      render();
+      renderList();
+      return;
+    }
+  }
+
+  // 开始绘制新区域
+  isDrawing = true;
+  drawStart = ip;
+  drawCurrent = ip;
+  selectedIdx = -1;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = wrap.getBoundingClientRect();
+  const sx = e.clientX - rect.left;
+  const sy = e.clientY - rect.top;
+  const ip = screenToImage(sx, sy);
+
+  // 更新坐标显示
+  if (img) {
+    document.getElementById('cursorInfo').textContent =
+      `${Math.round(ip.x)}, ${Math.round(ip.y)} | ${imgW}×${imgH}`;
+  }
+
+  if (isPanning) {
+    panX = sx - panStart.x;
+    panY = sy - panStart.y;
+    render();
+    return;
+  }
+
+  if (isDrawing) {
+    drawCurrent = ip;
+    render();
+    // 绘制预览框
+    drawSelectionPreview();
+    return;
+  }
+
+  // 悬停检测
+  if (img) {
+    let hovering = false;
+    for (let i = regions.length - 1; i >= 0; i--) {
+      const r = regions[i];
+      if (ip.x >= r.x && ip.x <= r.x + r.w && ip.y >= r.y && ip.y <= r.y + r.h) {
+        hovering = true;
+        break;
+      }
+    }
+    canvas.style.cursor = spaceDown ? 'grab' : (hovering ? 'pointer' : 'crosshair');
+  }
+});
+
+canvas.addEventListener('mouseup', (e) => {
+  if (isPanning) {
+    isPanning = false;
+    canvas.style.cursor = spaceDown ? 'grab' : 'crosshair';
+    return;
+  }
+
+  if (isDrawing && drawStart && drawCurrent) {
+    isDrawing = false;
+    let x = Math.min(drawStart.x, drawCurrent.x);
+    let y = Math.min(drawStart.y, drawCurrent.y);
+    let w = Math.abs(drawCurrent.x - drawStart.x);
+    let h = Math.abs(drawCurrent.y - drawStart.y);
+
+    // 最小尺寸
+    if (w > 5 && h > 5) {
+      // 吸附到图片边界
+      if (snapEnabled) {
+        if (x < 10) { w += x; x = 0; }
+        if (y < 10) { h += y; y = 0; }
+        if (x + w > imgW - 10) w = imgW - x;
+        if (y + h > imgH - 10) h = imgH - y;
+      }
+
+      x = Math.max(0, Math.round(x));
+      y = Math.max(0, Math.round(y));
+      w = Math.min(Math.round(w), imgW - x);
+      h = Math.min(Math.round(h), imgH - y);
+
+      const name = document.getElementById('regionName').value.trim() || `region_${regions.length + 1}`;
+      const ext = document.getElementById('extSelect').value;
+      regions.push({ x, y, w, h, name, ext, color: getColor() });
+      selectedIdx = regions.length - 1;
+
+      // 自动递增名称
+      autoIncrementName(name);
+      renderList();
+    }
+    drawStart = null;
+    drawCurrent = null;
+    render();
+  }
+});
+
+canvas.addEventListener('mouseleave', () => {
+  if (isPanning) { isPanning = false; canvas.style.cursor = 'crosshair'; }
+});
+
+// 键盘
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && !e.repeat) {
+    spaceDown = true;
+    if (!isDrawing) canvas.style.cursor = 'grab';
+    e.preventDefault();
+  }
+  if (e.ctrlKey && e.code === 'KeyZ') {
+    e.preventDefault();
+    undoLast();
+  }
+  if (e.code === 'Delete' || e.code === 'Backspace') {
+    if (document.activeElement.tagName !== 'INPUT' && selectedIdx >= 0) {
+      e.preventDefault();
+      deleteRegion(selectedIdx);
+    }
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (e.code === 'Space') {
+    spaceDown = false;
+    canvas.style.cursor = 'crosshair';
+  }
+});
+
+// ========== 渲染 ==========
+function render() {
+  canvas.width = wrap.clientWidth;
+  canvas.height = wrap.clientHeight;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!img) return;
+
+  ctx.save();
+  ctx.translate(panX, panY);
+  ctx.scale(zoom, zoom);
+
+  // 绘制图片
+  ctx.drawImage(img, 0, 0);
+
+  // 绘制已有区域
+  regions.forEach((r, i) => {
+    const isSelected = i === selectedIdx;
+    // 填充
+    ctx.fillStyle = r.color + (isSelected ? '30' : '18');
+    ctx.fillRect(r.x, r.y, r.w, r.h);
+    // 边框
+    ctx.strokeStyle = r.color;
+    ctx.lineWidth = (isSelected ? 3 : 1.5) / zoom;
+    ctx.setLineDash(isSelected ? [] : [6 / zoom, 4 / zoom]);
+    ctx.strokeRect(r.x, r.y, r.w, r.h);
+    ctx.setLineDash([]);
+    // 标签
+    const fontSize = Math.max(12, 14 / zoom);
+    ctx.font = `bold ${fontSize}px "Microsoft YaHei", sans-serif`;
+    const label = `${r.name}${r.ext}`;
+    const tm = ctx.measureText(label);
+    const labelH = fontSize + 8;
+    const labelW = tm.width + 12;
+    const lx = r.x;
+    const ly = r.y - labelH - 2;
+    // 标签背景
+    ctx.fillStyle = r.color;
+    ctx.beginPath();
+    ctx.roundRect(lx, ly, labelW, labelH, 4 / zoom);
+    ctx.fill();
+    // 标签文字
+    ctx.fillStyle = '#fff';
+    ctx.fillText(label, lx + 6, ly + fontSize - 1);
+    // 尺寸
+    const sizeLabel = `${r.w}×${r.h}`;
+    ctx.font = `${Math.max(10, 11 / zoom)}px sans-serif`;
+    ctx.fillStyle = r.color;
+    ctx.fillText(sizeLabel, r.x + 4, r.y + r.h + 14 / zoom);
+  });
+
+  ctx.restore();
+}
+
+function drawSelectionPreview() {
+  if (!drawStart || !drawCurrent) return;
+  const s = imageToScreen(drawStart.x, drawStart.y);
+  const e = imageToScreen(drawCurrent.x, drawCurrent.y);
+  const x = Math.min(s.x, e.x), y = Math.min(s.y, e.y);
+  const w = Math.abs(e.x - s.x), h = Math.abs(e.y - s.y);
+
+  ctx.save();
+  ctx.fillStyle = '#a8d8a830';
+  ctx.fillRect(x, y, w, h);
+  ctx.strokeStyle = '#a8d8a8';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([8, 4]);
+  ctx.strokeRect(x, y, w, h);
+  ctx.setLineDash([]);
+  // 尺寸标注
+  const iw = Math.round(Math.abs(drawCurrent.x - drawStart.x));
+  const ih = Math.round(Math.abs(drawCurrent.y - drawStart.y));
+  ctx.font = '12px "Microsoft YaHei", sans-serif';
+  ctx.fillStyle = '#a8d8a8';
+  ctx.fillText(`${iw}×${ih}`, x + 4, y - 6);
+  ctx.restore();
+}
+
+// ========== 区域列表 ==========
+function renderList() {
+  const list = document.getElementById('regionList');
+  list.innerHTML = '';
+  regions.forEach((r, i) => {
+    const item = document.createElement('div');
+    item.className = 'region-item' + (i === selectedIdx ? ' selected' : '');
+    item.innerHTML = `
+      <div class="color-dot" style="background:${r.color}"></div>
+      <div class="r-info">
+        <div class="r-name" title="${r.name}${r.ext}">${r.name}${r.ext}</div>
+        <div class="r-size">${r.w}×${r.h} @ (${r.x}, ${r.y})</div>
+      </div>
+      <div class="r-actions">
+        <button title="重命名" onclick="event.stopPropagation();renameRegion(${i})">✏️</button>
+        <button class="del-btn" title="删除" onclick="event.stopPropagation();deleteRegion(${i})">✕</button>
+      </div>
+    `;
+    item.addEventListener('click', () => { selectedIdx = i; render(); renderList(); });
+    item.addEventListener('dblclick', () => { renameRegion(i); });
+    list.appendChild(item);
+  });
+  document.getElementById('regionCount').textContent = regions.length + ' 个区域';
+  document.getElementById('exportZipBtn').disabled = regions.length === 0;
+}
+
+// ========== 操作 ==========
+function undoLast() {
+  if (regions.length === 0) return;
+  regions.pop();
+  selectedIdx = Math.min(selectedIdx, regions.length - 1);
+  render();
+  renderList();
+}
+
+function clearAll() {
+  if (regions.length === 0) return;
+  if (!confirm(`确定清空所有 ${regions.length} 个区域？`)) return;
+  regions = [];
+  selectedIdx = -1;
+  nextColor = 0;
+  render();
+  renderList();
+}
+
+function deleteRegion(idx) {
+  regions.splice(idx, 1);
+  if (selectedIdx >= regions.length) selectedIdx = regions.length - 1;
+  render();
+  renderList();
+}
+
+function renameRegion(idx) {
+  const r = regions[idx];
+  const newName = prompt('输入新名称：', r.name);
+  if (newName && newName.trim()) {
+    r.name = newName.trim();
+    render();
+    renderList();
+  }
+}
+
+function setPrefix(btn) {
+  const prefix = btn.dataset.prefix;
+  document.querySelectorAll('.prefix-btn').forEach(b => b.classList.remove('active'));
+  if (currentPrefix === prefix) {
+    currentPrefix = '';
+  } else {
+    currentPrefix = prefix;
+    btn.classList.add('active');
+  }
+  const input = document.getElementById('regionName');
+  input.value = currentPrefix;
+  input.focus();
+}
+
+function autoIncrementName(name) {
+  // 检测末尾数字并递增
+  const match = name.match(/^(.+?)(\d+)$/);
+  if (match) {
+    const base = match[1];
+    const num = parseInt(match[2]);
+    const padded = String(num + 1).padStart(match[2].length, '0');
+    document.getElementById('regionName').value = currentPrefix + base.replace(currentPrefix, '') + padded;
+  }
+}
+
+function toggleSnap() {
+  snapEnabled = !snapEnabled;
+  document.getElementById('snapBtn').textContent = `🧲 吸附: ${snapEnabled ? '开' : '关'}`;
+}
+
+// ========== 导出 ==========
+function cropRegion(r) {
+  return new Promise((resolve) => {
+    const offCanvas = document.createElement('canvas');
+    offCanvas.width = r.w;
+    offCanvas.height = r.h;
+    const offCtx = offCanvas.getContext('2d');
+    offCtx.drawImage(img, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
+
+    const mimeMap = { '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' };
+    const mime = mimeMap[r.ext] || 'image/png';
+    offCanvas.toBlob((blob) => {
+      resolve({ blob, name: r.name + r.ext });
+    }, mime, 0.95);
+  });
+}
+
+async function exportZip() {
+  if (regions.length === 0) return;
+  const btn = document.getElementById('exportZipBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ 正在导出...';
+
+  try {
+    const zip = new JSZip();
+    for (let i = 0; i < regions.length; i++) {
+      btn.textContent = `⏳ 导出 ${i + 1}/${regions.length}...`;
+      const { blob, name } = await cropRegion(regions[i]);
+      zip.file(name, blob);
+    }
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `sporelight_slices_${Date.now()}.zip`;
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    alert('导出失败: ' + err.message);
+  }
+
+  btn.disabled = false;
+  btn.textContent = '📦 导出全部为 ZIP';
+}
+
+async function exportSelected() {
+  if (selectedIdx < 0 || selectedIdx >= regions.length) {
+    alert('请先选中一个区域');
+    return;
+  }
+  const { blob, name } = await cropRegion(regions[selectedIdx]);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ========== 智能识别 ==========
+function autoDetect() {
+  if (!img) { alert('请先加载图片'); return; }
+
+  // 简单边缘检测：扫描行和列找到非背景区域
+  const offCanvas = document.createElement('canvas');
+  const scale = Math.min(1, 800 / Math.max(imgW, imgH));
+  const sw = Math.round(imgW * scale);
+  const sh = Math.round(imgH * scale);
+  offCanvas.width = sw;
+  offCanvas.height = sh;
+  const offCtx = offCanvas.getContext('2d');
+  offCtx.drawImage(img, 0, 0, sw, sh);
+  const data = offCtx.getImageData(0, 0, sw, sh);
+  const pixels = data.data;
+
+  // 取图片边缘颜色作为背景色参考
+  const bgR = pixels[0], bgG = pixels[1], bgB = pixels[2];
+
+  // 找到非背景色的边界框
+  let minX = sw, minY = sh, maxX = 0, maxY = 0;
+  const threshold = 30;
+
+  for (let y = 0; y < sh; y++) {
+    for (let x = 0; x < sw; x++) {
+      const i = (y * sw + x) * 4;
+      const dr = Math.abs(pixels[i] - bgR);
+      const dg = Math.abs(pixels[i + 1] - bgG);
+      const db = Math.abs(pixels[i + 2] - bgB);
+      if (dr > threshold || dg > threshold || db > threshold) {
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  if (maxX > minX && maxY > minY) {
+    // 还原到原始图片坐标
+    const rx = Math.round(minX / scale);
+    const ry = Math.round(minY / scale);
+    const rw = Math.round((maxX - minX) / scale);
+    const rh = Math.round((maxY - minY) / scale);
+
+    regions.push({
+      x: rx, y: ry, w: rw, h: rh,
+      name: 'auto_detected_content',
+      ext: '.png',
+      color: getColor()
+    });
+    selectedIdx = regions.length - 1;
+    render();
+    renderList();
+    alert(`已检测到主要内容区域: ${rw}×${rh} @ (${rx}, ${ry})\n你可以手动调整或继续框选其他区域。`);
+  } else {
+    alert('未能检测到明显的内容区域');
+  }
+}
+
+// ========== 窗口大小变化 ==========
+window.addEventListener('resize', () => {
+  if (img) {
+    fitZoom = Math.min(
+      (wrap.clientWidth - 40) / imgW,
+      (wrap.clientHeight - 40) / imgH,
+      1
+    );
+  }
+  render();
+});
+
+// 初始渲染
+render();
+</script>
+</body>
+</html>

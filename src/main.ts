@@ -7,4 +7,5 @@ if (!root) {
   throw new Error('Missing #app root');
 }
 
-createApp(root);
+const app = createApp(root);
+if (import.meta.hot) import.meta.hot.dispose(() => app.destroy());

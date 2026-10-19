@@ -1,4 +1,4 @@
-export const SAVE_KEY = 'sporelight.save.v1';
+export const SAVE_KEY = 'sporelight.save.v2';
 export const DEFAULT_NAME = '露薇';
 
 export const COMPLETE_ASSET_ROOT = 'sporelight_complete_assets_png';

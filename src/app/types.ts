@@ -1,21 +1,24 @@
 export type Scene = 'boot' | 'naming' | 'mainMenu' | 'levelSelect' | 'game' | 'result' | 'gallery';
 export type Quality = 'soft' | 'standard' | 'hd';
 export type Language = 'zh-CN' | 'zh-TW' | 'en';
-export type LevelId = 'valley' | 'pond' | 'cave';
+export type LevelId = string;
 export type ConfirmMode = 'resetName' | 'resetSettings' | null;
 
 export interface LevelSave {
   unlocked: boolean;
   completed: boolean;
   bestStars: number;
+  bestCollected: number;
 }
 
 export interface SaveData {
+  version: 2;
   playerName: string;
   hasNamed: boolean;
   lastLevel: LevelId;
   levels: Record<LevelId, LevelSave>;
   gallery: Record<string, boolean>;
+  run: import('./game/model').RunState | null;
   settings: {
     bgm: number;
     sfx: number;
@@ -33,6 +36,11 @@ export interface SaveData {
 export interface GameSnapshot {
   completed: boolean;
   seeds: boolean[];
+  levelId: string;
+  collected: number;
+  total: number;
+  stars: number;
+  awakened: number;
 }
 
 export interface AppState {
@@ -41,4 +49,5 @@ export interface AppState {
   settingsOpen: boolean;
   confirmMode: ConfirmMode;
   bootReady: boolean;
+  result?: GameSnapshot;
 }

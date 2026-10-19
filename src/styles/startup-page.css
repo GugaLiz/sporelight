@@ -102,21 +102,66 @@
 
 .startup-loading-particles {
   position: absolute;
-  inset: -0.55rem -0.4rem;
-  overflow: hidden;
+  inset: -1.2rem -0.4rem;
+  overflow: visible;
   pointer-events: none;
   mix-blend-mode: screen;
 }
 
-.startup-bar-particle {
+/* ─── CSS sparkle particles ─── */
+.startup-sparkle {
   position: absolute;
-  opacity: var(--particle-opacity);
-  filter:
-    drop-shadow(0 0 6px rgba(255, 239, 191, 0.98))
-    drop-shadow(0 0 16px rgba(255, 208, 118, 0.62));
-  animation: startupBarParticleFloat var(--particle-duration) ease-in-out infinite;
-  animation-delay: var(--particle-delay);
-  transform: translate(-50%, -50%) scale(var(--particle-scale));
+  opacity: var(--sp-opacity, 0.6);
+  transform: translate(-50%, -50%);
+  animation: startupSparkle var(--sp-dur, 2s) ease-in-out infinite;
+  animation-delay: var(--sp-delay, 0s);
+  filter: blur(0.3px);
+}
+
+.startup-sparkle--circle {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 248, 220, 0.95), rgba(255, 220, 130, 0.6) 60%, transparent 80%);
+  box-shadow: 0 0 8px rgba(255, 230, 160, 0.8), 0 0 18px rgba(255, 210, 100, 0.4);
+}
+
+.startup-sparkle--diamond {
+  background: linear-gradient(135deg, rgba(255, 245, 210, 0.9), rgba(255, 220, 140, 0.7));
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 6px rgba(255, 230, 160, 0.7), 0 0 14px rgba(255, 210, 100, 0.35);
+  border-radius: 2px;
+}
+
+.startup-sparkle--star {
+  background: rgba(255, 248, 220, 0.9);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  box-shadow: 0 0 10px rgba(255, 230, 160, 0.7);
+}
+
+.startup-sparkle--sparkle {
+  background: rgba(255, 250, 230, 0.85);
+  clip-path: polygon(50% 0%, 55% 40%, 100% 50%, 55% 60%, 50% 100%, 45% 60%, 0% 50%, 45% 40%);
+  box-shadow: 0 0 8px rgba(255, 235, 170, 0.6);
+}
+
+.startup-sparkle--dot {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 4px rgba(255, 250, 230, 0.9), 0 0 10px rgba(255, 225, 140, 0.5);
+}
+
+@keyframes startupSparkle {
+  0%, 100% {
+    opacity: calc(var(--sp-opacity, 0.6) * 0.25);
+    transform: translate(-50%, -50%) translateY(var(--sp-drift, 0px)) scale(0.65);
+  }
+  30% {
+    opacity: var(--sp-opacity, 0.6);
+    transform: translate(-50%, -50%) translateY(calc(var(--sp-drift, 0px) * -0.6)) scale(1.15);
+  }
+  60% {
+    opacity: calc(var(--sp-opacity, 0.6) * 0.8);
+    transform: translate(-50%, -50%) translateY(calc(var(--sp-drift, 0px) * 0.3)) scale(0.9);
+  }
 }
 
 .startup-loading-copy {
@@ -232,19 +277,6 @@
 
   to {
     transform: translateX(-100%);
-  }
-}
-
-@keyframes startupBarParticleFloat {
-  0%,
-  100% {
-    opacity: calc(var(--particle-opacity) * 0.42);
-    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(calc(var(--particle-scale) * 0.86)) rotate(0deg);
-  }
-
-  50% {
-    opacity: var(--particle-opacity);
-    transform: translate(-50%, -50%) translate3d(var(--particle-drift-x), var(--particle-drift-y), 0) scale(calc(var(--particle-scale) * 1.06)) rotate(var(--particle-rotate));
   }
 }
 

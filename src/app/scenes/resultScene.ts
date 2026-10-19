@@ -1,30 +1,7 @@
-import { asset } from '../assets';
-import { COMPLETE_ASSET_ROOT } from '../constants';
 import type { AppState } from '../types';
-import { escapeHtml } from '../ui';
-
-const COMPLETE = COMPLETE_ASSET_ROOT;
-
+import { getLevel } from '../game/levels';
+import { GALLERY_ITEMS } from './galleryScene';
 export function renderResultScene(state: AppState) {
-  return `
-    <div class="screen result-screen" style="background-image:url('${asset(`${COMPLETE}/backgrounds/bg_valley.png`)}')">
-      <div class="result-panel">
-        <img src="${asset(`${COMPLETE}/characters/char_luvie_bow_02.png`)}" alt="" />
-        <h1>苔藓山谷重新发光了</h1>
-        <p>${escapeHtml(state.save.playerName)}播下的孢子长成了新的路。</p>
-
-        <div class="unlock-row">
-          <span>解锁图鉴</span>
-          <strong>发光苔藓</strong>
-          <strong>藤蔓桥</strong>
-        </div>
-
-        <div class="result-actions">
-          <button class="primary-gem" data-action="返回关卡选择">关卡选择</button>
-          <button class="small-gem" data-action="重玩">重玩</button>
-          <button class="small-gem" data-action="图鉴">图鉴</button>
-        </div>
-      </div>
-    </div>
-  `;
+  const level = getLevel(state.save.lastLevel); const result = state.result; const finale = level.id === '3-4';
+  return `<div class="screen journey-result" style="background-image:url('/images/production/bg-${level.chapter}.jpg')"><div class="result-mist"></div><section class="result-paper"><span class="eyebrow">${finale ? 'EVERY LITTLE LIGHT FINDS A HOME' : 'A LITTLE KINDNESS, A NEW BEGINNING'}</span><div class="result-art"><img src="/images/production/bloom.png" alt="盛开的花"/><img src="/images/production/bow2.png" alt="露薇轻轻鞠躬"/></div><div class="result-real-stars" aria-label="${result?.stars ?? 1}枚星光">${'✦'.repeat(result?.stars ?? 1)}<span>${'✧'.repeat(3 - (result?.stars ?? 1))}</span></div><h1>${finale ? '你走过的路，都亮起来了。' : `${level.title}，已唤醒。`}</h1><p>${finale ? '原来，家就在每一次温柔的相遇里。<br>谢谢你，陪露薇走过这一段微光。' : '有些小小的善意，会在世界里长成一束光。'}</p><div class="result-real-stats"><span>收集孢子 <b>${result?.collected ?? 0} / ${result?.total ?? 0}</b></span><span>唤醒生命 <b>${result?.awakened ?? 0}</b></span></div><div class="result-discoveries">自然图鉴 · ${level.rewards.map(id => GALLERY_ITEMS.find(i => i.id === id)?.title).join(' / ')}</div><div class="result-real-actions"><button class="j-button" data-action="返回关卡选择">返回地图</button><button class="j-button" data-action="重玩">再走一次</button><button class="j-button primary" data-action="${finale ? '图鉴' : '下一关'}">${finale ? '翻开自然图鉴' : '继续下一段旅程 →'}</button></div></section></div>`;
 }

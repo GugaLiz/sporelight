@@ -1,376 +1,169 @@
-import { BOOT_DURATION_MS, DEFAULT_NAME, RANDOM_NAMES, STARTUP_ASSET_ROOT, STARTUP_LOADING_FRAME_FILES } from './constants';
-import { asset } from './assets';
+import { DEFAULT_NAME, RANDOM_NAMES } from './constants';
 import { renderSettingsModal } from './components/settingsModal';
 import { CanvasGame } from './game/CanvasGame';
+import { Soundscape } from './game/audio';
+import { LEVELS, getLevel } from './game/levels';
 import { createDefaultSave, loadSave, persistSave } from './save';
 import { renderBootScene } from './scenes/bootScene';
-import { renderGalleryScene } from './scenes/galleryScene';
+import { GALLERY_ITEMS, renderGalleryDetail, renderGalleryScene } from './scenes/galleryScene';
 import { renderGameScene } from './scenes/gameScene';
 import { renderLevelSelectScene } from './scenes/levelSelectScene';
 import { renderMainMenuScene } from './scenes/mainMenuScene';
 import { renderNamingScene } from './scenes/namingScene';
 import { renderResultScene } from './scenes/resultScene';
-import type { AppState, GameSnapshot, Language, Quality, SaveData, Scene } from './types';
+import type { AppState, GameSnapshot, Quality, Scene } from './types';
 import { bindActions } from './ui';
 
-export function createApp(root: HTMLDivElement) {
-  const app = new SporelightApp(root);
-  app.mount();
-  return app;
-}
-
+export function createApp(root: HTMLDivElement) { const app = new SporelightApp(root); app.mount(); return app; }
 class SporelightApp {
-  private state: AppState = {
-    save: loadSave(),
-    scene: 'boot',
-    settingsOpen: false,
-    confirmMode: null,
-    bootReady: false
-  };
+  private state: AppState = { save: loadSave(), scene: 'boot', settingsOpen: false, confirmMode: null, bootReady: false };
   private game: CanvasGame | null = null;
-  private bootTimer = 0;
-  private bootFrameTimer = 0;
-
-  constructor(private readonly root: HTMLDivElement) {
-    window.addEventListener('resize', this.handleResize);
-  }
-
+  private audio = new Soundscape(this.state.save.settings);
+  private storageWarned = false;
+  private beforeModalFocus: HTMLElement | null = null;
+  private timer = 0;
+  constructor(private root: HTMLDivElement) {}
   mount() {
     this.render();
+    window.addEventListener('resize', this.resize);
+    window.addEventListener('keydown', this.onGlobalKey);
+    document.addEventListener('visibilitychange', this.onVisibility);
+    document.addEventListener('fullscreenchange', this.onFullscreen);
+    this.root.addEventListener('pointerdown', this.startAudio);
+    this.root.addEventListener('keydown', this.startAudio);
+    const resources = ['idle1.png', 'roll1.png', 'sow1.png', 'soil.png', 'bloom.png', 'hero.png', 'bg-valley.jpg'];
+    const loads = resources.map(file => new Promise<void>(resolve => {
+      const image = new Image(); image.onload = () => resolve(); image.onerror = () => resolve(); image.src = `/images/production/${file}`;
+    }));
+    this.timer = window.setTimeout(() => this.finishBoot(), 5000);
+    void Promise.all(loads).then(() => { if (this.state.scene === 'boot') { clearTimeout(this.timer); this.timer = window.setTimeout(() => this.finishBoot(), 600); } });
   }
-
+  private finishBoot() { if (this.state.scene !== 'boot') return; this.state.bootReady = true; this.setScene(this.state.save.hasNamed ? 'mainMenu' : 'naming'); }
   private render() {
-    this.destroyGame();
-
-    this.root.innerHTML = `
-      <main class="shell ${this.state.save.settings.lowMotion ? 'is-low-motion' : ''}">
-        <section class="stage stage--${this.state.scene} stage--${this.viewportMode()}" style="--scene-scale: ${this.viewportScale()};">
-          ${this.renderScene()}
-        </section>
-        ${this.state.settingsOpen ? renderSettingsModal(this.state) : ''}
-      </main>
-    `;
-
+    this.game?.destroy(); this.game = null;
+    const views = { boot: renderBootScene, naming: renderNamingScene, mainMenu: renderMainMenuScene, levelSelect: renderLevelSelectScene, game: renderGameScene, result: renderResultScene, gallery: renderGalleryScene };
+    this.root.innerHTML = `<main class="shell ${this.state.save.settings.lowMotion ? 'is-low-motion' : ''}"><section class="stage stage--${this.state.scene}" style="--scene-scale:${this.scale()}">${views[this.state.scene](this.state)}</section><div id="modalRoot"></div><aside class="orientation-note">横过屏幕，让这片微光更宽一点。<span>也可以保持竖屏继续游玩</span></aside></main>`;
     this.bindScene();
-
-    if (this.state.settingsOpen) {
-      this.bindSettings();
-    }
-
-    if (this.state.scene === 'boot') {
-      this.ensureBootSequence();
-    }
   }
-
-  private renderScene() {
-    switch (this.state.scene) {
-      case 'boot':
-        return renderBootScene(this.state);
-      case 'naming':
-        return renderNamingScene(this.state);
-      case 'mainMenu':
-        return renderMainMenuScene(this.state);
-      case 'levelSelect':
-        return renderLevelSelectScene(this.state);
-      case 'game':
-        return renderGameScene();
-      case 'result':
-        return renderResultScene(this.state);
-      case 'gallery':
-        return renderGalleryScene(this.state);
-    }
-  }
-
   private bindScene() {
     bindActions({
-      randomName: () => this.randomizeName(),
-      resetNameField: () => this.setNameInput(DEFAULT_NAME),
-      startJourney: () => this.submitName(),
-      开始游戏: () => this.setScene('levelSelect'),
-      继续旅程: () => this.setScene('levelSelect'),
-      图鉴: () => this.setScene('gallery'),
-      设置: () => this.openSettings(),
-      返回主菜单: () => this.setScene('mainMenu'),
-      返回关卡选择: () => this.setScene('levelSelect'),
-      进入苔藓山谷: () => this.setScene('game'),
-      锁定关卡: () => this.showToast('这片苔原还在沉睡。'),
-      播种: () => this.game?.sow(),
-      重玩: () => this.setScene('game')
+      randomName: () => this.setName(RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)]),
+      resetNameField: () => this.setName(DEFAULT_NAME), startJourney: () => this.submitName(),
+      开始游戏: () => this.setScene('levelSelect'), 继续旅程: () => this.enterLevel(this.state.save.run?.levelId ?? this.state.save.lastLevel, true),
+      图鉴: () => this.setScene('gallery'), 设置: () => this.openSettings(),
+      返回主菜单: () => this.setScene('mainMenu'), 返回关卡选择: () => this.setScene('levelSelect'),
+      播种: () => this.game?.sow(), 撤销: () => this.game?.undo(), 提示: () => this.game?.hint(),
+      重来: () => this.enterLevel(this.state.save.lastLevel, false), 重玩: () => this.enterLevel(this.state.save.lastLevel, false),
+      下一关: () => { const i = LEVELS.findIndex(l => l.id === this.state.save.lastLevel); if (LEVELS[i + 1]) this.enterLevel(LEVELS[i + 1].id, false); else this.setScene('gallery'); },
     });
-
+    document.querySelectorAll<HTMLButtonElement>('[data-level]').forEach(button => button.addEventListener('click', () => this.enterLevel(button.dataset.level!, true)));
+    document.getElementById('playerNameInput')?.addEventListener('keydown', event => { if (event.key === 'Enter') this.submitName(); });
     if (this.state.scene === 'game') {
-      const canvas = document.querySelector<HTMLCanvasElement>('#gameCanvas');
-      const tip = document.querySelector<HTMLElement>('#gameTip');
-
-      if (canvas) {
-        this.game = new CanvasGame(canvas, tip, (snapshot) => this.onGameComplete(snapshot));
-      }
+      this.game = new CanvasGame(document.querySelector<HTMLCanvasElement>('#gameCanvas')!, this.state.save.lastLevel, this.state.save.run, this.state.save.settings,
+        run => { this.state.save.run = run.completed ? null : run; this.persist(); }, snapshot => this.onComplete(snapshot), kind => this.audio.play(kind));
+      this.state.save.run = this.game.model.snapshot(); this.persist();
+    }
+    if (this.state.scene === 'gallery') {
+      document.querySelectorAll<HTMLButtonElement>('[data-gallery-cat]').forEach(tab => tab.addEventListener('click', () => {
+        document.querySelectorAll('.gallery-tab').forEach(t => t.classList.toggle('is-active', t === tab));
+        document.querySelectorAll<HTMLElement>('.gallery-card').forEach(card => { card.hidden = tab.dataset.galleryCat !== '全部' && card.dataset.category !== tab.dataset.galleryCat; });
+      }));
+      document.querySelectorAll<HTMLButtonElement>('.gallery-card.unlocked').forEach(card => card.addEventListener('click', () => {
+        const item = GALLERY_ITEMS.find(i => i.id === card.dataset.galleryId);
+        if (item) document.getElementById('galleryDetail')!.innerHTML = renderGalleryDetail(item);
+        document.querySelectorAll('.gallery-card').forEach(c => c.classList.toggle('is-selected', c === card));
+      }));
     }
   }
-
-  private bindSettings() {
-    bindActions({
-      关闭设置: () => this.closeSettings(),
-      重置名称: () => {
-        this.state.confirmMode = 'resetName';
-        this.render();
-      },
-      恢复默认设置: () => {
-        this.state.confirmMode = 'resetSettings';
-        this.render();
-      },
-      取消确认: () => {
-        this.state.confirmMode = null;
-        this.render();
-      },
-      确认操作: () => this.confirmSettingsAction()
-    });
-
-    document.querySelectorAll<HTMLInputElement>('[data-setting-slider]').forEach((input) => {
-      input.addEventListener('input', () => {
-        const key = input.dataset.settingSlider as 'bgm' | 'sfx' | 'ambient';
-        this.state.save.settings[key] = Number(input.value) / 100;
-        input.closest('.settings-slider')?.querySelector('em')?.replaceChildren(`${input.value}%`);
-        this.persist();
-      });
-    });
-
-    document.querySelectorAll<HTMLButtonElement>('[data-setting-toggle]').forEach((toggle) => {
-      toggle.addEventListener('click', () => {
-        const key = toggle.dataset.settingToggle as keyof SaveData['settings'];
-        const current = this.state.save.settings[key];
-
-        if (typeof current === 'boolean') {
-          this.state.save.settings[key] = !current as never;
-          this.persist();
-          this.render();
-        }
-      });
-    });
-
-    document.querySelectorAll<HTMLButtonElement>('[data-quality]').forEach((tab) => {
-      tab.addEventListener('click', () => {
-        this.state.save.settings.quality = tab.dataset.quality as Quality;
-        this.persist();
-        this.render();
-      });
-    });
-
-    document.querySelector<HTMLSelectElement>('#languageSelect')?.addEventListener('change', (event) => {
-      this.state.save.settings.language = (event.target as HTMLSelectElement).value as Language;
-      this.persist();
-    });
+  private enterLevel(id: string, resume: boolean) {
+    if (!this.state.save.levels[id]?.unlocked) { this.toast('先唤醒前一片苔原，再来这里吧。'); return; }
+    const run = resume && this.state.save.run?.levelId === id ? this.state.save.run : null;
+    this.state.save.run = run; this.state.save.lastLevel = id; this.persist(); this.setScene('game');
   }
-
-  private ensureBootSequence() {
-    if (this.state.bootReady || this.bootTimer) {
-      return;
-    }
-
-    const duration = this.state.save.settings.lowMotion ? 1000 : BOOT_DURATION_MS;
-    this.startBootFrames(duration);
-
-    this.bootTimer = window.setTimeout(() => {
-      this.bootTimer = 0;
-
-      if (this.state.scene !== 'boot') {
-        return;
-      }
-
-      this.state.bootReady = true;
-      this.render();
-    }, duration);
-  }
-
-  private clearBootSequence() {
-    if (!this.bootTimer) {
-      this.stopBootFrames();
-      return;
-    }
-
-    window.clearTimeout(this.bootTimer);
-    this.bootTimer = 0;
-    this.stopBootFrames();
-  }
-
-  private resetBootSequence() {
-    this.clearBootSequence();
-    this.state.bootReady = false;
-  }
-
   private setScene(next: Scene) {
-    if (this.state.scene === 'boot' && next !== 'boot') {
-      this.clearBootSequence();
-    }
-
-    if (next === 'boot') {
-      this.resetBootSequence();
-    }
-
-    this.state.confirmMode = null;
-    this.state.scene = next;
-    this.render();
+    clearTimeout(this.timer); this.state.settingsOpen = false; this.state.confirmMode = null; this.state.scene = next; this.render();
   }
-
-  private persist() {
-    persistSave(this.state.save);
+  private onComplete(result: GameSnapshot) {
+    this.state.result = result;
+    const level = getLevel(result.levelId); const score = this.state.save.levels[level.id];
+    score.completed = true; score.bestStars = Math.max(score.bestStars, result.stars); score.bestCollected = Math.max(score.bestCollected, result.collected);
+    const next = LEVELS[LEVELS.indexOf(level) + 1]; if (next) this.state.save.levels[next.id].unlocked = true;
+    level.rewards.forEach(id => { this.state.save.gallery[id] = true; });
+    this.state.save.run = null; this.persist();
+    this.timer = window.setTimeout(() => { if (this.state.scene === 'game') this.setScene('result'); }, 650);
   }
-
-  private openSettings() {
-    this.state.settingsOpen = true;
-    this.state.confirmMode = null;
-    this.render();
-  }
-
-  private closeSettings() {
-    this.state.settingsOpen = false;
-    this.state.confirmMode = null;
-    this.render();
-  }
-
-  private confirmSettingsAction() {
-    if (this.state.confirmMode === 'resetName') {
-      this.state.save.playerName = DEFAULT_NAME;
-      this.state.save.hasNamed = false;
-      this.persist();
-      this.state.settingsOpen = false;
-      this.state.confirmMode = null;
-      this.setScene('naming');
-      return;
-    }
-
-    if (this.state.confirmMode === 'resetSettings') {
-      this.state.save.settings = createDefaultSave().settings;
-      this.persist();
-    }
-
-    this.state.confirmMode = null;
-    this.render();
-  }
-
-  private randomizeName() {
-    const name = RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)];
-    this.setNameInput(name);
-  }
-
-  private setNameInput(value: string) {
-    const input = document.querySelector<HTMLInputElement>('#playerNameInput');
-
-    if (input) {
-      input.value = value;
-    }
-  }
-
+  private setName(name: string) { const input = document.querySelector<HTMLInputElement>('#playerNameInput'); if (input) input.value = name; }
   private submitName() {
-    const input = document.querySelector<HTMLInputElement>('#playerNameInput');
-    const error = document.querySelector<HTMLElement>('#nameError');
-    const value = input?.value.trim() ?? '';
-    const valid = /^[\u4e00-\u9fa5A-Za-z0-9 ]{1,12}$/.test(value) && [...value].length <= 12;
-
-    if (!valid) {
-      if (error) {
-        error.textContent = '名字需要 1-12 个中英文或数字。';
-      }
-
-      return;
-    }
-
-    if (error) {
-      error.textContent = '';
-    }
-
-    this.state.save.playerName = value;
-    this.state.save.hasNamed = true;
-    this.persist();
-    this.setScene('mainMenu');
+    const name = document.querySelector<HTMLInputElement>('#playerNameInput')?.value.trim() ?? '';
+    if (!/^[\u4e00-\u9fa5A-Za-z0-9 ]{1,12}$/.test(name)) { document.getElementById('nameError')!.textContent = '请输入 1–12 个中文、英文或数字。'; return; }
+    this.state.save.playerName = name; this.state.save.hasNamed = true; this.persist(); this.setScene('mainMenu');
   }
-
-  private onGameComplete(snapshot: GameSnapshot) {
-    if (!snapshot.completed) {
-      return;
+  private persist() { if (!persistSave(this.state.save) && !this.storageWarned) { this.storageWarned = true; this.toast('浏览器暂时无法保存，本次仍可游玩；关闭页面后可能丢失进度。'); } }
+  private openSettings() {
+    if (this.game?.model.state.completed) return;
+    this.beforeModalFocus = document.activeElement as HTMLElement;
+    this.state.settingsOpen = true; this.game?.pause(true); this.renderSettings();
+    this.root.querySelector<HTMLElement>('.stage')!.inert = true;
+  }
+  private closeSettings() {
+    this.state.settingsOpen = false; this.state.confirmMode = null;
+    document.getElementById('modalRoot')!.innerHTML = ''; this.root.querySelector<HTMLElement>('.stage')!.inert = false;
+    this.game?.pause(document.hidden); this.beforeModalFocus?.focus();
+  }
+  private renderSettings() {
+    const modal = document.getElementById('modalRoot')!; modal.innerHTML = renderSettingsModal(this.state);
+    bindActions({ 关闭设置: () => this.closeSettings(), 重置名称: () => { this.closeSettings(); this.setScene('naming'); },
+      恢复默认设置: () => { this.state.confirmMode = 'resetSettings'; this.renderSettings(); },
+      取消确认: () => { this.state.confirmMode = null; this.renderSettings(); },
+      确认操作: () => { this.state.save.settings = createDefaultSave().settings; this.state.confirmMode = null; this.applySettings(); this.renderSettings(); },
+      全屏: () => { void this.fullscreen(); },
+    });
+    modal.querySelectorAll<HTMLInputElement>('[data-setting-slider]').forEach(input => input.addEventListener('input', () => {
+      const key = input.dataset.settingSlider as 'bgm' | 'sfx' | 'ambient'; this.state.save.settings[key] = Number(input.value) / 100;
+      input.closest('label')?.querySelector('output')?.replaceChildren(`${input.value}%`); this.applySettings();
+    }));
+    modal.querySelectorAll<HTMLButtonElement>('[data-setting-toggle]').forEach(button => button.addEventListener('click', () => {
+      const key = button.dataset.settingToggle as 'dynamicLight' | 'particles' | 'lowMotion' | 'vibration'; this.state.save.settings[key] = !this.state.save.settings[key];
+      this.applySettings(); button.setAttribute('aria-pressed', String(this.state.save.settings[key])); button.querySelector('i')!.textContent = this.state.save.settings[key] ? '开' : '关';
+    }));
+    modal.querySelectorAll<HTMLButtonElement>('[data-quality]').forEach(button => button.addEventListener('click', () => {
+      this.state.save.settings.quality = button.dataset.quality as Quality; this.applySettings();
+      modal.querySelectorAll('[data-quality]').forEach(el => { el.classList.toggle('selected', el === button); el.setAttribute('aria-pressed', String(el === button)); });
+    }));
+    const confirm = modal.querySelector('.j-confirm');
+    if (confirm) modal.querySelectorAll<HTMLElement>('.journey-settings > :not(.j-confirm)').forEach(el => el.inert = true);
+    (confirm ?? modal).querySelector<HTMLButtonElement>('button')?.focus();
+  }
+  private applySettings() {
+    this.persist(); this.audio.configure(this.state.save.settings); this.game?.configure(this.state.save.settings);
+    this.root.querySelector('.shell')?.classList.toggle('is-low-motion', this.state.save.settings.lowMotion);
+  }
+  private async fullscreen() {
+    try { if (document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); }
+    catch { this.toast('当前浏览器不支持全屏，请使用浏览器的全屏功能。'); }
+  }
+  private onFullscreen = () => { if (this.state.settingsOpen) this.renderSettings(); };
+  private onVisibility = () => { this.audio.pause(document.hidden); this.game?.pause(document.hidden || this.state.settingsOpen); };
+  private startAudio = () => this.audio.start();
+  private onGlobalKey = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') { event.preventDefault(); if (this.state.settingsOpen) { if (this.state.confirmMode) { this.state.confirmMode = null; this.renderSettings(); } else this.closeSettings(); } else if (this.state.scene !== 'boot') this.openSettings(); }
+    if (event.key === 'Tab' && this.state.settingsOpen) {
+      const dialog = this.root.querySelector('.j-confirm') ?? this.root.querySelector('.journey-settings')!;
+      const items = Array.from(dialog.querySelectorAll<HTMLElement>('button:not(:disabled),input,select')).filter(el => !el.closest('[inert]'));
+      const first = items[0]; const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     }
-
-    this.state.save.lastLevel = 'valley';
-    this.state.save.levels.valley.completed = true;
-    this.state.save.levels.valley.bestStars = 3;
-    this.state.save.gallery.moss = true;
-    this.state.save.gallery.vine = true;
-    this.persist();
-
-    window.setTimeout(() => {
-      this.setScene('result');
-    }, 700);
-  }
-
-  private showToast(message: string) {
-    this.root.querySelector('.toast')?.remove();
-
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    this.root.appendChild(toast);
-
-    window.setTimeout(() => toast.remove(), 1800);
-  }
-
-  private destroyGame() {
-    this.game?.destroy();
-    this.game = null;
-  }
-
-  private startBootFrames(duration: number) {
-    this.stopBootFrames();
-
-    const frame = document.querySelector<HTMLImageElement>('#startupLoadingFrame');
-    if (!frame) {
-      return;
-    }
-
-    const framePaths = STARTUP_LOADING_FRAME_FILES.map((filename) =>
-      asset(`${STARTUP_ASSET_ROOT}/02_ui_loading/04-ui_loading_bar_fill_waterlux_frames/${filename}`)
-    );
-
-    let index = 0;
-    frame.src = framePaths[0];
-
-    if (this.state.save.settings.lowMotion) {
-      frame.src = framePaths[framePaths.length - 1];
-      return;
-    }
-
-    const stepMs = Math.max(48, Math.round(duration / framePaths.length));
-
-    this.bootFrameTimer = window.setInterval(() => {
-      index = Math.min(index + 1, framePaths.length - 1);
-      frame.src = framePaths[index];
-
-      if (index >= framePaths.length - 1) {
-        this.stopBootFrames();
-      }
-    }, stepMs);
-  }
-
-  private stopBootFrames() {
-    if (!this.bootFrameTimer) {
-      return;
-    }
-
-    window.clearInterval(this.bootFrameTimer);
-    this.bootFrameTimer = 0;
-  }
-
-  private handleResize = () => {
-    this.render();
   };
-
-  private viewportMode() {
-    return window.innerWidth < window.innerHeight ? 'cover' : 'contain';
+  private resize = () => { this.root.querySelector<HTMLElement>('.stage')?.style.setProperty('--scene-scale', String(this.scale())); };
+  private scale() { return Math.min(window.innerWidth / 1280, window.innerHeight / 720); }
+  private toast(message: string) {
+    this.root.querySelector('.toast')?.remove(); const toast = document.createElement('div'); toast.className = 'toast'; toast.role = 'status'; toast.textContent = message; this.root.appendChild(toast); window.setTimeout(() => toast.remove(), 4500);
   }
-
-  private viewportScale() {
-    const widthScale = window.innerWidth / 1280;
-    const heightScale = window.innerHeight / 720;
-
-    return this.viewportMode() === 'cover' ? Math.max(widthScale, heightScale) : Math.min(widthScale, heightScale);
+  destroy() {
+    clearTimeout(this.timer); this.game?.destroy(); this.audio.destroy();
+    window.removeEventListener('resize', this.resize); window.removeEventListener('keydown', this.onGlobalKey);
+    document.removeEventListener('visibilitychange', this.onVisibility); document.removeEventListener('fullscreenchange', this.onFullscreen);
+    this.root.removeEventListener('pointerdown', this.startAudio); this.root.removeEventListener('keydown', this.startAudio);
   }
 }

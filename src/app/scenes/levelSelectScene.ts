@@ -1,38 +1,10 @@
-import { asset } from '../assets';
-import { COMPLETE_ASSET_ROOT } from '../constants';
-import type { AppState, LevelId } from '../types';
-
-const COMPLETE = COMPLETE_ASSET_ROOT;
-
-const LEVELS: ReadonlyArray<{ id: LevelId; title: string; desc: string; bg: string }> = [
-  { id: 'valley', title: '1-1 苔藓山谷', desc: '播下微光，让苔藓重新连成小路。', bg: 'bg_valley.png' },
-  { id: 'pond', title: '1-2 雨滴池塘', desc: '睡莲还在等待下一阵雨。', bg: 'bg_pond.png' },
-  { id: 'cave', title: '1-3 星光洞穴', desc: '洞穴深处的星光仍未醒来。', bg: 'bg_cave.png' }
-];
-
+import type { AppState } from '../types';
+import { CHAPTERS, LEVELS, totalSpores } from '../game/levels';
 export function renderLevelSelectScene(state: AppState) {
-  return `
-    <div class="screen level-screen" style="background-image:url('${asset(`${COMPLETE}/backgrounds/bg_level_select.png`)}')">
-      <button class="round-nav back" data-action="返回主菜单">返回</button>
-      <button class="round-nav settings" data-action="设置">设置</button>
-      <h1>选择旅程</h1>
-
-      <div class="level-grid">
-        ${LEVELS.map((level) => {
-          const data = state.save.levels[level.id];
-
-          return `
-            <article class="level-card ${data.unlocked ? 'unlocked' : 'locked'}">
-              <img src="${asset(`${COMPLETE}/backgrounds/${level.bg}`)}" alt="" />
-              <div class="level-shade"></div>
-              <h2>${level.title}</h2>
-              <p>${level.desc}</p>
-              <div class="level-state">${data.completed ? '已完成' : data.unlocked ? '可进入' : '锁定'}</div>
-              <button class="level-enter" data-action="${data.unlocked ? '进入苔藓山谷' : '锁定关卡'}">${data.unlocked ? '进入关卡' : '尚未开放'}</button>
-            </article>
-          `;
-        }).join('')}
-      </div>
-    </div>
-  `;
+  const completed = LEVELS.filter(l => state.save.levels[l.id].completed).length;
+  return `<div class="screen journey-map"><header class="journey-page-header"><button class="j-back" data-action="返回主菜单" aria-label="返回主菜单">←</button><div><span class="eyebrow">THE LITTLE JOURNEY</span><h1>循着微光，慢慢走。</h1></div><span class="header-progress">${completed} / 12 <small>已唤醒</small></span></header>
+    <div class="chapter-grid">${CHAPTERS.map((chapter, index) => `<section class="chapter-card ${chapter.id}"><div class="chapter-cover" style="background-image:url('/images/production/bg-${chapter.id}.jpg')"><span class="chapter-number">0${index + 1}</span><div><span class="eyebrow">${chapter.english}</span><h2>${chapter.title}</h2></div></div><p>${chapter.description}</p><div class="chapter-levels">${LEVELS.filter(l => l.chapter === chapter.id).map(level => {
+      const data = state.save.levels[level.id];
+      return `<button class="chapter-level ${data.completed ? 'completed' : ''}" data-level="${level.id}" ${data.unlocked ? '' : 'disabled'} aria-label="${level.id} ${level.title}${data.unlocked ? '' : '，通关上一关后解锁'}"><span class="level-index">${data.completed ? '✓' : data.unlocked ? level.id : '·'}</span><span><strong>${level.title}</strong><small>${data.completed ? `孢子 ${data.bestCollected}/${totalSpores(level)}` : data.unlocked ? '等待你的脚步' : '通关上一关后解锁'}</small></span><span class="level-stars">${data.completed ? '✦'.repeat(data.bestStars) : data.unlocked ? '↗' : '锁定'}</span></button>`;
+    }).join('')}</div></section>`).join('')}</div><footer class="map-footer">不必收集每一粒孢子，也能走到远方。<span>最后的仪式，需要八粒完整的微光。</span></footer></div>`;
 }
