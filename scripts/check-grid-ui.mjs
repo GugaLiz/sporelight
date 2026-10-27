@@ -1,0 +1,32 @@
+import {createRequire} from 'node:module';
+import {mkdir,writeFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.argv[2]||'playwright');
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const page=await browser.newPage({viewport:{width:1280,height:720}});const checks=[],errors=[];
+page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
+await mkdir('docs/qa-grid',{recursive:true});
+await page.addInitScript(()=>{if(sessionStorage.getItem('grid-fixture'))return;sessionStorage.setItem('grid-fixture','yes');const levels={};for(let n=1;n<=4;n++)levels[`1-${n}`]={completed:true,bestStars:3,bestCollected:3};localStorage.setItem('sporelight.save.v2',JSON.stringify({hasNamed:true,playerName:'露薇',lastLevel:'1-1',levels,settings:{bgm:0,lowMotion:false}}));});
+const pos=()=>page.locator('#gameCanvas').evaluate(c=>({x:Number(c.dataset.gridX),z:Number(c.dataset.gridZ)}));
+const waitPos=(x,z)=>page.waitForFunction(({x,z})=>{const c=document.querySelector('#gameCanvas');return c?.dataset.gridX===String(x)&&c.dataset.gridZ===String(z)&&c.dataset.moving==='false';},{x,z});
+const press=async(key,x,z)=>{await page.keyboard.press(key);await waitPos(x,z);};
+const shot=async name=>{await page.waitForLoadState('networkidle');await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));await page.screenshot({path:`docs/qa-grid/${name}.png`,animations:'disabled'});};
+try {
+ await page.goto('http://127.0.0.1:4173/');await page.locator('[data-action="开始游戏"]').click();await page.locator('.map-enter-button').click();await page.locator('#gameCanvas').waitFor();await waitPos(1,6);
+ const start=await pos();await press('ArrowRight',2,6);assert.equal((await pos()).x-start.x,1);checks.push('One ArrowRight press moves exactly one physical grid cell');
+ await page.reload();await page.locator('[data-action="继续旅程"]').click();await waitPos(2,6);checks.push('Refresh resumes the exact intermediate cell, not the last puzzle node');
+ await press('ArrowUp',2,5);await press('ArrowLeft',1,5);const before=await pos();await page.keyboard.press('ArrowLeft');await page.waitForTimeout(250);assert.deepEqual(await pos(),before);await page.keyboard.press('Space');await page.waitForTimeout(100);assert.deepEqual(await pos(),before);checks.push('Solid ruin walls block both walking and jumping');
+ await press('ArrowDown',1,6);await page.keyboard.press('Space');await page.waitForFunction(()=>document.querySelector('#gameCanvas')?.dataset.characterClip==='jump');await waitPos(1,7);checks.push('Space performs an actual one-cell directional jump');
+ await page.locator('[data-grid-direction="up"]').click();await waitPos(1,6);await page.locator('[data-grid-direction="right"]').click();await waitPos(2,6);checks.push('On-screen direction controls also step once per press');
+ await page.locator('[data-action="设置"]').first().click();const paused=await pos();await page.keyboard.press('ArrowRight');await page.keyboard.press('j');assert.deepEqual(await pos(),paused);await page.keyboard.press('Escape');checks.push('Pause blocks movement and jumping');
+ await page.setViewportSize({width:390,height:844});await page.waitForTimeout(100);assert.equal(await page.locator('#gameCanvas').evaluate(c=>c.clientHeight),844);assert.deepEqual(await pos(),paused);for(const b of await page.locator('[data-grid-direction]').all()){const r=await b.boundingBox();assert.ok(r.width>=44&&r.height>=44);}await shot('03-touch-controls');checks.push('Portrait canvas fills the screen, retains position, and has 44px directional controls');
+ await page.setViewportSize({width:1024,height:576});await page.waitForTimeout(100);for(const b of await page.locator('[data-grid-direction]').all()){const r=await b.boundingBox();assert.ok(r.width>=44&&r.height>=44);}checks.push('Landscape scaling keeps the native direction pad at 44px');
+ await page.setViewportSize({width:1280,height:720});await page.locator('[data-node="stone"]').click();await page.locator('[data-node="stone"][aria-current="location"]').waitFor();await waitPos(10,6);
+ await press('ArrowUp',10,5);await press('ArrowUp',10,4);await page.keyboard.press('ArrowUp');await page.waitForTimeout(100);assert.deepEqual(await pos(),{x:10,z:4});
+ await page.keyboard.press('Space');await page.waitForFunction(()=>document.querySelector('#gameCanvas')?.dataset.characterClip==='jump');await page.screenshot({path:'docs/qa-grid/04-gap-jump.png',animations:'disabled'});await page.locator('.illustrated-result').waitFor();checks.push('A real missing tile stops walking; Space clears it and reaches the exit');
+ assert.match(await page.locator('.illustrated-result-stats').innerText(),/2\s*\/ 3/);checks.push('Grid traversal still reports actual collection totals');
+ await page.locator('[data-action="返回关卡选择"]').click();await page.locator('[data-map-level="1-4"]').click();await page.locator('.map-enter-button').click();await shot('01-world-desktop');
+ await page.setViewportSize({width:390,height:844});await page.waitForTimeout(120);await shot('02-world-portrait');
+ assert.deepEqual(errors,[]);await writeFile('docs/qa-grid/checks.json',JSON.stringify({date:'2026-10-27',checks,errors},null,2));console.log(JSON.stringify({checks,errors},null,2));
+}catch(e){await page.screenshot({path:'docs/qa-grid/failure.png'});console.error(errors);throw e;}finally{await browser.close();}

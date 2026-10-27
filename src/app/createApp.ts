@@ -2,7 +2,8 @@ import { DEFAULT_NAME, RANDOM_NAMES } from './constants';
 import { renderSettingsModal } from './components/settingsModal';
 import { CanvasGame } from './game/CanvasGame';
 import { Soundscape } from './game/audio';
-import { LEVELS, getLevel } from './game/levels';
+import { CHARACTER_FILES } from './game/characterMotion';
+import { CHAPTERS, LEVELS, getLevel } from './game/levels';
 import { createDefaultSave, loadSave, persistSave } from './save';
 import { renderBootScene } from './scenes/bootScene';
 import { GALLERY_ITEMS, renderGalleryDetail, renderGalleryScene } from './scenes/galleryScene';
@@ -31,9 +32,9 @@ class SporelightApp {
     document.addEventListener('fullscreenchange', this.onFullscreen);
     this.root.addEventListener('pointerdown', this.startAudio);
     this.root.addEventListener('keydown', this.startAudio);
-    const resources = ['idle1.png', 'roll1.png', 'sow1.png', 'soil.png', 'bloom.png', 'hero.png', 'bg-valley.jpg'];
+    const resources = [...['idle1.png', 'soil.png', 'bloom.png', 'bg-valley.jpg'].map(file => `/images/production/${file}`), ...CHARACTER_FILES.map(file => `/images/material-ready/${file}.png`)];
     const loads = resources.map(file => new Promise<void>(resolve => {
-      const image = new Image(); image.onload = () => resolve(); image.onerror = () => resolve(); image.src = `/images/production/${file}`;
+      const image = new Image(); image.onload = () => resolve(); image.onerror = () => resolve(); image.src = file;
     }));
     this.timer = window.setTimeout(() => this.finishBoot(), 5000);
     void Promise.all(loads).then(() => { if (this.state.scene === 'boot') { clearTimeout(this.timer); this.timer = window.setTimeout(() => this.finishBoot(), 600); } });
@@ -53,9 +54,31 @@ class SporelightApp {
       图鉴: () => this.setScene('gallery'), 设置: () => this.openSettings(),
       返回主菜单: () => this.setScene('mainMenu'), 返回关卡选择: () => this.setScene('levelSelect'),
       播种: () => this.game?.sow(), 撤销: () => this.game?.undo(), 提示: () => this.game?.hint(),
+      切换移动: () => this.game?.toggleMovementMode(),
+      跳跃: () => this.game?.jump(),
       重来: () => this.enterLevel(this.state.save.lastLevel, false), 重玩: () => this.enterLevel(this.state.save.lastLevel, false),
       下一关: () => { const i = LEVELS.findIndex(l => l.id === this.state.save.lastLevel); if (LEVELS[i + 1]) this.enterLevel(LEVELS[i + 1].id, false); else this.setScene('gallery'); },
+      世界总览: () => { this.state.mapOverview = true; this.render(); },
+      关闭世界总览: () => { this.state.mapOverview = false; this.render(); document.querySelector<HTMLButtonElement>('[data-action="世界总览"]')?.focus(); },
     });
+    document.querySelectorAll<HTMLButtonElement>('[data-map-level]').forEach(button => button.addEventListener('click', () => {
+      this.state.mapLevel = button.dataset.mapLevel;
+      this.render();
+      document.querySelector<HTMLButtonElement>(`[data-map-level="${this.state.mapLevel}"]`)?.focus();
+    }));
+    document.querySelectorAll<HTMLButtonElement>('[data-map-chapter]').forEach(button => button.addEventListener('click', () => {
+      const chapter = CHAPTERS.find(c => c.id === button.dataset.mapChapter);
+      if (!chapter) return;
+      this.state.mapChapter = chapter.id;
+      const levels = LEVELS.filter(l => l.chapter === chapter.id);
+      this.state.mapLevel = (levels.find(l => this.state.save.levels[l.id].unlocked && !this.state.save.levels[l.id].completed) ?? levels[0]).id;
+      this.state.mapOverview = false;
+      this.render();
+    }));
+    if (this.state.mapOverview && this.state.scene === 'levelSelect') {
+      document.querySelectorAll<HTMLElement>('.illustrated-map > :not(.world-overview-layer)').forEach(el => { el.inert = true; });
+      document.querySelector<HTMLButtonElement>('.world-close')?.focus();
+    }
     document.querySelectorAll<HTMLButtonElement>('[data-level]').forEach(button => button.addEventListener('click', () => this.enterLevel(button.dataset.level!, true)));
     document.getElementById('playerNameInput')?.addEventListener('keydown', event => { if (event.key === 'Enter') this.submitName(); });
     if (this.state.scene === 'game') {
@@ -81,6 +104,11 @@ class SporelightApp {
     this.state.save.run = run; this.state.save.lastLevel = id; this.persist(); this.setScene('game');
   }
   private setScene(next: Scene) {
+    this.state.mapOverview = false;
+    if (next === 'levelSelect') {
+      this.state.mapLevel = this.state.save.lastLevel;
+      this.state.mapChapter = getLevel(this.state.save.lastLevel).chapter;
+    }
     clearTimeout(this.timer); this.state.settingsOpen = false; this.state.confirmMode = null; this.state.scene = next; this.render();
   }
   private onComplete(result: GameSnapshot) {
@@ -146,6 +174,16 @@ class SporelightApp {
   private onVisibility = () => { this.audio.pause(document.hidden); this.game?.pause(document.hidden || this.state.settingsOpen); };
   private startAudio = () => this.audio.start();
   private onGlobalKey = (event: KeyboardEvent) => {
+    if (this.state.mapOverview) {
+      if (event.key === 'Escape') { event.preventDefault(); this.state.mapOverview = false; this.render(); document.querySelector<HTMLButtonElement>('[data-action="世界总览"]')?.focus(); }
+      if (event.key === 'Tab') {
+        const items = Array.from(this.root.querySelectorAll<HTMLButtonElement>('.world-overview-layer button'));
+        const first = items[0]; const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+      return;
+    }
     if (event.key === 'Escape') { event.preventDefault(); if (this.state.settingsOpen) { if (this.state.confirmMode) { this.state.confirmMode = null; this.renderSettings(); } else this.closeSettings(); } else if (this.state.scene !== 'boot') this.openSettings(); }
     if (event.key === 'Tab' && this.state.settingsOpen) {
       const dialog = this.root.querySelector('.j-confirm') ?? this.root.querySelector('.journey-settings')!;

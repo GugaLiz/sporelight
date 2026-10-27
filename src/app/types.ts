@@ -50,4 +50,7 @@ export interface AppState {
   confirmMode: ConfirmMode;
   bootReady: boolean;
   result?: GameSnapshot;
+  mapChapter?: import('./game/levels').Chapter;
+  mapLevel?: string;
+  mapOverview?: boolean;
 }

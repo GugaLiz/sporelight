@@ -1,5 +1,7 @@
 import type { SaveData } from '../types';
 
+export type SoundKind = 'move' | 'grow' | 'collect' | 'complete' | '滴' | '叮' | '咚';
+
 /** Original synthesized soundscape; starts only after a user gesture. */
 export class Soundscape {
   private ctx: AudioContext | null = null;
@@ -31,9 +33,9 @@ export class Soundscape {
     if (this.effect) this.effect.gain.value = settings.sfx;
     if (this.ambient) this.ambient.gain.value = settings.ambient;
   }
-  play(kind: 'move' | 'grow' | 'collect' | 'complete') {
+  play(kind: SoundKind) {
     if (!this.ctx || !this.effect) return;
-    const frequency = { move: 220, grow: 523.25, collect: 783.99, complete: 1046.5 }[kind];
+    const frequency = { move: 220, grow: 523.25, collect: 783.99, complete: 1046.5, 滴: 659.25, 叮: 880, 咚: 392 }[kind];
     this.tone(frequency, kind === 'move' ? .12 : .7, this.effect, kind === 'move' ? .025 : .07);
   }
   pause(hidden: boolean) { if (this.ctx) void (hidden ? this.ctx.suspend() : this.ctx.resume()).catch(() => {}); }

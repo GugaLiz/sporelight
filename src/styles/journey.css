@@ -199,3 +199,42 @@ button { -webkit-tap-highlight-color:transparent; }
 .gallery-card { min-width:0; width:100%; }
 .gallery-art { min-width:0; }
 .gallery-art img { width:100%; object-fit:contain; }
+/* Mechanism decisions are visible controls, not another generic plant button. */
+.puzzle-panel { position:absolute; z-index:4; left:38px; right:38px; top:140px; pointer-events:auto; }
+.puzzle-state { display:flex; gap:18px; align-items:center; font-size:12px; color:#59705b; }
+.puzzle-state strong { padding:5px 12px; background:#fff7ddcf; border-radius:14px; font-size:12px; white-space:nowrap; }
+.puzzle-state > span { font-size:12px; }
+.puzzle-actions { display:flex; gap:8px; margin-top:7px; min-height:44px; align-items:center; }
+.puzzle-actions button { padding:10px 16px; min-height:42px; border-radius:12px; border:1px solid #93a886; color:#405a46; background:#faf8e9f0; font-size:13px; }
+.puzzle-actions button[aria-pressed=true] { background:#526f59; color:#fff4ce; }
+.puzzle-actions button:hover { filter:brightness(1.08); box-shadow:0 3px 12px #29433020; }
+.puzzle-actions small { opacity:.55; margin-right:5px; }
+.puzzle-actions > span { font-size:12px; opacity:.7; }
+.cave .puzzle-state,.cave .puzzle-actions > span { color:#e8e7cd; }
+.cave .puzzle-state strong { color:#455e4a; }
+#beatStatus { margin-left:auto; padding:6px 10px; border-radius:12px; background:#eff2e0c0; color:#789180; }
+#beatStatus:empty { display:none; }
+#beatStatus.beat-open { color:#27776a; background:#b4eee4; }
+.journey-toolbar .sow-action { font-size:14px; max-width:295px; }
+@media(orientation:portrait) {
+  .stage--game .game-objective { top:151px; font-size:12px; margin:6px 0; }
+  .stage--game .puzzle-panel { top:220px; left:16px; right:16px; }
+  .stage--game .puzzle-state { flex-wrap:wrap; gap:5px; }
+  .stage--game .puzzle-state > span { font-size:10px; }
+  .stage--game .puzzle-actions { flex-wrap:wrap; gap:5px; margin-top:8px; }
+  .stage--game .puzzle-actions button { flex:1; min-width:90px; min-height:44px; padding:8px 6px; font-size:12px; }
+  .stage--game canvas,.stage--game .node-controls { top:calc(50% - 65px); }
+  .stage--game .journey-toolbar .sow-action { max-width:none; }
+  .stage--game .journey-game-bottom { bottom:12px; }
+  .stage--game #gameTip { max-height:58px; overflow:auto; margin-bottom:7px; padding:8px 12px; }
+}
+@media(orientation:portrait) {
+  .stage--game canvas,.stage--game .node-controls { top:clamp(190px,calc(50% - 140px),310px); }
+}
+@media(orientation:portrait) and (max-height:760px) {
+  .stage--game .puzzle-panel { top:190px; }
+  .stage--game .game-objective { font-size:11px; }
+  .stage--game .puzzle-state strong { font-size:10px; }
+  .stage--game .puzzle-actions button { min-height:40px; font-size:11px; }
+  .stage--game #gameTip { max-height:45px; font-size:11px; }
+}

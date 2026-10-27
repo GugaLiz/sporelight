@@ -1,0 +1,87 @@
+/* UI cut from material/btn_01, btn_02, btn_03 and buttons; lettering stays in DOM. */
+.material-icon { width:30px; height:30px; flex-shrink:0; object-fit:contain; pointer-events:none; user-select:none; }
+.j-button,.small-gem,.primary-gem { background:transparent url('/images/material-ready/button-paper.png') center/100% 100% no-repeat; border:0; box-shadow:none; color:#795531; }
+.j-button.primary,.primary-gem { background-image:url('/images/material-ready/button-green.png'); color:#fff9e3; text-shadow:0 1px 2px #50683b; }
+.j-button:hover,.small-gem:hover,.primary-gem:hover { background-color:transparent; filter:brightness(1.06); }
+.j-button.primary:hover { background:transparent url('/images/material-ready/button-green.png') center/100% 100% no-repeat; }
+.j-button:active:not(:disabled),.small-gem:active,.primary-gem:active { transform:translateY(1px) scale(.985); filter:brightness(.96); }
+.material-brand-logo { width:450px; height:220px; object-fit:contain; filter:drop-shadow(0 3px 6px #68542c14); }
+.journey-brand { top:35px; left:47px; width:450px; height:240px; }
+.journey-brand > h1,.journey-brand > .brand-en,.journey-brand > .eyebrow { position:absolute; width:1px; height:1px; margin:0; overflow:hidden; clip-path:inset(50%); }
+.journey-brand > p { margin:0; position:absolute; top:218px; left:33px; font-size:14px; letter-spacing:3px; color:#6a7655; }
+.journey-companion { height:392px; width:282px; left:187px; bottom:50px; }
+.journey-invitation { top:76px; }
+.journey-invitation .tiny-leaf { font-size:31px; margin-bottom:16px; }
+.journey-invitation > p { margin-bottom:23px; }
+.journey-menu-actions > .j-button { background:transparent url('/images/material-ready/menu-paper.png') center/100% 100% no-repeat; height:91px; min-height:91px; padding:19px 45px; text-align:center; color:#6d4b2b; font-family:'Songti SC','SimSun',serif; font-size:24px; letter-spacing:5px; text-shadow:0 1px 0 #fffdf0; border-radius:38px; }
+.journey-menu-actions > .j-button:hover { background:transparent url('/images/material-ready/menu-paper.png') center/100% 100% no-repeat; }
+.journey-menu-actions > .j-button:disabled { opacity:.48; filter:grayscale(.55); }
+.menu-secondary { gap:15px; margin:4px 0 12px; }
+.menu-secondary button { display:flex; gap:8px; justify-content:center; align-items:center; flex:1; height:48px; padding:4px 12px; background:transparent url('/images/material-ready/button-paper.png') center/100% 100% no-repeat; color:#786244; }
+.menu-secondary .material-icon { width:27px; height:27px; }
+.naming-logo { content:url('/images/material-ready/menu-logo.png'); top:26px; left:65px; width:330px; }
+.naming-title { top:218px; left:110px; width:210px; }
+.name-card { background:transparent url('/images/material-ready/panel-paper.png') center/100% 100% no-repeat; border:0; box-shadow:0 18px 48px #65502f1a; padding:43px 42px; }
+.naming-luvie { width:218px; height:330px; object-fit:contain; left:225px; bottom:90px; }
+.naming-actions .small-gem { min-height:46px; padding:7px 20px; }
+.name-card .primary-gem { min-height:58px; }
+/* Controller: illustrated icons and an actual walk/roll mode. */
+.journey-game-header .j-back { padding:0; border:0; background:transparent; box-shadow:none; }
+.journey-game-header .j-back .material-icon { width:48px; height:48px; }
+.game-counters .material-icon { width:27px; height:27px; }
+.journey-toolbar { gap:9px; padding:7px 13px; border:0; background:transparent url('/images/material-ready/panel-paper.png') center/100% 100% no-repeat; border-radius:23px; box-shadow:0 12px 30px #334c3b25; }
+.journey-toolbar > button { display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1px; width:83px; min-height:83px; padding:0 3px; font-size:12px; line-height:1.5; background:transparent; color:#796448; }
+.journey-toolbar > button > span { font-size:11px; margin:0; white-space:nowrap; }
+.journey-toolbar > button .material-icon { width:53px; height:53px; }
+.journey-toolbar > .sow-action { width:168px; color:#6e603e; padding:0 7px; background:transparent!important; font-size:12px; }
+.journey-toolbar > .sow-action > span { max-width:163px; white-space:normal; text-align:center; font-size:12px; }
+.journey-toolbar .sow-action .material-icon { width:58px; height:58px; }
+.journey-toolbar > button:hover:not(:disabled),.journey-toolbar .sow-action:hover { background:transparent!important; filter:brightness(1.06); }
+.journey-toolbar > button:active:not(:disabled) { transform:translateY(2px) scale(.97); }
+.journey-toolbar .movement-active,.journey-toolbar .sow-active { display:none; }
+.journey-toolbar.is-rolling .movement-normal { display:none; }
+.journey-toolbar.is-rolling .movement-active { display:block; }
+.journey-toolbar .sow-action:hover .sow-normal,.journey-toolbar .sow-action:focus-visible .sow-normal,.journey-toolbar.is-interacting .sow-normal { display:none; }
+.journey-toolbar .sow-action:hover .sow-active,.journey-toolbar .sow-action:focus-visible .sow-active,.journey-toolbar.is-interacting .sow-active { display:block; }
+.puzzle-actions > button { background:transparent url('/images/material-ready/button-paper.png') center/100% 100% no-repeat; color:#795a35; border:0; padding:11px 20px; }
+.puzzle-actions > button[aria-pressed=true] { background-image:url('/images/material-ready/button-green.png'); color:#fff7da; text-shadow:0 1px 1px #537047; }
+/* Modal and form surfaces share the same paper grain and leaf ornaments. */
+.journey-settings { padding-top:58px; background:#fcf3df url('/images/material-ready/panel-paper.png') center/100% 100% no-repeat; border:0; }
+.settings-x { padding:0; background:transparent; }
+.settings-x .material-icon { width:44px; height:44px; }
+.j-quality button { background:transparent url('/images/material-ready/button-paper.png') center/100% 100% no-repeat; border:0; color:#897451; }
+.j-quality .selected { background-image:url('/images/material-ready/button-green.png'); color:#fff7df; }
+.j-toggle i { border:0; font-size:0; padding:0; width:49px; height:30px; background:transparent url('/images/material-ready/icon-toggle-off.png') center/contain no-repeat; }
+.j-toggle[aria-pressed=true] i { background:transparent url('/images/material-ready/icon-toggle-on.png') center/contain no-repeat; border:0; }
+.j-slider input { accent-color:#8d9f72; }
+.gallery-tab { background:transparent url('/images/material-ready/button-paper.png') center/100% 100% no-repeat; border:0; min-height:39px; padding:9px 20px; }
+.gallery-tab.is-active { background:transparent url('/images/material-ready/button-green.png') center/100% 100% no-repeat; box-shadow:none; color:#fff7df; }
+.world-overview-paper { padding-top:63px; background:#faf0dc url('/images/material-ready/panel-paper.png') center/100% 100% no-repeat; }
+.map-enter-button,.map-enter-button:hover:not(:disabled) { background:transparent url('/images/material-ready/button-green.png') center/100% 100% no-repeat; border:0; box-shadow:none; color:#fff6db; text-shadow:0 1px 1px #5e7448; }
+.map-back-button { padding:0 3px; }
+.map-back-button > .material-icon { display:block; width:43px; height:43px; margin:2px auto 0; }
+.map-world-button > .material-icon { display:block; width:37px; height:37px; margin:0 auto; }
+.illustrated-result-actions > button { background-image:url('/images/material-ready/result-next.png'); font-size:21px; gap:0; padding:5px 32px; }
+.illustrated-result-actions > button:nth-child(2) { background-image:url('/images/material-ready/result-retry.png'); }
+.illustrated-result-actions > button:nth-child(3) { background-image:url('/images/material-ready/result-map.png'); }
+.illustrated-result-actions > button > span { display:none; }
+@media(orientation:portrait) {
+  .stage--game .journey-toolbar { grid-template-columns:repeat(3,minmax(0,1fr)); padding:5px 8px; gap:2px 5px; }
+  .stage--game .journey-toolbar > button { width:auto; min-height:54px; padding:0; gap:0; }
+  .stage--game .journey-toolbar > button .material-icon { width:34px; height:34px; }
+  .stage--game .journey-toolbar > button > span { font-size:10px; }
+  .stage--game .journey-toolbar > .sow-action { width:auto; grid-column:1 / -1; grid-row:1; flex-direction:row; min-height:44px; gap:9px; }
+  .stage--game .journey-toolbar > .sow-action .material-icon { width:39px; height:39px; }
+  .stage--game .journey-toolbar > .sow-action > span { max-width:none; font-size:12px; }
+}
+/* Explicit skin sizing on selected controls prevents inherited shorthand resets. */
+.j-button.primary,.primary-gem { background:transparent url('/images/material-ready/button-green.png') center/100% 100% no-repeat; }
+.j-quality .selected { background:transparent url('/images/material-ready/button-green.png') center/100% 100% no-repeat; }
+.puzzle-actions > button[aria-pressed=true] { background:transparent url('/images/material-ready/button-green.png') center/100% 100% no-repeat; }
+.j-slider input { appearance:none; -webkit-appearance:none; background:transparent; cursor:pointer; }
+.j-slider input::-webkit-slider-runnable-track { height:7px; border:1px solid #cab890; border-radius:8px; background:linear-gradient(#e9ddbc,#d9c69e); }
+.j-slider input::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:17px; height:17px; margin-top:-6px; border:2px solid #faf0d8; border-radius:50%; background:#8c9f70; box-shadow:0 1px 3px #71634544; }
+.j-slider input::-moz-range-track { height:5px; border:1px solid #cab890; border-radius:8px; background:#e2d2ab; }
+.j-slider input::-moz-range-thumb { width:14px; height:14px; border:2px solid #faf0d8; border-radius:50%; background:#8c9f70; }
+/* Main-menu CTA keeps the larger illustrated paper skin rather than the compact green one. */
+.journey-menu-actions > .j-button.primary { background:transparent url('/images/material-ready/menu-paper.png') center/100% 100% no-repeat; color:#6d4b2b; }
