@@ -7,10 +7,10 @@ const NAMING = NAMING_ASSET_ROOT;
 
 export function renderNamingScene(state: AppState) {
   return `
-    <div class="screen naming-screen" style="background-image:url('/images/production/bg-valley.jpg')">
+    <div class="screen naming-screen" style="background-image:url('./images/production/bg-valley.jpg')">
       <img class="naming-logo" src="${asset(`${NAMING}/ui/logo/ui_logo_naming.png`)}" alt="微光苔原" />
       <img class="naming-title" src="${asset(`${NAMING}/ui/logo/ui_title_naming.png`)}" alt="为主角命名" />
-      <img class="naming-luvie" src="/images/material-ready/portrait-front.png" alt="" />
+      <img class="naming-luvie" src="./images/material-ready/portrait-front.png" alt="" />
 
       <div class="name-card">
         <p>她从微光中醒来。</p>

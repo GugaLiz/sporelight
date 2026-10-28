@@ -17,7 +17,7 @@ export function mapPresentation(state: AppState) {
 
 export function plantImage(chapter: Chapter, completed: boolean, unlocked: boolean) {
   const filename = completed ? chapter === 'valley' ? 'plant-bloom' : `plant-${chapter}-bloom` : unlocked ? 'plant-bud' : 'plant-dormant';
-  return `/images/reference-scenes/${filename}.png`;
+  return `./images/reference-scenes/${filename}.png`;
 }
 
 export const lockIcon = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="10" width="12" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2.5"/><circle cx="12" cy="15" r="1.5" fill="#817461"/></svg>`;

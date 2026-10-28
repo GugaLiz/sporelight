@@ -1,3 +1,3 @@
 export function asset(path: string) {
-  return `/images/${path}`;
+  return `${import.meta.env.BASE_URL}images/${path}`;
 }

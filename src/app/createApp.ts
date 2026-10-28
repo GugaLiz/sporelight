@@ -6,7 +6,8 @@ import { CHARACTER_FILES } from './game/characterMotion';
 import { CHAPTERS, LEVELS, getLevel } from './game/levels';
 import { createDefaultSave, loadSave, persistSave } from './save';
 import { renderBootScene } from './scenes/bootScene';
-import { GALLERY_ITEMS, renderGalleryDetail, renderGalleryScene } from './scenes/galleryScene';
+import { renderGalleryScene } from './scenes/galleryScene';
+import { GALLERY_CATEGORIES, gallerySelection, type GalleryCategory, type GalleryMode } from './scenes/galleryData';
 import { renderGameScene } from './scenes/gameScene';
 import { renderLevelSelectScene } from './scenes/levelSelectScene';
 import { renderMainMenuScene } from './scenes/mainMenuScene';
@@ -32,7 +33,7 @@ class SporelightApp {
     document.addEventListener('fullscreenchange', this.onFullscreen);
     this.root.addEventListener('pointerdown', this.startAudio);
     this.root.addEventListener('keydown', this.startAudio);
-    const resources = [...['idle1.png', 'soil.png', 'bloom.png', 'bg-valley.jpg'].map(file => `/images/production/${file}`), ...CHARACTER_FILES.map(file => `/images/material-ready/${file}.png`)];
+    const resources = [...['idle1.png', 'soil.png', 'bloom.png', 'bg-valley.jpg'].map(file => `./images/production/${file}`), ...CHARACTER_FILES.map(file => `./images/material-ready/${file}.png`)];
     const loads = resources.map(file => new Promise<void>(resolve => {
       const image = new Image(); image.onload = () => resolve(); image.onerror = () => resolve(); image.src = file;
     }));
@@ -87,17 +88,36 @@ class SporelightApp {
       this.state.save.run = this.game.model.snapshot(); this.persist();
     }
     if (this.state.scene === 'gallery') {
-      document.querySelectorAll<HTMLButtonElement>('[data-gallery-cat]').forEach(tab => tab.addEventListener('click', () => {
-        document.querySelectorAll('.gallery-tab').forEach(t => t.classList.toggle('is-active', t === tab));
-        document.querySelectorAll<HTMLElement>('.gallery-card').forEach(card => { card.hidden = tab.dataset.galleryCat !== '全部' && card.dataset.category !== tab.dataset.galleryCat; });
+      const focus = (selector:string) => document.querySelector<HTMLButtonElement>(selector)?.focus({preventScroll:true});
+      const category = (value:GalleryCategory) => {
+        this.state.galleryCategory = value;
+        this.state.gallerySelected = gallerySelection(this.state).selected?.id;
+        this.render();focus(`[data-gallery-cat="${value}"]`);
+      };
+      document.querySelectorAll<HTMLButtonElement>('[data-gallery-cat]').forEach(tab => {
+        tab.addEventListener('click', () => category(tab.dataset.galleryCat as GalleryCategory));
+        tab.addEventListener('keydown', event => {
+          if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+          event.preventDefault();const index=GALLERY_CATEGORIES.indexOf(tab.dataset.galleryCat as GalleryCategory);
+          const next=event.key==='Home'?0:event.key==='End'?GALLERY_CATEGORIES.length-1:(index+(event.key==='ArrowRight'?1:-1)+GALLERY_CATEGORIES.length)%GALLERY_CATEGORIES.length;
+          category(GALLERY_CATEGORIES[next]);
+        });
+      });
+      document.querySelectorAll<HTMLButtonElement>('[data-gallery-id]').forEach(card => card.addEventListener('click', () => {
+        const scrollTop=document.querySelector<HTMLElement>('.illustrated-gallery')?.scrollTop??0;
+        this.state.gallerySelected = card.dataset.galleryId;
+        this.render();document.querySelector<HTMLElement>('.illustrated-gallery')!.scrollTop=scrollTop;focus(`[data-gallery-id="${this.state.gallerySelected}"]`);
+        if(window.innerWidth<window.innerHeight)document.querySelector('.journal-side-tabs')?.scrollIntoView({behavior:this.state.save.settings.lowMotion?'auto':'smooth',block:'start'});
       }));
-      document.querySelectorAll<HTMLButtonElement>('.gallery-card.unlocked').forEach(card => card.addEventListener('click', () => {
-        const item = GALLERY_ITEMS.find(i => i.id === card.dataset.galleryId);
-        if (item) document.getElementById('galleryDetail')!.innerHTML = renderGalleryDetail(item);
-        document.querySelectorAll('.gallery-card').forEach(c => c.classList.toggle('is-selected', c === card));
-      }));
+      const mode=(value:GalleryMode)=>{const scrollTop=document.querySelector<HTMLElement>('.illustrated-gallery')?.scrollTop??0;this.state.galleryMode=value;this.render();document.querySelector<HTMLElement>('.illustrated-gallery')!.scrollTop=scrollTop;focus(`[data-gallery-mode="${value}"]`);};
+      document.querySelectorAll<HTMLButtonElement>('[data-gallery-mode]').forEach(tab=>{
+        tab.addEventListener('click',()=>mode(tab.dataset.galleryMode as GalleryMode));
+        tab.addEventListener('keydown',event=>{if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();mode(tab.dataset.galleryMode==='entry'?'story':'entry');});
+      });
+      document.querySelector<HTMLButtonElement>('[data-gallery-list]')?.addEventListener('click',()=>document.getElementById('galleryGrid')?.scrollIntoView({behavior:this.state.save.settings.lowMotion?'auto':'smooth',block:'start'}));
     }
   }
+
   private enterLevel(id: string, resume: boolean) {
     if (!this.state.save.levels[id]?.unlocked) { this.toast('先唤醒前一片苔原，再来这里吧。'); return; }
     const run = resume && this.state.save.run?.levelId === id ? this.state.save.run : null;

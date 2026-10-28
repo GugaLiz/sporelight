@@ -1,0 +1,33 @@
+import {createRequire} from 'node:module';
+import {mkdir,writeFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.argv[2]||'playwright');
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const page=await browser.newPage({viewport:{width:1280,height:720}});
+const errors=[],checks=[];
+page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
+await mkdir('docs/qa-journal',{recursive:true});
+await page.addInitScript(()=>{const levels={};for(let c=1;c<=3;c++)for(let n=1;n<=4;n++){if(c===3&&n===4)continue;levels[`${c}-${n}`]={completed:true,bestStars:3,bestCollected:8};}localStorage.setItem('sporelight.save.v2',JSON.stringify({hasNamed:true,playerName:'茸茸',levels,settings:{lowMotion:true,bgm:0}}));});
+const capture=async name=>{await page.evaluate(async()=>{await Promise.all([...document.images].map(i=>i.decode().catch(()=>{})));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});await page.screenshot({path:`docs/qa-journal/${name}.png`,animations:'disabled'});};
+try {
+ await page.goto('http://127.0.0.1:4173/');await page.locator('[data-action="图鉴"]').click();await page.locator('.illustrated-gallery').waitFor();
+ assert.equal(await page.locator('.journal-card').count(),8);assert.equal(await page.locator('.journal-card.unlocked').count(),7);
+ assert.match(await page.locator('.journal-total').getAttribute('aria-label'),/7 \/ 8/);
+ assert.equal(await page.locator('[data-gallery-id="flowerbud"]').getAttribute('aria-pressed'),'true');await capture('01-open-journal');checks.push('Open book shows eight real entries, seven discovered, and an initial selected detail');
+ const before=await page.evaluate(()=>localStorage.getItem('sporelight.save.v2'));
+ await page.locator('[data-gallery-id="vine"]').click();assert.match(await page.locator('.detail-title').innerText(),/藤蔓桥/);
+ await page.locator('[data-gallery-mode="story"]').click();assert.match(await page.locator('.journal-story-prose').innerText(),/茸茸/);await capture('02-story');checks.push('Card selection updates the attached detail and story uses the saved character name');
+ await page.locator('[data-gallery-cat="生物"]').click();assert.equal(await page.locator('.journal-card').count(),1);assert.equal(await page.locator('.journal-card').getAttribute('data-gallery-id'),'bug');
+ await page.locator('[data-gallery-cat="生物"]').press('ArrowRight');assert.equal(await page.locator('[data-gallery-cat="建筑"]').getAttribute('aria-selected'),'true');assert.equal(await page.locator('.journal-card').getAttribute('data-gallery-id'),'arch');
+ await page.locator('[data-gallery-cat="奇物"]').click();assert.equal(await page.locator('.journal-card').getAttribute('data-gallery-id'),'vine');checks.push('Five categories filter real entries; keyboard arrows change category and synchronize detail');
+ await page.locator('[data-gallery-cat="植物"]').click();await page.locator('[data-gallery-id="starflower"]').click();assert.match(await page.locator('#galleryDetail').innerText(),/尚未发现/);assert.equal(await page.locator('.journal-story-prose').count(),0);await capture('03-undiscovered');checks.push('Undiscovered items can be inspected but reveal silhouettes and hints instead of story content');
+ assert.equal(await page.evaluate(()=>localStorage.getItem('sporelight.save.v2')),before);checks.push('Reading and filtering do not change earned progress or gallery unlocks');
+ await page.locator('[data-gallery-cat="全部"]').click();await page.locator('[data-gallery-id="flowerbud"]').click();await page.locator('[data-gallery-mode="entry"]').click();
+ await page.setViewportSize({width:1024,height:576});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));const tabBox=await page.locator('[data-gallery-mode="story"]').boundingBox();assert.ok(tabBox.x>=0&&tabBox.x+tabBox.width<=1025);await capture('04-small-landscape');
+ await page.setViewportSize({width:390,height:844});await page.locator('[data-gallery-id="moss"]').click();await page.locator('.journal-return-list').click();await page.waitForTimeout(100);await capture('05-mobile-cards');
+ const width=await page.locator('.illustrated-gallery').evaluate(el=>({client:el.clientWidth,scroll:el.scrollWidth}));assert.equal(width.scroll,width.client);checks.push('Small landscape retains the bookmarks; portrait stacks the journal without horizontal overflow');
+ await page.locator('[data-gallery-id="mushroom"]').click();await page.locator('[data-gallery-mode="story"]').click();await page.locator('#galleryDetail').scrollIntoViewIfNeeded();await capture('06-mobile-story');
+ await page.locator('[data-action="返回主菜单"]').click();await page.locator('.journey-menu').waitFor();checks.push('Back button returns to the main menu');
+ assert.deepEqual(errors,[]);await writeFile('docs/qa-journal/checks.json',JSON.stringify({date:'2026-10-27',checks,errors},null,2));console.log(JSON.stringify({checks,errors},null,2));
+}catch(e){await capture('failure');console.error(errors);throw e;}finally{await browser.close();}

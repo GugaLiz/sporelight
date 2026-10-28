@@ -53,4 +53,7 @@ export interface AppState {
   mapChapter?: import('./game/levels').Chapter;
   mapLevel?: string;
   mapOverview?: boolean;
+  galleryCategory?: import('./scenes/galleryData').GalleryCategory;
+  gallerySelected?: string;
+  galleryMode?: import('./scenes/galleryData').GalleryMode;
 }

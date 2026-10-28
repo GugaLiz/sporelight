@@ -10,6 +10,7 @@
 
 ## 先看文档
 
+- [图鉴书册设计稿还原](docs/09-图鉴书册设计稿还原.md)：打开书册、夹纸详情、图鉴/故事页签、未发现剪影和手机阅读布局。
 - [等距格子场景与移动](docs/08-等距格子场景与移动.md)：当前游玩场景、上下左右逐格移动、跳跃、碰撞与手机跟随镜头。
 - [人物动作与素材 UI 优化](docs/07-人物动作与素材UI优化.md)：素材文件夹中的6帧行走、5帧播种、跳跃/滚动/共生动作及纸质UI接入。
 - [参考图地图与通关页](docs/06-参考图地图与通关页.md)：2026-10-27美术与交互改版，植物地图、章节切换、真实通关统计与验证记录。
@@ -41,6 +42,19 @@ npm run preview
 ```powershell
 & 'C:/Users/liuli/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe' node_modules/vite/bin/vite.js --host 127.0.0.1 --port 4173
 ```
+
+## 部署到 GitHub Pages
+
+仓库已包含自动部署工作流。首次使用时，在 GitHub 仓库的 **Settings → Pages → Build and deployment** 中将 **Source** 设为 **GitHub Actions**，然后推送 `main` 分支：
+
+```sh
+git add -u
+git add .github/workflows/deploy-pages.yml
+git commit -m "chore: configure GitHub Pages deployment"
+git push origin main
+```
+
+Actions 完成后可通过 `https://gugaliz.github.io/sporelight/` 访问。后续每次推送 `main` 都会重新检查、测试、构建并部署，无需提交 `dist` 目录。
 
 ## 操作
 

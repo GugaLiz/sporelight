@@ -4,7 +4,7 @@ import { COMPLETE_ASSET_ROOT } from './constants';
 const C = COMPLETE_ASSET_ROOT;
 
 export function materialIcon(name: string, className = '') {
-  return `<img class="material-icon ${className}" src="/images/material-ready/icon-${name}.png" alt="" aria-hidden="true" />`;
+  return `<img class="material-icon ${className}" src="${asset(`material-ready/icon-${name}.png`)}" alt="" aria-hidden="true" />`;
 }
 
 export function actionButton(label: string, className: string, disabled = false) {

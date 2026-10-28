@@ -17,12 +17,12 @@ export class GridRenderer {
  constructor(private canvas:HTMLCanvasElement,readonly world:GridWorld,settings:SaveData['settings']) {
   this.ctx=canvas.getContext('2d')!;this.settings=settings;
   const load=(key:string,url:string)=>{const im=new Image();im.src=url;this.images.set(key,im);};
-  for(const key of ['grass','stone','cliff','moss-stone','stairs','rock','lantern','flowers','bush','lilypad','crystal','bridge','arch'])load(key,`/images/grid-world/${key}.png`);
-  for(const key of ['wall-left','wall-right'])load(key,`/images/grid-world/${key}.jpg`);
-  for(const key of ['soil','flower','bloom','moss','light','vine','lily','lily-open','bug'])load(key,`/images/production/${key}.png`);
-  for(const key of CHARACTER_FILES)load(`actor:${key}`,`/images/material-ready/${key}.png`);
-  for(const key of ['spore','trail','growth','glow'])load(`fx:${key}`,`/images/material-ready/fx-${key}.png`);
-  load('background',`/images/grid-world/sky-${world.model.level.chapter}.jpg`);
+  for(const key of ['grass','stone','cliff','moss-stone','stairs','rock','lantern','flowers','bush','lilypad','crystal','bridge','arch'])load(key,`./images/grid-world/${key}.png`);
+  for(const key of ['wall-left','wall-right'])load(key,`./images/grid-world/${key}.jpg`);
+  for(const key of ['soil','flower','bloom','moss','light','vine','lily','lily-open','bug'])load(key,`./images/production/${key}.png`);
+  for(const key of CHARACTER_FILES)load(`actor:${key}`,`./images/material-ready/${key}.png`);
+  for(const key of ['spore','trail','growth','glow'])load(`fx:${key}`,`./images/material-ready/fx-${key}.png`);
+  load('background',`./images/grid-world/sky-${world.model.level.chapter}.jpg`);
   this.view=makeGridView(world.layout,1280,720,world.point);this.configure(settings);
  }
  configure(settings:SaveData['settings']) {
