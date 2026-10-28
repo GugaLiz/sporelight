@@ -3,7 +3,7 @@ import { CloudModel, type CloudSave } from './model';
 import { CloudRenderer, type CloudAnimation } from './renderer';
 import type { SaveData } from '../types';
 import type { SoundKind } from '../game/audio';
-import { escapeHtml } from '../ui';
+import { escapeHtml, materialIcon } from '../ui';
 const directions:Record<string,[number,number]>={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
 export class CloudGame {
   readonly model:CloudModel;
@@ -103,13 +103,13 @@ export class CloudGame {
     this.el.classList.toggle('is-repaired',s.repaired);
     const objectives=this.model.id==='cloud-1'?[[s.seed,'去侧庭，找到一粒花种'],[s.bridge==='east','转动拱桥，连接钟塔'],[s.repaired,'在钟塔下种出第一朵花']]:this.model.id==='cloud-2'?[[s.lift==='high','乘着花台，来到高处'],[s.repaired,'引水入池，等小鸟归来']]:[[s.latch||s.buddy==='wait','请小苔灵守住叶形踏板'],[s.latch,'穿过拱廊，打开门闩'],[s.latch&&s.buddy!=='wait','回到踏板旁，接回伙伴'],[s.repaired,'一起点亮屋顶的星灯']];
     this.el.querySelector('#cloudObjectives')!.innerHTML=objectives.map(([done,label])=>`<li class="${done?'is-done':''}"><span>${done?'✓':'○'}</span>${label}</li>`).join('');
-    this.el.querySelector('#cloudInventory')!.textContent=this.model.id==='cloud-1'?(s.seed?'❋ 口袋里有一粒花种':'❋ 花种还在等你'):'❋ 每一步，都算数';
+    this.el.querySelector('#cloudInventory')!.innerHTML=`${materialIcon('spore')}<span>${this.model.id==='cloud-1'?(s.seed?'口袋里有一粒花种':'花种还在等你'):'每一步，都算数'}</span>`;
     this.el.querySelector('#cloudCompanion')!.textContent=s.buddy==='sleep'?'一个小伙伴，正做着柔软的梦。':s.buddy==='wait'?'小苔灵在叶形踏板上等你。':s.repaired?'露薇与小苔灵，坐在微光里。':'小苔灵正跟着你。也可以摸摸它。';
-    this.el.querySelector('#cloudExploration')!.textContent=`口袋里的小事 ${s.found.length} / 2`;
+    this.el.querySelector('#cloudExploration')!.innerHTML=`${materialIcon('leaf')}<span>口袋里的小事 <b>${s.found.length} / 2</b></span>`;
     this.el.querySelector<HTMLButtonElement>('#cloudUndo')!.disabled=locked||!this.model.canUndo||this.review;
     this.el.querySelector<HTMLButtonElement>('#cloudHint')!.disabled=locked||s.repaired;
     this.el.querySelectorAll<HTMLButtonElement>('[data-cloud-direction]').forEach(b=>b.disabled=locked||s.repaired);
-    this.el.querySelector('#cloudLocalActions')!.innerHTML=this.model.actions().map(a=>`<button class="cloud-button ${a.id==='pet'?'cloud-pet':'cloud-primary'}" data-cloud-do="${a.id}" ${locked?'disabled':''}>${escapeHtml(a.label)}${a.id!=='pet'?'<small>E</small>':''}</button>`).join('');
+    this.el.querySelector('#cloudLocalActions')!.innerHTML=this.model.actions().map(a=>`<button class="cloud-button ${a.id==='pet'?'cloud-pet':'cloud-primary'}" data-cloud-do="${a.id}" ${locked?'disabled':''}>${materialIcon(a.id==='repair'?'sow':a.id==='seed'?'spore':a.id==='rotate'?'retry':a.id.startsWith('discover:')?'gallery':'leaf')}<span>${escapeHtml(a.label)}</span>${a.id!=='pet'?'<small>E</small>':''}</button>`).join('');
     this.renderer.canvas.dataset.tile=s.tile;this.renderer.canvas.dataset.bridge=s.bridge;this.renderer.canvas.dataset.lift=s.lift;this.renderer.canvas.dataset.buddy=s.buddy;this.renderer.canvas.dataset.moving=String(!!this.animation);this.renderer.canvas.dataset.repaired=String(s.repaired);
     this.syncTiles();this.positionActions();
   }

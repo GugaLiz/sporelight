@@ -6,10 +6,10 @@ export interface GridStep { position:GridPosition; jump:boolean }
 /** Physical floor tiles adapt the existing puzzle rules without allowing shortcuts. */
 export class GridWorld {
  readonly model:GameModel;
- readonly layout:ReturnType<typeof buildGridLayout>;
+ layout:ReturnType<typeof buildGridLayout>;
  position:GridPosition;
  constructor(level:Level,saved?:Partial<RunState>|null) {
-  this.model=new GameModel(level,saved);this.layout=buildGridLayout(level);
+  this.model=new GameModel(level,saved);this.layout=buildGridLayout(level,this.model.state.vars);
   const fallback=this.layout.nodes[this.model.state.node];const previous=this.model.state.gridPosition;
   this.position=previous&&this.tileOpen(previous)?{...previous}:{x:fallback.x,z:fallback.z};
   const savedRoom=this.layout.tiles.get(gridKey(this.position))?.room;
@@ -66,10 +66,11 @@ export class GridWorld {
  act(action:string,time:number,lowMotion:boolean):ActionResult {
   if(!this.nearMechanism())return {ok:false,message:'再走近花床一格，就可以与它互动。'};
   this.sync();const result=this.model.act(action,time,lowMotion);
+  if(result.ok&&result.lifted)this.layout=buildGridLayout(this.model.level,this.model.state.vars);
   if(result.ok&&result.jumped){const p=this.layout.nodes[this.model.state.node];this.position={x:p.x,z:p.z};this.sync();}
   return result;
  }
- undo(){if(!this.model.undo())return false;const p=this.model.state.gridPosition??this.layout.nodes[this.model.state.node];this.position={x:p.x,z:p.z};this.sync();return true;}
+ undo(){if(!this.model.undo())return false;this.layout=buildGridLayout(this.model.level,this.model.state.vars);const p=this.model.state.gridPosition??this.layout.nodes[this.model.state.node];this.position={x:p.x,z:p.z};this.sync();return true;}
  pathTo(goal:GridPosition,allowJumps=true):GridStep[]|null {
   type State={p:GridPosition;anchor:string;path:GridStep[]};
   const queue:State[]=[{p:this.position,anchor:this.model.state.node,path:[]}];

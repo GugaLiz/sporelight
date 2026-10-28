@@ -3,7 +3,7 @@ import type { SoundKind } from './audio';
 import { getLevel,totalSpores } from './levels';
 import { type GameModel,type RunState } from './model';
 import { GridWorld,type GridStep } from './GridWorld';
-import { GridRenderer } from './GridRenderer';
+import { GridRenderer, type GardenTransition } from './GridRenderer';
 import { GRID_DIRECTIONS,gridKey,sameTile,projectTile,type GridPosition,type GridPoint,type GridDirection } from './gridLayout';
 import type { GameSnapshot,SaveData } from '../types';
 
@@ -18,6 +18,8 @@ export class CanvasGame {
  private held:GridDirection|null=null;private lastDirection:GridDirection='up';private blockedUntil=0;private motionStartedAt=0;private lastWalkEnd=-1000;
  private handlers:(()=>void)[]=[];private observer:ResizeObserver;private tip:HTMLElement|null;
  private directionPad:HTMLElement|null;
+ private structure:{motion:GardenTransition;action:string;elapsed:number}|null=null;
+ private previewTarget?:string;
  private previousView='';private settings:SaveData['settings'];
  constructor(private canvas:HTMLCanvasElement,levelId:string,saved:RunState|null,settings:SaveData['settings'],private onChange:(run:RunState)=>void,private complete:(snapshot:GameSnapshot)=>void,private sound:(kind:SoundKind)=>void){
   this.settings=settings;this.world=new GridWorld(getLevel(levelId),saved);this.model=this.world.model;this.renderer=new GridRenderer(canvas,this.world,settings);this.tip=document.getElementById('gameTip');
@@ -28,6 +30,8 @@ export class CanvasGame {
   const tileClick=(event:Event)=>{const button=(event.target as HTMLElement).closest<HTMLButtonElement>('[data-grid-tile]');if(!button)return;const [x,z]=button.dataset.gridTile!.split(',').map(Number);this.walkToTile({x,z});};
   controls?.addEventListener('click',tileClick);this.handlers.push(()=>controls?.removeEventListener('click',tileClick));
   const panel=document.getElementById('puzzlePanel');const choose=(event:Event)=>{const button=(event.target as HTMLElement).closest<HTMLButtonElement>('[data-puzzle-action]');if(button)this.perform(button.dataset.puzzleAction!);};panel?.addEventListener('click',choose);this.handlers.push(()=>panel?.removeEventListener('click',choose));
+  const preview=(event:Event)=>{const button=(event.target as HTMLElement).closest<HTMLButtonElement>('[data-puzzle-action]');const action=button?.dataset.puzzleAction;this.previewTarget=action?.startsWith('choose:')&&['vine','switch'].includes(this.model.current.mechanism??'')?action.slice(7):undefined;};
+  const clearPreview=()=>{this.previewTarget=undefined;};panel?.addEventListener('pointerover',preview);panel?.addEventListener('focusin',preview);panel?.addEventListener('pointerleave',clearPreview);panel?.addEventListener('focusout',clearPreview);this.handlers.push(()=>{panel?.removeEventListener('pointerover',preview);panel?.removeEventListener('focusin',preview);panel?.removeEventListener('pointerleave',clearPreview);panel?.removeEventListener('focusout',clearPreview);});
   document.querySelectorAll<HTMLButtonElement>('[data-grid-direction]').forEach(button=>{
    const down=(event:PointerEvent)=>{event.preventDefault();this.held=button.dataset.gridDirection as GridDirection;this.route=[];this.step(this.held);};
    const keyboard=(event:MouseEvent)=>{if(event.detail===0)this.step(button.dataset.gridDirection as GridDirection);};
@@ -38,14 +42,27 @@ export class CanvasGame {
   this.refreshHUD();this.raf=requestAnimationFrame(this.loop);
  }
  configure(settings:SaveData['settings']){this.settings=settings;this.renderer.configure(settings);this.previousView='';if(settings.lowMotion&&this.travel)this.travel.duration=40;}
- pause(paused:boolean){this.paused=paused;this.last=0;if(this.directionPad)this.directionPad.inert=paused;if(paused)this.release();}
+ pause(paused:boolean){this.paused=paused;this.last=0;if(this.directionPad)this.directionPad.inert=paused||!!this.structure;if(paused)this.release();}
  destroy(){this.disposed=true;cancelAnimationFrame(this.raf);this.observer.disconnect();this.handlers.forEach(fn=>fn());this.directionPad?.remove();window.removeEventListener('pointerup',this.release);window.removeEventListener('pointercancel',this.release);window.removeEventListener('keydown',this.onKeyDown);window.removeEventListener('keyup',this.onKeyUp);window.removeEventListener('blur',this.release);}
  private release=()=>{this.held=null;};
- toggleMovementMode(){if(this.paused||this.model.state.completed)return;this.rolling=!this.rolling;this.refreshHUD();this.say(this.rolling?'变成蘑菇球，一格一格滚过去。':'恢复行走，沿着石砖慢慢探索。');}
- sow(){if(this.paused||this.travel||this.model.state.completed)return;const choices=this.world.actions();if(choices.length===1)this.perform(choices[0].id);else{this.say(choices.length?'在右侧选择机关的方向或落点。':'走到花床旁边的一格，再按 E 播种或互动。');document.querySelector<HTMLButtonElement>('[data-puzzle-action]')?.focus();}}
+ toggleMovementMode(){if(this.paused||this.structure||this.model.state.completed)return;this.rolling=!this.rolling;this.refreshHUD();this.say(this.rolling?'变成蘑菇球，一格一格滚过去。':'恢复行走，沿着石砖慢慢探索。');}
+ sow(){if(this.paused||this.travel||this.structure||this.model.state.completed)return;const choices=this.world.actions();if(choices.length===1)this.perform(choices[0].id);else{this.say(choices.length?'在右侧选择机关的方向或落点。':'走到花床旁边的一格，再按 E 播种或互动。');document.querySelector<HTMLButtonElement>('[data-puzzle-action]')?.focus();}}
  private perform(action:string){
-  if(this.paused||this.travel||this.model.state.completed)return;
+  if(this.paused||this.travel||this.structure||this.model.state.completed)return;
   if(action==='replay'){this.clueUntil=this.clock+6500;this.say('跟着星座亮起的先后顺序，再点亮它们。');this.refreshHUD();return;}
+  const mechanism=this.model.current.mechanism;
+  const kind=mechanism==='lift'?'lift':['wait','call','unlatch'].includes(action)?'companion':'bridge';
+  const structural=['wait','call','unlatch','plant','reclaim'].includes(action)||(action.startsWith('choose:')&&['lift','vine','switch'].includes(mechanism??''));
+  if(structural&&!this.settings.lowMotion){
+   const preview=new GridWorld(this.model.level,this.model.snapshot()),result=preview.act(action,this.clock,this.settings.lowMotion);
+   if(!result.ok){this.say(result.message);return;}
+   this.route=[];this.held=null;this.previewTarget=undefined;
+   this.structure={action,elapsed:0,motion:{kind,progress:0,from:this.model.snapshot(),to:preview.model.snapshot(),fromPoint:{...this.world.point},toPoint:{...preview.point}}};
+   this.refreshHUD();return;
+  }
+  this.commitAction(action);
+ }
+ private commitAction(action:string){
   const from={...this.world.point};const count=this.model.state.collected.length;const result=this.world.act(action,this.clock,this.settings.lowMotion);this.say(result.message);
   if(!result.ok)return;
   this.characterAction={kind:action==='light'?'symbiosis':action.startsWith('note:')?'note':action.startsWith('choose:')&&this.model.current.mechanism!=='water'?'interact':'sow',startedAt:this.clock};
@@ -53,11 +70,11 @@ export class CanvasGame {
   if(result.jumped){this.route=[];this.characterAction=null;this.beginTravel(from,{...this.world.point},true,true);}
   if(this.model.state.collected.length>count)this.sound('collect');if(this.settings.vibration)navigator.vibrate?.(16);this.changed();
  }
- undo(){if(this.paused||this.model.state.completed)return;this.route=[];this.travel=null;this.held=null;this.characterAction=null;if(this.world.undo()){this.say('回到上一格，微光还在。');this.changed();}else this.say('还没有需要退回的脚步。');}
- hint(){const hint=this.model.hint();this.hintNode=hint.node;this.say(hint.message);}
+ undo(){if(this.paused||this.structure||this.model.state.completed)return;this.route=[];this.travel=null;this.held=null;this.characterAction=null;if(this.world.undo()){this.say('回到上一格，微光还在。');this.changed();}else this.say('还没有需要退回的脚步。');}
+ hint(){if(this.paused||this.structure)return;const hint=this.model.hint();this.hintNode=hint.node;this.say(hint.message);}
  walkTo(id:string){const point=this.world.layout.nodes[id];if(point)this.walkToTile(point);}
  private walkToTile(position:GridPosition){
-  if(this.paused||this.travel||this.model.state.completed)return;
+  if(this.paused||this.travel||this.structure||this.model.state.completed)return;
   if(sameTile(position,this.world.position)){this.sow();return;}
   const route=this.world.pathTo(position);
   if(!route){this.hint();return;}
@@ -65,14 +82,14 @@ export class CanvasGame {
  }
  step(direction:GridDirection){
   this.lastDirection=direction;
-  if(this.paused||this.travel||this.model.state.completed)return;
+  if(this.paused||this.travel||this.structure||this.model.state.completed)return;
   this.route=[];this.target=null;this.characterAction=null;
   const next=this.world.destination(direction);
   if(!next){this.blockedUntil=this.clock+220;this.say(this.world.destination(direction,true)?'前面有缺口，按空格 / J 或点击跳跃。':'这里没有通路，换个方向试试。');return;}
   this.beginTravel({...this.world.point},{...this.world.layout.tiles.get(gridKey(next))!},false);
  }
  jump(){
-  if(this.paused||this.travel||this.model.state.completed)return;
+  if(this.paused||this.travel||this.structure||this.model.state.completed)return;
   this.route=[];this.target=null;this.characterAction=null;
   const choices=this.world.actions().filter(a=>a.id.startsWith('jump:'));
   if(choices.length){const d=GRID_DIRECTIONS[this.lastDirection];const ranked=choices.map(a=>{const p=this.world.layout.nodes[a.id.slice(5)];const dx=p.x-this.world.position.x,dz=p.z-this.world.position.z;return {a,score:(dx*d.x+dz*d.z)/Math.hypot(dx,dz)};}).sort((a,b)=>b.score-a.score);this.perform(ranked[0].a.id);return;}
@@ -87,12 +104,12 @@ export class CanvasGame {
   if(this.clock-this.lastWalkEnd>300)this.motionStartedAt=this.clock;
   this.travel={from,to,progress:0,jump,landed,startedAt:this.clock,duration:this.settings.lowMotion?36:jump?620:this.rolling?140:WALK_TILE_MS};this.sound('move');
  }
- private advance(){if(this.travel||this.paused||this.model.state.completed)return;const next=this.route.shift();if(!next)return;
+ private advance(){if(this.travel||this.structure||this.paused||this.model.state.completed)return;const next=this.route.shift();if(!next)return;
   if(!(next.jump?this.world.canJump(next.position):this.world.canStep(next.position))){this.route=[];return;}
   this.beginTravel({...this.world.point},{...this.world.layout.tiles.get(gridKey(next.position))!},next.jump);
  }
  private onKeyDown=(event:KeyboardEvent)=>{
-  if(this.paused||event.ctrlKey||event.metaKey||event.altKey||(event.target instanceof HTMLElement&&event.target.matches('input,select,textarea')))return;
+  if(this.paused||this.structure||event.ctrlKey||event.metaKey||event.altKey||(event.target instanceof HTMLElement&&event.target.matches('input,select,textarea')))return;
   const key=event.key.toLowerCase();const dirs:Record<string,GridDirection>={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};
   if(dirs[key]){event.preventDefault();this.held=dirs[key];this.lastDirection=this.held;this.route=[];if(!event.repeat)this.step(this.held);return;}
   if(event.repeat)return;
@@ -114,20 +131,22 @@ export class CanvasGame {
  private refreshHUD(){
   const count=document.getElementById('sporeCount');if(count)count.textContent=`${this.model.state.collected.length} / ${totalSpores(this.model.level)}`;
   const grown=document.getElementById('grownCount');if(grown)grown.textContent=`${this.model.awakened} / ${this.model.level.nodes.filter(n=>n.mechanism).length}`;
-  const undo=document.querySelector<HTMLButtonElement>('[data-action="撤销"]');if(undo)undo.disabled=!this.model.canUndo;
+  const undo=document.querySelector<HTMLButtonElement>('[data-action="撤销"]');if(undo)undo.disabled=!!this.structure||!this.model.canUndo;
+  if(this.directionPad)this.directionPad.inert=this.paused||!!this.structure;
   const choices=this.world.actions();const primary=document.querySelector<HTMLButtonElement>('[data-action="播种"]');const label=choices.length===1?`${choices[0].label} · E`:choices.length?'选择机关用法':'播种 / 互动';
   primary?.setAttribute('aria-label',label);primary?.querySelector('[data-action-label]')?.replaceChildren(label);
   const mode=document.querySelector<HTMLButtonElement>('[data-action="切换移动"]');if(mode){mode.setAttribute('aria-pressed',String(this.rolling));mode.setAttribute('aria-label',this.rolling?'切换为行走':'切换为滚动');mode.querySelector('span')?.replaceChildren(this.rolling?'滚动中':'行走');}
   document.querySelector('.journey-toolbar')?.classList.toggle('is-rolling',this.rolling);
   const panel=document.getElementById('puzzlePanel');
   if(panel){const clue=this.model.level.sequence&&this.clock<this.clueUntil&&this.settings.lowMotion?this.model.level.sequence.map(id=>this.model.label(id)).join(' → '):'';
-   panel.innerHTML=`<div class="puzzle-state"><strong>${this.model.level.kind}</strong><span>${clue||this.model.status()}</span><span id="beatStatus"></span></div><p class="grid-mechanic-copy">${this.model.level.subtitle}</p><div class="puzzle-actions">${choices.map((choice,i)=>`<button data-puzzle-action="${choice.id}" ${choice.selected===undefined?'':`aria-pressed="${choice.selected}"`}><small>${i+1}</small> ${choice.label}</button>`).join('')}${this.model.level.sequence?'<button data-puzzle-action="replay">重看星图 ↻</button>':''}</div>${!choices.length?'<div class="grid-plant-guide"><img src="./images/production/soil.png" alt="干涸的土地"/><span>→</span><img src="./images/reference-scenes/plant-bloom.png" alt="唤醒的花朵"/></div><small class="grid-help-copy">沿石砖走近植物，按 E 互动。<br>方向键逐格走，空格 / J 跳跃。</small>':''}`;
+   panel.innerHTML=`<div class="puzzle-state"><strong>${this.model.level.kind}</strong><span>${clue||this.model.status()}</span><span id="beatStatus"></span></div><p class="grid-mechanic-copy">${this.model.level.subtitle}</p><div class="puzzle-actions">${choices.map((choice,i)=>`<button data-puzzle-action="${choice.id}" ${this.structure?'disabled':''} ${choice.selected===undefined?'':`aria-pressed="${choice.selected}"`}><small>${i+1}</small> ${choice.label}</button>`).join('')}${this.model.level.sequence?'<button data-puzzle-action="replay">重看星图 ↻</button>':''}</div>${!choices.length?'<div class="grid-plant-guide"><img src="./images/production/soil.png" alt="干涸的土地"/><span>→</span><img src="./images/reference-scenes/plant-bloom.png" alt="唤醒的花朵"/></div><small class="grid-help-copy">沿石砖走近植物，按 E 互动。<br>方向键逐格走，空格 / J 跳跃。</small>':''}`;
   }
   for(const button of document.querySelectorAll<HTMLButtonElement>('[data-node]')){
    const node=this.model.level.nodes.find(n=>n.id===button.dataset.node)!;const here=this.world.atNode(node.id);
    button.setAttribute('aria-current',here?'location':'false');button.setAttribute('aria-label',`${node.label}${here?'，当前位置，点击互动':'，点击逐格前往'}${this.model.isActive(node.id)?'，已唤醒':''}${node.spore&&!this.model.state.collected.includes(node.id)?'，有孢子':''}`);
   }
   this.canvas.dataset.gridX=String(this.world.position.x);this.canvas.dataset.gridZ=String(this.world.position.z);
+  this.canvas.dataset.gridH=String(this.world.point.h);this.canvas.dataset.buddy=this.model.state.buddy;this.canvas.dataset.structure=String(!!this.structure);
  }
  private updateTileControls(){
   const v=this.renderer.view;const stamp=`${v.originX.toFixed(1)}:${v.originY.toFixed(1)}:${v.scale}:${this.model.state.node}:${this.model.state.activated.join(',')}:${JSON.stringify(this.model.state.vars)}:${this.model.state.buddy}`;
@@ -143,7 +162,8 @@ export class CanvasGame {
   if(this.disposed)return;const dt=this.last?Math.min(50,time-this.last):0;this.last=time;
   if(!this.paused&&!document.hidden){
    this.clock+=dt;
-   if(this.travel){this.travel.progress=Math.min(1,this.travel.progress+dt/this.travel.duration);
+   if(this.structure){this.structure.elapsed+=dt;const p=Math.min(1,this.structure.elapsed/850);this.structure.motion.progress=p*p*(3-2*p);if(p===1){const action=this.structure.action;this.structure=null;this.commitAction(action);}}
+   else if(this.travel){this.travel.progress=Math.min(1,this.travel.progress+dt/this.travel.duration);
     if(this.travel.progress===1){const travel=this.travel;const previous=this.model.state.collected.length;const result=travel.landed?{ok:true,message:'睡莲接住了你的选择。'}:this.world.commit(travel.to,travel.jump);this.travel=null;this.lastWalkEnd=this.clock;
      if(result.ok){if(this.model.state.collected.length>previous)this.sound('collect');this.changed();if(result.message)this.say(result.message);}
      else{this.route=[];this.say(result.message);}
@@ -153,11 +173,12 @@ export class CanvasGame {
    }else if(this.held&&this.clock>this.blockedUntil)this.step(this.held);else this.advance();
   }
   let player={...this.world.point};
+  if(this.structure?.motion.kind==='lift'){const m=this.structure.motion;player={...player,h:m.fromPoint.h+(m.toPoint.h-m.fromPoint.h)*m.progress};}
   if(this.travel){const p=this.travel.progress;player={x:this.travel.from.x+(this.travel.to.x-this.travel.from.x)*p,z:this.travel.from.z+(this.travel.to.z-this.travel.from.z)*p,h:this.travel.from.h+(this.travel.to.h-this.travel.from.h)*p};}
   const pose=characterPose({time:this.clock,facing:this.facing,lowMotion:this.settings.lowMotion,complete:this.model.state.completed&&!this.travel,travel:this.travel?{progress:this.travel.progress,startedAt:this.travel.jump?this.travel.startedAt:this.motionStartedAt,jump:this.travel.jump,rolling:this.rolling,distance:Math.hypot(this.travel.to.x-this.travel.from.x,this.travel.to.z-this.travel.from.z)*55}:null,action:this.characterAction});
-  this.canvas.dataset.characterClip=pose.clip;this.canvas.dataset.characterFrame=pose.key;this.canvas.dataset.characterFacing=this.facing;this.canvas.dataset.moving=String(!!this.travel);
+  this.canvas.dataset.characterClip=pose.clip;this.canvas.dataset.characterFrame=pose.key;this.canvas.dataset.characterFacing=this.facing;this.canvas.dataset.moving=String(!!this.travel||!!this.structure);
   document.querySelector('.journey-toolbar')?.classList.toggle('is-interacting',['sow','interact','symbiosis'].includes(pose.clip));
-  this.renderer.draw({time:this.clock,player,pose,travel:this.travel,hint:this.hintNode,target:this.target,clueUntil:this.clueUntil,actionElapsed:this.characterAction?this.clock-this.characterAction.startedAt:undefined});this.updateTileControls();
+  this.renderer.draw({time:this.clock,player,pose,travel:this.travel,hint:this.hintNode,target:this.target,clueUntil:this.clueUntil,actionElapsed:this.characterAction?this.clock-this.characterAction.startedAt:undefined,structure:this.structure?.motion,preview:this.previewTarget});this.updateTileControls();
   const beat=document.getElementById('beatStatus');if(beat&&this.model.level.melody){const open=this.settings.lowMotion||this.clock%2400<1200;beat.textContent=open?'● 水膜亮起':'○ 等下一拍';beat.classList.toggle('beat-open',open);}
   this.raf=requestAnimationFrame(this.loop);
  };

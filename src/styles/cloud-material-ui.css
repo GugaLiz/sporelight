@@ -1,0 +1,100 @@
+/* Supplied material/btn_01, btn_02, btn_03 and buttons sheets, using their
+   existing transparent material-ready exports. Text remains live and accessible. */
+.cloud-surface { --cloud-ink:#786349; --cloud-paper:url('/images/material-ready/panel-paper.png'); --cloud-small-button:url('/images/material-ready/button-paper.png'); }
+.cloud-surface .material-icon { display:inline-block; width:28px; height:28px; object-fit:contain; flex-shrink:0; vertical-align:middle; pointer-events:none; }
+.cloud-surface .cloud-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:0; color:var(--cloud-ink); background:transparent var(--cloud-small-button) center/100% 100% no-repeat; box-shadow:none; padding:12px 21px; filter:drop-shadow(0 3px 5px #78644c12); }
+.cloud-surface .cloud-button:hover { background-color:transparent; filter:brightness(1.05) drop-shadow(0 4px 7px #78644c1a); }
+.cloud-surface .cloud-button:active:not(:disabled) { transform:translateY(1px); filter:brightness(.98); }
+.cloud-surface .cloud-button:disabled { filter:grayscale(.5); }
+.cloud-surface .cloud-primary,.cloud-surface .cloud-primary:hover { background-image:url('/images/material-ready/button-green.png'); color:#fff8df; text-shadow:0 1px 2px #3d583a70; }
+.cloud-surface .cloud-text-button { display:inline-flex; align-items:center; justify-content:center; gap:6px; color:#8d795b; }
+.cloud-surface .cloud-text-button .material-icon { width:23px; height:23px; }
+.cloud-lobby h1 > .material-icon { width:40px; height:45px; margin-right:10px; }
+.cloud-back-button { min-width:146px; }
+.cloud-chapter { border:0; padding:7px; border-radius:20px; background:transparent var(--cloud-paper) center/100% 100% no-repeat; box-shadow:0 13px 30px #766c4b13; }
+.cloud-chapter-art { border-radius:15px 15px 6px 6px; }
+.cloud-chapter-copy { padding:22px 20px 14px; }
+.cloud-chapter .cloud-primary { min-height:60px; gap:10px; padding:12px 24px; }
+.cloud-chapter .cloud-primary > .material-icon { width:24px; height:28px; }
+.cloud-chapter .cloud-primary > span { float:none; }
+.cloud-chapter .cloud-button-label { flex:1; text-align:left; }
+.cloud-chapter .cloud-button-arrow { font-size:17px; opacity:.8; }
+.cloud-journal h2 > .material-icon { width:30px; height:33px; margin-right:8px; }
+.cloud-story-page { border-radius:0; background:transparent var(--cloud-paper) center/100% 100% no-repeat; padding:27px 22px 30px; filter:drop-shadow(0 4px 10px #766a4c0b); }
+.cloud-story-page summary { color:#816e50; }
+.cloud-story-page p { color:#8e8067; }
+.cloud-title-paper { width:270px; padding:24px 24px 22px; margin:-9px 0 0 -12px; background:transparent var(--cloud-paper) center/100% 100% no-repeat; filter:drop-shadow(0 4px 7px #6f735013); }
+.cloud-title-paper .cloud-eyebrow { color:#a18c65; }
+.cloud-title-paper h1 { font-size:28px; color:#6f7955; margin:10px 0 8px; }
+.cloud-title-paper p { color:#9d8c6e; line-height:1.7; font-size:10px; }
+.cloud-game-head nav { gap:14px; }
+.cloud-surface .cloud-icon-button { display:flex; flex-direction:column; gap:2px; width:64px; min-height:64px; padding:0; background:none; border:0; filter:none; color:#826e4f; box-shadow:none; }
+.cloud-surface .cloud-icon-button:hover { background:none; filter:brightness(1.06); }
+.cloud-icon-button > .material-icon { width:52px; height:52px; }
+.cloud-icon-button > span { font-size:10px; letter-spacing:1px; }
+.cloud-quest { top:204px; left:22px; width:222px; padding:44px 22px 38px; background:transparent var(--cloud-paper) center/100% 100% no-repeat; filter:drop-shadow(0 5px 10px #78734f12); }
+.cloud-quest > .cloud-eyebrow { font-size:8px; letter-spacing:1.6px; color:#ab9774; }
+.cloud-quest h2 { font-size:16px; margin:13px 0 20px; color:#7f7959; letter-spacing:1px; }
+.cloud-quest li { color:#9b8d70; font-size:11px; margin:12px 0; gap:8px; }
+.cloud-quest-rule { background:#c7b89550; margin:18px 0 14px; }
+#cloudCompanion { color:#9d8f70; }
+#cloudInventory { display:flex; align-items:center; gap:8px; font-size:10px; margin:21px 0 13px; color:#ac8d59; }
+#cloudInventory > .material-icon { width:29px; height:29px; }
+.cloud-surface .cloud-local-actions .cloud-button { display:flex; padding:10px 16px; gap:6px; min-height:47px; box-shadow:none; }
+.cloud-local-actions .material-icon { width:25px; height:25px; }
+.cloud-local-actions .cloud-button > span { flex:1; text-align:left; line-height:1.6; }
+.cloud-local-actions .cloud-button small { margin-left:3px; }
+.cloud-surface .cloud-local-actions .cloud-pet { background:transparent var(--cloud-small-button) center/100% 100% no-repeat; color:#8d795b; text-shadow:none; }
+.cloud-message { color:#897452; background:transparent var(--cloud-small-button) center/100% 100% no-repeat; border:0; border-radius:0; backdrop-filter:none; bottom:115px; padding:17px 30px; filter:drop-shadow(0 3px 10px #786b5010); }
+.cloud-game-footer { bottom:17px; }
+.cloud-game-footer > .cloud-tool-paper { gap:15px; padding:10px 34px 9px; background:transparent url('/images/material-ready/menu-paper.png') center/100% 100% no-repeat; }
+.cloud-game-footer .cloud-icon-button > .material-icon { width:46px; height:46px; }
+.cloud-exploration { display:flex; align-items:center; gap:7px; min-height:44px; padding:7px 18px; color:#968365; background:transparent var(--cloud-small-button) center/100% 100% no-repeat; }
+.cloud-exploration > .material-icon { width:25px; height:25px; }
+.cloud-exploration b { font-weight:400; color:#8b9264; margin-left:4px; }
+.cloud-surface .cloud-dpad button { background:none; border:0; border-radius:0; }
+.cloud-dpad button > .material-icon { width:44px; height:44px; }
+.cloud-dpad [data-cloud-direction=up] > img { transform:rotate(90deg); }
+.cloud-dpad [data-cloud-direction=right] > img { transform:rotate(180deg); }
+.cloud-dpad [data-cloud-direction=down] > img { transform:rotate(-90deg); }
+.cloud-dpad > span > .material-icon { width:25px; height:30px; }
+.cloud-ending { border:0; border-radius:0; background:transparent var(--cloud-paper) center/100% 100% no-repeat; backdrop-filter:none; box-shadow:none; padding:62px 28px 35px; filter:drop-shadow(0 12px 26px #6d73531c); }
+.cloud-ending .cloud-eyebrow { color:#ae956a; font-size:8px; letter-spacing:1.8px; }
+.cloud-ending h2 { color:#7c7e58; }.cloud-ending p { color:#998666; }
+.cloud-ending .cloud-primary { min-height:54px; }
+@media(max-width:900px) {
+ .cloud-quest { left:15px; width:200px; padding:42px 17px 33px; }
+ .cloud-title-paper { width:260px; }.cloud-chapter-copy { padding:20px 16px 12px; }
+ .cloud-dpad { bottom:155px; }
+}
+@media(max-width:649px) {
+ .cloud-lobby h1 > .material-icon { width:26px; height:33px; margin-right:5px; }
+ .cloud-lobby h1 { letter-spacing:4px; font-size:29px; }.cloud-lobby h1 span { letter-spacing:0; }
+ .cloud-lobby-head .cloud-back-button { min-width:91px; padding:10px 12px; gap:2px; }.cloud-back-button > .material-icon { width:21px; height:24px; }
+ .cloud-chapter-copy { padding:21px 18px 13px; }.cloud-story-page { padding:27px 24px 30px; }
+ .cloud-game-head { top:18px; left:18px; right:13px; }
+ .cloud-title-paper { width:239px; padding:20px 17px 21px; margin:-10px 0 0 -10px; }
+ .cloud-title-paper h1 { font-size:23px; letter-spacing:4px; margin:9px 0 7px; }.cloud-title-paper p { font-size:9px; }
+ .cloud-title-paper .cloud-eyebrow { font-size:8px; }
+ .cloud-game-head nav { gap:6px; }.cloud-game-head nav .cloud-icon-button { width:46px; min-height:46px; padding:0; background:none; }
+ .cloud-game-head nav .cloud-icon-button > .material-icon { width:46px; height:46px; }
+ .cloud-quest { top:148px; left:15px; right:15px; width:auto; padding:13px 15px; background:transparent var(--cloud-small-button) center/100% 100% no-repeat; }
+ .cloud-quest li { font-size:9px; margin:0; gap:4px; }.cloud-quest ol { gap:6px 11px; }
+ .cloud-quest #cloudInventory { margin:6px 0 0; gap:4px; font-size:9px; }#cloudInventory > .material-icon { width:20px; height:20px; }
+ .cloud-surface .cloud-local-actions .cloud-button { padding:9px 13px; min-height:46px; font-size:11px; }.cloud-local-actions .material-icon { width:22px; height:22px; }
+ .cloud-message { bottom:103px; padding:15px 22px; font-size:10px; line-height:1.8; }
+ .cloud-game-footer { left:12px; right:12px; bottom:13px; }.cloud-game-footer > .cloud-tool-paper { padding:6px 19px; gap:5px; }
+ .cloud-game-footer .cloud-icon-button { width:53px; padding:0; background:none; min-height:65px; }.cloud-game-footer .cloud-icon-button > .material-icon { width:44px; height:44px; }.cloud-game-footer .cloud-icon-button > span { font-size:9px; }
+ .cloud-exploration { min-height:41px; padding:6px 12px; font-size:9px; gap:4px; }.cloud-exploration > .material-icon { width:20px; height:25px; }
+ .cloud-exploration b { display:block; margin:3px 0 0; text-align:center; font-size:11px; }
+ .cloud-dpad { bottom:177px; }.cloud-local-actions { bottom:199px; max-width:204px; }
+ .cloud-ending { padding:59px 28px 31px; bottom:160px; }.cloud-ending h2 { font-size:21px; }
+}
+@media(max-height:600px) and (min-width:650px) {
+ .cloud-title-paper { padding:18px 24px; }.cloud-title-paper h1 { font-size:23px; margin:7px 0; }
+ .cloud-quest { top:150px; padding:33px 17px 26px; width:200px; }.cloud-quest h2 { margin:8px 0 11px; font-size:14px; }.cloud-quest li { font-size:10px; margin:7px 0; }
+ .cloud-quest #cloudInventory { margin:10px 0; }.cloud-quest-rule,#cloudCompanion { display:none; }
+ .cloud-game-footer { left:230px; bottom:8px; }.cloud-game-footer > .cloud-tool-paper { padding:5px 24px; }
+ .cloud-message { left:auto; right:22px; transform:none; bottom:93px; max-width:calc(100% - 395px); padding:13px 22px; font-size:10px; }
+ .cloud-dpad { left:225px; bottom:95px; }.cloud-ending { bottom:90px; }
+}

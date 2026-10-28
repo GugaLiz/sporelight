@@ -50,3 +50,25 @@ test('Walking away from a plant removes its interaction options',()=>{
  world.commit(path[0].position,path[0].jump);world.commit(path[1].position,path[1].jump);
  assert.deepEqual(world.actions(),[]);assert.equal(world.act('reclaim',0,true).ok,false);
 });
+
+test('A lift carries the current tile and reopens only its matching landing, including save and undo',()=>{
+ const w=new GridWorld(getLevel('2-1'));const before=w.model.snapshot();const pos={...w.position};
+ assert.equal(w.point.h,0);assert.equal(w.pathToNode('upper'),null);assert.ok(w.act('choose:high',0,true).ok);
+ assert.deepEqual(w.position,pos);assert.equal(w.point.h,2);assert.ok(w.pathToNode('upper'));
+ const loaded=new GridWorld(w.model.level,w.model.snapshot());assert.deepEqual(loaded.position,pos);assert.equal(loaded.point.h,2);
+ assert.ok(w.undo());assert.deepEqual(w.model.snapshot(),before);assert.equal(w.point.h,0);assert.equal(w.pathToNode('upper'),null);
+});
+
+test('A waiting mushroom keeps the real bridge open; reunion requires walking back to the plate',()=>{
+ const w=new GridWorld(getLevel('1-4'));
+ const go=(id:string)=>{const path=w.pathToNode(id);assert.ok(path,id);for(const step of path)assert.ok(w.commit(step.position,step.jump).ok);};
+ assert.equal(w.pathToNode('home'),null);go('near');assert.ok(w.act('wait',0,true).ok);assert.ok(w.pathToNode('home'));
+ const waiting=new GridWorld(w.model.level,w.model.snapshot());assert.equal(waiting.model.state.buddy,'wait');assert.ok(waiting.pathToNode('home'));
+ go('garden');assert.equal(w.act('call',0,true).ok,false);assert.ok(w.act('unlatch',0,true).ok);assert.equal(w.pathToNode('end'),null);
+ go('near');assert.ok(w.act('call',0,true).ok);assert.ok(w.pathToNode('end'));assert.ok(w.undo());assert.equal(w.model.state.buddy,'wait');
+});
+
+test('Water-powered lifts reject dry operation without changing state or height',()=>{
+ const level=getLevel('3-3'),w=new GridWorld(level,{...new GridWorld(level).model.snapshot(),node:'lift',gridPosition:undefined});
+ const before=w.model.snapshot();assert.equal(w.act('choose:high',0,true).ok,false);assert.deepEqual(w.model.snapshot(),before);assert.equal(w.point.h,1);
+});

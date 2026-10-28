@@ -1,0 +1,36 @@
+import {createRequire} from 'node:module';
+import {mkdir,writeFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+const require=createRequire(import.meta.url),{chromium}=require(process.argv[2]||'playwright');
+const output=await build({stdin:{contents:"export {LEVELS,getLevel} from './src/app/game/levels'; export {GridWorld} from './src/app/game/GridWorld'; export {SOLUTIONS} from './tests/solutions';",resolveDir:process.cwd()},bundle:true,platform:'node',format:'esm',write:false});
+const {LEVELS,getLevel,GridWorld,SOLUTIONS}=await import(`data:text/javascript;base64,${Buffer.from(output.outputFiles[0].text).toString('base64')}`);
+const browser=await chromium.launch({channel:'chrome',headless:true}),page=await browser.newPage({viewport:{width:1280,height:720}}),errors=[],checks=[];
+page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
+await mkdir('docs/qa-journey-gardens',{recursive:true});
+const fixture=(id,prefix=[])=>{const w=new GridWorld(getLevel(id));for(const step of prefix){if(step.startsWith('!'))assert.ok(w.act(step.slice(1),0,true).ok);else for(const move of w.pathToNode(step)||[])assert.ok(w.commit(move.position,move.jump).ok);}return {version:2,playerName:'露薇',hasNamed:true,lastLevel:id,levels:Object.fromEntries(LEVELS.map(l=>[l.id,{completed:true,bestStars:3,bestCollected:3}])),settings:{lowMotion:false,bgm:0,ambient:0},run:w.model.snapshot()};};
+const ready=()=>page.waitForFunction(()=>document.querySelector('#gameCanvas')?.dataset.moving==='false');
+const enter=async(id,prefix=[])=>{await page.evaluate(save=>localStorage.setItem('sporelight.save.v2',JSON.stringify(save)),fixture(id,prefix));await page.reload();await page.locator('[data-action="继续旅程"]').click();await page.locator('#gameCanvas').waitFor();await ready();};
+const act=async id=>{await page.locator(`[data-puzzle-action="${id}"]`).click();await page.waitForFunction(()=>document.querySelector('#gameCanvas')?.dataset.structure==='false');};
+const walk=async id=>{await page.locator(`[data-node="${id}"]`).click();await page.locator(`[data-node="${id}"][aria-current="location"]`).waitFor();await ready();};
+const position=()=>page.locator('#gameCanvas').evaluate(c=>({x:c.dataset.gridX,z:c.dataset.gridZ,h:c.dataset.gridH,buddy:c.dataset.buddy}));
+const shot=async name=>page.screenshot({path:`docs/qa-journey-gardens/${name}.png`,animations:'disabled'});
+try{
+ await page.goto('http://127.0.0.1:4173/');await enter('2-1');await shot('01-lift-low');const low=await position();
+ await page.locator('[data-puzzle-action="choose:high"]').click();await page.waitForFunction(()=>document.querySelector('#gameCanvas')?.dataset.structure==='true');await page.waitForTimeout(250);await shot('02-lift-rising');
+ await page.keyboard.press('ArrowRight');await page.keyboard.press('Space');assert.deepEqual(await position(),low);
+ const pending=await page.evaluate(()=>JSON.parse(localStorage.getItem('sporelight.save.v2')).run);assert.equal(pending.vars.start,'low');
+ await page.locator('[data-action="设置"]').first().click();await page.waitForTimeout(180);assert.deepEqual(await position(),low);await page.keyboard.press('Escape');await page.waitForFunction(()=>document.querySelector('#gameCanvas')?.dataset.structure==='false');
+ assert.equal((await position()).h,'2');assert.equal((await position()).x,low.x);await shot('03-lift-high');checks.push('Lift carries player; movement and jumping lock during animation; pause preserves pending state');
+ await page.locator('[data-action="撤销"]').click();assert.equal((await position()).h,'0');await act('choose:high');await page.reload();await page.locator('[data-action="继续旅程"]').click();await ready();assert.equal((await position()).h,'2');checks.push('Lift undo and reload preserve the correct docking height');
+ await enter('1-3',['pivot']);await shot('04-vine-pivot');const turnStart=await position();await page.locator('[data-puzzle-action="choose:dew"]').hover();await shot('05-bridge-preview');
+ await page.locator('[data-puzzle-action="choose:dew"]').click();await page.waitForFunction(()=>document.querySelector('#gameCanvas')?.dataset.structure==='true');await page.waitForTimeout(200);await shot('06-bridge-changing');await page.keyboard.press('ArrowRight');assert.deepEqual(await position(),turnStart);
+ await page.reload();await page.locator('[data-action="继续旅程"]').click();await ready();assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('sporelight.save.v2')).run.vars.pivot),undefined);await act('choose:dew');await shot('07-vine-connected');checks.push('Bridge preview follows its path; interrupted transition reloads last stable bridge state');
+ await enter('1-4',['near']);await act('wait');assert.equal((await position()).buddy,'wait');await shot('08-mushroom-waiting');
+ await walk('home');await walk('garden');await act('unlatch');assert.equal((await position()).buddy,'wait');await walk('near');await act('call');assert.equal((await position()).buddy,'follow');await shot('09-mushroom-reunited');checks.push('Waiting red mushroom opens plate bridge; player opens latch and returns in person');
+ await enter('2-4',['reed','!wait','lotus','!choose:high']);await shot('10-combined-garden');
+ await page.setViewportSize({width:390,height:844});await page.waitForFunction(()=>document.querySelector('#gameCanvas')?.clientHeight===844);await shot('11-combined-phone');
+ const high=await position();await act('choose:low');assert.equal((await position()).h,'1');assert.equal((await position()).x,high.x);for(const button of await page.locator('[data-grid-direction]').all()){const rect=await button.boundingBox();assert.ok(rect.width>=44&&rect.height>=44);}checks.push('Combined partner/lift stage supports phone controls and actual height changes');
+ await page.locator('[data-action="设置"]').first().click();await page.locator('[data-setting-toggle="lowMotion"]').click();await page.keyboard.press('Escape');await act('choose:high');assert.equal((await position()).h,'3');assert.equal(await page.locator('#gameCanvas').getAttribute('data-structure'),'false');checks.push('Reduced motion applies structural changes immediately');
+ assert.deepEqual(errors,[]);await writeFile('docs/qa-journey-gardens/checks.json',JSON.stringify({date:'2026-10-28',checks,errors},null,2));console.log(JSON.stringify({checks,errors},null,2));
+}catch(error){await shot('failure');console.error(errors);throw error;}finally{await browser.close();}

@@ -32,5 +32,5 @@ try{
   await page.screenshot({path:`docs/qa-reference/full-journey/result-${level.id}.png`,animations:'disabled'});
   if(level.id!=='3-4')await page.locator('[data-action="下一关"]').click();
  }
- assert.deepEqual(errors,[]);await writeFile('docs/qa-reference/full-journey/automated-browser.json',JSON.stringify({date:'2026-10-27',checks,errors},null,2));console.log(checks);
+ assert.deepEqual(errors,[]);await writeFile('docs/qa-reference/full-journey/automated-browser.json',JSON.stringify({date:'2026-10-28',checks,errors},null,2));console.log(checks);
 }finally{await browser.close();}

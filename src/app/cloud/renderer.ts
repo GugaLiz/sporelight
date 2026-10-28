@@ -1,6 +1,7 @@
 import { cloudTiles, type CloudTile, type Point } from './data';
 import { CloudModel, type CloudState } from './model';
 import type { SaveData } from '../types';
+import { drawMushroomBuddy } from '../game/mushroomBuddy';
 export interface CloudAnimation { from:CloudState; to:CloudState; progress:number; kind:string }
 type ScreenPoint={x:number;y:number};
 const mix=(a:number,b:number,t:number)=>a+(b-a)*t;
@@ -11,7 +12,8 @@ export class CloudRenderer {
   private c:CanvasRenderingContext2D;
   width=1280;height=720;scale=1;ox=0;oy=0;
   private clock=0;
-  constructor(readonly canvas:HTMLCanvasElement,readonly model:CloudModel,private settings:SaveData['settings']){this.c=canvas.getContext('2d')!;this.resize();}
+  private buddyBall=new Image();
+  constructor(readonly canvas:HTMLCanvasElement,readonly model:CloudModel,private settings:SaveData['settings']){this.c=canvas.getContext('2d')!;this.buddyBall.src='./images/journey-gardens/buddy-ball.png';this.resize();}
   configure(s:SaveData['settings']){this.settings=s;this.resize();}
   resize(){
     this.width=this.canvas.clientWidth||1280;this.height=this.canvas.clientHeight||720;
@@ -162,11 +164,7 @@ export class CloudRenderer {
     const bob=this.settings.lowMotion?0:pose==='happy'?Math.abs(Math.sin(this.clock*.007))*9:(buddy?Math.sin(this.clock*.003)*1.5:Math.abs(walk)*2);
     c.save();c.translate(x,y-bob);this.ellipse(0,1,buddy?10:12,buddy?4:4.5,'#6d817c24');
     if(buddy){
-      this.ellipse(-5,0,4,2.5,'#849c79');this.ellipse(6,-walk,4,2.5,'#849c79');
-      this.ellipse(0,-10,13,12,'#a9bd91');this.ellipse(-3,-11,11,10,'#c5d3ac');
-      this.ellipse(-5,-12,1.4,1.8,pose==='sleep'?'#98a281':'#536758');this.ellipse(4,-12,1.4,1.8,pose==='sleep'?'#98a281':'#536758');
-      this.ellipse(-7,-8,2.5,1.3,'#dbb2a1');this.ellipse(6,-8,2.5,1.3,'#dbb2a1');
-      this.line([[0,-21],[0,-27]],'#8d9d6f',1.8);this.ellipse(5,-27,6,3,'#93ac81');this.ellipse(-3,-29,4,2,'#b5c39b');
+      drawMushroomBuddy(c,0,0,31,this.clock,{rolling:pose==='walk',waiting:pose==='sit'||pose==='sleep'||this.model.state.buddy==='wait',ball:this.buddyBall,lowMotion:this.settings.lowMotion,happy:pose==='pet'});
     }else{
       this.ellipse(-5,pose==='sit'?3:walk*2-1,3.8,3,'#8f7c70');this.ellipse(5,pose==='sit'?3:-walk*2-1,3.8,3,'#8f7c70');
       this.poly([[-7,-25],[7,-25],[12,-6],[0,-3],[-12,-6]],'#9eafa0');this.poly([[0,-25],[7,-25],[12,-6],[0,-3]],'#879f94');

@@ -24,7 +24,7 @@ test('Bridge direction and shadow phase are reversible, not permanent unlocks',(
 });
 test('Lily jumps require explicit destination and cannot walk over water',()=>{
  const m=new GameModel(getLevel('2-1'));assert.equal(m.pathTo('west'),null);assert.equal(m.interact().ok,false);assert.equal(m.act('jump:end').ok,false);
- action(m,'jump:west');assert.equal(m.state.node,'west');m.undo();assert.equal(m.state.node,'start');assert.equal(m.state.collected.length,0);
+ action(m,'choose:high');walk(m,'upper');action(m,'jump:west');assert.equal(m.state.node,'west');m.undo();assert.equal(m.state.node,'upper');assert.equal(m.state.collected.length,0);
 });
 test('Beam needs the complete chain, breaks again, and handles mirror cycles',()=>{
  const m=new GameModel(getLevel('2-2'));walk(m,'mirrorB');action(m,'choose:crystal');assert.equal(m.beamConnected,false);walk(m,'mirrorA');action(m,'choose:mirrorB');assert.equal(m.beamConnected,true);action(m,'choose:pool');assert.equal(m.beamConnected,false);action(m,'choose:mirrorB');walk(m,'mirrorB');action(m,'choose:mirrorA');assert.equal(m.beamConnected,false);assert.deepEqual(m.beamPath(),['mirrorA','mirrorB']);
@@ -32,8 +32,8 @@ test('Beam needs the complete chain, breaks again, and handles mirror cycles',()
 test('Rain requires both tune order and live timing, reduced motion only relaxes timing',()=>{
  const m=new GameModel(getLevel('2-3'));walk(m,'drum');assert.equal(m.act('note:滴',1800).ok,false);action(m,'note:滴');assert.equal(m.state.tune,1);action(m,'note:叮');assert.equal(m.state.tune,0);assert.equal(m.state.activated.includes('drum'),false);m.undo();assert.equal(m.state.tune,1);assert.equal(m.act('note:咚',1800,true).ok,true);assert.equal(m.state.tune,2);
 });
-test('Companion can only move one station and undo restores its position',()=>{
- const m=new GameModel(getLevel('2-4'));walk(m,'home');assert.equal(m.act('lure').ok,false);assert.equal(m.state.buddy,'nest');walk(m,'reed');action(m,'lure');assert.equal(m.state.buddy,'reed');m.undo();assert.equal(m.state.buddy,'nest');
+test('Companion holds a plate until the latch is fixed, and undo restores waiting',()=>{
+ const m=new GameModel(getLevel('1-4'));assert.equal(m.pathTo('home'),null);walk(m,'near');action(m,'wait');assert.equal(m.state.buddy,'wait');assert.equal(m.act('call').ok,false);walk(m,'garden');assert.equal(m.act('call').ok,false);action(m,'unlatch');walk(m,'near');action(m,'call');assert.equal(m.state.buddy,'follow');m.undo();assert.equal(m.state.buddy,'wait');
 });
 test('Fog hides paths and prevents targeting hidden nodes before lighting',()=>{
  const m=new GameModel(getLevel('3-1'));assert.equal(m.isVisible('lampB'),false);assert.equal(m.pathTo('lampB'),null);walk(m,'lampA');action(m,'light');assert.equal(m.isVisible('lampB'),true);assert.ok(m.pathTo('lampB'));m.undo();assert.equal(m.isVisible('lampB'),false);
@@ -45,7 +45,7 @@ test('Finale requires collection and symbol memory; wrong order preserves all pr
  const m=new GameModel(getLevel('3-4'));walk(m,'leaf');assert.equal(m.act('light').ok,false);
  for(const n of m.level.nodes.filter(n=>n.spore))walk(m,n.id);
  walk(m,'moon');const before=m.snapshot();assert.equal(m.act('light').ok,false);assert.deepEqual(m.snapshot(),before);assert.equal(m.pathTo('end'),null);
- for(const id of ['leaf','rain','star','moon']){walk(m,id);action(m,'light');}walk(m,'end');assert.equal(m.state.completed,true);
+ for(const id of ['leaf','rain','star','moon']){walk(m,id);action(m,'light');}walk(m,'start');action(m,'wait');walk(m,'gate');action(m,'unlatch');assert.equal(m.canEnter('end'),false);walk(m,'start');action(m,'call');walk(m,'end');assert.equal(m.state.completed,true);
 });
 test('The old walk-and-E strategy cannot solve decision levels',()=>{
  for(const id of ['1-3','2-1','2-2','2-3','3-2','3-3']){const m=new GameModel(getLevel(id));for(let i=0;i<10;i++){for(const n of m.level.nodes){if(m.pathTo(n.id))walk(m,n.id);m.interact(0,true);}}assert.equal(m.state.completed,false,id);}
@@ -58,6 +58,13 @@ test('Malformed saves, unavailable storage, and invalid choices fail safely',()=
  for(const raw of [null,[],{levels:null,settings:[]},{lastLevel:'3-4',settings:{bgm:5,sfx:-1}}]){const s=normalizeSave(raw);assert.equal(s.lastLevel,'1-1');assert.equal(s.levels['3-4'].unlocked,false);}
  const m=new GameModel(getLevel('1-1'));assert.equal(m.act('jump:end').ok,false);
  Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{setItem(){throw Error('Quota');},getItem(){return '{bad';}}});assert.equal(persistSave(createDefaultSave()),false);assert.equal(loadSave().lastLevel,'1-1');
+});
+
+test('Revised unfinished maps reset once while completed chapters and settings remain intact',()=>{
+ const levels=Object.fromEntries(LEVELS.map(l=>[l.id,{completed:true,bestStars:3,bestCollected:2}]));
+ const save=normalizeSave({version:2,hasNamed:true,playerName:'露薇',lastLevel:'2-4',levels,settings:{lowMotion:true},run:{puzzleVersion:2,levelId:'2-4',node:'bell',buddy:'home',collected:['reed'],activated:['bell'],vars:{}}});
+ assert.equal(save.levels['2-4'].completed,true);assert.equal(save.settings.lowMotion,true);assert.equal(save.playerName,'露薇');assert.equal(save.run?.node,'start');assert.equal(save.run?.spatialVersion,1);assert.deepEqual(save.run?.collected,[]);
+ const same=normalizeSave({...save,run:save.run});assert.deepEqual(same.run,save.run);
 });
 // Exhaustively check that every reachable puzzle state has an escape to completion.
 // Canonicalize sets so visiting collectibles in different orders does not explode the graph.
