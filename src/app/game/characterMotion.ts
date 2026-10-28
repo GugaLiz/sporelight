@@ -9,14 +9,22 @@ export interface MotionInput {
   action?: CharacterAction | null;
 }
 export interface CharacterPose { key: string; clip: string; flip: boolean; rotation: number; scaleX: number; scaleY: number; offsetY: number }
-export const CHARACTER_FILES = ['idle-front','idle-side','idle-back','idle-quarter','jump','interact','ball','lean','salute','symbiosis',...Array.from({length:6},(_,i)=>`walk-${i+1}`),...Array.from({length:5},(_,i)=>`sow-${i+1}`)];
+export const WALK_FRAME_COUNT = 12;
+export const JUMP_FRAME_COUNT = 12;
+export const WALK_FRAME_MS = 55;
+export const WALK_CYCLE_MS = WALK_FRAME_MS * WALK_FRAME_COUNT;
+// Preserve the quick movement timing from before character unification.
+export const WALK_TILE_MS = 205;
+export const BACK_WALK_FILES = Array.from({length:WALK_FRAME_COUNT},(_,i)=>`walk-back-${i+1}`);
+export const CHARACTER_FILES = ['idle-front','idle-side','idle-back','idle-quarter','jump','interact','ball','lean','salute','symbiosis',...Array.from({length:WALK_FRAME_COUNT},(_,i)=>`walk-${i+1}`),...BACK_WALK_FILES,...Array.from({length:JUMP_FRAME_COUNT},(_,i)=>`jump-${i+1}`),...Array.from({length:5},(_,i)=>`sow-${i+1}`)];
 
 export function facingFor(dx: number, dy: number): Facing {
   if (Math.abs(dy) > Math.abs(dx) * .85) return dy < 0 ? 'back' : 'front';
   return dx > 0 ? 'right' : 'left';
 }
 export function jumpHeight(progress: number, lowMotion: boolean) {
-  return lowMotion ? 0 : Math.sin(Math.max(0,Math.min(1,progress))*Math.PI)*85;
+  const airborne=Math.max(0,Math.min(1,(progress-.14)/.72));
+  return lowMotion ? 0 : Math.sin(airborne*Math.PI)*85;
 }
 
 export function characterPose(input: MotionInput): CharacterPose {
@@ -27,13 +35,13 @@ export function characterPose(input: MotionInput): CharacterPose {
   if (travel) {
     const elapsed=Math.max(0,time-travel.startedAt);
     if (travel.jump) {
-      const p=travel.progress;
+      const p=Math.max(0,Math.min(1,travel.progress));
       const landing=p>.8?Math.sin((p-.8)/.2*Math.PI):0;
-      return {...pose,key:p<.14?'lean':'jump',clip:p<.14?'takeoff':p>.8?'landing':'jump',flip:facing==='right',rotation:Math.sin(p*Math.PI)*.06*(facing==='left'?-1:1),scaleX:1+landing*.12,scaleY:1-landing*.12};
+      return {...pose,key:`jump-${1+Math.min(JUMP_FRAME_COUNT-1,Math.floor(p*JUMP_FRAME_COUNT))}`,clip:p<.14?'takeoff':p>.8?'landing':'jump',flip:facing==='right',scaleX:1+landing*.025,scaleY:1-landing*.025};
     }
     if (travel.rolling) return {...pose,key:'ball',clip:'roll',rotation:travel.progress*travel.distance/32*(facing==='left'?-1:1),scaleX:.8,scaleY:.8};
-    if (facing==='back') return {...pose,key:'idle-back',clip:'walk-back',offsetY:-Math.abs(Math.sin(elapsed/110*Math.PI))*2,rotation:Math.sin(elapsed/110*Math.PI)*.025};
-    return {...pose,key:`walk-${1+Math.floor(elapsed/110)%6}`,clip:'walk',flip:facing==='right',offsetY:-Math.abs(Math.sin(elapsed/110*Math.PI))*1.5};
+    if (facing==='back') return {...pose,key:BACK_WALK_FILES[Math.floor(elapsed/WALK_FRAME_MS)%WALK_FRAME_COUNT],clip:'walk-back',offsetY:0};
+    return {...pose,key:`walk-${1+Math.floor(elapsed/WALK_FRAME_MS)%WALK_FRAME_COUNT}`,clip:'walk',flip:facing==='right',offsetY:-Math.abs(Math.sin(elapsed/330*Math.PI))*4,rotation:Math.sin(elapsed/330*Math.PI)*.025};
   }
   if (action) {
     const elapsed=time-action.startedAt;

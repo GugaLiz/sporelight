@@ -1,15 +1,16 @@
 {
+  "characterNote": "Reference-1 face, hat and leaf cape; pre-unification illustrated body motion transferred with optical-flow inbetweens; composited artwork, not AI redrawing",
   "source": "assets/images/material",
   "method": "crop, background extraction, aligned animation frames and text-free UI skins",
   "assets": {
     "idle-front": {
       "file": "idle-front.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        25,
-        68,
-        201,
-        352
+        77,
+        63,
+        364,
+        497
       ],
       "size": [
         256,
@@ -20,16 +21,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 41732
+      "bytes": 43758
     },
     "idle-side": {
       "file": "idle-side.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        219,
-        68,
-        368,
-        352
+        440,
+        63,
+        660,
+        497
       ],
       "size": [
         256,
@@ -40,16 +41,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 35693
+      "bytes": 36677
     },
     "idle-back": {
       "file": "idle-back.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        386,
-        68,
-        548,
-        352
+        749,
+        63,
+        987,
+        497
       ],
       "size": [
         256,
@@ -60,16 +61,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 37695
+      "bytes": 38514
     },
     "idle-quarter": {
       "file": "idle-quarter.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        550,
-        68,
-        713,
-        352
+        77,
+        63,
+        364,
+        497
       ],
       "size": [
         256,
@@ -80,16 +81,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 42141
+      "bytes": 43758
     },
     "jump": {
       "file": "jump.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        730,
-        467,
-        875,
-        696
+        1102,
+        112,
+        1320,
+        478
       ],
       "size": [
         256,
@@ -100,16 +101,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 29670
+      "bytes": 52003
     },
     "interact": {
       "file": "interact.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        895,
-        488,
-        1054,
-        700
+        128,
+        573,
+        460,
+        950
       ],
       "size": [
         256,
@@ -120,16 +121,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 31587
+      "bytes": 54082
     },
     "ball": {
       "file": "ball.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        1092,
-        555,
-        1247,
-        700
+        1102,
+        112,
+        1320,
+        478
       ],
       "size": [
         256,
@@ -140,16 +141,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 20075
+      "bytes": 52003
     },
     "lean": {
       "file": "lean.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        1258,
-        480,
-        1427,
-        700
+        550,
+        558,
+        830,
+        948
       ],
       "size": [
         256,
@@ -160,12 +161,13 @@
         0.5,
         0.921875
       ],
-      "bytes": 28922
+      "bytes": 43221
     },
     "walk-1": {
       "file": "walk-1.png",
-      "sheet": "role.png",
-      "crop": [
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
         20,
         800,
         139,
@@ -180,12 +182,40 @@
         0.5,
         0.921875
       ],
-      "bytes": 23573
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 1,
+      "inbetween": false,
+      "bytes": 42241
     },
     "walk-2": {
       "file": "walk-2.png",
-      "sheet": "role.png",
-      "crop": [
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        20,
+        800,
+        139,
+        996
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 1,
+      "inbetween": true,
+      "bytes": 44793
+    },
+    "walk-3": {
+      "file": "walk-3.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
         139,
         800,
         253,
@@ -200,12 +230,40 @@
         0.5,
         0.921875
       ],
-      "bytes": 23254
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 2,
+      "inbetween": false,
+      "bytes": 40190
     },
-    "walk-3": {
-      "file": "walk-3.png",
-      "sheet": "role.png",
-      "crop": [
+    "walk-4": {
+      "file": "walk-4.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        139,
+        800,
+        253,
+        996
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 2,
+      "inbetween": true,
+      "bytes": 40795
+    },
+    "walk-5": {
+      "file": "walk-5.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
         253,
         800,
         369,
@@ -220,12 +278,40 @@
         0.5,
         0.921875
       ],
-      "bytes": 23958
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 3,
+      "inbetween": false,
+      "bytes": 40463
     },
-    "walk-4": {
-      "file": "walk-4.png",
-      "sheet": "role.png",
-      "crop": [
+    "walk-6": {
+      "file": "walk-6.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        253,
+        800,
+        369,
+        996
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 3,
+      "inbetween": true,
+      "bytes": 41623
+    },
+    "walk-7": {
+      "file": "walk-7.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
         369,
         800,
         484,
@@ -240,12 +326,40 @@
         0.5,
         0.921875
       ],
-      "bytes": 22728
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 4,
+      "inbetween": false,
+      "bytes": 41956
     },
-    "walk-5": {
-      "file": "walk-5.png",
-      "sheet": "role.png",
-      "crop": [
+    "walk-8": {
+      "file": "walk-8.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        369,
+        800,
+        484,
+        996
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 4,
+      "inbetween": true,
+      "bytes": 42637
+    },
+    "walk-9": {
+      "file": "walk-9.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
         484,
         800,
         600,
@@ -260,12 +374,40 @@
         0.5,
         0.921875
       ],
-      "bytes": 23139
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 5,
+      "inbetween": false,
+      "bytes": 42765
     },
-    "walk-6": {
-      "file": "walk-6.png",
-      "sheet": "role.png",
-      "crop": [
+    "walk-10": {
+      "file": "walk-10.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        484,
+        800,
+        600,
+        996
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 5,
+      "inbetween": true,
+      "bytes": 42844
+    },
+    "walk-11": {
+      "file": "walk-11.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
         600,
         800,
         719,
@@ -280,16 +422,595 @@
         0.5,
         0.921875
       ],
-      "bytes": 22790
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 6,
+      "inbetween": false,
+      "bytes": 42553
+    },
+    "walk-12": {
+      "file": "walk-12.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        600,
+        800,
+        719,
+        996
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original illustrated motion key pose with reference-1 identity and optical-flow body inbetweens",
+      "keyPose": 6,
+      "inbetween": true,
+      "bytes": 43136
+    },
+    "jump-1": {
+      "file": "jump-1.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "resting smile",
+      "phase": 0.0,
+      "bytes": 43778
+    },
+    "jump-2": {
+      "file": "jump-2.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "resting smile",
+      "phase": 0.09090909090909091,
+      "bytes": 43778
+    },
+    "jump-3": {
+      "file": "jump-3.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "open happy smile and widened eyes",
+      "phase": 0.18181818181818182,
+      "bytes": 55537
+    },
+    "jump-4": {
+      "file": "jump-4.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "open happy smile and widened eyes",
+      "phase": 0.2727272727272727,
+      "bytes": 55553
+    },
+    "jump-5": {
+      "file": "jump-5.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "open happy smile and widened eyes",
+      "phase": 0.36363636363636365,
+      "bytes": 55668
+    },
+    "jump-6": {
+      "file": "jump-6.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "open happy smile and widened eyes",
+      "phase": 0.45454545454545453,
+      "bytes": 55645
+    },
+    "jump-7": {
+      "file": "jump-7.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "open happy smile and widened eyes",
+      "phase": 0.5454545454545454,
+      "bytes": 55645
+    },
+    "jump-8": {
+      "file": "jump-8.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "open happy smile and widened eyes",
+      "phase": 0.6363636363636364,
+      "bytes": 55668
+    },
+    "jump-9": {
+      "file": "jump-9.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "open happy smile and widened eyes",
+      "phase": 0.7272727272727273,
+      "bytes": 55553
+    },
+    "jump-10": {
+      "file": "jump-10.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "open happy smile and widened eyes",
+      "phase": 0.8181818181818182,
+      "bytes": 55537
+    },
+    "jump-11": {
+      "file": "jump-11.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "resting smile",
+      "phase": 0.9090909090909091,
+      "bytes": 43778
+    },
+    "jump-12": {
+      "file": "jump-12.png",
+      "identitySheet": "char.png",
+      "motionSheet": "role.png",
+      "motionCrop": [
+        730,
+        467,
+        875,
+        696
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "original raised-arm jump with reference-1 identity; body pose transition",
+      "expression": "resting smile",
+      "phase": 1.0,
+      "bytes": 43778
+    },
+    "walk-back-1": {
+      "file": "walk-back-1.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.0,
+      "bytes": 38514
+    },
+    "walk-back-2": {
+      "file": "walk-back-2.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.08333333333333333,
+      "bytes": 39429
+    },
+    "walk-back-3": {
+      "file": "walk-back-3.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.16666666666666666,
+      "bytes": 38849
+    },
+    "walk-back-4": {
+      "file": "walk-back-4.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.25,
+      "bytes": 38896
+    },
+    "walk-back-5": {
+      "file": "walk-back-5.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.3333333333333333,
+      "bytes": 38849
+    },
+    "walk-back-6": {
+      "file": "walk-back-6.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.4166666666666667,
+      "bytes": 39429
+    },
+    "walk-back-7": {
+      "file": "walk-back-7.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.5,
+      "bytes": 38514
+    },
+    "walk-back-8": {
+      "file": "walk-back-8.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.5833333333333334,
+      "bytes": 41609
+    },
+    "walk-back-9": {
+      "file": "walk-back-9.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.6666666666666666,
+      "bytes": 41691
+    },
+    "walk-back-10": {
+      "file": "walk-back-10.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.75,
+      "bytes": 41699
+    },
+    "walk-back-11": {
+      "file": "walk-back-11.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.8333333333333334,
+      "bytes": 41691
+    },
+    "walk-back-12": {
+      "file": "walk-back-12.png",
+      "sheet": "char.png",
+      "crop": [
+        749,
+        63,
+        987,
+        497
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "method": "rear limb articulation",
+      "phase": 0.9166666666666666,
+      "bytes": 41609
     },
     "sow-1": {
       "file": "sow-1.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        730,
-        800,
-        871,
-        998
+        128,
+        573,
+        460,
+        950
       ],
       "size": [
         256,
@@ -300,16 +1021,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 24701
+      "bytes": 59836
     },
     "sow-2": {
       "file": "sow-2.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        871,
-        800,
-        995,
-        998
+        128,
+        573,
+        460,
+        950
       ],
       "size": [
         256,
@@ -320,16 +1041,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 24154
+      "bytes": 59836
     },
     "sow-3": {
       "file": "sow-3.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        995,
-        800,
-        1128,
-        998
+        128,
+        573,
+        460,
+        950
       ],
       "size": [
         256,
@@ -340,16 +1061,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 25152
+      "bytes": 59836
     },
     "sow-4": {
       "file": "sow-4.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        1128,
-        800,
-        1294,
-        998
+        128,
+        573,
+        460,
+        950
       ],
       "size": [
         256,
@@ -360,16 +1081,16 @@
         0.5,
         0.921875
       ],
-      "bytes": 27281
+      "bytes": 59836
     },
     "sow-5": {
       "file": "sow-5.png",
-      "sheet": "role.png",
+      "sheet": "char.png",
       "crop": [
-        1294,
-        800,
-        1445,
-        998
+        550,
+        558,
+        830,
+        948
       ],
       "size": [
         256,
@@ -380,7 +1101,7 @@
         0.5,
         0.921875
       ],
-      "bytes": 25884
+      "bytes": 43208
     },
     "salute": {
       "file": "salute.png",

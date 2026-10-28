@@ -1,4 +1,4 @@
-export type Scene = 'boot' | 'naming' | 'mainMenu' | 'levelSelect' | 'game' | 'result' | 'gallery';
+export type Scene = 'boot' | 'naming' | 'mainMenu' | 'levelSelect' | 'game' | 'result' | 'gallery' | 'cloudLobby' | 'cloudGame';
 export type Quality = 'soft' | 'standard' | 'hd';
 export type Language = 'zh-CN' | 'zh-TW' | 'en';
 export type LevelId = string;

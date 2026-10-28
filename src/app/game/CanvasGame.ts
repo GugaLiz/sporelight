@@ -1,4 +1,4 @@
-import { CHARACTER_FILES,characterPose,facingFor,type Facing,type CharacterAction } from './characterMotion';
+import { CHARACTER_FILES,WALK_TILE_MS,characterPose,facingFor,type Facing,type CharacterAction } from './characterMotion';
 import type { SoundKind } from './audio';
 import { getLevel,totalSpores } from './levels';
 import { type GameModel,type RunState } from './model';
@@ -85,7 +85,7 @@ export class CanvasGame {
   else if(to.z===from.z&&to.x!==from.x)this.lastDirection=to.x>from.x?'right':'left';
   const a=projectTile(from,this.renderer.view),b=projectTile(to,this.renderer.view);this.facing=facingFor(b.x-a.x,b.y-a.y);
   if(this.clock-this.lastWalkEnd>300)this.motionStartedAt=this.clock;
-  this.travel={from,to,progress:0,jump,landed,startedAt:this.clock,duration:this.settings.lowMotion?36:jump?620:this.rolling?140:205};this.sound('move');
+  this.travel={from,to,progress:0,jump,landed,startedAt:this.clock,duration:this.settings.lowMotion?36:jump?620:this.rolling?140:WALK_TILE_MS};this.sound('move');
  }
  private advance(){if(this.travel||this.paused||this.model.state.completed)return;const next=this.route.shift();if(!next)return;
   if(!(next.jump?this.world.canJump(next.position):this.world.canStep(next.position))){this.route=[];return;}

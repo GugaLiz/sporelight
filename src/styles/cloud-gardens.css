@@ -1,0 +1,98 @@
+.cloud-surface { color:#62766b; font-family:'Segoe UI','Microsoft YaHei',sans-serif; --cloud-accent:#b68e7a; }
+.cloud-surface button { color:inherit; }
+.stage--cloudGame ~ .orientation-note,.stage--cloudLobby ~ .orientation-note { display:none; }
+.cloud-button { min-height:44px; padding:12px 19px; border:1px solid #a4b7a533; border-radius:7px; background:#fffbefc9; color:#62766b; font-size:13px; letter-spacing:1px; box-shadow:0 4px 16px #6c897909; }
+.cloud-button:hover { background:#fffcef; transform:translateY(-2px); }
+.cloud-button:focus-visible,.cloud-text-button:focus-visible,.cloud-story-page summary:focus-visible { outline:2px solid #a17c62; outline-offset:4px; }
+.cloud-button.cloud-primary { color:#fffaf0; background:#7b9484; border-color:#6b867500; }
+.cloud-button.cloud-primary:hover { background:#6b8877; }
+.cloud-button small { margin-left:12px; opacity:.65; font:10px Georgia,serif; border:1px solid currentColor; padding:2px 4px; border-radius:3px; }
+.cloud-text-button { display:block; background:none; color:#889486; font-size:12px; min-height:44px; padding:10px 2px; }
+.cloud-eyebrow { font-size:10px; letter-spacing:2.6px; color:#83958a; }
+.cloud-lobby { position:absolute; inset:0; overflow:auto; background:radial-gradient(ellipse at 55% 10%,#fff9eb 0%,transparent 50%),linear-gradient(145deg,#f1eadf,#e0e7db); padding:38px max(30px,calc((100vw - 1180px)/2)); }
+.cloud-lobby-head { display:flex; justify-content:space-between; gap:20px; align-items:center; }
+.cloud-lobby h1 { font:36px 'Songti SC','SimSun',serif; font-weight:400; letter-spacing:7px; margin:12px 0 0; color:#596f62; }
+.cloud-lobby h1 span { display:block; font:12px 'Microsoft YaHei',sans-serif; letter-spacing:2px; color:#98a18d; margin-top:12px; }
+.cloud-intro { display:flex; justify-content:space-between; gap:18px; margin:36px 0 18px; font-size:13px; letter-spacing:1px; }
+.cloud-intro small { color:#99a394; font-size:11px; }
+.cloud-chapter-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
+.cloud-chapter { background:#fffcf2b3; border:1px solid #ffffff91; border-radius:12px; overflow:hidden; box-shadow:0 15px 40px #6f86700b; }
+.cloud-chapter-art { position:relative; height:235px; overflow:hidden; background:#e3e7da; }
+.cloud-chapter-art canvas { width:100%;height:100%; }
+.cloud-chapter-no { position:absolute; top:19px; left:20px; font-size:10px; letter-spacing:2px; color:#788a7d; }
+.cloud-chapter-copy { padding:22px 24px 14px; }
+.cloud-chapter h2 { font:24px 'Songti SC','SimSun',serif; letter-spacing:3px; font-weight:400; margin:0; }
+.cloud-chapter h2 span { display:block; color:var(--cloud-accent); font:10px 'Microsoft YaHei',sans-serif; letter-spacing:2px; margin-top:9px; }
+.cloud-chapter p { font-size:12px; color:#96a08f; margin:16px 0 21px; }
+.cloud-chapter .cloud-primary { width:100%; text-align:left; }
+.cloud-chapter .cloud-primary span { float:right; }
+.cloud-chapter .cloud-text-button { width:100%; text-align:center; }
+.cloud-journal { display:grid; grid-template-columns:220px 1fr; gap:30px; margin-top:45px; padding-top:28px; border-top:1px solid #95a58d33; }
+.cloud-journal h2 { font:22px 'Songti SC','SimSun',serif; font-weight:400; letter-spacing:3px; }
+.cloud-journal header p { font-size:12px; color:#94a08e; }
+.cloud-story-pages { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+.cloud-story-page { padding:16px; background:#fffaf085; border-radius:6px; align-self:start; }
+.cloud-story-page summary { cursor:pointer; font-size:13px; line-height:2; }
+.cloud-story-page summary small { display:block; color:#a7ad99; font-size:10px; }
+.cloud-story-page p { font-size:12px; line-height:2; color:#8c9989; }
+.cloud-pocket { border-top:1px solid #bbc3ae33; padding-top:12px; margin-top:12px; }
+.cloud-pocket b { font-size:11px; font-weight:400; color:#9caa92; }
+.cloud-lobby-footer { display:flex; justify-content:space-between; font-size:11px; letter-spacing:2px; color:#99a38f; padding:30px 0 5px; }
+.journey-menu-actions > .cloud-menu-entry { border:1px solid #b7c2a67a; border-radius:9px; padding:11px 18px; background:#f9f3dfc9; text-align:left; color:#6c8064; font-size:16px; letter-spacing:3px; }
+.cloud-menu-entry small { display:block; font-size:10px; letter-spacing:1px; margin-top:5px; color:#9b9e7f; }
+.cloud-game { position:absolute; inset:0; overflow:hidden; background:#dae1d3; touch-action:manipulation; }
+.cloud-game #cloudCanvas { position:absolute; inset:0; width:100%; height:100%; }
+.cloud-game-head { position:absolute; z-index:6; top:30px; left:34px; right:30px; display:flex; justify-content:space-between; pointer-events:none; }
+.cloud-game-head h1 { margin:12px 0 9px; font:30px 'Songti SC','SimSun',serif; letter-spacing:5px; font-weight:400; color:#5c7567; }
+.cloud-game-head p { font-size:11px; letter-spacing:1px; margin:0; color:#95a091; }
+.cloud-game-head nav { display:flex; gap:10px; align-items:flex-start; pointer-events:auto; }
+.cloud-game-head .cloud-button { background:#fffaf196; border-color:#ffffff66; }
+.cloud-quest { position:absolute; z-index:3; top:200px; left:35px; width:193px; pointer-events:none; }
+.cloud-quest h2 { font:17px 'Songti SC','SimSun',serif; font-weight:400; letter-spacing:2px; margin:15px 0 23px; }
+.cloud-quest ol { padding:0; list-style:none; margin:0; font-size:11px; line-height:1.8; }
+.cloud-quest li { display:flex; gap:10px; margin:14px 0; color:#8d9a8a; }
+.cloud-quest li > span { color:#b2b69c; }
+.cloud-quest li.is-done { color:#6e8b72; }
+.cloud-quest li.is-done > span { color:#819b7b; }
+#cloudInventory { font-size:11px; color:#a69c7d; margin:28px 0 19px; }
+.cloud-quest-rule { height:1px; background:#8fa58b30; width:70px; margin:24px 0 17px; }
+#cloudCompanion { font-size:11px; color:#98a38f; line-height:1.8; }
+.cloud-tile-controls { position:absolute; inset:0; z-index:2; pointer-events:none; }
+.cloud-tile-hit { position:absolute; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); background:transparent; padding:0; pointer-events:auto; transition:none; }
+.cloud-tile-hit:hover,.cloud-tile-hit:focus-visible { background:#f1d79c55; }
+.cloud-landmark-hit { position:absolute; pointer-events:auto; background:transparent; border-radius:50%; transition:none; }
+.cloud-landmark-hit:hover,.cloud-landmark-hit:focus-visible { outline:1px solid #e3ba7b88; background:#fff1ca22; }
+.cloud-tile-controls button:disabled { opacity:1; filter:none; pointer-events:none; }
+.cloud-local-actions { position:absolute; z-index:5; display:flex; flex-direction:column; align-items:flex-start; gap:6px; max-width:210px; }
+.cloud-local-actions .cloud-button { font-size:12px; padding:10px 14px; min-height:44px; box-shadow:0 8px 25px #4f6f6620; }
+.cloud-local-actions .cloud-pet { font-size:11px; color:#7b8f77; background:#fff9e8bd; box-shadow:none; }
+.cloud-message { position:absolute; z-index:5; bottom:96px; left:50%; transform:translateX(-50%); margin:0; padding:12px 22px; max-width:600px; width:max-content; background:#fffaf0b3; backdrop-filter:blur(8px); border:1px solid #fff8e7bb; border-radius:30px; font-size:12px; line-height:1.8; letter-spacing:.5px; text-align:center; color:#7d8e7c; pointer-events:none; }
+.cloud-game-footer { position:absolute; z-index:6; left:34px; right:30px; bottom:25px; display:flex; justify-content:space-between; align-items:center; gap:15px; }
+.cloud-game-footer > div { display:flex; gap:10px; }
+.cloud-input-guide,.cloud-exploration { color:#8a9c8a; font-size:10px; letter-spacing:1px; }
+.cloud-game-footer .cloud-button { background:#fffaf0b3; }
+.cloud-dpad { display:none; position:absolute; z-index:6; left:14px; bottom:153px; grid-template:repeat(3,44px)/repeat(3,44px); }
+.cloud-dpad button { width:44px; height:44px; padding:0; border:1px solid #fff9e580; border-radius:12px; background:#fff9e3ad; color:#80977f; font-size:22px; }
+.cloud-dpad [data-cloud-direction=up] { grid-area:1/2; }.cloud-dpad [data-cloud-direction=left] { grid-area:2/1; }.cloud-dpad [data-cloud-direction=right] { grid-area:2/3; }.cloud-dpad [data-cloud-direction=down] { grid-area:3/2; }.cloud-dpad > span { grid-area:2/2; display:grid; place-items:center; color:#b0b790; }
+.cloud-ending { position:absolute; z-index:8; left:34px; bottom:145px; width:320px; padding:26px; background:#fffaf0ee; backdrop-filter:blur(16px); border:1px solid #fff9e9; border-radius:12px; box-shadow:0 20px 70px #73867322; }
+.cloud-game.is-repaired .cloud-quest { display:none; }
+.cloud-ending[hidden],.cloud-storage-warning[hidden] { display:none; }
+.cloud-ending h2 { font:23px 'Songti SC','SimSun',serif; line-height:1.6; font-weight:400; letter-spacing:2px; }
+.cloud-ending p { color:#8b9787; font-size:12px; line-height:2; }
+.cloud-ending > div { display:grid; gap:9px; margin-top:20px; }
+.cloud-ending .cloud-text-button { text-align:center; }
+.cloud-storage-warning { position:absolute; z-index:20; bottom:0; left:0; right:0; margin:0; padding:7px; font-size:11px; text-align:center; background:#f4ddba; }
+@media(max-width:900px) {
+ .cloud-lobby { padding:25px; }.cloud-chapter-cards { gap:14px; }.cloud-chapter-art { height:200px; }.cloud-chapter-copy { padding:18px; }.cloud-journal { grid-template-columns:1fr; gap:10px; }.cloud-intro small { display:none; }
+ .cloud-input-guide { display:none; }.cloud-dpad { display:grid; bottom:135px; }.cloud-game-footer { left:24px; }.cloud-quest { left:24px; width:165px; }.cloud-game-head { left:24px; }
+}
+@media(max-width:649px) {
+ .cloud-lobby { padding:25px 18px; }.cloud-lobby-head { align-items:flex-start; }.cloud-lobby-head .cloud-button { min-width:84px; font-size:11px; padding:10px; }.cloud-lobby .cloud-eyebrow { font-size:8px; letter-spacing:1px; }.cloud-lobby h1 { font-size:30px; }.cloud-lobby h1 span { font-size:10px; line-height:1.8; letter-spacing:1px; }.cloud-intro { font-size:11px; margin:30px 0 18px; line-height:2; }.cloud-chapter-cards { grid-template-columns:1fr; gap:22px; }.cloud-chapter-art { height:270px; }.cloud-chapter-copy { padding:22px; }.cloud-chapter h2 span { float:right; font-size:11px; }.cloud-story-pages { grid-template-columns:1fr; }.cloud-lobby-footer { display:block; font-size:10px; line-height:2; }.cloud-lobby-footer span { display:block; }
+ .cloud-game-head { top:20px; left:18px; right:16px; }.cloud-game-head h1 { font-size:24px; margin:10px 0; letter-spacing:4px; }.cloud-game-head .cloud-eyebrow { font-size:9px; letter-spacing:2px; }.cloud-game-head p { font-size:9px; max-width:200px; line-height:1.8; }.cloud-game-head nav { gap:7px; }.cloud-game-head nav .cloud-button { font-size:17px; width:44px; padding:9px; border-radius:50%; }.cloud-game-head nav span { display:none; }
+ .cloud-quest { top:135px; left:18px; right:18px; width:auto; }.cloud-quest > .cloud-eyebrow,.cloud-quest h2,.cloud-quest-rule,#cloudCompanion { display:none; }.cloud-quest ol { display:flex; gap:12px; flex-wrap:wrap; }.cloud-quest li { font-size:9px; margin:0; gap:5px; }.cloud-quest #cloudInventory { font-size:10px; margin:12px 0 0; }
+ .cloud-local-actions .cloud-button { font-size:11px; padding:10px 12px; }.cloud-local-actions small { display:none; }.cloud-local-actions { max-width:198px; left:auto!important; top:auto!important; right:16px; bottom:185px; }
+ .cloud-message { bottom:83px; width:calc(100% - 30px); max-width:420px; font-size:11px; padding:10px 15px; border-radius:14px; line-height:1.8; }
+ .cloud-game-footer { left:16px; right:16px; bottom:22px; gap:6px; }.cloud-game-footer .cloud-button { font-size:11px; padding:10px 12px; }.cloud-game-footer > div { gap:8px; }.cloud-exploration { font-size:9px; letter-spacing:0; }
+ .cloud-dpad { bottom:155px; left:15px; }.cloud-ending { bottom:145px; left:16px; right:16px; width:calc(100% - 32px); padding:23px; }.cloud-ending h2 { font-size:22px; }.cloud-ending p { font-size:12px; }
+}
+@media(max-height:600px) and (min-width:650px) { .cloud-game-head { top:18px; }.cloud-quest { top:145px; }.cloud-quest li { margin:8px 0; }.cloud-quest-rule { margin:15px 0; }.cloud-game-footer { bottom:12px; }.cloud-message { bottom:72px; }.cloud-dpad { bottom:80px; }.cloud-ending { bottom:70px; max-height:calc(100% - 100px); overflow:auto; } }

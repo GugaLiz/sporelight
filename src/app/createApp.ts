@@ -15,11 +15,21 @@ import { renderNamingScene } from './scenes/namingScene';
 import { renderResultScene } from './scenes/resultScene';
 import type { AppState, GameSnapshot, Quality, Scene } from './types';
 import { bindActions } from './ui';
+import { CloudGame } from './cloud/CloudGame';
+import { CloudRenderer } from './cloud/renderer';
+import { CloudModel, loadCloudSave, storeCloudSave } from './cloud/model';
+import { CLOUD_LEVELS, type CloudLevelId } from './cloud/data';
+import { renderCloudGame, renderCloudLobby } from './cloud/scenes';
 
 export function createApp(root: HTMLDivElement) { const app = new SporelightApp(root); app.mount(); return app; }
 class SporelightApp {
   private state: AppState = { save: loadSave(), scene: 'boot', settingsOpen: false, confirmMode: null, bootReady: false };
   private game: CanvasGame | null = null;
+  private cloud: CloudGame | null = null;
+  private cloudSave = loadCloudSave();
+  private cloudId: CloudLevelId = this.cloudSave.lastLevel;
+  private cloudReview = false;
+  private cloudPreviewObservers: ResizeObserver[] = [];
   private audio = new Soundscape(this.state.save.settings);
   private storageWarned = false;
   private beforeModalFocus: HTMLElement | null = null;
@@ -43,7 +53,9 @@ class SporelightApp {
   private finishBoot() { if (this.state.scene !== 'boot') return; this.state.bootReady = true; this.setScene(this.state.save.hasNamed ? 'mainMenu' : 'naming'); }
   private render() {
     this.game?.destroy(); this.game = null;
-    const views = { boot: renderBootScene, naming: renderNamingScene, mainMenu: renderMainMenuScene, levelSelect: renderLevelSelectScene, game: renderGameScene, result: renderResultScene, gallery: renderGalleryScene };
+    this.cloud?.destroy(); this.cloud = null;
+    this.cloudPreviewObservers.forEach(observer => observer.disconnect()); this.cloudPreviewObservers = [];
+    const views = { boot: renderBootScene, naming: renderNamingScene, mainMenu: renderMainMenuScene, levelSelect: renderLevelSelectScene, game: renderGameScene, result: renderResultScene, gallery: renderGalleryScene, cloudLobby: renderCloudLobby, cloudGame: renderCloudGame };
     this.root.innerHTML = `<main class="shell ${this.state.save.settings.lowMotion ? 'is-low-motion' : ''}"><section class="stage stage--${this.state.scene}" style="--scene-scale:${this.scale()}">${views[this.state.scene](this.state)}</section><div id="modalRoot"></div><aside class="orientation-note">横过屏幕，让这片微光更宽一点。<span>也可以保持竖屏继续游玩</span></aside></main>`;
     this.bindScene();
   }
@@ -53,6 +65,7 @@ class SporelightApp {
       resetNameField: () => this.setName(DEFAULT_NAME), startJourney: () => this.submitName(),
       开始游戏: () => this.setScene('levelSelect'), 继续旅程: () => this.enterLevel(this.state.save.run?.levelId ?? this.state.save.lastLevel, true),
       图鉴: () => this.setScene('gallery'), 设置: () => this.openSettings(),
+      云庭目录: () => this.setScene('cloudLobby'),
       返回主菜单: () => this.setScene('mainMenu'), 返回关卡选择: () => this.setScene('levelSelect'),
       播种: () => this.game?.sow(), 撤销: () => this.game?.undo(), 提示: () => this.game?.hint(),
       切换移动: () => this.game?.toggleMovementMode(),
@@ -62,6 +75,22 @@ class SporelightApp {
       世界总览: () => { this.state.mapOverview = true; this.render(); },
       关闭世界总览: () => { this.state.mapOverview = false; this.render(); document.querySelector<HTMLButtonElement>('[data-action="世界总览"]')?.focus(); },
     });
+    if (this.state.scene === 'cloudLobby') {
+      this.root.querySelectorAll<HTMLButtonElement>('[data-cloud-enter]').forEach(b => b.addEventListener('click', () => this.enterCloud(b.dataset.cloudEnter as CloudLevelId)));
+      this.root.querySelectorAll<HTMLButtonElement>('[data-cloud-review]').forEach(b => b.addEventListener('click', () => this.enterCloud(b.dataset.cloudReview as CloudLevelId, true)));
+      this.root.querySelectorAll<HTMLCanvasElement>('[data-cloud-preview]').forEach(canvas => {
+        const id = canvas.dataset.cloudPreview as CloudLevelId;
+        const model = new CloudModel(id, this.cloudSave.memories[id] ?? this.cloudSave.runs[id]);
+        model.state.repaired = this.cloudSave.completed.includes(id);
+        const renderer = new CloudRenderer(canvas, model, this.state.save.settings); renderer.draw(0);
+        const observer = new ResizeObserver(() => { renderer.resize(); renderer.draw(0); }); observer.observe(canvas); this.cloudPreviewObservers.push(observer);
+      });
+    }
+    if (this.state.scene === 'cloudGame') {
+      this.cloud = new CloudGame(this.root.querySelector<HTMLCanvasElement>('#cloudCanvas')!, this.cloudId, this.cloudSave, this.state.save.settings,
+        () => { if (!storeCloudSave(this.cloudSave)) this.root.querySelector<HTMLElement>('#cloudStorageWarning')!.hidden = false; },
+        id => this.enterCloud(id), kind => this.audio.play(kind), this.cloudReview);
+    }
     document.querySelectorAll<HTMLButtonElement>('[data-map-level]').forEach(button => button.addEventListener('click', () => {
       this.state.mapLevel = button.dataset.mapLevel;
       this.render();
@@ -118,6 +147,17 @@ class SporelightApp {
     }
   }
 
+  private enterCloud(id: CloudLevelId, review = false) {
+    const index = CLOUD_LEVELS.findIndex(l => l.id === id);
+    if (index < 0 || index > 0 && !this.cloudSave.completed.includes(CLOUD_LEVELS[index - 1].id)) return;
+    if (review && !this.cloudSave.completed.includes(id)) return;
+    this.cloudId = id; this.cloudReview = review;
+    if (!review) {
+      if (this.cloudSave.runs[id]?.repaired) delete this.cloudSave.runs[id];
+      this.cloudSave.lastLevel = id; storeCloudSave(this.cloudSave);
+    }
+    this.setScene('cloudGame');
+  }
   private enterLevel(id: string, resume: boolean) {
     if (!this.state.save.levels[id]?.unlocked) { this.toast('先唤醒前一片苔原，再来这里吧。'); return; }
     const run = resume && this.state.save.run?.levelId === id ? this.state.save.run : null;
@@ -150,13 +190,13 @@ class SporelightApp {
   private openSettings() {
     if (this.game?.model.state.completed) return;
     this.beforeModalFocus = document.activeElement as HTMLElement;
-    this.state.settingsOpen = true; this.game?.pause(true); this.renderSettings();
+    this.state.settingsOpen = true; this.game?.pause(true); this.cloud?.pause(true); this.renderSettings();
     this.root.querySelector<HTMLElement>('.stage')!.inert = true;
   }
   private closeSettings() {
     this.state.settingsOpen = false; this.state.confirmMode = null;
     document.getElementById('modalRoot')!.innerHTML = ''; this.root.querySelector<HTMLElement>('.stage')!.inert = false;
-    this.game?.pause(document.hidden); this.beforeModalFocus?.focus();
+    this.game?.pause(document.hidden); this.cloud?.pause(document.hidden); this.beforeModalFocus?.focus();
   }
   private renderSettings() {
     const modal = document.getElementById('modalRoot')!; modal.innerHTML = renderSettingsModal(this.state);
@@ -183,7 +223,7 @@ class SporelightApp {
     (confirm ?? modal).querySelector<HTMLButtonElement>('button')?.focus();
   }
   private applySettings() {
-    this.persist(); this.audio.configure(this.state.save.settings); this.game?.configure(this.state.save.settings);
+    this.persist(); this.audio.configure(this.state.save.settings); this.game?.configure(this.state.save.settings); this.cloud?.configure(this.state.save.settings);
     this.root.querySelector('.shell')?.classList.toggle('is-low-motion', this.state.save.settings.lowMotion);
   }
   private async fullscreen() {
@@ -191,7 +231,7 @@ class SporelightApp {
     catch { this.toast('当前浏览器不支持全屏，请使用浏览器的全屏功能。'); }
   }
   private onFullscreen = () => { if (this.state.settingsOpen) this.renderSettings(); };
-  private onVisibility = () => { this.audio.pause(document.hidden); this.game?.pause(document.hidden || this.state.settingsOpen); };
+  private onVisibility = () => { this.audio.pause(document.hidden); this.game?.pause(document.hidden || this.state.settingsOpen); this.cloud?.pause(document.hidden || this.state.settingsOpen); };
   private startAudio = () => this.audio.start();
   private onGlobalKey = (event: KeyboardEvent) => {
     if (this.state.mapOverview) {
@@ -219,7 +259,8 @@ class SporelightApp {
     this.root.querySelector('.toast')?.remove(); const toast = document.createElement('div'); toast.className = 'toast'; toast.role = 'status'; toast.textContent = message; this.root.appendChild(toast); window.setTimeout(() => toast.remove(), 4500);
   }
   destroy() {
-    clearTimeout(this.timer); this.game?.destroy(); this.audio.destroy();
+    clearTimeout(this.timer); this.game?.destroy(); this.cloud?.destroy(); this.audio.destroy();
+    this.cloudPreviewObservers.forEach(observer => observer.disconnect());
     window.removeEventListener('resize', this.resize); window.removeEventListener('keydown', this.onGlobalKey);
     document.removeEventListener('visibilitychange', this.onVisibility); document.removeEventListener('fullscreenchange', this.onFullscreen);
     this.root.removeEventListener('pointerdown', this.startAudio); this.root.removeEventListener('keydown', this.startAudio);
