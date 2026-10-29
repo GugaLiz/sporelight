@@ -1,13 +1,14 @@
 import {materialIcon} from '../ui';
 import type {AppState} from '../types';
 import {CHAPTERS,getLevel,LEVELS} from '../game/levels';
+import {LEVEL_PRESENTATION} from '../game/levelPresentation';
 export function renderGameScene(state:AppState){
  const level=getLevel(state.save.lastLevel);const chapter=CHAPTERS.find(c=>c.id===level.chapter)!;
  const chapterLevels=LEVELS.filter(l=>l.chapter===chapter.id);
  return `<div class="screen journey-game grid-game ${level.chapter}">
   <canvas id="gameCanvas" width="1280" height="720" aria-label="${level.title}，等距石砖格子场景"></canvas>
   <div id="gridControls" class="grid-tile-controls" aria-label="可行走的石砖格子"></div>
-  <header class="grid-level-card">${materialIcon('leaf')}<h1>${chapter.title}</h1><p>关卡 ${level.id} · ${level.title}</p></header>
+  <header class="grid-level-card">${materialIcon('leaf')}<h1>${chapter.title}</h1><p>关卡 ${level.id} · ${level.title}</p><small class="level-mood">${LEVEL_PRESENTATION[level.id].mood}</small></header>
   <div class="grid-chapter-dots" aria-label="章节进度">${chapterLevels.map(l=>`<i class="${state.save.levels[l.id].completed?'is-done':''} ${l.id===level.id?'is-current':''}"></i>`).join('')}</div>
   <aside class="grid-resource-card"><span>收集孢子</span><div>${materialIcon('spore')}<b id="sporeCount">0</b></div></aside>
   ${level.nodes.some(n=>n.mechanism)?`<div class="grid-life-purse">${materialIcon('leaf')}<b id="grownCount">0</b><small>唤醒</small></div>`:''}

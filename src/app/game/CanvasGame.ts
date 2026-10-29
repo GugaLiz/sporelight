@@ -4,6 +4,7 @@ import { getLevel,totalSpores } from './levels';
 import { type GameModel,type RunState } from './model';
 import { GridWorld,type GridStep } from './GridWorld';
 import { GridRenderer, type GardenTransition } from './GridRenderer';
+import { LEVEL_PRESENTATION } from './levelPresentation';
 import { GRID_DIRECTIONS,gridKey,sameTile,projectTile,type GridPosition,type GridPoint,type GridDirection } from './gridLayout';
 import type { GameSnapshot,SaveData } from '../types';
 
@@ -39,7 +40,7 @@ export class CanvasGame {
   });
   window.addEventListener('pointerup',this.release);window.addEventListener('pointercancel',this.release);window.addEventListener('keydown',this.onKeyDown);window.addEventListener('keyup',this.onKeyUp);window.addEventListener('blur',this.release);
   this.observer=new ResizeObserver(()=>{if(!this.disposed){this.renderer.configure(this.settings);this.previousView='';}});this.observer.observe(canvas);
-  this.refreshHUD();this.raf=requestAnimationFrame(this.loop);
+  this.refreshHUD();this.say(LEVEL_PRESENTATION[this.model.level.id].moment);this.raf=requestAnimationFrame(this.loop);
  }
  configure(settings:SaveData['settings']){this.settings=settings;this.renderer.configure(settings);this.previousView='';if(settings.lowMotion&&this.travel)this.travel.duration=40;}
  pause(paused:boolean){this.paused=paused;this.last=0;if(this.directionPad)this.directionPad.inert=paused||!!this.structure;if(paused)this.release();}

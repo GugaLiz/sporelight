@@ -4,6 +4,7 @@ import { CHARACTER_FILES, jumpHeight, type CharacterPose } from './characterMoti
 import type { SaveData } from '../types';
 import type { RunState } from './model';
 import { drawMushroomBuddy } from './mushroomBuddy';
+import { drawLevelPresentation } from './levelPresentation';
 
 export interface GardenTransition {progress:number;kind:'lift'|'bridge'|'companion';from:RunState;to:RunState;fromPoint:GridPoint;toPoint:GridPoint}
 
@@ -102,6 +103,7 @@ export class GridRenderer {
    if(!tile.solid&&!tile.room&&(tile.x*13+tile.z*7)%17===0)objects.push({depth:tile.x+tile.z+.1,draw:()=>this.picture('flowers',p.x+18*scale,p.y+4*scale,33*scale)});
   }
   const model=this.world.model;
+  drawLevelPresentation(c,model,id=>projectTile(visual(this.world.layout.nodes[id],id),this.view),{time:state.time,scale,particles:this.settings.particles,dynamicLight:this.settings.dynamicLight,lowMotion:this.settings.lowMotion});
   for(const node of model.level.nodes){
    if(!model.isVisible(node.id))continue;
    const point=visual(this.world.layout.nodes[node.id],node.id),p=projectTile(point,this.view),active=model.isActive(node.id);
