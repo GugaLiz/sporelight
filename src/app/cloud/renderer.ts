@@ -164,7 +164,7 @@ export class CloudRenderer {
     const bob=this.settings.lowMotion?0:pose==='happy'?Math.abs(Math.sin(this.clock*.007))*9:(buddy?Math.sin(this.clock*.003)*1.5:Math.abs(walk)*2);
     c.save();c.translate(x,y-bob);this.ellipse(0,1,buddy?10:12,buddy?4:4.5,'#6d817c24');
     if(buddy){
-      drawMushroomBuddy(c,0,0,31,this.clock,{rolling:pose==='walk',waiting:pose==='sit'||pose==='sleep'||this.model.state.buddy==='wait',ball:this.buddyBall,lowMotion:this.settings.lowMotion,happy:pose==='pet'});
+      drawMushroomBuddy(c,0,0,34,this.clock,{moving:pose==='walk',waiting:pose==='sit'||pose==='sleep'||this.model.state.buddy==='wait',ball:this.buddyBall,lowMotion:this.settings.lowMotion,happy:pose==='pet'});
     }else{
       this.ellipse(-5,pose==='sit'?3:walk*2-1,3.8,3,'#8f7c70');this.ellipse(5,pose==='sit'?3:-walk*2-1,3.8,3,'#8f7c70');
       this.poly([[-7,-25],[7,-25],[12,-6],[0,-3],[-12,-6]],'#9eafa0');this.poly([[0,-25],[7,-25],[12,-6],[0,-3]],'#879f94');

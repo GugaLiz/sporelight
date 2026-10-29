@@ -21,6 +21,7 @@ export class CanvasGame {
  private directionPad:HTMLElement|null;
  private structure:{motion:GardenTransition;action:string;elapsed:number}|null=null;
  private previewTarget?:string;
+ private celebrationStarted?:number;
  private previousView='';private settings:SaveData['settings'];
  constructor(private canvas:HTMLCanvasElement,levelId:string,saved:RunState|null,settings:SaveData['settings'],private onChange:(run:RunState)=>void,private complete:(snapshot:GameSnapshot)=>void,private sound:(kind:SoundKind)=>void){
   this.settings=settings;this.world=new GridWorld(getLevel(levelId),saved);this.model=this.world.model;this.renderer=new GridRenderer(canvas,this.world,settings);this.tip=document.getElementById('gameTip');
@@ -128,7 +129,7 @@ export class CanvasGame {
    return `<button class="grid-tile-hit ${node?'grid-marker-hit':''}" data-grid-tile="${tile.key}" ${node?`data-node="${node.id}"`:''} aria-label="${node?node.label:`石砖 ${tile.x+1}, ${tile.z+1}`}" tabindex="${node?0:-1}"></button>`;
   }).join('');
  }
- private changed(){this.refreshHUD();this.onChange(this.model.snapshot());this.previousView='';}
+ private changed(){this.refreshHUD();if(!this.model.state.completed)this.onChange(this.model.snapshot());this.previousView='';}
  private refreshHUD(){
   const count=document.getElementById('sporeCount');if(count)count.textContent=`${this.model.state.collected.length} / ${totalSpores(this.model.level)}`;
   const grown=document.getElementById('grownCount');if(grown)grown.textContent=`${this.model.awakened} / ${this.model.level.nodes.filter(n=>n.mechanism).length}`;
@@ -140,7 +141,8 @@ export class CanvasGame {
   document.querySelector('.journey-toolbar')?.classList.toggle('is-rolling',this.rolling);
   const panel=document.getElementById('puzzlePanel');
   if(panel){const clue=this.model.level.sequence&&this.clock<this.clueUntil&&this.settings.lowMotion?this.model.level.sequence.map(id=>this.model.label(id)).join(' → '):'';
-   panel.innerHTML=`<div class="puzzle-state"><strong>${this.model.level.kind}</strong><span>${clue||this.model.status()}</span><span id="beatStatus"></span></div><p class="grid-mechanic-copy">${this.model.level.subtitle}</p><div class="puzzle-actions">${choices.map((choice,i)=>`<button data-puzzle-action="${choice.id}" ${this.structure?'disabled':''} ${choice.selected===undefined?'':`aria-pressed="${choice.selected}"`}><small>${i+1}</small> ${choice.label}</button>`).join('')}${this.model.level.sequence?'<button data-puzzle-action="replay">重看星图 ↻</button>':''}</div>${!choices.length?'<div class="grid-plant-guide"><img src="./images/production/soil.png" alt="干涸的土地"/><span>→</span><img src="./images/reference-scenes/plant-bloom.png" alt="唤醒的花朵"/></div><small class="grid-help-copy">沿石砖走近植物，按 E 互动。<br>方向键逐格走，空格 / J 跳跃。</small>':''}`;
+   const ritual=this.model.level.sequence?`<span>星座回应 ${this.model.level.sequence.filter(id=>this.model.state.activated.includes(id)).length} / 4 · 缠藤逐层松开</span>`:'';
+   panel.innerHTML=`<div class="puzzle-state"><strong>${this.model.level.kind}</strong><span>${clue||this.model.status()}</span>${ritual}<span id="beatStatus"></span></div><p class="grid-mechanic-copy">${this.model.level.subtitle}</p><div class="puzzle-actions">${choices.map((choice,i)=>`<button data-puzzle-action="${choice.id}" ${this.structure?'disabled':''} ${choice.selected===undefined?'':`aria-pressed="${choice.selected}"`}><small>${i+1}</small> ${choice.label}</button>`).join('')}${this.model.level.sequence?'<button data-puzzle-action="replay">重看星图 ↻</button>':''}</div>${!choices.length?'<div class="grid-plant-guide"><img src="./images/production/soil.png" alt="干涸的土地"/><span>→</span><img src="./images/reference-scenes/plant-bloom.png" alt="唤醒的花朵"/></div><small class="grid-help-copy">沿石砖走近植物，按 E 互动。<br>方向键逐格走，空格 / J 跳跃。</small>':''}`;
   }
   for(const button of document.querySelectorAll<HTMLButtonElement>('[data-node]')){
    const node=this.model.level.nodes.find(n=>n.id===button.dataset.node)!;const here=this.world.atNode(node.id);
@@ -168,19 +170,22 @@ export class CanvasGame {
     if(this.travel.progress===1){const travel=this.travel;const previous=this.model.state.collected.length;const result=travel.landed?{ok:true,message:'睡莲接住了你的选择。'}:this.world.commit(travel.to,travel.jump);this.travel=null;this.lastWalkEnd=this.clock;
      if(result.ok){if(this.model.state.collected.length>previous)this.sound('collect');this.changed();if(result.message)this.say(result.message);}
      else{this.route=[];this.say(result.message);}
-     if(this.model.state.completed&&!this.reported){this.reported=true;this.held=null;this.route=[];this.sound('complete');this.complete({completed:true,levelId:this.model.level.id,seeds:this.model.level.nodes.filter(n=>n.mechanism).map(n=>!!this.model.isActive(n.id)),collected:this.model.state.collected.length,total:totalSpores(this.model.level),stars:this.model.stars,awakened:this.model.awakened});}
-     else this.advance();
+     if(!this.model.state.completed)this.advance();
     }
    }else if(this.held&&this.clock>this.blockedUntil)this.step(this.held);else this.advance();
   }
   let player={...this.world.point};
+  if(this.model.state.completed&&!this.travel&&this.celebrationStarted===undefined){this.celebrationStarted=this.clock;this.held=null;this.route=[];this.sound('complete');this.say(this.model.level.id==='3-4'?'水晶花醒来了。熟悉的朋友们，陪你一起看见这片星空。':'花苞记住了你的善意，让微光在这里停留一会儿。');}
   if(this.structure?.motion.kind==='lift'){const m=this.structure.motion;player={...player,h:m.fromPoint.h+(m.toPoint.h-m.fromPoint.h)*m.progress};}
   if(this.travel){const p=this.travel.progress;player={x:this.travel.from.x+(this.travel.to.x-this.travel.from.x)*p,z:this.travel.from.z+(this.travel.to.z-this.travel.from.z)*p,h:this.travel.from.h+(this.travel.to.h-this.travel.from.h)*p};}
   const pose=characterPose({time:this.clock,facing:this.facing,lowMotion:this.settings.lowMotion,complete:this.model.state.completed&&!this.travel,travel:this.travel?{progress:this.travel.progress,startedAt:this.travel.jump?this.travel.startedAt:this.motionStartedAt,jump:this.travel.jump,rolling:this.rolling,distance:Math.hypot(this.travel.to.x-this.travel.from.x,this.travel.to.z-this.travel.from.z)*55}:null,action:this.characterAction});
   this.canvas.dataset.characterClip=pose.clip;this.canvas.dataset.characterFrame=pose.key;this.canvas.dataset.characterFacing=this.facing;this.canvas.dataset.moving=String(!!this.travel||!!this.structure);
   document.querySelector('.journey-toolbar')?.classList.toggle('is-interacting',['sow','interact','symbiosis'].includes(pose.clip));
-  this.renderer.draw({time:this.clock,player,pose,travel:this.travel,hint:this.hintNode,target:this.target,clueUntil:this.clueUntil,actionElapsed:this.characterAction?this.clock-this.characterAction.startedAt:undefined,structure:this.structure?.motion,preview:this.previewTarget});this.updateTileControls();
+  this.renderer.draw({time:this.clock,player,pose,travel:this.travel,hint:this.hintNode,target:this.target,clueUntil:this.clueUntil,actionElapsed:this.characterAction?this.clock-this.characterAction.startedAt:undefined,structure:this.structure?.motion,preview:this.previewTarget,celebration:this.celebrationStarted===undefined?undefined:this.clock-this.celebrationStarted});this.updateTileControls();
   const beat=document.getElementById('beatStatus');if(beat&&this.model.level.melody){const open=this.settings.lowMotion||this.clock%2400<1200;beat.textContent=open?'● 水膜亮起':'○ 等下一拍';beat.classList.toggle('beat-open',open);}
+  if(this.celebrationStarted!==undefined&&!this.reported&&this.clock-this.celebrationStarted>=(this.settings.lowMotion?250:this.model.level.id==='3-4'?3600:1400)){
+   this.reported=true;this.complete({completed:true,levelId:this.model.level.id,seeds:this.model.level.nodes.filter(n=>n.mechanism).map(n=>!!this.model.isActive(n.id)),collected:this.model.state.collected.length,total:totalSpores(this.model.level),stars:this.model.stars,awakened:this.model.awakened});return;
+  }
   this.raf=requestAnimationFrame(this.loop);
  };
 }
