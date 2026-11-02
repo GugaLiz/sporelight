@@ -1,6 +1,9 @@
 import { materialIcon } from '../ui';
 import type { AppState } from '../types';
-import { CHAPTERS, LEVELS, totalSpores } from '../game/levels';
+import { CHAPTERS, LEVELS } from '../game/levels';
+import {gardenLevel} from '../garden2/levels';
+import {loadGardenProgress} from '../garden2/save';
+const totalSpores=(level:{id:string})=>gardenLevel(level.id).total;
 import { mapPresentation, MAP_TERRACES, plantImage, lockIcon, sporeIcon } from './mapPresentation';
 
 function particles() {
@@ -9,11 +12,14 @@ function particles() {
 
 export function renderLevelSelectScene(state: AppState) {
   const {chapter,levels,selected} = mapPresentation(state);
-  const selectedSave = state.save.levels[selected.id];
-  const chapterCollected = levels.reduce((sum,l)=>sum+state.save.levels[l.id].bestCollected,0);
+  const progress=loadGardenProgress();
+  const old=progress.legacy as AppState['save']|undefined;
+  const score=(id:string)=>{const current=progress.records[id],legacy=old?.levels[id];return{...state.save.levels[id],completed:current?.completed??legacy?.completed??false,bestStars:current?.stars??legacy?.bestStars??0,bestCollected:current?.collected??legacy?.bestCollected??0};};
+  const selectedSave = score(selected.id);
+  const chapterCollected = levels.reduce((sum,l)=>sum+score(l.id).bestCollected,0);
   const chapterTotal = levels.reduce((sum,l)=>sum+totalSpores(l),0);
-  const totalCollected = LEVELS.reduce((sum,l)=>sum+state.save.levels[l.id].bestCollected,0);
-  const completed = levels.filter(l=>state.save.levels[l.id].completed).length;
+  const totalCollected = LEVELS.reduce((sum,l)=>sum+score(l.id).bestCollected,0);
+  const completed = levels.filter(l=>score(l.id).completed).length;
   const nextChapters = CHAPTERS.filter(c=>c.id!==chapter.id);
   const currentIndex = levels.indexOf(selected);
   return `<div class="screen illustrated-map map-theme-${chapter.id}" style="background-image:url('./images/reference-scenes/map-${chapter.id}.jpg')">
@@ -23,7 +29,7 @@ export function renderLevelSelectScene(state: AppState) {
     <svg class="terrace-path" viewBox="0 0 1280 720" aria-hidden="true"><defs><filter id="pathGlow"><feGaussianBlur stdDeviation="3"/></filter></defs><path class="terrace-path-light" d="M112 441 Q176 411 260 390 Q315 447 400 477 Q470 511 561 485 Q625 467 704 465 Q675 396 709 320 Q734 251 799 201"/><path class="terrace-path-dots" d="M112 441 Q176 411 260 390 Q315 447 400 477 Q470 511 561 485 Q625 467 704 465 Q675 396 709 320 Q734 251 799 201"/></svg>
     <div class="terrace-wild-moss" aria-hidden="true"><img src="./images/reference-scenes/terrain-steps.png" style="left:357px;top:486px;width:88px" alt=""/><img src="./images/reference-scenes/terrain-steps.png" style="left:309px;top:302px;width:83px" alt=""/><img src="./images/reference-scenes/terrain-steps.png" style="left:668px;top:464px;width:86px" alt=""/><img src="./images/reference-scenes/terrain-steps.png" style="left:667px;top:317px;width:85px" alt=""/><img src="./images/reference-scenes/terrain-steps.png" style="left:838px;top:160px;width:82px" alt=""/><img src="./images/production/light.png" style="left:670px;top:406px;width:78px" alt=""/><img src="./images/production/moss.png" style="left:675px;top:264px;width:73px" alt=""/><img src="./images/production/moss.png" style="left:847px;top:112px;width:66px" alt=""/></div>
     <nav class="plant-level-map" aria-label="${chapter.title}的四个关卡">${levels.map((level,i)=>{
-      const data=state.save.levels[level.id];const chosen=selected.id===level.id;const pos=MAP_TERRACES[i];
+      const data=score(level.id);const chosen=selected.id===level.id;const pos=MAP_TERRACES[i];
       const status=data.completed?'已通关':data.unlocked?'可以进入':'尚未解锁';
       return `<button class="plant-marker ${data.completed?'is-blooming':data.unlocked?'is-budding':'is-dormant'} ${chosen?'is-chosen':''}" style="left:${pos.x}px;top:${pos.y}px" data-map-level="${level.id}" aria-label="${level.id} ${level.title}，${status}" aria-pressed="${chosen}"><span class="plant-ground-halo" aria-hidden="true"></span><img class="plant-marker-art" src="${plantImage(chapter.id,data.completed,data.unlocked)}" alt="${data.completed?'盛开的花朵':data.unlocked?'待放的花苞':'休眠花床'}"/>${!data.unlocked?`<span class="plant-marker-lock">${lockIcon}</span>`:''}<span class="plant-number">${level.id}${data.completed?'<i>✓</i>':''}</span><span class="plant-tooltip">${level.title}<small>${status}</small></span>${chosen&&data.unlocked?`<img class="map-traveler" src="./images/material-ready/idle-front.png" alt="露薇所在的关卡"/>`:''}</button>`;
     }).join('')}</nav>

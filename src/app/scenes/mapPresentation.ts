@@ -1,5 +1,6 @@
 import { CHAPTERS, LEVELS, getLevel, type Chapter } from '../game/levels';
 import type { AppState } from '../types';
+import {gardenLevel} from '../garden2/levels';
 
 /** Map markers follow the walkable terraces in the supplied chapter illustration. */
 export const MAP_TERRACES = [
@@ -10,7 +11,7 @@ export const MAP_TERRACES = [
 export function mapPresentation(state: AppState) {
   const chapterId = state.mapChapter ?? getLevel(state.save.lastLevel).chapter;
   const chapter = CHAPTERS.find(c => c.id === chapterId) ?? CHAPTERS[0];
-  const levels = LEVELS.filter(l => l.chapter === chapter.id);
+  const levels = LEVELS.filter(l => l.chapter === chapter.id).map(l=>({...l,kind:gardenLevel(l.id).rule,subtitle:gardenLevel(l.id).intro}));
   const selected = levels.find(l => l.id === state.mapLevel) ?? levels.find(l => l.id === state.save.lastLevel) ?? levels.find(l => state.save.levels[l.id].unlocked && !state.save.levels[l.id].completed) ?? levels[0];
   return { chapter, levels, selected };
 }

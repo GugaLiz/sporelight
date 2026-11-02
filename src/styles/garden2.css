@@ -1,0 +1,68 @@
+.stage--game ~ .orientation-note{display:none}.garden-game{position:absolute;inset:0;overflow:hidden;color:#746448;touch-action:manipulation;font-family:'Microsoft YaHei',sans-serif}.garden-game #gardenCanvas{position:absolute;inset:0;width:100%;height:100%}
+.garden-game button,.garden-journal button{min-height:44px;padding:10px 17px;color:#786246;border:0;background:transparent url('/images/material-ready/button-paper.png') center/100% 100% no-repeat}.garden-game button:hover:not(:disabled){filter:brightness(1.08)}.garden-game button:focus-visible{outline:2px solid #a67e4e;outline-offset:2px}.garden-game button[aria-pressed=true]{background-image:url('/images/material-ready/button-green.png');color:#fff4d5}
+.garden-heading{position:absolute;left:22px;top:20px;z-index:4;width:260px;padding:23px 26px;background:url('/images/material-ready/panel-paper.png') center/100% 100% no-repeat;pointer-events:none}.garden-heading small{font-size:10px;letter-spacing:2px;color:#a38c65}.garden-heading h1{font:24px 'SimSun',serif;letter-spacing:2px;margin:12px 0;color:#787b57}.garden-heading p{font-size:11px;line-height:1.8;margin:0;color:#9a8969}
+.garden-nav{position:absolute;right:24px;top:23px;z-index:6;display:flex;gap:12px}.garden-nav button{width:50px;height:50px;padding:0;background:none}.garden-nav img{width:50px;height:50px;pointer-events:none}
+.garden-panel{position:absolute;right:22px;top:110px;z-index:5;width:245px;max-height:calc(100% - 230px);padding:27px 21px 25px;overflow:auto;background:url('/images/material-ready/panel-paper.png') center/100% 100% no-repeat}.garden-actors{display:flex;gap:7px}.garden-actors button{flex:1;font-size:12px;padding:8px}.garden-panel p{font-size:11px;line-height:1.8;margin:10px 0}#gardenCommands{display:grid;gap:5px}#gardenCommands button{font-size:11px;line-height:1.6;padding:10px 13px}.garden-score{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:12px;font-size:15px}.garden-score img{width:29px;height:29px}#gardenGoal{color:#9c8e71;font-size:10px}
+.garden-targets{position:absolute;inset:0;pointer-events:none;z-index:2}.garden-targets button{position:absolute;padding:0;pointer-events:auto;background:transparent;transition:none;border-radius:0;min-height:0}.garden-tile{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}.garden-mark-hit{clip-path:polygon(10% 0,90% 0,100% 100%,0 100%)}.garden-tile:hover,.garden-tile:focus-visible{background:#f9e8ab44}.garden-targets .garden-grow-hit{background:#fff4d9c9;border:1px dashed #c4a166;border-radius:50%;color:#a08d5b;font-size:22px}.garden-targets button:disabled{opacity:1;filter:none;pointer-events:none}
+.garden-message{position:absolute;left:47%;bottom:110px;transform:translateX(-50%);width:max-content;max-width:min(660px,70vw);margin:0;padding:14px 25px;font-size:12px;line-height:1.9;text-align:center;background:url('/images/material-ready/button-paper.png') center/100% 100% no-repeat;color:#8a7653;z-index:5;pointer-events:none}
+.garden-keyboard{position:absolute;left:23px;bottom:12px;font-size:9px;color:#e9e6ce;text-shadow:0 1px 3px #556147;pointer-events:none}
+.garden-pad{display:grid;position:absolute;left:25px;bottom:40px;grid-template:repeat(3,44px)/repeat(3,44px);z-index:6}.garden-pad button{padding:0;width:44px;height:44px;font-size:23px}.garden-pad [data-garden-dir=up]{grid-area:1/2}.garden-pad [data-garden-dir=left]{grid-area:2/1}.garden-pad [data-garden-dir=right]{grid-area:2/3}.garden-pad [data-garden-dir=down]{grid-area:3/2}.garden-pad span{grid-area:2/2;display:grid;place-items:center;color:#eddfb3}
+.garden-ending{position:absolute;z-index:8;left:25px;bottom:160px;width:320px;padding:45px 28px 32px;background:url('/images/material-ready/panel-paper.png') center/100% 100% no-repeat}.garden-ending[hidden],.garden-storage[hidden]{display:none}.garden-ending small{font-size:10px;letter-spacing:2px;color:#ad966e}.garden-ending h2{font:24px 'SimSun',serif;line-height:1.6;letter-spacing:2px}.garden-ending p{font-size:12px;line-height:2;color:#988567}.garden-ending button{width:100%;margin-top:9px}.garden-ending button:first-of-type{background-image:url('/images/material-ready/button-green.png');color:#fff4d7}.garden-storage{position:absolute;z-index:20;bottom:0;left:0;right:0;padding:9px;margin:0;background:#efd9ad;color:#775e3d;font-size:11px;text-align:center}
+.garden-actors .garden-follow{flex:0 0 44px;min-width:44px;padding:5px;font-size:11px;color:#718652}
+.garden-targets .garden-growth-return{background:#fff6dedf;border:1px solid #ccae65;border-radius:8px;color:#826a3e;font-size:12px;box-shadow:0 0 15px #f9df8b55}
+.garden-overview-button{position:absolute;left:25px;top:170px;z-index:6;display:flex;align-items:center;gap:5px;font-size:11px}.garden-overview-button img{width:26px;height:26px}
+@media(max-width:649px){.garden-message{bottom:144px}.garden-pad{bottom:210px}.garden-overview-button{top:115px;left:14px;padding:5px 12px!important}}
+.garden-journal-screen{position:absolute;inset:0;overflow:auto;padding:25px;background:#f4ebd6}.garden-journal{position:relative;padding:30px;color:#837251;background:#f4ebd6}.garden-journal h2{font:25px 'SimSun',serif;letter-spacing:3px}.garden-journal>p{font-size:12px;color:#a28f6d}.garden-journal>div{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.garden-journal details{padding:22px;background:url('/images/material-ready/panel-paper.png') center/100% 100% no-repeat}.garden-journal summary{cursor:pointer;font-size:14px;line-height:1.8}.garden-journal details p{font-size:12px;line-height:2}
+.garden-game[data-level="3-4"] #gardenGoal{display:block}
+@media(max-width:649px){.garden-heading{left:12px;top:12px;width:238px;padding:20px}.garden-heading h1{font-size:21px;margin:9px 0}.garden-heading p{font-size:10px}.garden-nav{right:13px;top:18px;gap:5px}.garden-nav button,.garden-nav img{width:44px;height:44px}.garden-panel{right:10px;top:145px;width:188px;padding:24px 15px 21px;max-height:260px}.garden-panel p{font-size:10px}#gardenCommands{gap:4px}#gardenCommands button{font-size:10px;padding:9px}.garden-score{font-size:13px}#gardenGoal{display:none}.garden-message{left:50%;bottom:108px;width:calc(100% - 28px);max-width:none;font-size:10px;padding:13px 20px}.garden-keyboard{display:none}.garden-pad{left:13px;bottom:190px}.garden-ending{left:14px;bottom:165px;width:calc(100% - 28px);padding:40px 27px 29px}.garden-journal{padding:20px}.garden-journal>div{grid-template-columns:1fr}}
+@media(max-height:560px) and (min-width:650px){.garden-heading{top:9px;padding:15px 22px;width:245px}.garden-heading h1{font-size:21px;margin:8px 0}.garden-panel{top:88px;max-height:calc(100% - 175px);width:210px;right:15px;padding:20px 16px}.garden-message{bottom:86px;max-width:calc(100% - 440px);left:44%;font-size:10px}.garden-ending{bottom:95px;max-height:calc(100% - 120px);overflow:auto}.garden-pad{bottom:95px;left:15px}}
+
+@media(max-width:649px){.garden-message{bottom:152px}.garden-actors button{font-size:11px;padding:4px;white-space:nowrap}}
+
+.garden-mole-dialogue{position:absolute;z-index:3;margin:0;padding:13px 17px;border:1px solid #e7d5ad;border-radius:14px;background:#fff9e9ef;box-shadow:0 5px 18px #67583d17;color:#826b4b;font-size:12px;line-height:1.85;pointer-events:none}.garden-mole-dialogue::before{content:"";position:absolute;left:48%;top:-8px;width:13px;height:13px;transform:rotate(45deg);background:#fff9e9;border-top:1px solid #e7d5ad;border-left:1px solid #e7d5ad}.garden-mole-dialogue[hidden]{display:none}@media(max-width:649px){.garden-mole-dialogue{font-size:11px;padding:10px 14px}}
+
+/* A responsive paper frame: borders and ornament retain their proportions at every width. */
+.garden-tools{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:6;display:grid;grid-template-columns:repeat(3,minmax(44px,1fr)) 128px minmax(150px,2fr) repeat(3,minmax(44px,1fr));align-items:center;gap:7px;width:min(800px,calc(100% - 32px));padding:13px 24px 11px;border:1px solid #ead7b4;border-radius:42px 46px 40px 45px;background:radial-gradient(ellipse at 18% 0%,#fffdfa 0%,transparent 53%),radial-gradient(ellipse at 87% 100%,#f3e2c58c,transparent 47%),linear-gradient(180deg,#fff9eb,#fbefd9);box-shadow:0 5px 21px #715d3b20,inset 0 0 0 3px #fffaf0,inset 0 0 0 4px #e6cba37d}
+.garden-tools::before{content:"";position:absolute;inset:7px;border:1px solid #d9b48073;border-radius:35px 39px 33px 38px;pointer-events:none}
+.garden-tools::after{content:"·  ✧  ·";position:absolute;left:50%;top:-6px;transform:translateX(-50%);padding:0 17px;color:#caa05d;background:linear-gradient(90deg,transparent,#fff8e9 22%,#fff8e9 78%,transparent);font-size:12px;line-height:16px;pointer-events:none}
+.garden-tools button{position:relative;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;min-width:0;min-height:62px;padding:3px 2px;gap:4px;border-radius:13px;transition:background-color .18s,box-shadow .18s}
+.garden-tools button:hover:not(:disabled){background-color:#efdfbd52}
+.garden-tools img,.garden-tools canvas{width:40px;height:40px;object-fit:contain;pointer-events:none}
+.garden-tools span{font-size:11px;line-height:1.45;white-space:nowrap}
+.garden-tools .garden-primary-action{width:100%;padding:3px 6px}
+.garden-primary-action span{max-width:100%;white-space:normal;text-align:center;overflow-wrap:anywhere}
+.garden-character-switch{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 7px;border-left:1px solid #dcc69f80;border-right:1px solid #dcc69f80}
+.garden-tools .garden-character-switch button[aria-pressed=true]{background:linear-gradient(180deg,#dce8ca88,#c8d6ac66);color:#60734a;box-shadow:inset 0 0 0 1px #a6b88b99}
+.garden-tools .garden-character-switch img{object-position:center top}
+.garden-tools .garden-character-switch button:disabled{opacity:.5}
+.garden-game[data-dual="false"] .garden-character-switch{display:none}
+.garden-game[data-dual="false"] .garden-tools{width:min(660px,calc(100% - 32px));grid-template-columns:repeat(3,minmax(44px,1fr)) minmax(150px,2fr) repeat(3,minmax(44px,1fr))}
+@media(max-width:900px){
+ .garden-tools,.garden-game[data-dual="false"] .garden-tools{bottom:14px;width:calc(100% - 24px);grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;padding:13px 15px 10px;border-radius:29px 32px 28px 31px}
+ .garden-tools::before{border-radius:23px 26px 22px 25px}
+ .garden-character-switch{grid-column:1/3;grid-row:1;padding:0 7px 0 0;border-left:0}
+ .garden-tools .garden-primary-action{grid-column:3/7;grid-row:1;flex-direction:row;gap:9px;min-height:52px}
+ .garden-game[data-dual="false"] .garden-primary-action{grid-column:1/-1}
+ .garden-primary-action span{max-width:160px}
+ .garden-tools button{min-height:52px;gap:3px}
+ .garden-tools img,.garden-tools canvas{width:33px;height:33px}
+ .garden-tools span{font-size:10px}
+ .garden-tools .garden-character-switch button{min-height:52px}
+ .garden-message{bottom:166px;left:50%}
+ .garden-pad{bottom:225px}
+ .garden-ending{bottom:180px}
+}
+@media(max-height:560px) and (min-width:650px){
+ .garden-tools,.garden-game[data-dual="false"] .garden-tools{bottom:8px;width:calc(100% - 28px);grid-template-columns:repeat(3,minmax(38px,1fr)) 106px minmax(120px,2fr) repeat(3,minmax(38px,1fr));gap:4px;padding:8px 18px}
+ .garden-game[data-dual="false"] .garden-tools{grid-template-columns:repeat(3,minmax(38px,1fr)) minmax(120px,2fr) repeat(3,minmax(38px,1fr))}
+ .garden-character-switch,.garden-tools .garden-primary-action,.garden-game[data-dual="false"] .garden-primary-action{grid-column:auto;grid-row:auto}
+ .garden-tools .garden-primary-action{flex-direction:column;gap:3px}
+ .garden-message{bottom:91px}
+ .garden-pad{bottom:95px}
+ .garden-ending{bottom:95px}
+}
+@media(max-width:360px){
+ .garden-tools,.garden-game[data-dual="false"] .garden-tools{width:calc(100% - 16px);gap:3px 2px;padding:13px 10px 10px}
+ .garden-character-switch{gap:2px;padding-right:0}
+ .garden-tools span{font-size:9px}
+}

@@ -36,7 +36,7 @@ npm install
 npm run dev
 ```
 
-浏览器打开 `http://127.0.0.1:4173/`。生产构建与检查：
+本机浏览器打开 `http://localhost:4173/`。同一内网的同事可通过终端输出的 `Network` 地址访问，例如 `http://10.11.176.213:4173/`。生产构建与检查：
 
 ```sh
 npm run check
@@ -48,7 +48,7 @@ npm run preview
 若在当前Codex环境使用已提供的运行时，可用PowerShell直接启动：
 
 ```powershell
-& 'C:/Users/liuli/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe' node_modules/vite/bin/vite.js --host 127.0.0.1 --port 4173
+& 'C:/Users/liuli/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe' node_modules/vite/bin/vite.js --host 0.0.0.0 --port 4173
 ```
 
 ## 部署到 GitHub Pages

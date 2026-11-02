@@ -1,6 +1,8 @@
 import { DEFAULT_NAME, RANDOM_NAMES } from './constants';
 import { renderSettingsModal } from './components/settingsModal';
-import { CanvasGame } from './game/CanvasGame';
+import { GardenGame } from './garden2/GardenGame';
+import { renderGardenScene,renderGardenJournal } from './garden2/scene';
+import { loadGardenProgress,persistGardenProgress,importLegacyGardenRecords } from './garden2/save';
 import { Soundscape } from './game/audio';
 import { CHARACTER_FILES } from './game/characterMotion';
 import { CHAPTERS, LEVELS, getLevel } from './game/levels';
@@ -24,7 +26,9 @@ import { renderCloudGame, renderCloudLobby } from './cloud/scenes';
 export function createApp(root: HTMLDivElement) { const app = new SporelightApp(root); app.mount(); return app; }
 class SporelightApp {
   private state: AppState = { save: loadSave(), scene: 'boot', settingsOpen: false, confirmMode: null, bootReady: false };
-  private game: CanvasGame | null = null;
+  private game: GardenGame | null = null;
+  private gardenProgress=loadGardenProgress();
+  private gardenReview=false;
   private cloud: CloudGame | null = null;
   private cloudSave = loadCloudSave();
   private cloudId: CloudLevelId = this.cloudSave.lastLevel;
@@ -36,6 +40,7 @@ class SporelightApp {
   private timer = 0;
   constructor(private root: HTMLDivElement) {}
   mount() {
+    if(importLegacyGardenRecords(this.gardenProgress,this.state.save))persistGardenProgress(this.gardenProgress);
     this.render();
     window.addEventListener('resize', this.resize);
     window.addEventListener('keydown', this.onGlobalKey);
@@ -55,7 +60,7 @@ class SporelightApp {
     this.game?.destroy(); this.game = null;
     this.cloud?.destroy(); this.cloud = null;
     this.cloudPreviewObservers.forEach(observer => observer.disconnect()); this.cloudPreviewObservers = [];
-    const views = { boot: renderBootScene, naming: renderNamingScene, mainMenu: renderMainMenuScene, levelSelect: renderLevelSelectScene, game: renderGameScene, result: renderResultScene, gallery: renderGalleryScene, cloudLobby: renderCloudLobby, cloudGame: renderCloudGame };
+    const views = { boot: renderBootScene, naming: renderNamingScene, mainMenu: renderMainMenuScene, levelSelect: renderLevelSelectScene, game: renderGardenScene, result: renderResultScene, gallery: renderGalleryScene, cloudLobby: renderCloudLobby, cloudGame: renderCloudGame,gardenJournal:()=>`<div class="garden-journal-screen"><button class="cloud-button" data-action="返回主菜单">← 返回苔原</button>${renderGardenJournal()}</div>` };
     this.root.innerHTML = `<main class="shell ${this.state.save.settings.lowMotion ? 'is-low-motion' : ''}"><section class="stage stage--${this.state.scene}" style="--scene-scale:${this.scale()}">${views[this.state.scene](this.state)}</section><div id="modalRoot"></div><aside class="orientation-note">横过屏幕，让这片微光更宽一点。<span>也可以保持竖屏继续游玩</span></aside></main>`;
     this.bindScene();
   }
@@ -63,18 +68,20 @@ class SporelightApp {
     bindActions({
       randomName: () => this.setName(RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)]),
       resetNameField: () => this.setName(DEFAULT_NAME), startJourney: () => this.submitName(),
-      开始游戏: () => this.setScene('levelSelect'), 继续旅程: () => this.enterLevel(this.state.save.run?.levelId ?? this.state.save.lastLevel, true),
+      开始游戏: () => this.setScene('levelSelect'), 继续旅程: () => this.enterLevel(Object.keys(this.gardenProgress.runs).length?this.gardenProgress.lastLevel:this.state.save.run?.levelId ?? this.state.save.lastLevel, true),
       图鉴: () => this.setScene('gallery'), 设置: () => this.openSettings(),
       云庭目录: () => this.setScene('cloudLobby'),
+      花园纪事: () => this.setScene('gardenJournal'),
       返回主菜单: () => this.setScene('mainMenu'), 返回关卡选择: () => this.setScene('levelSelect'),
       播种: () => this.game?.sow(), 撤销: () => this.game?.undo(), 提示: () => this.game?.hint(),
       切换移动: () => this.game?.toggleMovementMode(),
       跳跃: () => this.game?.jump(),
       重来: () => this.enterLevel(this.state.save.lastLevel, false), 重玩: () => this.enterLevel(this.state.save.lastLevel, false),
-      下一关: () => { const i = LEVELS.findIndex(l => l.id === this.state.save.lastLevel); if (LEVELS[i + 1]) this.enterLevel(LEVELS[i + 1].id, false); else this.setScene('gallery'); },
+      下一关: () => { const i = LEVELS.findIndex(l => l.id === this.state.save.lastLevel); if (LEVELS[i + 1]) this.enterLevel(LEVELS[i + 1].id, true); else this.setScene('gardenJournal'); },
       世界总览: () => { this.state.mapOverview = true; this.render(); },
       关闭世界总览: () => { this.state.mapOverview = false; this.render(); document.querySelector<HTMLButtonElement>('[data-action="世界总览"]')?.focus(); },
     });
+    this.root.querySelectorAll<HTMLButtonElement>('[data-garden-review]').forEach(b=>b.addEventListener('click',()=>this.enterLevel(b.dataset.gardenReview!,true,true)));
     if (this.state.scene === 'cloudLobby') {
       this.root.querySelectorAll<HTMLButtonElement>('[data-cloud-enter]').forEach(b => b.addEventListener('click', () => this.enterCloud(b.dataset.cloudEnter as CloudLevelId)));
       this.root.querySelectorAll<HTMLButtonElement>('[data-cloud-review]').forEach(b => b.addEventListener('click', () => this.enterCloud(b.dataset.cloudReview as CloudLevelId, true)));
@@ -112,9 +119,8 @@ class SporelightApp {
     document.querySelectorAll<HTMLButtonElement>('[data-level]').forEach(button => button.addEventListener('click', () => this.enterLevel(button.dataset.level!, true)));
     document.getElementById('playerNameInput')?.addEventListener('keydown', event => { if (event.key === 'Enter') this.submitName(); });
     if (this.state.scene === 'game') {
-      this.game = new CanvasGame(document.querySelector<HTMLCanvasElement>('#gameCanvas')!, this.state.save.lastLevel, this.state.save.run, this.state.save.settings,
-        run => { this.state.save.run = run.completed ? null : run; this.persist(); }, snapshot => this.onComplete(snapshot), kind => this.audio.play(kind));
-      this.state.save.run = this.game.model.snapshot(); this.persist();
+      this.game = new GardenGame(document.querySelector<HTMLCanvasElement>('#gardenCanvas')!, this.state.save.lastLevel,this.gardenReview?this.gardenProgress.memories[this.state.save.lastLevel]:this.gardenProgress.runs[this.state.save.lastLevel], this.state.save.settings,
+        run => {if(this.gardenReview)return;const wasCompleted=this.gardenProgress.runs[run.levelId]?.completed;this.gardenProgress.runs[run.levelId]=run;if(run.completed&&!wasCompleted)this.gardenProgress.memories[run.levelId]=run;this.gardenProgress.lastLevel=run.levelId;if(!persistGardenProgress(this.gardenProgress))this.root.querySelector<HTMLElement>('#gardenStorageWarning')!.hidden=false;}, snapshot => this.onComplete(snapshot), kind => this.audio.play(kind));
     }
     if (this.state.scene === 'gallery') {
       const focus = (selector:string) => document.querySelector<HTMLButtonElement>(selector)?.focus({preventScroll:true});
@@ -158,10 +164,13 @@ class SporelightApp {
     }
     this.setScene('cloudGame');
   }
-  private enterLevel(id: string, resume: boolean) {
+  private enterLevel(id: string, resume: boolean, review=false) {
     if (!this.state.save.levels[id]?.unlocked) { this.toast('先唤醒前一片苔原，再来这里吧。'); return; }
-    const run = resume && this.state.save.run?.levelId === id ? this.state.save.run : null;
-    this.state.save.run = run; this.state.save.lastLevel = id; this.persist(); this.setScene('game');
+    if(!this.gardenProgress.legacy)this.gardenProgress.legacy=JSON.parse(JSON.stringify(this.state.save));
+    this.gardenReview=review;
+    if(!resume||this.gardenProgress.runs[id]?.completed&&!review)delete this.gardenProgress.runs[id];
+    this.gardenProgress.lastLevel=id;persistGardenProgress(this.gardenProgress);
+    this.state.save.run = null; this.state.save.lastLevel = id; this.persist(); this.setScene('game');
   }
   private setScene(next: Scene) {
     this.state.mapOverview = false;
@@ -174,11 +183,11 @@ class SporelightApp {
   private onComplete(result: GameSnapshot) {
     this.state.result = result;
     const level = getLevel(result.levelId); const score = this.state.save.levels[level.id];
-    score.completed = true; score.bestStars = Math.max(score.bestStars, result.stars); score.bestCollected = Math.max(score.bestCollected, result.collected);
+    if(!score.completed){score.bestStars=result.stars;score.bestCollected=Math.min(result.collected,level.nodes.filter(n=>n.spore).length);}score.completed = true;
     const next = LEVELS[LEVELS.indexOf(level) + 1]; if (next) this.state.save.levels[next.id].unlocked = true;
     level.rewards.forEach(id => { this.state.save.gallery[id] = true; });
+    const old=this.gardenProgress.records[level.id];this.gardenProgress.records[level.id]={completed:true,stars:Math.max(old?.stars??0,result.stars),collected:Math.max(old?.collected??0,result.collected)};persistGardenProgress(this.gardenProgress);
     this.state.save.run = null; this.persist();
-    this.timer = window.setTimeout(() => { if (this.state.scene === 'game') this.setScene('result'); }, 650);
   }
   private setName(name: string) { const input = document.querySelector<HTMLInputElement>('#playerNameInput'); if (input) input.value = name; }
   private submitName() {
