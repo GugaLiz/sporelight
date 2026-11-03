@@ -1,0 +1,84 @@
+/* Warm illustrated stationery, shared across chapters. Art is never stretched. */
+.garden-game{--garden-accent:#92734c;--garden-ink:#786448;--garden-muted:#8c7858;--garden-paper:#fff5e4;--garden-line:#e8cfa8;--garden-wash:#f7e8cf;--garden-glow:#f4d69a;color:var(--garden-ink)}
+.garden-heading,.garden-panel{background:linear-gradient(135deg,#fffaf0a6,#fff1de91),url('/images/gallery-journal/paper-texture.jpg') repeat;background-size:auto,146px 68px;border:1px solid #fff9eb;box-shadow:0 5px 19px #96754e13,inset 0 0 0 3px #fff9ee;color:var(--garden-ink);border-radius:27px 29px 25px 28px;isolation:isolate}
+.garden-heading{left:24px;top:24px;width:292px;padding:29px 22px 39px}
+.garden-paper-trim{position:absolute;inset:5px;border:1px solid #e6c69d85;border-radius:22px 24px 20px 23px;pointer-events:none;z-index:-1}
+.garden-paper-star{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:136px;height:24px;background:url('/images/material-ready/panel-paper.png') -108px -10px/353.4px 218.4px no-repeat;mix-blend-mode:multiply;pointer-events:none}
+.garden-paper-trim::before,.garden-paper-trim::after{content:"";position:absolute;bottom:0;width:38px;height:40px;background-image:url('/images/material-ready/panel-paper.png');background-size:265.05px 163.8px;background-repeat:no-repeat;mix-blend-mode:multiply;opacity:.82;pointer-events:none}
+.garden-paper-trim::before{left:1px;background-position:-4px -118px}
+.garden-paper-trim::after{right:1px;background-position:-225px -118px}
+.garden-heading small{color:var(--garden-accent);font-size:10px;letter-spacing:1.3px}
+.garden-heading h1{color:#7c805a;font-size:22px;font-weight:400;letter-spacing:1px;margin:10px 0 9px;white-space:nowrap}
+.garden-heading p{font-size:12px;color:var(--garden-muted);line-height:1.7}
+.garden-progress-heading{display:flex;justify-content:space-between;margin-top:16px;padding-top:12px;border-top:1px solid var(--garden-line);font-size:10px;letter-spacing:1px;color:var(--garden-muted)}
+#gardenMilestones{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+#gardenMilestones li{display:flex;align-items:center;gap:5px;font-size:10px;line-height:1.5;padding:5px 7px;border-radius:7px;color:var(--garden-muted);border:1px solid transparent}
+#gardenMilestones li>span{font-size:9px;font-variant-numeric:tabular-nums;opacity:.75}
+#gardenMilestones .is-current{border-color:#dcc39e;background:#fff9eead;color:#806544;font-weight:600}
+#gardenMilestones .is-done{background:#e8e9d678;color:#7b845e}
+.garden-panel{top:108px;right:24px;width:254px;padding:31px 20px 40px;max-height:calc(100% - 248px);display:flex;flex-direction:column;overflow:hidden}
+.garden-panel-content{min-height:0;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--garden-line) transparent;padding:3px}
+.garden-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:600;letter-spacing:1px}
+.garden-actors .garden-follow{min-height:44px;min-width:54px;border-radius:10px;background:var(--garden-wash);color:var(--garden-accent);font-size:11px}
+.garden-actors .garden-follow[aria-pressed=true]{background:linear-gradient(#c5c9ad,#a4ae8a);box-shadow:inset 0 0 0 1px #95a27955;color:#fff9e9}
+.garden-game[data-dual=false] .garden-actors{display:none}
+#gardenStatus{color:var(--garden-muted);border-bottom:1px solid var(--garden-line);padding-bottom:10px;font-size:11px}
+#gardenCommands{gap:7px}
+#gardenCommands button{display:flex;align-items:center;text-align:left;gap:8px;min-height:44px;background:linear-gradient(180deg,#fffaf0,#f4e4ca);border:1px solid #ddbf95;border-radius:15px 17px 14px 16px;box-shadow:inset 0 0 0 2px #fff8e7,0 2px 0 #c9a47855;color:var(--garden-ink);padding:9px 10px;font-size:12px;transition:background .2s,transform .2s}
+#gardenCommands button:hover:not(:disabled){background:var(--garden-wash);transform:translateY(-1px)}
+#gardenCommands button.is-primary{background:linear-gradient(180deg,#fff7e8,#efdbba);border-color:#c6a170;color:#7b5f3a;box-shadow:inset 0 0 0 2px #fff8e6,0 2px 0 #c9a47877}
+#gardenCommands button[data-unavailable]{border-style:dashed;color:var(--garden-muted);background:transparent}
+#gardenCommands button i{margin-left:auto;font-size:20px;font-style:normal}
+#gardenCommands kbd{display:grid;place-items:center;flex:0 0 19px;height:21px;border:1px solid currentColor;border-radius:5px;font-size:10px;opacity:.65}
+#gardenCommands .garden-empty{padding:9px 0;color:var(--garden-muted);font-size:12px;line-height:1.8}
+.garden-score{justify-content:flex-start;padding-top:12px;border-top:1px solid var(--garden-line);font-size:15px;color:var(--garden-ink)}
+.garden-score small{margin-left:auto;font-size:10px;color:var(--garden-muted)}
+#gardenGoal{display:block;color:var(--garden-muted);font-size:11px;line-height:1.9;margin-bottom:0}
+.garden-overview-button{top:auto;bottom:197px;left:25px;border:1px solid var(--garden-line)!important;border-radius:12px;background:var(--garden-paper)!important;color:var(--garden-accent)!important;min-height:44px}
+.garden-nav button{border-radius:50%;background:#fff9e9cc;box-shadow:0 2px 14px #294e3b16}
+.garden-message{bottom:126px;left:50%;font-size:12px;line-height:1.8;padding:11px 20px;color:var(--garden-ink);border:1px solid var(--garden-line);border-radius:13px;background:var(--garden-paper);box-shadow:0 4px 18px #243b3012;max-width:min(640px,calc(100% - 370px))}
+.garden-message[data-tone=error]{border-color:#c59a65;background:#fff7e9;color:#79552e}
+.garden-message[data-tone=success]{border-color:var(--garden-accent)}
+.garden-tools,.garden-game[data-dual=false] .garden-tools{background:linear-gradient(135deg,#fffbf2d9,#fff0daaa),url('/images/gallery-journal/paper-texture.jpg') repeat;background-size:auto,146px 68px;border-color:#fffaf0;box-shadow:0 5px 21px #715d3b20,inset 0 0 0 3px #fffaf0,inset 0 0 0 4px #e6cba37d}
+.garden-tools::before{border-color:var(--garden-line)}
+.garden-tools::after{color:var(--garden-accent);background:var(--garden-paper);border-radius:20px}
+.garden-tools button{color:var(--garden-ink)}
+.garden-tools .garden-primary-action{background:linear-gradient(180deg,#fff9ec50,#efdbba40);box-shadow:inset 0 0 0 1px #e5c9a144}
+.garden-tools .garden-character-switch button[aria-pressed=true]{background:var(--garden-wash);color:var(--garden-accent);box-shadow:inset 0 0 0 1px var(--garden-accent)}
+.garden-game button:focus-visible{outline:3px solid var(--garden-accent);outline-offset:3px}
+.garden-game button:disabled{cursor:default;opacity:.48}
+.garden-game[data-ready=true][data-light=true]:not([data-low-motion=true]) .garden-primary-action{animation:garden-ready 2.8s ease-in-out infinite}
+@keyframes garden-ready{50%{box-shadow:0 0 20px var(--garden-glow),inset 0 0 0 1px var(--garden-accent)}}
+.garden-ending{left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%);width:390px;max-width:calc(100% - 32px);max-height:calc(100% - 32px);overflow:auto;text-align:center;padding:35px 30px;background:var(--garden-paper);border:1px solid var(--garden-line);border-radius:25px;box-shadow:0 0 0 100vmax #182b385e,0 20px 70px #162e3740;color:var(--garden-ink)}
+.garden-ending small,.garden-ending p{color:var(--garden-muted)}
+.garden-ending h2{margin:18px 0 14px;color:var(--garden-ink)}
+.garden-ending button{background:var(--garden-wash);color:var(--garden-ink);border:1px solid var(--garden-line);border-radius:12px}
+.garden-ending button:first-of-type{background:var(--garden-accent);color:white}
+#gardenEndingStats{padding:12px 4px;margin:13px 0;color:var(--garden-accent);font-size:12px;border-block:1px solid var(--garden-line)}
+.garden-game.is-ending .garden-tools,.garden-game.is-ending .garden-panel,.garden-game.is-ending .garden-pad,.garden-game.is-ending .garden-message{visibility:hidden}
+@media(max-width:900px){.garden-message{bottom:169px}.garden-overview-button{bottom:365px}.garden-panel{max-height:calc(100% - 310px)}}
+@media(max-width:649px){
+ .garden-heading{left:12px;top:12px;width:calc(100% - 124px);padding:23px 14px 27px;border-radius:20px}
+ .garden-paper-trim{inset:4px;border-radius:16px}.garden-paper-star{top:-2px;width:102px;height:18px;background-size:265.05px 163.8px;background-position:-81px -7.5px}
+ .garden-paper-trim::before,.garden-paper-trim::after{width:25.33px;height:26.67px;background-size:176.7px 109.2px;bottom:0}.garden-paper-trim::before{background-position:-2.67px -78.67px}.garden-paper-trim::after{background-position:-150px -78.67px}
+ .garden-heading small{font-size:9px;letter-spacing:.4px}.garden-heading h1{font-size:20px;margin:7px 0}.garden-heading p{font-size:11px;line-height:1.5}
+ .garden-progress-heading{margin-top:9px;padding-top:8px;font-size:9px}#gardenMilestones{gap:3px;margin-top:5px}#gardenMilestones li{font-size:9px;padding:3px 4px;gap:3px}
+ .garden-nav{right:10px;top:16px;gap:3px}
+ .garden-panel{top:auto;bottom:224px;right:12px;width:181px;max-height:230px;padding:23px 8px 28px;border-radius:20px}
+ .garden-panel-heading{font-size:11px;letter-spacing:0}.garden-actors .garden-follow{min-width:44px;font-size:10px}
+ #gardenStatus{font-size:10px;margin:4px 0 8px;padding-bottom:7px}#gardenCommands button{font-size:11px;padding:7px 8px;gap:5px}#gardenCommands kbd{display:none}
+ .garden-score{font-size:12px;margin-top:9px;padding-top:7px;gap:5px}.garden-score img{width:22px;height:22px}.garden-score small{font-size:9px}
+ #gardenGoal,.garden-game[data-level="3-4"] #gardenGoal{display:none}
+ .garden-message{bottom:166px;width:calc(100% - 24px);max-width:none;max-height:52px;overflow:auto;padding:8px 12px;font-size:11px;pointer-events:auto;text-align:left}
+ .garden-pad{left:12px;bottom:224px}.garden-overview-button{left:12px;bottom:366px;top:auto!important;padding:5px 10px!important}
+ .garden-ending{padding:26px 24px;bottom:auto}.garden-ending h2{font-size:23px}
+}
+@media(max-height:700px) and (max-width:649px){.garden-panel{max-height:170px;bottom:212px}.garden-pad{bottom:212px}.garden-overview-button{bottom:354px}.garden-heading{padding-top:15px;padding-bottom:22px}.garden-heading p,.garden-progress-heading{display:none}#gardenMilestones li:not(.is-current){display:none}.garden-heading .garden-paper-star{display:none}}
+@media(max-height:560px) and (min-width:650px){
+ .garden-heading{left:14px;top:10px;width:238px;padding:27px 15px 36px}.garden-heading h1{font-size:20px;margin:6px 0}.garden-heading p{font-size:10px}.garden-progress-heading{margin-top:7px;padding-top:6px}#gardenMilestones{margin-top:5px;gap:3px}#gardenMilestones li{padding:3px;font-size:9px}
+ .garden-panel{top:72px;right:14px;width:211px;max-height:calc(100% - 165px);padding:28px 9px 37px}.garden-panel-heading{font-size:11px}#gardenCommands button{font-size:11px}#gardenGoal{display:none}
+ .garden-message{bottom:92px;max-width:calc(100% - 462px);font-size:10px;padding:7px 10px}.garden-pad{bottom:95px;left:15px}.garden-overview-button{left:auto;right:126px;top:13px;bottom:auto}.garden-ending{bottom:auto}
+}
+@media(prefers-reduced-motion:reduce){.garden-game *{animation:none!important;transition:none!important}}
+.garden-game[data-low-motion=true] *{animation:none!important;transition:none!important}
+@media(max-width:360px){.garden-heading h1{font-size:17px;letter-spacing:0}.garden-heading small{font-size:8px;letter-spacing:0}.garden-panel{width:158px}.garden-pad{grid-template:repeat(3,44px)/repeat(3,44px)}}

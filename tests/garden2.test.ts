@@ -7,6 +7,46 @@ import {normalizeGardenProgress} from '../src/app/garden2/save';
 import {butterflyPose} from '../src/app/garden2/gardenArt';
 import {moleDialogue,MoleConversation} from '../src/app/garden2/moleDialogue';
 import {terrainSteps,faceDepth,pondFootprint,TERRAIN_RISE} from '../src/app/garden2/landscape';
+import {mirrorGuidance} from '../src/app/garden2/mirrorGuide';
+import {gardenJourney,gardenCommandState} from '../src/app/garden2/presentation';
+
+test('Rehearsal can be paused and reset after switching to a passenger, including after reload',()=>{
+ const w=new GardenWorld('2-3');go(w,'m:stage:0:0');act(w,'switch');
+ act(w,'swap:0');const before=w.snapshot();act(w,'play');assert.ok(w.act('beat',true).ok);
+ act(w,'switch');assert.equal(w.actor,'luvie');assert.ok(w.state.playing);
+ const restored=new GardenWorld('2-3',w.snapshot());act(restored,'play');assert.equal(restored.state.playing,false);
+ act(restored,'resetSong');assert.deepEqual(restored.state.actors,before.actors);assert.deepEqual(restored.state.turns,before.turns);assert.equal(restored.state.beat,0);
+ assert.equal(restored.flag('raised'),false);assert.equal(restored.state.trial,undefined);
+});
+
+test('Chapter guidance reflects live mechanisms after undo and does not promise a disconnected exit',()=>{
+ const w=new GardenWorld('1-3');assert.match(gardenJourney(w).next,/转/);assert.equal(gardenJourney(w).steps[0].done,false);
+ go(w,'m:garden:0:0');act(w,'turn:garden');assert.equal(gardenJourney(w).steps[0].done,true);
+ w.undo();assert.equal(gardenJourney(w).steps[0].done,false);
+ const pond=new GardenWorld('2-1');const before=pond.snapshot();const result=gardenCommandState(pond,'use:care');assert.equal(result.available,false);assert.match(result.reason,/清露/);assert.deepEqual(pond.snapshot(),before);assert.equal(pond.canUndo,false);
+});
+
+test('Every chapter guidance survives intermediate saves and finishes only after explicit planting',()=>{
+ for(const level of GARDEN_LEVELS){const w=new GardenWorld(level.id);
+  for(const step of GARDEN_SOLUTIONS[level.id]){const guide=gardenJourney(new GardenWorld(level.id,w.snapshot()));assert.ok(guide.current>=0,level.id);assert.equal(guide.steps.at(-1)!.done,false);assert.ok(guide.next.length>0);if(step.startsWith('!'))act(w,step.slice(1));else go(w,step);}
+  const done=gardenJourney(w);assert.equal(done.done,done.total);assert.equal(done.current,-1);
+ }
+});
+
+test('2-2 map guidance follows the real mirror states through carrying, rotation, undo and reload',()=>{
+ const w=new GardenWorld('2-2');assert.equal(mirrorGuidance(w)!.stage,'take');assert.equal(mirrorGuidance(w)!.tile,'f:4:3');
+ go(w,'f:4:3');act(w,'take:mirrorB');const carried=w.snapshot();assert.equal(mirrorGuidance(w)!.stage,'place');assert.equal(mirrorGuidance(w)!.tile,'f:1:0');
+ assert.equal(mirrorGuidance(new GardenWorld('2-2',carried))!.stage,'place');
+ go(w,'f:1:0');act(w,'drop:mirrorB:f:1:0');assert.equal(mirrorGuidance(w)!.stage,'turn-a');
+ assert.equal(mirrorGuidance(w)!.action,'angle:mirrorA');act(w,'angle:mirrorA');assert.equal(mirrorGuidance(w)!.stage,'turn-b');
+ act(w,'angle:mirrorB');assert.equal(w.ready(),true);assert.equal(mirrorGuidance(w)!.stage,'plant');
+ assert.ok(w.undo());assert.equal(mirrorGuidance(w)!.stage,'turn-b');assert.equal(w.ready(),false);
+ act(w,'angle:mirrorB');go(w,'f:4:0');act(w,'repair');assert.equal(mirrorGuidance(w),undefined);
+});
+test('2-2 guidance can recover a mirror placed on a different floor and does not change the puzzle',()=>{
+ const w=new GardenWorld('2-2');go(w,'f:4:3');act(w,'take:mirrorB');act(w,'drop:mirrorB:f:4:3');const before=w.snapshot();
+ const guide=mirrorGuidance(w)!;assert.equal(guide.stage,'take');assert.equal(guide.tile,'f:4:3');assert.deepEqual(w.snapshot(),before);assert.match(w.hint().message,/发光/);
+});
 
 test('Valley terraces expose real stairs without connecting gaps or impassable height differences',()=>{
  for(const level of GARDEN_LEVELS.filter(l=>l.chapter==='valley')){

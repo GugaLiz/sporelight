@@ -6,16 +6,21 @@ Original sheets are never changed. Crop coordinates are recorded in manifest.jso
 """
 from pathlib import Path
 from collections import deque
-import json, sys
+import argparse, json, sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'assets/images/material'
-OUT=ROOT/'assets/images/material-ready'
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--characters-only',action='store_true')
+parser.add_argument('--output',default='assets/images/material-ready')
+args=parser.parse_args()
+OUT=ROOT/args.output
 OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT/'.cache/art-tools'))
 import cv2
+from character_matte import character_cutout, warp_rgba, remap_rgba, soften_symbiosis_emission
 
 def transparent(image):
     image=image.convert('RGBA')
@@ -30,6 +35,7 @@ def transparent(image):
     return Image.fromarray(pixels)
 
 manifest={'characterNote':'Reference-1 face, hat and leaf cape; pre-unification illustrated body motion transferred with optical-flow inbetweens; composited artwork, not AI redrawing','source':'assets/images/material','method':'crop, background extraction, aligned animation frames and text-free UI skins','assets':{}}
+manifest['characterMatting']={'version':2,'method':'source-resolution exterior trimap, protected white details, local foreground reconstruction, premultiplied RGBA resampling','originalArtPreserved':True,'generatedArtworkUsed':False,'canvas':[256,256],'footAnchor':[.5,236/256]}
 previews=[]
 
 def export(name,sheet,box,character=False,portrait=False,clear=None):
@@ -39,12 +45,13 @@ def export(name,sheet,box,character=False,portrait=False,clear=None):
         draw=ImageDraw.Draw(mask)
         for area in clear:draw.rectangle(area,fill=255)
         original=Image.fromarray(cv2.inpaint(rgb,np.array(mask),6,cv2.INPAINT_NS)).convert('RGBA')
-    cut=transparent(original)
+    cut=character_cutout(original) if character or portrait else transparent(original)
+    if name=='symbiosis':cut=soften_symbiosis_emission(cut,Image.open(SOURCE/sheet),box)
     alpha=np.array(cut.getchannel('A'))
     count,components,stats,_=cv2.connectedComponentsWithStats((alpha>24).astype('uint8'),8)
     if count>1:
         main=1+np.argmax(stats[1:,cv2.CC_STAT_AREA])
-        if character and not name.startswith('sow-') and name!='symbiosis':
+        if (character or portrait) and not name.startswith('sow-') and name!='symbiosis':
             # Remove neighboring frame fragments and the source sheet's foot shadow.
             keep=cv2.dilate((components==main).astype('uint8'),np.ones((3,3),np.uint8))
             alpha[keep==0]=0
@@ -99,13 +106,13 @@ def articulated(layer,pivot,angle,shift=(0,0),joint=None,bend=0):
         upper=layer.copy();upper[int(joint[1])+2:,:,3]=0
         lower=layer.copy();lower[:int(joint[1])-2,:,3]=0
         matrix=cv2.getRotationMatrix2D(joint,bend,1)
-        lower=cv2.warpAffine(lower,matrix,(256,256),flags=cv2.INTER_CUBIC)
+        lower=warp_rgba(lower,matrix)
         combined=Image.fromarray(lower)
         combined.alpha_composite(Image.fromarray(upper))
         layer=np.array(combined)
     matrix=cv2.getRotationMatrix2D(pivot,angle,1)
     matrix[:,2]+=shift
-    return Image.fromarray(cv2.warpAffine(layer,matrix,(256,256),flags=cv2.INTER_CUBIC))
+    return Image.fromarray(warp_rgba(layer,matrix))
 
 
 # Preserve the actual pre-unification key poses and timing. Transfer their
@@ -116,14 +123,21 @@ walk_views=['idle-front','idle-side','idle-side','idle-front','idle-front','idle
 body_keys=[]
 yy,xx=np.indices((256,256))
 def guide_sprite(box):
-    cut=transparent(Image.open(SOURCE/'role.png').crop(box))
+    source=Image.open(SOURCE/'role.png').crop(box)
+    # Keep the exact registration used by the existing hand/body compositing.
+    legacy=np.array(transparent(source));legacy_rgb=legacy[:,:,:3].astype('int16')
+    legacy[(legacy_rgb.max(2)-legacy_rgb.min(2)<22)&(np.indices(legacy.shape[:2])[0]>legacy.shape[0]-30),3]=0
+    _,legacy_labels,legacy_stats,_=cv2.connectedComponentsWithStats((legacy[:,:,3]>24).astype('uint8'),8)
+    legacy_main=1+np.argmax(legacy_stats[1:,cv2.CC_STAT_AREA]);legacy[:,:,3][legacy_labels!=legacy_main]=0
+    bounds=Image.fromarray(legacy).getchannel('A').getbbox()
+    cut=character_cutout(source)
     pixels=np.array(cut);rgb=pixels[:,:,:3].astype('int16')
     # Remove the drawn foot shadow before alignment, retaining warm brown shoes.
     neutral=(rgb.max(2)-rgb.min(2)<22)&(np.indices(pixels.shape[:2])[0]>pixels.shape[0]-30)
     pixels[neutral,3]=0
     _,labels,stats,_=cv2.connectedComponentsWithStats((pixels[:,:,3]>24).astype('uint8'),8)
     main=1+np.argmax(stats[1:,cv2.CC_STAT_AREA]);pixels[:,:,3][labels!=main]=0
-    cut=Image.fromarray(pixels);cut=cut.crop(cut.getchannel('A').getbbox());cut.thumbnail((218,216),Image.Resampling.LANCZOS)
+    cut=Image.fromarray(pixels);cut=cut.crop(bounds);cut.thumbnail((218,216),Image.Resampling.LANCZOS)
     aligned=Image.new('RGBA',(256,256));aligned.alpha_composite(cut,((256-cut.width)//2,236-cut.height))
     return np.array(aligned)
 
@@ -134,7 +148,7 @@ for box in walk_boxes:
     collar=(rgb[:,:,0]>rgb[:,:,1]*1.6)&(yy<183)
     brightness=rgb[:,:,0]/255
     for channel,value in enumerate((125,145,82)):pixels[collar,channel]=(value*brightness[collar]).astype('uint8')
-    body=cv2.warpAffine(pixels,np.float32([[1.25,0,-32],[0,1.16,-38.2]]),(256,256),flags=cv2.INTER_CUBIC)
+    body=warp_rgba(pixels,np.float32([[1.25,0,-32],[0,1.16,-38.2]]))
     rgb=body[:,:,:3].astype('int16')
     body[:,:,3][(yy>222)&(rgb.max(2)-rgb.min(2)<25)]=0
     body_keys.append(body)
@@ -180,11 +194,13 @@ for i in range(12):
 jump_guide=guide_sprite((730,467,875,696))
 jump_expression_source=jump_guide.copy()
 rgb=jump_guide[:,:,:3].astype(float)
-old_head=(yy<146)|((yy<165)&(xx>83)&(xx<174))|((yy<165)&((xx<72)|(xx>185)))|((yy<164)&(rgb[:,:,0]>rgb[:,:,1]*1.5))
+# Remove only the old face/hat. Skin must never be keyed as "red hat":
+# edge decontamination restores warm skin that the earlier ratio also erased.
+old_head=(yy<146)|((yy<165)&(xx>93)&(xx<164))|((yy<164)&(rgb[:,:,0]>rgb[:,:,1]*2)&(rgb[:,:,0]>rgb[:,:,2]*2))
 jump_guide[:,:,3][old_head]=0
 collar=(rgb[:,:,0]>rgb[:,:,1]*1.6)&(yy>=164)&(yy<186)
 for channel,value in enumerate((125,145,82)):jump_guide[collar,channel]=(value*rgb[:,:,0][collar]/255).astype('uint8')
-jump_body=cv2.warpAffine(jump_guide,np.float32([[1.45,0,-57.6],[0,1.16,-38.2]]),(256,256),flags=cv2.INTER_CUBIC)
+jump_body=warp_rgba(jump_guide,np.float32([[1.45,0,-57.6],[0,1.16,-38.2]]))
 neutral=np.array(Image.open(OUT/'idle-front.png').convert('RGBA'));neutral[:167,:,3]=0
 jump_head=np.array(Image.open(OUT/'idle-front.png').convert('RGBA'))
 rgb=jump_head[:,:,:3].astype('int16')
@@ -201,7 +217,7 @@ for eye_x in (110.5,143):
     weight=np.clip(1-radius,0,1).astype('float32')
     map_x+=((eye_x+(xx-eye_x)/1.045)-xx).astype('float32')*weight
     map_y+=((eye_y+(yy-eye_y)/1.10)-yy).astype('float32')*weight
-happy_head=cv2.remap(happy_head,map_x,map_y,cv2.INTER_CUBIC)
+happy_head=remap_rgba(happy_head,map_x,map_y,cv2.INTER_CUBIC)
 # Remove the resting lip line before inserting the smiling open mouth.
 lip_mask=np.zeros((256,256),dtype='uint8');cv2.ellipse(lip_mask,(128,134),(9,3),0,0,360,255,-1)
 happy_head[:,:,:3]=cv2.inpaint(happy_head[:,:,:3],lip_mask,3,cv2.INPAINT_TELEA)
@@ -225,7 +241,7 @@ for i in range(12):
         my=yy.astype('float32').copy()
         lower=yy>=175
         my[lower]=175+(my[lower]-175)/(1+.045*np.sin(phase*np.pi))
-        body=cv2.remap(jump_body,xx.astype('float32'),my,cv2.INTER_LINEAR)
+        body=remap_rgba(jump_body,xx.astype('float32'),my,cv2.INTER_LINEAR)
         frame=Image.fromarray(body)
     frame.alpha_composite(Image.fromarray(happy_head if amount>=.1 else jump_head))
     name=f'jump-{i+1}'
@@ -260,39 +276,40 @@ for name,box in {'salute':(550,558,830,948),'symbiosis':(918,549,1321,952)}.item
     export(name,'char.png',box,character=True)
 export('portrait-front','char.png',(77,63,364,497),portrait=True)
 
-# Rich large menu surfaces. Strip only baked lettering, retain paper and ornaments.
-export('menu-paper','btn_01.png',(810,155,1370,380),clear=[(140,70,420,157)])
-export('menu-logo','btn_01.png',(62,53,741,407))
-export('button-paper','buttons.png',(82,241,237,306),clear=[(43,16,112,48)])
-export('button-green','buttons.png',(80,85,329,163),clear=[(59,21,201,60)])
-export('button-confirm','buttons.png',(346,85,524,164),clear=[(46,20,134,62)])
-export('button-cancel','buttons.png',(545,85,723,164),clear=[(46,20,134,62)])
-export('panel-paper','btn_03.png',(65,180,665,558))
-export('result-next','btn_03.png',(49,678,487,912),clear=[(130,63,313,155)])
-export('result-retry','btn_03.png',(515,678,949,912),clear=[(95,63,340,155)])
-export('result-map','btn_03.png',(971,678,1412,912),clear=[(102,63,344,155)])
+if not args.characters_only:
+    # Rich large menu surfaces. Strip only baked lettering, retain paper and ornaments.
+    export('menu-paper','btn_01.png',(810,155,1370,380),clear=[(140,70,420,157)])
+    export('menu-logo','btn_01.png',(62,53,741,407))
+    export('button-paper','buttons.png',(82,241,237,306),clear=[(43,16,112,48)])
+    export('button-green','buttons.png',(80,85,329,163),clear=[(59,21,201,60)])
+    export('button-confirm','buttons.png',(346,85,524,164),clear=[(46,20,134,62)])
+    export('button-cancel','buttons.png',(545,85,723,164),clear=[(46,20,134,62)])
+    export('panel-paper','btn_03.png',(65,180,665,558))
+    export('result-next','btn_03.png',(49,678,487,912),clear=[(130,63,313,155)])
+    export('result-retry','btn_03.png',(515,678,949,912),clear=[(95,63,340,155)])
+    export('result-map','btn_03.png',(971,678,1412,912),clear=[(102,63,344,155)])
 
-for name,box in {
- 'pause':(68,101,351,354),'roll':(403,100,691,355),'roll-active':(742,85,1040,356),
- 'sow':(1107,100,1394,357),'sow-active':(67,455,365,738),
- 'hint':(405,466,692,742),'undo':(750,465,1038,742),
- 'spore':(95,802,335,977),'leaf':(426,801,642,979),'lock':(749,800,925,980)
-}.items():export(f'icon-{name}','btn_02.png',box)
+    for name,box in {
+     'pause':(68,101,351,354),'roll':(403,100,691,355),'roll-active':(742,85,1040,356),
+     'sow':(1107,100,1394,357),'sow-active':(67,455,365,738),
+     'hint':(405,466,692,742),'undo':(750,465,1038,742),
+     'spore':(95,802,335,977),'leaf':(426,801,642,979),'lock':(749,800,925,980)
+    }.items():export(f'icon-{name}','btn_02.png',box)
 
-for name,box in {
- 'close':(302,386,378,460),'back':(414,386,486,460),'retry':(910,386,985,460),
- 'settings':(478,576,580,691),'map':(730,576,844,691),'gallery':(1000,576,1111,691),
- 'toggle-on':(1032,397,1129,454),'toggle-off':(1153,397,1248,454),
-}.items():export(f'icon-{name}','buttons.png',box)
+    for name,box in {
+     'close':(302,386,378,460),'back':(414,386,486,460),'retry':(910,386,985,460),
+     'settings':(478,576,580,691),'map':(730,576,844,691),'gallery':(1000,576,1111,691),
+     'toggle-on':(1032,397,1129,454),'toggle-off':(1153,397,1248,454),
+    }.items():export(f'icon-{name}','buttons.png',box)
 
-# Independent effects preserve colored emission rather than a baked gray checker.
-for name,box in {'spore':(91,241,245,387),'trail':(350,198,603,393),'growth':(660,187,1036,408),'glow':(1065,167,1395,415)}.items():
-    export(f'fx-{name}','fx.png',box)
-    file=OUT/f'fx-{name}.png';im=Image.open(file).convert('RGBA');arr=np.array(im)
-    rgb=arr[:,:,:3].astype(np.int16);saturation=rgb.max(2)-rgb.min(2)
-    arr[:,:,3]=np.minimum(arr[:,:,3],np.clip((saturation-8)*6,0,255).astype('uint8'))
-    Image.fromarray(arr).save(file,optimize=True)
-    manifest['assets'][f'fx-{name}']['bytes']=file.stat().st_size
+    # Independent effects preserve colored emission rather than a baked gray checker.
+    for name,box in {'spore':(91,241,245,387),'trail':(350,198,603,393),'growth':(660,187,1036,408),'glow':(1065,167,1395,415)}.items():
+        export(f'fx-{name}','fx.png',box)
+        file=OUT/f'fx-{name}.png';im=Image.open(file).convert('RGBA');arr=np.array(im)
+        rgb=arr[:,:,:3].astype(np.int16);saturation=rgb.max(2)-rgb.min(2)
+        arr[:,:,3]=np.minimum(arr[:,:,3],np.clip((saturation-8)*6,0,255).astype('uint8'))
+        Image.fromarray(arr).save(file,optimize=True)
+        manifest['assets'][f'fx-{name}']['bytes']=file.stat().st_size
 
 (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 columns=7;cell=180;rows=(len(previews)+columns-1)//columns

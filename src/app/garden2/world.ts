@@ -1,4 +1,5 @@
 import {gardenLevel} from './levels';
+import {mirrorGuidance} from './mirrorGuide';
 import {cell,modCell,DIRECTION,type Actor,type Tile,type Point,type GardenState,type GardenLevel,type Command,type Landmark} from './types';
 const clone=<T>(v:T):T=>JSON.parse(JSON.stringify(v));
 export const same=(a:Point,b:Point)=>a.x===b.x&&a.z===b.z&&a.h===b.h;
@@ -217,13 +218,15 @@ export class GardenWorld {
   for(const [id,item]of Object.entries(s.items)){
    if(item.holder===this.actor){
     const slot=this.level.marks.find(m=>m.kind==='slot'&&this.near(m.tile));
-    out.push({id:`drop:${id}:${slot?.tile??s.actors[this.actor]}`,label:slot?`放到${slot.label}`:'放在脚边的固定地面'});
+    out.push({id:`drop:${id}:${slot?.tile??s.actors[this.actor]}`,label:slot?(this.level.id==='2-2'?'放入②号镜叶光槽':`放到${slot.label}`):'放在脚边的固定地面'});
     if(id.startsWith('mirror')||id==='lamp')out.push({id:`angle:${id}`,label:id==='lamp'?'把灯转90°':'转动手中的反光叶'});
    }else if(!item.holder&&item.tile&&this.near(item.tile)&&id!=='bug'){
     if(id!=='mirrorA'&&(this.actor==='luvie'||id==='lamp'))out.push({id:`take:${id}`,label:`${id==='lamp'?'提起暖灯':id.endsWith('Post')?'搬起日月影柱':id.startsWith('mirror')?'搬起反光叶':id==='dew'?'接住露珠':'收好门铃'}`});
-    if(id.startsWith('mirror'))out.push({id:`angle:${id}`,label:'转动反光叶朝向'});
+    if(id.startsWith('mirror'))out.push({id:`angle:${id}`,label:this.level.id==='2-2'?`转动${id==='mirrorA'?'①':'②'}号镜叶`:'转动反光叶朝向'});
    }
   }
+  // A rehearsal can be stopped or reset from either character, even off the piano.
+  if(this.level.id==='2-3'&&s.trial&&!this.flag('latch'))out.push({id:'play',label:s.playing?'暂停试奏':'继续试奏'},{id:'resetSong',label:'重新排练（恢复试奏前）'});
   return [...new Map(out.map(c=>[c.id,c])).values()];
  }
  act(id:string,internal=false):{ok:boolean;message:string}{
@@ -282,7 +285,7 @@ export class GardenWorld {
    '1-3':()=>'进入庭院中心，连人带花园转90°。原来的西口会接向北岸。',
    '1-4':()=>!this.flag('latch')?'露薇在外庭扳住重杆；换小苔灵过桥穿低拱，到轻踏板；再换露薇过南门固定门闩。':!this.flag('home')?'露薇取回内庭的门铃，带到鼹鼠家门。交还铃铛后，花门就会打开。':'接上小苔灵，穿过鼹鼠旁已打开的花门，到小花园中央一起播种。',
    '2-1':()=>!this.flag('care')?'保持低水位，走南侧石阶取清露，回浮台把露珠留给花心。':'水位调到中位，浮台会接上右侧花岸；高位通往可选芦苇湾。',
-   '2-2':()=>s.items.mirrorB.tile!==cell(1,0)?'露薇搬起右下镜叶，走到上方槽(1,0)放下。':'把两片镜叶都转成斜向上反射：光先向上，再向右绕过石壁。',
+   '2-2':()=>mirrorGuidance(this)!.message,
    '2-3':()=>!this.flag('raised')?'露薇走上花台，小苔灵留在琴台。转庭必须先于升台；可以单步试奏。':!this.flag('latch')?'正确朝向应向北。若先升后转，重新排练；到北岸后固定便道。':'固定便道已经打开，操控小苔灵走回露薇身边，再播种。',
    '2-4':()=>!this.flag('plant')?'走上移动花园种蜜花，再在靠近左岸时邀请光虫。':s.items.bug.tile!==modCell('boat')&&!this.flag('pollinated')?'把花园停近左岸，邀请光虫落在蜜花上。':!this.flag('pollinated')?'载光虫一起移到右岸，再邀请它飞向核心花岸授粉。':'远岸成熟了，沿接上的石板过去，一起播种。',
    '3-1':()=>!this.flag('window')?'让小苔灵提灯穿南侧低通道，到右下照孔，灯朝上；露薇穿门后移开石窗。':'灯井已经自亮，提灯沿低通道回来。两人带灯在核心旁会合。',

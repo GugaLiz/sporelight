@@ -10,7 +10,8 @@ for(const step of GARDEN_SOLUTIONS['1-4']){if(step==='!repair')break;if(step.sta
 world.state.actors={luvie:'f:-11:-1',buddy:'f:-10:-1'};world.state.follow=false;
 const browser=await chromium.launch({channel:'chrome',headless:true}),page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[],checks=[];
 page.on('pageerror',e=>errors.push(e.message));
-await mkdir('docs/qa-garden2/walking',{recursive:true});
+page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
+const outputDir=process.env.QA_GARDEN_DIR||'docs/qa-garden2/walking';await mkdir(outputDir,{recursive:true});
 const ready=()=>page.waitForFunction(()=>document.querySelector('#gardenCanvas')?.dataset.moving==='false');
 async function enter(completed=false,lowMotion=false){const run=world.snapshot();run.completed=completed;await page.evaluate(({run,lowMotion})=>{localStorage.setItem('sporelight.save.v2',JSON.stringify({hasNamed:true,lastLevel:'1-4',levels:{'1-1':{completed:true},'1-2':{completed:true},'1-3':{completed:true}},settings:{bgm:0,ambient:0,lowMotion}}));localStorage.setItem('sporelight.garden2.v1',JSON.stringify({version:1,lastLevel:'1-4',runs:{'1-4':run},records:run.completed?{'1-4':{completed:true,stars:3,collected:4}}:{},memories:run.completed?{'1-4':run}:{}}));},{run,lowMotion});await page.reload();if(completed){await page.locator('[data-action="花园纪事"]').click();await page.locator('details').filter({has:page.locator('[data-garden-review="1-4"]')}).locator('summary').click();await page.locator('[data-garden-review="1-4"]').click();}else await page.locator('[data-action="继续旅程"]').click();await ready();await page.waitForLoadState('networkidle');if(completed)await page.locator('#gardenStay').click();}
 async function traceWalk(tile,capture=false){
@@ -19,15 +20,19 @@ async function traceWalk(tile,capture=false){
  const result=await page.evaluate(()=>({trace:window.walkTrace,frames:window.walkFrames}));await ready();return result;
 }
 try{
- await page.goto('http://127.0.0.1:4173/');await enter();const walking=await traceWalk('f:-7:2',true);
+ await page.goto('http://127.0.0.1:4173/');await enter();
+ const loaded=await page.evaluate(async()=>{const manifest=await fetch('./images/character-refined/manifest.json').then(r=>r.json());return Promise.all(Object.keys(manifest.assets).map(key=>new Promise(resolve=>{const image=new Image();image.onload=()=>resolve({key,ok:image.naturalWidth>0});image.onerror=()=>resolve({key,ok:false});image.src=`./images/character-refined/${key}.png`;})));});
+ assert.equal(loaded.length,52);assert.ok(loaded.every(item=>item.ok));checks.push('All 52 refined character assets decode in the browser without missing resources');
+ const walking=await traceWalk('f:-7:2',true);
  const keys=new Set(walking.trace.map(p=>p.frame));assert.equal(keys.size,12,'a route must reach all twelve walking frames');assert.ok(walking.trace.every(p=>p.clip==='walk'));assert.ok(walking.trace.some(p=>p.facing==='left')&&walking.trace.some(p=>p.facing==='right'));
  const tiles=[...new Set(walking.trace.map(p=>p.tile))];assert.ok(tiles.length>=6);for(const tile of tiles.slice(1)){const segment=walking.trace.filter(p=>p.tile===tile);assert.ok(segment.length>0);}assert.ok(walking.trace.filter((p,i)=>i&&p.tile!==walking.trace[i-1].tile).some(p=>Number(p.frame.split('-').at(-1))>4),'stride does not reset at each tile');
- for(const [i,data]of walking.frames.entries())await writeFile(`docs/qa-garden2/walking/step-${String(i).padStart(2,'0')}.png`,Buffer.from(data.split(',')[1],'base64'));
- await page.screenshot({path:'docs/qa-garden2/walking/desktop.png'});checks.push('Desktop multi-tile route plays all twelve frames continuously and turns with the isometric path');
+ for(const [i,data]of walking.frames.entries())await writeFile(`${outputDir}/step-${String(i).padStart(2,'0')}.png`,Buffer.from(data.split(',')[1],'base64'));
+ await page.screenshot({path:`${outputDir}/desktop.png`});checks.push('Desktop multi-tile route plays all twelve frames continuously and turns with the isometric path');
  await page.waitForTimeout(350);await traceWalk('f:-8:2');assert.equal(await page.locator('#gardenCanvas').getAttribute('data-character-facing'),'left');
+ await page.locator('[data-action="跳跃"]').click();await page.waitForFunction(()=>document.querySelector('#gardenCanvas')?.dataset.characterClip==='jump');await page.screenshot({path:`${outputDir}/jump.png`});await ready();checks.push('Jump uses the refined airborne frames and returns to a stable floor position');
  await enter(true);const completed=await traceWalk('f:-7:2');assert.equal(new Set(completed.trace.map(p=>p.frame)).size,12);assert.ok(completed.trace.every(p=>p.clip==='walk'));checks.push('After completion, strolling walks normally instead of sliding in the bow pose');
  await enter();await page.locator('[data-garden-actor="buddy"]').click();await ready();const buddy=await traceWalk('f:-7:2');assert.ok(buddy.trace.length>0);assert.ok(buddy.trace.every(p=>p.clip==='idle'));checks.push('Moving only the companion leaves Luvie idle');
- await page.setViewportSize({width:390,height:844});await enter();const phone=await traceWalk('f:-7:2');assert.ok(new Set(phone.trace.map(p=>p.frame)).size>=10);await page.screenshot({path:'docs/qa-garden2/walking/phone.png'});checks.push('Phone click-to-walk uses the same continuous gait');
+ await page.setViewportSize({width:390,height:844});await enter();const phone=await traceWalk('f:-7:2');assert.ok(new Set(phone.trace.map(p=>p.frame)).size>=10);await page.screenshot({path:`${outputDir}/phone.png`});checks.push('Phone click-to-walk uses the same continuous gait');
  await enter(false,true);await page.locator('[data-garden-dir="right"]').click();await ready();assert.equal(await page.locator('#gardenCanvas').getAttribute('data-tile'),'f:-10:-1');assert.equal(await page.locator('#gardenCanvas').getAttribute('data-character-clip'),'idle');checks.push('Reduced motion still commits movement instantly without gait animation');
- assert.deepEqual(errors,[]);await writeFile('docs/qa-garden2/walking/checks.json',JSON.stringify({checks,frames:[...keys],errors},null,2));console.log(JSON.stringify({checks,frames:[...keys],errors},null,2));
+ assert.deepEqual(errors,[]);await writeFile(`${outputDir}/checks.json`,JSON.stringify({checks,frames:[...keys],errors},null,2));console.log(JSON.stringify({checks,frames:[...keys],errors},null,2));
 }finally{await browser.close();}

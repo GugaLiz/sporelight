@@ -31,7 +31,7 @@ export class GridRenderer {
   for(const key of ['grass','stone','cliff','moss-stone','stairs','rock','lantern','flowers','bush','lilypad','crystal','bridge','arch'])load(key,`./images/grid-world/${key}.png`);
   for(const key of ['wall-left','wall-right'])load(key,`./images/grid-world/${key}.jpg`);
   for(const key of ['soil','flower','bloom','moss','light','vine','lily','lily-open','bug','puddle'])load(key,`./images/production/${key}.png`);
-  for(const key of CHARACTER_FILES)load(`actor:${key}`,`./images/material-ready/${key}.png`);
+  for(const key of CHARACTER_FILES)load(`actor:${key}`,`./images/character-refined/${key}.png`);
   for(const key of ['spore','trail','growth','glow'])load(`fx:${key}`,`./images/material-ready/fx-${key}.png`);
   load('background',`./images/grid-world/sky-${world.model.level.chapter}.jpg`);
   load('garden:ball','./images/journey-gardens/buddy-ball.png');
@@ -44,6 +44,7 @@ export class GridRenderer {
   const resized=this.canvas.width!==pixelWidth||this.canvas.height!==pixelHeight;
   if(resized){this.canvas.width=pixelWidth;this.canvas.height=pixelHeight;}
   this.ctx.setTransform(ratio,0,0,ratio,0,0);
+  this.ctx.imageSmoothingEnabled=true;this.ctx.imageSmoothingQuality='high';
   const counter=document.getElementById('sporeCount')?.getBoundingClientRect(),rect=this.canvas.getBoundingClientRect();
   if(counter&&rect.width&&rect.height)this.counter={x:(counter.left+counter.width/2-rect.left)*this.width/rect.width,y:(counter.top+counter.height/2-rect.top)*this.height/rect.height};
   if(resized&&this.lastState)this.draw(this.lastState);

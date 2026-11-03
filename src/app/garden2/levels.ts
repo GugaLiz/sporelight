@@ -27,7 +27,7 @@ out[3].sanctuary={gate:{id:cell(-6,0),x:-6,z:0,h:0},tiles:[...rect(-11,-2,5,5),.
 out[3].marks.find(m=>m.id==='core')!.tile=cell(-9,0);
 out[3].marks.find(m=>m.id==='core')!.label='在花园中央种下微光';
 out.push(level('2-1','池塘之声','pond','水位改变整片池塘','低位能取清露，中位连到花岸，高位还有芦苇湾。更高不一定更接近终点。',4,[...rect(-5,-1,3,3),...rect(3,-1,3,3,1),...rect(-1,-5,3,3,2),...path([[-4,0],[-4,4],[0,4],[0,2]])],[moduleMark('water','float','调节池塘水位','valve'),mark('dew',0,4,'接一滴清露','item'),moduleMark('care','float','把清露留给睡莲','flower'),mark('core',4,0,'唤醒池塘花床','core')],[lift('float',0,0)],[],modCell('float')));
-out.push(level('2-2','涟漪之谜','pond','先把光的路摆出来','光被石壁挡住了。露薇可以搬动镜叶，再调整两片叶子的反射方向。',5,rect(-1,-1,7,5),[mark('source',0,1,'固定光源','lamp'),mark('mirrorA',1,1,'转动第一片镜叶','turn'),mark('mirrorB',4,3,'搬起第二片镜叶','item'),mark('slot',1,0,'上方镜叶槽','slot'),mark('core',4,0,'接住绕过石壁的光','core')],[],[],cell(0,2)));
+out.push(level('2-2','涟漪之谜','pond','跟随发光镜叶，把光送到花床','先找发光的镜叶，再跟着箭头搬到叶形光槽。转动两片镜叶，让光绕过石壁。',5,rect(-1,-1,7,5),[mark('source',0,1,'固定光源','lamp'),mark('mirrorA',1,1,'① 固定反光叶','turn'),mark('mirrorB',4,3,'搬起第二片镜叶','item'),mark('slot',1,0,'② 镜叶光槽','slot'),mark('core',4,0,'接住绕过石壁的光','core')],[],[],cell(0,2)));
 out[5].walls=[[2,1]];out[5].tiles=out[5].tiles.filter(t=>!(t.x===2&&t.z===1));
 out.push(level('2-3','雨滴节拍','pond','写一段花园会跳的舞','安排转庭、升台、停拍的顺序。试奏可以暂停、单步，错了就重新排练。',4,[...rect(-5,-1,3,3),...rect(-1,-5,3,3,2)],[mark('song',-4,0,'雨滴琴与动作叶','song'),moduleMark('stage','stage','乘上花台','flower'),mark('latch',0,-4,'固定会合便道','latch'),mark('core',1,-4,'一起听雨','core')],[{id:'stage',x:0,z:0,h:0,shape:elbow,kind:'rotate'}],[],cell(-4,0),true));
 out[6].buddy=cell(-4,1);

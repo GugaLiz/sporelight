@@ -4,11 +4,13 @@ import {drawMushroomBuddy} from '../game/mushroomBuddy';
 import {drawMole} from '../game/mole';
 import {DIRECTION,type GardenState,type Point,type Tile} from './types';
 import {GardenWorld} from './world';
+import {mirrorGuidance,drawMirrorSocket,drawMirrorFocus,drawMirrorArrow} from './mirrorGuide';
 import {gardenScenery,terrainSurface,GARDEN_SCENERY_ASSETS} from './scenery';
 import {drawFountain,drawButterflies,drawLeafPlate,drawLever} from './gardenArt';
 import {MoleConversation} from './moleDialogue';
 import {drawBell,drawCarryBag} from './itemArt';
-import {TERRAIN_RISE,faceDepth,terrainSteps,drawPond,drawTerrainSteps,drawRunoff,runoffSource,drawWetPaving,drawShallowStone,type LandscapeView} from './landscape';
+import {TERRAIN_RISE,faceDepth,terrainSteps,drawPond,pondFootprint,drawTerrainSteps,drawRunoff,runoffSource,drawWetPaving,drawShallowStone,type LandscapeView} from './landscape';
+import {drawRainAtmosphere,drawPondResident,pondResidents} from './pondWeather';
 import {CHARACTER_FILES,characterPose,facingFor,jumpHeight,type Facing} from '../game/characterMotion';
 export interface Motion{from:GardenState;to:GardenState;progress:number;kind:string;startedAt:number;walkStartedAt:number;duration:number}
 export class GardenRenderer{
@@ -18,21 +20,21 @@ export class GardenRenderer{
  constructor(readonly canvas:HTMLCanvasElement,readonly world:GardenWorld,private settings:SaveData['settings']){
   this.c=canvas.getContext('2d')!;for(const key of ['stone','grass','stairs','arch','rock','flowers','crystal','lilypad'])this.load(key,`./images/grid-world/${key}.png`);
   for(const key of ['flower','bloom','vine','light','bug'])this.load(key,`./images/production/${key}.png`);
-  for(const key of CHARACTER_FILES)this.load(key,`./images/material-ready/${key}.png`);
+  for(const key of CHARACTER_FILES)this.load(key,`./images/character-refined/${key}.png`);
   for(const key of GARDEN_SCENERY_ASSETS)this.load(key,`./images/garden-scenery/${key}.png`);this.load('bush','./images/grid-world/bush.png');
   this.load('flower-gate-frame','./images/garden-scenery/flower-gate-frame.png');this.load('flower-gate-seal','./images/garden-scenery/flower-gate-seal.png');
   for(const key of ['paving-valley','paving-pond','paving-grass','paving-moss','valley-wall-left','valley-wall-right','masonry-valley','masonry-pond','water-pigment'])this.load(key,`./images/garden-scenery/${key}.jpg`);
   this.load('spore','./images/material-ready/icon-spore.png');this.load('wall-left','./images/grid-world/wall-left.jpg');this.load('wall-right','./images/grid-world/wall-right.jpg');
-  this.load('ball','./images/journey-gardens/buddy-ball.png');this.load('background',world.level.chapter==='pond'?'./images/garden-scenery/pond-mist.jpg':`./images/grid-world/sky-${world.level.chapter}.jpg`);this.resize();
+  this.load('ball','./images/journey-gardens/buddy-ball.png');this.load('background',world.level.chapter==='pond'?'./images/garden-scenery/pond-rain-forest-v2.png':`./images/grid-world/sky-${world.level.chapter}.jpg`);this.resize();
  }
  private load(key:string,url:string){const im=new Image();im.src=url;this.images.set(key,im);}
  private bell(x:number,y:number){const c=this.c,k=this.scale;drawBell(c,x,y,k);c.save();c.font='12px Microsoft YaHei';c.textAlign='center';c.fillStyle='#fff5dc';const lx=Math.max(48,Math.min(this.width-48,x));c.fillRect(lx-44,y-65*k,88,23);c.fillStyle='#87663c';c.fillText('门铃 · 拾起',lx,y-65*k+16);c.restore();}
  configure(s:SaveData['settings']){this.settings=s;this.resize();}
- resize(){this.width=this.canvas.clientWidth||1280;this.height=this.canvas.clientHeight||720;const d=this.settings.quality==='soft'?1:Math.min(devicePixelRatio||1,2),key=`${this.width}:${this.height}:${d}`;if(key!==this.lastSize){this.canvas.width=this.width*d;this.canvas.height=this.height*d;this.c.setTransform(d,0,0,d,0,0);this.lastSize=key;}}
+ resize(){this.width=this.canvas.clientWidth||1280;this.height=this.canvas.clientHeight||720;const d=this.settings.quality==='soft'?1:Math.min(devicePixelRatio||1,2),key=`${this.width}:${this.height}:${d}`;if(key!==this.lastSize){this.canvas.width=this.width*d;this.canvas.height=this.height*d;this.c.setTransform(d,0,0,d,0,0);this.c.imageSmoothingEnabled=true;this.c.imageSmoothingQuality='high';this.lastSize=key;}}
  private raw(p:Point){return{x:(p.x-p.z)*35,y:(p.x+p.z)*17.5-p.h*TERRAIN_RISE};}
  project(p:Point){const q=this.raw(p);return{x:this.ox+q.x*this.scale,y:this.oy+q.y*this.scale};}
  private view(player:Point){
-  const tiles=this.world.tiles,all=[...tiles,...this.world.level.modules.flatMap(m=>[{x:m.x+4,z:m.z+4,h:m.high??m.h},{x:m.x-4,z:m.z-4,h:m.h}])],p=all.map(p=>this.raw(p));
+  const tiles=this.world.tiles,all=[...tiles,...this.world.level.modules.flatMap(m=>[{x:m.x+4,z:m.z+4,h:m.high??m.h},{x:m.x-4,z:m.z-4,h:m.h}]),...(this.world.level.chapter==='pond'?pondFootprint(this.world.level):[])],p=all.map(p=>this.raw(p));
   const minX=Math.min(...p.map(t=>t.x))-65,maxX=Math.max(...p.map(t=>t.x))+65,minY=Math.min(...p.map(t=>t.y))-120,maxY=Math.max(...all.map(p=>this.raw({...p,h:0}).y))+(this.world.level.chapter==='valley'?145:125);
   if(this.width<650&&!this.overview){this.scale=.92;const q=this.raw(player);this.ox=this.width*.38-q.x*this.scale;this.oy=this.height*.5-q.y*this.scale;}
   else{this.scale=Math.min(this.world.level.chapter==='valley'?1.5:1.28,(this.width-(this.width<650?25:330))/(maxX-minX),(this.height-(this.width<650?310:185))/(maxY-minY));this.ox=this.width*(this.width<650?.5:.46)-(minX+maxX)/2*this.scale;this.oy=this.height*.52-(minY+maxY)/2*this.scale;}
@@ -80,10 +82,28 @@ export class GardenRenderer{
   if(t.kind==='module')this.poly(diamond,'#d8d7b515','#e9e0b18a');
   c.restore();
  }
+ private interactionLight(time:number,motion?:Motion){
+  if(!this.settings.dynamicLight)return;
+  const c=this.c,w=this.world,color=({valley:'#e5cf86',pond:'#a3e4df',cave:'#ceb7ff'})[w.level.chapter];
+  const pulse=this.settings.lowMotion?1:.86+Math.sin(time*.0025)*.14,tiles=w.tiles;
+  for(const mark of w.level.marks){
+   if(!['core','root','turn','valve','song','slot','lever','latch'].includes(mark.kind))continue;
+   const tile=tiles.find(t=>t.id===mark.tile);if(!tile||!w.visible(tile))continue;
+   if(mark.kind==='core'?!w.ready()&&!w.state.completed:(!w.near(tile.id)||w.state.completed))continue;
+   const p=this.project(tile),radius=(mark.kind==='core'?43:26)*this.scale;
+   c.save();c.globalAlpha=.45*pulse;c.strokeStyle=color;c.shadowColor=color;c.shadowBlur=14*this.scale;c.lineWidth=1.7;
+   c.beginPath();c.ellipse(p.x,p.y+2*this.scale,radius,radius*.48,0,0,Math.PI*2);c.stroke();c.restore();
+  }
+  if(!motion||this.settings.lowMotion||['move','hop','roll','jump','rejoin','switch','follow'].includes(motion.kind))return;
+  const p=this.project(w.point),k=motion.progress,r=(18+48*k)*this.scale;
+  c.save();c.strokeStyle=color;c.globalAlpha=Math.sin(k*Math.PI)*.65;c.lineWidth=2*(1-k)+.5;c.beginPath();c.ellipse(p.x,p.y,r,r*.48,0,0,Math.PI*2);c.stroke();
+  if(this.settings.particles)for(let i=0;i<7;i++){const angle=i*Math.PI*2/7;c.fillStyle=color;c.beginPath();c.arc(p.x+Math.cos(angle)*r*.7,p.y-18*this.scale-Math.sin(angle)*r*.4-k*23*this.scale,1.7*this.scale,0,Math.PI*2);c.fill();}c.restore();
+ }
  draw(time:number,motion?:Motion,hint=false){
   this.resize();const c=this.c,w=this.width,h=this.height,t=this.settings.lowMotion?0:time;
   const bg=this.images.get('background');c.fillStyle='#d9dfcc';c.fillRect(0,0,w,h);if(bg?.complete&&bg.naturalWidth){const f=Math.max(w/bg.naturalWidth,h/bg.naturalHeight);c.drawImage(bg,(w-bg.naturalWidth*f)/2,(h-bg.naturalHeight*f)/2,bg.naturalWidth*f,bg.naturalHeight*f);}
   c.fillStyle=this.world.level.chapter==='cave'?'#14223944':'#f2ecd822';c.fillRect(0,0,w,h);
+  if(this.world.level.chapter==='pond')drawRainAtmosphere(c,w,h,t,false,this.settings.lowMotion,this.settings.particles);
   const future=motion?new GardenWorld(this.world.level.id,motion.to):undefined;
   const a=this.world.tiles,b=future?.tiles??a,k=motion?motion.progress*motion.progress*(3-2*motion.progress):0;
   const travelProgress=motion&&['move','roll','rejoin'].includes(motion.kind)?motion.progress:k;
@@ -95,7 +115,7 @@ export class GardenRenderer{
   const current=this.world.point;let player:Point=current;
   if(motion&&future){const actor=this.world.actor;player=interpolate(this.world.pointFor(motion.from.actors[actor]),future.pointFor(motion.to.actors[actor]),travelProgress);}
   this.view(player);
-  const landscape:LandscapeView={c,scale:this.scale,time:t,particles:this.settings.particles,project:p=>this.project(p),images:this.images};
+  const landscape:LandscapeView={c,scale:this.scale,time:t,particles:this.settings.particles,lowMotion:this.settings.lowMotion,project:p=>this.project(p),images:this.images};
   // Valve settings raise the hydraulic flower deck; the surrounding shallows stay below the fixed banks.
   const waterSetting=motion?motion.from.water+(motion.to.water-motion.from.water)*k:this.world.state.water;
   const waterHeight=this.world.level.id==='2-1'?-.55+waterSetting*.18:-.5;
@@ -103,6 +123,7 @@ export class GardenRenderer{
   const painted=a.filter(p=>this.world.visible(p)).map(p=>({...p,...interpolate(p,b.find(q=>q.id===p.id)),alpha:b.some(q=>q.id===p.id)?1:1-k}));
   if(motion)for(const p of b)if(!a.some(q=>q.id===p.id))painted.push({...p,alpha:k});
   const objects:{depth:number;draw:()=>void}[]=painted.map(p=>({depth:p.x+p.z,draw:()=>this.floor(p,painted,landscape,p.alpha)}));
+  if(this.world.level.chapter==='pond')pondResidents(this.world.level,a).forEach((p,i)=>objects.push({depth:p.x+p.z+.15,draw:()=>drawPondResident(landscape,{...p,h:waterHeight},i)}));
   if(!motion||['move','roll','rejoin','jump','hop'].includes(motion.kind))for(const [low,high]of terrainSteps(a))objects.push({depth:Math.max(low.x+low.z,high.x+high.z)+.04,draw:()=>drawTerrainSteps(landscape,[low,high])});
   const runoff=runoffSource(this.world.level,a);if(runoff&&this.world.level.chapter!=='cave')objects.push({depth:runoff.x+runoff.z+.6,draw:()=>drawRunoff(landscape,this.world.level,painted,waterHeight)});
   const l=this.world.level,s=this.world.state;
@@ -142,9 +163,10 @@ export class GardenRenderer{
    objects.push({depth:l.sanctuary.fountain.x+l.sanctuary.fountain.z+.1,draw:()=>drawFountain(c,f.x,f.y,92*this.scale,t,this.settings.particles,this.images.get('stone'))});
    if(this.settings.particles){const flowers=gardenScenery(l).filter(prop=>prop.x<=-7&&['pink-flowers','blue-flowers','yellow-flowers','ivory-lotus','glow-flower','gold-lotus','flowers'].includes(prop.asset));const anchors=flowers.map(prop=>{const p=this.project(prop),image=this.images.get(prop.asset),height=prop.width*(image?.naturalWidth?image.naturalHeight/image.naturalWidth:1.3);return {x:(p.x-f.x)/this.scale,y:(p.y-f.y)/this.scale-height*.70};});objects.push({depth:1000,draw:()=>drawButterflies(c,f.x,f.y,this.scale,t,anchors)});}
   }
-  for(const [x,z]of l.walls??[]){const q=this.project({x,z,h:0});objects.push({depth:x+z+.1,draw:()=>this.image('rock',q.x,q.y+5*this.scale,(l.id==='1-2'?38:70)*this.scale,.9,l.id==='1-2'?.65:1)});}
+  for(const [x,z]of l.walls??[]){const q=this.project({x,z,h:0});objects.push({depth:x+z+.1,draw:()=>this.image(l.id==='2-2'?'river-rock':'rock',q.x,q.y+5*this.scale,(l.id==='1-2'?38:l.id==='2-2'?46:70)*this.scale,.9,l.id==='1-2'?.65:1)});}
   for(const mark of l.marks){const p=a.find(t=>t.id===mark.tile);if(!p||!this.world.visible(p))continue;const q=this.project(interpolate(p,b.find(t=>t.id===p.id)));
    objects.push({depth:p.x+p.z+.1,draw:()=>{
+    if(l.id==='2-2'&&mark.id==='slot')drawMirrorSocket(landscape,p,s.items.mirrorB.tile===mark.tile,t,this.settings.lowMotion);
     if(mark.kind==='core'){this.image(s.completed?'bloom':'flower',q.x,q.y+10*this.scale,(l.id==='3-4'?150:110)*this.scale);if(this.world.ready()&&this.settings.dynamicLight)this.image('light',q.x,q.y+5*this.scale,90*this.scale,.9,.22);}
     else if(mark.kind==='root')this.image('vine',q.x,q.y+8*this.scale,65*this.scale);
     else if(mark.kind==='latch')this.image('arch',q.x,q.y+8*this.scale,90*this.scale);
@@ -153,7 +175,7 @@ export class GardenRenderer{
     else if(mark.id==='hold')drawLever(c,q.x+28*this.scale,q.y-8*this.scale,57*this.scale,this.world.flag('hold')?1:motion?.kind==='use:hold'?k:0,this.images.get('stone'));
     else if(mark.kind==='plate')drawLeafPlate(c,q.x,q.y,64*this.scale,s.actors.buddy===mark.tile,t,this.images.get('stone'),this.images.get('lilypad'));
     else if(mark.kind==='rest'||mark.kind==='observe')this.image('flowers',q.x,q.y+7*this.scale,34*this.scale);
-    const caption=({core:'核心花床',root:'根台',turn:'转动庭院',valve:'花阀',lever:'操作杆',latch:'门闩',song:'雨滴琴',slot:'放置槽',plate:'轻叶踏板'} as Record<string,string>)[mark.kind];
+    const caption=({core:'核心花床',root:'根台',turn:l.id==='2-2'?'① 固定镜叶':'转动庭院',valve:'花阀',lever:'操作杆',latch:'门闩',song:'雨滴琴',slot:l.id==='2-2'?'② 镜叶光槽':'放置槽',plate:'轻叶踏板'} as Record<string,string>)[mark.kind];
     if(caption&&mark.id!=='hold'&&!s.completed&&this.world.near(mark.tile)){c.save();c.font='11px Microsoft YaHei';c.textAlign='center';const width=c.measureText(caption).width+14;c.fillStyle='#fff6e7e8';c.fillRect(q.x-width/2,q.y-49*this.scale,width,20);c.fillStyle='#7a6647';c.fillText(caption,q.x,q.y-49*this.scale+14);c.restore();}
    }});
   }
@@ -164,7 +186,7 @@ export class GardenRenderer{
    objects.push({depth:p.x+p.z+.25,draw:()=>{c.save();c.globalAlpha*=alpha;
     if(id==='bug')this.image('bug',q.x,q.y-10*this.scale,40*this.scale);
     else if(id==='dew')this.image(ground.picked?'dew-parcel':'dew-plant',q.x,q.y+5*this.scale,ground.picked?34*this.scale:49*this.scale,1);
-    else if(id.startsWith('mirror')){this.image('lilypad',q.x,q.y,52*this.scale);c.strokeStyle='#fff0b1';c.lineWidth=4*this.scale;c.beginPath();c.moveTo(q.x-12*this.scale,q.y+(ground.angle%2?7:-7)*this.scale);c.lineTo(q.x+12*this.scale,q.y+(ground.angle%2?-7:7)*this.scale);c.stroke();}
+    else if(id.startsWith('mirror')){this.image('lilypad',q.x,q.y,52*this.scale);if(l.id==='2-2'){c.save();c.fillStyle='#fff7d9';c.strokeStyle='#b9c5a0';c.lineWidth=1;c.beginPath();c.arc(q.x+19*this.scale,q.y-17*this.scale,8*this.scale,0,Math.PI*2);c.fill();c.stroke();c.fillStyle='#718565';c.font=`bold ${11*this.scale}px Microsoft YaHei`;c.textAlign='center';c.fillText(id==='mirrorA'?'①':'②',q.x+19*this.scale,q.y-13*this.scale);c.restore();}c.strokeStyle='#fff0b1';c.lineWidth=4*this.scale;c.beginPath();c.moveTo(q.x-12*this.scale,q.y+(ground.angle%2?7:-7)*this.scale);c.lineTo(q.x+12*this.scale,q.y+(ground.angle%2?-7:7)*this.scale);c.stroke();}
     else if(id==='bell')this.bell(q.x+18*this.scale,q.y);
     else this.image(id==='lamp'?'light':'crystal',q.x,q.y,36*this.scale);
     c.restore();
@@ -192,9 +214,15 @@ export class GardenRenderer{
    if(s.active===actor&&!s.completed){c.save();c.strokeStyle='#fff0b7';c.lineWidth=2;c.beginPath();c.ellipse(q.x+offset,q.y+4*this.scale,24*this.scale,10*this.scale,0,0,Math.PI*2);c.stroke();c.restore();}
   }});}
   objects.sort((a,b)=>a.depth-b.depth).forEach(o=>o.draw());
+  this.interactionLight(time,motion);
+  if(l.chapter==='pond')drawRainAtmosphere(c,w,h,t,true,this.settings.lowMotion,this.settings.particles);
   if(l.id==='1-2'&&!s.completed)this.growthGuide(t,hint);
   const commands=this.world.commands();for(const cmd of commands)if(cmd.target){const r=this.world.level.roots[0],match=/:(-?\d+):(-?\d+)$/.exec(cmd.target)!;const p=this.project({x:+match[1],z:+match[2],h:r.h});c.save();c.strokeStyle='#e7ca80';c.lineWidth=2;c.setLineDash([4,4]);c.beginPath();c.moveTo(p.x-25*this.scale,p.y);c.lineTo(p.x,p.y-13*this.scale);c.lineTo(p.x+25*this.scale,p.y);c.lineTo(p.x,p.y+13*this.scale);c.closePath();c.stroke();c.restore();}
-  if(hint&&l.id!=='1-2'){const p=this.project(current);c.save();c.strokeStyle='#fff3a4';c.lineWidth=2;c.beginPath();c.ellipse(p.x,p.y,40*this.scale,20*this.scale,0,0,Math.PI*2);c.stroke();c.restore();}
-  if(s.completed&&this.settings.particles)for(let i=0;i<16;i++){c.fillStyle='#ffedaf88';c.beginPath();c.arc((i*173+Math.sin(t*.001+i)*15)%w,(h+i*91-t*.02)%h,2,0,Math.PI*2);c.fill();}
+  if(l.id==='2-2'){const guide=mirrorGuidance(this.world);this.canvas.dataset.mirrorStage=guide?.stage??'complete';this.canvas.dataset.mirrorPreview=String(hint);if(guide){const tile=a.find(p=>p.id===guide.tile);if(tile)drawMirrorFocus(landscape,tile,t,this.settings.lowMotion);
+   if(hint||guide.stage==='place'){c.save();c.setLineDash([5*this.scale,5*this.scale]);this.line(guide.route.map(p=>({...p,h:p.h+.05})),'#8ecfbd99',2);c.restore();for(let i=1;i<guide.route.length;i++)drawMirrorArrow(landscape,guide.route[i-1],guide.route[i]);
+    if(tile&&guide.stage==='place')drawMirrorArrow(landscape,this.world.point,tile);}
+  }}
+  if(hint&&l.id!=='1-2'&&l.id!=='2-2'){const p=this.project(current);c.save();c.strokeStyle='#fff3a4';c.lineWidth=2;c.beginPath();c.ellipse(p.x,p.y,40*this.scale,20*this.scale,0,0,Math.PI*2);c.stroke();c.restore();}
+  if(s.completed&&this.settings.particles&&!this.settings.lowMotion)for(let i=0;i<16;i++){c.fillStyle='#ffedaf88';c.beginPath();c.arc((i*173+Math.sin(t*.001+i)*15)%w,(h+i*91-t*.02)%h,2,0,Math.PI*2);c.fill();}
  }
 }

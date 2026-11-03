@@ -13,6 +13,7 @@ import { GALLERY_CATEGORIES, gallerySelection, type GalleryCategory, type Galler
 import { renderGameScene } from './scenes/gameScene';
 import { renderLevelSelectScene } from './scenes/levelSelectScene';
 import { renderMainMenuScene } from './scenes/mainMenuScene';
+import { MenuVignette } from './scenes/MenuVignette';
 import { renderNamingScene } from './scenes/namingScene';
 import { renderResultScene } from './scenes/resultScene';
 import type { AppState, GameSnapshot, Quality, Scene } from './types';
@@ -27,6 +28,7 @@ export function createApp(root: HTMLDivElement) { const app = new SporelightApp(
 class SporelightApp {
   private state: AppState = { save: loadSave(), scene: 'boot', settingsOpen: false, confirmMode: null, bootReady: false };
   private game: GardenGame | null = null;
+  private menuVignette: MenuVignette | null = null;
   private gardenProgress=loadGardenProgress();
   private gardenReview=false;
   private cloud: CloudGame | null = null;
@@ -48,7 +50,7 @@ class SporelightApp {
     document.addEventListener('fullscreenchange', this.onFullscreen);
     this.root.addEventListener('pointerdown', this.startAudio);
     this.root.addEventListener('keydown', this.startAudio);
-    const resources = [...['idle1.png', 'soil.png', 'bloom.png', 'bg-valley.jpg'].map(file => `./images/production/${file}`), ...CHARACTER_FILES.map(file => `./images/material-ready/${file}.png`)];
+    const resources = [...['idle1.png', 'soil.png', 'bloom.png', 'bg-valley.jpg'].map(file => `./images/production/${file}`), ...CHARACTER_FILES.map(file => `./images/character-refined/${file}.png`)];
     const loads = resources.map(file => new Promise<void>(resolve => {
       const image = new Image(); image.onload = () => resolve(); image.onerror = () => resolve(); image.src = file;
     }));
@@ -57,6 +59,7 @@ class SporelightApp {
   }
   private finishBoot() { if (this.state.scene !== 'boot') return; this.state.bootReady = true; this.setScene(this.state.save.hasNamed ? 'mainMenu' : 'naming'); }
   private render() {
+    this.menuVignette?.destroy(); this.menuVignette = null;
     this.game?.destroy(); this.game = null;
     this.cloud?.destroy(); this.cloud = null;
     this.cloudPreviewObservers.forEach(observer => observer.disconnect()); this.cloudPreviewObservers = [];
@@ -65,6 +68,7 @@ class SporelightApp {
     this.bindScene();
   }
   private bindScene() {
+    if (this.state.scene === 'mainMenu') this.menuVignette = new MenuVignette(this.root.querySelector<HTMLCanvasElement>('#menuVignette')!, this.state.save.settings);
     bindActions({
       randomName: () => this.setName(RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)]),
       resetNameField: () => this.setName(DEFAULT_NAME), startJourney: () => this.submitName(),
@@ -199,13 +203,13 @@ class SporelightApp {
   private openSettings() {
     if (this.game?.model.state.completed) return;
     this.beforeModalFocus = document.activeElement as HTMLElement;
-    this.state.settingsOpen = true; this.game?.pause(true); this.cloud?.pause(true); this.renderSettings();
+    this.state.settingsOpen = true; this.game?.pause(true); this.cloud?.pause(true); this.menuVignette?.pause(true); this.renderSettings();
     this.root.querySelector<HTMLElement>('.stage')!.inert = true;
   }
   private closeSettings() {
     this.state.settingsOpen = false; this.state.confirmMode = null;
     document.getElementById('modalRoot')!.innerHTML = ''; this.root.querySelector<HTMLElement>('.stage')!.inert = false;
-    this.game?.pause(document.hidden); this.cloud?.pause(document.hidden); this.beforeModalFocus?.focus();
+    this.game?.pause(document.hidden); this.cloud?.pause(document.hidden); this.menuVignette?.pause(document.hidden); this.beforeModalFocus?.focus();
   }
   private renderSettings() {
     const modal = document.getElementById('modalRoot')!; modal.innerHTML = renderSettingsModal(this.state);
@@ -232,6 +236,7 @@ class SporelightApp {
     (confirm ?? modal).querySelector<HTMLButtonElement>('button')?.focus();
   }
   private applySettings() {
+    this.menuVignette?.configure(this.state.save.settings);
     this.persist(); this.audio.configure(this.state.save.settings); this.game?.configure(this.state.save.settings); this.cloud?.configure(this.state.save.settings);
     this.root.querySelector('.shell')?.classList.toggle('is-low-motion', this.state.save.settings.lowMotion);
   }
@@ -240,7 +245,7 @@ class SporelightApp {
     catch { this.toast('当前浏览器不支持全屏，请使用浏览器的全屏功能。'); }
   }
   private onFullscreen = () => { if (this.state.settingsOpen) this.renderSettings(); };
-  private onVisibility = () => { this.audio.pause(document.hidden); this.game?.pause(document.hidden || this.state.settingsOpen); this.cloud?.pause(document.hidden || this.state.settingsOpen); };
+  private onVisibility = () => { this.audio.pause(document.hidden); this.game?.pause(document.hidden || this.state.settingsOpen); this.cloud?.pause(document.hidden || this.state.settingsOpen); this.menuVignette?.pause(document.hidden || this.state.settingsOpen); };
   private startAudio = () => this.audio.start();
   private onGlobalKey = (event: KeyboardEvent) => {
     if (this.state.mapOverview) {
@@ -268,6 +273,7 @@ class SporelightApp {
     this.root.querySelector('.toast')?.remove(); const toast = document.createElement('div'); toast.className = 'toast'; toast.role = 'status'; toast.textContent = message; this.root.appendChild(toast); window.setTimeout(() => toast.remove(), 4500);
   }
   destroy() {
+    this.menuVignette?.destroy();
     clearTimeout(this.timer); this.game?.destroy(); this.cloud?.destroy(); this.audio.destroy();
     this.cloudPreviewObservers.forEach(observer => observer.disconnect());
     window.removeEventListener('resize', this.resize); window.removeEventListener('keydown', this.onGlobalKey);
