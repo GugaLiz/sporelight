@@ -8,7 +8,12 @@
     "test": "node scripts/test.mjs",
     "dev": "vite --host 0.0.0.0 --port 4173",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0 --port 4173"
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "godot:setup": "node tools/godot-migration/setup-toolchain.mjs",
+    "godot:assets": "node tools/godot-migration/sync-assets.mjs",
+    "godot:check": "node tools/godot-migration/check.mjs",
+    "godot:export": "node tools/godot-migration/export.mjs",
+    "godot:preview": "node tools/godot-migration/serve-preview.mjs"
   },
   "engines": { "node": ">=18" },
   "devDependencies": {

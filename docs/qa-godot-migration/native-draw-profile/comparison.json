@@ -1,0 +1,39 @@
+{
+  "samplesPerLevel": 30,
+  "note": "Inclusive timings overlap and include instrumentation overhead; native CPU results are not Web FPS.",
+  "sourcesAfter": {
+    "godot/presentation/world/garden_environment.gd": "43ae1e73397816fd19e1535f42c5c7e354827e376a13425797404f9311aa8bfc",
+    "godot/presentation/world/garden_view.gd": "560d60dd4ba98bbe25fd2d46b53db673894683bdedffbf804b1e8bd15668ebd3",
+    "godot/presentation/world/garden_paint.gd": "adce4988df465aac9559dc76f203fd7ed38801b6e31f3d1c97025fecba467423"
+  },
+  "comparisons": [
+    {
+      "levelId": "1-1",
+      "method": "view._draw",
+      "beforeMs": 3.7333,
+      "afterMs": 3.41173333333333,
+      "reductionPercent": 8.61346976312296
+    },
+    {
+      "levelId": "1-1",
+      "method": "EnvironmentArt.pond",
+      "beforeMs": 0,
+      "afterMs": 0,
+      "reductionPercent": null
+    },
+    {
+      "levelId": "2-2",
+      "method": "view._draw",
+      "beforeMs": 16.2484666666667,
+      "afterMs": 10.8321,
+      "reductionPercent": 33.334632601230204
+    },
+    {
+      "levelId": "2-2",
+      "method": "EnvironmentArt.pond",
+      "beforeMs": 7.94506666666667,
+      "afterMs": 4.01256666666667,
+      "reductionPercent": 49.4961233805464
+    }
+  ]
+}

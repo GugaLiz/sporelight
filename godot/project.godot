@@ -1,0 +1,28 @@
+; Sporelight native migration. The original TypeScript application is retained.
+config_version=5
+
+[application]
+config/name="微光苔原 · Sporelight"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/use_custom_user_dir=true
+config/custom_user_dir_name="SporelightGodotPreview"
+boot_splash/show_image=false
+boot_splash/bg_color=Color(0.94, 0.92, 0.83, 1)
+
+[display]
+window/size/viewport_width=1440
+window/size/viewport_height=900
+window/size/window_width_override=1280
+window/size/window_height_override=800
+window/stretch/mode="disabled"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.94, 0.92, 0.83, 1)
+textures/default_filters/use_nearest_mipmap_filter=false
+
+[audio]
+driver/enable_input=false
+

@@ -1,0 +1,639 @@
+{
+	"completedWithoutErrors": true,
+	"cpuCount": 32,
+	"engine": "4.7.2-stable (official)",
+	"failures": [],
+	"fixturePositions": {
+		"1-1": [
+			{
+				"commandCount": 1,
+				"target": "g:root:0:1",
+				"tile": "f:0:0"
+			},
+			{
+				"commandCount": 1,
+				"target": "f:0:2",
+				"tile": "g:root:0:1"
+			},
+			{
+				"commandCount": 1,
+				"target": "g:root:0:1",
+				"tile": "f:0:2"
+			},
+			{
+				"commandCount": 1,
+				"target": "f:0:0",
+				"tile": "g:root:0:1"
+			},
+			{
+				"commandCount": 1,
+				"target": "g:root:1:0",
+				"tile": "f:0:0"
+			},
+			{
+				"commandCount": 1,
+				"target": "f:2:0",
+				"tile": "g:root:1:0"
+			}
+		],
+		"2-2": [
+			{
+				"commandCount": 2,
+				"target": "f:1:2",
+				"tile": "f:0:2"
+			},
+			{
+				"commandCount": 3,
+				"target": "f:2:2",
+				"tile": "f:1:2"
+			},
+			{
+				"commandCount": 2,
+				"target": "f:3:2",
+				"tile": "f:2:2"
+			},
+			{
+				"commandCount": 2,
+				"target": "f:4:2",
+				"tile": "f:3:2"
+			},
+			{
+				"commandCount": 4,
+				"target": "f:4:3",
+				"tile": "f:4:2"
+			},
+			{
+				"commandCount": 5,
+				"target": "f:4:2",
+				"tile": "f:4:3"
+			}
+		]
+	},
+	"measurements": {
+		"1-1/available-command-list": {
+			"inclusiveProfile": {
+				"world.commands": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.613966666666667
+				},
+				"world.tiles": {
+					"callsPerSample": 8.0,
+					"inclusiveMsPerSample": 0.519906666666667
+				}
+			},
+			"maxMs": 1.057,
+			"meanMs": 0.617733333333333,
+			"p50Ms": 0.571,
+			"p95Ms": 0.954,
+			"samples": 150
+		},
+		"1-1/command-cache-hit": {
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.000326666666666667
+				}
+			},
+			"maxMs": 0.029,
+			"meanMs": 0.00194666666666667,
+			"p50Ms": 0.001,
+			"p95Ms": 0.004,
+			"samples": 150
+		},
+		"1-1/command-cache-miss": {
+			"inclusiveProfile": {
+				"main.command_states.miss": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.56753333333333
+				},
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.18026
+				},
+				"world.act": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.683393333333333
+				},
+				"world.commands": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 1.19679333333333
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.24322
+				},
+				"world.tiles": {
+					"callsPerSample": 19.0,
+					"inclusiveMsPerSample": 1.19887333333333
+				},
+				"world.transaction": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.0877533333333333
+				}
+			},
+			"maxMs": 4.768,
+			"meanMs": 1.57468,
+			"p50Ms": 1.448,
+			"p95Ms": 2.387,
+			"samples": 150
+		},
+		"1-1/controller-step-cold": {
+			"excludes": [
+				"renderer/presentation forks",
+				"real HUD drawing",
+				"file I/O",
+				"browser/WebAssembly cost"
+			],
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 1.5,
+					"inclusiveMsPerSample": 0.00235333333333333
+				},
+				"main.command_states.miss": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 4.48552666666667
+				},
+				"main.normalize_snapshot": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.838613333333333
+				},
+				"session.commit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.48082
+				},
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.797646666666667
+				},
+				"world._restore": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 0.77742
+				},
+				"world.act": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 1.99724
+				},
+				"world.commands": {
+					"callsPerSample": 8.0,
+					"inclusiveMsPerSample": 6.79028666666667
+				},
+				"world.fork": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 1.03304
+				},
+				"world.tiles": {
+					"callsPerSample": 80.3333333333333,
+					"inclusiveMsPerSample": 7.28684
+				},
+				"world.transaction": {
+					"callsPerSample": 4.0,
+					"inclusiveMsPerSample": 0.855873333333333
+				}
+			},
+			"initialCommandCache": "cold",
+			"maxMs": 13.585,
+			"meanMs": 10.7415533333333,
+			"p50Ms": 10.892,
+			"p95Ms": 12.258,
+			"persistence": "real stage_run and validation, memory persist (one extra store validation and JSON roundtrip)",
+			"samples": 150
+		},
+		"1-1/controller-step-warm": {
+			"excludes": [
+				"renderer/presentation forks",
+				"real HUD drawing",
+				"file I/O",
+				"browser/WebAssembly cost"
+			],
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 2.5,
+					"inclusiveMsPerSample": 0.00224666666666667
+				},
+				"main.command_states.miss": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.58986666666667
+				},
+				"main.normalize_snapshot": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.587013333333333
+				},
+				"session.commit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.339753333333333
+				},
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.577126666666667
+				},
+				"world._restore": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.37054
+				},
+				"world.act": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.711893333333333
+				},
+				"world.commands": {
+					"callsPerSample": 6.0,
+					"inclusiveMsPerSample": 3.50751333333333
+				},
+				"world.fork": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.496906666666667
+				},
+				"world.tiles": {
+					"callsPerSample": 61.3333333333333,
+					"inclusiveMsPerSample": 3.8333
+				},
+				"world.transaction": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 0.51898
+				}
+			},
+			"initialCommandCache": "warm (normal consecutive walk)",
+			"maxMs": 9.051,
+			"meanMs": 5.96036,
+			"p50Ms": 5.873,
+			"p95Ms": 7.73,
+			"persistence": "real stage_run and validation, memory persist (one extra store validation and JSON roundtrip)",
+			"samples": 150
+		},
+		"1-1/fork-saved-state": {
+			"inclusiveProfile": {
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.163586666666667
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.21308
+				},
+				"world.tiles": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.11844
+				}
+			},
+			"maxMs": 0.47,
+			"meanMs": 0.2238,
+			"p50Ms": 0.189,
+			"p95Ms": 0.366,
+			"samples": 150
+		},
+		"1-1/new-world-without-save": {
+			"inclusiveProfile": {},
+			"maxMs": 0.14,
+			"meanMs": 0.0501933333333333,
+			"p50Ms": 0.045,
+			"p95Ms": 0.081,
+			"samples": 150
+		},
+		"1-1/normalize-valid-state": {
+			"inclusiveProfile": {
+				"main.normalize_snapshot": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.291406666666667
+				}
+			},
+			"maxMs": 0.52,
+			"meanMs": 0.297626666666667,
+			"p50Ms": 0.255,
+			"p95Ms": 0.443,
+			"samples": 150
+		},
+		"1-1/prepare-move": {
+			"inclusiveProfile": {
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.57602
+				},
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.187913333333333
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.244146666666667
+				},
+				"world.tiles": {
+					"callsPerSample": 5.0,
+					"inclusiveMsPerSample": 0.332413333333333
+				},
+				"world.transaction": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.205286666666667
+				}
+			},
+			"maxMs": 1.362,
+			"meanMs": 0.58776,
+			"p50Ms": 0.539,
+			"p95Ms": 0.898,
+			"samples": 150
+		},
+		"1-1/restore-existing-world": {
+			"inclusiveProfile": {
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.171906666666667
+				},
+				"world.tiles": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.12658
+				}
+			},
+			"maxMs": 0.344,
+			"meanMs": 0.18068,
+			"p50Ms": 0.14,
+			"p95Ms": 0.313,
+			"samples": 150
+		},
+		"2-2/available-command-list": {
+			"inclusiveProfile": {
+				"world.commands": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 5.24398666666667
+				},
+				"world.tiles": {
+					"callsPerSample": 12.0,
+					"inclusiveMsPerSample": 4.91980666666667
+				}
+			},
+			"maxMs": 7.535,
+			"meanMs": 5.25501333333333,
+			"p50Ms": 5.346,
+			"p95Ms": 6.524,
+			"samples": 150
+		},
+		"2-2/command-cache-hit": {
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.00018
+				}
+			},
+			"maxMs": 0.005,
+			"meanMs": 0.00133333333333333,
+			"p50Ms": 0.001,
+			"p95Ms": 0.002,
+			"samples": 150
+		},
+		"2-2/command-cache-miss": {
+			"inclusiveProfile": {
+				"main.command_states.miss": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 24.1548
+				},
+				"world._restore": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 1.46971333333333
+				},
+				"world.act": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 16.80274
+				},
+				"world.commands": {
+					"callsPerSample": 4.0,
+					"inclusiveMsPerSample": 20.5505666666667
+				},
+				"world.fork": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 1.92831333333333
+				},
+				"world.tiles": {
+					"callsPerSample": 54.1666666666667,
+					"inclusiveMsPerSample": 21.7083666666667
+				},
+				"world.transaction": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 1.45125333333333
+				}
+			},
+			"maxMs": 36.368,
+			"meanMs": 24.1700933333333,
+			"p50Ms": 22.408,
+			"p95Ms": 33.69,
+			"samples": 150
+		},
+		"2-2/controller-step-cold": {
+			"excludes": [
+				"renderer/presentation forks",
+				"real HUD drawing",
+				"file I/O",
+				"browser/WebAssembly cost"
+			],
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 0.666666666666667,
+					"inclusiveMsPerSample": 0.00144
+				},
+				"main.command_states.miss": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 49.7620666666667
+				},
+				"main.normalize_snapshot": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 1.49018666666667
+				},
+				"session.commit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.59322666666667
+				},
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 2.11724666666667
+				},
+				"world._restore": {
+					"callsPerSample": 7.33333333333333,
+					"inclusiveMsPerSample": 3.65389333333333
+				},
+				"world.act": {
+					"callsPerSample": 6.33333333333333,
+					"inclusiveMsPerSample": 34.9553133333333
+				},
+				"world.commands": {
+					"callsPerSample": 12.3333333333333,
+					"inclusiveMsPerSample": 62.2188733333333
+				},
+				"world.fork": {
+					"callsPerSample": 7.33333333333333,
+					"inclusiveMsPerSample": 4.78679333333333
+				},
+				"world.tiles": {
+					"callsPerSample": 168.0,
+					"inclusiveMsPerSample": 66.49482
+				},
+				"world.transaction": {
+					"callsPerSample": 8.33333333333333,
+					"inclusiveMsPerSample": 5.06191333333333
+				}
+			},
+			"initialCommandCache": "cold",
+			"maxMs": 104.803,
+			"meanMs": 76.6589133333333,
+			"p50Ms": 75.047,
+			"p95Ms": 99.993,
+			"persistence": "real stage_run and validation, memory persist (one extra store validation and JSON roundtrip)",
+			"samples": 150
+		},
+		"2-2/controller-step-warm": {
+			"excludes": [
+				"renderer/presentation forks",
+				"real HUD drawing",
+				"file I/O",
+				"browser/WebAssembly cost"
+			],
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 1.66666666666667,
+					"inclusiveMsPerSample": 0.00402
+				},
+				"main.command_states.miss": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 26.31308
+				},
+				"main.normalize_snapshot": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 1.54589333333333
+				},
+				"session.commit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.54999333333333
+				},
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 2.21151333333333
+				},
+				"world._restore": {
+					"callsPerSample": 4.33333333333333,
+					"inclusiveMsPerSample": 2.19790666666667
+				},
+				"world.act": {
+					"callsPerSample": 3.33333333333333,
+					"inclusiveMsPerSample": 18.8179733333333
+				},
+				"world.commands": {
+					"callsPerSample": 8.33333333333333,
+					"inclusiveMsPerSample": 42.78372
+				},
+				"world.fork": {
+					"callsPerSample": 4.33333333333333,
+					"inclusiveMsPerSample": 2.88615333333333
+				},
+				"world.tiles": {
+					"callsPerSample": 113.833333333333,
+					"inclusiveMsPerSample": 45.8610266666667
+				},
+				"world.transaction": {
+					"callsPerSample": 5.33333333333333,
+					"inclusiveMsPerSample": 3.66104666666667
+				}
+			},
+			"initialCommandCache": "warm (normal consecutive walk)",
+			"maxMs": 71.805,
+			"meanMs": 53.8023666666667,
+			"p50Ms": 51.845,
+			"p95Ms": 68.937,
+			"persistence": "real stage_run and validation, memory persist (one extra store validation and JSON roundtrip)",
+			"samples": 150
+		},
+		"2-2/fork-saved-state": {
+			"inclusiveProfile": {
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.467826666666667
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.5697
+				},
+				"world.tiles": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.39256
+				}
+			},
+			"maxMs": 1.133,
+			"meanMs": 0.59216,
+			"p50Ms": 0.586,
+			"p95Ms": 0.824,
+			"samples": 150
+		},
+		"2-2/new-world-without-save": {
+			"inclusiveProfile": {},
+			"maxMs": 0.18,
+			"meanMs": 0.08892,
+			"p50Ms": 0.087,
+			"p95Ms": 0.139,
+			"samples": 150
+		},
+		"2-2/normalize-valid-state": {
+			"inclusiveProfile": {
+				"main.normalize_snapshot": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.6565
+				}
+			},
+			"maxMs": 2.083,
+			"meanMs": 0.664906666666667,
+			"p50Ms": 0.7,
+			"p95Ms": 0.868,
+			"samples": 150
+		},
+		"2-2/prepare-move": {
+			"inclusiveProfile": {
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.95312666666667
+				},
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.44602
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.55564
+				},
+				"world.tiles": {
+					"callsPerSample": 4.0,
+					"inclusiveMsPerSample": 1.48788
+				},
+				"world.transaction": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.909173333333333
+				}
+			},
+			"maxMs": 3.148,
+			"meanMs": 1.97323333333333,
+			"p50Ms": 1.992,
+			"p95Ms": 2.657,
+			"samples": 150
+		},
+		"2-2/restore-existing-world": {
+			"inclusiveProfile": {
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.457313333333333
+				},
+				"world.tiles": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.38854
+				}
+			},
+			"maxMs": 0.753,
+			"meanMs": 0.472753333333333,
+			"p50Ms": 0.484,
+			"p95Ms": 0.61,
+			"samples": 150
+		}
+	},
+	"notes": [
+		"Microsecond wall-clock CPU measurements on native GDScript, not Chrome frame timing.",
+		"Nested inclusive profiles overlap: restore is inside fork, fork is inside prepare/command_states.",
+		"Only test subclasses count calls; normalize_snapshot is timed as a whole because its internal validator uses the production World class.",
+		"Every controller sample starts from a real authored move fixture; setup occurs outside timing, and expected outcome/single commit are checked.",
+		"Warm command cache models normal walking; cold cache is reported separately to avoid exaggerating feedback probing.",
+		"No GPU, browser, audio or disk I/O is present; this cannot prove a 60FPS budget or directly quantify a Web frame's percentage."
+	],
+	"probe": "native-rule-copy-validation",
+	"processor": "Intel(R) Core(TM) i9-14900KF",
+	"referenceCommit": "5791bbc3dd90549b4c7ea302507ead577f51dd67"
+}

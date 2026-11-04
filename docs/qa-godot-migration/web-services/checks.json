@@ -1,0 +1,96 @@
+{
+  "date": "2026-11-04T16:01:40.536Z",
+  "base": "http://localhost:4185/",
+  "isolatedContext": true,
+  "checks": [
+    "Legacy browser data is not imported automatically",
+    "Reading legacy browser keys previews without changing progress",
+    "Confirmed import resumes the original last level",
+    "New mainline records take priority over old lower scores",
+    "Old record fallback fills a missing mainline record",
+    "Active runs and authentic completion memories survive browser import",
+    "JSBridge downloads a named versioned JSON save",
+    "Downloaded save identifies its format and version",
+    "Player name and naming state survive import and export",
+    "Settings survive the real browser migration path",
+    "Independent cloud data remains byte-for-byte intact",
+    "Original raw data retained: sporelight.save.v2",
+    "Original raw data retained: sporelight.garden2.v1",
+    "Original raw data retained: sporelight.cloud-gardens.v1",
+    "Downloaded JSON includes progress made after the import",
+    "IndexedDB persistence survives reload with the archived memory",
+    "Broken pasted JSON keeps import confirmation disabled",
+    "Broken pasted JSON cannot overwrite existing progress",
+    "JSBridge downloads a named versioned JSON save",
+    "Rejected import leaves player data and cloud data unchanged",
+    "Browser legacy keys remain unchanged after preview, import and download"
+  ],
+  "actions": [
+    {
+      "kind": "mouse",
+      "button": "地图"
+    },
+    {
+      "kind": "mouse",
+      "button": "导入 / 导出旅程"
+    },
+    {
+      "kind": "mouse",
+      "button": "读取本网站的旧旅程（先预览）"
+    },
+    {
+      "kind": "mouse",
+      "button": "确认导入"
+    },
+    {
+      "kind": "mouse",
+      "button": "回到花园"
+    },
+    {
+      "kind": "keyboard",
+      "key": "ArrowLeft"
+    },
+    {
+      "kind": "mouse",
+      "button": "地图"
+    },
+    {
+      "kind": "mouse",
+      "button": "导入 / 导出旅程"
+    },
+    {
+      "kind": "mouse",
+      "button": "导出当前旅程"
+    },
+    {
+      "kind": "mouse",
+      "button": "回到花园"
+    },
+    {
+      "kind": "mouse",
+      "button": "地图"
+    },
+    {
+      "kind": "mouse",
+      "button": "导入 / 导出旅程"
+    },
+    {
+      "kind": "mouse",
+      "button": "导出当前旅程"
+    },
+    {
+      "kind": "keyboard",
+      "text": "{broken-json",
+      "target": "TextEdit"
+    },
+    {
+      "kind": "mouse",
+      "button": "检查粘贴的旅程"
+    },
+    {
+      "kind": "mouse",
+      "button": "导出当前旅程"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>备份旅程 · 微光苔原</title>
+<style>
+body{margin:0;padding:32px 18px;background:#f3ead8;color:#786448;font:16px/1.8 system-ui,"Microsoft YaHei",sans-serif}main{max-width:620px;margin:5vh auto;background:#fff7e9;padding:28px;border:1px solid #e8cfa8;border-radius:22px}h1{font-size:25px}button{font:inherit;color:inherit;border:1px solid #d6b991;border-radius:10px;padding:10px 18px;background:#f7e8cf;cursor:pointer}button:disabled{opacity:.5;cursor:default}pre{white-space:pre-wrap;font:inherit;padding:14px;background:#f6eddf;border-radius:10px}a{color:#7b805a}small{display:block;margin-top:22px}
+</style>
+<main>
+<h1>备份这段微光旅程</h1>
+<p>先查看此网站保存的旅程，再下载备份。备份文件可以在 Godot 版本的“旅程导入 / 导出”中导入。</p>
+<button id="preview">查看可备份的旅程</button>
+<pre id="status" role="status">尚未读取存档。</pre>
+<button id="download" disabled>下载旅程备份</button>
+<small><a href="./">回到微光苔原</a> · 此页面只读取和下载，不修改现有进度。</small>
+</main>
+<script>
+const keys=['sporelight.save.v2','sporelight.garden2.v1','sporelight.cloud-gardens.v1','sporelight.save.v1'];
+let backup=null;
+const status=document.querySelector('#status'),download=document.querySelector('#download');
+document.querySelector('#preview').addEventListener('click',()=>{
+ try{
+  const values=Object.fromEntries(keys.map(key=>[key,localStorage.getItem(key)]));
+  const found=Object.values(values).filter(value=>value!==null).length;
+  if(!found){backup=null;download.disabled=true;status.textContent='此网站还没有旅程存档。请从你平时游玩的地址打开本页；不同端口和网站的存档分别保存。';return;}
+  backup={format:'sporelight.legacy-export',version:1,keys:values};
+  const parse=key=>{try{return JSON.parse(values[key]||'null');}catch{return null;}};
+  const main=parse('sporelight.garden2.v1');
+  const completed=Object.values(main?.records||{}).filter(record=>record?.completed).length;
+  status.textContent='已找到 '+found+' 份存档。\n主线已修复 '+completed+' / 12 关。\n进行中旅程 '+Object.keys(main?.runs||{}).length+' 段，完成纪念 '+Object.keys(main?.memories||{}).length+' 份。\n备份会保留原始内容，导入时再检查。';
+  download.disabled=false;
+ }catch{status.textContent='当前浏览器无法读取存档，请回到原来的游玩页面重试。';download.disabled=true;}
+});
+download.addEventListener('click',()=>{
+ if(!backup)return;
+ const url=URL.createObjectURL(new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}));
+ const link=document.createElement('a');link.href=url;link.download='sporelight-legacy-save.json';link.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+</script>
+</html>

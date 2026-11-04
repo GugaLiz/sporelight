@@ -1,0 +1,411 @@
+{
+	"completedWithoutErrors": true,
+	"cpuCount": 32,
+	"engine": "4.7.2-stable (official)",
+	"failures": [],
+	"measurements": {
+		"1-1/command-cache-hit": {
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.00019
+				}
+			},
+			"maxMs": 0.002,
+			"meanMs": 0.00126,
+			"p50Ms": 0.001,
+			"p95Ms": 0.002,
+			"samples": 100
+		},
+		"1-1/command-cache-miss": {
+			"inclusiveProfile": {
+				"main.command_states.miss": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.20011
+				},
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.1435
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.19347
+				}
+			},
+			"maxMs": 2.179,
+			"meanMs": 1.2059,
+			"p50Ms": 1.113,
+			"p95Ms": 1.602,
+			"samples": 100
+		},
+		"1-1/controller-step-cold": {
+			"excludes": [
+				"renderer/presentation forks",
+				"real HUD drawing",
+				"file I/O",
+				"browser/WebAssembly cost"
+			],
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 1.5,
+					"inclusiveMsPerSample": 0.00142
+				},
+				"main.command_states.miss": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 2.68292
+				},
+				"main.normalize_snapshot": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.55773
+				},
+				"session.commit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.29471
+				},
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.49317
+				},
+				"world._restore": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 0.46939
+				},
+				"world.fork": {
+					"callsPerSample": 3.0,
+					"inclusiveMsPerSample": 0.63666
+				}
+			},
+			"initialCommandCache": "cold",
+			"maxMs": 9.208,
+			"meanMs": 6.54603,
+			"p50Ms": 6.397,
+			"p95Ms": 7.96,
+			"persistence": "real stage_run and validation, memory persist (one extra store validation and JSON roundtrip)",
+			"samples": 100
+		},
+		"1-1/controller-step-warm": {
+			"excludes": [
+				"renderer/presentation forks",
+				"real HUD drawing",
+				"file I/O",
+				"browser/WebAssembly cost"
+			],
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 2.5,
+					"inclusiveMsPerSample": 0.00235
+				},
+				"main.command_states.miss": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.3944
+				},
+				"main.normalize_snapshot": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.57185
+				},
+				"session.commit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.30426
+				},
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.52391
+				},
+				"world._restore": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.33012
+				},
+				"world.fork": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 0.44619
+				}
+			},
+			"initialCommandCache": "warm (normal consecutive walk)",
+			"maxMs": 8.533,
+			"meanMs": 5.42493,
+			"p50Ms": 5.293,
+			"p95Ms": 7.906,
+			"persistence": "real stage_run and validation, memory persist (one extra store validation and JSON roundtrip)",
+			"samples": 100
+		},
+		"1-1/fork-saved-state": {
+			"inclusiveProfile": {
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.15571
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.20449
+				}
+			},
+			"maxMs": 0.416,
+			"meanMs": 0.21332,
+			"p50Ms": 0.168,
+			"p95Ms": 0.381,
+			"samples": 100
+		},
+		"1-1/new-world-without-save": {
+			"inclusiveProfile": {},
+			"maxMs": 0.122,
+			"meanMs": 0.03844,
+			"p50Ms": 0.034,
+			"p95Ms": 0.066,
+			"samples": 100
+		},
+		"1-1/normalize-valid-state": {
+			"inclusiveProfile": {
+				"main.normalize_snapshot": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.26044
+				}
+			},
+			"maxMs": 0.543,
+			"meanMs": 0.26521,
+			"p50Ms": 0.209,
+			"p95Ms": 0.44,
+			"samples": 100
+		},
+		"1-1/prepare-move": {
+			"inclusiveProfile": {
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.46396
+				},
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.14862
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.19583
+				}
+			},
+			"maxMs": 1.061,
+			"meanMs": 0.47315,
+			"p50Ms": 0.394,
+			"p95Ms": 0.809,
+			"samples": 100
+		},
+		"1-1/restore-existing-world": {
+			"inclusiveProfile": {
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.1296
+				}
+			},
+			"maxMs": 0.302,
+			"meanMs": 0.13635,
+			"p50Ms": 0.123,
+			"p95Ms": 0.256,
+			"samples": 100
+		},
+		"2-2/command-cache-hit": {
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.0005
+				}
+			},
+			"maxMs": 0.025,
+			"meanMs": 0.0041,
+			"p50Ms": 0.003,
+			"p95Ms": 0.012,
+			"samples": 100
+		},
+		"2-2/command-cache-miss": {
+			"inclusiveProfile": {
+				"main.command_states.miss": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 23.07074
+				},
+				"world._restore": {
+					"callsPerSample": 2.97,
+					"inclusiveMsPerSample": 1.4408
+				},
+				"world.fork": {
+					"callsPerSample": 2.97,
+					"inclusiveMsPerSample": 1.89893
+				}
+			},
+			"maxMs": 32.843,
+			"meanMs": 23.08791,
+			"p50Ms": 19.626,
+			"p95Ms": 31.928,
+			"samples": 100
+		},
+		"2-2/controller-step-cold": {
+			"excludes": [
+				"renderer/presentation forks",
+				"real HUD drawing",
+				"file I/O",
+				"browser/WebAssembly cost"
+			],
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 0.68,
+					"inclusiveMsPerSample": 0.00159
+				},
+				"main.command_states.miss": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 47.9944
+				},
+				"main.normalize_snapshot": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 1.4349
+				},
+				"session.commit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.47158
+				},
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 2.03373
+				},
+				"world._restore": {
+					"callsPerSample": 7.36,
+					"inclusiveMsPerSample": 3.51117
+				},
+				"world.fork": {
+					"callsPerSample": 7.36,
+					"inclusiveMsPerSample": 4.59406
+				}
+			},
+			"initialCommandCache": "cold",
+			"maxMs": 101.777,
+			"meanMs": 74.16628,
+			"p50Ms": 71.712,
+			"p95Ms": 96.562,
+			"persistence": "real stage_run and validation, memory persist (one extra store validation and JSON roundtrip)",
+			"samples": 100
+		},
+		"2-2/controller-step-warm": {
+			"excludes": [
+				"renderer/presentation forks",
+				"real HUD drawing",
+				"file I/O",
+				"browser/WebAssembly cost"
+			],
+			"inclusiveProfile": {
+				"main.command_states.hit": {
+					"callsPerSample": 1.68,
+					"inclusiveMsPerSample": 0.00383
+				},
+				"main.command_states.miss": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 24.66072
+				},
+				"main.normalize_snapshot": {
+					"callsPerSample": 2.0,
+					"inclusiveMsPerSample": 1.45553
+				},
+				"session.commit": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.43093
+				},
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 2.00948
+				},
+				"world._restore": {
+					"callsPerSample": 4.34,
+					"inclusiveMsPerSample": 2.03614
+				},
+				"world.fork": {
+					"callsPerSample": 4.34,
+					"inclusiveMsPerSample": 2.66179
+				}
+			},
+			"initialCommandCache": "warm (normal consecutive walk)",
+			"maxMs": 67.2,
+			"meanMs": 50.21139,
+			"p50Ms": 47.499,
+			"p95Ms": 64.902,
+			"persistence": "real stage_run and validation, memory persist (one extra store validation and JSON roundtrip)",
+			"samples": 100
+		},
+		"2-2/fork-saved-state": {
+			"inclusiveProfile": {
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.26116
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.32184
+				}
+			},
+			"maxMs": 0.601,
+			"meanMs": 0.335,
+			"p50Ms": 0.299,
+			"p95Ms": 0.545,
+			"samples": 100
+		},
+		"2-2/new-world-without-save": {
+			"inclusiveProfile": {},
+			"maxMs": 0.118,
+			"meanMs": 0.05446,
+			"p50Ms": 0.047,
+			"p95Ms": 0.075,
+			"samples": 100
+		},
+		"2-2/normalize-valid-state": {
+			"inclusiveProfile": {
+				"main.normalize_snapshot": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.7475
+				}
+			},
+			"maxMs": 1.375,
+			"meanMs": 0.75742,
+			"p50Ms": 0.772,
+			"p95Ms": 1.007,
+			"samples": 100
+		},
+		"2-2/prepare-move": {
+			"inclusiveProfile": {
+				"session.prepare": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 1.24565
+				},
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.28085
+				},
+				"world.fork": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.3481
+				}
+			},
+			"maxMs": 2.973,
+			"meanMs": 1.25779,
+			"p50Ms": 1.105,
+			"p95Ms": 1.858,
+			"samples": 100
+		},
+		"2-2/restore-existing-world": {
+			"inclusiveProfile": {
+				"world._restore": {
+					"callsPerSample": 1.0,
+					"inclusiveMsPerSample": 0.31926
+				}
+			},
+			"maxMs": 0.654,
+			"meanMs": 0.33013,
+			"p50Ms": 0.31,
+			"p95Ms": 0.518,
+			"samples": 100
+		}
+	},
+	"notes": [
+		"Microsecond wall-clock CPU measurements on native GDScript, not Chrome frame timing.",
+		"Nested inclusive profiles overlap: restore is inside fork, fork is inside prepare/command_states.",
+		"Only test subclasses count calls; normalize_snapshot is timed as a whole because its internal validator uses the production World class.",
+		"Every controller sample starts from a real authored move fixture; setup occurs outside timing, and expected outcome/single commit are checked.",
+		"Warm command cache models normal walking; cold cache is reported separately to avoid exaggerating feedback probing.",
+		"No GPU, browser, audio or disk I/O is present; this cannot prove a 60FPS budget or directly quantify a Web frame's percentage."
+	],
+	"probe": "native-rule-copy-validation",
+	"processor": "Intel(R) Core(TM) i9-14900KF",
+	"referenceCommit": "5791bbc3dd90549b4c7ea302507ead577f51dd67"
+}

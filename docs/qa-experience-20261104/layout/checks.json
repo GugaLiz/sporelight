@@ -1,0 +1,896 @@
+{
+  "date": "2026-11-03T17:57:32.032Z",
+  "checks": [
+    "Releasing a held direction completes only the current grid step",
+    "Holding a direction walks continuously until a real boundary",
+    "A brief turn tapped during animation survives key release and executes at the next safe tile",
+    "A second map click redirects an in-progress route",
+    "E buffers a specific available action during the approach without changing it into another command",
+    "Losing window focus clears held movement",
+    "A pointer held across moving-camera frames redirects without losing its ground target",
+    "Lesson layout, current goal and player foot remain visible at 14 phone, breakpoint, narrow and large window sizes",
+    "Companion, mirror, song and final combination levels retain their contextual UI across four screen sizes",
+    "Small-screen hints are visible and occupy their own row without covering command buttons",
+    "Feedback remains visible when no nearby action exists",
+    "Touch input restores 44px direction controls"
+  ],
+  "errors": [],
+  "layouts": [
+    {
+      "level": "1-1",
+      "width": 320,
+      "height": 568,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 200,
+          "height": 138.09375
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 492.609375,
+          "width": 296,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 101.3079196985447,
+        "y": 250.32367463617462
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 390,
+      "height": 844,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 270,
+          "height": 117.09375
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 768.609375,
+          "width": 366,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 111.91691394658754,
+        "y": 376.1497820845697
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 568,
+      "height": 320,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 8,
+          "width": 430,
+          "height": 59.34375
+        },
+        ".garden-tools": {
+          "x": 153,
+          "y": 250.609375,
+          "width": 262,
+          "height": 61.390625
+        }
+      },
+      "foot": {
+        "x": 120.99844884987893,
+        "y": 168.03889225181598
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 844,
+      "height": 390,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 8,
+          "width": 430,
+          "height": 59.34375
+        },
+        ".garden-tools": {
+          "x": 290,
+          "y": 320.609375,
+          "width": 264,
+          "height": 61.390625
+        }
+      },
+      "foot": {
+        "x": 239.06624546004844,
+        "y": 207.0219430992736
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 738,
+      "height": 672,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-tools": {
+          "x": 236,
+          "y": 594.609375,
+          "width": 266,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 268.85716606029104,
+        "y": 284.32276507276504
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 649,
+      "height": 720,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-tools": {
+          "x": 191.5,
+          "y": 642.609375,
+          "width": 266,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 221.225,
+        "y": 308.10781249999997
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 650,
+      "height": 720,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-tools": {
+          "x": 192,
+          "y": 642.609375,
+          "width": 266,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 221.725,
+        "y": 308.10781249999997
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 900,
+      "height": 720,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-tools": {
+          "x": 317,
+          "y": 642.609375,
+          "width": 266,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 346.725,
+        "y": 308.10781249999997
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 901,
+      "height": 720,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-tools": {
+          "x": 317.5,
+          "y": 642.609375,
+          "width": 266,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 347.225,
+        "y": 308.10781249999997
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 959,
+      "height": 720,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-tools": {
+          "x": 346.5,
+          "y": 642.609375,
+          "width": 266,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 376.225,
+        "y": 308.10781249999997
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 960,
+      "height": 720,
+      "panels": {
+        ".garden-heading": {
+          "x": 24,
+          "y": 20,
+          "width": 500,
+          "height": 125.4375
+        },
+        ".garden-tools": {
+          "x": 342,
+          "y": 632.609375,
+          "width": 276,
+          "height": 67.390625
+        }
+      },
+      "foot": {
+        "x": 201.3,
+        "y": 379.5734375
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 1280,
+      "height": 720,
+      "panels": {
+        ".garden-heading": {
+          "x": 24,
+          "y": 20,
+          "width": 500,
+          "height": 125.4375
+        },
+        ".garden-tools": {
+          "x": 502,
+          "y": 632.609375,
+          "width": 276,
+          "height": 67.390625
+        }
+      },
+      "foot": {
+        "x": 361.3,
+        "y": 379.5734375
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 1920,
+      "height": 1080,
+      "panels": {
+        ".garden-heading": {
+          "x": 24,
+          "y": 20,
+          "width": 500,
+          "height": 125.4375
+        },
+        ".garden-tools": {
+          "x": 822,
+          "y": 992.609375,
+          "width": 276,
+          "height": 67.390625
+        }
+      },
+      "foot": {
+        "x": 650.7,
+        "y": 557.4734374999999
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-1",
+      "width": 2560,
+      "height": 1440,
+      "panels": {
+        ".garden-heading": {
+          "x": 24,
+          "y": 20,
+          "width": 500,
+          "height": 125.4375
+        },
+        ".garden-tools": {
+          "x": 1142,
+          "y": 1352.609375,
+          "width": 276,
+          "height": 67.390625
+        }
+      },
+      "foot": {
+        "x": 970.7,
+        "y": 737.4734374999999
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先沿石板走到根台旁。微光可自由收集，不影响通关。"
+    },
+    {
+      "level": "1-4",
+      "width": 320,
+      "height": 568,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 200,
+          "height": 134.140625
+        },
+        ".garden-panel": {
+          "x": 12,
+          "y": 286,
+          "width": 296,
+          "height": 190
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 492.609375,
+          "width": 296,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 160,
+        "y": 223.4203125
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "露薇在外庭扳住重杆；换小苔灵过桥穿低拱，到轻踏板；再换露薇过南门固定门闩。"
+    },
+    {
+      "level": "1-4",
+      "width": 390,
+      "height": 844,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 270,
+          "height": 117.09375
+        },
+        ".garden-panel": {
+          "x": 12,
+          "y": 562,
+          "width": 366,
+          "height": 190
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 768.609375,
+          "width": 366,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 195,
+        "y": 352.896875
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "露薇在外庭扳住重杆；换小苔灵过桥穿低拱，到轻踏板；再换露薇过南门固定门闩。"
+    },
+    {
+      "level": "1-4",
+      "width": 738,
+      "height": 672,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-panel": {
+          "x": 376,
+          "y": 356,
+          "width": 350,
+          "height": 220
+        },
+        ".garden-tools": {
+          "x": 236,
+          "y": 594.609375,
+          "width": 266,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 369,
+        "y": 246.240625
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "露薇在外庭扳住重杆；换小苔灵过桥穿低拱，到轻踏板；再换露薇过南门固定门闩。"
+    },
+    {
+      "level": "1-4",
+      "width": 1920,
+      "height": 1080,
+      "panels": {
+        ".garden-heading": {
+          "x": 24,
+          "y": 20,
+          "width": 500,
+          "height": 146.875
+        },
+        ".garden-panel": {
+          "x": 1632,
+          "y": 656.609375,
+          "width": 264,
+          "height": 305.390625
+        },
+        ".garden-tools": {
+          "x": 822,
+          "y": 992.609375,
+          "width": 276,
+          "height": 67.390625
+        }
+      },
+      "foot": {
+        "x": 858.774207122608,
+        "y": 587.9811304039688
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "露薇在外庭扳住重杆；换小苔灵过桥穿低拱，到轻踏板；再换露薇过南门固定门闩。"
+    },
+    {
+      "level": "2-2",
+      "width": 320,
+      "height": 568,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 200,
+          "height": 117.09375
+        },
+        ".garden-panel": {
+          "x": 12,
+          "y": 286,
+          "width": 296,
+          "height": 190
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 492.609375,
+          "width": 296,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 171.55,
+        "y": 214.896875
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先走近发光的反光叶，点「搬起镜叶」，再带到叶形光槽。"
+    },
+    {
+      "level": "2-2",
+      "width": 390,
+      "height": 844,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 270,
+          "height": 117.09375
+        },
+        ".garden-panel": {
+          "x": 12,
+          "y": 562,
+          "width": 366,
+          "height": 190
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 768.609375,
+          "width": 366,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 206.55,
+        "y": 352.896875
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先走近发光的反光叶，点「搬起镜叶」，再带到叶形光槽。"
+    },
+    {
+      "level": "2-2",
+      "width": 738,
+      "height": 672,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-panel": {
+          "x": 376,
+          "y": 380.609375,
+          "width": 350,
+          "height": 195.390625
+        },
+        ".garden-tools": {
+          "x": 236,
+          "y": 594.609375,
+          "width": 266,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 380.55,
+        "y": 258.5453125
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先走近发光的反光叶，点「搬起镜叶」，再带到叶形光槽。"
+    },
+    {
+      "level": "2-2",
+      "width": 1920,
+      "height": 1080,
+      "panels": {
+        ".garden-heading": {
+          "x": 24,
+          "y": 20,
+          "width": 500,
+          "height": 125.4375
+        },
+        ".garden-panel": {
+          "x": 1632,
+          "y": 760.609375,
+          "width": 264,
+          "height": 201.390625
+        },
+        ".garden-tools": {
+          "x": 822,
+          "y": 992.609375,
+          "width": 276,
+          "height": 67.390625
+        }
+      },
+      "foot": {
+        "x": 671.7229798292858,
+        "y": 530.6374056469946
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "先走近发光的反光叶，点「搬起镜叶」，再带到叶形光槽。"
+    },
+    {
+      "level": "2-3",
+      "width": 320,
+      "height": 568,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 200,
+          "height": 134.140625
+        },
+        ".garden-panel": {
+          "x": 12,
+          "y": 286,
+          "width": 296,
+          "height": 190
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 492.609375,
+          "width": 296,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 160,
+        "y": 223.4203125
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "露薇走上花台，小苔灵留在琴台。转庭必须先于升台；可以单步试奏。"
+    },
+    {
+      "level": "2-3",
+      "width": 390,
+      "height": 844,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 270,
+          "height": 117.09375
+        },
+        ".garden-panel": {
+          "x": 12,
+          "y": 562,
+          "width": 366,
+          "height": 190
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 768.609375,
+          "width": 366,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 195,
+        "y": 352.896875
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "露薇走上花台，小苔灵留在琴台。转庭必须先于升台；可以单步试奏。"
+    },
+    {
+      "level": "2-3",
+      "width": 738,
+      "height": 672,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-panel": {
+          "x": 376,
+          "y": 356,
+          "width": 350,
+          "height": 220
+        },
+        ".garden-tools": {
+          "x": 210.390625,
+          "y": 594.609375,
+          "width": 317.21875,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 369,
+        "y": 246.240625
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "露薇走上花台，小苔灵留在琴台。转庭必须先于升台；可以单步试奏。"
+    },
+    {
+      "level": "2-3",
+      "width": 1920,
+      "height": 1080,
+      "panels": {
+        ".garden-heading": {
+          "x": 24,
+          "y": 20,
+          "width": 500,
+          "height": 125.4375
+        },
+        ".garden-panel": {
+          "x": 1632,
+          "y": 582,
+          "width": 264,
+          "height": 380
+        },
+        ".garden-tools": {
+          "x": 796.390625,
+          "y": 992.609375,
+          "width": 327.21875,
+          "height": 67.390625
+        }
+      },
+      "foot": {
+        "x": 602.782246716698,
+        "y": 497.2082551594747
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "露薇走上花台，小苔灵留在琴台。转庭必须先于升台；可以单步试奏。"
+    },
+    {
+      "level": "3-4",
+      "width": 320,
+      "height": 568,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 200,
+          "height": 138.09375
+        },
+        ".garden-panel": {
+          "x": 12,
+          "y": 286,
+          "width": 296,
+          "height": 190
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 492.609375,
+          "width": 296,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 160,
+        "y": 225.396875
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "从内庭北口到根台，引芽向右三节，固定叶阶。"
+    },
+    {
+      "level": "3-4",
+      "width": 390,
+      "height": 844,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 270,
+          "height": 100.046875
+        },
+        ".garden-panel": {
+          "x": 12,
+          "y": 562,
+          "width": 366,
+          "height": 190
+        },
+        ".garden-tools": {
+          "x": 12,
+          "y": 768.609375,
+          "width": 366,
+          "height": 63.390625
+        }
+      },
+      "foot": {
+        "x": 195,
+        "y": 344.3734375
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "从内庭北口到根台，引芽向右三节，固定叶阶。"
+    },
+    {
+      "level": "3-4",
+      "width": 738,
+      "height": 672,
+      "panels": {
+        ".garden-heading": {
+          "x": 12,
+          "y": 12,
+          "width": 490,
+          "height": 109.78125
+        },
+        ".garden-panel": {
+          "x": 376,
+          "y": 356,
+          "width": 350,
+          "height": 220
+        },
+        ".garden-tools": {
+          "x": 223.78125,
+          "y": 594.609375,
+          "width": 290.4375,
+          "height": 65.390625
+        }
+      },
+      "foot": {
+        "x": 369,
+        "y": 246.240625
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "从内庭北口到根台，引芽向右三节，固定叶阶。"
+    },
+    {
+      "level": "3-4",
+      "width": 1920,
+      "height": 1080,
+      "panels": {
+        ".garden-heading": {
+          "x": 24,
+          "y": 20,
+          "width": 500,
+          "height": 125.4375
+        },
+        ".garden-panel": {
+          "x": 1632,
+          "y": 706.609375,
+          "width": 264,
+          "height": 255.390625
+        },
+        ".garden-tools": {
+          "x": 809.78125,
+          "y": 992.609375,
+          "width": 300.4375,
+          "height": 67.390625
+        }
+      },
+      "foot": {
+        "x": 692.2653271627566,
+        "y": 349.3500045821114
+      },
+      "input": "keyboard",
+      "overflow": false,
+      "goal": "从内庭北口到根台，引芽向右三节，固定叶阶。"
+    }
+  ]
+}
