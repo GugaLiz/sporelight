@@ -247,8 +247,14 @@ static func runoff(p: GardenPaint, view: Variant, source: Dictionary, level: Dic
 	if bottom.y - at.y < 5 * scale:
 		return
 	var head: Vector2 = view.project({"x": lip.x, "z": float(lip.z) - 0.9, "h": lip.h})
+	if p.target.has_method("surface"):
+		p.target.surface("ground", float(source.h) + 0.002)
 	p.quadratic(head, at + Vector2(6, -8) * scale, at, "#6b9f9b99", 11 * scale)
 	p.quadratic(head, at + Vector2(6, -8) * scale, at, "#c6efdf", 4.5 * scale)
+	if p.target.has_method("surface"):
+		# The falling sheet belongs just outside the facade, rather than on the
+		# tile-centre billboard which would place it inside a real solid wall.
+		p.target.surface("z", float(lip.z) + 0.003)
 	var width := 10 * scale
 	var shape := GardenPaint.cubic_points(at - Vector2(width * 0.45, 0), at + Vector2(-width * 0.6, 20 * scale), bottom + Vector2(-width * 0.8, -12 * scale), bottom + Vector2(-width * 0.9, 0))
 	shape.append(bottom + Vector2(width * 0.9, 0))

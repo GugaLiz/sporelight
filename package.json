@@ -11,7 +11,9 @@
     "preview": "vite preview --host 0.0.0.0 --port 4173",
     "godot:setup": "node tools/godot-migration/setup-toolchain.mjs",
     "godot:assets": "node tools/godot-migration/sync-assets.mjs",
-    "godot:check": "node tools/godot-migration/check.mjs",
+    "godot:check": "node tools/godot-migration/check-native.mjs",
+    "godot:check:legacy": "node tools/godot-migration/check.mjs",
+    "godot:check:browser": "python tools/godot-migration/check-native-browser.py",
     "godot:export": "node tools/godot-migration/export.mjs",
     "godot:preview": "node tools/godot-migration/serve-preview.mjs"
   },

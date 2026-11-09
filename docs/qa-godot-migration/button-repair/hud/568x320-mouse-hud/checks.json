@@ -1,0 +1,722 @@
+{
+  "row": "568x320-mouse-hud",
+  "phase": "hud",
+  "viewport": {
+    "width": 568,
+    "height": 320
+  },
+  "input": "mouse",
+  "results": [
+    {
+      "name": "direction-left",
+      "status": "passed",
+      "details": {
+        "target": "f:-1:0"
+      },
+      "elapsedMs": 371
+    },
+    {
+      "name": "direction-up",
+      "status": "passed",
+      "details": {
+        "target": "f:0:-1"
+      },
+      "elapsedMs": 368
+    },
+    {
+      "name": "direction-right",
+      "status": "passed",
+      "details": {
+        "target": "g:root:1:0"
+      },
+      "elapsedMs": 408
+    },
+    {
+      "name": "direction-down",
+      "status": "passed",
+      "details": {
+        "target": "g:root:0:1"
+      },
+      "elapsedMs": 371
+    },
+    {
+      "name": "primary-seed-road",
+      "status": "passed",
+      "details": {
+        "result": "right root grows exactly once"
+      },
+      "elapsedMs": 1016
+    },
+    {
+      "name": "undo-after-real-button-action",
+      "status": "passed",
+      "elapsedMs": 1639
+    },
+    {
+      "name": "undo-no-history-disabled",
+      "status": "passed",
+      "details": {
+        "status": "verified-disabled",
+        "reason": "No undo history in a freshly loaded rule state"
+      },
+      "elapsedMs": 140
+    },
+    {
+      "name": "restart",
+      "status": "passed",
+      "elapsedMs": 253
+    },
+    {
+      "name": "hint",
+      "status": "passed",
+      "elapsedMs": 192
+    },
+    {
+      "name": "mode-toggle",
+      "status": "passed",
+      "elapsedMs": 798
+    },
+    {
+      "name": "overview-toggle",
+      "status": "passed",
+      "details": {
+        "result": "real pointer toggles actual small-screen camera framing in both directions"
+      },
+      "elapsedMs": 714
+    },
+    {
+      "name": "jump-real-motion",
+      "status": "passed",
+      "details": {
+        "result": "unconnected facing produces a stationary jump, no invented route"
+      },
+      "elapsedMs": 846
+    },
+    {
+      "name": "switch-and-follow",
+      "status": "passed",
+      "details": {
+        "result": "actual actor switch and follow toggle"
+      },
+      "elapsedMs": 2400
+    },
+    {
+      "name": "switch-single-actor-not-offered",
+      "status": "passed",
+      "details": {
+        "status": "verified-not-offered",
+        "reason": "1-1 has no character switching control"
+      },
+      "elapsedMs": 245
+    },
+    {
+      "name": "return-tool-and-close",
+      "status": "passed",
+      "elapsedMs": 1312
+    },
+    {
+      "name": "direction-pad-during-motion-buffer",
+      "status": "passed",
+      "details": {
+        "result": "a direction tapped while moving executes at the next legal boundary"
+      },
+      "elapsedMs": 776
+    },
+    {
+      "name": "press-release-across-motion-boundary",
+      "status": "passed",
+      "details": {
+        "result": "a button pressed during motion and released after its boundary is not lost"
+      },
+      "elapsedMs": 1154
+    },
+    {
+      "name": "overview-during-motion",
+      "status": "passed",
+      "details": {
+        "result": "small-screen overview responds to a real pointer while the movement is in progress"
+      },
+      "elapsedMs": 715
+    },
+    {
+      "name": "pause-and-close",
+      "status": "passed",
+      "elapsedMs": 892
+    }
+  ],
+  "inventory": [
+    {
+      "case": "direction-left",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62612571799,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/DirectionPad/@Button@58",
+        "pressed": false,
+        "text": "←",
+        "tooltip": "向左一格",
+        "visibleRect": [
+          10,
+          150,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 10,
+        "y": 150
+      }
+    },
+    {
+      "case": "direction-up",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62461576846,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/DirectionPad/@Button@56",
+        "pressed": false,
+        "text": "↑",
+        "tooltip": "向前一格",
+        "visibleRect": [
+          54,
+          106,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 54,
+        "y": 106
+      }
+    },
+    {
+      "case": "direction-right",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62763566752,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/DirectionPad/@Button@60",
+        "pressed": false,
+        "text": "→",
+        "tooltip": "向右一格",
+        "visibleRect": [
+          98,
+          150,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 98,
+        "y": 150
+      }
+    },
+    {
+      "case": "direction-down",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62914561705,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/DirectionPad/@Button@62",
+        "pressed": false,
+        "text": "↓",
+        "tooltip": "向后一格",
+        "visibleRect": [
+          54,
+          194,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 54,
+        "y": 194
+      }
+    },
+    {
+      "case": "primary-seed-road",
+      "input": "mouse",
+      "button": {
+        "action": "primary",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 56.9885063171387,
+        "instanceId": 61119399494,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@42",
+        "pressed": false,
+        "text": "引芽 → · 余1 · E",
+        "tooltip": "引芽 → · 余1 · E",
+        "visibleRect": [
+          229.307693481445,
+          246,
+          109.384628295898,
+          56.9885063171387
+        ],
+        "width": 109.384628295898,
+        "x": 229.307693481445,
+        "y": 246
+      }
+    },
+    {
+      "case": "undo-after-real-button-action",
+      "input": "mouse",
+      "button": {
+        "action": "primary",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 56.9885063171387,
+        "instanceId": 61119399494,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@42",
+        "pressed": false,
+        "text": "引芽 → · 余1 · E",
+        "tooltip": "引芽 → · 余1 · E",
+        "visibleRect": [
+          229.307693481445,
+          246,
+          109.384628295898,
+          56.9885063171387
+        ],
+        "width": 109.384628295898,
+        "x": 229.307693481445,
+        "y": 246
+      }
+    },
+    {
+      "case": "undo-after-real-button-action",
+      "input": "mouse",
+      "button": {
+        "action": "undo",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 58,
+        "instanceId": 60850964024,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@40",
+        "pressed": false,
+        "text": "退回一格 · Z",
+        "tooltip": "退回一格 · Z",
+        "visibleRect": [
+          93.7692337036133,
+          246,
+          60.7692337036133,
+          58
+        ],
+        "width": 60.7692337036133,
+        "x": 93.7692337036133,
+        "y": 246
+      }
+    },
+    {
+      "case": "restart",
+      "input": "mouse",
+      "button": {
+        "action": "restart",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 57.5915489196777,
+        "instanceId": 61656270434,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@46",
+        "pressed": false,
+        "text": "重来",
+        "tooltip": "重来",
+        "visibleRect": [
+          481.230773925781,
+          246,
+          60.7692260742188,
+          57.5915489196777
+        ],
+        "width": 60.7692260742188,
+        "x": 481.230773925781,
+        "y": 246
+      }
+    },
+    {
+      "case": "hint",
+      "input": "mouse",
+      "button": {
+        "action": "hint",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 57.6451606750488,
+        "instanceId": 61522052699,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@45",
+        "pressed": false,
+        "text": "提示 · H",
+        "tooltip": "提示 · H",
+        "visibleRect": [
+          413.461547851562,
+          246,
+          60.7692260742188,
+          57.6451606750488
+        ],
+        "width": 60.7692260742188,
+        "x": 413.461547851562,
+        "y": 246
+      }
+    },
+    {
+      "case": "mode-toggle",
+      "input": "mouse",
+      "button": {
+        "action": "mode",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 56.9885063171387,
+        "instanceId": 60985181759,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@41",
+        "pressed": false,
+        "text": "行走",
+        "tooltip": "行走",
+        "visibleRect": [
+          161.538467407227,
+          246,
+          60.7692260742188,
+          56.9885063171387
+        ],
+        "width": 60.7692260742188,
+        "x": 161.538467407227,
+        "y": 246
+      }
+    },
+    {
+      "case": "mode-toggle",
+      "input": "mouse",
+      "button": {
+        "action": "mode",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 56.9885063171387,
+        "instanceId": 60985181759,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@41",
+        "pressed": false,
+        "text": "滚动中",
+        "tooltip": "滚动中",
+        "visibleRect": [
+          161.538467407227,
+          246,
+          60.7692260742188,
+          56.9885063171387
+        ],
+        "width": 60.7692260742188,
+        "x": 161.538467407227,
+        "y": 246
+      }
+    },
+    {
+      "case": "overview-toggle",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 63065556658,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/Overview",
+        "pressed": false,
+        "text": "全景",
+        "tooltip": "查看整片花园 / 回到身边",
+        "visibleRect": [
+          352,
+          10,
+          90,
+          44
+        ],
+        "width": 90,
+        "x": 352,
+        "y": 10
+      }
+    },
+    {
+      "case": "overview-toggle",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 63065556658,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/Overview",
+        "pressed": true,
+        "text": "跟随",
+        "tooltip": "查看整片花园 / 回到身边",
+        "visibleRect": [
+          352,
+          10,
+          90,
+          44
+        ],
+        "width": 90,
+        "x": 352,
+        "y": 10
+      }
+    },
+    {
+      "case": "jump-real-motion",
+      "input": "mouse",
+      "button": {
+        "action": "jump",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 58,
+        "instanceId": 61387834964,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@44",
+        "pressed": false,
+        "text": "跳跃",
+        "tooltip": "跳跃",
+        "visibleRect": [
+          345.692321777344,
+          246,
+          60.7692260742188,
+          58
+        ],
+        "width": 60.7692260742188,
+        "x": 345.692321777344,
+        "y": 246
+      }
+    },
+    {
+      "case": "switch-and-follow",
+      "input": "mouse",
+      "button": {
+        "action": "switch",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 57.7435913085938,
+        "instanceId": 61253617229,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@43",
+        "pressed": false,
+        "text": "换手 · T",
+        "tooltip": "换手 · T",
+        "visibleRect": [
+          308.727264404297,
+          246,
+          53.0681762695312,
+          57.7435913085938
+        ],
+        "width": 53.0681762695312,
+        "x": 308.727264404297,
+        "y": 246
+      }
+    },
+    {
+      "case": "switch-and-follow",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 49,
+        "instanceId": 60246984214,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/NearbyActions/@ScrollContainer@25/@VBoxContainer@26/@HBoxContainer@27/@Button@29",
+        "pressed": false,
+        "text": "等候",
+        "tooltip": "",
+        "visibleRect": [
+          478,
+          98,
+          54,
+          49
+        ],
+        "width": 54,
+        "x": 478,
+        "y": 98
+      }
+    },
+    {
+      "case": "return-tool-and-close",
+      "input": "mouse",
+      "button": {
+        "action": "menu",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 57.405403137207,
+        "instanceId": 60716746289,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/JourneyTools/@Control@38/@Button@39",
+        "pressed": false,
+        "text": "返回",
+        "tooltip": "返回",
+        "visibleRect": [
+          26,
+          246,
+          60.769229888916,
+          57.405403137207
+        ],
+        "width": 60.769229888916,
+        "x": 26,
+        "y": 246
+      }
+    },
+    {
+      "case": "return-tool-and-close",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": true,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 175154137044,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@142/@CenterContainer@144/@PanelContainer@145/@ScrollContainer@148/@VBoxContainer@149/@Button@169",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          232,
+          496,
+          52
+        ],
+        "width": 496,
+        "x": 32,
+        "y": 232
+      }
+    },
+    {
+      "case": "overview-during-motion",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62612571799,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/DirectionPad/@Button@58",
+        "pressed": false,
+        "text": "←",
+        "tooltip": "向左一格",
+        "visibleRect": [
+          10,
+          150,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 10,
+        "y": 150
+      }
+    },
+    {
+      "case": "overview-during-motion",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 63065556658,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/Overview",
+        "pressed": true,
+        "text": "跟随",
+        "tooltip": "查看整片花园 / 回到身边",
+        "visibleRect": [
+          352,
+          10,
+          90,
+          44
+        ],
+        "width": 90,
+        "x": 352,
+        "y": 10
+      }
+    },
+    {
+      "case": "pause-and-close",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62126032508,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@53",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置",
+        "visibleRect": [
+          453,
+          13,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 453,
+        "y": 13
+      }
+    },
+    {
+      "case": "pause-and-close",
+      "input": "mouse",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 221627025341,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@176/@CenterContainer@178/@PanelContainer@179/@ScrollContainer@182/@VBoxContainer@183/@Button@188",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          230,
+          496,
+          54
+        ],
+        "width": 496,
+        "x": 32,
+        "y": 230
+      }
+    }
+  ],
+  "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed."
+}

@@ -3,7 +3,7 @@ extends RefCounted
 
 ## Small immediate-mode bridge for the original 2D illustration operations.
 ## Transforms affect geometry; texture UVs stay in the original local space.
-var target: CanvasItem
+var target: Variant
 var images: Dictionary = {}
 var matrix := Transform2D.IDENTITY
 var alpha := 1.0
@@ -14,7 +14,7 @@ static var _halo_cache: Dictionary = {}
 static var _glow_cache: Dictionary = {}
 static var _oval_fans: Dictionary = {}
 
-func _init(canvas: CanvasItem, textures: Dictionary = {}) -> void:
+func _init(canvas: Variant, textures: Dictionary = {}) -> void:
 	target = canvas
 	images = textures
 

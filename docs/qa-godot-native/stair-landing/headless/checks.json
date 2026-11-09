@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "8fd557ec2f67abdc009f36905561568f2ae84a4b8c1c1230c4595ff94395d66c",
+    "files": 440
+  },
+  "source": {
+    "sha256": "8fd557ec2f67abdc009f36905561568f2ae84a4b8c1c1230c4595ff94395d66c",
+    "files": 440
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_first_garden_material_test",
+      "code": 4294967295,
+      "elapsedMs": 65002,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n",
+      "stderr": "SCRIPT ERROR: Attempt to call function 'surface_get_material' in base 'null instance' on a null instance.\r\n   at: _run (res://tests/native_first_garden_material_test.gd:63)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_first_garden_material_test.gd:63)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_first_garden_structure_test",
+      "code": 0,
+      "elapsedMs": 36059,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":51,\"failures\":[],\"maxContactError\":0.189113855361938,\"passed\":true,\"suite\":\"first-garden-structure\",\"worstContact\":{\"actor\":\"buddy\",\"height\":0.758333325386047,\"onFloor\":false,\"position\":\"(2.84399, 0.947447, -0.635882)\",\"support\":\"f:3:-1\"}}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

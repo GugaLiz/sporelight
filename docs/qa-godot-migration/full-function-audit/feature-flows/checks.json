@@ -1,0 +1,214 @@
+{
+  "date": "2026-11-06T05:54:31.238Z",
+  "passed": true,
+  "phase": "all",
+  "base": "http://localhost:4186/",
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "webMode": "debug",
+    "source": {
+      "sha256": "c194d5597981839a3735c71957b82b9a93f67d55d4aa25e81ece64ddf5c4f2be",
+      "files": 332
+    },
+    "initialSource": {
+      "sha256": "c194d5597981839a3735c71957b82b9a93f67d55d4aa25e81ece64ddf5c4f2be",
+      "files": 332
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      },
+      {
+        "name": "Windows",
+        "code": 0
+      }
+    ]
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "input": "mouse",
+  "hasTouch": false,
+  "results": [
+    {
+      "name": "level-1-1",
+      "passed": true,
+      "details": {
+        "level": "1-1",
+        "commands": 11,
+        "interactionCommandsViaActualButtons": 4,
+        "ending": "stay-map-return-interactive"
+      },
+      "elapsedMs": 10347
+    },
+    {
+      "name": "level-1-2",
+      "passed": true,
+      "details": {
+        "level": "1-2",
+        "commands": 11,
+        "interactionCommandsViaActualButtons": 5,
+        "ending": "map-return-interactive"
+      },
+      "elapsedMs": 8823
+    },
+    {
+      "name": "level-1-3",
+      "passed": true,
+      "details": {
+        "level": "1-3",
+        "commands": 10,
+        "interactionCommandsViaActualButtons": 2,
+        "ending": "next-initial-snapshot"
+      },
+      "elapsedMs": 6429
+    },
+    {
+      "name": "level-1-4",
+      "passed": true,
+      "details": {
+        "level": "1-4",
+        "commands": 50,
+        "interactionCommandsViaActualButtons": 10,
+        "ending": "stay-map-return-interactive"
+      },
+      "elapsedMs": 39760
+    },
+    {
+      "name": "level-2-1",
+      "passed": true,
+      "details": {
+        "level": "2-1",
+        "commands": 16,
+        "interactionCommandsViaActualButtons": 4,
+        "ending": "map-return-interactive"
+      },
+      "elapsedMs": 17582
+    },
+    {
+      "name": "level-2-2",
+      "passed": true,
+      "details": {
+        "level": "2-2",
+        "commands": 21,
+        "interactionCommandsViaActualButtons": 5,
+        "ending": "next-initial-snapshot"
+      },
+      "elapsedMs": 15022
+    },
+    {
+      "name": "level-2-3",
+      "passed": true,
+      "details": {
+        "level": "2-3",
+        "commands": 27,
+        "interactionCommandsViaActualButtons": 9,
+        "ending": "stay-map-return-interactive"
+      },
+      "elapsedMs": 23013
+    },
+    {
+      "name": "level-2-4",
+      "passed": true,
+      "details": {
+        "level": "2-4",
+        "commands": 13,
+        "interactionCommandsViaActualButtons": 5,
+        "ending": "map-return-interactive"
+      },
+      "elapsedMs": 15824
+    },
+    {
+      "name": "level-3-1",
+      "passed": true,
+      "details": {
+        "level": "3-1",
+        "commands": 43,
+        "interactionCommandsViaActualButtons": 7,
+        "ending": "next-initial-snapshot"
+      },
+      "elapsedMs": 16427
+    },
+    {
+      "name": "level-3-2",
+      "passed": true,
+      "details": {
+        "level": "3-2",
+        "commands": 36,
+        "interactionCommandsViaActualButtons": 7,
+        "ending": "stay-map-return-interactive"
+      },
+      "elapsedMs": 16593
+    },
+    {
+      "name": "level-3-3",
+      "passed": true,
+      "details": {
+        "level": "3-3",
+        "commands": 59,
+        "interactionCommandsViaActualButtons": 11,
+        "ending": "map-return-interactive"
+      },
+      "elapsedMs": 30690
+    },
+    {
+      "name": "level-3-4",
+      "passed": true,
+      "details": {
+        "level": "3-4",
+        "commands": 96,
+        "interactionCommandsViaActualButtons": 15,
+        "ending": "last-next-journal-return-interactive"
+      },
+      "elapsedMs": 47638
+    },
+    {
+      "name": "normal-progression-gates",
+      "passed": true,
+      "details": {
+        "qaUsedOnlyForObservation": true,
+        "query": "qa=1&unlockAll=0",
+        "fixtureOrActionRequests": 0,
+        "lockedChoicesInitially": 11,
+        "lockedChoicesAfterFirstRepair": 10,
+        "completedCommands": 11
+      },
+      "elapsedMs": 7524
+    },
+    {
+      "name": "settings-persist-and-first-map-entry",
+      "passed": true,
+      "details": {
+        "fixtureOrActionRequests": 0,
+        "particlesBefore": true,
+        "particlesAfter": false,
+        "bgmAfter": 0.1,
+        "reload": true,
+        "actualPostReturnInput": "mode toggled in both directions"
+      },
+      "elapsedMs": 5060
+    }
+  ],
+  "errors": [],
+  "fatal": null,
+  "summary": {
+    "executed": 14,
+    "passed": 14,
+    "failed": 0,
+    "authoredCommands": 393
+  },
+  "scope": "The level phase runs every selected frozen authored solution from one initial legal fixture. Moves use actual directional keys and interactions use actual command_id/switch buttons, with complete rule snapshot and exact revision checks after every step. Progression uses fresh storage and the normal gates (qa=1&unlockAll=0) without fixture/action requests. Settings uses actual controls and a same-context Web reload.",
+  "limitations": [
+    "Diagnostic QA is a debug-only observation facility, so this is not release-build instrumentation or a native Windows file-dialog test.",
+    "The authored solutions cover their actual successful parameter sequence; rejection branches and alternate puzzle solutions remain in the independent rule and button suites.",
+    "Touch button mode uses real native touchscreen taps; long-panel scrolling uses real mouse-wheel events, not finger swipe or inertia.",
+    "Per-step published snapshots prove rule/controller outcomes, not exact painted-frame latency, visual comfort or performance.",
+    "The normal progression check requires the explicit debug-only unlockAll=0 observation option; it must fail if the running build still forces all QA map choices open."
+  ]
+}

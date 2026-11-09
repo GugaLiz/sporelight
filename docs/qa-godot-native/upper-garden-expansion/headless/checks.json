@@ -1,0 +1,47 @@
+{
+  "initialSource": {
+    "sha256": "f34143788330d68e72335cf676a8673123d4a05f3271816a6049cbb4f03af0cb",
+    "files": 440
+  },
+  "source": {
+    "sha256": "f34143788330d68e72335cf676a8673123d4a05f3271816a6049cbb4f03af0cb",
+    "files": 440
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_application_test",
+      "code": 0,
+      "elapsedMs": 1382,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nPASS native application: 34 checks\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_first_garden_material_test",
+      "code": 4294967295,
+      "elapsedMs": 57618,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n",
+      "stderr": "SCRIPT ERROR: Attempt to call function 'surface_get_material' in base 'null instance' on a null instance.\r\n   at: _run (res://tests/native_first_garden_material_test.gd:63)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_first_garden_material_test.gd:63)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_first_garden_structure_test",
+      "code": 1,
+      "elapsedMs": 43773,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":63,\"failures\":[\"off-center ascent lane 2 at -0.22, actual (1.780029, 1.300835, -2.32)\",\"off-center ascent lane 2 at 0.22, actual (2.219961, 1.300928, -2.32)\",\"off-center ascent lane 3 at -0.22, actual (2.780079, 1.300835, -2.32)\",\"off-center ascent lane 3 at 0.22, actual (3.21997, 1.300928, -2.32)\",\"off-center ascent lane 4 at -0.22, actual (3.780033, 1.300835, -2.32)\",\"off-center ascent lane 4 at 0.22, actual (4.219961, 1.300928, -2.32)\"],\"maxContactError\":0.198072075843811,\"passed\":false,\"suite\":\"first-garden-structure\",\"worstContact\":{\"actor\":\"buddy\",\"height\":1.08333337306976,\"onFloor\":false,\"position\":\"(1.995015, 1.281405, -0.985591)\",\"support\":\"f:2:-1\"}}\r\n",
+      "stderr": "ERROR: off-center ascent lane 2 at -0.22, actual (1.780029, 1.300835, -2.32)\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_first_garden_structure_test.gd:33)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\nERROR: off-center ascent lane 2 at 0.22, actual (2.219961, 1.300928, -2.32)\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_first_garden_structure_test.gd:33)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\nERROR: off-center ascent lane 3 at -0.22, actual (2.780079, 1.300835, -2.32)\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_first_garden_structure_test.gd:33)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\nERROR: off-center ascent lane 3 at 0.22, actual (3.21997, 1.300928, -2.32)\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_first_garden_structure_test.gd:33)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\nERROR: off-center ascent lane 4 at -0.22, actual (3.780033, 1.300835, -2.32)\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_first_garden_structure_test.gd:33)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\nERROR: off-center ascent lane 4 at 0.22, actual (4.219961, 1.300928, -2.32)\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_first_garden_structure_test.gd:33)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_persistence_roundtrip_test",
+      "code": 0,
+      "elapsedMs": 483,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":510,\"failures\":[],\"passed\":true,\"positionQuantum\":0.0001,\"suite\":\"native-real-offset-persistence\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

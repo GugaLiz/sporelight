@@ -1,0 +1,145 @@
+{
+  "passed": true,
+  "date": "2026-11-06T03:55:32.482Z",
+  "base": "http://localhost:4186/",
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "webMode": "debug",
+    "source": {
+      "sha256": "d44f112f1c4d843f839a6f337d5ae04737f5f7f3991065011d84ad24a3c610c4",
+      "files": 330
+    },
+    "initialSource": {
+      "sha256": "d44f112f1c4d843f839a6f337d5ae04737f5f7f3991065011d84ad24a3c610c4",
+      "files": 330
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      },
+      {
+        "name": "Windows",
+        "code": 0
+      }
+    ]
+  },
+  "phase": "overlays",
+  "sizes": [
+    {
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "inputs": [
+    "mouse"
+  ],
+  "caseFilter": [],
+  "fatal": null,
+  "summary": {
+    "executed": 14,
+    "passed": 14,
+    "failed": 0,
+    "uncovered": 0
+  },
+  "failed": [],
+  "uncovered": [],
+  "errors": [],
+  "rows": [
+    {
+      "row": "1280x720-mouse-overlays",
+      "phase": "overlays",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "input": "mouse",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "map-open-select-level",
+          "status": "passed",
+          "elapsedMs": 609
+        },
+        {
+          "name": "map-first-settings-nondefault",
+          "status": "passed",
+          "elapsedMs": 8289
+        },
+        {
+          "name": "settings-toggle-低动态",
+          "status": "passed",
+          "elapsedMs": 1401
+        },
+        {
+          "name": "settings-toggle-柔和光效",
+          "status": "passed",
+          "elapsedMs": 1019
+        },
+        {
+          "name": "settings-toggle-环境粒子",
+          "status": "passed",
+          "elapsedMs": 1653
+        },
+        {
+          "name": "settings-toggle-按住方向键连续行走",
+          "status": "passed",
+          "elapsedMs": 1580
+        },
+        {
+          "name": "settings-toggle-镜头避开界面面板",
+          "status": "passed",
+          "elapsedMs": 1486
+        },
+        {
+          "name": "settings-three-sliders",
+          "status": "passed",
+          "elapsedMs": 1499
+        },
+        {
+          "name": "ending-stay",
+          "status": "passed",
+          "elapsedMs": 884
+        },
+        {
+          "name": "ending-next",
+          "status": "passed",
+          "elapsedMs": 597
+        },
+        {
+          "name": "ending-return-map",
+          "status": "passed",
+          "elapsedMs": 1067
+        },
+        {
+          "name": "journal-review-and-return",
+          "status": "passed",
+          "elapsedMs": 1393
+        },
+        {
+          "name": "gallery-categories-story-back",
+          "status": "passed",
+          "elapsedMs": 3504
+        },
+        {
+          "name": "save-export-invalid-valid-duplicate-import",
+          "status": "passed",
+          "elapsedMs": 18145
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Fresh isolated storage per viewport/input/phase; fixture snapshots arrange legal states, but actions under test use actual mouse/touch/text input.",
+    "All command families represented by successful fixtures are sampled; this does not claim every parameter, angle, failure branch or level combination.",
+    "Sliders, toggles, text and modal content need read-only QA control metadata. Missing data is recorded as uncovered rather than substituting signal emission or node counts.",
+    "Touch buttons use native touchscreen events, while scrolling long canvas panels uses actual mouse-wheel input; touch swipe/pinch gesture coverage is separate.",
+    "Pasted JSON uses real ASCII keyboard events with Unicode escapes and exact TextEdit/decoded-JSON verification. Direct Chinese/IME entry is not covered; earlier evidence showed non-ASCII keyboard.type characters being dropped.",
+    "Desktop native file dialogs are outside this Web matrix. A Web download and pasted import are validated when corresponding controls are observable.",
+    "A passing input matrix does not certify artwork, comfort, native-depth correctness or performance."
+  ]
+}

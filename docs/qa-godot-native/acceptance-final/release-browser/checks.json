@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "webMode": "release",
+    "source": {
+      "sha256": "457bf8cb32ea2b27f116552904468bd488883f58458e37274a64540a9331af03",
+      "files": 357
+    },
+    "initialSource": {
+      "sha256": "457bf8cb32ea2b27f116552904468bd488883f58458e37274a64540a9331af03",
+      "files": 357
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      },
+      {
+        "name": "Windows",
+        "code": 0
+      }
+    ]
+  },
+  "qaBridgeAbsent": true,
+  "errors": [],
+  "failure": null,
+  "screens": [
+    {
+      "name": "home",
+      "sha256": "3c635805ecdf4c0e8d6edbc35853759fab7d7df83fc9d660d7c2f9d88cd3e2ac"
+    },
+    {
+      "name": "map",
+      "sha256": "85bbd064d4bf94894203a2c246d2bbe130a85d63c3d06c95983d6fd29ca4ac86"
+    },
+    {
+      "name": "level",
+      "sha256": "fa212c2a91e0a990dc79ded3f67b31fef9f7ccb30ff5a8faa2ffb669bc059c7b"
+    },
+    {
+      "name": "after-plant-walk",
+      "sha256": "265d4d118bbf2853a02b7f8995205bceda3aa514e8af10112bec8d18fdef64c2"
+    },
+    {
+      "name": "settings-bottom",
+      "sha256": "5d88771f15ae67a665110fdb6c0fd8e1b6aa78b458c7806dadedbbf0358d2a08"
+    },
+    {
+      "name": "returned-home",
+      "sha256": "2fefa198e5c2ccbae6c73464545ab972f8b5e5583f0ab075a2bfa967794cd48a"
+    },
+    {
+      "name": "reloaded-home",
+      "sha256": "2fefa198e5c2ccbae6c73464545ab972f8b5e5583f0ab075a2bfa967794cd48a"
+    },
+    {
+      "name": "continued",
+      "sha256": "890a134dc79a5ea72a4a13f2e8468dd8ea30399e9b88625c772348a13a257296"
+    }
+  ],
+  "semanticReview": {
+    "passed": true,
+    "reviewer": "root",
+    "screens": [
+      "returned-home",
+      "reloaded-home",
+      "continued",
+      "after-plant-walk"
+    ],
+    "findings": "Actual home with logo/menu after return and reload; continue restores the grown road and actor/buddy on the destination island. No engine screen/QA UI. Images inspected directly."
+  },
+  "scope": "Isolated release browser, no QA injection/bridge: real keyboard start/map, chosen seed route and held walking, inspected return button click, actual reload/continue. Canvas image differences alone do not prove game semantics; review the named screenshots."
+}

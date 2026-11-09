@@ -1,0 +1,63 @@
+{
+  "initialSource": {
+    "sha256": "70d70f6a2e03e910e9c1ec036a5cba4ce4995f28cc40c19b14d0c9c2b81c2310",
+    "files": 444
+  },
+  "source": {
+    "sha256": "70d70f6a2e03e910e9c1ec036a5cba4ce4995f28cc40c19b14d0c9c2b81c2310",
+    "files": 444
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "rule_reference",
+      "code": 1,
+      "elapsedMs": 450,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cases\":1,\"checks\":1,\"commands\":0,\"passed\":false,\"referenceCommit\":\"5791bbc3dd90549b4c7ea302507ead577f51dd67\",\"suite\":\"garden-rule-reference\"}\r\n",
+      "stderr": "ERROR: authored/1-1/initial: $.tiles length expected 16; got 19\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_reference.gd:70)\r\n       [1] _initialize (res://tests/rule_reference.gd:22)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_actor_depth_test",
+      "code": 0,
+      "elapsedMs": 545,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":4968,\"failures\":[],\"passed\":true,\"suite\":\"actor-depth-clearance\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_application_test",
+      "code": 0,
+      "elapsedMs": 1378,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nPASS native application: 50 checks\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_first_garden_material_test",
+      "code": 0,
+      "elapsedMs": 638,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":19189,\"failures\":[],\"passed\":true,\"suite\":\"first-garden-original-materials\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_first_garden_structure_test",
+      "code": 0,
+      "elapsedMs": 43579,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":63,\"failures\":[],\"maxContactError\":0.118907749652863,\"passed\":true,\"suite\":\"first-garden-structure\",\"worstContact\":{\"actor\":\"buddy\",\"height\":0.649999976158142,\"onFloor\":true,\"position\":\"(2.631877, 0.768908, -0.387831)\",\"support\":\"f:2:0\"}}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_platform_spacing_test",
+      "code": 0,
+      "elapsedMs": 543,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":14,\"failures\":[],\"passed\":true,\"suite\":\"platform-spacing\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

@@ -63,11 +63,21 @@ func _run() -> void:
 		view.set_visual_time(1205 + elapsed)
 		view.set_motion(first, second, elapsed / 205.0, "move")
 		await _sample(view, viewport, "walk-second-%03d" % elapsed)
+	var arrival: Dictionary = view.character_presentation()
+	var arrival_foot: Dictionary = arrival.footpoint.duplicate()
+	var arrival_screen: Dictionary = arrival.screen_footpoint.duplicate()
 	_check(model.move("f:-2:0").ok, "second move commits exactly at its target")
 	view.clear_motion()
 	var final_state: Dictionary = model.snapshot()
-	var final_anchor: Dictionary = view.character_presentation().footpoint.duplicate()
-	_check(final_anchor.x == -2 and final_anchor.z == 0 and final_anchor.h == 0, "stop begins at the exact committed grid point")
+	var stopped: Dictionary = view.character_presentation()
+	var logical_anchor: Dictionary = stopped.anchor
+	var final_anchor: Dictionary = stopped.footpoint.duplicate()
+	_check(logical_anchor.x == -2 and logical_anchor.z == 0 and logical_anchor.h == 0, "stop retains the exact committed logical grid center")
+	# The whole first garden has one declared art stance. It is independent of
+	# stop blending and never feeds the logical grid or camera anchor.
+	_check(final_anchor.x == -2.02 and final_anchor.z == -0.18 and final_anchor.h == 0, "stop retains the declared constant world foot offset from the grid center")
+	_check(final_anchor == arrival_foot, "p1 and clear_motion preserve the identical actual world foot")
+	_check(stopped.screen_footpoint == arrival_screen, "p1 and clear_motion preserve the identical actual screen foot")
 	for elapsed in [0, 20, 40, 60, 80, 100, 120, 180]:
 		view.set_visual_time(1410 + elapsed)
 		await _sample(view, viewport, "stop-%03d" % elapsed)

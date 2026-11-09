@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="BoxMesh" id="PostMesh"]
+size = Vector3(0.09, 0.64, 0.13)
+
+[sub_resource type="BoxMesh" id="LintelMesh"]
+size = Vector3(0.81, 0.1, 0.17)
+
+[sub_resource type="BoxShape3D" id="PostShape"]
+size = Vector3(0.09, 0.64, 0.13)
+
+[sub_resource type="BoxShape3D" id="LintelShape"]
+size = Vector3(0.81, 0.1, 0.17)
+
+[node name="LowPassageArch" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="LeftPost" type="MeshInstance3D" parent="."]
+position = Vector3(-0.36, 0.32, 0)
+mesh = SubResource("PostMesh")
+cast_shadow = 0
+
+[node name="RightPost" type="MeshInstance3D" parent="."]
+position = Vector3(0.36, 0.32, 0)
+mesh = SubResource("PostMesh")
+cast_shadow = 0
+
+[node name="Lintel" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.69, 0)
+mesh = SubResource("LintelMesh")
+cast_shadow = 0
+
+[node name="LeftShape" type="CollisionShape3D" parent="."]
+position = Vector3(-0.36, 0.32, 0)
+shape = SubResource("PostShape")
+
+[node name="RightShape" type="CollisionShape3D" parent="."]
+position = Vector3(0.36, 0.32, 0)
+shape = SubResource("PostShape")
+
+[node name="LintelShape" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.69, 0)
+shape = SubResource("LintelShape")

@@ -10,7 +10,9 @@ var _failed: bool = false
 
 func _initialize() -> void:
 	var reference_path: String = "res://tests/fixtures/reference.json"
+	var selected_level := ""
 	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--level="): selected_level = argument.trim_prefix("--level=")
 		if argument.begins_with("--reference="): reference_path = argument.trim_prefix("--reference=")
 	var fixture: Variant = JSON.parse_string(FileAccess.get_file_as_string(reference_path))
 	if not fixture is Dictionary or fixture.get("format") != "sporelight.rule-reference":
@@ -18,6 +20,7 @@ func _initialize() -> void:
 		quit(2)
 		return
 	for entry: Dictionary in fixture.cases:
+		if not selected_level.is_empty() and str(entry.levelId) != selected_level: continue
 		var world = World.new(str(entry.levelId), entry.get("saved", {}))
 		_check(entry.initial, _observe(world), str(entry.name) + "/initial")
 		for index: int in range(entry.steps.size()):
@@ -43,7 +46,7 @@ func _initialize() -> void:
 			_commands += 1
 		_cases += 1
 		if _failed: break
-	if not _failed:
+	if not _failed and selected_level.is_empty():
 		_validate_saves(reference_path.get_base_dir().path_join("save-cases.json"))
 	print(JSON.stringify({"suite": "garden-rule-reference", "passed": not _failed, "cases": _cases, "commands": _commands, "checks": _checks, "referenceCommit": fixture.referenceCommit}))
 	quit(1 if _failed else 0)

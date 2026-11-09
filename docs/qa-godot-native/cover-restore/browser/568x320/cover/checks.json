@@ -1,0 +1,861 @@
+{
+  "size": [
+    568,
+    320
+  ],
+  "mode": "cover",
+  "frames": [],
+  "passed": false,
+  "reason": "Page.wait_for_function: Timeout 15000ms exceeded.",
+  "actual": {
+    "buttons": [
+      {
+        "action": "map",
+        "class": "Button",
+        "clipped": true,
+        "command_id": "",
+        "disabled": false,
+        "height": 58,
+        "instanceId": 62696458190,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Button@75",
+        "pressed": false,
+        "text": "开始旅程",
+        "tooltip": "",
+        "visibleRect": [
+          292.519989013672,
+          126,
+          236.000030517578,
+          58
+        ],
+        "width": 236,
+        "x": 292.519989013672,
+        "y": 126
+      },
+      {
+        "action": "continue",
+        "class": "Button",
+        "clipped": true,
+        "command_id": "",
+        "disabled": true,
+        "height": 58,
+        "instanceId": 63015225297,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Button@76",
+        "pressed": false,
+        "text": "继续上次的微光",
+        "tooltip": "先开始一段旅程，再回来继续。",
+        "visibleRect": [
+          292.519989013672,
+          191,
+          236.000030517578,
+          58
+        ],
+        "width": 236,
+        "x": 292.519989013672,
+        "y": 191
+      },
+      {
+        "action": "cloud_map",
+        "class": "Button",
+        "clipped": true,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 63166220249,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/CoverCloudEntry",
+        "pressed": false,
+        "text": "云庭微光 · 独立花园",
+        "tooltip": "和小苔灵修复空中花园。",
+        "visibleRect": [
+          292.519989013672,
+          256,
+          236.000030517578,
+          52
+        ],
+        "width": 236,
+        "x": 292.519989013672,
+        "y": 256
+      }
+    ],
+    "character": {
+      "blend": false,
+      "buddy": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 0.0179999992251396,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": false,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          268.189086914062,
+          179.713394165039
+        ],
+        "frame": 0,
+        "grounded": false,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": -0.230000004172325,
+          "z": 0.200000002980232
+        }
+      },
+      "facing": "front",
+      "footpoint": {
+        "h": 0,
+        "x": 0,
+        "z": 0
+      },
+      "key": "idle_front",
+      "luvie": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 0.0179999992251396,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": false,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          284,
+          180.264892578125
+        ],
+        "frame": 0,
+        "grounded": false,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": 0,
+          "z": 0
+        }
+      },
+      "moving": false,
+      "pose": {
+        "clip": "idle_front",
+        "key": "idle_front"
+      },
+      "screen_footpoint": {
+        "x": 284,
+        "y": 180.264892578125
+      },
+      "stair_contact": {
+        "bodyHeight": 0.0179999992251396,
+        "clearance": 0,
+        "ground": 0,
+        "nativeFloor": false,
+        "penetration": 0,
+        "phase": "native-surface",
+        "rail_h": 0,
+        "supportHeight": 0,
+        "visualHeight": 0
+      }
+    },
+    "commands": [
+      {
+        "id": "grow:root:right",
+        "label": "引芽 → · 余1",
+        "target": "g:root:1:0"
+      },
+      {
+        "id": "grow:root:down",
+        "label": "引芽 ↓ · 余1",
+        "target": "g:root:0:1"
+      }
+    ],
+    "context": {
+      "choices": [
+        {
+          "disabled": false,
+          "id": "grow:root:right",
+          "label": "引芽 → · 余1",
+          "reason": "",
+          "target": "g:root:1:0"
+        },
+        {
+          "disabled": false,
+          "id": "grow:root:down",
+          "label": "引芽 ↓ · 余1",
+          "reason": "",
+          "target": "g:root:0:1"
+        }
+      ],
+      "id": "context",
+      "label": "安排根路",
+      "tile": {
+        "h": 0,
+        "id": "f:0:0",
+        "small": false,
+        "x": 0,
+        "z": 0
+      }
+    },
+    "continuousInput": true,
+    "gameHudVisible": false,
+    "hasActiveGame": false,
+    "hintVisible": false,
+    "homeActive": true,
+    "hudRegions": [
+      {
+        "name": "ModalOverlay",
+        "rect": [
+          0,
+          0,
+          568,
+          320
+        ]
+      }
+    ],
+    "input": {
+      "blocked": "",
+      "buffered": "",
+      "held": [],
+      "remaining": 0
+    },
+    "message": "让缺口彼端的花床重新醒来。",
+    "motion": {},
+    "moving": false,
+    "native": {
+      "actors": {
+        "buddy": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": false,
+          "position": [
+            -0.230000004172325,
+            0.0179999992251396,
+            0.200000002980232
+          ],
+          "support": "f:0:0",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        },
+        "luvie": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": false,
+          "position": [
+            0,
+            0.0179999992251396,
+            0
+          ],
+          "support": "f:0:0",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "moving": false,
+      "path": [],
+      "stable": true
+    },
+    "origin": [
+      284,
+      180.264892578125
+    ],
+    "overview": false,
+    "paused": true,
+    "pendingButton": "",
+    "performance": {
+      "fps": 60,
+      "memoryBytes": 52376976,
+      "processMs": 5.145,
+      "textureBytes": 67017549
+    },
+    "progress": {
+      "last_level": "1-1",
+      "memories": {},
+      "records": {},
+      "runs": {}
+    },
+    "qaSequence": 304,
+    "reviewing": false,
+    "revision": 0,
+    "rolling": false,
+    "safeCamera": false,
+    "safeRect": [
+      14,
+      14,
+      540,
+      292
+    ],
+    "scale": 1.05055862761376,
+    "settings": {
+      "ambient": 0.25,
+      "bgm": 0.35,
+      "continuousInput": true,
+      "dynamicLight": true,
+      "fullscreen": false,
+      "inputSettingsRevision": 1,
+      "language": "zh-CN",
+      "lowMotion": false,
+      "particles": true,
+      "quality": "standard",
+      "safeCamera": false,
+      "sfx": 0.6,
+      "touchControls": false,
+      "vibration": false
+    },
+    "snapshot": {
+      "active": "luvie",
+      "actors": {
+        "buddy": "f:0:0",
+        "luvie": "f:0:0"
+      },
+      "beat": 0,
+      "collected": [],
+      "completed": false,
+      "designVersion": 2,
+      "discovered": [],
+      "flags": [],
+      "follow": true,
+      "frozen": null,
+      "growth": {
+        "root": []
+      },
+      "items": {},
+      "levelId": "1-1",
+      "mode": 0,
+      "observations": [],
+      "playing": false,
+      "runtime": {
+        "poses": {
+          "buddy": {
+            "facing": "front",
+            "offset": [
+              -0.23,
+              0.018,
+              0.2
+            ],
+            "support": "f:0:0"
+          },
+          "luvie": {
+            "facing": "front",
+            "offset": [
+              0,
+              0.018,
+              0
+            ],
+            "support": "f:0:0"
+          }
+        },
+        "version": 1
+      },
+      "song": [
+        "turn",
+        "rise",
+        "rest"
+      ],
+      "turns": {},
+      "water": 0
+    },
+    "strolling": false,
+    "targets": [
+      {
+        "id": "f:-2:-1",
+        "x": 247.230499267578,
+        "y": 125.110504150391
+      },
+      {
+        "id": "f:-1:-1",
+        "x": 284,
+        "y": 143.495300292969
+      },
+      {
+        "id": "f:0:-1",
+        "x": 320.769592285156,
+        "y": 161.880096435547
+      },
+      {
+        "id": "f:-2:0",
+        "x": 210.460906982422,
+        "y": 143.495300292969
+      },
+      {
+        "id": "f:-1:0",
+        "x": 247.230407714844,
+        "y": 161.880096435547
+      },
+      {
+        "id": "f:0:0",
+        "x": 284,
+        "y": 180.264892578125
+      },
+      {
+        "id": "f:2:-1",
+        "x": 394.308685302734,
+        "y": 140.1064453125
+      },
+      {
+        "id": "f:3:-1",
+        "x": 431.078277587891,
+        "y": 158.491241455078
+      },
+      {
+        "id": "f:4:-1",
+        "x": 467.847869873047,
+        "y": 176.875991821289
+      },
+      {
+        "id": "f:2:0",
+        "x": 357.539093017578,
+        "y": 187.76286315918
+      },
+      {
+        "id": "f:3:0",
+        "x": 394.308685302734,
+        "y": 206.147659301758
+      },
+      {
+        "id": "f:4:0",
+        "x": 431.078277587891,
+        "y": 224.532409667969
+      },
+      {
+        "id": "f:-1:2",
+        "x": 173.691314697266,
+        "y": 227.921310424805
+      },
+      {
+        "id": "f:0:2",
+        "x": 210.460906982422,
+        "y": 246.306106567383
+      },
+      {
+        "id": "f:-1:3",
+        "x": 136.921722412109,
+        "y": 246.306106567383
+      },
+      {
+        "id": "f:0:3",
+        "x": 173.691314697266,
+        "y": 264.690887451172
+      }
+    ],
+    "tiles": [
+      {
+        "h": 0,
+        "id": "f:-2:-1",
+        "small": false,
+        "x": -2,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-1:-1",
+        "small": false,
+        "x": -1,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:0:-1",
+        "small": false,
+        "x": 0,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-2:0",
+        "small": false,
+        "x": -2,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-1:0",
+        "small": false,
+        "x": -1,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:0:0",
+        "small": false,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "h": 2,
+        "id": "f:2:-1",
+        "small": false,
+        "x": 2,
+        "z": -1
+      },
+      {
+        "h": 2,
+        "id": "f:3:-1",
+        "small": false,
+        "x": 3,
+        "z": -1
+      },
+      {
+        "h": 2,
+        "id": "f:4:-1",
+        "small": false,
+        "x": 4,
+        "z": -1
+      },
+      {
+        "h": 1,
+        "id": "f:2:0",
+        "small": false,
+        "x": 2,
+        "z": 0
+      },
+      {
+        "h": 1,
+        "id": "f:3:0",
+        "small": false,
+        "x": 3,
+        "z": 0
+      },
+      {
+        "h": 1,
+        "id": "f:4:0",
+        "small": false,
+        "x": 4,
+        "z": 0
+      },
+      {
+        "h": -1,
+        "id": "f:-1:2",
+        "small": false,
+        "x": -1,
+        "z": 2
+      },
+      {
+        "h": -1,
+        "id": "f:0:2",
+        "small": false,
+        "x": 0,
+        "z": 2
+      },
+      {
+        "h": -1,
+        "id": "f:-1:3",
+        "small": false,
+        "x": -1,
+        "z": 3
+      },
+      {
+        "h": -1,
+        "id": "f:0:3",
+        "small": false,
+        "x": 0,
+        "z": 3
+      }
+    ],
+    "ui": {
+      "controls": [
+        {
+          "class": "Label",
+          "height": 28,
+          "instanceId": 58904807323,
+          "name": "CoverTagline",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverTagline",
+          "setting_id": "",
+          "text": "把一粒微光，种成回家的路。",
+          "visibleRect": [
+            23.5,
+            126.5,
+            225,
+            28
+          ],
+          "width": 225,
+          "x": 23.5,
+          "y": 126.5
+        },
+        {
+          "class": "ScrollContainer",
+          "height": 296,
+          "instanceId": 58938361757,
+          "name": "CoverInvitationScroll",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll",
+          "setting_id": "",
+          "visibleRect": [
+            292.519989013672,
+            12,
+            244.240020751953,
+            296
+          ],
+          "width": 244.240020751953,
+          "x": 292.519989013672,
+          "y": 12
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 62579017671,
+          "name": "@Label@72",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Label@72",
+          "setting_id": "",
+          "text": "一段温柔的冒险",
+          "visibleRect": [
+            292.519989013672,
+            12,
+            236.000030517578,
+            17
+          ],
+          "width": 236,
+          "x": 292.519989013672,
+          "y": 12
+        },
+        {
+          "class": "Label",
+          "height": 33,
+          "instanceId": 62612572105,
+          "name": "@Label@73",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Label@73",
+          "setting_id": "",
+          "text": "你好，小小的旅人。",
+          "visibleRect": [
+            292.519989013672,
+            36,
+            236.000030517578,
+            33
+          ],
+          "width": 236,
+          "x": 292.519989013672,
+          "y": 36
+        },
+        {
+          "class": "Label",
+          "height": 43,
+          "instanceId": 62662903756,
+          "name": "@Label@74",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Label@74",
+          "setting_id": "",
+          "text": "露薇，这里没有需要赶上的时间。\n走一走，让沉睡的生命重新发光。",
+          "visibleRect": [
+            292.519989013672,
+            76,
+            236.000030517578,
+            43
+          ],
+          "width": 236,
+          "x": 292.519989013672,
+          "y": 76
+        },
+        {
+          "action": "map",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 58,
+          "instanceId": 62696458190,
+          "name": "@Button@75",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Button@75",
+          "pressed": false,
+          "setting_id": "",
+          "text": "开始旅程",
+          "tooltip": "",
+          "visibleRect": [
+            292.519989013672,
+            126,
+            236.000030517578,
+            58
+          ],
+          "width": 236,
+          "x": 292.519989013672,
+          "y": 126
+        },
+        {
+          "action": "continue",
+          "class": "Button",
+          "command_id": "",
+          "disabled": true,
+          "height": 58,
+          "instanceId": 63015225297,
+          "name": "@Button@76",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Button@76",
+          "pressed": false,
+          "setting_id": "",
+          "text": "继续上次的微光",
+          "tooltip": "先开始一段旅程，再回来继续。",
+          "visibleRect": [
+            292.519989013672,
+            191,
+            236.000030517578,
+            58
+          ],
+          "width": 236,
+          "x": 292.519989013672,
+          "y": 191
+        },
+        {
+          "action": "cloud_map",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 54,
+          "instanceId": 63166220249,
+          "name": "CoverCloudEntry",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/CoverCloudEntry",
+          "pressed": false,
+          "setting_id": "",
+          "text": "云庭微光 · 独立花园",
+          "tooltip": "和小苔灵修复空中花园。",
+          "visibleRect": [
+            292.519989013672,
+            256,
+            236.000030517578,
+            52
+          ],
+          "width": 236,
+          "x": 292.519989013672,
+          "y": 256
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 52,
+          "instanceId": 63300437989,
+          "name": "@Button@77",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/CoverSecondaryEntries/@Button@77",
+          "pressed": false,
+          "setting_id": "",
+          "text": "图鉴",
+          "tooltip": "",
+          "visibleRect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "width": 74,
+          "x": 292.519989013672,
+          "y": 317
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 52,
+          "instanceId": 63250106338,
+          "name": "@Button@78",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/CoverSecondaryEntries/@Button@78",
+          "pressed": false,
+          "setting_id": "",
+          "text": "花园纪事",
+          "tooltip": "",
+          "visibleRect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "width": 75,
+          "x": 372.519989013672,
+          "y": 317
+        },
+        {
+          "action": "settings",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 52,
+          "instanceId": 63350769640,
+          "name": "@Button@79",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/CoverSecondaryEntries/@Button@79",
+          "pressed": false,
+          "setting_id": "",
+          "text": "设置",
+          "tooltip": "",
+          "visibleRect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "width": 75,
+          "x": 453.519989013672,
+          "y": 317
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 54,
+          "instanceId": 63401101291,
+          "name": "@Button@80",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Button@80",
+          "pressed": false,
+          "setting_id": "",
+          "text": "导入 / 导出旅程",
+          "tooltip": "",
+          "visibleRect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "width": 236,
+          "x": 292.519989013672,
+          "y": 376
+        },
+        {
+          "class": "Label",
+          "height": 18,
+          "instanceId": 63451432942,
+          "name": "@Label@81",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/HomeScreen/OriginalMenuCover/CoverInvitationScroll/CoverInvitations/@Label@81",
+          "setting_id": "",
+          "text": "已唤醒 0 / 12 片微光",
+          "visibleRect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "width": 236,
+          "x": 292.519989013672,
+          "y": 437
+        }
+      ],
+      "modalOpen": true,
+      "settings": {
+        "ambient": 0.25,
+        "bgm": 0.35,
+        "continuousInput": true,
+        "dynamicLight": true,
+        "fullscreen": false,
+        "inputSettingsRevision": 1,
+        "language": "zh-CN",
+        "lowMotion": false,
+        "particles": true,
+        "quality": "standard",
+        "safeCamera": false,
+        "sfx": 0.6,
+        "touchControls": false,
+        "vibration": false
+      }
+    },
+    "viewport": [
+      568,
+      320
+    ],
+    "worldVisible": false
+  },
+  "errors": []
+}

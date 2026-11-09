@@ -4,7 +4,8 @@ class_name GardenSaveRepository
 const FORMAT := "sporelight.godot"
 const VERSION := 1
 const LEGACY_KEYS := ["sporelight.save.v2", "sporelight.garden2.v1", "sporelight.cloud-gardens.v1", "sporelight.save.v1"]
-const LEVEL_IDS := ["1-1", "1-2", "1-3", "1-4", "2-1", "2-2", "2-3", "2-4", "3-1", "3-2", "3-3", "3-4"]
+const LEVEL_IDS := ["1-1", "1-2", "1-3", "1-4", "2-1", "2-2", "2-3", "2-4", "3-1", "3-2", "3-3", "3-4", "cloud-1", "cloud-2", "cloud-3"]
+const CloudWorld = preload("res://core/cloud_garden_world.gd")
 
 var path: String
 var data: Dictionary
@@ -18,14 +19,14 @@ func _init(store_path: String = "user://sporelight-godot.v1.json") -> void:
 
 
 static func default_settings() -> Dictionary:
-	return {"bgm": 0.35, "sfx": 0.6, "ambient": 0.25, "quality": "standard", "dynamicLight": true, "particles": true, "lowMotion": false, "vibration": false, "fullscreen": false, "language": "zh-CN", "continuousInput": false, "safeCamera": false}
+	return {"bgm": 0.35, "sfx": 0.6, "ambient": 0.25, "quality": "standard", "dynamicLight": true, "particles": true, "lowMotion": false, "vibration": false, "fullscreen": false, "language": "zh-CN", "continuousInput": true, "safeCamera": false, "touchControls": false, "inputSettingsRevision": 1}
 
 
 static func empty_store() -> Dictionary:
 	return {"format": FORMAT, "version": VERSION, "content_version": 2,
 		"player": {"name": "露薇", "has_named": false}, "settings": default_settings(),
 		"mainline": {"last_level": "1-1", "runs": {}, "memories": {}, "records": {}},
-		"gallery": {}, "legacy_raw": {}, "import_fingerprints": []}
+		"gallery": {}, "cloud_discoveries": {}, "legacy_raw": {}, "import_fingerprints": []}
 
 
 static func json_equivalent(left: Variant, right: Variant) -> bool:
@@ -68,6 +69,7 @@ func load_store() -> Dictionary:
 	var parsed := _read_valid_store(path)
 	if parsed.ok:
 		data = parsed.data
+		_adopt_retained_cloud(data)
 		return {"ok": true, "data": data.duplicate(true), "created": false}
 	if FileAccess.file_exists(path + ".bak"):
 		return _recover_backup(String(parsed.get("error", "invalid_primary")))
@@ -79,6 +81,15 @@ func persist(candidate: Dictionary = {}) -> Dictionary:
 	var validation := _validate_store(next)
 	if not validation.ok:
 		return validation
+	# Verify against the exact values represented by the JSON bytes. Godot's
+	# decimal parser can differ from an arithmetic float by one ULP even with
+	# full_precision. This canonicalization keeps strict equality for read-back
+	# while preserving the native motor's 1e-4 position quantum.
+	var encoded := JSON.stringify(next, "\t", true, true)
+	var canonical: Dictionary = JSON.parse_string(encoded)
+	var canonical_validation := _validate_store(canonical)
+	if not canonical_validation.ok:
+		return canonical_validation
 	var absolute := ProjectSettings.globalize_path(path)
 	var directory_error := DirAccess.make_dir_recursive_absolute(absolute.get_base_dir())
 	if directory_error != OK:
@@ -87,14 +98,16 @@ func persist(candidate: Dictionary = {}) -> Dictionary:
 	var file := FileAccess.open(temporary, FileAccess.WRITE)
 	if file == null:
 		return _failure("open_temporary_failed", FileAccess.get_open_error())
-	file.store_string(JSON.stringify(next, "\t"))
+	# Continuous local poses contain real floating-point coordinates. Short
+	# JSON decimals can lose one ULP and fail our exact read-back verification.
+	file.store_string(encoded)
 	file.flush()
 	var write_error := file.get_error()
 	file.close()
 	if write_error != OK:
 		return _failure("write_failed", write_error)
 	var verified := _read_valid_store(temporary)
-	if not verified.ok or not json_equivalent(verified.get("data"), next):
+	if not verified.ok or not json_equivalent(verified.get("data"), canonical):
 		return _failure("temporary_verification_failed")
 	if FileAccess.file_exists(path):
 		# A recovered corrupt primary must never overwrite its valid backup.
@@ -112,9 +125,9 @@ func persist(candidate: Dictionary = {}) -> Dictionary:
 			DirAccess.copy_absolute(ProjectSettings.globalize_path(path + ".bak"), absolute)
 		return _failure("commit_failed", rename_error)
 	var reread := _read_valid_store(path)
-	if not reread.ok or not json_equivalent(reread.get("data"), next):
+	if not reread.ok or not json_equivalent(reread.get("data"), canonical):
 		return _failure("commit_verification_failed")
-	data = next
+	data = reread.data
 	return {"ok": true, "data": data.duplicate(true)}
 
 
@@ -136,6 +149,8 @@ func stage_run(snapshot: Dictionary) -> Dictionary:
 	var candidate := data.duplicate(true)
 	candidate.mainline.last_level = id
 	candidate.mainline.runs[id] = normalized.duplicate(true)
+	if id.begins_with("cloud-"):
+		_merge_cloud_discoveries(candidate, id, normalized.get("observations", []))
 	if normalized.get("completed", false):
 		candidate.mainline.memories[id] = normalized.duplicate(true)
 		var count: int = normalized.get("collected", []).size()
@@ -155,7 +170,7 @@ func save_settings(settings: Dictionary) -> Dictionary:
 
 
 func export_json() -> String:
-	return JSON.stringify(data, "\t")
+	return JSON.stringify(data, "\t", true, true)
 
 
 func export_file(target: String) -> Dictionary:
@@ -324,7 +339,58 @@ func _import_legacy(source: Dictionary) -> Dictionary:
 			if not _valid_legacy_record(record):
 				return _failure("invalid_legacy_level_record_values")
 			candidate.mainline.records[id] = _legacy_record(record, String(id))
+	_adopt_retained_cloud(candidate)
 	return {"ok": true, "data": candidate}
+
+
+# Earlier Godot candidates retained this key verbatim. Decode those already
+# imported bytes now without reading browser storage or replacing native runs.
+func _adopt_retained_cloud(candidate: Dictionary) -> void:
+	var original: Variant = candidate.get("legacy_raw", {}).get("sporelight.cloud-gardens.v1")
+	if not original is String:
+		return
+	var parser := JSON.new()
+	if parser.parse(original) != OK or not parser.data is Dictionary:
+		return
+	var legacy: Dictionary = parser.data
+	if legacy.get("version") != 1:
+		return
+	for id: String in ["cloud-1", "cloud-2", "cloud-3"]:
+		var world := CloudWorld.new(id)
+		var stories: Variant = legacy.get("discoveries", {}).get(id, []) if legacy.get("discoveries") is Dictionary else []
+		_merge_cloud_discoveries(candidate, id, stories if stories is Array else [])
+		for field: String in ["runs", "memories"]:
+			var entries: Variant = legacy.get(field, {})
+			if not entries is Dictionary or not entries.get(id) is Dictionary or candidate.mainline[field].has(id):
+				continue
+			var validation: Dictionary = world.normalize_saved(entries[id])
+			if validation.get("ok", false) and (field != "memories" or validation.snapshot.completed):
+				candidate.mainline[field][id] = validation.snapshot
+				_merge_cloud_discoveries(candidate, id, validation.snapshot.get("observations", []))
+		var completed: bool = legacy.get("completed") is Array and id in legacy.completed
+		if candidate.mainline.runs.get(id, {}).get("completed", false):
+			completed = true
+			if not candidate.mainline.memories.has(id):
+				candidate.mainline.memories[id] = candidate.mainline.runs[id].duplicate(true)
+		if completed:
+			var discoveries: Array = []
+			var values: Variant = legacy.get("discoveries", {}).get(id, []) if legacy.get("discoveries") is Dictionary else []
+			for mark: Dictionary in world.level.marks:
+				if mark.get("text", "") != "" and values is Array and mark.id in values:
+					discoveries.append(mark.id)
+			var count: int = maxi(discoveries.size(), candidate.mainline.memories.get(id, {}).get("collected", []).size())
+			_merge_record(candidate.mainline.records, id, {"completed": true, "stars": 3 if count >= 2 else 2 if count == 1 else 1, "collected": count})
+
+
+func _merge_cloud_discoveries(candidate: Dictionary, id: String, values: Array) -> void:
+	if not candidate.get("cloud_discoveries") is Dictionary:
+		candidate.cloud_discoveries = {}
+	var known: Array = candidate.cloud_discoveries.get(id, []).duplicate()
+	var world := CloudWorld.new(id)
+	for mark: Dictionary in world.level.marks:
+		if mark.get("text", "") != "" and mark.id in values and not mark.id in known:
+			known.append(mark.id)
+	candidate.cloud_discoveries[id] = known
 
 
 func _legacy_record(record: Dictionary, id: String) -> Dictionary:
@@ -341,6 +407,8 @@ func _merge_store(current: Dictionary, imported: Dictionary) -> Dictionary:
 	result.settings = imported.settings.duplicate(true)
 	result.gallery.merge(imported.gallery, true)
 	result.legacy_raw.merge(imported.legacy_raw, true)
+	for id: String in imported.get("cloud_discoveries", {}):
+		_merge_cloud_discoveries(result, id, imported.cloud_discoveries[id])
 	result.mainline.last_level = imported.mainline.last_level
 	for field in ["runs", "memories"]:
 		result.mainline[field].merge(imported.mainline[field], true)
@@ -361,7 +429,7 @@ func _normalize_settings(raw: Variant) -> Dictionary:
 	for key in ["bgm", "sfx", "ambient"]:
 		if raw.get(key) is float or raw.get(key) is int:
 			result[key] = clampf(float(raw[key]), 0, 1)
-	for key in ["dynamicLight", "particles", "lowMotion", "vibration", "fullscreen", "continuousInput", "safeCamera"]:
+	for key in ["dynamicLight", "particles", "lowMotion", "vibration", "fullscreen", "continuousInput", "safeCamera", "touchControls"]:
 		if raw.get(key) is bool:
 			result[key] = raw[key]
 	if ["soft", "standard", "hd"].has(raw.get("quality", "")):
@@ -377,6 +445,17 @@ func _validate_store(value: Dictionary) -> Dictionary:
 	for field in ["player", "settings", "mainline", "gallery", "legacy_raw"]:
 		if not value.get(field) is Dictionary:
 			return _failure("invalid_field:" + field)
+	if not value.has("cloud_discoveries"):
+		value.cloud_discoveries = {}
+	if not value.cloud_discoveries is Dictionary:
+		return _failure("invalid_cloud_discoveries")
+	for id: String in value.cloud_discoveries:
+		if not id in ["cloud-1", "cloud-2", "cloud-3"] or not value.cloud_discoveries[id] is Array:
+			return _failure("invalid_cloud_discovery_level")
+		var world := CloudWorld.new(id)
+		for entry: Variant in value.cloud_discoveries[id]:
+			if not entry is String or not world.level.marks.any(func(mark: Dictionary) -> bool: return mark.id == entry and mark.get("text", "") != ""):
+				return _failure("invalid_cloud_discovery")
 	if not value.get("import_fingerprints") is Array:
 		return _failure("invalid_import_history")
 	for fingerprint in value.import_fingerprints:
@@ -392,11 +471,22 @@ func _validate_store(value: Dictionary) -> Dictionary:
 		if not value.settings.get(key) is bool:
 			return _failure("invalid_setting:" + key)
 	for key in ["continuousInput", "safeCamera"]:
-		# Early preview stores did not have the two independent experiment flags.
+		# Earlier preview stores may not have either independent setting.
 		if not value.settings.has(key):
-			value.settings[key] = false
+			value.settings[key] = key == "continuousInput"
 		elif not value.settings[key] is bool:
 			return _failure("invalid_setting:" + key)
+	if not value.settings.has("touchControls"):
+		value.settings.touchControls = false
+	elif not value.settings.touchControls is bool:
+		return _failure("invalid_setting:touchControls")
+	# The old preview wrote its single-step default into existing user settings.
+	# Correct it once; a later explicit opt-out carries this revision and survives.
+	if not value.settings.has("inputSettingsRevision"):
+		value.settings.continuousInput = true
+		value.settings.inputSettingsRevision = 1
+	elif not _whole_number(value.settings.inputSettingsRevision, 1, 1):
+		return _failure("invalid_setting:inputSettingsRevision")
 	if not ["soft", "standard", "hd"].has(value.settings.get("quality", "")) or not ["zh-CN", "zh-TW", "en"].has(value.settings.get("language", "")):
 		return _failure("invalid_setting_variant")
 	var mainline: Dictionary = value.mainline
@@ -479,6 +569,7 @@ func _recover_backup(reason: String) -> Dictionary:
 	if not backup.ok:
 		return _failure("primary_and_backup_invalid:" + reason)
 	data = backup.data
+	_adopt_retained_cloud(data)
 	return {"ok": true, "data": data.duplicate(true), "recovered": true, "warning": reason}
 
 

@@ -150,6 +150,18 @@ func _restore(saved: Dictionary, initial: Dictionary) -> bool:
 		var tile: Dictionary = _find_tile(str(s.actors.get(who, "")), world_tiles)
 		if tile.is_empty() or tile.get("solid", false) or (who == "luvie" and tile.get("small", false)):
 			return false
+	if s.has("runtime"):
+		if not s.runtime is Dictionary or int(s.runtime.get("version", 0)) != 1 or not s.runtime.get("poses") is Dictionary:
+			return false
+		for who: String in s.runtime.poses:
+			var pose: Variant = s.runtime.poses[who]
+			if not who in ACTORS or not pose is Dictionary or pose.get("support", "") != str(s.actors[who]):
+				return false
+			if not pose.get("offset") is Array or pose.offset.size() != 3:
+				return false
+			for component: Variant in pose.offset:
+				if not (component is int or component is float) or not is_finite(float(component)) or absf(float(component)) > 0.75:
+					return false
 	for item: Dictionary in s.items.values():
 		if item.tile != "" and _find_tile(item.tile, world_tiles).is_empty():
 			return false
@@ -531,14 +543,39 @@ func move(id: String) -> Dictionary:
 		return "石板记住了两双小脚印。"
 	)
 
+## Native actors commit only after their body crosses a permitted support edge.
+## The legacy move() remains the deterministic replay adapter; native following
+## drives each actor through this explicit operation instead of teleporting it.
+func move_actor(who: String, id: String, record_history: bool = true) -> Dictionary:
+	if not who in ACTORS or state.playing or _find_tile(id, neighbors(str(state.actors[who]), who)).is_empty():
+		return {"ok": false, "message": "这里尚未接通，看看地面、高度与庭院的朝向。"}
+	return _transaction(func() -> String:
+		state.actors[who] = id
+		if who == "luvie":
+			state.flags = state.flags.filter(func(value: Variant) -> bool: return value != "hold")
+		return ""
+	, record_history)
+
+func record_checkpoint() -> void:
+	_history.append(snapshot())
+	if _history.size() > 400:
+		_history.pop_front()
+
 func _fail(message: String) -> String:
 	_error = message
 	return ""
 
-func _transaction(change: Callable) -> Dictionary:
+func _transaction(change: Callable, record_history: bool = true) -> Dictionary:
 	var before: Dictionary = snapshot()
 	_error = ""
 	var message: String = change.call()
+	# A changed support invalidates only that actor's old local pose. The native
+	# executor captures its actual new pose in the same physical update; previews
+	# must not retain a pose that claims to belong to a different support.
+	if state.get("runtime") is Dictionary and state.runtime.get("poses") is Dictionary:
+		for who: String in state.runtime.poses.keys():
+			if str(state.runtime.poses[who].get("support", "")) != str(state.actors.get(who, "")):
+				state.runtime.poses.erase(who)
 	if _error == "":
 		var world_tiles: Array = tiles()
 		for who: String in ACTORS:
@@ -557,8 +594,9 @@ func _transaction(change: Callable) -> Dictionary:
 	_update_outcomes()
 	_collect()
 	state = snapshot()
-	_history.append(before)
-	if _history.size() > 400: _history.pop_front()
+	if record_history:
+		_history.append(before)
+		if _history.size() > 400: _history.pop_front()
 	return {"ok": true, "message": message}
 
 func _collect() -> void:
@@ -831,7 +869,7 @@ func hint() -> Dictionary:
 	if state.completed: return {"message": level.story}
 	var message: String = str(level.intro)
 	match str(level.id):
-		"1-1": message = "走近根台，向右引一节芽，沿石板到花床，再种下微光。"
+		"1-1": message = "走近根台，向右引一节芽，登上石阶到顶部花床，再种下微光。"
 		"1-2": message = "从根台向上绕：上、右、右、下；或从下方对称绕行。四节芽都要连续。"
 		"1-3": message = "进入庭院中心，连人带花园转90°。原来的西口会接向北岸。"
 		"1-4": message = "露薇在外庭扳住重杆；换小苔灵过桥穿低拱，到轻踏板；再换露薇过南门固定门闩。" if not flag("latch") else "露薇取回内庭的门铃，带到鼹鼠家门。交还铃铛后，花门就会打开。" if not flag("home") else "接上小苔灵，穿过鼹鼠旁已打开的花门，到小花园中央一起播种。"

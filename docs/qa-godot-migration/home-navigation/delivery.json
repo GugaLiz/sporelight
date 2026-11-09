@@ -1,0 +1,108 @@
+{
+  "date": "2026-11-06T07:09:05.227Z",
+  "source": {
+    "sha256": "dc0824fb2d91cfcea8cae31abd1a67ad2bb5e7a61200b48ef030faaac3571432",
+    "files": 336
+  },
+  "live": [
+    {
+      "port": 4185,
+      "webMode": "release",
+      "source": {
+        "sha256": "dc0824fb2d91cfcea8cae31abd1a67ad2bb5e7a61200b48ef030faaac3571432",
+        "files": 336
+      }
+    },
+    {
+      "port": 4186,
+      "webMode": "debug",
+      "source": {
+        "sha256": "dc0824fb2d91cfcea8cae31abd1a67ad2bb5e7a61200b48ef030faaac3571432",
+        "files": 336
+      }
+    }
+  ],
+  "exports": [
+    {
+      "file": "godot/build/web/build.json",
+      "webMode": "debug",
+      "source": {
+        "sha256": "dc0824fb2d91cfcea8cae31abd1a67ad2bb5e7a61200b48ef030faaac3571432",
+        "files": 336
+      }
+    },
+    {
+      "file": "godot/build/web-release/build.json",
+      "webMode": "release",
+      "source": {
+        "sha256": "dc0824fb2d91cfcea8cae31abd1a67ad2bb5e7a61200b48ef030faaac3571432",
+        "files": 336
+      }
+    },
+    {
+      "file": "godot/build/build.json",
+      "webMode": "release",
+      "source": {
+        "sha256": "dc0824fb2d91cfcea8cae31abd1a67ad2bb5e7a61200b48ef030faaac3571432",
+        "files": 336
+      }
+    }
+  ],
+  "changes": {
+    "existingRuntimeFilesEditedThisTask": [
+      "application/main.gd",
+      "ui/garden_hud.gd"
+    ],
+    "addedRuntimeFiles": [
+      "assets/images/main/bg.png",
+      "assets/images/main/bg.png.import",
+      "assets/images/material-ready/menu-logo.png",
+      "assets/images/material-ready/menu-logo.png.import"
+    ]
+  },
+  "assets": [
+    {
+      "file": "main/bg.png",
+      "sha256": "3015c6f2bdfd607db971159b2e99ce7865a1bfcff17b5888387155f25dc37e02",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "material-ready/menu-logo.png",
+      "sha256": "09678d4b5e799c076651d939dfc4e365af0364f9445321ae24541087d3e8348e",
+      "originalBytesPreserved": true
+    }
+  ],
+  "verification": {
+    "stableCheckSuites": 27,
+    "homeHeadlessChecks": 379,
+    "modalChecks": 262,
+    "hudChecks": 60,
+    "buttonChecks": 103,
+    "applicationChecks": 17803,
+    "realBrowserJourneys": 16,
+    "viewports": [
+      "1280x720",
+      "390x844",
+      "568x320",
+      "594x462"
+    ],
+    "inputTypes": [
+      "mouse",
+      "touch"
+    ],
+    "browserErrors": 0,
+    "qaWriteRequests": 0
+  },
+  "manualRelease": {
+    "normalStartupObserved": true,
+    "result": "Independent HomeScreen with brand and actions; level world, level title and game tools hidden. User storage was not injected or cleared."
+  },
+  "retainedFailure": "checks/ retains first-run obsolete next+resume event expectation; checks-final/ asserts real modal removal and destination-only events; stay retains resume+stay.",
+  "backupLimitation": "The initial before-home main.gd and build metadata precede changes, but its garden_hud.gd was copied after a parallel HUD edit. It is not an atomic 3bbc checkpoint. Whole-previous-source digest reconstruction attempts did not match and are not claimed as verification.",
+  "limits": [
+    "Finite navigation journeys, not all event permutations.",
+    "Headless does not verify GPU pixels or audible output.",
+    "Long-list scrolling uses real mouse wheel, not touch inertia.",
+    "Legacy web-service tool labels/import-close contract updated and syntax checked; not fully rerun in this navigation-only task."
+  ]
+}

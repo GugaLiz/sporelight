@@ -1,0 +1,2366 @@
+{
+  "row": "390x844-touch-overlays",
+  "phase": "overlays",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "input": "touch",
+  "results": [
+    {
+      "name": "map-open-select-level",
+      "status": "passed",
+      "details": {
+        "note": "QA map intentionally unlocks level choices; this does not validate normal progression gating"
+      },
+      "elapsedMs": 648
+    },
+    {
+      "name": "map-first-settings-nondefault",
+      "status": "passed",
+      "details": {
+        "result": "nondefault settings imported, reloaded, then first entered through map"
+      },
+      "elapsedMs": 7569
+    },
+    {
+      "name": "settings-toggle-低动态",
+      "status": "passed",
+      "details": {
+        "before": true,
+        "after": false,
+        "restored": true
+      },
+      "elapsedMs": 1402
+    },
+    {
+      "name": "settings-toggle-柔和光效",
+      "status": "passed",
+      "details": {
+        "before": false,
+        "after": true,
+        "restored": false
+      },
+      "elapsedMs": 1731
+    },
+    {
+      "name": "settings-toggle-环境粒子",
+      "status": "passed",
+      "details": {
+        "before": false,
+        "after": true,
+        "restored": false
+      },
+      "elapsedMs": 1501
+    },
+    {
+      "name": "settings-toggle-按住方向键连续行走",
+      "status": "passed",
+      "details": {
+        "before": false,
+        "after": true,
+        "restored": false
+      },
+      "elapsedMs": 983
+    },
+    {
+      "name": "settings-toggle-镜头避开界面面板",
+      "status": "passed",
+      "details": {
+        "before": true,
+        "after": false,
+        "restored": true
+      },
+      "elapsedMs": 1331
+    },
+    {
+      "name": "settings-three-sliders",
+      "status": "passed",
+      "details": [
+        {
+          "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@181/@CenterContainer@183/@PanelContainer@184/@ScrollContainer@187/@VBoxContainer@188/Setting_bgm",
+          "before": 0.1,
+          "after": 0.3
+        },
+        {
+          "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@181/@CenterContainer@183/@PanelContainer@184/@ScrollContainer@187/@VBoxContainer@188/Setting_sfx",
+          "before": 0.2,
+          "after": 0.3
+        },
+        {
+          "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@181/@CenterContainer@183/@PanelContainer@184/@ScrollContainer@187/@VBoxContainer@188/Setting_ambient",
+          "before": 0.15,
+          "after": 0.3
+        }
+      ],
+      "elapsedMs": 2582
+    },
+    {
+      "name": "ending-stay",
+      "status": "passed",
+      "elapsedMs": 573
+    },
+    {
+      "name": "ending-next",
+      "status": "passed",
+      "elapsedMs": 1122
+    },
+    {
+      "name": "ending-return-map",
+      "status": "passed",
+      "elapsedMs": 1538
+    },
+    {
+      "name": "journal-review-and-return",
+      "status": "passed",
+      "elapsedMs": 1494
+    },
+    {
+      "name": "gallery-categories-story-back",
+      "status": "passed",
+      "elapsedMs": 5819
+    },
+    {
+      "name": "save-export-invalid-valid-duplicate-import",
+      "status": "passed",
+      "elapsedMs": 20567
+    }
+  ],
+  "inventory": [
+    {
+      "case": "map-open-select-level",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62260250243,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@54",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "",
+        "visibleRect": [
+          327,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 327,
+        "y": 20
+      }
+    },
+    {
+      "case": "map-open-select-level",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 73836529497,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@75/@CenterContainer@77/@PanelContainer@78/@ScrollContainer@81/@VBoxContainer@82/@Button@87",
+        "pressed": false,
+        "text": "1-2  第一朵花",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          334,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 334
+      }
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62260250243,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@54",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "",
+        "visibleRect": [
+          327,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 327,
+        "y": 20
+      }
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@117/@CenterContainer@119/@PanelContainer@120/@ScrollContainer@123",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@117/@CenterContainer@119/@PanelContainer@120/@ScrollContainer@123/@VBoxContainer@124/@Button@143",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@117/@CenterContainer@119/@PanelContainer@120/@ScrollContainer@123",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@117/@CenterContainer@119/@PanelContainer@120/@ScrollContainer@123/@VBoxContainer@124/@Button@143",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 84020299629,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@117/@CenterContainer@119/@PanelContainer@120/@ScrollContainer@123/@VBoxContainer@124/@Button@143",
+        "pressed": false,
+        "text": "导入 / 导出旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          570,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 570
+      }
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 88080385984,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@145/@CenterContainer@147/@PanelContainer@148/@ScrollContainer@151/@VBoxContainer@152/@Button@165",
+        "pressed": false,
+        "text": "导出当前旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "kind": "json-input",
+      "input": "real-keyboard-ascii-with-json-unicode-escapes",
+      "decodedCandidateVerified": true
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 87979722682,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@145/@CenterContainer@147/@PanelContainer@148/@ScrollContainer@151/@VBoxContainer@152/@Button@162",
+        "pressed": false,
+        "text": "检查粘贴的旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          438,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 438
+      }
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 87929391031,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@145/@CenterContainer@147/@PanelContainer@148/@ScrollContainer@151/@VBoxContainer@152/@Button@164",
+        "pressed": false,
+        "text": "确认导入",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          591,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 591
+      }
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62260250243,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@54",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "",
+        "visibleRect": [
+          327,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 327,
+        "y": 20
+      }
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@75/@CenterContainer@77/@PanelContainer@78/@ScrollContainer@81",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@75/@CenterContainer@77/@PanelContainer@78/@ScrollContainer@81/@VBoxContainer@82/@Button@98",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 73081554809,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@75/@CenterContainer@77/@PanelContainer@78/@ScrollContainer@81/@VBoxContainer@82/@Button@98",
+        "pressed": false,
+        "text": "设置",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          576,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 576
+      }
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@103/@CenterContainer@105/@PanelContainer@106/@ScrollContainer@109",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@103/@CenterContainer@105/@PanelContainer@106/@ScrollContainer@109/@VBoxContainer@110/@Button@115",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "map-first-settings-nondefault",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 76923537344,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@103/@CenterContainer@105/@PanelContainer@106/@ScrollContainer@109/@VBoxContainer@110/@Button@115",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "settings-toggle-低动态",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62126032508,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@53",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置",
+        "visibleRect": [
+          275,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 275,
+        "y": 20
+      }
+    },
+    {
+      "case": "settings-toggle-低动态",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 86553659315,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@116/@CenterContainer@118/@PanelContainer@119/@ScrollContainer@122/@VBoxContainer@123/Setting_lowMotion",
+        "pressed": true,
+        "text": "低动态",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          417,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 417
+      }
+    },
+    {
+      "case": "settings-toggle-低动态",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 86553659315,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@116/@CenterContainer@118/@PanelContainer@119/@ScrollContainer@122/@VBoxContainer@123/Setting_lowMotion",
+        "pressed": false,
+        "text": "低动态",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          417,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 417
+      }
+    },
+    {
+      "case": "settings-toggle-低动态",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@116/@CenterContainer@118/@PanelContainer@119/@ScrollContainer@122",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@116/@CenterContainer@118/@PanelContainer@119/@ScrollContainer@122/@VBoxContainer@123/@Button@128",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "settings-toggle-低动态",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 86805317570,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@116/@CenterContainer@118/@PanelContainer@119/@ScrollContainer@122/@VBoxContainer@123/@Button@128",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "settings-toggle-柔和光效",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62126032508,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@53",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置",
+        "visibleRect": [
+          275,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 275,
+        "y": 20
+      }
+    },
+    {
+      "case": "settings-toggle-柔和光效",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 96586434488,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@129/@CenterContainer@131/@PanelContainer@132/@ScrollContainer@135/@VBoxContainer@136/Setting_dynamicLight",
+        "pressed": false,
+        "text": "柔和光效",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          483,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 483
+      }
+    },
+    {
+      "case": "settings-toggle-柔和光效",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 96586434488,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@129/@CenterContainer@131/@PanelContainer@132/@ScrollContainer@135/@VBoxContainer@136/Setting_dynamicLight",
+        "pressed": true,
+        "text": "柔和光效",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          483,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 483
+      }
+    },
+    {
+      "case": "settings-toggle-柔和光效",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@129/@CenterContainer@131/@PanelContainer@132/@ScrollContainer@135",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@129/@CenterContainer@131/@PanelContainer@132/@ScrollContainer@135/@VBoxContainer@136/@Button@141",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "settings-toggle-柔和光效",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 96787761034,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@129/@CenterContainer@131/@PanelContainer@132/@ScrollContainer@135/@VBoxContainer@136/@Button@141",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "settings-toggle-环境粒子",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62126032508,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@53",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置",
+        "visibleRect": [
+          275,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 275,
+        "y": 20
+      }
+    },
+    {
+      "case": "settings-toggle-环境粒子",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 107827169213,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@142/@CenterContainer@144/@PanelContainer@145/@ScrollContainer@148/@VBoxContainer@149/Setting_particles",
+        "pressed": false,
+        "text": "环境粒子",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          549,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 549
+      }
+    },
+    {
+      "case": "settings-toggle-环境粒子",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 107827169213,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@142/@CenterContainer@144/@PanelContainer@145/@ScrollContainer@148/@VBoxContainer@149/Setting_particles",
+        "pressed": true,
+        "text": "环境粒子",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          549,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 549
+      }
+    },
+    {
+      "case": "settings-toggle-环境粒子",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@142/@CenterContainer@144/@PanelContainer@145/@ScrollContainer@148",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@142/@CenterContainer@144/@PanelContainer@145/@ScrollContainer@148/@VBoxContainer@149/@Button@154",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "settings-toggle-环境粒子",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 107978163917,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@142/@CenterContainer@144/@PanelContainer@145/@ScrollContainer@148/@VBoxContainer@149/@Button@154",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "settings-toggle-按住方向键连续行走",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62126032508,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@53",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置",
+        "visibleRect": [
+          275,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 275,
+        "y": 20
+      }
+    },
+    {
+      "case": "settings-toggle-按住方向键连续行走",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 118413592514,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@155/@CenterContainer@157/@PanelContainer@158/@ScrollContainer@161/@VBoxContainer@162/Setting_continuousInput",
+        "pressed": false,
+        "text": "按住方向键连续行走",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          615,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 615
+      }
+    },
+    {
+      "case": "settings-toggle-按住方向键连续行走",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 118413592514,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@155/@CenterContainer@157/@PanelContainer@158/@ScrollContainer@161/@VBoxContainer@162/Setting_continuousInput",
+        "pressed": true,
+        "text": "按住方向键连续行走",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          615,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 615
+      }
+    },
+    {
+      "case": "settings-toggle-按住方向键连续行走",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@155/@CenterContainer@157/@PanelContainer@158/@ScrollContainer@161",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@155/@CenterContainer@157/@PanelContainer@158/@ScrollContainer@161/@VBoxContainer@162/@Button@167",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "settings-toggle-按住方向键连续行走",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 118514255672,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@155/@CenterContainer@157/@PanelContainer@158/@ScrollContainer@161/@VBoxContainer@162/@Button@167",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "settings-toggle-镜头避开界面面板",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62126032508,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@53",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置",
+        "visibleRect": [
+          275,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 275,
+        "y": 20
+      }
+    },
+    {
+      "case": "settings-toggle-镜头避开界面面板",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": true,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 127825610465,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@168/@CenterContainer@170/@PanelContainer@171/@ScrollContainer@174/@VBoxContainer@175/Setting_safeCamera",
+        "pressed": true,
+        "text": "镜头避开界面面板",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          681,
+          318,
+          9
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 681
+      }
+    },
+    {
+      "case": "settings-toggle-镜头避开界面面板",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "CheckButton",
+        "clipped": true,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 127825610465,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@168/@CenterContainer@170/@PanelContainer@171/@ScrollContainer@174/@VBoxContainer@175/Setting_safeCamera",
+        "pressed": false,
+        "text": "镜头避开界面面板",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          681,
+          318,
+          9
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 681
+      }
+    },
+    {
+      "case": "settings-toggle-镜头避开界面面板",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@168/@CenterContainer@170/@PanelContainer@171/@ScrollContainer@174",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@168/@CenterContainer@170/@PanelContainer@171/@ScrollContainer@174/@VBoxContainer@175/@Button@180",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "settings-toggle-镜头避开界面面板",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 127875941971,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@168/@CenterContainer@170/@PanelContainer@171/@ScrollContainer@174/@VBoxContainer@175/@Button@180",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "settings-three-sliders",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62126032508,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@53",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置",
+        "visibleRect": [
+          275,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 275,
+        "y": 20
+      }
+    },
+    {
+      "case": "settings-three-sliders",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@181/@CenterContainer@183/@PanelContainer@184/@ScrollContainer@187",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@181/@CenterContainer@183/@PanelContainer@184/@ScrollContainer@187/@VBoxContainer@188/@Button@193",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "settings-three-sliders",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 137371846217,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@181/@CenterContainer@183/@PanelContainer@184/@ScrollContainer@187/@VBoxContainer@188/@Button@193",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "ending-stay",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "repair",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 147975047064,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/NearbyActions/@ScrollContainer@25/@VBoxContainer@26/@VBoxContainer@32/@Button@194",
+        "pressed": false,
+        "text": "1  一起种下微光 ✧",
+        "tooltip": "",
+        "visibleRect": [
+          215,
+          271,
+          137,
+          44
+        ],
+        "width": 137,
+        "x": 215,
+        "y": 271
+      }
+    },
+    {
+      "case": "ending-stay",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 154115508032,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@208/@CenterContainer@210/@PanelContainer@211/@ScrollContainer@214/@VBoxContainer@215/@Button@220",
+        "pressed": false,
+        "text": "留下看看",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          335,
+          326,
+          54
+        ],
+        "width": 326,
+        "x": 32,
+        "y": 335
+      }
+    },
+    {
+      "case": "ending-next",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "repair",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 159903647642,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/NearbyActions/@ScrollContainer@25/@VBoxContainer@26/@VBoxContainer@32/@Button@222",
+        "pressed": false,
+        "text": "1  一起种下微光 ✧",
+        "tooltip": "",
+        "visibleRect": [
+          215,
+          271,
+          137,
+          44
+        ],
+        "width": 137,
+        "x": 215,
+        "y": 271
+      }
+    },
+    {
+      "case": "ending-next",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 166446761886,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@236/@CenterContainer@238/@PanelContainer@239/@ScrollContainer@242/@VBoxContainer@243/@Button@247",
+        "pressed": false,
+        "text": "去下一片微光 ↗",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          269,
+          326,
+          54
+        ],
+        "width": 326,
+        "x": 32,
+        "y": 269
+      }
+    },
+    {
+      "case": "ending-return-map",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "repair",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 174214612792,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/NearbyActions/@ScrollContainer@25/@VBoxContainer@26/@VBoxContainer@32/@Button@258",
+        "pressed": false,
+        "text": "1  一起种下微光 ✧",
+        "tooltip": "",
+        "visibleRect": [
+          215,
+          271,
+          137,
+          44
+        ],
+        "width": 137,
+        "x": 215,
+        "y": 271
+      }
+    },
+    {
+      "case": "ending-return-map",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 179952420594,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@272/@CenterContainer@274/@PanelContainer@275/@ScrollContainer@278/@VBoxContainer@279/@Button@285",
+        "pressed": false,
+        "text": "返回地图",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          401,
+          326,
+          54
+        ],
+        "width": 326,
+        "x": 32,
+        "y": 401
+      }
+    },
+    {
+      "case": "ending-return-map",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@286/@CenterContainer@288/@PanelContainer@289/@ScrollContainer@292",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@286/@CenterContainer@288/@PanelContainer@289/@ScrollContainer@292/@VBoxContainer@293/@Button@309",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "ending-return-map",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@286/@CenterContainer@288/@PanelContainer@289/@ScrollContainer@292",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@286/@CenterContainer@288/@PanelContainer@289/@ScrollContainer@292/@VBoxContainer@293/@Button@313",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "ending-return-map",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 185270798207,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@286/@CenterContainer@288/@PanelContainer@289/@ScrollContainer@292/@VBoxContainer@293/@Button@313",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "journal-review-and-return",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "repair",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 189884532471,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/NearbyActions/@ScrollContainer@25/@VBoxContainer@26/@VBoxContainer@32/@Button@314",
+        "pressed": false,
+        "text": "1  一起种下微光 ✧",
+        "tooltip": "",
+        "visibleRect": [
+          215,
+          271,
+          137,
+          44
+        ],
+        "width": 137,
+        "x": 215,
+        "y": 271
+      }
+    },
+    {
+      "case": "journal-review-and-return",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 195236464497,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@328/@CenterContainer@330/@PanelContainer@331/@ScrollContainer@334/@VBoxContainer@335/@Button@340",
+        "pressed": false,
+        "text": "留下看看",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          335,
+          326,
+          54
+        ],
+        "width": 326,
+        "x": 32,
+        "y": 335
+      }
+    },
+    {
+      "case": "journal-review-and-return",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62260250243,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@54",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "",
+        "visibleRect": [
+          327,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 327,
+        "y": 20
+      }
+    },
+    {
+      "case": "journal-review-and-return",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@342/@CenterContainer@344/@PanelContainer@345/@ScrollContainer@348",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@342/@CenterContainer@344/@PanelContainer@345/@ScrollContainer@348/@VBoxContainer@349/@Button@366",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "journal-review-and-return",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": true,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 203172087672,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@342/@CenterContainer@344/@PanelContainer@345/@ScrollContainer@348/@VBoxContainer@349/@Button@366",
+        "pressed": false,
+        "text": "花园纪事",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          642,
+          318,
+          48
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 642
+      }
+    },
+    {
+      "case": "journal-review-and-return",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 206040991474,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@370/@CenterContainer@372/@PanelContainer@373/@ScrollContainer@376/@VBoxContainer@377/@Button@382",
+        "pressed": false,
+        "text": "看看修复后的花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          302,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 302
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "repair",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 211342591883,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/NearbyActions/@ScrollContainer@25/@VBoxContainer@26/@VBoxContainer@32/@Button@420",
+        "pressed": false,
+        "text": "1  一起种下微光 ✧",
+        "tooltip": "",
+        "visibleRect": [
+          215,
+          271,
+          137,
+          44
+        ],
+        "width": 137,
+        "x": 215,
+        "y": 271
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 217952815031,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@434/@CenterContainer@436/@PanelContainer@437/@ScrollContainer@440/@VBoxContainer@441/@Button@446",
+        "pressed": false,
+        "text": "留下看看",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          335,
+          326,
+          54
+        ],
+        "width": 326,
+        "x": 32,
+        "y": 335
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62260250243,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@54",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "",
+        "visibleRect": [
+          327,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 327,
+        "y": 20
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@448/@CenterContainer@450/@PanelContainer@451/@ScrollContainer@454",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@448/@CenterContainer@450/@PanelContainer@451/@ScrollContainer@454/@VBoxContainer@455/@Button@473",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@448/@CenterContainer@450/@PanelContainer@451/@ScrollContainer@454",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@448/@CenterContainer@450/@PanelContainer@451/@ScrollContainer@454/@VBoxContainer@455/@Button@473",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 225351567175,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@448/@CenterContainer@450/@PanelContainer@451/@ScrollContainer@454/@VBoxContainer@455/@Button@473",
+        "pressed": false,
+        "text": "图鉴",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          504,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 504
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 229059332061,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@476/@CenterContainer@478/@PanelContainer@479/@ScrollContainer@482/@VBoxContainer@483/@HBoxContainer@486/@Button@487",
+        "pressed": true,
+        "text": "全部",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          233,
+          60,
+          44
+        ],
+        "width": 60,
+        "x": 32,
+        "y": 233
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 232163116876,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@520/@CenterContainer@522/@PanelContainer@523/@ScrollContainer@526/@VBoxContainer@527/@HBoxContainer@530/@Button@532",
+        "pressed": false,
+        "text": "植物",
+        "tooltip": "",
+        "visibleRect": [
+          96,
+          233,
+          60,
+          44
+        ],
+        "width": 60,
+        "x": 96,
+        "y": 233
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 237397608157,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@564/@CenterContainer@566/@PanelContainer@567/@ScrollContainer@570/@VBoxContainer@571/@HBoxContainer@574/@Button@577",
+        "pressed": false,
+        "text": "生物",
+        "tooltip": "",
+        "visibleRect": [
+          160,
+          233,
+          61,
+          44
+        ],
+        "width": 61,
+        "x": 160,
+        "y": 233
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 241390585410,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@599/@CenterContainer@601/@PanelContainer@602/@ScrollContainer@605/@VBoxContainer@606/@HBoxContainer@609/@Button@613",
+        "pressed": false,
+        "text": "建筑",
+        "tooltip": "",
+        "visibleRect": [
+          230,
+          233,
+          62,
+          44
+        ],
+        "width": 62,
+        "x": 230,
+        "y": 233
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 244343375735,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@619/@CenterContainer@621/@PanelContainer@622/@ScrollContainer@625/@VBoxContainer@626/@HBoxContainer@629/@Button@634",
+        "pressed": false,
+        "text": "奇物",
+        "tooltip": "",
+        "visibleRect": [
+          296,
+          233,
+          62,
+          44
+        ],
+        "width": 62,
+        "x": 296,
+        "y": 233
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 248336353090,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@639/@CenterContainer@641/@PanelContainer@642/@ScrollContainer@645/@VBoxContainer@646/@HBoxContainer@649/@Button@651",
+        "pressed": false,
+        "text": "植物",
+        "tooltip": "",
+        "visibleRect": [
+          98,
+          233,
+          62,
+          44
+        ],
+        "width": 62,
+        "x": 98,
+        "y": 233
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 253268854759,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@659/@CenterContainer@661/@PanelContainer@662/@ScrollContainer@665/@VBoxContainer@666/@Button@680",
+        "pressed": false,
+        "text": "读一段微光故事",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          592,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 592
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 256422970954,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@694/@CenterContainer@696/@PanelContainer@697/@ScrollContainer@700/@VBoxContainer@701/@Button@706",
+        "pressed": false,
+        "text": "返回图鉴",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          357,
+          326,
+          54
+        ],
+        "width": 326,
+        "x": 32,
+        "y": 357
+      }
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@707/@CenterContainer@709/@PanelContainer@710/@ScrollContainer@713",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@707/@CenterContainer@709/@PanelContainer@710/@ScrollContainer@713/@VBoxContainer@714/@Button@741",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "gallery-categories-story-back",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 260483057509,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@707/@CenterContainer@709/@PanelContainer@710/@ScrollContainer@713/@VBoxContainer@714/@Button@741",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62260250243,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@54",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "",
+        "visibleRect": [
+          327,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 327,
+        "y": 20
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@750/@CenterContainer@752/@PanelContainer@753/@ScrollContainer@756",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@750/@CenterContainer@752/@PanelContainer@753/@ScrollContainer@756/@VBoxContainer@757/@Button@776",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@750/@CenterContainer@752/@PanelContainer@753/@ScrollContainer@756",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@750/@CenterContainer@752/@PanelContainer@753/@ScrollContainer@756/@VBoxContainer@757/@Button@776",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 270801045494,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@750/@CenterContainer@752/@PanelContainer@753/@ScrollContainer@756/@VBoxContainer@757/@Button@776",
+        "pressed": false,
+        "text": "导入 / 导出旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          570,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 570
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 275733546912,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@778/@CenterContainer@780/@PanelContainer@781/@ScrollContainer@784/@VBoxContainer@785/@Button@798",
+        "pressed": false,
+        "text": "导出当前旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 275632883553,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@778/@CenterContainer@780/@PanelContainer@781/@ScrollContainer@784/@VBoxContainer@785/@Button@795",
+        "pressed": false,
+        "text": "检查粘贴的旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          438,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 438
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "kind": "json-input",
+      "input": "real-keyboard-ascii-with-json-unicode-escapes",
+      "decodedCandidateVerified": true
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 275632883553,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@778/@CenterContainer@780/@PanelContainer@781/@ScrollContainer@784/@VBoxContainer@785/@Button@795",
+        "pressed": false,
+        "text": "检查粘贴的旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          438,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 438
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 275582551626,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@778/@CenterContainer@780/@PanelContainer@781/@ScrollContainer@784/@VBoxContainer@785/@Button@797",
+        "pressed": false,
+        "text": "确认导入",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          591,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 591
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@778/@CenterContainer@780/@PanelContainer@781/@ScrollContainer@784",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@778/@CenterContainer@780/@PanelContainer@781/@ScrollContainer@784/@VBoxContainer@785/@Button@799",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 275783878210,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@778/@CenterContainer@780/@PanelContainer@781/@ScrollContainer@784/@VBoxContainer@785/@Button@799",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 62260250243,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@HBoxContainer@52/@Button@54",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "",
+        "visibleRect": [
+          327,
+          20,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 327,
+        "y": 20
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@800/@CenterContainer@802/@PanelContainer@803/@ScrollContainer@806",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@800/@CenterContainer@802/@PanelContainer@803/@ScrollContainer@806/@VBoxContainer@807/@Button@826",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@800/@CenterContainer@802/@PanelContainer@803/@ScrollContainer@806",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@800/@CenterContainer@802/@PanelContainer@803/@ScrollContainer@806/@VBoxContainer@807/@Button@826",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 392620410867,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@800/@CenterContainer@802/@PanelContainer@803/@ScrollContainer@806/@VBoxContainer@807/@Button@826",
+        "pressed": false,
+        "text": "导入 / 导出旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          570,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 570
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 397217367767,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@828/@CenterContainer@830/@PanelContainer@831/@ScrollContainer@834/@VBoxContainer@835/@Button@848",
+        "pressed": false,
+        "text": "导出当前旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "kind": "json-input",
+      "input": "real-keyboard-ascii-with-json-unicode-escapes",
+      "decodedCandidateVerified": true
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 397116704503,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@828/@CenterContainer@830/@PanelContainer@831/@ScrollContainer@834/@VBoxContainer@835/@Button@845",
+        "pressed": false,
+        "text": "检查粘贴的旅程",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          438,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 438
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 397167036222,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@828/@CenterContainer@830/@PanelContainer@831/@ScrollContainer@834/@VBoxContainer@835/@Button@846",
+        "pressed": false,
+        "text": "读取本网站的旧旅程（先预览）",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          504,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 504
+      }
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "kind": "scroll",
+      "input": "real-mouse-wheel",
+      "ownerPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@828/@CenterContainer@830/@PanelContainer@831/@ScrollContainer@834",
+      "targetPath": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@828/@CenterContainer@830/@PanelContainer@831/@ScrollContainer@834/@VBoxContainer@835/@Button@849",
+      "visibleRect": [
+        32,
+        152,
+        326,
+        538
+      ],
+      "canvasCssPoint": {
+        "x": 195,
+        "y": 421
+      },
+      "direction": 1
+    },
+    {
+      "case": "save-export-invalid-valid-duplicate-import",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 54,
+        "instanceId": 397267699407,
+        "path": "/root/Sporelight/@CanvasLayer@9/@Control@10/@Control@828/@CenterContainer@830/@PanelContainer@831/@ScrollContainer@834/@VBoxContainer@835/@Button@849",
+        "pressed": false,
+        "text": "回到花园",
+        "tooltip": "",
+        "visibleRect": [
+          32,
+          636,
+          318,
+          54
+        ],
+        "width": 318,
+        "x": 32,
+        "y": 636
+      }
+    }
+  ],
+  "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed."
+}

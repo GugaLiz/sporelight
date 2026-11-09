@@ -19,7 +19,7 @@ func _initialize() -> void:
 	repository.configure_levels([{"id": "1-1", "total": 3}, {"id": "1-3", "total": 4}])
 	_expect(repository.load_store().ok, "New isolated store loads without browser migration")
 	_expect(repository.data.settings.bgm == 0.35 and repository.data.settings.sfx == 0.6 and repository.data.settings.ambient == 0.25, "Default volume matches the frozen browser implementation")
-	_expect(not repository.data.settings.continuousInput and not repository.data.settings.safeCamera, "Independent comfort experiments default to the frozen behavior")
+	_expect(repository.data.settings.continuousInput and repository.data.settings.inputSettingsRevision == 1 and not repository.data.settings.safeCamera, "Normal hold-to-walk defaults on without enabling safe-camera framing")
 	var initial := _snapshot(false)
 	if not _expect_ok(repository.commit_run(initial), "A valid active run persists"):
 		_finish()
@@ -116,10 +116,11 @@ func _initialize() -> void:
 	var source_export := Repository.empty_store()
 	source_export.settings.erase("continuousInput")
 	source_export.settings.erase("safeCamera")
+	source_export.settings.erase("inputSettingsRevision")
 	source_export.mainline.runs["1-1"] = initial.duplicate(true)
 	var normalize_preview := normalize_import.preview_import_json(JSON.stringify(source_export))
 	_expect(normalize_preview.ok and normalize_preview.data.mainline.runs["1-1"].get("discovered", []) == ["legacy-default-restored"], "New-format import consumes normalized snapshot values")
-	_expect(normalize_preview.ok and not normalize_preview.data.settings.continuousInput and not normalize_preview.data.settings.safeCamera, "Earlier preview stores receive disabled experiment defaults")
+	_expect(normalize_preview.ok and normalize_preview.data.settings.continuousInput and normalize_preview.data.settings.inputSettingsRevision == 1 and not normalize_preview.data.settings.safeCamera, "Earlier preview stores receive normal hold-to-walk without enabling the camera option")
 	var isolated_settings := Repository.new(test_path + ".settings")
 	_paths.append(test_path + ".settings")
 	_expect_ok(isolated_settings.save_settings({"continuousInput": true, "safeCamera": false}), "Continuous input can persist independently from safe-camera framing")
@@ -127,7 +128,83 @@ func _initialize() -> void:
 	var legacy_snapshot_import := {"keys": {"sporelight.garden2.v1": JSON.stringify({"version": 1, "runs": {"1-1": initial}})}}
 	var legacy_normalize_preview := normalize_import.preview_import_json(JSON.stringify(legacy_snapshot_import))
 	_expect(legacy_normalize_preview.ok and legacy_normalize_preview.data.mainline.runs["1-1"].get("discovered", []) == ["legacy-default-restored"], "Legacy import consumes normalized snapshot values")
+	_input_settings_cases(repository.data.duplicate(true), test_path)
 	_finish()
+
+
+func _input_settings_cases(source: Dictionary, test_path: String) -> void:
+	for camera: bool in [false, true]:
+		var old := source.duplicate(true)
+		old.settings.erase("inputSettingsRevision")
+		old.settings.continuousInput = false
+		old.settings.safeCamera = camera
+		old.settings.bgm = 0.17
+		old.settings.lowMotion = true
+		old.settings.quality = "hd"
+		var expected := old.duplicate(true)
+		expected.settings.continuousInput = true
+		expected.settings.inputSettingsRevision = 1
+		var path := test_path + (".old-camera-on" if camera else ".old-camera-off")
+		_paths.append(path)
+		_write_test_file(path, JSON.stringify(old))
+		var loaded := Repository.new(path)
+		_expect_ok(loaded.load_store(), "An unmarked old false setting loads")
+		_expect(Repository.json_equivalent(expected, loaded.data), "Old-default correction changes only continuous input and its revision, preserving full progress and the existing camera choice")
+		_expect_ok(loaded.persist(), "The corrected input revision can persist")
+		var reread := Repository.new(path)
+		_expect_ok(reread.load_store(), "The corrected store reloads")
+		_expect(Repository.json_equivalent(expected, reread.data), "Correction is stable on a second load")
+		var choice: Dictionary = reread.data.settings.duplicate(true)
+		choice.continuousInput = false
+		_expect_ok(reread.save_settings(choice), "A player may explicitly select single-step after the correction")
+		expected.settings.continuousInput = false
+		var opted_out := Repository.new(path)
+		_expect_ok(opted_out.load_store(), "A revised explicit false setting reloads")
+		_expect(Repository.json_equivalent(expected, opted_out.data), "The revision preserves a later explicit false and all unrelated settings and progress")
+		var export_path := path + ".import"
+		_paths.append(export_path)
+		var importing := Repository.new(export_path)
+		var before := importing.export_json()
+		var preview := importing.preview_import_json(JSON.stringify(old))
+		_expect(preview.ok and preview.data.settings.continuousInput and preview.data.settings.inputSettingsRevision == 1, "Old-format current-schema import preview corrects an explicit legacy false")
+		_expect(importing.export_json() == before, "Input correction during preview does not modify the destination")
+		_expect_ok(importing.import_json(JSON.stringify(old)), "An old false setting imports with its original progress")
+		_expect(Repository.json_equivalent(importing.data.mainline, old.mainline) and Repository.json_equivalent(importing.data.settings, preview.data.settings), "Import preserves complete mainline progress and independently normalizes input settings")
+		var import_read := Repository.new(export_path)
+		_expect_ok(import_read.load_store(), "Imported correction survives disk roundtrip")
+		_expect(import_read.data.settings.continuousInput and import_read.data.settings.safeCamera == camera, "Imported continuous walking never changes either camera preference")
+		var explicit_preview := importing.preview_import_json(opted_out.export_json())
+		_expect(explicit_preview.ok and not explicit_preview.data.settings.continuousInput and explicit_preview.data.settings.inputSettingsRevision == 1, "An exported revised opt-out remains false when imported")
+		_expect_ok(importing.import_json(opted_out.export_json()), "An explicit revised opt-out imports")
+		var explicit_read := Repository.new(export_path)
+		_expect_ok(explicit_read.load_store(), "An imported revised opt-out reloads")
+		_expect(not explicit_read.data.settings.continuousInput and explicit_read.data.settings.safeCamera == camera, "Import and reload preserve the explicit single-step choice without camera coupling")
+		var backup_path := path + ".backup"
+		_paths.append(backup_path)
+		_write_test_file(backup_path, "{broken")
+		_write_test_file(backup_path + ".bak", JSON.stringify(old))
+		var backup := Repository.new(backup_path)
+		var recovery := backup.load_store()
+		_expect(recovery.ok and recovery.get("recovered", false), "A corrupt primary may recover an unmarked old backup")
+		expected.settings.continuousInput = true
+		_expect(Repository.json_equivalent(expected, backup.data), "Backup recovery applies the same one-time correction and preserves everything else")
+	var direct_path := test_path + ".explicit-settings"
+	_paths.append(direct_path)
+	var direct := Repository.new(direct_path)
+	_expect_ok(direct.save_settings({"continuousInput": false, "safeCamera": false}), "An explicit settings action carries the current revision even without a supplied marker")
+	var direct_read := Repository.new(direct_path)
+	_expect_ok(direct_read.load_store(), "An explicit settings action reloads")
+	_expect(not direct_read.data.settings.continuousInput and direct_read.data.settings.inputSettingsRevision == 1 and not direct_read.data.settings.safeCamera, "Settings normalization distinguishes a fresh explicit false from an unmarked old default")
+	var malformed := source.duplicate(true)
+	malformed.settings.inputSettingsRevision = "1"
+	var stable := direct_read.export_json()
+	_expect(not direct_read.preview_import_json(JSON.stringify(malformed)).ok and direct_read.export_json() == stable, "A malformed revision cannot replace valid settings")
+
+
+func _write_test_file(path: String, text: String) -> void:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(text)
+	file.close()
 
 
 func _finish() -> void:

@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "b13dd78a098ae7b45ce9a0e7e68387f45a0a4aff4a08a31cb09bc4bd24fa0c8a",
+    "files": 408
+  },
+  "source": {
+    "sha256": "b13dd78a098ae7b45ce9a0e7e68387f45a0a4aff4a08a31cb09bc4bd24fa0c8a",
+    "files": 408
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_first_garden_material_test",
+      "code": 0,
+      "elapsedMs": 548,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":1014,\"failures\":[],\"passed\":true,\"suite\":\"first-garden-original-materials\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_first_garden_structure_test",
+      "code": 1,
+      "elapsedMs": 36315,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":51,\"failures\":[\"capsule remains in contact: 0.3871\"],\"maxContactError\":0.387064009904861,\"passed\":false,\"suite\":\"first-garden-structure\",\"worstContact\":{\"actor\":\"buddy\",\"height\":-0.649999976158142,\"onFloor\":false,\"position\":\"(-0.039506, -0.262936, 1.491118)\",\"support\":\"g:root:0:1\"}}\r\n",
+      "stderr": "ERROR: capsule remains in contact: 0.3871\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_first_garden_structure_test.gd:59)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\n",
+      "passed": false
+    }
+  ]
+}

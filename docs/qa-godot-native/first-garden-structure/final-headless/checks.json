@@ -1,0 +1,87 @@
+{
+  "initialSource": {
+    "sha256": "dd93a2d73592da8be7264be644b9a9e15fe09bfc08248269651fd30c39ad9efb",
+    "files": 408
+  },
+  "source": {
+    "sha256": "dd93a2d73592da8be7264be644b9a9e15fe09bfc08248269651fd30c39ad9efb",
+    "files": 408
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "rule_reference",
+      "code": 0,
+      "elapsedMs": 10181,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cases\":67,\"checks\":5575,\"commands\":1796,\"passed\":true,\"referenceCommit\":\"5791bbc3dd90549b4c7ea302507ead577f51dd67\",\"suite\":\"garden-rule-reference\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "service_hud_test",
+      "code": 0,
+      "elapsedMs": 1202,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":172,\"failures\":[],\"passed\":true,\"scope\":\"Actual HUD controls, layout and intents; not GPU/pointer/audio verification.\",\"suite\":\"native-ui\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "service_button_test",
+      "code": 0,
+      "elapsedMs": 1292,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":100,\"failures\":[],\"passed\":true,\"suite\":\"service-button-intents\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "service_modal_lifecycle_test",
+      "code": 0,
+      "elapsedMs": 2600,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":262,\"failures\":[],\"passed\":true,\"scope\":\"Real HUD/controller with in-memory saves and observable view/audio adapters; emitted pressed signals and headless layout are not real pointer, GPU or audible-playback verification.\",\"suite\":\"service-modal-lifecycle\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_camera_render_test",
+      "code": 0,
+      "elapsedMs": 465,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":22,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"samples\":[{\"actorFoot\":\"(640.0, 333.1972)\",\"cameraSize\":6.90662622451782,\"ppuActual\":104.247924804688,\"size\":\"(1280, 720)\"},{\"actorFoot\":\"(195.0, 367.4202)\",\"cameraSize\":12.4117650985718,\"ppuActual\":68.0001220703125,\"size\":\"(390, 844)\"},{\"actorFoot\":\"(284.0, 155.2648)\",\"cameraSize\":6.1538462638855,\"ppuActual\":52.0,\"size\":\"(568, 320)\"},{\"actorFoot\":\"(1280.0, 663.0747)\",\"cameraSize\":5.80000019073486,\"ppuActual\":248.2763671875,\"size\":\"(2560, 1440)\"}],\"suite\":\"native-camera-render-contract\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_first_garden_structure_test",
+      "code": 1,
+      "elapsedMs": 36004,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":51,\"failures\":[\"off-center bridge reaches island right -0.22\"],\"maxContactError\":0.110926151275635,\"passed\":false,\"suite\":\"first-garden-structure\"}\r\n",
+      "stderr": "ERROR: off-center bridge reaches island right -0.22\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:23)\r\n       [1] _run (res://tests/native_first_garden_structure_test.gd:53)\r\n       [2] _frames (res://tests/native_movement_test.gd:47)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_input_test",
+      "code": 0,
+      "elapsedMs": 1013,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nPASS native input routing: 9 checks\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_movement_test",
+      "code": 0,
+      "elapsedMs": 20741,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNative floor samples: 2392, maximum contact error 0.08203\r\nPASS native movement: 45 checks\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_world_render_test",
+      "code": 0,
+      "elapsedMs": 5468,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":95660,\"failures\":[],\"gpuPixelsVerified\":false,\"levels\":[\"1-1\",\"1-2\",\"1-3\",\"1-4\",\"2-1\",\"2-2\",\"2-3\",\"2-4\",\"3-1\",\"3-2\",\"3-3\",\"3-4\",\"cloud-1\",\"cloud-2\",\"cloud-3\"],\"passed\":true,\"scope\":\"Actual 3D mesh/collider support samples, level-independent flat landings and bounded ramps, topology refresh caching and circular module motion. GPU appearance and moving character contact require separate checks.\",\"states\":110,\"suite\":\"native-world-render-contract\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

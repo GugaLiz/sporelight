@@ -7,7 +7,8 @@ static func buddy(p: GardenPaint, at: Vector2, size: float, time: float, look: D
 	var breath := sin(t / 780.0)
 	var walk := sin(t / 110.0) if look.get("moving", false) else 0.0
 	p.push(at, Vector2.ONE * size / 48.0)
-	p.shadow(1, 1, 20, 5)
+	if look.get("draw_shadow", true):
+		p.shadow(1, 1, 20, 5)
 	if look.get("rolling", false):
 		p.push(Vector2(0, -18), Vector2.ONE, 0 if low else t / 220.0)
 		p.image("ball", 0, -22, 40, 0)

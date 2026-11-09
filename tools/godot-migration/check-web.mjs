@@ -144,15 +144,17 @@ try{
   checks.push('Map replay resets a completed run, active state survives IndexedDB reload, completion memory remains intact');
   console.log('PASS active-run persistence and completion-memory isolation');
  }
- // Keyboard feel experiments remain opt-in and isolated from the reference run.
+ // Normal held movement is checked in independent storage, without camera flags.
  const comfort=await browser.newContext({viewport:{width:1440,height:900},deviceScaleFactor:1});
  await comfort.route('**/favicon.ico',route=>route.fulfill({status:204,body:''}));
  const comfortPage=await comfort.newPage();
  comfortPage.on('pageerror',value=>error('comfort: '+value.message));
  comfortPage.on('console',message=>{if(message.type()==='error')error('comfort: '+message.text());});
- const comfortUrl=new URL(base);comfortUrl.searchParams.set('qa','1');comfortUrl.searchParams.set('comfort','1');
+ const comfortUrl=new URL(base);comfortUrl.searchParams.set('qa','1');
  await comfortPage.goto(comfortUrl.href,{waitUntil:'networkidle',timeout:120000});
  await comfortPage.waitForFunction(()=>typeof window.__sporelightRequest==='function'&&window.__sporelightState?.snapshot,{},{timeout:120000});
+ assert.equal(await comfortPage.evaluate(()=>window.__sporelightState.continuousInput),true,'Held movement is on by default');
+ assert.equal(await comfortPage.evaluate(()=>window.__sporelightState.safeCamera),false,'The original camera remains in use');
  const initial=fixture.cases.find(entry=>entry.name==='authored/1-1').initial.snapshot;
  await comfortPage.evaluate(snapshot=>window.__sporelightRequest(JSON.stringify({type:'snapshot',snapshot,time:1200})),initial);
  await comfortPage.keyboard.down('ArrowLeft');
@@ -161,8 +163,8 @@ try{
  await comfortPage.waitForFunction(()=>!window.__sporelightState?.moving,{},{timeout:5000});
  const released=await comfortPage.evaluate(()=>structuredClone(window.__sporelightState.snapshot));
  await comfortPage.waitForTimeout(500);
- assert.ok(equivalent(released,await comfortPage.evaluate(()=>window.__sporelightState.snapshot)),'Comfort release stops additional movement');
- checks.push('Opt-in comfort keyboard hold traverses valid tiles and release stops');
+ assert.ok(equivalent(released,await comfortPage.evaluate(()=>window.__sporelightState.snapshot)),'Key release stops additional movement');
+ checks.push('Normal keyboard hold traverses valid tiles and release stops, with the original camera');
  await comfort.close();
  assert.deepEqual(errors,[],'No JavaScript/Godot/HTTP errors');
  await writeFile(resolve(output,'checks.json'),JSON.stringify({date:new Date().toISOString(),base,build,mode,checks,results,errors,errorEvents,referenceCommit:fixture.referenceCommit},null,2));

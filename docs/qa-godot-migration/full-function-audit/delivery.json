@@ -1,0 +1,148 @@
+{
+  "date": "2026-11-06T06:18:08.132Z",
+  "source": {
+    "sha256": "3bbcfd050eb5566d989ded9e420e6db748043a68d86fe0b995a076941447e197",
+    "files": 332
+  },
+  "served": [
+    {
+      "port": 4185,
+      "webMode": "release",
+      "source": {
+        "sha256": "3bbcfd050eb5566d989ded9e420e6db748043a68d86fe0b995a076941447e197",
+        "files": 332
+      }
+    },
+    {
+      "port": 4186,
+      "webMode": "debug",
+      "source": {
+        "sha256": "3bbcfd050eb5566d989ded9e420e6db748043a68d86fe0b995a076941447e197",
+        "files": 332
+      }
+    }
+  ],
+  "exports": [
+    {
+      "file": "godot/build/web/build.json",
+      "webMode": "debug",
+      "source": {
+        "sha256": "3bbcfd050eb5566d989ded9e420e6db748043a68d86fe0b995a076941447e197",
+        "files": 332
+      }
+    },
+    {
+      "file": "godot/build/web-release/build.json",
+      "webMode": "release",
+      "source": {
+        "sha256": "3bbcfd050eb5566d989ded9e420e6db748043a68d86fe0b995a076941447e197",
+        "files": 332
+      }
+    },
+    {
+      "file": "godot/build/build.json",
+      "webMode": "release",
+      "source": {
+        "sha256": "3bbcfd050eb5566d989ded9e420e6db748043a68d86fe0b995a076941447e197",
+        "files": 332
+      }
+    }
+  ],
+  "runtimeScope": {
+    "changedFiles": [
+      "application/main.gd",
+      "ui/garden_hud.gd"
+    ],
+    "beforeSource": {
+      "sha256": "681a2c16c40532fdce7d29e07cf42dff4ebcf359f586cba62287da5711ba023f",
+      "files": 332
+    },
+    "reconstructedBeforeDigest": "681a2c16c40532fdce7d29e07cf42dff4ebcf359f586cba62287da5711ba023f",
+    "method": "Replace only these two current runtime file hashes with the saved before bytes; recomputed whole-project digest exactly equals previous release. Core/content/services/renderer/art bytes unchanged."
+  },
+  "finalChecks": {
+    "suites": 26,
+    "modalLifecycleChecks": 262,
+    "featureScenarios": 14,
+    "authoredCommands": 393,
+    "directionKeys": 309,
+    "interactionButtons": 84,
+    "undoViewportInputCases": 8,
+    "browserErrors": 0
+  },
+  "intermediateGuiMatrix": [
+    {
+      "file": "hud/checks.json",
+      "source": {
+        "sha256": "c194d5597981839a3735c71957b82b9a93f67d55d4aa25e81ece64ddf5c4f2be",
+        "files": 332
+      },
+      "summary": {
+        "executed": 168,
+        "passed": 168,
+        "failed": 0,
+        "uncovered": 0
+      }
+    },
+    {
+      "file": "commands/checks.json",
+      "source": {
+        "sha256": "c194d5597981839a3735c71957b82b9a93f67d55d4aa25e81ece64ddf5c4f2be",
+        "files": 332
+      },
+      "summary": {
+        "executed": 208,
+        "passed": 208,
+        "failed": 0,
+        "uncovered": 0
+      }
+    },
+    {
+      "file": "overlays-verified.json",
+      "source": {
+        "sha256": "c194d5597981839a3735c71957b82b9a93f67d55d4aa25e81ece64ddf5c4f2be",
+        "files": 332
+      },
+      "summary": {
+        "verifiedCases": 112,
+        "failed": 0,
+        "uncovered": 0
+      }
+    },
+    {
+      "file": "lifecycle/checks.json",
+      "source": {
+        "sha256": "c194d5597981839a3735c71957b82b9a93f67d55d4aa25e81ece64ddf5c4f2be",
+        "files": 332
+      },
+      "summary": {
+        "executed": 104,
+        "passed": 104,
+        "failed": 0,
+        "uncovered": 0
+      }
+    }
+  ],
+  "guiUniqueCases": 600,
+  "scope": "592 GUI cases verified on c194; final 3bbc adds eight targeted completed-Undo cases and reruns all 12 authored solutions, progression, setting persistence and 26 headless suites. The intermediate matrix is not represented as a complete final-bundle rerun.",
+  "releaseManualCheck": {
+    "browser": "Codex in-app browser",
+    "url": "http://localhost:4185/",
+    "steps": [
+      "Reload final version without storage injection",
+      "Open settings",
+      "Scroll to bottom",
+      "Click return to garden",
+      "Observe modal disappear",
+      "Toggle mode and observe rolling label",
+      "Toggle back and observe walking label"
+    ],
+    "passed": true
+  },
+  "limitations": [
+    "Finite authored/representative cases, not every event ordering or parameter.",
+    "Headless suites do not prove GPU pixels or audible output.",
+    "Touch taps are real; long-list scrolling uses mouse wheel, not touch inertia.",
+    "IME, OS clipboard and native desktop file dialogs are not covered by Web matrix."
+  ]
+}

@@ -2,6 +2,8 @@ import {createRequire} from 'node:module';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve,dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {get as httpGet} from 'node:http';
+import {get as httpsGet} from 'node:https';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const option=(name,fallback)=>process.argv.find(value=>value.startsWith('--'+name+'='))?.slice(name.length+3)??fallback;
@@ -9,12 +11,20 @@ const {chromium}=createRequire(import.meta.url)(option('playwright',join(process
 const output=resolve(root,option('output','docs/qa-godot-migration/performance'));
 const qa=option('qa','1')!=='0';
 const level=option('level','1-1');
-const build=await fetch(new URL('/__build.json',option('url','http://localhost:4185/'))).then(response=>response.json());
+const buildUrl=new URL('/__build.json',option('url','http://localhost:4185/'));
+const build=await new Promise((resolve,reject)=>{
+ (buildUrl.protocol==='https:'?httpsGet:httpGet)(buildUrl,response=>{
+  let body='';response.setEncoding('utf8');response.on('data',chunk=>body+=chunk);
+  response.on('error',reject);response.on('end',()=>{
+   try{if(response.statusCode!==200)throw Error('Build metadata HTTP '+response.statusCode);resolve(JSON.parse(body));}catch(error){reject(error);}
+  });
+ }).on('error',reject);
+});
 const fixture=JSON.parse(await readFile(join(root,'godot/tests/fixtures/reference.json'),'utf8'));
 const initial=fixture.cases.find(entry=>entry.name==='authored/'+level).initial.snapshot;
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const context=await browser.newContext({viewport:{width:1280,height:720},deviceScaleFactor:1});
-if(!qa&&level!=='1-1'){
+if(!qa){
  const origin=new URL(option('url','http://localhost:4185/')).origin;
  await context.route(url=>url.origin===origin&&['/','/index.html'].includes(url.pathname),async route=>{
   const response=await route.fetch();const html=await response.text();
@@ -57,29 +67,32 @@ try{
      if(start===null)start=now;
      if(last!==null)times.push(now-last);
      last=now;
-     if(window.__sporelightState&&(telemetry.length===0||now-telemetry.at(-1).at>200))telemetry.push({at:now,moving:window.__sporelightState.moving,...window.__sporelightState.performance});
+     if(window.__sporelightState&&(telemetry.length===0||now-telemetry.at(-1).at>200))telemetry.push({at:now,moving:window.__sporelightState.moving,position:window.__sporelightState.native?.actors?.luvie?.position,...window.__sporelightState.performance});
      if(now-start<4000)requestAnimationFrame(frame);else resolve({times,telemetry});
     }
     requestAnimationFrame(frame);
    }));
    if(mode==='walking'){
-    for(let index=0;index<10;index++){
-     await page.keyboard.press((index%2===0)===(level==='1-1')?'ArrowLeft':'ArrowRight');
-     await page.waitForTimeout(370);
+    for(let index=0;index<6;index++){
+     const key=index%2===0?'ArrowLeft':'ArrowRight';
+     await page.keyboard.down(key);
+     try{await page.waitForTimeout(600);}finally{await page.keyboard.up(key);}
     }
    }
    const data=await capture;
    const after=qa?await page.evaluate(()=>window.__sporelightState.revision):null;
-   if(qa&&mode==='walking'&&(after-before<8||!data.telemetry.some(sample=>sample.moving)))throw Error('Walking workload did not execute');
+   const positions=data.telemetry.map(sample=>sample.position).filter(Boolean);
+   const travelled=positions.slice(1).reduce((sum,p,i)=>sum+Math.hypot(p[0]-positions[i][0],p[2]-positions[i][2]),0);
+   if(qa&&mode==='walking'&&(travelled<0.5||!data.telemetry.some(sample=>sample.moving)))throw Error('Continuous walking workload did not execute');
    const values=data.times.slice().sort((a,b)=>a-b);
-   samples.push({width,height,mode,commands:qa?after-before:null,frames:values.length,medianMs:percentile(values,.5),p95Ms:percentile(values,.95),p99Ms:percentile(values,.99),maxMs:values.at(-1),over33ms:values.filter(value=>value>33.4).length,...data});
+   samples.push({width,height,mode,commands:qa?after-before:null,travelled:qa?travelled:null,frames:values.length,medianMs:percentile(values,.5),p95Ms:percentile(values,.95),p99Ms:percentile(values,.99),maxMs:values.at(-1),over33ms:values.filter(value=>value>33.4).length,...data});
   }
  }
  if(errors.length)throw Error('Browser reported errors');
 }catch(error){failure=String(error);process.exitCode=1;}
 finally{
  const budget={targetP95Ms:16.7,meetsTarget:samples.length===4&&samples.every(sample=>sample.p95Ms<=16.7)};
- await writeFile(join(output,'checks.json'),JSON.stringify({passed:!failure,completedWithoutErrors:!failure,budget,date:new Date().toISOString(),browser:browser.version(),environment,build,qa,level,startupArgs:!qa&&level!=='1-1'?['--','--level='+level]:[],scope:'passed means collection completed without errors, not a frame-budget pass. Single host, headless Chrome; rAF pacing is not GPU timing or device certification. qa=false omits telemetry and command-count verification; a nondefault level uses the existing CLI entry via a test-only bootstrap override.',samples,errors,failure},null,2)+'\n');
+ await writeFile(join(output,'checks.json'),JSON.stringify({passed:!failure,completedWithoutErrors:!failure,budget,date:new Date().toISOString(),browser:browser.version(),environment,build,qa,level,startupArgs:!qa?['--','--level='+level]:[],scope:'passed means collection completed without errors, not a frame-budget pass. Single host, headless Chrome; rAF pacing is not GPU timing or device certification. Walking holds alternating directions for 600ms; qa=false omits telemetry verification. Release uses the existing CLI entry via a test-only bootstrap override.',samples,errors,failure},null,2)+'\n');
  console.log(JSON.stringify({passed:!failure,samples:samples.map(({times,telemetry,...sample})=>sample),errors,failure,output}));
  await context.close();await browser.close();
 }

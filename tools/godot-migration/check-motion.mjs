@@ -23,18 +23,33 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 const context=await browser.newContext({viewport:{width:1440,height:900},deviceScaleFactor:1});
 await context.route('**/favicon.ico',route=>route.fulfill({status:204,body:''}));
 await context.addInitScript(()=>{
- window.__motionTrack={caseName:'',samples:[],keys:[]};
+ window.__motionTrack={caseName:'',samples:[],publicationSamples:[],keys:[]};
+ const summarize=s=>{
+  const m=s.motion??{},c=s.character??{};
+  return {wallMs:performance.now(),moving:s.moving,paused:s.paused,revision:s.revision,level:s.snapshot?.levelId,actors:s.snapshot?.actors,message:s.message,
+   scale:s.scale,origin:s.origin,motion:{kind:m.kind??'',elapsed:m.elapsed??0,duration:m.duration??0,from:m.before?.actors?.luvie??'',to:m.after?.actors?.luvie??'',sharedFrom:m.before?.actors?.luvie===m.before?.actors?.buddy,sharedTo:m.after?.actors?.luvie===m.after?.actors?.buddy},
+   input:structuredClone(s.input??{}),character:{key:c.key,facing:c.facing,walk_started:c.walk_started,moving:c.moving,stop_blend_active:c.stop_blend_active,stop_progress:c.stop_progress,weight:c.weight,from_key:c.from_key,to_key:c.to_key,footpoint:c.footpoint,screen_footpoint:c.screen_footpoint,pose:c.pose},
+   performance:structuredClone(s.performance??{})};
+ };
+ // Capture every diagnostic publication before a busy browser can overwrite it.
+ // These may include intermediate controller states; timer samples remain the
+ // independent observations used for movement continuity checks.
+ let publishedState=window.__sporelightState;
+ Object.defineProperty(window,'__sporelightState',{
+  configurable:true,enumerable:true,get:()=>publishedState,
+  set(value){
+   publishedState=value;
+   const track=window.__motionTrack;
+   if(value&&track.caseName)track.publicationSamples.push(summarize(value));
+  }
+ });
  for(const type of ['keydown','keyup'])window.addEventListener(type,event=>{
   const track=window.__motionTrack,s=window.__sporelightState;if(!track.caseName)return;
   track.keys.push({type,key:event.key,repeat:event.repeat,trusted:event.isTrusted,wallMs:performance.now(),moving:s?.moving,revision:s?.revision,elapsed:s?.motion?.elapsed});
  },true);
  setInterval(()=>{
   const s=window.__sporelightState,track=window.__motionTrack;if(!s||!track.caseName)return;
-  const m=s.motion??{},c=s.character??{};
-  track.samples.push({wallMs:performance.now(),moving:s.moving,paused:s.paused,revision:s.revision,level:s.snapshot?.levelId,actors:s.snapshot?.actors,message:s.message,
-   scale:s.scale,origin:s.origin,motion:{kind:m.kind??'',elapsed:m.elapsed??0,duration:m.duration??0,from:m.before?.actors?.luvie??'',to:m.after?.actors?.luvie??'',sharedFrom:m.before?.actors?.luvie===m.before?.actors?.buddy,sharedTo:m.after?.actors?.luvie===m.after?.actors?.buddy},
-   input:structuredClone(s.input??{}),character:{key:c.key,facing:c.facing,walk_started:c.walk_started,moving:c.moving,stop_blend_active:c.stop_blend_active,stop_progress:c.stop_progress,weight:c.weight,from_key:c.from_key,to_key:c.to_key,footpoint:c.footpoint,screen_footpoint:c.screen_footpoint,pose:c.pose},
-   performance:structuredClone(s.performance??{})});
+  track.samples.push(summarize(s));
  },50);
 });
 const page=await context.newPage();
@@ -62,12 +77,12 @@ async function load(snapshot){
 }
 async function begin(name){
  currentCase=name;
- await page.evaluate(name=>{window.__motionTrack={caseName:name,samples:[],keys:[]};},name);
+ await page.evaluate(name=>{window.__motionTrack={caseName:name,samples:[],publicationSamples:[],keys:[]};},name);
 }
 async function finish(extra={},validate=()=>{}){
  await page.waitForTimeout(180);
- const record=await page.evaluate(()=>{const t=window.__motionTrack;t.caseName='';return {samples:t.samples,keys:t.keys,state:structuredClone(window.__sporelightState)};});
- const result={name:currentCase,passed:true,...extra,samples:record.samples,keys:record.keys,final:record.state};
+ const record=await page.evaluate(()=>{const t=window.__motionTrack;t.caseName='';return {samples:t.samples,publicationSamples:t.publicationSamples,keys:t.keys,state:structuredClone(window.__sporelightState)};});
+ const result={name:currentCase,passed:true,...extra,samples:record.samples,publicationSamples:record.publicationSamples,keys:record.keys,final:record.state};
  validate(result);
  cases.push(result);
  await writeFile(resolve(output,currentCase+'.json'),JSON.stringify(result,null,2));
@@ -83,7 +98,7 @@ async function button(match){
  await page.mouse.click(canvas.x+(found.x+found.width/2)*canvas.width/backing.width,canvas.y+(found.y+found.height/2)*canvas.height/backing.height);
 }
 async function activeStep(){
- await wait(()=>{const s=window.__sporelightState,m=s?.motion;return s?.moving&&m?.kind==='move'&&m.elapsed>=0.07&&m.elapsed<0.18;});
+ await wait(()=>{const s=window.__sporelightState,m=s?.motion;return s?.moving&&m?.kind==='move'&&m.elapsed>=0.04&&m.elapsed<0.12;});
 }
 function footEqual(a,b){return a&&b&&a.x===b.x&&a.z===b.z&&a.h===b.h;}
 
@@ -95,11 +110,16 @@ try{
  await writeFile(resolve(output,'build.json'),JSON.stringify(build,null,2));
  const diagnostics=await state();
  assert.ok('character' in diagnostics&&'motion' in diagnostics&&'input' in diagnostics,'New debug motion/input/character diagnostics are required');
- assert.equal(diagnostics.continuousInput,false,'Continuous hold is off by default in isolated storage');
+ assert.equal(diagnostics.continuousInput,true,'Normal movement continues while a direction is held');
+ assert.equal(diagnostics.safeCamera,false,'Restoring continuous movement does not change the camera');
 
  await load(room());await begin('released-tap-chain');
- await event('press','ArrowLeft');await activeStep();
  await event('press','ArrowLeft');
+ // Keep the real tap rhythm independent of diagnostic polling round trips.
+ await new Promise(resolve=>setTimeout(resolve,80));
+ await event('press','ArrowLeft');
+ const secondTap=await page.evaluate(()=>window.__motionTrack.keys.filter(key=>key.type==='keydown'&&key.key==='ArrowLeft'&&!key.repeat)[1]);
+ assert.ok(secondTap?.trusted&&secondTap.moving&&secondTap.revision===0&&secondTap.elapsed>=0.045&&secondTap.elapsed<0.205,'The second real Left tap must reach the first uncommitted movement within its buffer window; early or late scheduling cannot count as a buffered chain');
  await wait(()=>{const s=window.__sporelightState;return s?.moving&&s.revision===1&&s.motion?.after?.actors?.luvie==='f:2:2';});
  await waitStable('f:2:2',2);
  await wait(()=>window.__sporelightState?.character?.stop_blend_active===false&&window.__sporelightState?.character?.stop_progress===1);
@@ -124,10 +144,14 @@ try{
   assert.ok(chain.samples.filter(s=>s.revision===1).every(s=>s.moving&&!s.character.stop_blend_active),'No idle/settle is sampled between linked segments');
   // Commit diagnostics can precede clear_motion in the same frame; settling begins when both layers have ended travel.
   const settling=chain.samples.filter(s=>s.revision===2&&!s.moving&&!s.character.moving);
-  assert.ok(settling.some(s=>s.character.stop_blend_active),'A final stop transition is observable');
+  const publishedSettling=chain.publicationSamples.filter(s=>s.revision===2&&!s.moving&&!s.character.moving);
+  assert.ok(publishedSettling.some(s=>s.character.stop_blend_active&&s.character.stop_progress>=0&&s.character.stop_progress<1),'A final stop transition is observed in actual diagnostic publications');
+  assert.ok(publishedSettling.every(s=>s.character.facing==='left'&&s.character.to_key==='idle-side'),'Published stopping phases preserve side orientation');
+  assert.ok(publishedSettling.every(s=>footEqual(s.character.footpoint,{x:2,z:2,h:0})),'Every published stop phase retains the committed world foot');
+  assert.ok(settling.some(s=>!s.character.stop_blend_active&&s.character.stop_progress===1),'Independent timer samples observe the completed stop transition');
   assert.ok(settling.every(s=>s.character.facing==='left'&&s.character.to_key==='idle-side'),'Stopping preserves side orientation');
   assert.ok(settling.every(s=>footEqual(s.character.footpoint,{x:2,z:2,h:0})),'Settling never adds position inertia');
-  const screenFeet=settling.map(s=>s.character.screen_footpoint).filter(Boolean);
+  const screenFeet=[...publishedSettling,...settling].map(s=>s.character.screen_footpoint).filter(Boolean);
   assert.ok(screenFeet.length>0&&screenFeet.every(p=>p.x===screenFeet[0].x&&p.y===screenFeet[0].y),'The visual screen foot anchor remains fixed during settling');
  });
 
@@ -145,7 +169,23 @@ try{
   assert.ok(route.samples.filter(sample=>sample.revision>0&&sample.revision<4).every(sample=>sample.moving&&!sample.character.stop_blend_active),'A click route shows no intervening idle/stop transition');
  });
 
- await load(room());await begin('default-hold-remains-single-step');
+ await load(room());await begin('default-hold-is-continuous');
+ await event('down','ArrowLeft');
+ await waitStable('f:-1:2',5);
+ await event('up','ArrowLeft');
+ await finish({continuousInput:true},hold=>{
+  const middle=hold.samples.filter(sample=>sample.revision>0&&sample.revision<5);
+  assert.ok(middle.length>1,'One held key traverses multiple segments');
+  assert.ok(middle.every(sample=>sample.moving&&!sample.character.stop_blend_active),'Held walking has no intermediate idle frame');
+ });
+
+ // An explicitly chosen single-step preference remains available after migration.
+ await event('press','Escape');
+ await wait(()=>window.__sporelightState?.paused===true);
+ await button('按住方向键连续行走');
+ await wait(()=>window.__sporelightState?.continuousInput===false);
+ await event('press','Escape');
+ await load(room());await begin('explicit-single-step-preference');
  await event('down','ArrowLeft');
  await page.waitForTimeout(550);
  await event('down','ArrowLeft'); // A repeated down is a real browser key event with repeat=true.
@@ -197,12 +237,30 @@ try{
  assert.equal((await state()).revision,paused.revision+1,'Resume completes only the segment pending at pause and does not replay cleared input');
  await finish({revisionAtPause:paused.revision,pendingTileAtPause:paused.motion.after.actors.luvie});
 
- await load(room());await begin('moving-undo-remains-disabled');
- await event('press','ArrowLeft');await activeStep();
- await event('press','z');
- await waitStable('f:3:2',1);
- assert.equal((await state()).revision,1,'Z while moving cannot undo an uncommitted preview');
- await finish();
+ await load(room());await begin('moving-undo-queues-until-commit');
+ const originalBefore=await state();
+ await event('down','ArrowLeft');
+ await new Promise(resolve=>setTimeout(resolve,80));
+ await event('down','z');
+ await event('up','z');
+ await event('up','ArrowLeft');
+ const undoKey=await page.evaluate(()=>window.__motionTrack.keys.find(key=>key.type==='keydown'&&key.key==='z'&&!key.repeat));
+ assert.ok(undoKey?.trusted&&undoKey.moving&&undoKey.revision===0&&undoKey.elapsed>=0&&undoKey.elapsed<0.205,'The real Z key reaches an uncommitted movement');
+ await waitStable('f:4:2',originalBefore.revision+2);
+ const undoneAfterMove=await state();
+ assert.equal(undoneAfterMove.revision,originalBefore.revision+2,'The pending move commits once before the queued undo advances the revision again');
+ assert.deepEqual(undoneAfterMove.snapshot,originalBefore.snapshot,'Queued undo restores the complete original snapshot after the movement commits');
+ assert.ok(footEqual(undoneAfterMove.character.footpoint,originalBefore.character.footpoint),'Queued undo restores the original logical foot anchor');
+ assert.deepEqual(undoneAfterMove.input.held,[]);
+ assert.equal(undoneAfterMove.input.buffered,'');
+ await finish({originalRevision:originalBefore.revision,moveCommittedBeforeUndo:true},queuedUndo=>{
+  const pending=queuedUndo.publicationSamples.filter(sample=>sample.moving&&sample.revision===originalBefore.revision);
+  assert.ok(pending.length>0,'An actual engine diagnostic publication contains the uncommitted movement before queued undo');
+  assert.ok(pending.every(sample=>sample.actors.luvie==='f:4:2'&&sample.motion.from==='f:4:2'&&sample.motion.to==='f:3:2'),'Movement remains an uncommitted preview from the original tile before undo');
+  assert.equal(queuedUndo.final.revision,originalBefore.revision+2,'Queued undo cannot replay the old held direction');
+  assert.deepEqual(queuedUndo.final.snapshot,originalBefore.snapshot,'The restored snapshot stays unchanged after queued undo settles');
+  assert.ok(footEqual(queuedUndo.final.character.footpoint,originalBefore.character.footpoint),'The restored foot anchor stays fixed after queued undo settles');
+ });
 
  // Enable held movement through the actual independent settings option, leaving the camera option alone.
  await event('press','Escape');
@@ -271,7 +329,7 @@ try{
   videoFile=await capture.path();
  }
  assert.deepEqual(errors,[],'No script, renderer, browser or HTTP errors');
- await writeFile(resolve(output,'checks.json'),JSON.stringify({passed:true,date:new Date().toISOString(),base,build,referenceCommit:reference.referenceCommit,cases:cases.map(c=>({name:c.name,samples:c.samples.length})),events,errors,errorEvents,sampleIntervalMs:50,video,videoFile,limitations:['50ms Web sampling observes continuity and phase; exact same-frame handoff is additionally asserted by the headless controller suite.','Time-sensitive keyboard checks run without an encoder; optional video records a separate deterministic mouse-route demonstration.']},null,2));
+ await writeFile(resolve(output,'checks.json'),JSON.stringify({passed:true,date:new Date().toISOString(),base,build,referenceCommit:reference.referenceCommit,cases:cases.map(c=>({name:c.name,samples:c.samples.length,publicationSamples:c.publicationSamples.length})),events,errors,errorEvents,sampleIntervalMs:50,video,videoFile,limitations:['Timer sampling targets 50ms but browser stalls can lengthen the observed interval; every diagnostic publication is recorded separately to verify the short final stop phase.','Diagnostic publications confirm controller state and do not prove a painted frame. They may include intermediate controller states; continuity assertions use timer samples, with exact same-frame handoff additionally asserted by the headless controller suite.','Time-sensitive keyboard checks run without an encoder; optional video records a separate deterministic mouse-route demonstration.']},null,2));
  console.log(JSON.stringify({passed:true,cases:cases.length,samples:cases.reduce((n,c)=>n+c.samples.length,0),errors,errorEvents,output},null,2));
 }catch(errorValue){
  const current=await state().catch(()=>null);

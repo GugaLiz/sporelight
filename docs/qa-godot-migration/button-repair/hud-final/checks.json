@@ -1,0 +1,817 @@
+{
+  "passed": false,
+  "date": "2026-11-06T04:49:02.826Z",
+  "base": "http://localhost:4186/",
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "webMode": "debug",
+    "source": {
+      "sha256": "681a2c16c40532fdce7d29e07cf42dff4ebcf359f586cba62287da5711ba023f",
+      "files": 332
+    },
+    "initialSource": {
+      "sha256": "681a2c16c40532fdce7d29e07cf42dff4ebcf359f586cba62287da5711ba023f",
+      "files": 332
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      },
+      {
+        "name": "Windows",
+        "code": 0
+      }
+    ]
+  },
+  "phase": "hud",
+  "sizes": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 568,
+      "height": 320
+    }
+  ],
+  "inputs": [
+    "mouse",
+    "touch"
+  ],
+  "caseFilter": [],
+  "fatal": null,
+  "summary": {
+    "executed": 126,
+    "passed": 119,
+    "failed": 7,
+    "uncovered": 0
+  },
+  "failed": [
+    {
+      "name": "jump-real-motion",
+      "row": "1280x720-mouse-hud",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n"
+    },
+    {
+      "name": "jump-real-motion",
+      "row": "1280x720-touch-hud",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n"
+    },
+    {
+      "name": "jump-real-motion",
+      "row": "390x844-mouse-hud",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n"
+    },
+    {
+      "name": "jump-real-motion",
+      "row": "390x844-touch-hud",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n"
+    },
+    {
+      "name": "jump-real-motion",
+      "row": "568x320-mouse-hud",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n"
+    },
+    {
+      "name": "jump-real-motion",
+      "row": "568x320-touch-hud",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n"
+    },
+    {
+      "name": "overview-during-motion",
+      "row": "568x320-touch-hud",
+      "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded."
+    }
+  ],
+  "uncovered": [],
+  "errors": [],
+  "rows": [
+    {
+      "row": "1280x720-mouse-hud",
+      "phase": "hud",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "input": "mouse",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "direction-left",
+          "status": "passed",
+          "elapsedMs": 533
+        },
+        {
+          "name": "direction-up",
+          "status": "passed",
+          "elapsedMs": 549
+        },
+        {
+          "name": "direction-right",
+          "status": "passed",
+          "elapsedMs": 486
+        },
+        {
+          "name": "direction-down",
+          "status": "passed",
+          "elapsedMs": 435
+        },
+        {
+          "name": "primary-seed-road",
+          "status": "passed",
+          "elapsedMs": 1279
+        },
+        {
+          "name": "early-direction-click-survives-long-growth",
+          "status": "passed",
+          "elapsedMs": 1502
+        },
+        {
+          "name": "repeat-primary-hint-mode-during-growth",
+          "status": "passed",
+          "elapsedMs": 1846
+        },
+        {
+          "name": "undo-after-real-button-action",
+          "status": "passed",
+          "elapsedMs": 1328
+        },
+        {
+          "name": "undo-no-history-disabled",
+          "status": "passed",
+          "elapsedMs": 212
+        },
+        {
+          "name": "restart",
+          "status": "passed",
+          "elapsedMs": 253
+        },
+        {
+          "name": "hint",
+          "status": "passed",
+          "elapsedMs": 213
+        },
+        {
+          "name": "mode-toggle",
+          "status": "passed",
+          "elapsedMs": 294
+        },
+        {
+          "name": "overview-toggle",
+          "status": "passed",
+          "elapsedMs": 218
+        },
+        {
+          "name": "jump-real-motion",
+          "status": "failed",
+          "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n",
+          "elapsedMs": 1059
+        },
+        {
+          "name": "switch-and-follow",
+          "status": "passed",
+          "elapsedMs": 3526
+        },
+        {
+          "name": "switch-single-actor-not-offered",
+          "status": "passed",
+          "elapsedMs": 249
+        },
+        {
+          "name": "return-tool-and-close",
+          "status": "passed",
+          "elapsedMs": 922
+        },
+        {
+          "name": "direction-pad-during-motion-buffer",
+          "status": "passed",
+          "elapsedMs": 823
+        },
+        {
+          "name": "press-release-across-motion-boundary",
+          "status": "passed",
+          "elapsedMs": 815
+        },
+        {
+          "name": "overview-during-motion",
+          "status": "passed",
+          "elapsedMs": 797
+        },
+        {
+          "name": "pause-and-close",
+          "status": "passed",
+          "elapsedMs": 772
+        }
+      ]
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "phase": "hud",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "input": "touch",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "direction-left",
+          "status": "passed",
+          "elapsedMs": 476
+        },
+        {
+          "name": "direction-up",
+          "status": "passed",
+          "elapsedMs": 489
+        },
+        {
+          "name": "direction-right",
+          "status": "passed",
+          "elapsedMs": 492
+        },
+        {
+          "name": "direction-down",
+          "status": "passed",
+          "elapsedMs": 552
+        },
+        {
+          "name": "primary-seed-road",
+          "status": "passed",
+          "elapsedMs": 1142
+        },
+        {
+          "name": "early-direction-click-survives-long-growth",
+          "status": "passed",
+          "elapsedMs": 1539
+        },
+        {
+          "name": "repeat-primary-hint-mode-during-growth",
+          "status": "passed",
+          "elapsedMs": 1851
+        },
+        {
+          "name": "undo-after-real-button-action",
+          "status": "passed",
+          "elapsedMs": 1416
+        },
+        {
+          "name": "undo-no-history-disabled",
+          "status": "passed",
+          "elapsedMs": 209
+        },
+        {
+          "name": "restart",
+          "status": "passed",
+          "elapsedMs": 328
+        },
+        {
+          "name": "hint",
+          "status": "passed",
+          "elapsedMs": 301
+        },
+        {
+          "name": "mode-toggle",
+          "status": "passed",
+          "elapsedMs": 514
+        },
+        {
+          "name": "overview-toggle",
+          "status": "passed",
+          "elapsedMs": 328
+        },
+        {
+          "name": "jump-real-motion",
+          "status": "failed",
+          "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n",
+          "elapsedMs": 1096
+        },
+        {
+          "name": "switch-and-follow",
+          "status": "passed",
+          "elapsedMs": 3658
+        },
+        {
+          "name": "switch-single-actor-not-offered",
+          "status": "passed",
+          "elapsedMs": 259
+        },
+        {
+          "name": "return-tool-and-close",
+          "status": "passed",
+          "elapsedMs": 991
+        },
+        {
+          "name": "direction-pad-during-motion-buffer",
+          "status": "passed",
+          "elapsedMs": 777
+        },
+        {
+          "name": "press-release-across-motion-boundary",
+          "status": "passed",
+          "elapsedMs": 894
+        },
+        {
+          "name": "overview-during-motion",
+          "status": "passed",
+          "elapsedMs": 650
+        },
+        {
+          "name": "pause-and-close",
+          "status": "passed",
+          "elapsedMs": 684
+        }
+      ]
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "phase": "hud",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "input": "mouse",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "direction-left",
+          "status": "passed",
+          "elapsedMs": 492
+        },
+        {
+          "name": "direction-up",
+          "status": "passed",
+          "elapsedMs": 488
+        },
+        {
+          "name": "direction-right",
+          "status": "passed",
+          "elapsedMs": 467
+        },
+        {
+          "name": "direction-down",
+          "status": "passed",
+          "elapsedMs": 447
+        },
+        {
+          "name": "primary-seed-road",
+          "status": "passed",
+          "elapsedMs": 1051
+        },
+        {
+          "name": "early-direction-click-survives-long-growth",
+          "status": "passed",
+          "elapsedMs": 1454
+        },
+        {
+          "name": "repeat-primary-hint-mode-during-growth",
+          "status": "passed",
+          "elapsedMs": 1797
+        },
+        {
+          "name": "undo-after-real-button-action",
+          "status": "passed",
+          "elapsedMs": 1274
+        },
+        {
+          "name": "undo-no-history-disabled",
+          "status": "passed",
+          "elapsedMs": 230
+        },
+        {
+          "name": "restart",
+          "status": "passed",
+          "elapsedMs": 415
+        },
+        {
+          "name": "hint",
+          "status": "passed",
+          "elapsedMs": 317
+        },
+        {
+          "name": "mode-toggle",
+          "status": "passed",
+          "elapsedMs": 424
+        },
+        {
+          "name": "overview-toggle",
+          "status": "passed",
+          "elapsedMs": 497
+        },
+        {
+          "name": "jump-real-motion",
+          "status": "failed",
+          "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n",
+          "elapsedMs": 1067
+        },
+        {
+          "name": "switch-and-follow",
+          "status": "passed",
+          "elapsedMs": 3427
+        },
+        {
+          "name": "switch-single-actor-not-offered",
+          "status": "passed",
+          "elapsedMs": 284
+        },
+        {
+          "name": "return-tool-and-close",
+          "status": "passed",
+          "elapsedMs": 846
+        },
+        {
+          "name": "direction-pad-during-motion-buffer",
+          "status": "passed",
+          "elapsedMs": 827
+        },
+        {
+          "name": "press-release-across-motion-boundary",
+          "status": "passed",
+          "elapsedMs": 842
+        },
+        {
+          "name": "overview-during-motion",
+          "status": "passed",
+          "elapsedMs": 592
+        },
+        {
+          "name": "pause-and-close",
+          "status": "passed",
+          "elapsedMs": 793
+        }
+      ]
+    },
+    {
+      "row": "390x844-touch-hud",
+      "phase": "hud",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "input": "touch",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "direction-left",
+          "status": "passed",
+          "elapsedMs": 455
+        },
+        {
+          "name": "direction-up",
+          "status": "passed",
+          "elapsedMs": 450
+        },
+        {
+          "name": "direction-right",
+          "status": "passed",
+          "elapsedMs": 517
+        },
+        {
+          "name": "direction-down",
+          "status": "passed",
+          "elapsedMs": 474
+        },
+        {
+          "name": "primary-seed-road",
+          "status": "passed",
+          "elapsedMs": 1173
+        },
+        {
+          "name": "early-direction-click-survives-long-growth",
+          "status": "passed",
+          "elapsedMs": 1491
+        },
+        {
+          "name": "repeat-primary-hint-mode-during-growth",
+          "status": "passed",
+          "elapsedMs": 1854
+        },
+        {
+          "name": "undo-after-real-button-action",
+          "status": "passed",
+          "elapsedMs": 1367
+        },
+        {
+          "name": "undo-no-history-disabled",
+          "status": "passed",
+          "elapsedMs": 214
+        },
+        {
+          "name": "restart",
+          "status": "passed",
+          "elapsedMs": 362
+        },
+        {
+          "name": "hint",
+          "status": "passed",
+          "elapsedMs": 400
+        },
+        {
+          "name": "mode-toggle",
+          "status": "passed",
+          "elapsedMs": 581
+        },
+        {
+          "name": "overview-toggle",
+          "status": "passed",
+          "elapsedMs": 670
+        },
+        {
+          "name": "jump-real-motion",
+          "status": "failed",
+          "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n",
+          "elapsedMs": 1101
+        },
+        {
+          "name": "switch-and-follow",
+          "status": "passed",
+          "elapsedMs": 3431
+        },
+        {
+          "name": "switch-single-actor-not-offered",
+          "status": "passed",
+          "elapsedMs": 158
+        },
+        {
+          "name": "return-tool-and-close",
+          "status": "passed",
+          "elapsedMs": 942
+        },
+        {
+          "name": "direction-pad-during-motion-buffer",
+          "status": "passed",
+          "elapsedMs": 863
+        },
+        {
+          "name": "press-release-across-motion-boundary",
+          "status": "passed",
+          "elapsedMs": 909
+        },
+        {
+          "name": "overview-during-motion",
+          "status": "passed",
+          "elapsedMs": 737
+        },
+        {
+          "name": "pause-and-close",
+          "status": "passed",
+          "elapsedMs": 639
+        }
+      ]
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "phase": "hud",
+      "viewport": {
+        "width": 568,
+        "height": 320
+      },
+      "input": "mouse",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "direction-left",
+          "status": "passed",
+          "elapsedMs": 490
+        },
+        {
+          "name": "direction-up",
+          "status": "passed",
+          "elapsedMs": 486
+        },
+        {
+          "name": "direction-right",
+          "status": "passed",
+          "elapsedMs": 460
+        },
+        {
+          "name": "direction-down",
+          "status": "passed",
+          "elapsedMs": 474
+        },
+        {
+          "name": "primary-seed-road",
+          "status": "passed",
+          "elapsedMs": 1073
+        },
+        {
+          "name": "early-direction-click-survives-long-growth",
+          "status": "passed",
+          "elapsedMs": 1492
+        },
+        {
+          "name": "repeat-primary-hint-mode-during-growth",
+          "status": "passed",
+          "elapsedMs": 1748
+        },
+        {
+          "name": "undo-after-real-button-action",
+          "status": "passed",
+          "elapsedMs": 1313
+        },
+        {
+          "name": "undo-no-history-disabled",
+          "status": "passed",
+          "elapsedMs": 212
+        },
+        {
+          "name": "restart",
+          "status": "passed",
+          "elapsedMs": 232
+        },
+        {
+          "name": "hint",
+          "status": "passed",
+          "elapsedMs": 296
+        },
+        {
+          "name": "mode-toggle",
+          "status": "passed",
+          "elapsedMs": 427
+        },
+        {
+          "name": "overview-toggle",
+          "status": "passed",
+          "elapsedMs": 730
+        },
+        {
+          "name": "jump-real-motion",
+          "status": "failed",
+          "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n",
+          "elapsedMs": 1027
+        },
+        {
+          "name": "switch-and-follow",
+          "status": "passed",
+          "elapsedMs": 3468
+        },
+        {
+          "name": "switch-single-actor-not-offered",
+          "status": "passed",
+          "elapsedMs": 290
+        },
+        {
+          "name": "return-tool-and-close",
+          "status": "passed",
+          "elapsedMs": 1563
+        },
+        {
+          "name": "direction-pad-during-motion-buffer",
+          "status": "passed",
+          "elapsedMs": 783
+        },
+        {
+          "name": "press-release-across-motion-boundary",
+          "status": "passed",
+          "elapsedMs": 845
+        },
+        {
+          "name": "overview-during-motion",
+          "status": "passed",
+          "elapsedMs": 733
+        },
+        {
+          "name": "pause-and-close",
+          "status": "passed",
+          "elapsedMs": 848
+        }
+      ]
+    },
+    {
+      "row": "568x320-touch-hud",
+      "phase": "hud",
+      "viewport": {
+        "width": 568,
+        "height": 320
+      },
+      "input": "touch",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "direction-left",
+          "status": "passed",
+          "elapsedMs": 462
+        },
+        {
+          "name": "direction-up",
+          "status": "passed",
+          "elapsedMs": 459
+        },
+        {
+          "name": "direction-right",
+          "status": "passed",
+          "elapsedMs": 479
+        },
+        {
+          "name": "direction-down",
+          "status": "passed",
+          "elapsedMs": 495
+        },
+        {
+          "name": "primary-seed-road",
+          "status": "passed",
+          "elapsedMs": 1166
+        },
+        {
+          "name": "early-direction-click-survives-long-growth",
+          "status": "passed",
+          "elapsedMs": 1493
+        },
+        {
+          "name": "repeat-primary-hint-mode-during-growth",
+          "status": "passed",
+          "elapsedMs": 1730
+        },
+        {
+          "name": "undo-after-real-button-action",
+          "status": "passed",
+          "elapsedMs": 1279
+        },
+        {
+          "name": "undo-no-history-disabled",
+          "status": "passed",
+          "elapsedMs": 204
+        },
+        {
+          "name": "restart",
+          "status": "passed",
+          "elapsedMs": 389
+        },
+        {
+          "name": "hint",
+          "status": "passed",
+          "elapsedMs": 336
+        },
+        {
+          "name": "mode-toggle",
+          "status": "passed",
+          "elapsedMs": 577
+        },
+        {
+          "name": "overview-toggle",
+          "status": "passed",
+          "elapsedMs": 648
+        },
+        {
+          "name": "jump-real-motion",
+          "status": "failed",
+          "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'f:-1:0' !== 'f:0:0'\n",
+          "elapsedMs": 1075
+        },
+        {
+          "name": "switch-and-follow",
+          "status": "passed",
+          "elapsedMs": 3769
+        },
+        {
+          "name": "switch-single-actor-not-offered",
+          "status": "passed",
+          "elapsedMs": 246
+        },
+        {
+          "name": "return-tool-and-close",
+          "status": "passed",
+          "elapsedMs": 1748
+        },
+        {
+          "name": "direction-pad-during-motion-buffer",
+          "status": "passed",
+          "elapsedMs": 826
+        },
+        {
+          "name": "press-release-across-motion-boundary",
+          "status": "passed",
+          "elapsedMs": 800
+        },
+        {
+          "name": "overview-during-motion",
+          "status": "failed",
+          "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded.",
+          "elapsedMs": 10476
+        },
+        {
+          "name": "pause-and-close",
+          "status": "passed",
+          "elapsedMs": 926
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Fresh isolated storage per viewport/input/phase; fixture snapshots arrange legal states, but actions under test use actual mouse/touch/text input.",
+    "All command families represented by successful fixtures are sampled; this does not claim every parameter, angle, failure branch or level combination.",
+    "Sliders, toggles, text and modal content need read-only QA control metadata. Missing data is recorded as uncovered rather than substituting signal emission or node counts.",
+    "Touch buttons use native touchscreen events, while scrolling long canvas panels uses actual mouse-wheel input; touch swipe/pinch gesture coverage is separate.",
+    "Pasted JSON uses real ASCII keyboard events with Unicode escapes and exact TextEdit/decoded-JSON verification. Direct Chinese/IME entry is not covered; earlier evidence showed non-ASCII keyboard.type characters being dropped.",
+    "Desktop native file dialogs are outside this Web matrix. A Web download and pasted import are validated when corresponding controls are observable.",
+    "A passing input matrix does not certify artwork, comfort, native-depth correctness or performance."
+  ]
+}

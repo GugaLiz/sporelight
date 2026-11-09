@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f0ebd4">
+  <title>$GODOT_PROJECT_NAME</title>
+  <link rel="icon" type="image/png" href="loader/orb.png">
+  <link rel="preload" href="loader/bg.webp" as="image" fetchpriority="high">
+  <link rel="preload" href="loader/logo.png" as="image">
+  <link rel="preload" href="loader/hero.png" as="image">
+  <style>
+    :root { color-scheme: light; --ink: #6d5439; --muted: #727856; --gold: #c1a65e; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #f0ebd4; }
+    body { font-family: "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; color: var(--ink); }
+    [hidden] { display: none !important; }
+    #canvas { display: block; width: 100%; height: 100%; border: 0; outline: none; touch-action: none; }
+    #rotate-screen { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom)); background: #f4edda url("loader/bg.webp") center / cover; touch-action: none; }
+    .rotate-card { width: min(100%, 350px); padding: 36px 24px; text-align: center; border: 1px solid #d6bd8e; border-radius: 24px; background: #fff7e8f5; box-shadow: 0 12px 48px #735e3620; }
+    .rotate-phone { width: 82px; height: 46px; margin: 0 auto 25px; border: 3px solid #a48d60; border-radius: 10px; position: relative; }
+    .rotate-phone::after { content: ''; position: absolute; right: 5px; top: 16px; width: 3px; height: 9px; border-radius: 2px; background: #a48d60; }
+    #rotate-screen h2 { font-size: 23px; font-weight: 400; margin: 0 0 14px; }
+    #rotate-screen p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.9; }
+    #rotate-screen small { display: block; margin-top: 20px; color: #93866c; line-height: 1.7; }
+    #status { position: fixed; inset: 0; z-index: 10; overflow: hidden; background: #eee7d1; isolation: isolate; opacity: 1; transition: opacity 280ms ease; }
+    #status.is-leaving { opacity: 0; pointer-events: none; }
+    .scenery { position: absolute; left: 50%; bottom: 0; width: max(100vw, 177.777778vh); height: max(56.25vw, 100vh); transform: translateX(-50%); background: #eee7d1 url("loader/bg.webp") center / 100% 100% no-repeat; }
+    /* Feet share the backdrop's original 1280x720 coordinates, y=236/256. */
+    .hero { position: absolute; left: 25.390625%; top: 89.166667%; width: 22.65625%; height: auto; transform: translate(-50%, -92.1875%); }
+    .scene-orb { position: absolute; left: 30.46875%; top: 65%; width: 6.71875%; height: auto; transform: translate(-50%, -50%); filter: drop-shadow(0 0 12px #ffe2a0a0); animation: orb-drift 4.8s ease-in-out infinite; }
+    .mote { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #fff4c5; box-shadow: 0 0 10px 3px #f8cf7b80; opacity: .65; animation: glimmer 3.6s ease-in-out infinite; }
+    .mote.one { left: 45%; top: 48%; }
+    .mote.two { left: 14%; top: 77%; animation-delay: -1.8s; }
+    .mote.three { left: 53%; top: 68%; animation-delay: -.9s; }
+    .wash { position: absolute; inset: 0; background: linear-gradient(90deg, #f8efdb28 0%, #eef0dc10 38%, #f8f3e4e8 69%, #f8f3e4f5 100%); }
+    /* No-JS fallback. At startup syncBrandLayout mirrors the real native home
+       geometry, including its centered-contain image and canvas pixel ratio. */
+    .brand { position: absolute; left: 47px; top: 35px; width: 450px; height: 246px; text-align: center; transform-origin: top left; pointer-events: none; }
+    .brand img { position: absolute; left: 0; top: 0; display: block; width: 450px; height: 220px; object-fit: contain; }
+    .brand p { position: absolute; left: 0; top: 218px; width: 450px; height: 28px; margin: 0; font-size: 14px; line-height: 1.5; letter-spacing: 0; color: #6a7655; white-space: nowrap; }
+    .loading-copy { position: absolute; top: 50%; right: clamp(28px, 6.5vw, 112px); width: clamp(290px, 31.5vw, 440px); max-height: calc(100svh - 72px); overflow-x: hidden; overflow-y: auto; transform: translateY(-50%); padding: 10px 3px 14px; scrollbar-width: thin; scrollbar-color: #bdc0a6 transparent; }
+    .eyebrow { margin: 0 0 16px; color: #89906b; font-size: 11px; letter-spacing: .24em; }
+    h1 { margin: 0; font-family: "Noto Serif CJK SC", "Songti SC", "SimSun", serif; font-size: clamp(27px, 2.5vw, 34px); line-height: 1.55; font-weight: 400; letter-spacing: .08em; }
+    .invitation { margin: 15px 0 0; color: var(--muted); font-size: 14px; line-height: 1.9; letter-spacing: .03em; }
+    #progress-region { margin-top: 38px; }
+    .progress-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 16px; color: #7a805e; font-size: 12px; line-height: 1.5; letter-spacing: .06em; }
+    #load-percent { flex: none; color: #9b864c; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+    /* Keep the complete 35px light inside the copy area at both 0% and 100%. */
+    .progress-track { position: relative; margin: 0 18px; --progress: 0%; }
+    #status-progress { display: block; appearance: none; width: 100%; height: 9px; overflow: hidden; border: 1px solid #c7b483; border-radius: 999px; background: #fdf8e6b0; color: #c6a661; box-shadow: inset 0 1px 4px #a68c4420, 0 0 13px #fff4c580; }
+    #status-progress::-webkit-progress-bar { background: #fdf8e6b0; border-radius: 999px; }
+    #status-progress::-webkit-progress-value { background: linear-gradient(90deg, #9aaf79, #d5c17f 65%, #f2d897); border-radius: 999px; }
+    #status-progress::-moz-progress-bar { background: linear-gradient(90deg, #9aaf79, #d5c17f 65%, #f2d897); border-radius: 999px; }
+    .progress-light { position: absolute; top: 50%; left: clamp(0%, var(--progress), 100%); width: 35px; height: 35px; transform: translate(-50%, -50%); pointer-events: none; filter: drop-shadow(0 0 8px #ffe5a5); }
+    .progress-shimmer { position: absolute; top: -1px; bottom: -1px; left: 0; width: 19%; border-radius: 999px; background: linear-gradient(90deg, transparent, #d5bd78b0, transparent); animation: seeking 2.6s ease-in-out infinite; pointer-events: none; }
+    #status:not(.is-indeterminate) .progress-shimmer { display: none; }
+    #status.is-indeterminate .progress-light { opacity: .55; left: 50%; }
+    #status-caption { min-height: 1.6em; margin: 19px 0 0; color: #7b8064; font-size: 12px; line-height: 1.7; letter-spacing: .03em; }
+    #status-notice { margin-top: 25px; }
+    #status-notice p { margin: 0 0 12px; color: #7b6b55; font-size: 13px; line-height: 1.8; }
+    #status-notice details { margin: 15px 0; color: #7b8064; font-size: 12px; }
+    #status-notice summary { cursor: pointer; min-height: 32px; line-height: 32px; }
+    #error-details { max-height: 120px; margin: 5px 0 15px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; user-select: text; line-height: 1.6; }
+    #retry-button { width: 100%; min-height: 48px; padding: 11px 20px; border: 1px solid #b9a276; border-radius: 12px; color: #705c3c; background: #fff8e7d9; box-shadow: 0 5px 16px #9c873218; font: inherit; font-size: 14px; letter-spacing: .1em; cursor: pointer; }
+    #retry-button:hover { background: #fffdf3; }
+    #retry-button:focus-visible, summary:focus-visible { outline: 3px solid #9d8955; outline-offset: 4px; }
+    .footer { position: absolute; left: clamp(28px, 4.5vw, 76px); right: clamp(28px, 6.5vw, 112px); bottom: max(24px, env(safe-area-inset-bottom)); display: flex; justify-content: space-between; gap: 24px; color: #788365; font-size: 11px; line-height: 1.6; letter-spacing: .12em; }
+    .no-script { font-size: 14px; line-height: 1.8; color: #806a4f; }
+    @keyframes orb-drift { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-50%, calc(-50% - 5px)); } }
+    @keyframes glimmer { 0%, 100% { opacity: .25; } 50% { opacity: .8; } }
+    @keyframes seeking { 0%, 100% { transform: translateX(0); opacity: .15; } 50% { transform: translateX(420%); opacity: .85; } }
+    @media (orientation: portrait) {
+      .scenery { width: min(896px, 232.727273vw); height: min(504px, 130.909091vw); left: 50%; top: max(-82px, calc(180px - 68.12vw)); bottom: auto; transform: translateX(-31.796875%); }
+      .wash { background: linear-gradient(180deg, #fff6df20 0%, #fff6df00 31%, #f8f3e489 47%, #f8f3e4ee 64%, #f8f3e4fa 100%); }
+      .brand { left: 12px; top: 8px; width: calc(100vw - 24px); height: 159px; }
+      .brand img { left: 50%; width: min(280px, calc(100vw - 36px)); height: 138px; transform: translateX(-50%); }
+      .brand p { top: 135px; width: 100%; height: 24px; font-size: 11px; }
+      .loading-copy { top: clamp(370px, 51vh, 470px); right: 26px; left: 26px; width: auto; max-height: calc(100svh - 395px); padding: 0 2px 10px; transform: none; }
+      .eyebrow { margin-bottom: 10px; font-size: 10px; }
+      h1 { font-size: 26px; line-height: 1.5; }
+      .invitation { margin-top: 10px; font-size: 13px; line-height: 1.8; }
+      #progress-region { margin-top: 26px; }
+      .progress-heading { margin-bottom: 14px; font-size: 11px; }
+      #status-caption { margin-top: 15px; font-size: 11px; }
+      .footer { left: 28px; right: 28px; bottom: max(18px, env(safe-area-inset-bottom)); justify-content: center; font-size: 10px; }
+      .footer span:last-child { display: none; }
+      #status.is-error .loading-copy { top: auto; bottom: max(22px, env(safe-area-inset-bottom)); max-height: calc(100svh - 190px); }
+    }
+    @media (orientation: portrait) and (max-height: 650px) {
+      .scenery { width: 210vw; height: 118.125vw; top: calc(160px - 61.47vw); }
+      .loading-copy { top: auto; bottom: max(24px, env(safe-area-inset-bottom)); left: 24px; right: 24px; max-height: calc(100svh - 325px); }
+      .eyebrow { margin-bottom: 6px; }
+      h1 { font-size: 24px; }
+      .invitation { margin-top: 8px; font-size: 12px; }
+      #progress-region { margin-top: 20px; }
+      .progress-heading { font-size: 10px; }
+      #status-caption { margin-top: 13px; font-size: 10px; }
+      .footer { display: none; }
+    }
+    @media (orientation: landscape) and (max-height: 420px), (orientation: landscape) and (max-width: 760px) {
+      .loading-copy { top: 16px; right: 21px; width: 44vw; max-height: calc(100svh - 32px); transform: none; padding-bottom: 4px; }
+      .eyebrow { margin-bottom: 9px; font-size: 9px; }
+      h1 { font-size: 22px; line-height: 1.45; }
+      .invitation { margin-top: 9px; font-size: 12px; line-height: 1.6; }
+      #progress-region { margin-top: 23px; }
+      .progress-heading { margin-bottom: 12px; font-size: 10px; }
+      #status-caption { margin-top: 14px; font-size: 10px; }
+      .footer { display: none; }
+      #status-notice { margin-top: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #status { transition: none; }
+      .scene-orb, .mote, .progress-shimmer { animation: none; }
+      #status.is-indeterminate .progress-shimmer { left: 40%; opacity: .45; }
+    }
+  </style>
+  $GODOT_HEAD_INCLUDE
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="微光苔原游戏画面" aria-busy="true">当前浏览器无法显示游戏画面。</canvas>
+  <section id="rotate-screen" hidden role="status" aria-live="polite" aria-label="请横屏游玩">
+    <div class="rotate-card"><div class="rotate-phone" aria-hidden="true"></div><h2>横过来，走进花园</h2><p>请将手机或平板转为横屏。<br>转回横屏后，继续刚才的旅程。</p><small>如果画面没有旋转，请关闭设备的方向锁定。</small></div>
+  </section>
+  <script>
+  (function () {
+    const canvas = document.getElementById('canvas');
+    const cover = document.getElementById('rotate-screen');
+    const touch = window.matchMedia('(any-pointer: coarse)');
+    function syncOrientation() {
+      const blocked = (touch.matches || navigator.maxTouchPoints > 0) && window.innerHeight > window.innerWidth;
+      const changed = window.__sporelightPortraitBlocked !== blocked;
+      window.__sporelightPortraitBlocked = blocked;
+      cover.hidden = !blocked;
+      canvas.inert = blocked;
+      canvas.setAttribute('aria-hidden', String(blocked));
+      if (blocked) canvas.blur();
+      else if (changed && canvas.getAttribute('aria-busy') === 'false') canvas.focus({preventScroll: true});
+    }
+    window.addEventListener('resize', syncOrientation);
+    window.addEventListener('orientationchange', syncOrientation);
+    touch.addEventListener('change', syncOrientation);
+    syncOrientation();
+  }());
+  </script>
+  <section id="status" class="is-indeterminate" data-phase="preparing" aria-label="正在加载微光苔原" aria-busy="true">
+    <div class="scenery" aria-hidden="true">
+      <img class="hero" src="loader/hero.png" alt="" decoding="async">
+      <img class="scene-orb" src="loader/orb.png" alt="" decoding="async">
+      <span class="mote one"></span><span class="mote two"></span><span class="mote three"></span>
+    </div>
+    <div class="wash" aria-hidden="true"></div>
+    <header class="brand">
+      <img src="loader/logo.png" alt="微光苔原 Sporelight" fetchpriority="high">
+      <p>把一粒微光，种成回家的路。</p>
+    </header>
+    <main class="loading-copy">
+      <p class="eyebrow">一段温柔的冒险</p>
+      <h1 id="status-heading">微光，正在醒来。</h1>
+      <p id="status-description" class="invitation">露薇和小苔灵，正等你走进花园。</p>
+      <div id="progress-region">
+        <div class="progress-heading"><span id="loading-label">正在迎接一束微光…</span><span id="load-percent" aria-hidden="true">加载中</span></div>
+        <div class="progress-track">
+          <progress id="status-progress" aria-label="花园资源加载进度"></progress>
+          <span class="progress-shimmer" aria-hidden="true"></span>
+          <img class="progress-light" src="loader/orb.png" alt="" aria-hidden="true">
+        </div>
+        <p id="status-caption" role="status" aria-live="polite" aria-atomic="true">第一次相遇，会多等一小会儿。</p>
+      </div>
+      <div id="status-notice" role="alert" hidden>
+        <p>加载没有完成。请检查连接，再试着唤醒一次花园。</p>
+        <button id="retry-button" type="button">重新唤醒</button>
+        <details><summary>查看详情</summary><pre id="error-details"></pre></details>
+      </div>
+      <noscript>
+        <style>#progress-region, #status-description, #status-heading { display: none; }</style>
+        <p class="no-script">请启用浏览器的 JavaScript，再重新打开这片花园。</p>
+      </noscript>
+    </main>
+    <footer class="footer"><span>探索 · 播种 · 共生</span><span>每一粒微光，都值得等候。</span></footer>
+  </section>
+  <script>
+const GODOT_CONFIG = $GODOT_CONFIG;
+const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
+
+(function () {
+  'use strict';
+  const overlay = document.getElementById('status');
+  const canvas = document.getElementById('canvas');
+  const progress = document.getElementById('status-progress');
+  const track = document.querySelector('.progress-track');
+  const percent = document.getElementById('load-percent');
+  const label = document.getElementById('loading-label');
+  const caption = document.getElementById('status-caption');
+  const notice = document.getElementById('status-notice');
+  const retry = document.getElementById('retry-button');
+  const brand = document.querySelector('.brand');
+  const logo = brand.querySelector('img');
+  const tagline = brand.querySelector('p');
+  let failed = false;
+  let finished = false;
+
+  // Layout contract: ui/menu_cover.gd::relayout, stretch=disabled and the Web
+  // SDK's canvasResizePolicy=2. The SDK floors both backing and display sizes.
+  // Keep coordinates in native pixels until the final CSS transform; otherwise
+  // fractional DPR changes contain proportions and creates a visible handoff.
+  // check-brand-alignment.py compares this with real Godot controls, not a
+  // second copy of these formulas. Change the home and this contract together.
+  function syncBrandLayout() {
+    const dpr = window.devicePixelRatio || 1;
+    const width = Math.max(1, Math.floor(window.innerWidth * dpr));
+    const height = Math.max(1, Math.floor(window.innerHeight * dpr));
+    const scaleX = Math.max(1, Math.floor(width / dpr)) / width;
+    const scaleY = Math.max(1, Math.floor(height / dpr)) / height;
+    let image, text, fontSize;
+    if (height > width) {
+      const logoWidth = Math.min(280, width - 36);
+      image = [(width - logoWidth) * 0.5, 8, logoWidth, 138];
+      text = [12, 143, width - 24, 24];
+      fontSize = 11;
+    } else {
+      const scale = Math.max(0.5, Math.min(1.3, width / 1280, height / 720));
+      image = [47 * scale, 35 * scale, 450 * scale, 220 * scale];
+      text = [47 * scale, 253 * scale, 450 * scale, 28];
+      fontSize = height <= 420 ? 11 : 14;
+    }
+    const left = Math.min(image[0], text[0]);
+    const top = Math.min(image[1], text[1]);
+    brand.style.left = (left * scaleX) + 'px';
+    brand.style.top = (top * scaleY) + 'px';
+    brand.style.width = (Math.max(image[0] + image[2], text[0] + text[2]) - left) + 'px';
+    brand.style.height = (Math.max(image[1] + image[3], text[1] + text[3]) - top) + 'px';
+    brand.style.transform = 'scale(' + scaleX + ',' + scaleY + ')';
+    for (const [element, rect] of [[logo, image], [tagline, text]]) {
+      element.style.left = (rect[0] - left) + 'px';
+      element.style.top = (rect[1] - top) + 'px';
+      element.style.width = rect[2] + 'px';
+      element.style.height = rect[3] + 'px';
+      element.style.transform = 'none';
+    }
+    tagline.style.fontSize = fontSize + 'px';
+  }
+
+  let pixelRatioQuery;
+  function watchPixelRatio() {
+    if (pixelRatioQuery) pixelRatioQuery.removeEventListener('change', watchPixelRatio);
+    syncBrandLayout();
+    pixelRatioQuery = window.matchMedia('(resolution: ' + (window.devicePixelRatio || 1) + 'dppx)');
+    pixelRatioQuery.addEventListener('change', watchPixelRatio);
+  }
+  window.addEventListener('resize', syncBrandLayout);
+  watchPixelRatio();
+
+  retry.addEventListener('click', function () { window.location.reload(); });
+
+  function showFailure(error) {
+    if (finished || failed) return;
+    failed = true;
+    overlay.dataset.phase = 'error';
+    overlay.classList.add('is-error');
+    overlay.classList.remove('is-indeterminate');
+    overlay.setAttribute('aria-busy', 'false');
+    canvas.setAttribute('aria-busy', 'false');
+    document.getElementById('status-heading').textContent = '微光暂时停在了路上。';
+    document.getElementById('status-description').hidden = true;
+    document.getElementById('progress-region').hidden = true;
+    document.getElementById('error-details').textContent = error instanceof Error ? error.message : String(error || '未知加载错误');
+    notice.hidden = false;
+    retry.focus({preventScroll: true});
+    console.error(error);
+  }
+
+  function updateProgress(current, total) {
+    if (failed || finished) return;
+    if (Number.isFinite(current) && Number.isFinite(total) && current > 0 && total > 0) {
+      const ratio = Math.max(0, Math.min(1, current / total));
+      progress.max = total;
+      progress.value = current;
+      track.style.setProperty('--progress', (ratio * 100) + '%');
+      percent.textContent = Math.floor(ratio * 100) + '%';
+      overlay.classList.remove('is-indeterminate');
+      const nextPhase = ratio >= 1 ? 'opening' : 'downloading';
+      label.textContent = ratio >= 1 ? '正在唤醒花园…' : '正在收集苔原的微光…';
+      if (overlay.dataset.phase !== nextPhase) {
+        caption.textContent = ratio >= 1 ? '微光已经汇齐，花园正在慢慢醒来。' : '每一粒微光，都在向这里靠近。';
+        overlay.dataset.phase = nextPhase;
+      }
+    } else {
+      progress.removeAttribute('value');
+      progress.removeAttribute('max');
+      overlay.classList.add('is-indeterminate');
+      overlay.dataset.phase = 'preparing';
+      percent.textContent = '加载中';
+      label.textContent = '正在迎接一束微光…';
+    }
+  }
+
+  function revealGarden() {
+    if (failed || finished) return;
+    finished = true;
+    overlay.dataset.phase = 'ready';
+    overlay.setAttribute('aria-busy', 'false');
+    caption.textContent = '花园醒来了。';
+    // The engine promise starts the game; two real display frames let its
+    // first canvas image appear before this HTML cover starts to fade.
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        canvas.setAttribute('aria-busy', 'false');
+        overlay.inert = true;
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.style.pointerEvents = 'none';
+        overlay.classList.add('is-leaving');
+        const remove = function () {
+          if (!overlay.isConnected) return;
+          window.removeEventListener('resize', syncBrandLayout);
+          pixelRatioQuery.removeEventListener('change', watchPixelRatio);
+          overlay.remove();
+          canvas.focus({preventScroll: true});
+        };
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          remove();
+        } else {
+          overlay.addEventListener('transitionend', remove, {once: true});
+          // transitionend can be absent after visibility changes.
+          window.setTimeout(remove, 340);
+        }
+      });
+    });
+  }
+
+  async function startGarden() {
+    try {
+      if (typeof Engine !== 'function') throw new Error('启动文件尚未准备好，请刷新后重试。');
+      const missing = Engine.getMissingFeatures({threads: GODOT_THREADS_ENABLED});
+      if (missing.length) throw new Error('当前浏览器缺少运行花园所需的功能：' + missing.join('、') + '。请更新浏览器或确认图形加速已开启。');
+      const engine = new Engine(GODOT_CONFIG);
+      await engine.startGame({onProgress: updateProgress});
+      revealGarden();
+    } catch (error) {
+      showFailure(error);
+    }
+  }
+
+  // Load errors for the JavaScript bootstrap also retain the illustrated
+  // retry page, rather than leaving an empty progress bar indefinitely.
+  const bootstrap = document.createElement('script');
+  bootstrap.src = '$GODOT_URL';
+  bootstrap.async = true;
+  bootstrap.addEventListener('load', startGarden, {once: true});
+  bootstrap.addEventListener('error', function () {
+    showFailure(new Error('未能读取花园的启动文件，请检查连接后重试。'));
+  }, {once: true});
+  document.body.appendChild(bootstrap);
+}());
+  </script>
+</body>
+</html>

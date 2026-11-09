@@ -1,0 +1,150 @@
+{
+  "passed": false,
+  "date": "2026-11-06T03:18:59.066Z",
+  "base": "http://localhost:4186/",
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "webMode": "debug",
+    "source": {
+      "sha256": "53056130d759ceb01fdc56f7c1a683982628c4a9a958a19054ab379e6573a582",
+      "files": 330
+    },
+    "initialSource": {
+      "sha256": "53056130d759ceb01fdc56f7c1a683982628c4a9a958a19054ab379e6573a582",
+      "files": 330
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      },
+      {
+        "name": "Windows",
+        "code": 0
+      }
+    ]
+  },
+  "phase": "hud",
+  "sizes": [
+    {
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "inputs": [
+    "mouse"
+  ],
+  "caseFilter": [
+    "overview",
+    "motion",
+    "mode",
+    "direction",
+    "nearby"
+  ],
+  "fatal": null,
+  "summary": {
+    "executed": 10,
+    "passed": 7,
+    "failed": 2,
+    "uncovered": 1
+  },
+  "failed": [
+    {
+      "name": "direction-pad-during-motion-buffer",
+      "row": "1280x720-mouse-hud",
+      "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded."
+    },
+    {
+      "name": "press-release-across-motion-boundary",
+      "row": "1280x720-mouse-hud",
+      "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded."
+    }
+  ],
+  "uncovered": [
+    {
+      "name": "overview-during-motion",
+      "row": "1280x720-mouse-hud",
+      "reason": "Error: No visible matching button after actual scroll: \"跟随\""
+    }
+  ],
+  "errors": [],
+  "rows": [
+    {
+      "row": "1280x720-mouse-hud",
+      "phase": "hud",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "input": "mouse",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "direction-left",
+          "status": "passed",
+          "elapsedMs": 490
+        },
+        {
+          "name": "direction-up",
+          "status": "passed",
+          "elapsedMs": 419
+        },
+        {
+          "name": "direction-right",
+          "status": "passed",
+          "elapsedMs": 539
+        },
+        {
+          "name": "direction-down",
+          "status": "passed",
+          "elapsedMs": 551
+        },
+        {
+          "name": "mode-toggle",
+          "status": "passed",
+          "elapsedMs": 799
+        },
+        {
+          "name": "overview-toggle",
+          "status": "passed",
+          "elapsedMs": 596
+        },
+        {
+          "name": "jump-real-motion",
+          "status": "passed",
+          "elapsedMs": 992
+        },
+        {
+          "name": "direction-pad-during-motion-buffer",
+          "status": "failed",
+          "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded.",
+          "elapsedMs": 11022
+        },
+        {
+          "name": "press-release-across-motion-boundary",
+          "status": "failed",
+          "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded.",
+          "elapsedMs": 10772
+        },
+        {
+          "name": "overview-during-motion",
+          "status": "uncovered",
+          "reason": "Error: No visible matching button after actual scroll: \"跟随\"",
+          "elapsedMs": 3319
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Fresh isolated storage per viewport/input/phase; fixture snapshots arrange legal states, but actions under test use actual mouse/touch/text input.",
+    "All command families represented by successful fixtures are sampled; this does not claim every parameter, angle, failure branch or level combination.",
+    "Sliders, toggles, text and modal content need read-only QA control metadata. Missing data is recorded as uncovered rather than substituting signal emission or node counts.",
+    "Touch buttons use native touchscreen events, while scrolling long canvas panels uses actual mouse-wheel input; touch swipe/pinch gesture coverage is separate.",
+    "Desktop native file dialogs are outside this Web matrix. A Web download and pasted import are validated when corresponding controls are observable.",
+    "A passing input matrix does not certify artwork, comfort, native-depth correctness or performance."
+  ]
+}

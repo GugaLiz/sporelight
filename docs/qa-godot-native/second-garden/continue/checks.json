@@ -1,0 +1,111 @@
+{
+  "rows": [
+    {
+      "case": "first-saved-continue",
+      "maxFrameMs": 41.67500000000018,
+      "p95FrameMs": 8.409999999999854,
+      "framesOver50ms": 0,
+      "stateChangedMs": 7.799999997019768,
+      "webgl": {
+        "texImage2D": {
+          "count": 11,
+          "totalMs": 0.5949999988079071,
+          "maxMs": 0.4050000011920929
+        },
+        "bufferData": {
+          "count": 1729,
+          "totalMs": 3.809999942779541,
+          "maxMs": 0.04999999701976776
+        },
+        "drawElements": {
+          "count": 10550,
+          "totalMs": 3.815000042319298,
+          "maxMs": 0.04500000178813934
+        },
+        "drawArrays": {
+          "count": 24687,
+          "totalMs": 7.304999694228172,
+          "maxMs": 0.10999999940395355
+        }
+      },
+      "render": {
+        "meshRebuilds": 17,
+        "native": true,
+        "offscreenViews": 1,
+        "props": 17,
+        "surfaces": 17,
+        "terrainUpdates": 1,
+        "viewportUpdateMode": 4
+      }
+    },
+    {
+      "case": "return-continue",
+      "maxFrameMs": 10.674999999999272,
+      "p95FrameMs": 8.399999999999636,
+      "framesOver50ms": 0,
+      "stateChangedMs": 4.105000004172325,
+      "webgl": {
+        "bufferData": {
+          "count": 1768,
+          "totalMs": 3.680000215768814,
+          "maxMs": 0.040000006556510925
+        },
+        "drawElements": {
+          "count": 10800,
+          "totalMs": 3.5300001055002213,
+          "maxMs": 0.015000000596046448
+        },
+        "drawArrays": {
+          "count": 25272,
+          "totalMs": 6.02000018954277,
+          "maxMs": 0.030000001192092896
+        }
+      },
+      "render": {
+        "meshRebuilds": 17,
+        "native": true,
+        "offscreenViews": 1,
+        "props": 17,
+        "surfaces": 17,
+        "terrainUpdates": 1,
+        "viewportUpdateMode": 4
+      }
+    },
+    {
+      "case": "return-continue",
+      "maxFrameMs": 8.930000000000291,
+      "p95FrameMs": 8.375,
+      "framesOver50ms": 0,
+      "stateChangedMs": 3.7650000005960464,
+      "webgl": {
+        "bufferData": {
+          "count": 1768,
+          "totalMs": 3.605000153183937,
+          "maxMs": 0.03500001132488251
+        },
+        "drawElements": {
+          "count": 10800,
+          "totalMs": 2.8600002378225327,
+          "maxMs": 0.02000001072883606
+        },
+        "drawArrays": {
+          "count": 25272,
+          "totalMs": 5.960000246763229,
+          "maxMs": 0.03999999165534973
+        }
+      },
+      "render": {
+        "meshRebuilds": 17,
+        "native": true,
+        "offscreenViews": 1,
+        "props": 17,
+        "surfaces": 17,
+        "terrainUpdates": 1,
+        "viewportUpdateMode": 4
+      }
+    }
+  ],
+  "errors": [],
+  "level": "1-2",
+  "scope": "Isolated saved level with grown roots; actual pointer Continue; browser rAF and synchronous WebGL instrumentation. Timing depends on browser/GPU and is not a device-wide guarantee."
+}

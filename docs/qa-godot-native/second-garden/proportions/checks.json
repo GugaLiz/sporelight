@@ -1,0 +1,39 @@
+{
+  "initialSource": {
+    "sha256": "cb4e37734da310fa123538252e87baede42d30ba63d674234fc1c0a1f9f4748b",
+    "files": 466
+  },
+  "source": {
+    "sha256": "cb4e37734da310fa123538252e87baede42d30ba63d674234fc1c0a1f9f4748b",
+    "files": 466
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_second_garden_structure_test",
+      "code": 1,
+      "elapsedMs": 18626,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":21,\"failures\":[\"contact stays within step tolerance: 0.21984773874283\"],\"maxContactError\":0.219847738742828,\"passed\":false,\"suite\":\"second-garden-structure\",\"worstContact\":{\"actor\":\"luvie\",\"height\":0.300000011920929,\"onFloor\":true,\"position\":\"(4.166078, 0.519848, 0.520542)\",\"support\":\"f:4:1\"}}\r\n",
+      "stderr": "ERROR: contact stays within step tolerance: 0.21984773874283\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_second_garden_structure_test.gd:50)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_second_garden_test",
+      "code": 0,
+      "elapsedMs": 19927,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":100,\"failures\":[],\"passed\":true,\"suite\":\"second-garden\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_world_render_test",
+      "code": 0,
+      "elapsedMs": 6795,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":95965,\"failures\":[],\"gpuPixelsVerified\":false,\"levels\":[\"1-1\",\"1-2\",\"1-3\",\"1-4\",\"2-1\",\"2-2\",\"2-3\",\"2-4\",\"3-1\",\"3-2\",\"3-3\",\"3-4\",\"cloud-1\",\"cloud-2\",\"cloud-3\"],\"passed\":true,\"scope\":\"Actual 3D mesh/collider support samples, level-independent flat landings and bounded ramps, topology refresh caching and circular module motion. GPU appearance and moving character contact require separate checks.\",\"states\":110,\"suite\":\"native-world-render-contract\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

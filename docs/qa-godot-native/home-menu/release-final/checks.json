@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "url": "http://localhost:4198/",
+  "actions": [
+    {
+      "query": {
+        "action": "home_explore"
+      },
+      "point": [
+        982.800018310547,
+        420.0
+      ]
+    },
+    {
+      "query": {
+        "text": "图鉴"
+      },
+      "point": [
+        934.299987792969,
+        524.0
+      ]
+    },
+    {
+      "query": {
+        "text": "花园纪事"
+      },
+      "point": [
+        1119.30004882812,
+        524.0
+      ]
+    },
+    {
+      "query": {
+        "action": "settings"
+      },
+      "point": [
+        1170.80004882812,
+        420.0
+      ]
+    },
+    {
+      "query": {
+        "action": "save_tools"
+      },
+      "point": [
+        636.0,
+        521.0
+      ]
+    },
+    {
+      "query": {
+        "action": "map"
+      },
+      "point": [
+        1026.8000183105469,
+        250.5
+      ]
+    },
+    {
+      "query": {
+        "prefix": "1-1  "
+      },
+      "point": [
+        636.0,
+        224.0
+      ]
+    },
+    {
+      "query": {
+        "action": "home"
+      },
+      "point": [
+        636.0,
+        587.0
+      ]
+    },
+    {
+      "query": {
+        "action": "continue"
+      },
+      "point": [
+        1026.8000183105469,
+        250.5
+      ]
+    }
+  ],
+  "errors": [],
+  "releaseQaBridgeAbsent": true,
+  "scope": "Actual pointer/scroll/keyboard actions on both source-matched debug and release. Debug exposes control coordinates; same coordinates are replayed on release, whose named screenshots require visual review. No progress import or test-state injection.",
+  "source": {
+    "sha256": "8147a5f24c61a389a1e9c0a61d86809fbee398ba848ee9a5d7de1dff8f4270c5",
+    "files": 402
+  },
+  "visualReview": {
+    "passed": true,
+    "files": [
+      "new-home.png",
+      "exploration.png",
+      "gallery.png",
+      "journal.png",
+      "saves.png",
+      "saved-home.png",
+      "entered-level.png",
+      "continued.png"
+    ],
+    "result": "Root inspected menu hierarchy and destinations; saved home highlights continue; actual level and saved seed-road checks are also covered in final-home."
+  }
+}

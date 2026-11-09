@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const option = (name, fallback) => process.argv.find(value => value.startsWith(`--${name}=`))?.slice(name.length + 3) ?? fallback;
-const base = option('base', 'http://localhost:4185/');
+const base = option('base', 'http://localhost:4186/');
 const output = resolve(option('output', resolve(root, 'docs/qa-godot-migration/web-services')));
 const modulePath = option('playwright', process.env.PLAYWRIGHT_MODULE ?? 'C:/Users/jeffrey/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const {chromium} = createRequire(import.meta.url)(modulePath);
@@ -100,7 +100,7 @@ try {
   assert.deepEqual(imported.progress.runs['1-3'].actors, ongoing.actors);
   assert.deepEqual(imported.progress.memories['1-1'], memory);
   checks.push('Active runs and authentic completion memories survive browser import');
-  await button('回到花园');
+  await page.waitForFunction(() => !window.__sporelightState?.paused && !window.__sporelightState?.hudRegions?.some(region => region.name === 'ModalOverlay'), {}, {timeout: 5000});
   await page.keyboard.press('ArrowLeft');
   actions.push({kind: 'keyboard', key: 'ArrowLeft'});
   await page.waitForFunction(() => window.__sporelightState?.snapshot?.actors?.luvie === 'f:-5:0' && !window.__sporelightState?.moving, {}, {timeout: 5000});
@@ -113,7 +113,7 @@ try {
   for (const [key, raw] of Object.entries(oldKeys)) check(exported.legacy_raw[key] === raw, `Original raw data retained: ${key}`);
   check(exported.mainline.runs['1-3'].actors.luvie === 'f:-5:0', 'Downloaded JSON includes progress made after the import');
   await page.screenshot({path: resolve(output, '03-exported.png')});
-  await button('回到花园');
+  await button('继续当前关卡');
   await page.reload({waitUntil: 'networkidle'});
   await page.waitForFunction(() => window.__sporelightState?.snapshot?.actors?.luvie === 'f:-5:0', {}, {timeout: 120000});
   check((await state()).progress.memories['1-1'].completed, 'IndexedDB persistence survives reload with the archived memory');

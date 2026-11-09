@@ -7,7 +7,7 @@
     "height_rise": 48
   },
   "notes": [
-    "Only effective mainline and HUD texture aliases are copied.",
+    "Only effective world, HUD and animated cover texture aliases are copied.",
     "Images retain their original bytes; procedural Canvas art is rebuilt by presentation scripts.",
     "The ball alias resolves to journey-gardens/buddy-ball.png as in GardenRenderer."
   ],
@@ -243,6 +243,348 @@
       "alpha": true,
       "bytes": 8100,
       "sha256": "2856300537d6a720c95f783bca8c7665d02591ef48d970b29ebbab2d3d761771",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-background",
+      "source": "assets/images/main/bg.png",
+      "resource": "res://assets/images/main/bg.png",
+      "file": "main/bg.png",
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "group": "cover",
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "bytes": 2322718,
+      "sha256": "3015c6f2bdfd607db971159b2e99ce7865a1bfcff17b5888387155f25dc37e02",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-crouch",
+      "source": "assets/images/menu-walk-redrawn/crouch.png",
+      "resource": "res://assets/images/menu-walk-redrawn/crouch.png",
+      "file": "menu-walk-redrawn/crouch.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 156510,
+      "sha256": "a24c21128a04243d44d8c74cddd717c0b77aa4a4d6aa5e199f625727d6211ef2",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-crouch-happy",
+      "source": "assets/images/menu-walk-redrawn/crouch-happy.png",
+      "resource": "res://assets/images/menu-walk-redrawn/crouch-happy.png",
+      "file": "menu-walk-redrawn/crouch-happy.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 178529,
+      "sha256": "44950bc9299043eebb72a6f24e0cc28081033b97eb2379169a3b5e40ed239086",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-crouch-lower",
+      "source": "assets/images/menu-walk-redrawn/crouch-lower.png",
+      "resource": "res://assets/images/menu-walk-redrawn/crouch-lower.png",
+      "file": "menu-walk-redrawn/crouch-lower.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 163931,
+      "sha256": "ea2428454f00ca3103ff5aa3fb2146f89b405d6908b27ba44625db00e030e5bf",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-firefly",
+      "source": "assets/images/menu-fx-redrawn/firefly.png",
+      "resource": "res://assets/images/menu-fx-redrawn/firefly.png",
+      "file": "menu-fx-redrawn/firefly.png",
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "group": "cover",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "bytes": 1153814,
+      "sha256": "b551e027fa8f8fecd68ce34544c6ced2a4b12437d961f4ab6b99d2ae7b3f8c81",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-idle-front",
+      "source": "assets/images/menu-walk-redrawn/idle-front.png",
+      "resource": "res://assets/images/menu-walk-redrawn/idle-front.png",
+      "file": "menu-walk-redrawn/idle-front.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 189185,
+      "sha256": "0430e2ececff16e8ba0798fb5790767cc2b3249af2a2d2807c8a923bae51a920",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-idle-side",
+      "source": "assets/images/menu-walk-redrawn/idle-side.png",
+      "resource": "res://assets/images/menu-walk-redrawn/idle-side.png",
+      "file": "menu-walk-redrawn/idle-side.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 158534,
+      "sha256": "60158ffd017678d96b40a5ee6b6aa889e27a209e1666f9f7a055693c32b419a2",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-logo",
+      "source": "assets/images/material-ready/menu-logo.png",
+      "resource": "res://assets/images/material-ready/menu-logo.png",
+      "file": "material-ready/menu-logo.png",
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "group": "cover",
+      "width": 648,
+      "height": 342,
+      "alpha": true,
+      "bytes": 246612,
+      "sha256": "09678d4b5e799c076651d939dfc4e365af0364f9445321ae24541087d3e8348e",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-orb",
+      "source": "assets/images/menu-fx-redrawn/orb.png",
+      "resource": "res://assets/images/menu-fx-redrawn/orb.png",
+      "file": "menu-fx-redrawn/orb.png",
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "group": "cover",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "bytes": 692573,
+      "sha256": "1b1d218a44251553a17b6a4cf27acef89f506c9d614df2c2e0e30e22cd5e2bac",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-paper",
+      "source": "assets/images/material-ready/menu-paper.png",
+      "resource": "res://assets/images/material-ready/menu-paper.png",
+      "file": "material-ready/menu-paper.png",
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "group": "cover",
+      "width": 539,
+      "height": 210,
+      "alpha": true,
+      "bytes": 95759,
+      "sha256": "750d4fe52a27b5125b29964d8ce0b888d8a5798551804363ecf65427d9215296",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-step-1",
+      "source": "assets/images/menu-walk-redrawn/step-1.png",
+      "resource": "res://assets/images/menu-walk-redrawn/step-1.png",
+      "file": "menu-walk-redrawn/step-1.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 137686,
+      "sha256": "e71f0b8f1e24be84c3abb9e7e27e58b66fdb37f99d1a72436237b813016b8fc2",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-step-2",
+      "source": "assets/images/menu-walk-redrawn/step-2.png",
+      "resource": "res://assets/images/menu-walk-redrawn/step-2.png",
+      "file": "menu-walk-redrawn/step-2.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 134537,
+      "sha256": "f2b41801b10200d3e69bec184be970985f593c3c1c8dcdebd92d467f13e39720",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-step-3",
+      "source": "assets/images/menu-walk-redrawn/step-3.png",
+      "resource": "res://assets/images/menu-walk-redrawn/step-3.png",
+      "file": "menu-walk-redrawn/step-3.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 129573,
+      "sha256": "f954a9b08c7ef4aa33f745b62fcc584e8454ae677195a5d8ac552b8d50401477",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-step-4",
+      "source": "assets/images/menu-walk-redrawn/step-4.png",
+      "resource": "res://assets/images/menu-walk-redrawn/step-4.png",
+      "file": "menu-walk-redrawn/step-4.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 133429,
+      "sha256": "86a9c0e5b6e2505ed301adf0915e104d0439c6f934e88518066cfccb21883be4",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-step-5",
+      "source": "assets/images/menu-walk-redrawn/step-5.png",
+      "resource": "res://assets/images/menu-walk-redrawn/step-5.png",
+      "file": "menu-walk-redrawn/step-5.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 132593,
+      "sha256": "fac658b77fb407cae559e183398181c50b18c38a218e9ea34a86fe9d11c22a1d",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-step-6",
+      "source": "assets/images/menu-walk-redrawn/step-6.png",
+      "resource": "res://assets/images/menu-walk-redrawn/step-6.png",
+      "file": "menu-walk-redrawn/step-6.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 135688,
+      "sha256": "00416e4043401c48990763e8b923c333ecdf752d1e4c3c2bf48175b083394cfe",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-step-7",
+      "source": "assets/images/menu-walk-redrawn/step-7.png",
+      "resource": "res://assets/images/menu-walk-redrawn/step-7.png",
+      "file": "menu-walk-redrawn/step-7.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 132447,
+      "sha256": "8b6f0ad9132d673d6e230092002a9886e64cf7d05dd2b2332e5f7b96092c5521",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-step-8",
+      "source": "assets/images/menu-walk-redrawn/step-8.png",
+      "resource": "res://assets/images/menu-walk-redrawn/step-8.png",
+      "file": "menu-walk-redrawn/step-8.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 136684,
+      "sha256": "f664b1c83a54775be37fb3a5d146a931cd105aea0de85a25ef5e06f3252a18b3",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "cover-turn-quarter",
+      "source": "assets/images/menu-walk-redrawn/turn-quarter.png",
+      "resource": "res://assets/images/menu-walk-redrawn/turn-quarter.png",
+      "file": "menu-walk-redrawn/turn-quarter.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "cover",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 178676,
+      "sha256": "c094be4aaf9d6983babe494995e733a310fc467af42067132e668e4e7ca60590",
       "filter": "linear",
       "repeat": "disabled"
     },
@@ -2151,6 +2493,222 @@
       "alpha": true,
       "bytes": 38931,
       "sha256": "a41aac57fcbfbdcbb0ca7a0a9645c4c65c25044e5ece0047b99619227ed24f24",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-1",
+      "source": "assets/images/menu-walk/step-1.png",
+      "resource": "res://assets/images/menu-walk/step-1.png",
+      "file": "menu-walk/step-1.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 35621,
+      "sha256": "523d656230764cc860e7987d1b8cfb615e2ae65dcfe4d92b7dddacd3ae9fc21c",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-10",
+      "source": "assets/images/menu-walk/step-10.png",
+      "resource": "res://assets/images/menu-walk/step-10.png",
+      "file": "menu-walk/step-10.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36144,
+      "sha256": "a5e2f8ff2147690eaf308b5f71a95dd4a002a568303691e89386581909f39b21",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-11",
+      "source": "assets/images/menu-walk/step-11.png",
+      "resource": "res://assets/images/menu-walk/step-11.png",
+      "file": "menu-walk/step-11.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36092,
+      "sha256": "80e61df21eec9b8c97bf803ff66f584faea39efad7647d6a5ee44d7127a986a2",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-12",
+      "source": "assets/images/menu-walk/step-12.png",
+      "resource": "res://assets/images/menu-walk/step-12.png",
+      "file": "menu-walk/step-12.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36000,
+      "sha256": "522a893c08a99607c0f659fbe3610d913e6862ec37d81a19b5b3e23c33d1d675",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-2",
+      "source": "assets/images/menu-walk/step-2.png",
+      "resource": "res://assets/images/menu-walk/step-2.png",
+      "file": "menu-walk/step-2.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36199,
+      "sha256": "f7464e607c21df5dcf3473e811f5e8fd8e401d36951059a707f7a12ec9d4ceef",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-3",
+      "source": "assets/images/menu-walk/step-3.png",
+      "resource": "res://assets/images/menu-walk/step-3.png",
+      "file": "menu-walk/step-3.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36284,
+      "sha256": "d2c1c51c6aebe102ae95d925bc5e892dda98bd9b51b0c038c7ff31a4f54f5311",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-4",
+      "source": "assets/images/menu-walk/step-4.png",
+      "resource": "res://assets/images/menu-walk/step-4.png",
+      "file": "menu-walk/step-4.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36415,
+      "sha256": "d0a57f73e4c8743629f52a6475dc95af4cb00c9dc3ffeefdbd0aa4429265a6eb",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-5",
+      "source": "assets/images/menu-walk/step-5.png",
+      "resource": "res://assets/images/menu-walk/step-5.png",
+      "file": "menu-walk/step-5.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36284,
+      "sha256": "d2c1c51c6aebe102ae95d925bc5e892dda98bd9b51b0c038c7ff31a4f54f5311",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-6",
+      "source": "assets/images/menu-walk/step-6.png",
+      "resource": "res://assets/images/menu-walk/step-6.png",
+      "file": "menu-walk/step-6.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36199,
+      "sha256": "f7464e607c21df5dcf3473e811f5e8fd8e401d36951059a707f7a12ec9d4ceef",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-7",
+      "source": "assets/images/menu-walk/step-7.png",
+      "resource": "res://assets/images/menu-walk/step-7.png",
+      "file": "menu-walk/step-7.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 35621,
+      "sha256": "523d656230764cc860e7987d1b8cfb615e2ae65dcfe4d92b7dddacd3ae9fc21c",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-8",
+      "source": "assets/images/menu-walk/step-8.png",
+      "resource": "res://assets/images/menu-walk/step-8.png",
+      "file": "menu-walk/step-8.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36000,
+      "sha256": "522a893c08a99607c0f659fbe3610d913e6862ec37d81a19b5b3e23c33d1d675",
+      "filter": "linear",
+      "repeat": "disabled"
+    },
+    {
+      "id": "walk-side-9",
+      "source": "assets/images/menu-walk/step-9.png",
+      "resource": "res://assets/images/menu-walk/step-9.png",
+      "file": "menu-walk/step-9.png",
+      "anchor": [
+        0.5,
+        0.921875
+      ],
+      "group": "character",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 36092,
+      "sha256": "80e61df21eec9b8c97bf803ff66f584faea39efad7647d6a5ee44d7127a986a2",
       "filter": "linear",
       "repeat": "disabled"
     },

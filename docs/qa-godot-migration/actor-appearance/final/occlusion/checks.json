@@ -1,0 +1,242 @@
+{
+	"budgets": {
+		"expectedColorMaxChannelError": 0.0117647058823529,
+		"opaqueQuadRoiMinimumBorderInsetPixels": 20,
+		"reverseOrderMaxChannelError": 0.00392156862745098
+	},
+	"cases": [
+		{
+			"gpuVerified": true,
+			"name": "billboard-near",
+			"reverseSubmissionCompared": true,
+			"rois": [
+				{
+					"expectedFrontPlane": true,
+					"rect": [
+						112,
+						112,
+						16,
+						16
+					]
+				}
+			]
+		},
+		{
+			"gpuVerified": true,
+			"name": "billboard-far",
+			"reverseSubmissionCompared": true,
+			"rois": [
+				{
+					"expectedFrontPlane": false,
+					"rect": [
+						144,
+						144,
+						16,
+						16
+					]
+				}
+			]
+		},
+		{
+			"gpuVerified": true,
+			"name": "ground-crossing",
+			"reverseSubmissionCompared": true,
+			"rois": [
+				{
+					"expectedFrontPlane": false,
+					"rect": [
+						120,
+						88,
+						16,
+						16
+					]
+				},
+				{
+					"expectedFrontPlane": true,
+					"rect": [
+						120,
+						152,
+						16,
+						16
+					]
+				}
+			]
+		},
+		{
+			"gpuVerified": true,
+			"name": "x-wall-crossing",
+			"reverseSubmissionCompared": true,
+			"rois": [
+				{
+					"expectedFrontPlane": true,
+					"rect": [
+						88,
+						120,
+						16,
+						16
+					]
+				},
+				{
+					"expectedFrontPlane": false,
+					"rect": [
+						152,
+						120,
+						16,
+						16
+					]
+				}
+			]
+		},
+		{
+			"gpuVerified": true,
+			"name": "z-wall-crossing",
+			"reverseSubmissionCompared": true,
+			"rois": [
+				{
+					"expectedFrontPlane": false,
+					"rect": [
+						88,
+						120,
+						16,
+						16
+					]
+				},
+				{
+					"expectedFrontPlane": true,
+					"rect": [
+						152,
+						120,
+						16,
+						16
+					]
+				}
+			]
+		},
+		{
+			"gpuVerified": true,
+			"name": "ramp-crossing",
+			"reverseSubmissionCompared": true,
+			"rois": [
+				{
+					"expectedFrontPlane": false,
+					"rect": [
+						120,
+						88,
+						16,
+						16
+					]
+				},
+				{
+					"expectedFrontPlane": true,
+					"rect": [
+						128,
+						168,
+						16,
+						16
+					]
+				},
+				{
+					"expectedFrontPlane": false,
+					"rect": [
+						88,
+						152,
+						16,
+						16
+					]
+				},
+				{
+					"expectedFrontPlane": true,
+					"rect": [
+						152,
+						152,
+						16,
+						16
+					]
+				}
+			]
+		},
+		{
+			"alphaOneOccludesMiddleTexture": true,
+			"alphaZeroRevealsMiddleTexture": true,
+			"frontOpaqueColor": "white",
+			"gpuVerified": true,
+			"middleTextureColor": "red",
+			"name": "checker-alpha-depth",
+			"opaqueFallbackColor": "blue",
+			"reverseSubmissionCompared": true,
+			"roiPolicy": "16px interiors centered 32px from each checker transition and sprite border; a second alpha-depth material behind the checker must pass its holes, which a previously drawn opaque background alone could not prove"
+		},
+		{
+			"actorDepthBias": 0.001,
+			"actorMaterial": "green RGBA image with transparent border and alpha-one probe interiors",
+			"actorPlane": "billboard x+z=0",
+			"gpuVerified": true,
+			"name": "coplanar-actor-bias-with-real-wall",
+			"reverseSubmissionCompared": true,
+			"roiPolicy": "16px probe interiors stay at least 16px from the wall intersection and alpha-one texture boundary; all prior color/order budgets remain unchanged",
+			"rois": [
+				[
+					96,
+					112,
+					16,
+					16
+				],
+				[
+					144,
+					112,
+					16,
+					16
+				]
+			],
+			"rootPlane": "billboard x+z=0",
+			"tieWithoutWallExpectedColor": "green",
+			"wallPlane": "x=0",
+			"wallRoiDepthMarginGreaterThan": 0.01,
+			"withWallExpectedColorsLeftRight": [
+				"blue",
+				"green"
+			]
+		},
+		{
+			"gpuVerified": true,
+			"isolatedSpriteCompared": true,
+			"name": "original-idle-alpha",
+			"opaqueRoi": [
+				120,
+				88,
+				6,
+				6
+			],
+			"reverseSubmissionCompared": true,
+			"source": "character-refined/idle-front.png",
+			"sourceAlphaVerified": true,
+			"transparentRoi": [
+				69,
+				69,
+				8,
+				8
+			]
+		}
+	],
+	"checks": 6252,
+	"display": "Windows",
+	"failures": [],
+	"gpuVerified": true,
+	"limitations": [
+		"Headless success is geometry/material/asset validation only; gpuVerified remains false and no pixel case is claimed.",
+		"ROIs exclude MSAA polygon edges, texture alpha transitions and plane intersections. This suite tests the renderer contract, not full-level composition or input feel."
+	],
+	"passed": true,
+	"pixelChecks": 15624,
+	"scope": "GPU mode reads DepthStage.get_texture().get_image() after actual native material rendering. Fixed-color ROIs straddle intersecting world planes and reverse submission order, so object-level painter sorting cannot satisfy the oracle. Checker and original PNG tests check alpha-zero holes and opaque interiors. The biased actor case resolves a coplanar root tie in both submission orders while preserving occlusion by a physically nearer x-wall.",
+	"size": [
+		256,
+		256
+	],
+	"sourceHashes": {
+		"res://assets/images/character-refined/idle-front.png": "2ab248a9161362cc18260381f82ec6e19c0d70a44d10290b9a616366d616dd77",
+		"res://presentation/world/depth_paint_target.gd": "066c732456d10d590dc05bc15bef8fe39d5ac2a2c81d9194f2e87207ff34cd96",
+		"res://presentation/world/depth_stage.gd": "cb8b1579e5d84b9ba86378ce8fc5159842bfcf0dc82dfa34eb805ae1a12abbad",
+		"res://tests/visual_depth_occlusion_test.gd": "6381e0d4cf8ca6ce31d280346a85f53ba0ee7e8cfeebf45846feb9923ab1abaf"
+	}
+}

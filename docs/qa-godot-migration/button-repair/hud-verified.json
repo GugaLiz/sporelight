@@ -1,0 +1,919 @@
+{
+  "passed": true,
+  "source": {
+    "sha256": "681a2c16c40532fdce7d29e07cf42dff4ebcf359f586cba62287da5711ba023f",
+    "files": 332
+  },
+  "summary": {
+    "verifiedCases": 126,
+    "failed": 0,
+    "uncovered": 0
+  },
+  "method": "Same-source six viewport/input rows. Retain the first run, replace only jump and overview cases with their corrected real-input recheck; no failed result deleted from original evidence.",
+  "inputs": [
+    {
+      "file": "hud-final/checks.json",
+      "summary": {
+        "executed": 126,
+        "passed": 119,
+        "failed": 7,
+        "uncovered": 0
+      },
+      "passed": false
+    },
+    {
+      "file": "hud-boundary-recheck/checks.json",
+      "summary": {
+        "executed": 12,
+        "passed": 12,
+        "failed": 0,
+        "uncovered": 0
+      },
+      "passed": true
+    }
+  ],
+  "results": [
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "direction-left",
+      "status": "passed",
+      "elapsedMs": 533,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "direction-up",
+      "status": "passed",
+      "elapsedMs": 549,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "direction-right",
+      "status": "passed",
+      "elapsedMs": 486,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "direction-down",
+      "status": "passed",
+      "elapsedMs": 435,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "primary-seed-road",
+      "status": "passed",
+      "elapsedMs": 1279,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "early-direction-click-survives-long-growth",
+      "status": "passed",
+      "elapsedMs": 1502,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "repeat-primary-hint-mode-during-growth",
+      "status": "passed",
+      "elapsedMs": 1846,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "undo-after-real-button-action",
+      "status": "passed",
+      "elapsedMs": 1328,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "undo-no-history-disabled",
+      "status": "passed",
+      "elapsedMs": 212,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "restart",
+      "status": "passed",
+      "elapsedMs": 253,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "hint",
+      "status": "passed",
+      "elapsedMs": 213,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "mode-toggle",
+      "status": "passed",
+      "elapsedMs": 294,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "overview-toggle",
+      "status": "passed",
+      "elapsedMs": 218,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "jump-real-motion",
+      "status": "passed",
+      "elapsedMs": 1156,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "switch-and-follow",
+      "status": "passed",
+      "elapsedMs": 3526,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "switch-single-actor-not-offered",
+      "status": "passed",
+      "elapsedMs": 249,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "return-tool-and-close",
+      "status": "passed",
+      "elapsedMs": 922,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "direction-pad-during-motion-buffer",
+      "status": "passed",
+      "elapsedMs": 823,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "press-release-across-motion-boundary",
+      "status": "passed",
+      "elapsedMs": 815,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "overview-during-motion",
+      "status": "passed",
+      "elapsedMs": 1277,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "1280x720-mouse-hud",
+      "name": "pause-and-close",
+      "status": "passed",
+      "elapsedMs": 772,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "direction-left",
+      "status": "passed",
+      "elapsedMs": 476,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "direction-up",
+      "status": "passed",
+      "elapsedMs": 489,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "direction-right",
+      "status": "passed",
+      "elapsedMs": 492,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "direction-down",
+      "status": "passed",
+      "elapsedMs": 552,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "primary-seed-road",
+      "status": "passed",
+      "elapsedMs": 1142,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "early-direction-click-survives-long-growth",
+      "status": "passed",
+      "elapsedMs": 1539,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "repeat-primary-hint-mode-during-growth",
+      "status": "passed",
+      "elapsedMs": 1851,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "undo-after-real-button-action",
+      "status": "passed",
+      "elapsedMs": 1416,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "undo-no-history-disabled",
+      "status": "passed",
+      "elapsedMs": 209,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "restart",
+      "status": "passed",
+      "elapsedMs": 328,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "hint",
+      "status": "passed",
+      "elapsedMs": 301,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "mode-toggle",
+      "status": "passed",
+      "elapsedMs": 514,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "overview-toggle",
+      "status": "passed",
+      "elapsedMs": 328,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "jump-real-motion",
+      "status": "passed",
+      "elapsedMs": 1174,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "switch-and-follow",
+      "status": "passed",
+      "elapsedMs": 3658,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "switch-single-actor-not-offered",
+      "status": "passed",
+      "elapsedMs": 259,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "return-tool-and-close",
+      "status": "passed",
+      "elapsedMs": 991,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "direction-pad-during-motion-buffer",
+      "status": "passed",
+      "elapsedMs": 777,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "press-release-across-motion-boundary",
+      "status": "passed",
+      "elapsedMs": 894,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "overview-during-motion",
+      "status": "passed",
+      "elapsedMs": 1155,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "1280x720-touch-hud",
+      "name": "pause-and-close",
+      "status": "passed",
+      "elapsedMs": 684,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "direction-left",
+      "status": "passed",
+      "elapsedMs": 492,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "direction-up",
+      "status": "passed",
+      "elapsedMs": 488,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "direction-right",
+      "status": "passed",
+      "elapsedMs": 467,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "direction-down",
+      "status": "passed",
+      "elapsedMs": 447,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "primary-seed-road",
+      "status": "passed",
+      "elapsedMs": 1051,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "early-direction-click-survives-long-growth",
+      "status": "passed",
+      "elapsedMs": 1454,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "repeat-primary-hint-mode-during-growth",
+      "status": "passed",
+      "elapsedMs": 1797,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "undo-after-real-button-action",
+      "status": "passed",
+      "elapsedMs": 1274,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "undo-no-history-disabled",
+      "status": "passed",
+      "elapsedMs": 230,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "restart",
+      "status": "passed",
+      "elapsedMs": 415,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "hint",
+      "status": "passed",
+      "elapsedMs": 317,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "mode-toggle",
+      "status": "passed",
+      "elapsedMs": 424,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "overview-toggle",
+      "status": "passed",
+      "elapsedMs": 497,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "jump-real-motion",
+      "status": "passed",
+      "elapsedMs": 1044,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "switch-and-follow",
+      "status": "passed",
+      "elapsedMs": 3427,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "switch-single-actor-not-offered",
+      "status": "passed",
+      "elapsedMs": 284,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "return-tool-and-close",
+      "status": "passed",
+      "elapsedMs": 846,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "direction-pad-during-motion-buffer",
+      "status": "passed",
+      "elapsedMs": 827,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "press-release-across-motion-boundary",
+      "status": "passed",
+      "elapsedMs": 842,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "overview-during-motion",
+      "status": "passed",
+      "elapsedMs": 1372,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "390x844-mouse-hud",
+      "name": "pause-and-close",
+      "status": "passed",
+      "elapsedMs": 793,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "direction-left",
+      "status": "passed",
+      "elapsedMs": 455,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "direction-up",
+      "status": "passed",
+      "elapsedMs": 450,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "direction-right",
+      "status": "passed",
+      "elapsedMs": 517,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "direction-down",
+      "status": "passed",
+      "elapsedMs": 474,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "primary-seed-road",
+      "status": "passed",
+      "elapsedMs": 1173,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "early-direction-click-survives-long-growth",
+      "status": "passed",
+      "elapsedMs": 1491,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "repeat-primary-hint-mode-during-growth",
+      "status": "passed",
+      "elapsedMs": 1854,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "undo-after-real-button-action",
+      "status": "passed",
+      "elapsedMs": 1367,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "undo-no-history-disabled",
+      "status": "passed",
+      "elapsedMs": 214,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "restart",
+      "status": "passed",
+      "elapsedMs": 362,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "hint",
+      "status": "passed",
+      "elapsedMs": 400,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "mode-toggle",
+      "status": "passed",
+      "elapsedMs": 581,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "overview-toggle",
+      "status": "passed",
+      "elapsedMs": 670,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "jump-real-motion",
+      "status": "passed",
+      "elapsedMs": 1223,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "switch-and-follow",
+      "status": "passed",
+      "elapsedMs": 3431,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "switch-single-actor-not-offered",
+      "status": "passed",
+      "elapsedMs": 158,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "return-tool-and-close",
+      "status": "passed",
+      "elapsedMs": 942,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "direction-pad-during-motion-buffer",
+      "status": "passed",
+      "elapsedMs": 863,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "press-release-across-motion-boundary",
+      "status": "passed",
+      "elapsedMs": 909,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "overview-during-motion",
+      "status": "passed",
+      "elapsedMs": 1461,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "390x844-touch-hud",
+      "name": "pause-and-close",
+      "status": "passed",
+      "elapsedMs": 639,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "direction-left",
+      "status": "passed",
+      "elapsedMs": 490,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "direction-up",
+      "status": "passed",
+      "elapsedMs": 486,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "direction-right",
+      "status": "passed",
+      "elapsedMs": 460,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "direction-down",
+      "status": "passed",
+      "elapsedMs": 474,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "primary-seed-road",
+      "status": "passed",
+      "elapsedMs": 1073,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "early-direction-click-survives-long-growth",
+      "status": "passed",
+      "elapsedMs": 1492,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "repeat-primary-hint-mode-during-growth",
+      "status": "passed",
+      "elapsedMs": 1748,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "undo-after-real-button-action",
+      "status": "passed",
+      "elapsedMs": 1313,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "undo-no-history-disabled",
+      "status": "passed",
+      "elapsedMs": 212,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "restart",
+      "status": "passed",
+      "elapsedMs": 232,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "hint",
+      "status": "passed",
+      "elapsedMs": 296,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "mode-toggle",
+      "status": "passed",
+      "elapsedMs": 427,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "overview-toggle",
+      "status": "passed",
+      "elapsedMs": 730,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "jump-real-motion",
+      "status": "passed",
+      "elapsedMs": 1064,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "switch-and-follow",
+      "status": "passed",
+      "elapsedMs": 3468,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "switch-single-actor-not-offered",
+      "status": "passed",
+      "elapsedMs": 290,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "return-tool-and-close",
+      "status": "passed",
+      "elapsedMs": 1563,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "direction-pad-during-motion-buffer",
+      "status": "passed",
+      "elapsedMs": 783,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "press-release-across-motion-boundary",
+      "status": "passed",
+      "elapsedMs": 845,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "overview-during-motion",
+      "status": "passed",
+      "elapsedMs": 1324,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "568x320-mouse-hud",
+      "name": "pause-and-close",
+      "status": "passed",
+      "elapsedMs": 848,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "direction-left",
+      "status": "passed",
+      "elapsedMs": 462,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "direction-up",
+      "status": "passed",
+      "elapsedMs": 459,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "direction-right",
+      "status": "passed",
+      "elapsedMs": 479,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "direction-down",
+      "status": "passed",
+      "elapsedMs": 495,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "primary-seed-road",
+      "status": "passed",
+      "elapsedMs": 1166,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "early-direction-click-survives-long-growth",
+      "status": "passed",
+      "elapsedMs": 1493,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "repeat-primary-hint-mode-during-growth",
+      "status": "passed",
+      "elapsedMs": 1730,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "undo-after-real-button-action",
+      "status": "passed",
+      "elapsedMs": 1279,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "undo-no-history-disabled",
+      "status": "passed",
+      "elapsedMs": 204,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "restart",
+      "status": "passed",
+      "elapsedMs": 389,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "hint",
+      "status": "passed",
+      "elapsedMs": 336,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "mode-toggle",
+      "status": "passed",
+      "elapsedMs": 577,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "overview-toggle",
+      "status": "passed",
+      "elapsedMs": 648,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "jump-real-motion",
+      "status": "passed",
+      "elapsedMs": 1140,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "switch-and-follow",
+      "status": "passed",
+      "elapsedMs": 3769,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "switch-single-actor-not-offered",
+      "status": "passed",
+      "elapsedMs": 246,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "return-tool-and-close",
+      "status": "passed",
+      "elapsedMs": 1748,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "direction-pad-during-motion-buffer",
+      "status": "passed",
+      "elapsedMs": 826,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "press-release-across-motion-boundary",
+      "status": "passed",
+      "elapsedMs": 800,
+      "evidence": "hud-final/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "overview-during-motion",
+      "status": "passed",
+      "elapsedMs": 1398,
+      "evidence": "hud-boundary-recheck/checks.json"
+    },
+    {
+      "row": "568x320-touch-hud",
+      "name": "pause-and-close",
+      "status": "passed",
+      "elapsedMs": 926,
+      "evidence": "hud-final/checks.json"
+    }
+  ]
+}

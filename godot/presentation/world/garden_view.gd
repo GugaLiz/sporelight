@@ -13,6 +13,17 @@ const Props = preload("res://presentation/world/garden_prop_art.gd")
 const EnvironmentArt = preload("res://presentation/world/garden_environment.gd")
 const MoleConversation = preload("res://presentation/actors/mole_conversation.gd")
 const WalkBlendSurface = preload("res://presentation/actors/walk_blend_surface.gd")
+const BuddySurface = preload("res://presentation/actors/buddy_surface.gd")
+const TerrainPresentation = preload("res://presentation/world/terrain_presentation.gd")
+const StairSurface = preload("res://presentation/world/stair_surface.gd")
+const DepthStage = preload("res://presentation/world/depth_stage.gd")
+
+class DepthOverlay:
+	extends Node2D
+	var view: Node2D
+	func _draw() -> void:
+		if view != null:
+			view._draw_depth_overlay(self)
 
 var world: RefCounted
 var images: Dictionary = {}
@@ -51,6 +62,7 @@ var _start_from: Dictionary = {}
 var _start_started := 0.0
 var _start_facing := "front"
 var _blend_surface: SubViewport
+var _buddy_surface: SubViewport
 var _character_frame: Dictionary = {}
 var _in_draw := false
 var _draw_tiles: Array = []
@@ -60,6 +72,14 @@ var _dialogue_rect := Rect2()
 var _dialogue_fallback := "inactive"
 var _pond_geometry: Dictionary = {}
 var _pond_geometry_signature := 0
+var _from_steps: Array = []
+var _to_steps: Array = []
+var _depth_stage: SubViewport
+var _depth_image: Sprite2D
+var _depth_overlay: Node2D
+var _overlay_ink: CanvasItem
+var _depth_captions: Array = []
+var _depth_static_snapshot: Array = []
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
@@ -68,6 +88,20 @@ func _ready() -> void:
 	_blend_surface = WalkBlendSurface.new()
 	add_child(_blend_surface)
 	images["_walk_transition"] = _blend_surface.get_texture()
+	_buddy_surface = BuddySurface.new()
+	add_child(_buddy_surface)
+	images["_buddy_composite"] = _buddy_surface.get_texture()
+	_depth_stage = DepthStage.new()
+	add_child(_depth_stage)
+	_depth_image = Sprite2D.new()
+	_depth_image.centered = false
+	_depth_image.texture = _depth_stage.get_texture()
+	_depth_image.visible = false
+	add_child(_depth_image)
+	_depth_overlay = DepthOverlay.new()
+	_depth_overlay.view = self
+	_depth_overlay.visible = false
+	add_child(_depth_overlay)
 	get_viewport().size_changed.connect(queue_redraw)
 	queue_redraw()
 
@@ -179,13 +213,26 @@ func set_motion(from: Dictionary, to: Dictionary, progress: float, kind: String)
 		else:
 			_from_tiles = world.tiles()
 			_to_tiles = world.tiles()
+		if TerrainPresentation.enabled(world.level):
+			_from_steps = Landscape.steps(_from_tiles)
+			_to_steps = Landscape.steps(_to_tiles)
 		if from.get("actors", {}).get("luvie", "") != to.get("actors", {}).get("luvie", ""):
 			var first := _tile_for(str(from.get("actors", {}).get("luvie", "")), _from_tiles)
 			var last := _tile_for(str(to.get("actors", {}).get("luvie", "")), _to_tiles)
 			if not first.is_empty() and not last.is_empty():
-				_facing = CharacterMotion.facing_for(Iso.raw(last) - Iso.raw(first))
+				_facing = _travel_facing(first, last)
 	_motion_progress = clampf(progress, 0, 1)
 	queue_redraw()
+
+func _travel_facing(first: Dictionary, last: Dictionary) -> String:
+	if str(world.level.id) != "1-1":
+		return CharacterMotion.facing_for(Iso.raw(last) - Iso.raw(first))
+	var delta := Vector2(float(last.x) - float(first.x), float(last.z) - float(first.z))
+	if delta.is_zero_approx():
+		return _facing
+	if absf(delta.x) >= absf(delta.y):
+		return "right" if delta.x > 0.0 else "left"
+	return "front" if delta.y > 0.0 else "back"
 
 func clear_motion(smooth_stop: bool = true) -> void:
 	if smooth_stop and not settings.get("lowMotion", false) and _luvie_walking(_motion_from, _motion_to, _motion_kind):
@@ -202,6 +249,8 @@ func clear_motion(smooth_stop: bool = true) -> void:
 	_to_tiles = []
 	_before_world = null
 	_future_world = null
+	_from_steps = []
+	_to_steps = []
 	queue_redraw()
 
 func _luvie_walking(from: Dictionary, to: Dictionary, kind: String) -> bool:
@@ -237,9 +286,10 @@ func character_presentation() -> Dictionary:
 	var before := _tile_for(str(state.get("actors", {}).get("luvie", "")), _tiles())
 	if not before.is_empty():
 		result["anchor"] = _interpolate(before, _tile_for(str(_motion_to.get("actors", {}).get("luvie", "")), _to_tiles), true)
-		result["footpoint"] = result.anchor
-		var screen_point := project(result.anchor) + Vector2(_actor_offset("luvie"), 7 * scale_factor)
+		result["footpoint"] = actor_ground_point("luvie")
+		var screen_point := actor_screen_footpoint("luvie")
 		result["screen_footpoint"] = {"x": screen_point.x, "y": screen_point.y}
+		result["stair_contact"] = actor_stair_contact("luvie")
 	if settings.get("lowMotion", false) or state.get("completed", false):
 		return result
 	if not moving and action.is_empty() and not _stop_from.is_empty():
@@ -316,6 +366,73 @@ func _player_point(state: Dictionary, tiles: Array) -> Dictionary:
 		return before
 	return _interpolate(before, _tile_for(str(_motion_to.get("actors", {}).get(actor, "")), _to_tiles), true)
 
+func _stair_surface(tiles: Array) -> Dictionary:
+	if world == null or str(world.level.id) != "1-1":
+		return {}
+	var low := _tile_for("g:root:1:0", tiles)
+	var high := _tile_for("f:2:0", tiles)
+	return StairSurface.build(world.level, [low, high]) if not low.is_empty() and not high.is_empty() else {}
+
+func _travel_progress() -> float:
+	return _motion_progress if _motion_kind in ["move", "roll", "rejoin"] else _ease()
+
+## One coordinate convention covers the entire pilot, including landing exits.
+## Artwork pivots never enter world x/z or the anchor used by depth testing.
+func _actor_uses_contact(_actor: String) -> bool:
+	return world != null and str(world.level.id) == "1-1"
+
+func _actor_surface(actor: String) -> Dictionary:
+	if not _actor_uses_contact(actor):
+		return {}
+	var first := _tile_for(str(_state().get("actors", {}).get(actor, "")), _tiles())
+	var last := _tile_for(str(_motion_to.get("actors", {}).get(actor, "")), _to_tiles)
+	if not first.is_empty() and not last.is_empty() and str(first.id) != str(last.id):
+		return StairSurface.connection(world.level, [first, last])
+	var surface := _stair_surface(_tiles())
+	return surface if not surface.is_empty() and str(first.get("id", "")) in [str(surface.low.id), str(surface.high.id)] else {}
+
+func actor_ground_point(actor: String) -> Dictionary:
+	var before := _tile_for(str(_state().get("actors", {}).get(actor, "")), _tiles())
+	if before.is_empty():
+		return Iso.point(0, 0)
+	var after := _tile_for(str(_motion_to.get("actors", {}).get(actor, "")), _to_tiles)
+	if not _actor_uses_contact(actor):
+		return _interpolate(before, after, true)
+	var point := Iso.interpolate(before, after, _travel_progress()) if not _motion_from.is_empty() and not after.is_empty() else Iso.point(float(before.x), float(before.z), float(before.h))
+	point.z += -0.18 if actor == "luvie" else 0.18
+	point.x += -0.02 if actor == "luvie" else -0.18
+	if not after.is_empty() and str(before.id) != str(after.id):
+		var surface := _actor_surface(actor)
+		if not surface.is_empty():
+			var direction: Vector2 = surface.direction
+			var u := Vector2(float(point.x) - float(surface.low.x), float(point.z) - float(surface.low.z)).dot(direction)
+			point.h = StairSurface.contact(surface, u).h
+	return point
+
+func _actor_jump(actor: String) -> float:
+	return CharacterMotion.jump_height(_motion_progress, settings.get("lowMotion", false)) * scale_factor if _motion_kind in ["jump", "hop"] and _state().get("active", "luvie") == actor else 0.0
+
+func actor_screen_footpoint(actor: String, include_jump := true) -> Vector2:
+	var at := project(actor_ground_point(actor))
+	if not _actor_uses_contact(actor):
+		at += Vector2(_actor_offset(actor), (7.0 if actor == "luvie" else 4.0) * scale_factor)
+	return at - Vector2(0, _actor_jump(actor) if include_jump else 0.0)
+
+func actor_stair_contact(actor: String) -> Dictionary:
+	var surface := _actor_surface(actor)
+	if surface.is_empty():
+		return {}
+	var point := actor_ground_point(actor)
+	var direction: Vector2 = surface.direction
+	var delta := Vector2(float(point.x) - float(surface.low.x), float(point.z) - float(surface.low.z))
+	var u := delta.dot(direction)
+	var v := delta.dot(Vector2(-direction.y, direction.x))
+	var result := StairSurface.contact(surface, u)
+	if u < -0.5 or u > 1.5 or absf(v) > float(surface.half_width) or not is_equal_approx(float(point.h), float(result.h)):
+		return {}
+	result.merge({"u": u, "v": v, "key": surface.key}, true)
+	return result
+
 func _camera(tiles: Array, player: Dictionary) -> void:
 	var size := get_viewport_rect().size
 	var all: Array = tiles.duplicate()
@@ -391,6 +508,14 @@ func _draw() -> void:
 	var size := get_viewport_rect().size
 	var level: Dictionary = world.level
 	var state := _state()
+	_depth_captions = []
+	var depth_enabled := str(level.id) == "1-1" and _depth_stage != null
+	if _depth_image != null:
+		_depth_image.visible = depth_enabled
+		_depth_overlay.visible = depth_enabled
+		_depth_stage.render_target_update_mode = SubViewport.UPDATE_ALWAYS if depth_enabled else SubViewport.UPDATE_DISABLED
+		if not depth_enabled and _buddy_surface != null:
+			_buddy_surface.deactivate()
 	_in_draw = false
 	var tiles := _tiles()
 	_draw_tiles = tiles
@@ -429,12 +554,18 @@ func _draw() -> void:
 				var point: Dictionary = tile.duplicate()
 				point["alpha"] = _ease()
 				painted.append(point)
+	var connections := _step_entries(painted)
 	for tile in painted:
 		_add_object(objects, "floor", tile, 0, {"tile": tile})
-	if _motion_from.is_empty() or _motion_kind in ["move", "roll", "rejoin", "jump", "hop"]:
-		for pair in Landscape.steps(tiles):
-			var depth := maxf(Iso.ground_depth(pair[0]), Iso.ground_depth(pair[1])) + 0.04
-			objects.append({"kind": "steps", "depth": depth, "order": objects.size(), "pair": pair})
+	for connection in connections:
+		var pair: Array = connection.pair
+		var surface := StairSurface.connection(level, pair)
+		var depth := StairSurface.stairs_depth(surface) if not surface.is_empty() else maxf(Iso.ground_depth(pair[0]), Iso.ground_depth(pair[1])) + 0.04
+		objects.append({"kind": "steps", "depth": depth, "order": objects.size(), "pair": pair, "alpha": connection.alpha, "surface": surface})
+	if str(level.id) == "1-1":
+		for surface: Dictionary in StairSurface.connectors(level, painted):
+			if str(surface.style) == "ramp":
+				objects.append({"kind": "ramp", "depth": Iso.ground_depth(surface.low), "order": objects.size(), "pair": [surface.low, surface.high], "alpha": minf(float(surface.low.get("alpha", 1.0)), float(surface.high.get("alpha", 1.0))), "surface": surface})
 	var runoff := EnvironmentArt.runoff_source(level, tiles)
 	if not runoff.is_empty() and level.get("chapter", "") != "cave":
 		_add_object(objects, "runoff", runoff, 0.6, {"point": runoff})
@@ -492,26 +623,73 @@ func _draw() -> void:
 	for actor in ["buddy", "luvie"]:
 		var tile := _tile_for(str(state.get("actors", {}).get(actor, "")), tiles)
 		if not tile.is_empty():
-			var point := _interpolate(tile, _tile_for(str(_motion_to.get("actors", {}).get(actor, "")), _to_tiles), true)
+			var point := actor_ground_point(actor)
 			_add_object(objects, "actor", point, 0.51 if actor == "luvie" else 0.5, {"actor": actor, "point": point, "before": tile})
 	if level.get("chapter", "") == "pond":
 		for point in EnvironmentArt.residents(level, tiles):
 			_add_object(objects, "resident", point, 0.15, {"point": point})
 	objects.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a.depth) < float(b.depth) if not is_equal_approx(float(a.depth), float(b.depth)) else int(a.order) < int(b.order))
-	for object in objects:
-		_draw_object(p, object, painted, time)
-	_draw_interaction_light(p, time)
-	if level.get("chapter", "") == "pond":
-		EnvironmentArt.rain(p, size, time, true, settings)
-	_draw_spatial_guides(p, time)
-	_draw_growth_targets(p)
-	_draw_mole_dialogue()
+	if depth_enabled:
+		_depth_stage.setup_size(size, origin, scale_factor)
+		var stable_objects: Array = []
+		for object in objects:
+			if object.kind in ["floor", "steps", "ramp", "prop"]:
+				stable_objects.append(object)
+		if _depth_stage.begin_static(hash([level.id, stable_objects])):
+			var stable_paint := Paint.new(_depth_stage.paint_target, images)
+			for object in stable_objects:
+				_depth_stage.paint_target.begin_object(_object_anchor(object))
+				_draw_object(stable_paint, object, painted, time)
+			_depth_stage.end_static()
+			_depth_static_snapshot = stable_objects.duplicate(true)
+		_depth_stage.begin_frame()
+		var depth_paint := Paint.new(_depth_stage.paint_target, images)
+		for object in objects:
+			if object.kind in ["floor", "steps", "ramp", "prop"]:
+				continue
+			_depth_stage.paint_target.begin_object(_object_anchor(object), 1 if object.kind == "runoff" else 0, 0.001 if object.kind == "actor" else 0.0)
+			_draw_object(depth_paint, object, painted, time)
+		_depth_stage.end_frame()
+		_depth_overlay.queue_redraw()
+	else:
+		for object in objects:
+			_draw_object(p, object, painted, time)
+		_draw_interaction_light(p, time)
+		if level.get("chapter", "") == "pond":
+			EnvironmentArt.rain(p, size, time, true, settings)
+		_draw_spatial_guides(p, time)
+		_draw_growth_targets(p)
+		_draw_mole_dialogue()
 	if state.get("completed", false) and settings.get("particles", true) and not settings.get("lowMotion", false):
 		for index in range(16):
 			p.oval(fposmod(index * 173 + sin(time * 0.001 + index) * 15, size.x), fposmod(size.y + index * 91 - time * 0.02, size.y), 2, 2, "#ffedaf88")
 	_in_draw = false
 	_draw_tiles = []
 	_draw_tile_by_id = {}
+
+func _object_anchor(object: Dictionary) -> Dictionary:
+	if object.kind in ["steps", "ramp"]:
+		return object.pair[0]
+	return object.get("point", object.get("tile", object.get("prop", Iso.point(0, 0))))
+
+## Keep unchanged connections visible during topology changes. Rule tiles and
+## transactions stay independent from this opt-in presentation transition.
+func _step_entries(painted: Array) -> Array:
+	var entries: Array = []
+	if TerrainPresentation.enabled(world.level):
+		if not _motion_from.is_empty():
+			entries = TerrainPresentation.connections(_from_steps, _to_steps, _ease())
+		else:
+			var pairs := Landscape.steps(painted)
+			entries = TerrainPresentation.connections(pairs, pairs, 1.0)
+		# Preserve the two rear stair removals explicitly requested for 1-1.
+		entries = entries.filter(func(entry: Dictionary) -> bool:
+			var endpoints := [str(entry.pair[0].id), str(entry.pair[1].id)]
+			return endpoints not in [["f:2:0", "f:2:-1"], ["f:3:0", "f:3:-1"]])
+	elif _motion_from.is_empty() or _motion_kind in ["move", "roll", "rejoin", "jump", "hop"]:
+		for pair in Landscape.steps(_tiles()):
+			entries.append({"pair": pair, "alpha": 1.0})
+	return entries
 
 func _add_object(objects: Array, kind: String, point: Dictionary, offset: float, data: Dictionary = {}, depth := INF) -> void:
 	var entry := {"kind": kind, "depth": Iso.ground_depth(point) + offset if is_inf(depth) else depth, "order": objects.size()}
@@ -528,9 +706,11 @@ func _draw_object(p: GardenPaint, object: Dictionary, painted: Array, time: floa
 	var state := _state()
 	match object.kind:
 		"floor":
-			Landscape.floor_tile(p, self, object.tile, painted, world.level, state, time, object.tile.alpha)
-		"steps":
-			Landscape.terrain_steps(p, self, object.pair)
+			Landscape.floor_tile(p, self, object.tile, painted, world.level, state, time, object.tile.alpha, object.get("clip", {}))
+		"steps", "ramp":
+			p.push(Vector2.ZERO, Vector2.ONE, 0.0, float(object.get("alpha", 1.0)))
+			Landscape.terrain_steps(p, self, object.pair, object.get("surface", {}))
+			p.pop()
 		"prop":
 			var point := project(object.prop)
 			p.image(object.prop.asset, point.x, point.y + 7 * scale_factor, float(object.prop.width) * scale_factor)
@@ -590,7 +770,7 @@ func _draw_mark(p: GardenPaint, mark: Dictionary, point: Dictionary, time: float
 	p.push(at, Vector2.ONE * scale_factor)
 	match kind:
 		"core":
-			p.image("bloom" if state.get("completed", false) else "flower", 0, 10, 150 if world.level.id == "3-4" else 110)
+			p.image("bloom" if state.get("completed", false) else "flower", 0, 10, 150 if world.level.id == "3-4" else 86 if world.level.id == "1-1" else 110, 0.9, _soft_occluder_opacity(point))
 			if _ready_to_plant() and settings.get("dynamicLight", true):
 				p.image("light", 0, 5, 90, 0.9, 0.22)
 		"root": p.image("vine", 0, 8, 65)
@@ -614,11 +794,51 @@ func _draw_mark(p: GardenPaint, mark: Dictionary, point: Dictionary, time: float
 	if captions.has(kind) and mark.id != "hold" and not state.get("completed", false) and _near(str(mark.tile)):
 		_caption(at + Vector2(0, -49 * scale_factor), captions[kind])
 
+## Only the already-visible first garden's flower is a soft occluder. Solid
+## terrain keeps native depth; no hidden path/actor is drawn through a wall.
+func _soft_occluder_opacity(point: Dictionary) -> float:
+	if str(world.level.id) != "1-1":
+		return 1.0
+	var actor := actor_ground_point(str(_state().get("active", "luvie")))
+	var distance := Vector2(float(point.x) - float(actor.x), float(point.z) - float(actor.z)).length()
+	var nearby := 1.0 - smoothstep(1.15, 1.65, distance)
+	var behind := smoothstep(0.0, 0.25, Iso.ground_depth(point) - Iso.ground_depth(actor))
+	var height := 1.0 - smoothstep(0.6, 1.1, absf(float(point.h) - float(actor.h)))
+	return 1.0 - 0.62 * nearby * behind * height
+
 func _caption(at: Vector2, text: String) -> void:
+	if world != null and str(world.level.id) == "1-1" and _overlay_ink == null:
+		var protected := _active_actor_protection().grow(8.0)
+		var label_width := (label_font if label_font != null else ThemeDB.fallback_font).get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x + 14.0
+		var bounds := Rect2(Vector2.ZERO, get_viewport_rect().size).grow(-12)
+		var placed := false
+		for candidate: Vector2 in [at, Vector2(at.x, protected.position.y - 24), Vector2(protected.position.x - label_width / 2 - 10, at.y), Vector2(protected.end.x + label_width / 2 + 10, at.y), Vector2(at.x, protected.end.y + 12)]:
+			var rect := Rect2(candidate - Vector2(label_width / 2, 0), Vector2(label_width, 20))
+			if bounds.encloses(rect) and not rect.intersects(protected):
+				at = candidate
+				placed = true
+				break
+		if not placed:
+			return
+		_depth_captions.append({"at": at, "text": text})
+		return
 	var font: Font = label_font if label_font != null else ThemeDB.fallback_font
 	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x + 14
-	draw_rect(Rect2(at - Vector2(width / 2, 0), Vector2(width, 20)), Color("fff6e7e8"))
-	draw_string(font, at + Vector2(-width / 2 + 7, 14), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("7a6647"))
+	var ink: CanvasItem = _overlay_ink if _overlay_ink != null else self
+	ink.draw_rect(Rect2(at - Vector2(width / 2, 0), Vector2(width, 20)), Color("fff6e7e8"))
+	ink.draw_string(font, at + Vector2(-width / 2 + 7, 14), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("7a6647"))
+
+func _draw_depth_overlay(canvas: CanvasItem) -> void:
+	if world == null or str(world.level.id) != "1-1":
+		return
+	_overlay_ink = canvas
+	var p := Paint.new(canvas, images)
+	for caption in _depth_captions:
+		_caption(caption.at, str(caption.text))
+	_draw_interaction_light(p, _time())
+	_draw_spatial_guides(p, _time())
+	_draw_growth_targets(p)
+	_overlay_ink = null
 
 func _draw_item(p: GardenPaint, id: String, item: Dictionary, point: Dictionary, opacity: float) -> void:
 	p.push(project(point), Vector2.ONE * scale_factor, 0, opacity)
@@ -647,6 +867,8 @@ func _carried(state: Dictionary, actor: String) -> String:
 	return ""
 
 func _actor_offset(actor: String) -> float:
+	if _actor_uses_contact(actor):
+		return 0.0
 	var state := _state()
 	var shared: bool = state.get("actors", {}).get("luvie", "") == state.get("actors", {}).get("buddy", "")
 	var offset := (-24.0 if actor == "buddy" else 8.0) if shared else 0.0
@@ -669,17 +891,30 @@ func _draw_actor(p: GardenPaint, actor: String, point: Dictionary, before: Dicti
 	var carry_alpha := 1.0 - _ease() if not carried.is_empty() and incoming.is_empty() and not _motion_to.is_empty() else 1.0 if not carried.is_empty() else _ease()
 	if carried.is_empty():
 		carried = incoming
-	var jump := CharacterMotion.jump_height(_motion_progress, settings.get("lowMotion", false)) * scale_factor if _motion_kind in ["jump", "hop"] and active else 0.0
+	var jump := _actor_jump(actor)
+	var pivot := (0.0 if _actor_uses_contact(actor) else 7.0 if actor == "luvie" else 4.0) * scale_factor
 	if actor == "buddy":
-		Creatures.buddy(p, at + Vector2(offset, 4 * scale_factor - jump), 46 * scale_factor, time, {"moving": moving, "rolling": moving and _motion_kind == "roll", "waiting": not state.get("follow", true) and not active, "low_motion": settings.get("lowMotion", false), "happy": state.get("completed", false)})
-		p.push(at + Vector2(offset, 4 * scale_factor - jump), Vector2.ONE * scale_factor, 0, carry_alpha)
+		var look := {"moving": moving, "rolling": moving and _motion_kind == "roll", "waiting": not state.get("follow", true) and not active, "low_motion": settings.get("lowMotion", false), "happy": state.get("completed", false)}
+		if _actor_uses_contact(actor) and _buddy_surface != null and p.target.has_method("surface"):
+			_buddy_surface.update_pose(images, time, look)
+			# Compose the original multi-layer illustration in 2D first. Only its
+			# finished silhouette participates in world depth; its own shadow is
+			# a ground decal, not a vertical fragment cutting through the feet.
+			p.target.surface("ground", float(point.h))
+			var unit := 46.0 / 48.0 * scale_factor
+			p.shadow(at.x + unit, at.y + unit, 20.0 * unit, 5.0 * unit)
+			p.target.billboard(point)
+			p.image("_buddy_composite", at.x, at.y - jump, 64.0 * scale_factor, 112.0 / 128.0)
+		else:
+			Creatures.buddy(p, at + Vector2(offset, pivot - jump), 46 * scale_factor, time, look)
+		p.push(at + Vector2(offset, pivot - jump), Vector2.ONE * scale_factor, 0, carry_alpha)
 		if not carried.is_empty():
 			Props.carry_bag(p, carried, true)
 		p.pop()
 	else:
 		var pose: Dictionary = _character_frame.get("pose", {})
 		var key: String = pose.key
-		p.push(at + Vector2(offset, 7 * scale_factor - jump), Vector2.ONE * scale_factor)
+		p.push(at + Vector2(offset, pivot - jump), Vector2.ONE * scale_factor)
 		p.push(Vector2.ZERO, Vector2((-1 if pose.flip else 1) * float(pose.scale_x), float(pose.scale_y)), 0 if pose.clip == "roll" else float(pose.rotation))
 		if pose.clip == "roll":
 			p.push(Vector2(0, -30), Vector2.ONE, float(pose.rotation))
@@ -695,7 +930,9 @@ func _draw_actor(p: GardenPaint, actor: String, point: Dictionary, before: Dicti
 		p.pop()
 		p.pop()
 	if active and not state.get("completed", false):
-		p.arc(at.x + offset, at.y + 4 * scale_factor, 24 * scale_factor, 10 * scale_factor, 0, TAU, "#fff0b7", 2)
+		if p.target.has_method("surface"):
+			p.target.surface("ground", float(point.h))
+		p.arc(at.x + offset, at.y + (0.0 if _actor_uses_contact(actor) else 4.0) * scale_factor, 24 * scale_factor, 10 * scale_factor, 0, TAU, "#fff0b7", 2)
 
 func _add_surface_lines(objects: Array) -> void:
 	var model := _rule_world()
@@ -831,8 +1068,7 @@ func _active_actor_protection() -> Rect2:
 	var tile := _tile_for(str(state.get("actors", {}).get(actor, "")), _tiles())
 	if tile.is_empty():
 		return Rect2()
-	var point := _interpolate(tile, _tile_for(str(_motion_to.get("actors", {}).get(actor, "")), _to_tiles), true)
-	var at := project(point) + Vector2(_actor_offset(actor), (7 if actor == "luvie" else 4) * scale_factor)
+	var at := actor_screen_footpoint(actor)
 	var half_width := (38 if actor == "luvie" else 26) * scale_factor
 	var height := (100 if actor == "luvie" else 56) * scale_factor
 	return Rect2(at - Vector2(half_width, height), Vector2(half_width * 2, height + 8 * scale_factor))
@@ -905,7 +1141,8 @@ func _draw_growth_targets(p: GardenPaint) -> void:
 		p.line([at + Vector2(-25, 0) * scale_factor, at + Vector2(0, -13) * scale_factor, at + Vector2(25, 0) * scale_factor, at + Vector2(0, 13) * scale_factor], "#e7ca80", 2, true)
 		p.oval(at.x, at.y, 22, 22, "#fff4d9c9", 0, "#c4a166", 1)
 		var font: Font = label_font if label_font != null else ThemeDB.fallback_font
-		draw_string(font, at + Vector2(-8, 8), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("a08d5b"))
+		var ink: CanvasItem = _overlay_ink if _overlay_ink != null else self
+		ink.draw_string(font, at + Vector2(-8, 8), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("a08d5b"))
 
 func _draw_spatial_guides(p: GardenPaint, time: float) -> void:
 	var model := _rule_world()

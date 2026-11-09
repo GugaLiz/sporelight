@@ -1,6 +1,8 @@
 class_name GardenLandscape
 extends RefCounted
 
+const TerrainPresentation = preload("res://presentation/world/terrain_presentation.gd")
+const StairSurface = preload("res://presentation/world/stair_surface.gd")
 const SCENERY := ["dew-plant", "dew-parcel", "berry-bush", "river-rock", "pebble-cluster", "small-pebbles", "stone-lantern", "gold-lotus", "trailing-vine", "pink-flowers", "ivory-lotus", "glow-flower", "fern", "blue-flowers", "yellow-flowers", "red-mushroom", "blue-mushroom", "wood-lantern", "violet-crystal", "light-tower", "lotus-pool"]
 static var _pond_outlines: Dictionary = {}
 
@@ -23,7 +25,9 @@ static func tile_at(tiles: Array, x: float, z: float, skip := "") -> Dictionary:
 			return tile
 	return {}
 
-static func face_depth(tile: Dictionary, neighbor: Dictionary, base: float) -> float:
+static func face_depth(tile: Dictionary, neighbor: Dictionary, base: float, level: Dictionary = {}) -> float:
+	if TerrainPresentation.enabled(level):
+		return TerrainPresentation.wall_depth(level, tile, neighbor, base)
 	return maxf(0, (float(tile.h) - float(neighbor.h)) * 48.0) if not neighbor.is_empty() else maxf(12, base + float(tile.h) * 48.0)
 
 static func steps(tiles: Array) -> Array:
@@ -37,18 +41,31 @@ static func steps(tiles: Array) -> Array:
 					result.append([a, b] if float(a.h) < float(b.h) else [b, a])
 	return result
 
-static func floor_tile(p: GardenPaint, view: Variant, tile: Dictionary, tiles: Array, level: Dictionary, state: Dictionary, time: float, opacity := 1.0) -> void:
+static func floor_tile(p: GardenPaint, view: Variant, tile: Dictionary, tiles: Array, level: Dictionary, state: Dictionary, time: float, opacity := 1.0, clip: Dictionary = {}) -> void:
+	# Only the right bridge's high landing participates in the local pilot.
+	if str(level.get("id", "")) != "1-1" or str(tile.get("id", "")) != "f:2:0":
+		clip = {}
 	var chapter: String = level.get("chapter", "valley")
 	var kind: String = tile.get("kind", "")
 	var base := 11.0 if kind == "shadow" else 30.0 if kind == "root" else 112.0 if chapter == "valley" else 42.0 if chapter == "pond" else 60.0
+	var native: bool = p.target.has_method("surface")
+	var slots: Array = []
+	if native:
+		clip = {}
+		for entry in StairSurface.architecture(level):
+			if str(entry.high.id) == str(tile.id):
+				slots.append(entry)
 	p.push(view.project(tile), Vector2.ONE * view.scale_factor, 0, opacity)
 	for side in ["left", "right"]:
+		if native:
+			p.target.surface("z" if side == "left" else "x", float(tile.z) + 0.5 if side == "left" else float(tile.x) + 0.5)
 		var neighbor := tile_at(tiles, float(tile.x) + (1 if side == "right" else 0), float(tile.z) + (1 if side == "left" else 0), tile.id)
-		var depth := face_depth(tile, neighbor, base)
+		var depth := face_depth(tile, neighbor, base, level)
 		if depth < 0.1:
 			continue
 		var corners := PackedVector2Array([Vector2(-35, 0), Vector2(0, 17.5), Vector2(0, 17.5 + depth), Vector2(-35, depth)]) if side == "left" else PackedVector2Array([Vector2(0, 17.5), Vector2(35, 0), Vector2(35, depth), Vector2(0, 17.5 + depth)])
-		p.poly(corners, "#9b9b79" if side == "left" else "#7c886f")
+		var wall_clip := _slot_wall_clip(tile, slots, side) if native else clip
+		_floor_poly(p, corners, "#9b9b79" if side == "left" else "#7c886f", wall_clip)
 		var id: String = "wall-" + str(side) if chapter == "cave" else "masonry-" + chapter
 		var texture: Texture2D = p.images.get(id)
 		if texture != null:
@@ -59,8 +76,8 @@ static func floor_tile(p: GardenPaint, view: Variant, tile: Dictionary, tiles: A
 			var uvs := PackedVector2Array([Vector2(u, v), Vector2(u + 70, v), Vector2(u + 70, v + depth), Vector2(u, v + depth)]) if side == "left" else PackedVector2Array([Vector2(u, v), Vector2(u + 70, v), Vector2(u + 70, v + depth), Vector2(u, v + depth)])
 			for index in range(uvs.size()):
 				uvs[index] /= Vector2(tw, th)
-			p.textured_poly(corners, id, uvs)
-		p.poly(corners, p.linear(Rect2(-35, 0, 70, depth), ["#76a9a82a" if chapter == "pond" else "#b4b89415", "#334d413a"]))
+			_floor_texture(p, corners, id, uvs, wall_clip)
+		_floor_poly(p, corners, p.linear(Rect2(-35, 0, 70, depth), ["#76a9a82a" if chapter == "pond" else "#b4b89415", "#334d413a"]), wall_clip)
 		var seed := absi(int(float(tile.x) * 19 + float(tile.z) * 31 + (3 if side == "left" else 0)))
 		if chapter == "valley" and seed % 3 == 0 and depth > 25:
 			var vx := -19.6 if side == "left" else 16.1
@@ -70,10 +87,18 @@ static func floor_tile(p: GardenPaint, view: Variant, tile: Dictionary, tiles: A
 			if vine != null:
 				var width := minf(24, length * vine.get_width() / float(vine.get_height()))
 				p.image("trailing-vine", vx, 8.05, width, 0)
+	if native:
+		p.target.surface("ground", float(tile.h))
+	var top_clip := clip
+	if not slots.is_empty():
+		var holes: Array = []
+		for entry in slots:
+			holes.append(_tile_local_polygon(tile, StairSurface.slot_top(entry)))
+		top_clip = {"holes": holes}
 	var diamond := PackedVector2Array([Vector2(0, -17.5), Vector2(35, 0), Vector2(0, 17.5), Vector2(-35, 0)])
-	p.poly(diamond, "#aec0af" if chapter == "pond" else "#cec8a4")
-	p.textured_poly(diamond, surface(level, tile), PackedVector2Array([Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1)]))
-	p.poly(diamond, "#ffffff00", "#efe4c06b")
+	_floor_poly(p, diamond, "#aec0af" if chapter == "pond" else "#cec8a4", top_clip)
+	_floor_texture(p, diamond, surface(level, tile), PackedVector2Array([Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1)]), top_clip)
+	_floor_poly(p, diamond, "#ffffff00", top_clip, "#efe4c06b")
 	if chapter == "pond":
 		if kind == "water":
 			p.poly(diamond, "#8dc2c6d9")
@@ -96,20 +121,211 @@ static func floor_tile(p: GardenPaint, view: Variant, tile: Dictionary, tiles: A
 		p.poly(diamond, "#b8d6ed45" if int(state.get("mode", 0)) else "#ffe1a045", "#eee7ae")
 	if kind == "module":
 		p.poly(diamond, "#d8d7b515", "#e9e0b18a")
+	for entry in slots:
+		_slot_inner_walls(p, tile, entry, level)
 	p.pop()
 
-static func terrain_steps(p: GardenPaint, view: Variant, pair: Array) -> void:
-	var low: Dictionary = pair[0]
-	var high: Dictionary = pair[1]
+static func _tile_local_polygon(tile: Dictionary, world_points: Array) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	var origin := GardenIsoProjection.raw(tile)
+	for point in world_points:
+		result.append(GardenIsoProjection.raw(point) - origin)
+	return result
+
+## Describe only the upper strip removed by the architectural passage. The
+## original full-depth masonry below each strip remains in the same plane.
+static func _slot_sections(entry: Dictionary) -> Array:
+	var result: Array = []
+	if str(entry.style) == "ramp":
+		result.append({"from": StairSurface.SLOT_START, "to": float(entry.run_end), "h0": float(StairSurface.contact(entry, StairSurface.SLOT_START).ground), "h1": float(entry.high.h)})
+	else:
+		for index in range(int(entry.treads)):
+			var front := maxf(StairSurface.SLOT_START, float(entry.run_start) + index * float(entry.step_run))
+			var back := minf(float(entry.run_end), float(entry.run_start) + (index + 1) * float(entry.step_run))
+			var height := lerpf(float(entry.low.h), float(entry.high.h), (index + 1.0) / float(entry.treads))
+			if back > front + 0.000001 and height < float(entry.high.h) - 0.000001:
+				result.append({"from": front, "to": back, "h0": height, "h1": height})
+	return result
+
+static func _slot_wall_clip(tile: Dictionary, slots: Array, side: String) -> Dictionary:
+	var holes: Array = []
+	var normal := Vector2(0, 1) if side == "left" else Vector2(1, 0)
+	for entry in slots:
+		var direction: Vector2 = entry.direction
+		var transverse := Vector2(-direction.y, direction.x)
+		if normal.dot(transverse) > 0.99:
+			for section in _slot_sections(entry):
+				holes.append(_tile_local_polygon(tile, [
+					StairSurface.point_at(entry, section.from, StairSurface.SLOT_NEAR_SIDE, float(entry.high.h)),
+					StairSurface.point_at(entry, section.to, StairSurface.SLOT_NEAR_SIDE, float(entry.high.h)),
+					StairSurface.point_at(entry, section.to, StairSurface.SLOT_NEAR_SIDE, section.h1),
+					StairSurface.point_at(entry, section.from, StairSurface.SLOT_NEAR_SIDE, section.h0)]))
+		if normal.dot(-direction) > 0.99:
+			var floor_height := float(StairSurface.contact(entry, StairSurface.SLOT_START).ground)
+			holes.append(_tile_local_polygon(tile, [
+				StairSurface.point_at(entry, StairSurface.SLOT_START, StairSurface.SLOT_FAR_SIDE, float(entry.high.h)),
+				StairSurface.point_at(entry, StairSurface.SLOT_START, StairSurface.SLOT_NEAR_SIDE, float(entry.high.h)),
+				StairSurface.point_at(entry, StairSurface.SLOT_START, StairSurface.SLOT_NEAR_SIDE, floor_height),
+				StairSurface.point_at(entry, StairSurface.SLOT_START, StairSurface.SLOT_FAR_SIDE, floor_height)]))
+	return {"holes": holes} if not holes.is_empty() else {}
+
+static func _slot_inner_walls(p: GardenPaint, tile: Dictionary, entry: Dictionary, level: Dictionary) -> void:
+	var direction: Vector2 = entry.direction
+	var transverse := Vector2(-direction.y, direction.x)
+	var plane := "x" if absf(transverse.x) > 0.5 else "z"
+	var origin := StairSurface.point_at(entry, 0.0, StairSurface.SLOT_FAR_SIDE, 0.0)
+	p.target.surface(plane, float(origin.x) if plane == "x" else float(origin.z))
+	for section in _slot_sections(entry):
+		var points := [
+			StairSurface.point_at(entry, section.from, StairSurface.SLOT_FAR_SIDE, float(entry.high.h)),
+			StairSurface.point_at(entry, section.to, StairSurface.SLOT_FAR_SIDE, float(entry.high.h)),
+			StairSurface.point_at(entry, section.to, StairSurface.SLOT_FAR_SIDE, section.h1),
+			StairSurface.point_at(entry, section.from, StairSurface.SLOT_FAR_SIDE, section.h0)]
+		var polygon := _tile_local_polygon(tile, points)
+		p.poly(polygon, "#7c886f" if plane == "x" else "#9b9b79")
+		var texture_id := "masonry-" + str(level.get("chapter", "valley"))
+		var texture: Texture2D = p.images.get(texture_id)
+		if texture != null:
+			var uvs := PackedVector2Array()
+			for point in points:
+				uvs.append(Vector2((-float(point.z) if plane == "x" else float(point.x)) * 70.0 + 35.0, -float(point.h) * 48.0) / Vector2(texture.get_width(), texture.get_height()))
+			p.textured_poly(polygon, texture_id, uvs)
+		p.line([polygon[0], polygon[1]], "#efe4c06b", 0.7)
+
+static func _floor_parts(points: PackedVector2Array, clip: Dictionary) -> Array:
+	if clip.has("holes"):
+		var parts: Array = [points]
+		for hole: PackedVector2Array in clip.holes:
+			var remainder: Array = []
+			for part: PackedVector2Array in parts:
+				remainder.append_array(Geometry2D.clip_polygons(part, hole))
+			parts = remainder
+		return parts
+	if clip.is_empty() or clip.get("polygon", PackedVector2Array()).size() < 3:
+		return [points]
+	var mask: PackedVector2Array = clip.polygon
+	return Geometry2D.intersect_polygons(points, mask) if clip.get("inside", true) else Geometry2D.clip_polygons(points, mask)
+
+static func _floor_poly(p: GardenPaint, points: PackedVector2Array, fill: Variant, clip: Dictionary, stroke: Variant = null, width := 0.7) -> void:
+	if clip.is_empty():
+		p.poly(points, fill, stroke, width)
+		return
+	if fill is Dictionary:
+		for part in _floor_gradient_pieces(points, fill, clip):
+			var transformed := PackedVector2Array()
+			for point in part.polygon:
+				transformed.append(p.matrix * point)
+			p.target.draw_polygon(transformed, PackedColorArray([Color(1.0, 1.0, 1.0, p.alpha)]), part.uvs, fill.texture)
+	else:
+		for part in _floor_parts(points, clip):
+			p.poly(part, fill)
+	if stroke != null:
+		for index in range(points.size()):
+			_floor_edge(p, points[index], points[(index + 1) % points.size()], stroke, width, clip)
+
+## GardenPaint.poly clamps gradient UVs at the original corners. On slanted
+## walls those four UVs are not one affine plane (the lower front corner lies
+## below bounds.end). Clip each original triangle with its own UV plane rather
+## than recomputing/clamping UVs at new vertices and recoloring the entire wall.
+static func _floor_gradient_pieces(points: PackedVector2Array, fill: Dictionary, clip: Dictionary) -> Array:
+	var source_uvs := PackedVector2Array()
+	var bounds: Rect2 = fill.bounds
+	for point in points:
+		var uv := (point - bounds.position) / bounds.size
+		source_uvs.append(Vector2(clampf(uv.x, 0.0, 1.0), clampf(uv.y, 0.0, 1.0)))
+	var indices := Geometry2D.triangulate_polygon(points)
+	var result: Array = []
+	for offset in range(0, indices.size(), 3):
+		var triangle := PackedVector2Array([points[indices[offset]], points[indices[offset + 1]], points[indices[offset + 2]]])
+		var uvs := PackedVector2Array([source_uvs[indices[offset]], source_uvs[indices[offset + 1]], source_uvs[indices[offset + 2]]])
+		var inverse := Transform2D(triangle[1] - triangle[0], triangle[2] - triangle[0], triangle[0]).affine_inverse()
+		for polygon: PackedVector2Array in _floor_parts(triangle, clip):
+			var mapped := PackedVector2Array()
+			for point in polygon:
+				var coordinates := inverse * point
+				mapped.append(uvs[0] + (uvs[1] - uvs[0]) * coordinates.x + (uvs[2] - uvs[0]) * coordinates.y)
+			result.append({"polygon": polygon, "uvs": mapped})
+	return result
+
+static func _floor_texture(p: GardenPaint, points: PackedVector2Array, id: String, uvs: PackedVector2Array, clip: Dictionary) -> void:
+	if clip.is_empty():
+		p.textured_poly(points, id, uvs)
+		return
+	# All source floor faces are affine quads. Evaluate their original UV plane
+	# at clipped vertices, so a split never stretches or restarts masonry tiles.
+	var inverse := Transform2D(points[1] - points[0], points[2] - points[0], points[0]).affine_inverse()
+	for part: PackedVector2Array in _floor_parts(points, clip):
+		var mapped := PackedVector2Array()
+		for point in part:
+			var coordinates := inverse * point
+			mapped.append(uvs[0] + (uvs[1] - uvs[0]) * coordinates.x + (uvs[2] - uvs[0]) * coordinates.y)
+		p.textured_poly(part, id, mapped)
+
+## Retain only portions of the original outer edge. Polygon clipping edges
+## receive no outline, so inside/outside passes do not draw a new cut seam.
+static func _floor_edge(p: GardenPaint, first: Vector2, last: Vector2, color: Variant, width: float, clip: Dictionary) -> void:
+	var mask: PackedVector2Array = clip.get("polygon", PackedVector2Array())
+	var masks: Array = clip.get("holes", [mask] if mask.size() >= 3 else [])
+	if masks.is_empty():
+		p.line([first, last], color, width)
+		return
+	var direction := last - first
+	if direction.length_squared() < 0.000001:
+		return
+	var cuts: Array[float] = [0.0, 1.0]
+	for polygon: PackedVector2Array in masks:
+		for index in range(polygon.size()):
+			var hit: Variant = Geometry2D.segment_intersects_segment(first, last, polygon[index], polygon[(index + 1) % polygon.size()])
+			if hit is Vector2:
+				cuts.append(clampf((hit - first).dot(direction) / direction.length_squared(), 0.0, 1.0))
+	cuts.sort()
+	for index in range(cuts.size() - 1):
+		if cuts[index + 1] - cuts[index] < 0.000001:
+			continue
+		var midpoint := first + direction * ((cuts[index] + cuts[index + 1]) * 0.5)
+		var inside := false
+		for polygon: PackedVector2Array in masks:
+			inside = inside or Geometry2D.is_point_in_polygon(midpoint, polygon)
+		if inside == (false if clip.has("holes") else bool(clip.get("inside", true))):
+			p.line([first + direction * cuts[index], first + direction * cuts[index + 1]], color, width)
+
+static func terrain_steps(p: GardenPaint, view: Variant, pair: Array, surface: Dictionary = {}) -> void:
+	var low: Dictionary = pair[0] if surface.is_empty() else surface.low
+	var high: Dictionary = pair[1] if surface.is_empty() else surface.high
 	var direction := Vector2(float(high.x) - float(low.x), float(high.z) - float(low.z))
-	for index in range(4):
+	var native: bool = p.target.has_method("surface")
+	if native and not surface.is_empty() and str(surface.style) == "ramp":
+		if not p.target.has_method("ramp"):
+			push_error("Native stone slopes require a ramp(surface) paint target")
+			return
+		p.target.ramp(surface)
+		var points := PackedVector2Array()
+		for point in StairSurface.ramp_corners(surface):
+			points.append(view.project(point))
+		p.poly(points, "#d4d0b3", "#f8ebc594", 0.7 * view.scale_factor)
+		p.textured_poly(points, "paving-valley", PackedVector2Array([Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1)]))
+		return
+	var count := 4 if surface.is_empty() else int(surface.treads)
+	for index in range(count):
 		var corners := PackedVector2Array()
-		var height := lerpf(float(low.h), float(high.h), (index + 1) / 4.0)
-		for side in [Vector2(-0.29, index / 4.0 * 0.8), Vector2(0.29, index / 4.0 * 0.8), Vector2(0.29, (index + 1) / 4.0 * 0.8), Vector2(-0.29, (index + 1) / 4.0 * 0.8)]:
-			corners.append(view.project({"x": float(low.x) + direction.x * (0.1 + side.y) - direction.y * side.x, "z": float(low.z) + direction.y * (0.1 + side.y) + direction.x * side.x, "h": height}))
-		var drop: float = (float(high.h) - float(low.h)) / 4.0 * 48.0 * view.scale_factor
+		var height := lerpf(float(low.h), float(high.h), (index + 1.0) / count)
+		if surface.is_empty():
+			for side in [Vector2(-0.29, index / 4.0 * 0.8), Vector2(0.29, index / 4.0 * 0.8), Vector2(0.29, (index + 1) / 4.0 * 0.8), Vector2(-0.29, (index + 1) / 4.0 * 0.8)]:
+				corners.append(view.project({"x": float(low.x) + direction.x * (0.1 + side.y) - direction.y * side.x, "z": float(low.z) + direction.y * (0.1 + side.y) + direction.x * side.x, "h": height}))
+		else:
+			for point in StairSurface.corners(surface, index):
+				corners.append(view.project(point))
+		var drop: float = (float(high.h) - float(low.h)) / count * 48.0 * view.scale_factor
+		if native:
+			var front := 0.1 + index / 4.0 * 0.8 if surface.is_empty() else float(surface.run_start) + index * float(surface.step_run)
+			p.target.surface("x" if absf(direction.x) > 0.5 else "z", float(low.x) + direction.x * front if absf(direction.x) > 0.5 else float(low.z) + direction.y * front)
 		p.poly([corners[0], corners[1], corners[1] + Vector2(0, drop), corners[0] + Vector2(0, drop)], "#9b9f82")
-		p.poly(corners, "#ddd6b9" if index % 2 else "#cbcbb0", "#f8ebc594", 0.7 * view.scale_factor)
+		if native:
+			p.target.surface("ground", height)
+		var stripe := index if surface.is_empty() else index / 2
+		p.poly(corners, "#ddd6b9" if stripe % 2 else "#cbcbb0", "#f8ebc594", 0.7 * view.scale_factor)
+		if native:
+			p.textured_poly(corners, "paving-moss", PackedVector2Array([Vector2(0, index / float(count)), Vector2(1, index / float(count)), Vector2(1, (index + 1.0) / count), Vector2(0, (index + 1.0) / count)]), 0.58)
 
 static func scenery(level: Dictionary) -> Array:
 	var chapter: String = level.get("chapter", "valley")

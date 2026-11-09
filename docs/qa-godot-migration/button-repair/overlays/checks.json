@@ -1,0 +1,667 @@
+{
+  "passed": false,
+  "date": "2026-11-06T03:48:14.894Z",
+  "base": "http://localhost:4186/",
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "webMode": "debug",
+    "source": {
+      "sha256": "ee70c4d2dd55081d771f89fed079f0be821fa42db8c7e6f13067e942e404f721",
+      "files": 330
+    },
+    "initialSource": {
+      "sha256": "ee70c4d2dd55081d771f89fed079f0be821fa42db8c7e6f13067e942e404f721",
+      "files": 330
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      },
+      {
+        "name": "Windows",
+        "code": 0
+      }
+    ]
+  },
+  "phase": "overlays",
+  "sizes": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 568,
+      "height": 320
+    }
+  ],
+  "inputs": [
+    "mouse",
+    "touch"
+  ],
+  "caseFilter": [],
+  "fatal": null,
+  "summary": {
+    "executed": 84,
+    "passed": 67,
+    "failed": 12,
+    "uncovered": 5
+  },
+  "failed": [
+    {
+      "name": "map-first-settings-nondefault",
+      "row": "1280x720-mouse-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    },
+    {
+      "name": "save-export-invalid-valid-duplicate-import",
+      "row": "1280x720-mouse-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    },
+    {
+      "name": "map-first-settings-nondefault",
+      "row": "1280x720-touch-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    },
+    {
+      "name": "save-export-invalid-valid-duplicate-import",
+      "row": "1280x720-touch-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    },
+    {
+      "name": "map-first-settings-nondefault",
+      "row": "390x844-mouse-overlays",
+      "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded."
+    },
+    {
+      "name": "save-export-invalid-valid-duplicate-import",
+      "row": "390x844-mouse-overlays",
+      "reason": "AssertionError [ERR_ASSERTION]: Invalid JSON displays its actual rejection status"
+    },
+    {
+      "name": "map-first-settings-nondefault",
+      "row": "390x844-touch-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    },
+    {
+      "name": "save-export-invalid-valid-duplicate-import",
+      "row": "390x844-touch-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    },
+    {
+      "name": "map-first-settings-nondefault",
+      "row": "568x320-mouse-overlays",
+      "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded."
+    },
+    {
+      "name": "save-export-invalid-valid-duplicate-import",
+      "row": "568x320-mouse-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    },
+    {
+      "name": "map-first-settings-nondefault",
+      "row": "568x320-touch-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    },
+    {
+      "name": "save-export-invalid-valid-duplicate-import",
+      "row": "568x320-touch-overlays",
+      "reason": "Error: Button disabled: \"确认导入\"; "
+    }
+  ],
+  "uncovered": [
+    {
+      "name": "settings-three-sliders",
+      "row": "1280x720-mouse-overlays",
+      "reason": "Error: Read-only HSlider geometry/value metadata is not exposed"
+    },
+    {
+      "name": "settings-three-sliders",
+      "row": "1280x720-touch-overlays",
+      "reason": "Error: Read-only HSlider geometry/value metadata is not exposed"
+    },
+    {
+      "name": "settings-three-sliders",
+      "row": "390x844-touch-overlays",
+      "reason": "Error: Read-only HSlider geometry/value metadata is not exposed"
+    },
+    {
+      "name": "settings-three-sliders",
+      "row": "568x320-mouse-overlays",
+      "reason": "Error: Read-only HSlider geometry/value metadata is not exposed"
+    },
+    {
+      "name": "settings-three-sliders",
+      "row": "568x320-touch-overlays",
+      "reason": "Error: Read-only HSlider geometry/value metadata is not exposed"
+    }
+  ],
+  "errors": [],
+  "rows": [
+    {
+      "row": "1280x720-mouse-overlays",
+      "phase": "overlays",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "input": "mouse",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "map-open-select-level",
+          "status": "passed",
+          "elapsedMs": 699
+        },
+        {
+          "name": "map-first-settings-nondefault",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 4911
+        },
+        {
+          "name": "settings-toggle-低动态",
+          "status": "passed",
+          "elapsedMs": 1088
+        },
+        {
+          "name": "settings-toggle-柔和光效",
+          "status": "passed",
+          "elapsedMs": 817
+        },
+        {
+          "name": "settings-toggle-环境粒子",
+          "status": "passed",
+          "elapsedMs": 1125
+        },
+        {
+          "name": "settings-toggle-按住方向键连续行走",
+          "status": "passed",
+          "elapsedMs": 1566
+        },
+        {
+          "name": "settings-toggle-镜头避开界面面板",
+          "status": "passed",
+          "elapsedMs": 1105
+        },
+        {
+          "name": "settings-three-sliders",
+          "status": "uncovered",
+          "reason": "Error: Read-only HSlider geometry/value metadata is not exposed",
+          "elapsedMs": 515
+        },
+        {
+          "name": "ending-stay",
+          "status": "passed",
+          "elapsedMs": 1149
+        },
+        {
+          "name": "ending-next",
+          "status": "passed",
+          "elapsedMs": 1232
+        },
+        {
+          "name": "ending-return-map",
+          "status": "passed",
+          "elapsedMs": 1912
+        },
+        {
+          "name": "journal-review-and-return",
+          "status": "passed",
+          "elapsedMs": 1643
+        },
+        {
+          "name": "gallery-categories-story-back",
+          "status": "passed",
+          "elapsedMs": 4271
+        },
+        {
+          "name": "save-export-invalid-valid-duplicate-import",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 9715
+        }
+      ]
+    },
+    {
+      "row": "1280x720-touch-overlays",
+      "phase": "overlays",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "input": "touch",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "map-open-select-level",
+          "status": "passed",
+          "elapsedMs": 368
+        },
+        {
+          "name": "map-first-settings-nondefault",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 3498
+        },
+        {
+          "name": "settings-toggle-低动态",
+          "status": "passed",
+          "elapsedMs": 1660
+        },
+        {
+          "name": "settings-toggle-柔和光效",
+          "status": "passed",
+          "elapsedMs": 1455
+        },
+        {
+          "name": "settings-toggle-环境粒子",
+          "status": "passed",
+          "elapsedMs": 988
+        },
+        {
+          "name": "settings-toggle-按住方向键连续行走",
+          "status": "passed",
+          "elapsedMs": 1597
+        },
+        {
+          "name": "settings-toggle-镜头避开界面面板",
+          "status": "passed",
+          "elapsedMs": 1409
+        },
+        {
+          "name": "settings-three-sliders",
+          "status": "uncovered",
+          "reason": "Error: Read-only HSlider geometry/value metadata is not exposed",
+          "elapsedMs": 583
+        },
+        {
+          "name": "ending-stay",
+          "status": "passed",
+          "elapsedMs": 1648
+        },
+        {
+          "name": "ending-next",
+          "status": "passed",
+          "elapsedMs": 1288
+        },
+        {
+          "name": "ending-return-map",
+          "status": "passed",
+          "elapsedMs": 2676
+        },
+        {
+          "name": "journal-review-and-return",
+          "status": "passed",
+          "elapsedMs": 1937
+        },
+        {
+          "name": "gallery-categories-story-back",
+          "status": "passed",
+          "elapsedMs": 5560
+        },
+        {
+          "name": "save-export-invalid-valid-duplicate-import",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 14652
+        }
+      ]
+    },
+    {
+      "row": "390x844-mouse-overlays",
+      "phase": "overlays",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "input": "mouse",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "map-open-select-level",
+          "status": "passed",
+          "elapsedMs": 311
+        },
+        {
+          "name": "map-first-settings-nondefault",
+          "status": "failed",
+          "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded.",
+          "elapsedMs": 13254
+        },
+        {
+          "name": "settings-toggle-低动态",
+          "status": "passed",
+          "elapsedMs": 1392
+        },
+        {
+          "name": "settings-toggle-柔和光效",
+          "status": "passed",
+          "elapsedMs": 669
+        },
+        {
+          "name": "settings-toggle-环境粒子",
+          "status": "passed",
+          "elapsedMs": 1124
+        },
+        {
+          "name": "settings-toggle-按住方向键连续行走",
+          "status": "passed",
+          "elapsedMs": 834
+        },
+        {
+          "name": "settings-toggle-镜头避开界面面板",
+          "status": "passed",
+          "elapsedMs": 755
+        },
+        {
+          "name": "settings-three-sliders",
+          "status": "passed",
+          "elapsedMs": 1880
+        },
+        {
+          "name": "ending-stay",
+          "status": "passed",
+          "elapsedMs": 547
+        },
+        {
+          "name": "ending-next",
+          "status": "passed",
+          "elapsedMs": 269
+        },
+        {
+          "name": "ending-return-map",
+          "status": "passed",
+          "elapsedMs": 798
+        },
+        {
+          "name": "journal-review-and-return",
+          "status": "passed",
+          "elapsedMs": 733
+        },
+        {
+          "name": "gallery-categories-story-back",
+          "status": "passed",
+          "elapsedMs": 3681
+        },
+        {
+          "name": "save-export-invalid-valid-duplicate-import",
+          "status": "failed",
+          "reason": "AssertionError [ERR_ASSERTION]: Invalid JSON displays its actual rejection status",
+          "elapsedMs": 1885
+        }
+      ]
+    },
+    {
+      "row": "390x844-touch-overlays",
+      "phase": "overlays",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "input": "touch",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "map-open-select-level",
+          "status": "passed",
+          "elapsedMs": 358
+        },
+        {
+          "name": "map-first-settings-nondefault",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 3388
+        },
+        {
+          "name": "settings-toggle-低动态",
+          "status": "passed",
+          "elapsedMs": 1346
+        },
+        {
+          "name": "settings-toggle-柔和光效",
+          "status": "passed",
+          "elapsedMs": 1444
+        },
+        {
+          "name": "settings-toggle-环境粒子",
+          "status": "passed",
+          "elapsedMs": 943
+        },
+        {
+          "name": "settings-toggle-按住方向键连续行走",
+          "status": "passed",
+          "elapsedMs": 908
+        },
+        {
+          "name": "settings-toggle-镜头避开界面面板",
+          "status": "passed",
+          "elapsedMs": 1052
+        },
+        {
+          "name": "settings-three-sliders",
+          "status": "uncovered",
+          "reason": "Error: Read-only HSlider geometry/value metadata is not exposed",
+          "elapsedMs": 557
+        },
+        {
+          "name": "ending-stay",
+          "status": "passed",
+          "elapsedMs": 1439
+        },
+        {
+          "name": "ending-next",
+          "status": "passed",
+          "elapsedMs": 1480
+        },
+        {
+          "name": "ending-return-map",
+          "status": "passed",
+          "elapsedMs": 1983
+        },
+        {
+          "name": "journal-review-and-return",
+          "status": "passed",
+          "elapsedMs": 2037
+        },
+        {
+          "name": "gallery-categories-story-back",
+          "status": "passed",
+          "elapsedMs": 4170
+        },
+        {
+          "name": "save-export-invalid-valid-duplicate-import",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 8866
+        }
+      ]
+    },
+    {
+      "row": "568x320-mouse-overlays",
+      "phase": "overlays",
+      "viewport": {
+        "width": 568,
+        "height": 320
+      },
+      "input": "mouse",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "map-open-select-level",
+          "status": "passed",
+          "elapsedMs": 408
+        },
+        {
+          "name": "map-first-settings-nondefault",
+          "status": "failed",
+          "reason": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded.",
+          "elapsedMs": 15489
+        },
+        {
+          "name": "settings-toggle-低动态",
+          "status": "passed",
+          "elapsedMs": 1117
+        },
+        {
+          "name": "settings-toggle-柔和光效",
+          "status": "passed",
+          "elapsedMs": 1249
+        },
+        {
+          "name": "settings-toggle-环境粒子",
+          "status": "passed",
+          "elapsedMs": 1607
+        },
+        {
+          "name": "settings-toggle-按住方向键连续行走",
+          "status": "passed",
+          "elapsedMs": 1608
+        },
+        {
+          "name": "settings-toggle-镜头避开界面面板",
+          "status": "passed",
+          "elapsedMs": 795
+        },
+        {
+          "name": "settings-three-sliders",
+          "status": "uncovered",
+          "reason": "Error: Read-only HSlider geometry/value metadata is not exposed",
+          "elapsedMs": 383
+        },
+        {
+          "name": "ending-stay",
+          "status": "passed",
+          "elapsedMs": 666
+        },
+        {
+          "name": "ending-next",
+          "status": "passed",
+          "elapsedMs": 396
+        },
+        {
+          "name": "ending-return-map",
+          "status": "passed",
+          "elapsedMs": 1813
+        },
+        {
+          "name": "journal-review-and-return",
+          "status": "passed",
+          "elapsedMs": 2400
+        },
+        {
+          "name": "gallery-categories-story-back",
+          "status": "passed",
+          "elapsedMs": 4117
+        },
+        {
+          "name": "save-export-invalid-valid-duplicate-import",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 13666
+        }
+      ]
+    },
+    {
+      "row": "568x320-touch-overlays",
+      "phase": "overlays",
+      "viewport": {
+        "width": 568,
+        "height": 320
+      },
+      "input": "touch",
+      "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed.",
+      "results": [
+        {
+          "name": "map-open-select-level",
+          "status": "passed",
+          "elapsedMs": 384
+        },
+        {
+          "name": "map-first-settings-nondefault",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 4902
+        },
+        {
+          "name": "settings-toggle-低动态",
+          "status": "passed",
+          "elapsedMs": 1631
+        },
+        {
+          "name": "settings-toggle-柔和光效",
+          "status": "passed",
+          "elapsedMs": 1516
+        },
+        {
+          "name": "settings-toggle-环境粒子",
+          "status": "passed",
+          "elapsedMs": 1846
+        },
+        {
+          "name": "settings-toggle-按住方向键连续行走",
+          "status": "passed",
+          "elapsedMs": 1028
+        },
+        {
+          "name": "settings-toggle-镜头避开界面面板",
+          "status": "passed",
+          "elapsedMs": 1762
+        },
+        {
+          "name": "settings-three-sliders",
+          "status": "uncovered",
+          "reason": "Error: Read-only HSlider geometry/value metadata is not exposed",
+          "elapsedMs": 569
+        },
+        {
+          "name": "ending-stay",
+          "status": "passed",
+          "elapsedMs": 1386
+        },
+        {
+          "name": "ending-next",
+          "status": "passed",
+          "elapsedMs": 1404
+        },
+        {
+          "name": "ending-return-map",
+          "status": "passed",
+          "elapsedMs": 3008
+        },
+        {
+          "name": "journal-review-and-return",
+          "status": "passed",
+          "elapsedMs": 2891
+        },
+        {
+          "name": "gallery-categories-story-back",
+          "status": "passed",
+          "elapsedMs": 5396
+        },
+        {
+          "name": "save-export-invalid-valid-duplicate-import",
+          "status": "failed",
+          "reason": "Error: Button disabled: \"确认导入\"; ",
+          "elapsedMs": 11884
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Fresh isolated storage per viewport/input/phase; fixture snapshots arrange legal states, but actions under test use actual mouse/touch/text input.",
+    "All command families represented by successful fixtures are sampled; this does not claim every parameter, angle, failure branch or level combination.",
+    "Sliders, toggles, text and modal content need read-only QA control metadata. Missing data is recorded as uncovered rather than substituting signal emission or node counts.",
+    "Touch buttons use native touchscreen events, while scrolling long canvas panels uses actual mouse-wheel input; touch swipe/pinch gesture coverage is separate.",
+    "Desktop native file dialogs are outside this Web matrix. A Web download and pasted import are validated when corresponding controls are observable.",
+    "A passing input matrix does not certify artwork, comfort, native-depth correctness or performance."
+  ]
+}

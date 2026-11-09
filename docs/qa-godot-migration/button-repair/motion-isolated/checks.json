@@ -1,0 +1,65 @@
+{
+  "passed": false,
+  "date": "2026-11-06T04:06:42.530Z",
+  "base": "http://localhost:4186/",
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "webMode": "debug",
+    "source": {
+      "sha256": "d44f112f1c4d843f839a6f337d5ae04737f5f7f3991065011d84ad24a3c610c4",
+      "files": 330
+    },
+    "initialSource": {
+      "sha256": "d44f112f1c4d843f839a6f337d5ae04737f5f7f3991065011d84ad24a3c610c4",
+      "files": 330
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      },
+      {
+        "name": "Windows",
+        "code": 0
+      }
+    ]
+  },
+  "caseName": "moving-undo-queues-until-commit",
+  "error": "AssertionError [ERR_ASSERTION]: The real Z key reaches an uncommitted movement",
+  "cases": [
+    {
+      "name": "released-tap-chain",
+      "samples": 16
+    },
+    {
+      "name": "mouse-route-stays-contiguous",
+      "samples": 22
+    },
+    {
+      "name": "default-hold-is-continuous",
+      "samples": 18
+    },
+    {
+      "name": "explicit-single-step-preference",
+      "samples": 12
+    },
+    {
+      "name": "early-tap-expires-during-interaction",
+      "samples": 25
+    },
+    {
+      "name": "interaction-hold-never-repeats",
+      "samples": 24
+    },
+    {
+      "name": "pause-clears-held-and-tap",
+      "samples": 15
+    }
+  ],
+  "errors": [],
+  "errorEvents": 0
+}

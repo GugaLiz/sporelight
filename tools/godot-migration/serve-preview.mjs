@@ -6,10 +6,10 @@ import {fileURLToPath} from 'node:url';
 const projectRoot=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const option=(key,fallback)=>process.argv.find(value=>value.startsWith('--'+key+'='))?.slice(key.length+3)??fallback;
 const variant=option('variant',process.env.GODOT_PREVIEW_VARIANT??'web');
-if(!['web','web-release'].includes(variant))throw Error('Unknown preview variant');
+if(!/^[a-z][a-z0-9-]{0,48}$/.test(variant))throw Error('Invalid preview variant');
 const directory=resolve(projectRoot,'godot/build',variant);
 const port=Number(option('port',process.env.GODOT_PREVIEW_PORT??4185));
-const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.wasm':'application/wasm','.pck':'application/octet-stream','.png':'image/png','.svg':'image/svg+xml','.ico':'image/x-icon'};
+const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.wasm':'application/wasm','.pck':'application/octet-stream','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.ico':'image/x-icon'};
 const server=http.createServer(async(request,response)=>{
  try{
   const url=new URL(request.url??'/', 'http://localhost');

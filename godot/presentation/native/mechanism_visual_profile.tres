@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://presentation/native/mechanism_visual_profile.gd" id="1_profile"]
+
+[resource]
+script = ExtResource("1_profile")
+water_routes = {
+"3-4": [{"turns": {"water": 1}, "anchors": ["m:water:0:0", "m:lift:0:0"], "style": "water_transfer"}, {"turns": {"water": 1, "inner": 1}, "anchors": ["m:lift:0:0", "m:inner:0:0", "f:0:-4"], "style": "water_transfer"}]
+}

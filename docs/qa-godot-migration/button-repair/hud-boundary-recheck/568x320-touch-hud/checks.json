@@ -1,0 +1,743 @@
+{
+  "row": "568x320-touch-hud",
+  "phase": "hud",
+  "viewport": {
+    "width": 568,
+    "height": 320
+  },
+  "input": "touch",
+  "results": [
+    {
+      "name": "jump-real-motion",
+      "status": "passed",
+      "details": {
+        "result": "a real blocked right-direction attempt establishes stationary jump semantics independently of earlier cases",
+        "started": {
+          "moving": true,
+          "revision": 0,
+          "kind": "jump",
+          "before": {
+            "active": "luvie",
+            "actors": {
+              "buddy": "f:0:0",
+              "luvie": "f:0:0"
+            },
+            "beat": 0,
+            "collected": [],
+            "completed": false,
+            "designVersion": 2,
+            "discovered": [],
+            "flags": [],
+            "follow": true,
+            "frozen": null,
+            "growth": {
+              "root": []
+            },
+            "items": {},
+            "levelId": "1-1",
+            "mode": 0,
+            "observations": [],
+            "playing": false,
+            "song": [
+              "turn",
+              "rise",
+              "rest"
+            ],
+            "turns": {},
+            "water": 0
+          },
+          "after": {
+            "active": "luvie",
+            "actors": {
+              "buddy": "f:0:0",
+              "luvie": "f:0:0"
+            },
+            "beat": 0,
+            "collected": [],
+            "completed": false,
+            "designVersion": 2,
+            "discovered": [],
+            "flags": [],
+            "follow": true,
+            "frozen": null,
+            "growth": {
+              "root": []
+            },
+            "items": {},
+            "levelId": "1-1",
+            "mode": 0,
+            "observations": [],
+            "playing": false,
+            "song": [
+              "turn",
+              "rise",
+              "rest"
+            ],
+            "turns": {},
+            "water": 0
+          },
+          "elapsed": 0.0166666666666667
+        }
+      },
+      "elapsedMs": 1140
+    },
+    {
+      "name": "overview-during-motion",
+      "status": "passed",
+      "details": {
+        "result": "small-screen overview responds to a trusted pointer inside the actual 0.78s growth window",
+        "response": {
+          "moving": true,
+          "revision": 0,
+          "overview": true,
+          "snapshot": {
+            "active": "luvie",
+            "actors": {
+              "buddy": "f:0:0",
+              "luvie": "f:0:0"
+            },
+            "beat": 0,
+            "collected": [],
+            "completed": false,
+            "designVersion": 2,
+            "discovered": [],
+            "flags": [],
+            "follow": true,
+            "frozen": null,
+            "growth": {
+              "root": []
+            },
+            "items": {},
+            "levelId": "1-1",
+            "mode": 0,
+            "observations": [],
+            "playing": false,
+            "song": [
+              "turn",
+              "rise",
+              "rest"
+            ],
+            "turns": {},
+            "water": 0
+          },
+          "motion": {
+            "after": {
+              "active": "luvie",
+              "actors": {
+                "buddy": "f:0:0",
+                "luvie": "f:0:0"
+              },
+              "beat": 0,
+              "collected": [],
+              "completed": false,
+              "designVersion": 2,
+              "discovered": [],
+              "flags": [],
+              "follow": true,
+              "frozen": null,
+              "growth": {
+                "root": [
+                  "g:root:1:0"
+                ]
+              },
+              "items": {},
+              "levelId": "1-1",
+              "mode": 0,
+              "observations": [],
+              "playing": false,
+              "song": [
+                "turn",
+                "rise",
+                "rest"
+              ],
+              "turns": {},
+              "water": 0
+            },
+            "before": {
+              "active": "luvie",
+              "actors": {
+                "buddy": "f:0:0",
+                "luvie": "f:0:0"
+              },
+              "beat": 0,
+              "collected": [],
+              "completed": false,
+              "designVersion": 2,
+              "discovered": [],
+              "flags": [],
+              "follow": true,
+              "frozen": null,
+              "growth": {
+                "root": []
+              },
+              "items": {},
+              "levelId": "1-1",
+              "mode": 0,
+              "observations": [],
+              "playing": false,
+              "song": [
+                "turn",
+                "rise",
+                "rest"
+              ],
+              "turns": {},
+              "water": 0
+            },
+            "duration": 0.78,
+            "elapsed": 0.169030555555556,
+            "kind": "grow:root:right"
+          }
+        },
+        "events": [
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "pointerType": "touch",
+            "time": 2843.0049999952316,
+            "target": "canvas",
+            "x": 284,
+            "y": 274.4942626953125,
+            "canvasX": 284,
+            "canvasY": 274.4942626953125,
+            "hits": [
+              {
+                "text": "引芽 → · 余1 · E",
+                "action": "primary",
+                "command_id": "",
+                "disabled": false,
+                "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/JourneyTools/@Control@39/@Button@43"
+              }
+            ],
+            "moving": false,
+            "revision": 0,
+            "qaSequence": 38,
+            "pendingButton": "",
+            "hintVisible": false,
+            "rolling": false,
+            "motion": {}
+          },
+          {
+            "type": "pointerdown",
+            "trusted": true,
+            "pointerType": "touch",
+            "time": 3032.939999997616,
+            "target": "canvas",
+            "x": 397,
+            "y": 32,
+            "canvasX": 397,
+            "canvasY": 32,
+            "hits": [
+              {
+                "text": "全景",
+                "action": "",
+                "command_id": "",
+                "disabled": false,
+                "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+              }
+            ],
+            "moving": true,
+            "revision": 0,
+            "qaSequence": 42,
+            "pendingButton": "",
+            "hintVisible": false,
+            "rolling": false,
+            "motion": {
+              "kind": "grow:root:right",
+              "elapsed": 0.117165,
+              "duration": 0.78
+            }
+          }
+        ]
+      },
+      "elapsedMs": 1398
+    }
+  ],
+  "inventory": [
+    {
+      "case": "jump-real-motion",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 63233328806,
+        "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/DirectionPad/@Button@61",
+        "pressed": false,
+        "text": "→",
+        "tooltip": "向右一格",
+        "visibleRect": [
+          98,
+          150,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 98,
+        "y": 150
+      }
+    },
+    {
+      "case": "jump-real-motion",
+      "input": "touch",
+      "button": {
+        "action": "jump",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 58,
+        "instanceId": 61857597018,
+        "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/JourneyTools/@Control@39/@Button@45",
+        "pressed": false,
+        "text": "跳跃",
+        "tooltip": "跳跃",
+        "visibleRect": [
+          345.692321777344,
+          246,
+          60.7692260742188,
+          58
+        ],
+        "width": 60.7692260742188,
+        "x": 345.692321777344,
+        "y": 246
+      }
+    },
+    {
+      "case": "overview-during-motion",
+      "kind": "timed-button-targets",
+      "input": "touch",
+      "buttons": [
+        {
+          "action": "primary",
+          "class": "Button",
+          "clipped": false,
+          "command_id": "",
+          "disabled": false,
+          "height": 56.9885063171387,
+          "instanceId": 61589161548,
+          "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/JourneyTools/@Control@39/@Button@43",
+          "pressed": false,
+          "text": "引芽 → · 余1 · E",
+          "tooltip": "引芽 → · 余1 · E",
+          "visibleRect": [
+            229.307693481445,
+            246,
+            109.384628295898,
+            56.9885063171387
+          ],
+          "width": 109.384628295898,
+          "x": 229.307693481445,
+          "y": 246
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "clipped": false,
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 63535318712,
+          "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview",
+          "pressed": false,
+          "text": "全景",
+          "tooltip": "查看整片花园 / 回到身边",
+          "visibleRect": [
+            352,
+            10,
+            90,
+            44
+          ],
+          "width": 90,
+          "x": 352,
+          "y": 10
+        }
+      ],
+      "coordinates": [
+        {
+          "x": 284.000007629394,
+          "y": 274.49425315856934
+        },
+        {
+          "x": 397,
+          "y": 32
+        }
+      ]
+    },
+    {
+      "case": "overview-during-motion",
+      "input": "touch",
+      "button": {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 63535318712,
+        "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview",
+        "pressed": true,
+        "text": "跟随",
+        "tooltip": "查看整片花园 / 回到身边",
+        "visibleRect": [
+          352,
+          10,
+          90,
+          44
+        ],
+        "width": 90,
+        "x": 352,
+        "y": 10
+      }
+    },
+    {
+      "case": "overview-during-motion",
+      "kind": "trusted-pointer-events",
+      "events": [
+        {
+          "type": "pointerdown",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 2843.0049999952316,
+          "target": "canvas",
+          "x": 284,
+          "y": 274.4942626953125,
+          "canvasX": 284,
+          "canvasY": 274.4942626953125,
+          "hits": [
+            {
+              "text": "引芽 → · 余1 · E",
+              "action": "primary",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/JourneyTools/@Control@39/@Button@43"
+            }
+          ],
+          "moving": false,
+          "revision": 0,
+          "qaSequence": 38,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {}
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 2843.074999988079,
+          "target": "canvas",
+          "x": 284,
+          "y": 274.4942626953125,
+          "canvasX": 284,
+          "canvasY": 274.4942626953125,
+          "hits": [
+            {
+              "text": "引芽 → · 余1 · E",
+              "action": "primary",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/JourneyTools/@Control@39/@Button@43"
+            }
+          ],
+          "moving": false,
+          "revision": 0,
+          "qaSequence": 38,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {}
+        },
+        {
+          "type": "pointerup",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 2843.2450000047684,
+          "target": "canvas",
+          "x": 284,
+          "y": 274.4942626953125,
+          "canvasX": 284,
+          "canvasY": 274.4942626953125,
+          "hits": [
+            {
+              "text": "引芽 → · 余1 · E",
+              "action": "primary",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/JourneyTools/@Control@39/@Button@43"
+            }
+          ],
+          "moving": false,
+          "revision": 0,
+          "qaSequence": 38,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {}
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 2843.270000040531,
+          "target": "canvas",
+          "x": 284,
+          "y": 274.4942626953125,
+          "canvasX": 284,
+          "canvasY": 274.4942626953125,
+          "hits": [
+            {
+              "text": "引芽 → · 余1 · E",
+              "action": "primary",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/JourneyTools/@Control@39/@Button@43"
+            }
+          ],
+          "moving": false,
+          "revision": 0,
+          "qaSequence": 38,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {}
+        },
+        {
+          "type": "pointerdown",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 3032.939999997616,
+          "target": "canvas",
+          "x": 397,
+          "y": 32,
+          "canvasX": 397,
+          "canvasY": 32,
+          "hits": [
+            {
+              "text": "全景",
+              "action": "",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+            }
+          ],
+          "moving": true,
+          "revision": 0,
+          "qaSequence": 42,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {
+            "kind": "grow:root:right",
+            "elapsed": 0.117165,
+            "duration": 0.78
+          }
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 3033.020000040531,
+          "target": "canvas",
+          "x": 397,
+          "y": 32,
+          "canvasX": 397,
+          "canvasY": 32,
+          "hits": [
+            {
+              "text": "全景",
+              "action": "",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+            }
+          ],
+          "moving": true,
+          "revision": 0,
+          "qaSequence": 42,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {
+            "kind": "grow:root:right",
+            "elapsed": 0.117165,
+            "duration": 0.78
+          }
+        },
+        {
+          "type": "pointerup",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 3033.2150000333786,
+          "target": "canvas",
+          "x": 397,
+          "y": 32,
+          "canvasX": 397,
+          "canvasY": 32,
+          "hits": [
+            {
+              "text": "全景",
+              "action": "",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+            }
+          ],
+          "moving": true,
+          "revision": 0,
+          "qaSequence": 42,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {
+            "kind": "grow:root:right",
+            "elapsed": 0.117165,
+            "duration": 0.78
+          }
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 3033.3050000071526,
+          "target": "canvas",
+          "x": 397,
+          "y": 32,
+          "canvasX": 397,
+          "canvasY": 32,
+          "hits": [
+            {
+              "text": "全景",
+              "action": "",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+            }
+          ],
+          "moving": true,
+          "revision": 0,
+          "qaSequence": 42,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {
+            "kind": "grow:root:right",
+            "elapsed": 0.117165,
+            "duration": 0.78
+          }
+        },
+        {
+          "type": "pointerdown",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 3811.699999988079,
+          "target": "canvas",
+          "x": 397,
+          "y": 32,
+          "canvasX": 397,
+          "canvasY": 32,
+          "hits": [
+            {
+              "text": "跟随",
+              "action": "",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+            }
+          ],
+          "moving": false,
+          "revision": 1,
+          "qaSequence": 57,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {}
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 3811.7549999952316,
+          "target": "canvas",
+          "x": 397,
+          "y": 32,
+          "canvasX": 397,
+          "canvasY": 32,
+          "hits": [
+            {
+              "text": "跟随",
+              "action": "",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+            }
+          ],
+          "moving": false,
+          "revision": 1,
+          "qaSequence": 57,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {}
+        },
+        {
+          "type": "pointerup",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 3811.9800000190735,
+          "target": "canvas",
+          "x": 397,
+          "y": 32,
+          "canvasX": 397,
+          "canvasY": 32,
+          "hits": [
+            {
+              "text": "跟随",
+              "action": "",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+            }
+          ],
+          "moving": false,
+          "revision": 1,
+          "qaSequence": 57,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {}
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "pointerType": "touch",
+          "time": 3812.0049999952316,
+          "target": "canvas",
+          "x": 397,
+          "y": 32,
+          "canvasX": 397,
+          "canvasY": 32,
+          "hits": [
+            {
+              "text": "跟随",
+              "action": "",
+              "command_id": "",
+              "disabled": false,
+              "path": "/root/Sporelight/@CanvasLayer@10/@Control@11/Overview"
+            }
+          ],
+          "moving": false,
+          "revision": 1,
+          "qaSequence": 57,
+          "pendingButton": "",
+          "hintVisible": false,
+          "rolling": false,
+          "motion": {}
+        }
+      ]
+    }
+  ],
+  "scope": "Only executed cases marked passed were verified. Disabled/not-offered controls are explicit expectations; uncovered cases require follow-up and are never reported as all buttons passed."
+}
