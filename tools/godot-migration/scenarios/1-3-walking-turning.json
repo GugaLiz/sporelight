@@ -1,0 +1,490 @@
+{
+  "name": "1-3 continuous walking and repeated carried rotation diagnostic",
+  "requiredViewport": [
+    1280,
+    720
+  ],
+  "requiredDpr": 1,
+  "entryRequirement": "Fresh isolated context with --level 1-3. This is explicit-level diagnosis, not normal-home acceptance. No save edits or QA state restoration.",
+  "evidence": [
+    "godot/tests/fixtures/reference.json authored/1-3 steps 0-4",
+    "godot/application/input_router.gd OFFSETS: right is +x",
+    "godot/application/native_movement.gd SPEED 3.25",
+    "docs/qa-godot-native/full-performance/baseline-1-3/game.png: central handle near CSS(646,403)"
+  ],
+  "validationStatus": "Final 5411b226 baseline screenshot review confirms actual west-island/center corridor displacement in each round, carried garden rotations 0-to-1 and back to0 after four turns, then repeat0-to-1. Undo remains an observed checkpoint operation without assuming history depth. Candidate workload must be reviewed independently.",
+  "phases": [
+    {
+      "name": "idle-initial",
+      "actions": [
+        {
+          "waitMs": 6000
+        }
+      ],
+      "settleMs": 0,
+      "expected": "1-3 western starting island; no overlay; both actors visible."
+    },
+    {
+      "name": "walk-continuous-1",
+      "actions": [
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        }
+      ],
+      "settleMs": 500,
+      "expected": "29 seconds alternating along the west-island to central-garden x corridor, z=0; cross support cells with companion following. End differs from start. Confirm positions from screenshots; reject blocked or stationary workload."
+    },
+    {
+      "name": "walk-continuous-2",
+      "actions": [
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        }
+      ],
+      "settleMs": 500,
+      "expected": "29 seconds alternating along the west-island to central-garden x corridor, z=0; cross support cells with companion following. End differs from start. Confirm positions from screenshots; reject blocked or stationary workload."
+    },
+    {
+      "name": "walk-continuous-3",
+      "actions": [
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        }
+      ],
+      "settleMs": 500,
+      "expected": "29 seconds alternating along the west-island to central-garden x corridor, z=0; cross support cells with companion following. End differs from start. Confirm positions from screenshots; reject blocked or stationary workload."
+    },
+    {
+      "name": "approach-turn-center",
+      "actions": [
+        {
+          "click": [
+            646,
+            403
+          ]
+        }
+      ],
+      "settleMs": 1800,
+      "expected": "Walk to m:garden:0:0 center handle. Center floor coordinate is read from baseline-1-3/game.png at 1280x720 DPR1; final screenshots must confirm it."
+    },
+    {
+      "name": "turn-first",
+      "actions": [
+        {
+          "key": "1"
+        }
+      ],
+      "settleMs": 1800,
+      "expected": "Actual turn:garden, garden 0 to 1; actors carried; northern bank connects."
+    },
+    {
+      "name": "turn-repeat-to-2",
+      "actions": [
+        {
+          "key": "1"
+        }
+      ],
+      "settleMs": 1800,
+      "expected": "Garden orientation 1 to 2, actors carried."
+    },
+    {
+      "name": "turn-repeat-to-3",
+      "actions": [
+        {
+          "key": "1"
+        }
+      ],
+      "settleMs": 1800,
+      "expected": "Garden orientation 2 to 3, actors carried."
+    },
+    {
+      "name": "turn-repeat-to-0",
+      "actions": [
+        {
+          "key": "1"
+        }
+      ],
+      "settleMs": 1800,
+      "expected": "Garden orientation 3 to 0, returning to starting geometry."
+    },
+    {
+      "name": "turn-repeat-same-0-to-1",
+      "actions": [
+        {
+          "key": "1"
+        }
+      ],
+      "settleMs": 1800,
+      "expected": "Repeat identical orientation 0 to 1 transition after full cycle, compare with turn-first."
+    },
+    {
+      "name": "undo-latest-stable-state",
+      "actions": [
+        {
+          "key": "z"
+        }
+      ],
+      "settleMs": 1400,
+      "expected": "Undo latest actual checkpoint. Follower settling may mean this restores pose in same orientation; inspect actual outcome and do not assume it reverses the garden."
+    },
+    {
+      "name": "undo-next-stable-state",
+      "actions": [
+        {
+          "key": "z"
+        }
+      ],
+      "settleMs": 1400,
+      "expected": "Second real undo; inspect actual platform and actor state, without assuming a fixed history depth."
+    },
+    {
+      "name": "idle-after-actions",
+      "actions": [
+        {
+          "waitMs": 6000
+        }
+      ],
+      "settleMs": 0,
+      "expected": "Actors supported and UI responsive after repeated turning/undo."
+    }
+  ]
+}

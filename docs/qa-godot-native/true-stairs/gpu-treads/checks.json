@@ -1,0 +1,152 @@
+{
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "template": {
+      "kind": "official",
+      "target": "debug"
+    },
+    "webMode": "debug",
+    "source": {
+      "sha256": "9796b59d37be59b477680c85b8f1d8dcbc6bb07b2e4556a89fecf624438ac417",
+      "files": 498
+    },
+    "initialSource": {
+      "sha256": "9796b59d37be59b477680c85b8f1d8dcbc6bb07b2e4556a89fecf624438ac417",
+      "files": 498
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      }
+    ],
+    "browserAssets": [
+      {
+        "file": "loader/bg.webp",
+        "bytes": 192922,
+        "sha256": "05e4ef75ac6d923a83ca1f3fb24ae2bdc0da7b3322836b36dd35463d95f401dd"
+      },
+      {
+        "file": "loader/logo.png",
+        "bytes": 246612,
+        "sha256": "09678d4b5e799c076651d939dfc4e365af0364f9445321ae24541087d3e8348e"
+      },
+      {
+        "file": "loader/hero.png",
+        "bytes": 120700,
+        "sha256": "6b91c11811facee09dacac1e2fff8d7532114827d9e069660db99dac70ff6e39"
+      },
+      {
+        "file": "loader/orb.png",
+        "bytes": 9679,
+        "sha256": "4bbc3dbb8e49a38e28366ecf4bc8fd8bed9117db81fd732124b1af5b10228637"
+      }
+    ]
+  },
+  "results": [
+    {
+      "kind": "baseline",
+      "level": "1-1",
+      "command": "",
+      "size": "1280x720",
+      "passed": true,
+      "errors": [],
+      "inputTrace": []
+    },
+    {
+      "kind": "baseline",
+      "level": "1-2",
+      "command": "",
+      "size": "1280x720",
+      "passed": true,
+      "errors": [],
+      "inputTrace": []
+    },
+    {
+      "kind": "stairs",
+      "level": "1-3",
+      "command": "",
+      "size": "1280x720",
+      "passed": false,
+      "orientations": [
+        {
+          "orientation": 0,
+          "crossings": []
+        }
+      ],
+      "reason": "Step 1: missed stationary tread: 0.59843921661377",
+      "errors": [],
+      "inputTrace": [
+        {
+          "kind": "click",
+          "point": [
+            1138.0,
+            34.0
+          ]
+        },
+        {
+          "kind": "click",
+          "point": [
+            1138.0,
+            34.0
+          ]
+        },
+        {
+          "kind": "action",
+          "command": "turn:garden",
+          "input": "keyboard/control"
+        },
+        {
+          "kind": "click",
+          "point": [
+            1138.0,
+            34.0
+          ]
+        },
+        {
+          "kind": "click",
+          "point": [
+            1138.0,
+            34.0
+          ]
+        },
+        {
+          "kind": "world-target",
+          "tile": "m:garden:-2:0",
+          "point": [
+            787.428466796875,
+            347.565948486328
+          ]
+        },
+        {
+          "kind": "click",
+          "point": [
+            787.428466796875,
+            347.565948486328
+          ]
+        },
+        {
+          "kind": "stationary-tread",
+          "key": "ArrowUp",
+          "axis": 2,
+          "target": -2.35,
+          "step": 0
+        },
+        {
+          "kind": "stationary-tread",
+          "key": "ArrowUp",
+          "axis": 2,
+          "target": -2.5,
+          "step": 1
+        }
+      ]
+    }
+  ],
+  "visualReview": "pending",
+  "scope": "Full-frame screenshots and real-input traversal. Automatic pass is not visual acceptance.",
+  "passed": false
+}

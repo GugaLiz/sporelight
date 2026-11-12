@@ -1,0 +1,39 @@
+{
+  "initialSource": {
+    "sha256": "9aad4a0cba4e66d08ea422e1b2dfb3338fe30223c9d5ad12b53cf82a0639c09e",
+    "files": 573
+  },
+  "source": {
+    "sha256": "9aad4a0cba4e66d08ea422e1b2dfb3338fe30223c9d5ad12b53cf82a0639c09e",
+    "files": 573
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_core_click_test",
+      "code": 1,
+      "elapsedMs": 15896,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nROUTE STALL {\"actors\":{\"buddy\":{\"facing\":\"right\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-8.27575302124023,0.65091872215271,0.271052300930023],\"support\":\"f:-8:0\",\"velocity\":[0.0,0.0,0.0]},\"luvie\":{\"facing\":\"right\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-8.06679630279541,0.650308012962341,0.298721253871918],\"support\":\"f:-8:0\",\"velocity\":[0.0,0.0,0.0]}},\"moving\":true,\"path\":[\"f:-8:0\",\"f:-8:1\"],\"stable\":true}\r\nSTALL COLLISION (-8.066254, 1.290269, 0.136323) normal=(0.0, 0.0, 1.0) support=\r\n{\"shiftedCoreLevels\":[\"1-2\",\"1-3\",\"1-4\",\"2-1\",\"2-2\",\"2-3\",\"2-4\",\"3-1\",\"3-2\",\"3-3\",\"3-4\"],\"shiftedCoreStates\":19}\r\n{\"checks\":5561,\"failures\":[\"approach displaced flower physical route settles\",\"walk to a legal support outside the flower base\",\"diagonal approach tile is outside unchanged repair proximity\"],\"gpuPixelsVerified\":false,\"maxBodySurfaceGap\":0.00178712606430054,\"passed\":false,\"samples\":632,\"suite\":\"native-core-click\"}\r\n",
+      "stderr": "ERROR: approach displaced flower physical route settles\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _walk_to (res://tests/native_route_test.gd:107)\r\n       [2] _drain (res://tests/native_route_test.gd:93)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: walk to a legal support outside the flower base\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:17)\r\n       [2] _walk_to (res://tests/native_route_test.gd:114)\r\n       [3] _drain (res://tests/native_route_test.gd:93)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\nERROR: diagonal approach tile is outside unchanged repair proximity\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:18)\r\n       [2] _walk_to (res://tests/native_route_test.gd:114)\r\n       [3] _drain (res://tests/native_route_test.gd:93)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_heavy_lever_test",
+      "code": 1,
+      "elapsedMs": 27872,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nROUTE STALL {\"actors\":{\"buddy\":{\"facing\":\"back\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-7.09107255935669,0.650379300117493,0.267586439847946],\"support\":\"f:-7:0\",\"velocity\":[0.0,0.0,0.0]},\"luvie\":{\"facing\":\"left\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-6.8705883026123,0.649515569210052,-0.00000978546722762985],\"support\":\"f:-7:0\",\"velocity\":[0.0,0.0,0.0]}},\"moving\":true,\"path\":[\"f:-7:0\"],\"stable\":true}\r\nSTALL COLLISION (-7.033677, 1.290182, -0.00001) normal=(1.0, 0.0, 0.0) support=\r\nNATIVE ROUTE {\"completed\":false,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":46,\"success\":false}\r\n{\"checks\":221,\"failures\":[\"1-4/46/move/f:-7:0 physical route settles\",\"1-4 authored route completes with native bodies\"],\"passed\":false,\"routes\":[{\"completed\":false,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":46,\"success\":false}],\"samples\":2336,\"scope\":\"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route\",\"suite\":\"native-heavy-lever\"}\r\n",
+      "stderr": "ERROR: 1-4/46/move/f:-7:0 physical route settles\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _walk_to (res://tests/native_route_test.gd:107)\r\n       [2] _drain (res://tests/native_route_test.gd:93)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: 1-4 authored route completes with native bodies\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _replay (res://tests/native_route_test.gd:164)\r\n       [2] _walk_to (res://tests/native_route_test.gd:114)\r\n       [3] _drain (res://tests/native_route_test.gd:93)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_prop_collision_test",
+      "code": 1,
+      "elapsedMs": 23672,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nROUTE STALL {\"actors\":{\"buddy\":{\"facing\":\"back\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-7.09107875823975,0.65045565366745,0.267579823732376],\"support\":\"f:-7:0\",\"velocity\":[0.0,0.0,0.0]},\"luvie\":{\"facing\":\"left\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-6.87058877944946,0.649515569210052,-0.00000985384758678265],\"support\":\"f:-7:0\",\"velocity\":[0.0,0.0,0.0]}},\"moving\":true,\"path\":[\"f:-7:0\"],\"stable\":true}\r\nSTALL COLLISION (-7.033677, 1.290182, -0.00001) normal=(1.0, 0.0, 0.0) support=\r\nNATIVE ROUTE {\"completed\":false,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":46,\"success\":false}\r\n{\"checks\":188,\"failures\":[\"1-4/46/move/f:-7:0 physical route settles\",\"1-4 authored route completes with native bodies\"],\"passed\":false,\"peakPenetration\":0.0,\"routes\":[{\"completed\":false,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":46,\"success\":false}],\"samples\":2218,\"suite\":\"native-prop-collision\"}\r\n",
+      "stderr": "ERROR: 1-4/46/move/f:-7:0 physical route settles\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _walk_to (res://tests/native_route_test.gd:107)\r\n       [2] _drain (res://tests/native_route_test.gd:93)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: 1-4 authored route completes with native bodies\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _replay (res://tests/native_route_test.gd:164)\r\n       [2] _walk_to (res://tests/native_route_test.gd:114)\r\n       [3] _drain (res://tests/native_route_test.gd:93)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "source": "9796b59d37be59b477680c85b8f1d8dcbc6bb07b2e4556a89fecf624438ac417",
+  "reviewers": [
+    "acceptance",
+    "root"
+  ],
+  "treads": {
+    "records": 6,
+    "stoppedTreadImages": 64,
+    "bidirectionalTraversals": 16,
+    "reviewer": "acceptance",
+    "rootSpotChecks": [
+      "desktop four-orientation sheet",
+      "turn-1 stopped step-1",
+      "turn-1 settled"
+    ]
+  },
+  "framing": {
+    "records": 30,
+    "viewsPerRecord": 3,
+    "reviewer": "acceptance"
+  },
+  "motion": {
+    "records": 22,
+    "continuousFramesRetained": 349,
+    "review": "All keyframe sheets reviewed. Acceptance reviewed desktop and first four landscape groups; root independently completed landscape 3-3 valve-lift, 3-4 turn-inner/turn-light/valve-lift and cloud-1/2/3. Root also reviewed desktop rotation and cloud bridge intermediate originals."
+  },
+  "reveal": {
+    "records": 12,
+    "reviewer": "root",
+    "evidence": "gpu-reveal/root-visual-review.json",
+    "keyframeSheets": 12,
+    "undoReplayImages": 24
+  },
+  "findings": [
+    "Physical horizontal treads and vertical risers visible in every stair orientation.",
+    "External stair connections flatten while modules move and rebuild after docking; fixed stairs remain.",
+    "Growth preserves full cross sections; retraction removes immediately; undo/replay leaves no remnants.",
+    "Stopped feet meet treads; no new visible stair seam or depth defect in reviewed samples."
+  ],
+  "scope": "Manual visual review of listed keyframes and original samples. Continuous frames retained, not every continuous frame manually reviewed. This is not a performance or all-device guarantee."
+}

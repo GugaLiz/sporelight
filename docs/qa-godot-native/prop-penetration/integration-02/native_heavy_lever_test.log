@@ -1,0 +1,21 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ROUTE STALL {"actors":{"buddy":{"facing":"back","floorHeight":0.649999976158142,"onFloor":true,"position":[-7.09107255935669,0.650379300117493,0.267586439847946],"support":"f:-7:0","velocity":[0.0,0.0,0.0]},"luvie":{"facing":"left","floorHeight":0.649999976158142,"onFloor":true,"position":[-6.8705883026123,0.649515569210052,-0.00000978546722762985],"support":"f:-7:0","velocity":[0.0,0.0,0.0]}},"moving":true,"path":["f:-7:0"],"stable":true}
+STALL COLLISION (-7.033677, 1.290182, -0.00001) normal=(1.0, 0.0, 0.0) support=
+NATIVE ROUTE {"completed":false,"expectedSteps":50,"level":"1-4","steps":46,"success":false}
+{"checks":221,"failures":["1-4/46/move/f:-7:0 physical route settles","1-4 authored route completes with native bodies"],"passed":false,"routes":[{"completed":false,"expectedSteps":50,"level":"1-4","steps":46,"success":false}],"samples":2336,"scope":"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route","suite":"native-heavy-lever"}
+ERROR: 1-4/46/move/f:-7:0 physical route settles
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _walk_to (res://tests/native_route_test.gd:107)
+       [2] _drain (res://tests/native_route_test.gd:93)
+       [3] _tick (res://tests/native_route_test.gd:86)
+ERROR: 1-4 authored route completes with native bodies
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _replay (res://tests/native_route_test.gd:164)
+       [2] _walk_to (res://tests/native_route_test.gd:114)
+       [3] _drain (res://tests/native_route_test.gd:93)
+       [4] _tick (res://tests/native_route_test.gd:86)

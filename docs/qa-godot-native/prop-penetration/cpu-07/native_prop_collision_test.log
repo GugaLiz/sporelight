@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+NATIVE ROUTE {"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true}
+DROP RESULT {"actors":{"buddy":{"facing":"front","floorHeight":0.0,"onFloor":true,"position":[0.0,0.000135415000841022,2.0],"support":"f:0:2","velocity":[0.0,0.0,0.0]},"luvie":{"facing":"right","floorHeight":0.0,"onFloor":true,"position":[3.00000190734863,0.000935406947974116,2.56664657592773],"support":"f:3:3","velocity":[0.0,0.0,0.0]}},"moving":false,"path":[],"stable":true} status=稳稳放好了，看看光与道路有没有一起改变。 item={ "tile": "f:3:3", "angle": 0.0 }
+NATIVE ROUTE {"completed":false,"expectedSteps":21,"level":"2-2","steps":20,"success":false}
+POND END {"actors":{"buddy":{"facing":"left","floorHeight":0.0,"onFloor":true,"position":[0.664066672325134,0.0000303168199025095,0.194477304816246],"support":"f:1:0","velocity":[0.0,0.0,0.0]},"luvie":{"facing":"right","floorHeight":0.0,"onFloor":true,"position":[3.94674134254456,0.000838134961668402,0.440108329057693],"support":"f:4:0","velocity":[0.0,0.0,0.0]}},"moving":false,"path":[],"stable":true} status=等伙伴沿着接通的小路走近。 waiting=true
+POND FOLLOW { "found": false, "path": [] }
+{"checks":410,"failures":["2-2/20/act/repair action and passengers settle","2-2 authored route completes with native bodies"],"passed":false,"peakPenetration":0.0,"routes":[{"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true},{"completed":false,"expectedSteps":21,"level":"2-2","steps":20,"success":false}],"samples":4510,"suite":"native-prop-collision"}
+ERROR: 2-2/20/act/repair action and passengers settle
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _replay (res://tests/native_route_test.gd:150)
+       [2] _drain (res://tests/native_route_test.gd:93)
+       [3] _tick (res://tests/native_route_test.gd:86)
+ERROR: 2-2 authored route completes with native bodies
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _replay (res://tests/native_route_test.gd:164)
+       [2] _drain (res://tests/native_route_test.gd:93)
+       [3] _tick (res://tests/native_route_test.gd:86)

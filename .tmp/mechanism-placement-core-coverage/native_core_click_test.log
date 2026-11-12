@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"shiftedCoreLevels":["1-2","1-3","1-4","2-1","2-3","3-2","3-3","3-4"],"shiftedCoreStates":16}
+{"checks":5111,"failures":["2-2 shifted core covered","2-4 shifted core covered","3-1 shifted core covered"],"gpuPixelsVerified":false,"maxBodySurfaceGap":0.00120312348008156,"passed":false,"samples":322,"suite":"native-core-click"}
+ERROR: 2-2 shifted core covered
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _all_shifted_cores (res://tests/native_core_click_test.gd:123)
+       [2] _tick (res://tests/native_route_test.gd:86)
+ERROR: 2-4 shifted core covered
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _all_shifted_cores (res://tests/native_core_click_test.gd:123)
+       [2] _tick (res://tests/native_route_test.gd:86)
+ERROR: 3-1 shifted core covered
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _all_shifted_cores (res://tests/native_core_click_test.gd:123)
+       [2] _tick (res://tests/native_route_test.gd:86)

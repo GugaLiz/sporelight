@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "817c7ff8055d97bf113b9f530632d1768da9fa7688014ea0ca5fb77dc2d862ce",
+    "files": 572
+  },
+  "source": {
+    "sha256": "6dbcc53212e90b340792653da7020de1be0c777dd12e90f81f00dd816163d6b4",
+    "files": 572
+  },
+  "stable": false,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_application_test",
+      "code": null,
+      "elapsedMs": 180057,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n",
+      "stderr": "SCRIPT ERROR: Parse Error: Cannot infer the type of \"holding\" variable because the value doesn't have a set type.\r\n   at: GDScript::reload (res://presentation/native/native_garden_stage.gd:1640)\r\nSCRIPT ERROR: Compile Error: Failed to compile depended scripts.\r\n   at: GDScript::reload (res://tests/native_application_test.gd:0)\r\nERROR: Failed to load script \"res://tests/native_application_test.gd\" with error \"Compilation failed\".\r\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)\r\nSCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.\r\n   at: _run (res://tests/native_application_test.gd:62)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_application_test.gd:62)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_session_test",
+      "code": 0,
+      "elapsedMs": 417,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nPASS native session: 15 checks\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

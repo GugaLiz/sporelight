@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"cases":1,"checks":108,"commands":11,"failures":["authored/1-1/animated/10/act/repair/JS-oracle","authored/1-1/animated/10/act/repair/exactly-one-save-per-change","authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change","authored/1-1/animated/10/act/repair/persisted-state","authored/1-1/animated/10/act/repair/real-JSON-reload","core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/JS-oracle ","core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/exactly-one-save-per-change ","core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change ","core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/persisted-state ","core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/real-JSON-reload "],"passed":false,"suite":"garden-application-replay"}
+ERROR: authored/1-1/animated/10/act/repair/JS-oracle
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _same (res://tests/rule_application.gd:144)
+       [2] _replay (res://tests/rule_application.gd:201)
+       [3] _run (res://tests/rule_application.gd:350)
+ERROR: authored/1-1/animated/10/act/repair/exactly-one-save-per-change
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _replay (res://tests/rule_application.gd:203)
+       [2] _run (res://tests/rule_application.gd:350)
+ERROR: authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _replay (res://tests/rule_application.gd:204)
+       [2] _run (res://tests/rule_application.gd:350)
+ERROR: authored/1-1/animated/10/act/repair/persisted-state
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _same (res://tests/rule_application.gd:144)
+       [2] _replay (res://tests/rule_application.gd:206)
+       [3] _run (res://tests/rule_application.gd:350)
+ERROR: authored/1-1/animated/10/act/repair/real-JSON-reload
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _same (res://tests/rule_application.gd:144)
+       [2] _replay (res://tests/rule_application.gd:208)
+       [3] _run (res://tests/rule_application.gd:350)

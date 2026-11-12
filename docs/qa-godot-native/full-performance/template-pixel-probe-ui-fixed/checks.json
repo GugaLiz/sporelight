@@ -1,0 +1,940 @@
+{
+  "metadata": {
+    "official": {
+      "verificationOnly": true,
+      "qaGuardDelta": "Three OS.is_debug_build guards removed in isolated main.gd only",
+      "originalMainSha256": "ba12d1b7af6a4ca534d06a23028358432238d36b3213af3bc56b8db5e25283bd",
+      "fixtureMainSha256": "7547780ee8595b98d1998c4aa3354ddfbf90123d037bab6deb278ec2d9218e51",
+      "webMode": "release",
+      "template": {
+        "kind": "official",
+        "customTemplateSha256": null
+      },
+      "pckSha256": "2118f9561ec2ef22ccce5e2969d8e5deca4360062ba6051e07825aa6c51a8129",
+      "scope": "Engine image comparison fixture, never delivered. Independent normal exports retain QA guards."
+    },
+    "candidate": {
+      "verificationOnly": true,
+      "qaGuardDelta": "Three OS.is_debug_build guards removed in isolated main.gd only",
+      "originalMainSha256": "ba12d1b7af6a4ca534d06a23028358432238d36b3213af3bc56b8db5e25283bd",
+      "fixtureMainSha256": "7547780ee8595b98d1998c4aa3354ddfbf90123d037bab6deb278ec2d9218e51",
+      "webMode": "release",
+      "template": {
+        "kind": "scene-demand",
+        "customTemplateSha256": "51d3a8bac3b56cb9187a5d3545d9e60ead680ce0ddbe8ab1a20417cb4cfe35c9"
+      },
+      "pckSha256": "2118f9561ec2ef22ccce5e2969d8e5deca4360062ba6051e07825aa6c51a8129",
+      "scope": "Engine image comparison fixture, never delivered. Independent normal exports retain QA guards."
+    }
+  },
+  "pckSha256": "2118f9561ec2ef22ccce5e2969d8e5deca4360062ba6051e07825aa6c51a8129",
+  "samples": [
+    {
+      "size": "1280x720",
+      "level": "1-1",
+      "state": "arrival",
+      "origin": "initial",
+      "official": {
+        "images": [
+          "1280x720\\1-1\\arrival-official-a.png",
+          "1280x720\\1-1\\arrival-official-b.png"
+        ],
+        "selfDifference": {
+          "exact": false,
+          "changedPixels": 36,
+          "totalPixels": 921600,
+          "maxChannelDifference": 1,
+          "meanAbsoluteChannelDifference": [
+            2.0616319444444445e-05,
+            1.6276041666666666e-05,
+            1.3020833333333334e-05
+          ],
+          "bbox": [
+            335,
+            263,
+            1006,
+            549
+          ],
+          "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\1-1\\arrival-official-self-diff.png"
+        },
+        "snapshot": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "f:0:0",
+            "luvie": "f:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {
+            "root": []
+          },
+          "items": {},
+          "levelId": "1-1",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.23,
+                  0,
+                  0.2
+                ],
+                "support": "f:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {},
+          "water": 0
+        },
+        "native": {
+          "actors": {
+            "buddy": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                -0.230000004172325,
+                3.12495976686478e-05,
+                0.200000002980232
+              ],
+              "support": "f:0:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            },
+            "luvie": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                0,
+                0.000135415000841022,
+                0
+              ],
+              "support": "f:0:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "moving": false,
+          "path": [],
+          "stable": true
+        },
+        "settings": {
+          "ambient": 0.25,
+          "bgm": 0.35,
+          "continuousInput": true,
+          "dynamicLight": true,
+          "fullscreen": false,
+          "inputSettingsRevision": 1,
+          "language": "zh-CN",
+          "lowMotion": true,
+          "particles": false,
+          "quality": "standard",
+          "safeCamera": false,
+          "sfx": 0.6,
+          "touchControls": false,
+          "vibration": false
+        }
+      },
+      "candidate": {
+        "images": [
+          "1280x720\\1-1\\arrival-candidate-a.png",
+          "1280x720\\1-1\\arrival-candidate-b.png"
+        ],
+        "selfDifference": {
+          "exact": false,
+          "changedPixels": 38,
+          "totalPixels": 921600,
+          "maxChannelDifference": 1,
+          "meanAbsoluteChannelDifference": [
+            2.0616319444444445e-05,
+            1.953125e-05,
+            1.193576388888889e-05
+          ],
+          "bbox": [
+            284,
+            268,
+            1029,
+            549
+          ],
+          "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\1-1\\arrival-candidate-self-diff.png"
+        },
+        "snapshot": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "f:0:0",
+            "luvie": "f:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {
+            "root": []
+          },
+          "items": {},
+          "levelId": "1-1",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.23,
+                  0,
+                  0.2
+                ],
+                "support": "f:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {},
+          "water": 0
+        },
+        "native": {
+          "actors": {
+            "buddy": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                -0.230000004172325,
+                3.12495976686478e-05,
+                0.200000002980232
+              ],
+              "support": "f:0:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            },
+            "luvie": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                0,
+                0.000135415000841022,
+                0
+              ],
+              "support": "f:0:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "moving": false,
+          "path": [],
+          "stable": true
+        },
+        "settings": {
+          "ambient": 0.25,
+          "bgm": 0.35,
+          "continuousInput": true,
+          "dynamicLight": true,
+          "fullscreen": false,
+          "inputSettingsRevision": 1,
+          "language": "zh-CN",
+          "lowMotion": true,
+          "particles": false,
+          "quality": "standard",
+          "safeCamera": false,
+          "sfx": 0.6,
+          "touchControls": false,
+          "vibration": false
+        }
+      },
+      "passed": false,
+      "engineDifference": {
+        "exact": false,
+        "changedPixels": 32,
+        "totalPixels": 921600,
+        "maxChannelDifference": 1,
+        "meanAbsoluteChannelDifference": [
+          1.6276041666666666e-05,
+          1.6276041666666666e-05,
+          1.3020833333333334e-05
+        ],
+        "bbox": [
+          408,
+          263,
+          1029,
+          549
+        ],
+        "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\1-1\\arrival-engine-diff.png"
+      }
+    },
+    {
+      "size": "1280x720",
+      "level": "2-1",
+      "state": "arrival",
+      "origin": "initial",
+      "official": {
+        "images": [
+          "1280x720\\2-1\\arrival-official-a.png",
+          "1280x720\\2-1\\arrival-official-b.png"
+        ],
+        "selfDifference": {
+          "exact": false,
+          "changedPixels": 33,
+          "totalPixels": 921600,
+          "maxChannelDifference": 5,
+          "meanAbsoluteChannelDifference": [
+            3.146701388888889e-05,
+            2.604166666666667e-05,
+            3.255208333333333e-05
+          ],
+          "bbox": [
+            357,
+            247,
+            832,
+            569
+          ],
+          "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\2-1\\arrival-official-self-diff.png"
+        },
+        "snapshot": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:float:0:0",
+            "luvie": "m:float:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {
+            "dew": {
+              "angle": 0,
+              "tile": "f:0:4"
+            }
+          },
+          "levelId": "2-1",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.23,
+                  0.0001,
+                  0.2
+                ],
+                "support": "m:float:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "m:float:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "float": 0
+          },
+          "water": 0
+        },
+        "native": {
+          "actors": {
+            "buddy": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                -0.230000004172325,
+                0.000135415000841022,
+                0.200000002980232
+              ],
+              "support": "m:float:0:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            },
+            "luvie": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                0,
+                0.000135415000841022,
+                0
+              ],
+              "support": "m:float:0:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "moving": false,
+          "path": [],
+          "stable": true
+        },
+        "settings": {
+          "ambient": 0.25,
+          "bgm": 0.35,
+          "continuousInput": true,
+          "dynamicLight": true,
+          "fullscreen": false,
+          "inputSettingsRevision": 1,
+          "language": "zh-CN",
+          "lowMotion": true,
+          "particles": false,
+          "quality": "standard",
+          "safeCamera": false,
+          "sfx": 0.6,
+          "touchControls": false,
+          "vibration": false
+        }
+      },
+      "candidate": {
+        "images": [
+          "1280x720\\2-1\\arrival-candidate-a.png",
+          "1280x720\\2-1\\arrival-candidate-b.png"
+        ],
+        "selfDifference": {
+          "exact": false,
+          "changedPixels": 18,
+          "totalPixels": 921600,
+          "maxChannelDifference": 5,
+          "meanAbsoluteChannelDifference": [
+            3.255208333333333e-05,
+            2.2786458333333334e-05,
+            3.363715277777778e-05
+          ],
+          "bbox": [
+            361,
+            298,
+            832,
+            569
+          ],
+          "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\2-1\\arrival-candidate-self-diff.png"
+        },
+        "snapshot": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:float:0:0",
+            "luvie": "m:float:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {
+            "dew": {
+              "angle": 0,
+              "tile": "f:0:4"
+            }
+          },
+          "levelId": "2-1",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.23,
+                  0.0001,
+                  0.2
+                ],
+                "support": "m:float:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "m:float:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "float": 0
+          },
+          "water": 0
+        },
+        "native": {
+          "actors": {
+            "buddy": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                -0.230000004172325,
+                0.000135415000841022,
+                0.200000002980232
+              ],
+              "support": "m:float:0:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            },
+            "luvie": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                0,
+                0.000135415000841022,
+                0
+              ],
+              "support": "m:float:0:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "moving": false,
+          "path": [],
+          "stable": true
+        },
+        "settings": {
+          "ambient": 0.25,
+          "bgm": 0.35,
+          "continuousInput": true,
+          "dynamicLight": true,
+          "fullscreen": false,
+          "inputSettingsRevision": 1,
+          "language": "zh-CN",
+          "lowMotion": true,
+          "particles": false,
+          "quality": "standard",
+          "safeCamera": false,
+          "sfx": 0.6,
+          "touchControls": false,
+          "vibration": false
+        }
+      },
+      "passed": false,
+      "engineDifference": {
+        "exact": false,
+        "changedPixels": 20,
+        "totalPixels": 921600,
+        "maxChannelDifference": 5,
+        "meanAbsoluteChannelDifference": [
+          3.0381944444444444e-05,
+          2.604166666666667e-05,
+          3.580729166666667e-05
+        ],
+        "bbox": [
+          361,
+          247,
+          832,
+          569
+        ],
+        "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\2-1\\arrival-engine-diff.png"
+      }
+    },
+    {
+      "size": "1280x720",
+      "level": "3-4",
+      "state": "arrival",
+      "origin": "initial",
+      "official": {
+        "images": [
+          "1280x720\\3-4\\arrival-official-a.png",
+          "1280x720\\3-4\\arrival-official-b.png"
+        ],
+        "selfDifference": {
+          "exact": false,
+          "changedPixels": 95,
+          "totalPixels": 921600,
+          "maxChannelDifference": 1,
+          "meanAbsoluteChannelDifference": [
+            5.3168402777777775e-05,
+            2.4956597222222224e-05,
+            4.123263888888889e-05
+          ],
+          "bbox": [
+            161,
+            195,
+            948,
+            522
+          ],
+          "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\3-4\\arrival-official-self-diff.png"
+        },
+        "snapshot": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "f:-3:0",
+            "luvie": "f:-4:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": false,
+          "frozen": null,
+          "growth": {
+            "root": []
+          },
+          "items": {
+            "mirror": {
+              "angle": 0,
+              "tile": "f:1:-4"
+            }
+          },
+          "levelId": "3-4",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:-3:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:-4:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "inner": 0,
+            "lift": 0,
+            "light": 0,
+            "water": 0
+          },
+          "water": 0
+        },
+        "native": {
+          "actors": {
+            "buddy": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                -3,
+                0.000135415000841022,
+                0
+              ],
+              "support": "f:-3:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            },
+            "luvie": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                -4,
+                0.000135415000841022,
+                0
+              ],
+              "support": "f:-4:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "moving": false,
+          "path": [],
+          "stable": true
+        },
+        "settings": {
+          "ambient": 0.25,
+          "bgm": 0.35,
+          "continuousInput": true,
+          "dynamicLight": true,
+          "fullscreen": false,
+          "inputSettingsRevision": 1,
+          "language": "zh-CN",
+          "lowMotion": true,
+          "particles": false,
+          "quality": "standard",
+          "safeCamera": false,
+          "sfx": 0.6,
+          "touchControls": false,
+          "vibration": false
+        }
+      },
+      "candidate": {
+        "images": [
+          "1280x720\\3-4\\arrival-candidate-a.png",
+          "1280x720\\3-4\\arrival-candidate-b.png"
+        ],
+        "selfDifference": {
+          "exact": false,
+          "changedPixels": 109,
+          "totalPixels": 921600,
+          "maxChannelDifference": 1,
+          "meanAbsoluteChannelDifference": [
+            7.161458333333333e-05,
+            2.712673611111111e-05,
+            3.7977430555555556e-05
+          ],
+          "bbox": [
+            295,
+            220,
+            1021,
+            506
+          ],
+          "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\3-4\\arrival-candidate-self-diff.png"
+        },
+        "snapshot": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "f:-3:0",
+            "luvie": "f:-4:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": false,
+          "frozen": null,
+          "growth": {
+            "root": []
+          },
+          "items": {
+            "mirror": {
+              "angle": 0,
+              "tile": "f:1:-4"
+            }
+          },
+          "levelId": "3-4",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:-3:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:-4:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "inner": 0,
+            "lift": 0,
+            "light": 0,
+            "water": 0
+          },
+          "water": 0
+        },
+        "native": {
+          "actors": {
+            "buddy": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                -3,
+                0.000135415000841022,
+                0
+              ],
+              "support": "f:-3:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            },
+            "luvie": {
+              "facing": "front",
+              "floorHeight": 0,
+              "onFloor": true,
+              "position": [
+                -4,
+                0.000135415000841022,
+                0
+              ],
+              "support": "f:-4:0",
+              "velocity": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "moving": false,
+          "path": [],
+          "stable": true
+        },
+        "settings": {
+          "ambient": 0.25,
+          "bgm": 0.35,
+          "continuousInput": true,
+          "dynamicLight": true,
+          "fullscreen": false,
+          "inputSettingsRevision": 1,
+          "language": "zh-CN",
+          "lowMotion": true,
+          "particles": false,
+          "quality": "standard",
+          "safeCamera": false,
+          "sfx": 0.6,
+          "touchControls": false,
+          "vibration": false
+        }
+      },
+      "passed": false,
+      "engineDifference": {
+        "exact": false,
+        "changedPixels": 104,
+        "totalPixels": 921600,
+        "maxChannelDifference": 1,
+        "meanAbsoluteChannelDifference": [
+          6.401909722222223e-05,
+          3.0381944444444444e-05,
+          3.689236111111111e-05
+        ],
+        "bbox": [
+          295,
+          195,
+          948,
+          522
+        ],
+        "differenceImage": "C:\\Users\\lizme\\WebstormProjects\\sporelight\\docs\\qa-godot-native\\full-performance\\template-pixel-probe-ui-fixed\\1280x720\\3-4\\arrival-engine-diff.png"
+      }
+    }
+  ],
+  "errors": [],
+  "scope": "Exact full-frame comparison of verification-only release engine fixtures.\n\nBoth exports must use byte-identical PCKs. Settings change only inside isolated\nbrowser profiles: lowMotion=true, particles=false; lights/materials/MSAA remain.\nSelf-comparison detects animation/camera noise; no masks or tolerances are used.\nRestored states cover visual output, not real-input gameplay or motion timing.\n",
+  "fixtureOnlySettings": {
+    "lowMotion": true,
+    "particles": false,
+    "hideHud": true,
+    "visualTimeMs": 1200
+  },
+  "guardAudit": "Current runtime matches exported manifest; fixture main is exactly three QA guards removed; PCK bytes independently hashed and identical.",
+  "passed": false
+}

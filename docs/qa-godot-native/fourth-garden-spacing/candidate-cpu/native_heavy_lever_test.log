@@ -1,0 +1,824 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+NATIVE ROUTE {"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true}
+{"checks":234,"failures":[],"passed":true,"routes":[{"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true}],"samples":2100,"scope":"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route","suite":"native-heavy-lever"}
+ERROR: 33 RID allocations of type 'N13RendererDummy15MaterialStorage13DummyMaterialE' were leaked at exit.
+ERROR: 33 RID allocations of type 'N13RendererDummy9DummyMeshE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.
+ERROR: 33 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+SCRIPT ERROR: Parse Error: Cannot infer the type of "preferred" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://presentation/native/original_sanctuary_dressing.gd:50)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://presentation/native/native_garden_stage.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/native_route_test.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/native_heavy_lever_test.gd:0)
+ERROR: Failed to load script "res://tests/native_heavy_lever_test.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [6] _run (res://tests/native_heavy_lever_test.gd:24)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [6] _run (res://tests/native_heavy_lever_test.gd:24)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _run (res://tests/native_heavy_lever_test.gd:28)
+       [7] _fresh (res://tests/native_heavy_lever_test.gd:14)
+       [8] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _run (res://tests/native_heavy_lever_test.gd:28)
+       [7] _fresh (res://tests/native_heavy_lever_test.gd:14)
+       [8] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _move_actor (res://application/native_movement.gd:293)
+       [4] tick (res://application/native_movement.gd:180)
+       [5] _physics_process (res://application/main.gd:1079)
+       [6] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _move_actor (res://application/native_movement.gd:293)
+       [4] tick (res://application/native_movement.gd:180)
+       [5] _physics_process (res://application/main.gd:1079)
+       [6] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _execute (res://application/main.gd:714)
+       [5] _on_command (res://application/main.gd:611)
+       [6] _run (res://tests/native_heavy_lever_test.gd:46)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _execute (res://application/main.gd:714)
+       [5] _on_command (res://application/main.gd:611)
+       [6] _run (res://tests/native_heavy_lever_test.gd:46)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [6] _run (res://tests/native_heavy_lever_test.gd:51)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [6] _run (res://tests/native_heavy_lever_test.gd:51)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _fresh (res://tests/native_heavy_lever_test.gd:11)
+       [5] _run (res://tests/native_heavy_lever_test.gd:51)
+       [6] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _fresh (res://tests/native_heavy_lever_test.gd:11)
+       [5] _run (res://tests/native_heavy_lever_test.gd:51)
+       [6] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [6] _run (res://tests/native_heavy_lever_test.gd:65)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [6] _run (res://tests/native_heavy_lever_test.gd:65)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _fresh (res://tests/native_heavy_lever_test.gd:11)
+       [5] _run (res://tests/native_heavy_lever_test.gd:65)
+       [6] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _fresh (res://tests/native_heavy_lever_test.gd:11)
+       [5] _run (res://tests/native_heavy_lever_test.gd:65)
+       [6] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _move_actor (res://application/native_movement.gd:293)
+       [4] tick (res://application/native_movement.gd:180)
+       [5] _physics_process (res://application/main.gd:1079)
+       [6] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _move_actor (res://application/native_movement.gd:293)
+       [4] tick (res://application/native_movement.gd:180)
+       [5] _physics_process (res://application/main.gd:1079)
+       [6] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _run (res://tests/native_heavy_lever_test.gd:91)
+       [7] _fresh (res://tests/native_heavy_lever_test.gd:14)
+       [8] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _run (res://tests/native_heavy_lever_test.gd:91)
+       [7] _fresh (res://tests/native_heavy_lever_test.gd:14)
+       [8] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [6] _run (res://tests/native_heavy_lever_test.gd:104)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [6] _run (res://tests/native_heavy_lever_test.gd:104)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _advance_native_actions (res://application/main.gd:1098)
+       [6] _advance_actions (res://application/main.gd:274)
+       [7] _process (res://application/main.gd:268)
+       [8] _tick (res://tests/native_route_test.gd:74)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _advance_native_actions (res://application/main.gd:1098)
+       [6] _advance_actions (res://application/main.gd:274)
+       [7] _process (res://application/main.gd:268)
+       [8] _tick (res://tests/native_route_test.gd:74)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _replay (res://tests/native_route_test.gd:121)
+       [6] _run (res://tests/native_heavy_lever_test.gd:131)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_world (res://presentation/native/native_garden_stage.gd:379)
+       [4] _enter_level (res://application/main.gd:220)
+       [5] _replay (res://tests/native_route_test.gd:121)
+       [6] _run (res://tests/native_heavy_lever_test.gd:131)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _move_actor (res://application/native_movement.gd:293)
+       [4] tick (res://application/native_movement.gd:180)
+       [5] _physics_process (res://application/main.gd:1079)
+       [6] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _move_actor (res://application/native_movement.gd:293)
+       [4] tick (res://application/native_movement.gd:180)
+       [5] _physics_process (res://application/main.gd:1079)
+       [6] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _walk_to (res://tests/native_route_test.gd:118)
+       [8] _drain (res://tests/native_route_test.gd:92)
+       [9] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _walk_to (res://tests/native_route_test.gd:118)
+       [8] _drain (res://tests/native_route_test.gd:92)
+       [9] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _walk_to (res://tests/native_route_test.gd:118)
+       [8] _drain (res://tests/native_route_test.gd:92)
+       [9] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _walk_to (res://tests/native_route_test.gd:118)
+       [8] _drain (res://tests/native_route_test.gd:92)
+       [9] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _walk_to (res://tests/native_route_test.gd:118)
+       [8] _drain (res://tests/native_route_test.gd:92)
+       [9] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _walk_to (res://tests/native_route_test.gd:118)
+       [8] _drain (res://tests/native_route_test.gd:92)
+       [9] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] _on_native_support_changed (res://application/main.gd:1118)
+       [4] _move_actor (res://application/native_movement.gd:321)
+       [5] tick (res://application/native_movement.gd:180)
+       [6] _physics_process (res://application/main.gd:1079)
+       [7] _tick (res://tests/native_route_test.gd:75)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+   at: NativeGardenStage._add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+   GDScript backtrace (most recent call first):
+       [0] _add_sanctuary (res://presentation/native/native_garden_stage.gd:865)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:779)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _walk_to (res://tests/native_route_test.gd:118)
+       [8] _drain (res://tests/native_route_test.gd:92)
+       [9] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid call. Nonexistent function 'mole' in base 'GDScript'.
+   at: NativeGardenStage._add_mole (res://presentation/native/native_garden_stage.gd:858)
+   GDScript backtrace (most recent call first):
+       [0] _add_mole (res://presentation/native/native_garden_stage.gd:858)
+       [1] _update_props (res://presentation/native/native_garden_stage.gd:780)
+       [2] refresh_world (res://presentation/native/native_garden_stage.gd:423)
+       [3] set_motion (res://presentation/native/native_garden_stage.gd:1899)
+       [4] _execute (res://application/main.gd:727)
+       [5] _on_command (res://application/main.gd:667)
+       [6] _replay (res://tests/native_route_test.gd:148)
+       [7] _walk_to (res://tests/native_route_test.gd:118)
+       [8] _drain (res://tests/native_route_test.gd:92)
+       [9] _tick (res://tests/native_route_test.gd:86)
+ERROR: Pages in use exist at exit in PagedAllocator: N20RasterizerSceneDummy21GeometryInstanceDummyE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: 34 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

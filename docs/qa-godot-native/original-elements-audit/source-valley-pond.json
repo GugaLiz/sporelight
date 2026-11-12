@@ -1,0 +1,2895 @@
+{
+  "scope": "Local TypeScript source; remote parity unverified; initial state unless specified",
+  "projection": {
+    "tileWidth": 70,
+    "tileDepth": 35,
+    "heightUnit": 48
+  },
+  "sourceHashes": {
+    "levels.ts": "9a5aff16de59a82787aefd28ed59ad1426190d60b5c3ba5f668ceb94b904a099",
+    "scenery.ts": "e02401753794163a457872b9b90938d8179880ca58fecf3b805858f3a72e9bb2",
+    "render.ts": "5bcead13ee86f632b26560a8b2e81b6f85ef12356db538c147727043038627e3",
+    "gardenArt.ts": "64944f4efbe9e41a7e15c78bf6a822e5926b126bf15766c3c43b707dc5a06f5f",
+    "landscape.ts": "28f2f411cbe5faeafdc1991732f0ba1a80c163aa953a250fb5d82239d1af1096",
+    "pondWeather.ts": "a0808c84a2fdf713229d434d59026a461b76c4bcf3627f97453f7597a23b452a",
+    "src/styles/garden2.css": "2dc4bae72490c97fd6db22bac3ad6434791102103c202769af1deb35a9a144ca"
+  },
+  "levels": [
+    {
+      "id": "1-1",
+      "title": "初生的孢子",
+      "chapter": "valley",
+      "fixedTiles": 16,
+      "initialTiles": 16,
+      "decorations": [
+        {
+          "id": "f:-1:-1",
+          "x": -1,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": -1.88,
+          "asset": "small-pebbles",
+          "width": 25,
+          "widthPerTile": 0.35714285714285715,
+          "nominalHeightPerTileWidth": 0.15262515262515264
+        },
+        {
+          "id": "f:-2:0",
+          "x": -2.24,
+          "z": 0,
+          "h": 0,
+          "small": false,
+          "depth": -1.88,
+          "asset": "pink-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4087912087912088
+        },
+        {
+          "id": "f:2:-1",
+          "x": 1.76,
+          "z": -1,
+          "h": 2,
+          "small": false,
+          "depth": 1.12,
+          "asset": "stone-lantern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.5837438423645319
+        },
+        {
+          "id": "f:-1:2",
+          "x": -1.24,
+          "z": 2,
+          "h": -1,
+          "small": false,
+          "depth": 1.12,
+          "asset": "yellow-flowers",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.5283018867924528
+        },
+        {
+          "id": "f:4:-1",
+          "x": 4,
+          "z": -1.24,
+          "h": 2,
+          "small": false,
+          "depth": 3.12,
+          "asset": "red-mushroom",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.538558786346397
+        },
+        {
+          "id": "f:0:3",
+          "x": 0.24,
+          "z": 3,
+          "h": -1,
+          "small": false,
+          "depth": 3.12,
+          "asset": "blue-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.45153061224489793
+        }
+      ],
+      "counts": {
+        "small-pebbles": 1,
+        "pink-flowers": 1,
+        "stone-lantern": 1,
+        "yellow-flowers": 1,
+        "red-mushroom": 1,
+        "blue-flowers": 1
+      },
+      "initialVisibleDecorations": 6,
+      "marks": [
+        {
+          "id": "root",
+          "tile": "f:0:0",
+          "label": "引导根芽",
+          "kind": "root"
+        },
+        {
+          "id": "core",
+          "tile": "f:3:0",
+          "label": "种下第一束微光",
+          "kind": "core"
+        },
+        {
+          "id": "rest",
+          "tile": "f:-2:-1",
+          "label": "在这里坐一会儿",
+          "kind": "rest",
+          "text": "没有需要赶上的时间。小苔灵靠着你，听风从石阶间经过。"
+        },
+        {
+          "id": "observe",
+          "tile": "f:0:3",
+          "label": "看看这里的小生命",
+          "kind": "observe",
+          "text": "露薇种下第一节路，小花朝她靠近了一点。"
+        }
+      ],
+      "items": {},
+      "walls": [],
+      "sanctuary": null,
+      "initialRunoffSource": {
+        "id": "f:4:0",
+        "x": 4,
+        "z": 0,
+        "h": 1,
+        "small": false
+      },
+      "initialValleyVineFaces": [
+        {
+          "tile": "f:0:0",
+          "side": "left",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:0:0",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:4:-1",
+          "side": "left",
+          "widthMax": 24,
+          "length": 36
+        },
+        {
+          "tile": "f:4:-1",
+          "side": "right",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:3:0",
+          "side": "left",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:0:3",
+          "side": "left",
+          "widthMax": 24,
+          "length": 48
+        },
+        {
+          "tile": "f:0:3",
+          "side": "right",
+          "widthMax": 24,
+          "length": 48
+        }
+      ],
+      "terrainTextureCounts": {
+        "paving-grass": 3,
+        "paving-moss": 4,
+        "paving-valley": 9
+      },
+      "pond": null
+    },
+    {
+      "id": "1-2",
+      "title": "第一朵花",
+      "chapter": "valley",
+      "fixedTiles": 14,
+      "initialTiles": 14,
+      "decorations": [
+        {
+          "id": "f:-1:2",
+          "x": -1.24,
+          "z": 2,
+          "h": 0,
+          "small": false,
+          "depth": 1.12,
+          "asset": "stone-lantern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.5837438423645319
+        },
+        {
+          "id": "f:5:0",
+          "x": 5,
+          "z": -0.24,
+          "h": 2,
+          "small": false,
+          "depth": 5.12,
+          "asset": "yellow-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4528301886792453
+        },
+        {
+          "id": "f:5:2",
+          "x": 5.24,
+          "z": 2,
+          "h": 1,
+          "small": false,
+          "depth": 7.12,
+          "asset": "red-mushroom",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.538558786346397
+        }
+      ],
+      "counts": {
+        "stone-lantern": 1,
+        "yellow-flowers": 1,
+        "red-mushroom": 1
+      },
+      "initialVisibleDecorations": 3,
+      "marks": [
+        {
+          "id": "root",
+          "tile": "f:1:1",
+          "label": "安排根线",
+          "kind": "root"
+        },
+        {
+          "id": "core",
+          "tile": "f:4:1",
+          "label": "照料第一朵花",
+          "kind": "core"
+        },
+        {
+          "id": "rest",
+          "tile": "f:-1:0",
+          "label": "在这里坐一会儿",
+          "kind": "rest",
+          "text": "没有需要赶上的时间。小苔灵靠着你，听风从石阶间经过。"
+        },
+        {
+          "id": "observe",
+          "tile": "f:5:2",
+          "label": "看看这里的小生命",
+          "kind": "observe",
+          "text": "根系绕过石头，一条由你安排的小路开满了花。"
+        }
+      ],
+      "items": {},
+      "walls": [
+        [
+          2,
+          1
+        ]
+      ],
+      "sanctuary": null,
+      "initialRunoffSource": {
+        "id": "f:4:2",
+        "x": 4,
+        "z": 2,
+        "h": 1,
+        "small": false
+      },
+      "initialValleyVineFaces": [
+        {
+          "tile": "f:0:0",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:5:1",
+          "side": "right",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:4:2",
+          "side": "left",
+          "widthMax": 24,
+          "length": 85
+        }
+      ],
+      "terrainTextureCounts": {
+        "paving-valley": 8,
+        "paving-grass": 5,
+        "paving-moss": 1
+      },
+      "pond": null
+    },
+    {
+      "id": "1-3",
+      "title": "苔藓山谷",
+      "chapter": "valley",
+      "fixedTiles": 36,
+      "initialTiles": 41,
+      "decorations": [
+        {
+          "id": "f:-4:-1",
+          "x": -4,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": -4.88,
+          "asset": "red-mushroom",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.6283185840707964
+        },
+        {
+          "id": "f:1:-5",
+          "x": 1,
+          "z": -5.24,
+          "h": 1,
+          "small": false,
+          "depth": -3.88,
+          "asset": "blue-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.45153061224489793
+        },
+        {
+          "id": "f:-1:-3",
+          "x": -1.24,
+          "z": -3,
+          "h": 1,
+          "small": false,
+          "depth": -3.88,
+          "asset": "gold-lotus",
+          "width": 32,
+          "widthPerTile": 0.45714285714285713,
+          "nominalHeightPerTileWidth": 0.5285714285714286
+        },
+        {
+          "id": "f:-4:1",
+          "x": -4,
+          "z": 1.24,
+          "h": 0,
+          "small": false,
+          "depth": -2.88,
+          "asset": "bush",
+          "width": 39,
+          "widthPerTile": 0.5571428571428572,
+          "nominalHeightPerTileWidth": 0.47021276595744677
+        },
+        {
+          "id": "f:1:-3",
+          "x": 1.24,
+          "z": -3,
+          "h": 1,
+          "small": false,
+          "depth": -1.88,
+          "asset": "berry-bush",
+          "width": 39,
+          "widthPerTile": 0.5571428571428572,
+          "nominalHeightPerTileWidth": 0.47814498933901917
+        },
+        {
+          "id": "f:-1:3",
+          "x": -1.24,
+          "z": 3,
+          "h": 0,
+          "small": false,
+          "depth": 2.12,
+          "asset": "fern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.3877551020408163
+        },
+        {
+          "id": "f:3:-1",
+          "x": 2.76,
+          "z": -1,
+          "h": -1,
+          "small": false,
+          "depth": 2.12,
+          "asset": "small-pebbles",
+          "width": 25,
+          "widthPerTile": 0.35714285714285715,
+          "nominalHeightPerTileWidth": 0.15262515262515264
+        },
+        {
+          "id": "f:1:3",
+          "x": 1,
+          "z": 2.76,
+          "h": 0,
+          "small": false,
+          "depth": 4.12,
+          "asset": "pink-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4087912087912088
+        },
+        {
+          "id": "f:-1:5",
+          "x": -1.24,
+          "z": 5,
+          "h": 0,
+          "small": false,
+          "depth": 4.12,
+          "asset": "stone-lantern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.5837438423645319
+        },
+        {
+          "id": "f:5:-1",
+          "x": 5,
+          "z": -1.24,
+          "h": -1,
+          "small": false,
+          "depth": 4.12,
+          "asset": "yellow-flowers",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.5283018867924528
+        },
+        {
+          "id": "f:3:1",
+          "x": 2.76,
+          "z": 1,
+          "h": -1,
+          "small": false,
+          "depth": 4.12,
+          "asset": "red-mushroom",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.538558786346397
+        },
+        {
+          "id": "f:1:5",
+          "x": 1.24,
+          "z": 5,
+          "h": 0,
+          "small": false,
+          "depth": 6.12,
+          "asset": "blue-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.45153061224489793
+        },
+        {
+          "id": "f:5:1",
+          "x": 5.24,
+          "z": 1,
+          "h": -1,
+          "small": false,
+          "depth": 6.12,
+          "asset": "gold-lotus",
+          "width": 32,
+          "widthPerTile": 0.45714285714285713,
+          "nominalHeightPerTileWidth": 0.5285714285714286
+        },
+        {
+          "id": "f:-5:-1",
+          "x": -5,
+          "z": -1,
+          "h": 0,
+          "small": false,
+          "asset": "arch",
+          "width": 90,
+          "widthPerTile": 1.2857142857142858,
+          "nominalHeightPerTileWidth": 1.2857142857142858
+        }
+      ],
+      "counts": {
+        "red-mushroom": 2,
+        "blue-flowers": 2,
+        "gold-lotus": 2,
+        "bush": 1,
+        "berry-bush": 1,
+        "fern": 1,
+        "small-pebbles": 1,
+        "pink-flowers": 1,
+        "stone-lantern": 1,
+        "yellow-flowers": 1,
+        "arch": 1
+      },
+      "initialVisibleDecorations": 14,
+      "marks": [
+        {
+          "id": "turn",
+          "tile": "m:garden:0:0",
+          "label": "转动庭院",
+          "kind": "turn"
+        },
+        {
+          "id": "core",
+          "tile": "f:0:-4",
+          "label": "照料山顶花床",
+          "kind": "core"
+        },
+        {
+          "id": "rest",
+          "tile": "f:-5:-1",
+          "label": "在这里坐一会儿",
+          "kind": "rest",
+          "text": "没有需要赶上的时间。小苔灵靠着你，听风从石阶间经过。"
+        },
+        {
+          "id": "observe",
+          "tile": "f:5:1",
+          "label": "看看这里的小生命",
+          "kind": "observe",
+          "text": "花园转向远方，伙伴仍稳稳站在你身旁。"
+        }
+      ],
+      "items": {},
+      "walls": [],
+      "sanctuary": null,
+      "initialRunoffSource": {
+        "id": "f:1:-3",
+        "x": 1,
+        "z": -3,
+        "h": 1,
+        "small": false
+      },
+      "initialValleyVineFaces": [
+        {
+          "tile": "f:-4:1",
+          "side": "left",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:1:-4",
+          "side": "right",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:0:-3",
+          "side": "left",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:1:5",
+          "side": "left",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:1:5",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:5:1",
+          "side": "left",
+          "widthMax": 24,
+          "length": 48
+        },
+        {
+          "tile": "f:5:1",
+          "side": "right",
+          "widthMax": 24,
+          "length": 48
+        },
+        {
+          "tile": "m:garden:0:0",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        }
+      ],
+      "terrainTextureCounts": {
+        "paving-valley": 20,
+        "paving-grass": 17,
+        "paving-moss": 4
+      },
+      "pond": null
+    },
+    {
+      "id": "1-4",
+      "title": "鼹鼠的家",
+      "chapter": "valley",
+      "fixedTiles": 38,
+      "initialTiles": 65,
+      "decorations": [
+        {
+          "id": "f:-2:-1",
+          "x": -2,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": -2.88,
+          "asset": "gold-lotus",
+          "width": 32,
+          "widthPerTile": 0.45714285714285713,
+          "nominalHeightPerTileWidth": 0.5285714285714286
+        },
+        {
+          "id": "f:-2:1",
+          "x": -1.76,
+          "z": 1,
+          "h": 0,
+          "small": false,
+          "depth": -0.88,
+          "asset": "bush",
+          "width": 39,
+          "widthPerTile": 0.5571428571428572,
+          "nominalHeightPerTileWidth": 0.47021276595744677
+        },
+        {
+          "id": "f:-4:4",
+          "x": -4.24,
+          "z": 4,
+          "h": 0,
+          "small": false,
+          "depth": 0.12,
+          "asset": "berry-bush",
+          "width": 39,
+          "widthPerTile": 0.5571428571428572,
+          "nominalHeightPerTileWidth": 0.47814498933901917
+        },
+        {
+          "id": "f:2:-1",
+          "x": 1.76,
+          "z": -1,
+          "h": 0,
+          "small": false,
+          "depth": 1.12,
+          "asset": "fern",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.4523809523809524
+        },
+        {
+          "id": "f:-4:6",
+          "x": -4.24,
+          "z": 6,
+          "h": 0,
+          "small": false,
+          "depth": 2.12,
+          "asset": "small-pebbles",
+          "width": 25,
+          "widthPerTile": 0.35714285714285715,
+          "nominalHeightPerTileWidth": 0.15262515262515264
+        },
+        {
+          "id": "f:4:-1",
+          "x": 4,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": 3.12,
+          "asset": "pink-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4087912087912088
+        },
+        {
+          "id": "f:2:1",
+          "x": 1.76,
+          "z": 1,
+          "h": 0,
+          "small": false,
+          "depth": 3.12,
+          "asset": "stone-lantern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.5837438423645319
+        },
+        {
+          "id": "f:4:1",
+          "x": 4.24,
+          "z": 1,
+          "h": 0,
+          "small": false,
+          "depth": 5.12,
+          "asset": "yellow-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4528301886792453
+        },
+        {
+          "id": "f:2:4",
+          "x": 1.76,
+          "z": 4,
+          "h": 0,
+          "small": false,
+          "depth": 6.12,
+          "asset": "red-mushroom",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.538558786346397
+        },
+        {
+          "id": "f:4:4",
+          "x": 4,
+          "z": 3.76,
+          "h": 0,
+          "small": false,
+          "depth": 8.12,
+          "asset": "blue-flowers",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.5267857142857143
+        },
+        {
+          "id": "f:2:6",
+          "x": 1.76,
+          "z": 6,
+          "h": 0,
+          "small": false,
+          "depth": 8.12,
+          "asset": "gold-lotus",
+          "width": 32,
+          "widthPerTile": 0.45714285714285713,
+          "nominalHeightPerTileWidth": 0.5285714285714286
+        },
+        {
+          "id": "f:4:6",
+          "x": 4.24,
+          "z": 6,
+          "h": 0,
+          "small": false,
+          "depth": 10.12,
+          "asset": "bush",
+          "width": 39,
+          "widthPerTile": 0.5571428571428572,
+          "nominalHeightPerTileWidth": 0.47021276595744677
+        },
+        {
+          "x": -11,
+          "z": -2,
+          "h": 2,
+          "asset": "pink-flowers",
+          "width": 42,
+          "widthPerTile": 0.6,
+          "nominalHeightPerTileWidth": 0.5723076923076923
+        },
+        {
+          "x": -11,
+          "z": 2,
+          "h": 2,
+          "asset": "blue-flowers",
+          "width": 42,
+          "widthPerTile": 0.6,
+          "nominalHeightPerTileWidth": 0.6321428571428571
+        },
+        {
+          "x": -9,
+          "z": 2,
+          "h": 1,
+          "asset": "yellow-flowers",
+          "width": 42,
+          "widthPerTile": 0.6,
+          "nominalHeightPerTileWidth": 0.6339622641509435
+        },
+        {
+          "x": -7,
+          "z": -2,
+          "h": 1,
+          "asset": "ivory-lotus",
+          "width": 42,
+          "widthPerTile": 0.6,
+          "nominalHeightPerTileWidth": 0.651063829787234
+        },
+        {
+          "x": -7,
+          "z": 2,
+          "h": 1,
+          "asset": "gold-lotus",
+          "width": 42,
+          "widthPerTile": 0.6,
+          "nominalHeightPerTileWidth": 0.69375
+        },
+        {
+          "x": -11,
+          "z": 0,
+          "h": 2,
+          "asset": "berry-bush",
+          "width": 46,
+          "widthPerTile": 0.6571428571428571,
+          "nominalHeightPerTileWidth": 0.5639658848614072
+        },
+        {
+          "x": -7,
+          "z": -1.7,
+          "h": 1,
+          "asset": "stone-lantern",
+          "width": 29,
+          "widthPerTile": 0.4142857142857143,
+          "nominalHeightPerTileWidth": 0.5642857142857143
+        }
+      ],
+      "counts": {
+        "gold-lotus": 3,
+        "bush": 2,
+        "berry-bush": 2,
+        "fern": 1,
+        "small-pebbles": 1,
+        "pink-flowers": 2,
+        "stone-lantern": 2,
+        "yellow-flowers": 2,
+        "red-mushroom": 1,
+        "blue-flowers": 2,
+        "ivory-lotus": 1
+      },
+      "initialVisibleDecorations": 19,
+      "marks": [
+        {
+          "id": "hold",
+          "tile": "f:-3:0",
+          "label": "扳住重杆",
+          "kind": "lever"
+        },
+        {
+          "id": "plate",
+          "tile": "f:3:5",
+          "label": "轻叶踏板",
+          "kind": "plate"
+        },
+        {
+          "id": "latch",
+          "tile": "f:-3:5",
+          "label": "固定归途门闩",
+          "kind": "latch"
+        },
+        {
+          "id": "bell",
+          "tile": "f:-2:5",
+          "label": "门铃",
+          "kind": "item"
+        },
+        {
+          "id": "home",
+          "tile": "f:-4:0",
+          "label": "归还鼹鼠的门铃",
+          "kind": "flower"
+        },
+        {
+          "id": "core",
+          "tile": "f:-9:0",
+          "label": "在花园中央种下微光",
+          "kind": "core"
+        },
+        {
+          "id": "rest",
+          "tile": "f:-4:-1",
+          "label": "在这里坐一会儿",
+          "kind": "rest",
+          "text": "没有需要赶上的时间。小苔灵靠着你，听风从石阶间经过。"
+        },
+        {
+          "id": "observe",
+          "tile": "f:3:3",
+          "label": "看看这里的小生命",
+          "kind": "observe",
+          "text": "门铃响起，鼹鼠为两位小邻居留着门。"
+        }
+      ],
+      "items": {
+        "bell": {
+          "tile": "f:-2:5",
+          "angle": 0
+        }
+      },
+      "walls": [],
+      "sanctuary": {
+        "gate": {
+          "id": "f:-6:0",
+          "x": -6,
+          "z": 0,
+          "h": 1
+        },
+        "tiles": [
+          {
+            "id": "f:-11:-2",
+            "x": -11,
+            "z": -2,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-10:-2",
+            "x": -10,
+            "z": -2,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-9:-2",
+            "x": -9,
+            "z": -2,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-8:-2",
+            "x": -8,
+            "z": -2,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-7:-2",
+            "x": -7,
+            "z": -2,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-11:-1",
+            "x": -11,
+            "z": -1,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-10:-1",
+            "x": -10,
+            "z": -1,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-9:-1",
+            "x": -9,
+            "z": -1,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-8:-1",
+            "x": -8,
+            "z": -1,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-7:-1",
+            "x": -7,
+            "z": -1,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-11:0",
+            "x": -11,
+            "z": 0,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-10:0",
+            "x": -10,
+            "z": 0,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-9:0",
+            "x": -9,
+            "z": 0,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-8:0",
+            "x": -8,
+            "z": 0,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-7:0",
+            "x": -7,
+            "z": 0,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-11:1",
+            "x": -11,
+            "z": 1,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-10:1",
+            "x": -10,
+            "z": 1,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-9:1",
+            "x": -9,
+            "z": 1,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-8:1",
+            "x": -8,
+            "z": 1,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-7:1",
+            "x": -7,
+            "z": 1,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-11:2",
+            "x": -11,
+            "z": 2,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-10:2",
+            "x": -10,
+            "z": 2,
+            "h": 2,
+            "small": false
+          },
+          {
+            "id": "f:-9:2",
+            "x": -9,
+            "z": 2,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-8:2",
+            "x": -8,
+            "z": 2,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-7:2",
+            "x": -7,
+            "z": 2,
+            "h": 1,
+            "small": false
+          },
+          {
+            "id": "f:-5:0",
+            "x": -5,
+            "z": 0,
+            "h": 0,
+            "small": false
+          }
+        ],
+        "fountain": {
+          "x": -9,
+          "z": -2,
+          "h": 1
+        }
+      },
+      "initialRunoffSource": {
+        "id": "f:-10:2",
+        "x": -10,
+        "z": 2,
+        "h": 2,
+        "small": false,
+        "solid": false
+      },
+      "initialValleyVineFaces": [
+        {
+          "tile": "f:-2:-1",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:-4:1",
+          "side": "left",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:4:-1",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:2:1",
+          "side": "left",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:4:5",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:3:6",
+          "side": "left",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:-2:5",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:-3:6",
+          "side": "left",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:3:3",
+          "side": "right",
+          "widthMax": 24,
+          "length": 84
+        },
+        {
+          "tile": "f:-10:-2",
+          "side": "right",
+          "widthMax": 24,
+          "length": 36
+        },
+        {
+          "tile": "f:-7:-2",
+          "side": "right",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:-10:1",
+          "side": "right",
+          "widthMax": 24,
+          "length": 36
+        },
+        {
+          "tile": "f:-7:1",
+          "side": "right",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:-11:2",
+          "side": "left",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:-8:2",
+          "side": "left",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:-6:0",
+          "side": "left",
+          "widthMax": 24,
+          "length": 85
+        },
+        {
+          "tile": "f:-6:0",
+          "side": "right",
+          "widthMax": 24,
+          "length": 36
+        }
+      ],
+      "terrainTextureCounts": {
+        "paving-grass": 31,
+        "paving-moss": 10,
+        "paving-valley": 24
+      },
+      "pond": null
+    },
+    {
+      "id": "2-1",
+      "title": "池塘之声",
+      "chapter": "pond",
+      "fixedTiles": 36,
+      "initialTiles": 46,
+      "decorations": [
+        {
+          "id": "f:-1:-5",
+          "x": -1.24,
+          "z": -5,
+          "h": 2,
+          "small": false,
+          "depth": -5.88,
+          "asset": "blue-flowers",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.5267857142857143
+        },
+        {
+          "id": "f:-4:-1",
+          "x": -4,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": -4.88,
+          "asset": "ivory-lotus",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4650455927051672
+        },
+        {
+          "id": "f:1:-5",
+          "x": 1,
+          "z": -5.24,
+          "h": 2,
+          "small": false,
+          "depth": -3.88,
+          "asset": "berry-bush",
+          "width": 39,
+          "widthPerTile": 0.5571428571428572,
+          "nominalHeightPerTileWidth": 0.47814498933901917
+        },
+        {
+          "id": "f:-1:-3",
+          "x": -1.24,
+          "z": -3,
+          "h": 2,
+          "small": false,
+          "depth": -3.88,
+          "asset": "yellow-flowers",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.5283018867924528
+        },
+        {
+          "id": "f:-3:0",
+          "x": -2.76,
+          "z": 0,
+          "h": 0,
+          "small": false,
+          "depth": -2.88,
+          "asset": "lotus-pool",
+          "width": 47,
+          "widthPerTile": 0.6714285714285714,
+          "nominalHeightPerTileWidth": 0.39264828738512947
+        },
+        {
+          "id": "f:1:-3",
+          "x": 1.24,
+          "z": -3,
+          "h": 2,
+          "small": false,
+          "depth": -1.88,
+          "asset": "pink-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4087912087912088
+        },
+        {
+          "id": "f:-4:2",
+          "x": -4.24,
+          "z": 2,
+          "h": 0,
+          "small": false,
+          "depth": -1.88,
+          "asset": "stone-lantern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.5837438423645319
+        },
+        {
+          "id": "f:-4:4",
+          "x": -4.24,
+          "z": 4,
+          "h": 0,
+          "small": false,
+          "depth": 0.12,
+          "asset": "fern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.3877551020408163
+        },
+        {
+          "id": "f:3:-1",
+          "x": 2.76,
+          "z": -1,
+          "h": 1,
+          "small": false,
+          "depth": 2.12,
+          "asset": "river-rock",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.36788874841972186
+        },
+        {
+          "id": "f:5:-1",
+          "x": 5,
+          "z": -1.24,
+          "h": 1,
+          "small": false,
+          "depth": 4.12,
+          "asset": "blue-flowers",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.5267857142857143
+        },
+        {
+          "id": "f:3:1",
+          "x": 2.76,
+          "z": 1,
+          "h": 1,
+          "small": false,
+          "depth": 4.12,
+          "asset": "ivory-lotus",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4650455927051672
+        },
+        {
+          "id": "f:5:1",
+          "x": 5.24,
+          "z": 1,
+          "h": 1,
+          "small": false,
+          "depth": 6.12,
+          "asset": "berry-bush",
+          "width": 39,
+          "widthPerTile": 0.5571428571428572,
+          "nominalHeightPerTileWidth": 0.47814498933901917
+        }
+      ],
+      "counts": {
+        "blue-flowers": 2,
+        "ivory-lotus": 2,
+        "berry-bush": 2,
+        "yellow-flowers": 1,
+        "lotus-pool": 1,
+        "pink-flowers": 1,
+        "stone-lantern": 1,
+        "fern": 1,
+        "river-rock": 1
+      },
+      "initialVisibleDecorations": 12,
+      "marks": [
+        {
+          "id": "water",
+          "tile": "m:float:0:0",
+          "label": "调节池塘水位",
+          "kind": "valve"
+        },
+        {
+          "id": "dew",
+          "tile": "f:0:4",
+          "label": "接一滴清露",
+          "kind": "item"
+        },
+        {
+          "id": "care",
+          "tile": "m:float:0:0",
+          "label": "把清露留给睡莲",
+          "kind": "flower"
+        },
+        {
+          "id": "core",
+          "tile": "f:4:0",
+          "label": "唤醒池塘花床",
+          "kind": "core"
+        },
+        {
+          "id": "rest",
+          "tile": "f:-5:-1",
+          "label": "在这里坐一会儿",
+          "kind": "rest",
+          "text": "没有需要赶上的时间。小苔灵靠着你，听风从石阶间经过。"
+        },
+        {
+          "id": "observe",
+          "tile": "f:0:2",
+          "label": "看看这里的小生命",
+          "kind": "observe",
+          "text": "睡莲接住清露，也接住两双小小的脚。"
+        }
+      ],
+      "items": {
+        "dew": {
+          "tile": "f:0:4",
+          "angle": 0
+        }
+      },
+      "walls": [],
+      "sanctuary": null,
+      "initialRunoffSource": {
+        "id": "f:1:-3",
+        "x": 1,
+        "z": -3,
+        "h": 2,
+        "small": false
+      },
+      "initialValleyVineFaces": [],
+      "terrainTextureCounts": {
+        "paving-moss": 13,
+        "paving-pond": 28,
+        "paving-grass": 5
+      },
+      "pond": {
+        "waterHeight": -0.55,
+        "bankSamples": 48,
+        "bankProps": [
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 22,
+            "index": 0,
+            "x": -8.2,
+            "z": 0.36000000000000043
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 29,
+            "index": 1,
+            "x": -7.877358665793334,
+            "z": -0.45748383918905766
+          },
+          {
+            "type": "shrub",
+            "asset": "fern",
+            "width": 43,
+            "index": 4,
+            "x": -7.108104076776595,
+            "z": -3.3049654630557
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 33,
+            "index": 5,
+            "x": -6.573251672104541,
+            "z": -4.10180920426998
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 21,
+            "index": 5,
+            "x": -6.573251672104541,
+            "z": -4.10180920426998
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 20,
+            "index": 9,
+            "x": -2.1243090116950496,
+            "z": -7.81904674524336
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 28,
+            "index": 10,
+            "x": -1.1157860062707652,
+            "z": -8.319727272011141
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 22,
+            "index": 13,
+            "x": 0.8152847399532247,
+            "z": -7.914795412517768
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 23,
+            "index": 15,
+            "x": 1.7618986307103741,
+            "z": -7.517199411106915
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 24,
+            "index": 17,
+            "x": 3.766305129335344,
+            "z": -6.756377797424046
+          },
+          {
+            "type": "shrub",
+            "asset": "berry-bush",
+            "width": 44,
+            "index": 17,
+            "x": 3.766305129335344,
+            "z": -6.756377797424046
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 34,
+            "index": 20,
+            "x": 7.664854189233919,
+            "z": -2.744418418207539
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 26,
+            "index": 21,
+            "x": 8.086584518978508,
+            "z": -1.771828781690816
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 29,
+            "index": 25,
+            "x": 7.738167172136538,
+            "z": 0.3668737573328317
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 25,
+            "index": 25,
+            "x": 7.738167172136538,
+            "z": 0.3668737573328317
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 27,
+            "index": 29,
+            "x": 6.62066238470376,
+            "z": 4.008021591984833
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 24,
+            "index": 30,
+            "x": 5.114137067982097,
+            "z": 4.657571728652771
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 29,
+            "index": 33,
+            "x": 0.7553921554142106,
+            "z": 6.679307192280255
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 32,
+            "index": 35,
+            "x": -1.0115511792212992,
+            "z": 7.506658541153729
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 21,
+            "index": 37,
+            "x": -2.9452698226561114,
+            "z": 7.036986043009563
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 27,
+            "index": 40,
+            "x": -5.6981996854307155,
+            "z": 6.299246521587491
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 20,
+            "index": 41,
+            "x": -6.51874302053438,
+            "z": 6.063023797850884
+          },
+          {
+            "type": "shrub",
+            "asset": "berry-bush",
+            "width": 35,
+            "index": 43,
+            "x": -7.45370830878441,
+            "z": 4.530404526627635
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 22,
+            "index": 45,
+            "x": -7.6647307286094675,
+            "z": 2.160692983221682
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 22,
+            "index": 45,
+            "x": -7.6647307286094675,
+            "z": 2.160692983221682
+          }
+        ],
+        "meadowShrubs": [
+          {
+            "asset": "bush",
+            "width": 53
+          },
+          {
+            "asset": "berry-bush",
+            "width": 44
+          }
+        ],
+        "residents": [
+          {
+            "x": -6.7,
+            "z": 4.9,
+            "h": 0
+          },
+          {
+            "x": 6.6,
+            "z": 4.8,
+            "h": 0
+          }
+        ],
+        "weather": {
+          "atmosphereDesktop": 76,
+          "atmosphereNarrow": 38,
+          "impactCandidates": 23
+        },
+        "note": "Bank props are draw candidates; canvas clipping/occlusion and state changes require screenshots. Water-grid pads/reeds use seed rules documented in Markdown."
+      }
+    },
+    {
+      "id": "2-2",
+      "title": "涟漪之谜",
+      "chapter": "pond",
+      "fixedTiles": 34,
+      "initialTiles": 31,
+      "decorations": [
+        {
+          "id": "f:0:-1",
+          "x": 0,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": -0.88,
+          "asset": "berry-bush",
+          "width": 39,
+          "widthPerTile": 0.5571428571428572,
+          "nominalHeightPerTileWidth": 0.47814498933901917
+        },
+        {
+          "id": "f:-1:0",
+          "x": -1.24,
+          "z": 0,
+          "h": 0,
+          "small": false,
+          "depth": -0.88,
+          "asset": "yellow-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4528301886792453
+        },
+        {
+          "id": "f:3:-1",
+          "x": 3,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": 2.12,
+          "asset": "lotus-pool",
+          "width": 47,
+          "widthPerTile": 0.6714285714285714,
+          "nominalHeightPerTileWidth": 0.39264828738512947
+        },
+        {
+          "id": "f:-1:3",
+          "x": -1.24,
+          "z": 3,
+          "h": 0,
+          "small": false,
+          "depth": 2.12,
+          "asset": "pink-flowers",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.47692307692307695
+        },
+        {
+          "id": "f:3:1",
+          "x": 2.76,
+          "z": 1,
+          "h": 0,
+          "small": false,
+          "depth": 4.12,
+          "asset": "stone-lantern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.5837438423645319
+        },
+        {
+          "id": "f:1:3",
+          "x": 1,
+          "z": 3.24,
+          "h": 0,
+          "small": false,
+          "depth": 4.12,
+          "asset": "fern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.3877551020408163
+        },
+        {
+          "id": "f:5:1",
+          "x": 5.24,
+          "z": 1,
+          "h": 0,
+          "small": false,
+          "depth": 6.12,
+          "asset": "river-rock",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.36788874841972186
+        }
+      ],
+      "counts": {
+        "berry-bush": 1,
+        "yellow-flowers": 1,
+        "lotus-pool": 1,
+        "pink-flowers": 1,
+        "stone-lantern": 1,
+        "fern": 1,
+        "river-rock": 1
+      },
+      "initialVisibleDecorations": 7,
+      "marks": [
+        {
+          "id": "source",
+          "tile": "f:0:1",
+          "label": "固定光源",
+          "kind": "lamp"
+        },
+        {
+          "id": "mirrorA",
+          "tile": "f:1:1",
+          "label": "① 固定反光叶",
+          "kind": "turn"
+        },
+        {
+          "id": "mirrorB",
+          "tile": "f:4:3",
+          "label": "搬起第二片镜叶",
+          "kind": "item"
+        },
+        {
+          "id": "slot",
+          "tile": "f:1:0",
+          "label": "② 镜叶光槽",
+          "kind": "slot"
+        },
+        {
+          "id": "core",
+          "tile": "f:4:0",
+          "label": "接住绕过石壁的光",
+          "kind": "core"
+        },
+        {
+          "id": "rest",
+          "tile": "f:-1:-1",
+          "label": "在这里坐一会儿",
+          "kind": "rest",
+          "text": "没有需要赶上的时间。小苔灵靠着你，听风从石阶间经过。"
+        },
+        {
+          "id": "observe",
+          "tile": "f:5:3",
+          "label": "看看这里的小生命",
+          "kind": "observe",
+          "text": "光绕过石壁，照见一朵等了很久的花。"
+        }
+      ],
+      "items": {
+        "mirrorA": {
+          "tile": "f:1:1",
+          "angle": 0
+        },
+        "mirrorB": {
+          "tile": "f:4:3",
+          "angle": 0
+        }
+      },
+      "walls": [
+        [
+          2,
+          1
+        ]
+      ],
+      "sanctuary": null,
+      "initialRunoffSource": {
+        "id": "f:5:-1",
+        "x": 5,
+        "z": -1,
+        "h": 0,
+        "small": false
+      },
+      "initialValleyVineFaces": [],
+      "terrainTextureCounts": {
+        "paving-moss": 7,
+        "paving-pond": 20,
+        "paving-grass": 4
+      },
+      "pond": {
+        "waterHeight": -0.5,
+        "bankSamples": 36,
+        "bankProps": [
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 22,
+            "index": 0,
+            "x": -4.2,
+            "z": 1.3600000000000003
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 29,
+            "index": 1,
+            "x": -3.8773586657933348,
+            "z": -0.013039394744613159
+          },
+          {
+            "type": "shrub",
+            "asset": "fern",
+            "width": 43,
+            "index": 4,
+            "x": -3.204618426787875,
+            "z": -3.134813146400314
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 33,
+            "index": 5,
+            "x": -2.9593090721496615,
+            "z": -3.4211999376484354
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 21,
+            "index": 5,
+            "x": -2.9593090721496615,
+            "z": -3.4211999376484354
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 20,
+            "index": 9,
+            "x": 2.007061838203426,
+            "z": -4.287675895344885
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 28,
+            "index": 10,
+            "x": 4.0683089103395,
+            "z": -4.4759369887116485
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 22,
+            "index": 13,
+            "x": 6.946001428706749,
+            "z": -3.112178767937959
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 23,
+            "index": 15,
+            "x": 7.361898630710374,
+            "z": -1.9171994111069153
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 24,
+            "index": 17,
+            "x": 7.88831250729361,
+            "z": -0.5672740642711986
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 34,
+            "index": 20,
+            "x": 8.407775467124502,
+            "z": 3.518323281589413
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 26,
+            "index": 21,
+            "x": 8.086584518978508,
+            "z": 4.490912918106136
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 29,
+            "index": 25,
+            "x": 4.759735233213808,
+            "z": 5.677330707298992
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 25,
+            "index": 25,
+            "x": 4.759735233213808,
+            "z": 5.677330707298992
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 27,
+            "index": 29,
+            "x": -0.7525362650593528,
+            "z": 6.1960414754648125
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 24,
+            "index": 30,
+            "x": -1.7799754817133324,
+            "z": 5.626200878754296
+          },
+          {
+            "type": "shrub",
+            "asset": "fern",
+            "width": 34,
+            "index": 30,
+            "x": -1.7799754817133324,
+            "z": 5.626200878754296
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 29,
+            "index": 33,
+            "x": -4.107349544382742,
+            "z": 4.079307192280256
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 32,
+            "index": 35,
+            "x": -4.396300256976517,
+            "z": 2.5955474300426182
+          }
+        ],
+        "meadowShrubs": [
+          {
+            "asset": "bush",
+            "width": 53
+          },
+          {
+            "asset": "berry-bush",
+            "width": 44
+          }
+        ],
+        "residents": [
+          {
+            "x": -2.7,
+            "z": 3.9,
+            "h": 0
+          },
+          {
+            "x": 6.6,
+            "z": 3.8,
+            "h": 0
+          }
+        ],
+        "weather": {
+          "atmosphereDesktop": 76,
+          "atmosphereNarrow": 38,
+          "impactCandidates": 23
+        },
+        "note": "Bank props are draw candidates; canvas clipping/occlusion and state changes require screenshots. Water-grid pads/reeds use seed rules documented in Markdown."
+      }
+    },
+    {
+      "id": "2-3",
+      "title": "雨滴节拍",
+      "chapter": "pond",
+      "fixedTiles": 18,
+      "initialTiles": 23,
+      "decorations": [
+        {
+          "id": "f:-1:-5",
+          "x": -1.24,
+          "z": -5,
+          "h": 2,
+          "small": false,
+          "depth": -5.88,
+          "asset": "lotus-pool",
+          "width": 47,
+          "widthPerTile": 0.6714285714285714,
+          "nominalHeightPerTileWidth": 0.39264828738512947
+        },
+        {
+          "id": "f:-3:-1",
+          "x": -3,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": -3.88,
+          "asset": "pink-flowers",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.4087912087912088
+        },
+        {
+          "id": "f:-1:-3",
+          "x": -1.24,
+          "z": -3,
+          "h": 2,
+          "small": false,
+          "depth": -3.88,
+          "asset": "stone-lantern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.5837438423645319
+        },
+        {
+          "id": "f:-3:1",
+          "x": -2.76,
+          "z": 1,
+          "h": 0,
+          "small": false,
+          "depth": -1.88,
+          "asset": "fern",
+          "width": 35,
+          "widthPerTile": 0.5,
+          "nominalHeightPerTileWidth": 0.4523809523809524
+        }
+      ],
+      "counts": {
+        "lotus-pool": 1,
+        "pink-flowers": 1,
+        "stone-lantern": 1,
+        "fern": 1
+      },
+      "initialVisibleDecorations": 4,
+      "marks": [
+        {
+          "id": "song",
+          "tile": "f:-4:0",
+          "label": "雨滴琴与动作叶",
+          "kind": "song"
+        },
+        {
+          "id": "stage",
+          "tile": "m:stage:0:0",
+          "label": "乘上花台",
+          "kind": "flower"
+        },
+        {
+          "id": "latch",
+          "tile": "f:0:-4",
+          "label": "固定会合便道",
+          "kind": "latch"
+        },
+        {
+          "id": "core",
+          "tile": "f:1:-4",
+          "label": "一起听雨",
+          "kind": "core"
+        },
+        {
+          "id": "rest",
+          "tile": "f:-5:-1",
+          "label": "在这里坐一会儿",
+          "kind": "rest",
+          "text": "没有需要赶上的时间。小苔灵靠着你，听风从石阶间经过。"
+        },
+        {
+          "id": "observe",
+          "tile": "f:1:-3",
+          "label": "看看这里的小生命",
+          "kind": "observe",
+          "text": "花园跟着你写的雨歌，轻轻跳了一支舞。"
+        }
+      ],
+      "items": {},
+      "walls": [],
+      "sanctuary": null,
+      "initialRunoffSource": {
+        "id": "f:0:-3",
+        "x": 0,
+        "z": -3,
+        "h": 2,
+        "small": false
+      },
+      "initialValleyVineFaces": [],
+      "terrainTextureCounts": {
+        "paving-pond": 14,
+        "paving-grass": 2,
+        "paving-moss": 7
+      },
+      "pond": {
+        "waterHeight": -0.5,
+        "bankSamples": 42,
+        "bankProps": [
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 22,
+            "index": 0,
+            "x": -8.2,
+            "z": 0.36000000000000043
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 29,
+            "index": 1,
+            "x": -7.877358665793334,
+            "z": -0.45748383918905766
+          },
+          {
+            "type": "shrub",
+            "asset": "fern",
+            "width": 43,
+            "index": 4,
+            "x": -7.108104076776595,
+            "z": -3.3049654630557
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 33,
+            "index": 5,
+            "x": -6.573251672104541,
+            "z": -4.10180920426998
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 21,
+            "index": 5,
+            "x": -6.573251672104541,
+            "z": -4.10180920426998
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 20,
+            "index": 9,
+            "x": -2.1243090116950496,
+            "z": -7.81904674524336
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 28,
+            "index": 10,
+            "x": -1.1157860062707652,
+            "z": -8.319727272011141
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 22,
+            "index": 13,
+            "x": 0.8152847399532247,
+            "z": -7.914795412517768
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 23,
+            "index": 15,
+            "x": 1.7618986307103741,
+            "z": -7.517199411106915
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 24,
+            "index": 17,
+            "x": 3.0856958627137994,
+            "z": -7.142435197469168
+          },
+          {
+            "type": "shrub",
+            "asset": "berry-bush",
+            "width": 44,
+            "index": 17,
+            "x": 3.0856958627137994,
+            "z": -7.142435197469168
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 34,
+            "index": 20,
+            "x": 4.563985183825009,
+            "z": -4.443549412798628
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 26,
+            "index": 21,
+            "x": 4.5552136690800324,
+            "z": -3.6404579317923393
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 29,
+            "index": 25,
+            "x": 2.9603893943587605,
+            "z": 0.7002070906661652
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 25,
+            "index": 25,
+            "x": 2.9603893943587605,
+            "z": 0.7002070906661652
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 27,
+            "index": 29,
+            "x": 2.228942006971102,
+            "z": 4.54963454758551
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 24,
+            "index": 30,
+            "x": 1.4827662180836199,
+            "z": 4.626200878754295
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 29,
+            "index": 33,
+            "x": -2.8759786944842656,
+            "z": 4.647936342381779
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 32,
+            "index": 35,
+            "x": -5.473423873609342,
+            "z": 4.406004380008777
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 21,
+            "index": 37,
+            "x": -6.52043095585408,
+            "z": 3.234369398429754
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 27,
+            "index": 40,
+            "x": -7.877939946643352,
+            "z": 1.3456534494667909
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 20,
+            "index": 41,
+            "x": -8.32135966511419,
+            "z": 0.9323071090973603
+          }
+        ],
+        "meadowShrubs": [
+          {
+            "asset": "bush",
+            "width": 53
+          },
+          {
+            "asset": "berry-bush",
+            "width": 44
+          }
+        ],
+        "residents": [
+          {
+            "x": -6.7,
+            "z": 1.9,
+            "h": 0
+          }
+        ],
+        "weather": {
+          "atmosphereDesktop": 76,
+          "atmosphereNarrow": 38,
+          "impactCandidates": 23
+        },
+        "note": "Bank props are draw candidates; canvas clipping/occlusion and state changes require screenshots. Water-grid pads/reeds use seed rules documented in Markdown."
+      }
+    },
+    {
+      "id": "2-4",
+      "title": "池塘守护者",
+      "chapter": "pond",
+      "fixedTiles": 18,
+      "initialTiles": 19,
+      "decorations": [
+        {
+          "id": "f:11:-1",
+          "x": 11,
+          "z": -1.24,
+          "h": 0,
+          "small": false,
+          "depth": 10.12,
+          "asset": "stone-lantern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.5837438423645319
+        },
+        {
+          "id": "f:11:1",
+          "x": 11.24,
+          "z": 1,
+          "h": 0,
+          "small": false,
+          "depth": 12.12,
+          "asset": "fern",
+          "width": 30,
+          "widthPerTile": 0.42857142857142855,
+          "nominalHeightPerTileWidth": 0.3877551020408163
+        },
+        {
+          "id": "f:-5:-1",
+          "x": -5,
+          "z": -1,
+          "h": 0,
+          "small": false,
+          "asset": "wood-lantern",
+          "width": 40,
+          "widthPerTile": 0.5714285714285714,
+          "nominalHeightPerTileWidth": 0.7333333333333333
+        }
+      ],
+      "counts": {
+        "stone-lantern": 1,
+        "fern": 1,
+        "wood-lantern": 1
+      },
+      "initialVisibleDecorations": 3,
+      "marks": [
+        {
+          "id": "pollen",
+          "tile": "f:-4:0",
+          "label": "花粉与光虫",
+          "kind": "flower"
+        },
+        {
+          "id": "plant",
+          "tile": "m:boat:0:0",
+          "label": "种一朵蜜花",
+          "kind": "flower"
+        },
+        {
+          "id": "slide",
+          "tile": "m:boat:0:0",
+          "label": "移动花园",
+          "kind": "turn"
+        },
+        {
+          "id": "invite",
+          "tile": "m:boat:0:0",
+          "label": "邀请光虫",
+          "kind": "flower"
+        },
+        {
+          "id": "core",
+          "tile": "f:10:0",
+          "label": "照料授粉后的花岸",
+          "kind": "core"
+        },
+        {
+          "id": "rest",
+          "tile": "f:-5:-1",
+          "label": "在这里坐一会儿",
+          "kind": "rest",
+          "text": "没有需要赶上的时间。小苔灵靠着你，听风从石阶间经过。"
+        },
+        {
+          "id": "observe",
+          "tile": "f:11:1",
+          "label": "看看这里的小生命",
+          "kind": "observe",
+          "text": "小花园载回光虫，这里又可以成为家。"
+        }
+      ],
+      "items": {
+        "bug": {
+          "tile": "f:-4:0",
+          "angle": 0
+        }
+      },
+      "walls": [],
+      "sanctuary": null,
+      "initialRunoffSource": {
+        "id": "f:-2:0",
+        "x": -2,
+        "z": 0,
+        "h": 0,
+        "kind": "root",
+        "small": false
+      },
+      "initialValleyVineFaces": [],
+      "terrainTextureCounts": {
+        "paving-pond": 15,
+        "paving-moss": 3,
+        "paving-grass": 1
+      },
+      "pond": {
+        "waterHeight": -0.5,
+        "bankSamples": 36,
+        "bankProps": [
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 22,
+            "index": 0,
+            "x": -8.2,
+            "z": 0.36000000000000043
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 29,
+            "index": 1,
+            "x": -7.877358665793334,
+            "z": -0.45748383918905766
+          },
+          {
+            "type": "shrub",
+            "asset": "fern",
+            "width": 43,
+            "index": 4,
+            "x": -7.204618426787875,
+            "z": -3.134813146400314
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 33,
+            "index": 5,
+            "x": -6.959309072149662,
+            "z": -3.4211999376484354
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 21,
+            "index": 5,
+            "x": -6.959309072149662,
+            "z": -3.4211999376484354
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 20,
+            "index": 9,
+            "x": 3.0070618382034264,
+            "z": -4.287675895344885
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 28,
+            "index": 10,
+            "x": 7.846086688117278,
+            "z": -4.4759369887116485
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 22,
+            "index": 13,
+            "x": 12.94600142870675,
+            "z": -3.112178767937959
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 23,
+            "index": 15,
+            "x": 13.361898630710375,
+            "z": -1.9171994111069153
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 24,
+            "index": 17,
+            "x": 13.888312507293609,
+            "z": -1.011718508715643
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 34,
+            "index": 20,
+            "x": 14.4077754671245,
+            "z": 1.6294343927005248
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 26,
+            "index": 21,
+            "x": 14.086584518978508,
+            "z": 2.4909129181061367
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 29,
+            "index": 25,
+            "x": 10.204179677658255,
+            "z": 3.677330707298991
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 25,
+            "index": 25,
+            "x": 10.204179677658255,
+            "z": 3.677330707298991
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 27,
+            "index": 29,
+            "x": -4.196980709503798,
+            "z": 4.1960414754648125
+          },
+          {
+            "type": "rock",
+            "asset": "small-pebbles",
+            "width": 24,
+            "index": 30,
+            "x": -5.779975481713332,
+            "z": 3.626200878754295
+          },
+          {
+            "type": "shrub",
+            "asset": "fern",
+            "width": 34,
+            "index": 30,
+            "x": -5.779975481713332,
+            "z": 3.626200878754295
+          },
+          {
+            "type": "fern",
+            "asset": "fern",
+            "width": 29,
+            "index": 33,
+            "x": -8.10734954438274,
+            "z": 2.079307192280256
+          },
+          {
+            "type": "rock",
+            "asset": "river-rock",
+            "width": 32,
+            "index": 35,
+            "x": -8.396300256976517,
+            "z": 1.0399918744870629
+          }
+        ],
+        "meadowShrubs": [
+          {
+            "asset": "bush",
+            "width": 53
+          },
+          {
+            "asset": "berry-bush",
+            "width": 44
+          }
+        ],
+        "residents": [
+          {
+            "x": -6.7,
+            "z": 1.9,
+            "h": 0
+          },
+          {
+            "x": 12.6,
+            "z": 1.8,
+            "h": 0
+          }
+        ],
+        "weather": {
+          "atmosphereDesktop": 76,
+          "atmosphereNarrow": 38,
+          "impactCandidates": 23
+        },
+        "note": "Bank props are draw candidates; canvas clipping/occlusion and state changes require screenshots. Water-grid pads/reeds use seed rules documented in Markdown."
+      }
+    }
+  ],
+  "assets": {
+    "arch": {
+      "path": "assets/images/grid-world/arch.png",
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "6d3ee98996884b6c7d37cd9283f5aaca2326336ab2eb521352d9c0e443e51d60",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "berry-bush": {
+      "path": "assets/images/garden-scenery/berry-bush.png",
+      "size": [
+        134,
+        115
+      ],
+      "sha256": "983383a73d1bf3b6c81aa7ef006960a8f7606966f7ff158166ff3429b7d03bd7",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "bloom": {
+      "path": "assets/images/production/bloom.png",
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "61adb1ab88be2ae6167fd915efd26a4d2fd5788dcb880cc06bf9691f34c34633",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "blue-flowers": {
+      "path": "assets/images/garden-scenery/blue-flowers.png",
+      "size": [
+        112,
+        118
+      ],
+      "sha256": "dfd66082f695221ecf540fae9f265c5977257113ba1be7389027eecff524542d",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "bug": {
+      "path": "assets/images/production/bug.png",
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "77b6ea178abebff5d1b39efbac518fe804c8c549f5101e0e0570cb9693a855cd",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "bush": {
+      "path": "assets/images/grid-world/bush.png",
+      "size": [
+        141,
+        119
+      ],
+      "sha256": "ecc022bcbf502a74588e5ffdded54b85082aeaa3e3cadb0ba6185ecf559b7761",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "dew-parcel": {
+      "path": "assets/images/garden-scenery/dew-parcel.png",
+      "size": [
+        91,
+        97
+      ],
+      "sha256": "7f3236c2950f5af8750c2e949155cc2b53277ff8533ed3fb885f71467c8ca744",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "dew-plant": {
+      "path": "assets/images/garden-scenery/dew-plant.png",
+      "size": [
+        119,
+        135
+      ],
+      "sha256": "df384965fa736472f158a6037a6e135f778803b69e05d51d1960d1e4f0c8966e",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "fern": {
+      "path": "assets/images/garden-scenery/fern.png",
+      "size": [
+        126,
+        114
+      ],
+      "sha256": "224026803ba4ba0808a4df502b08ed8b4a9d062b1c6c95ce73a980bf4d8b1ccf",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "flower": {
+      "path": "assets/images/production/flower.png",
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "e69e58eb8acee53f7714b8cc6106da13eeb6f1d305ef27882ddffce8fdf0ae04",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "flower-gate-frame": {
+      "path": "assets/images/garden-scenery/flower-gate-frame.png",
+      "size": [
+        272,
+        405
+      ],
+      "sha256": "a233c0a455acf635ae5ab1ed7a5785dfa936dc74df09777a91892a6260809215",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "flower-gate-seal": {
+      "path": "assets/images/garden-scenery/flower-gate-seal.png",
+      "size": [
+        272,
+        405
+      ],
+      "sha256": "edad35f21993bcef6491f4d62f179c2e414320eaf08974dc2904c8f0eac558a9",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "gold-lotus": {
+      "path": "assets/images/garden-scenery/gold-lotus.png",
+      "size": [
+        128,
+        148
+      ],
+      "sha256": "9f4651677f2671532c942c8fc21ee0e976cc3b4b277f485b7d3f6b878a3b8b22",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "ivory-lotus": {
+      "path": "assets/images/garden-scenery/ivory-lotus.png",
+      "size": [
+        94,
+        102
+      ],
+      "sha256": "669f9eb5551b85a9028603ff410a5b0bd797bdc730af650e236c370c5a3a2843",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "light": {
+      "path": "assets/images/production/light.png",
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "164961457060b51ee81ef2b423a301e8791e245f685b30a166207050039e80f8",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "lilypad": {
+      "path": "assets/images/grid-world/lilypad.png",
+      "size": [
+        146,
+        85
+      ],
+      "sha256": "cc2ffa3c40368f9991cc8a643ac765f136cd6b690e4fa0ef0be471e1fbeb07db",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "lotus-pool": {
+      "path": "assets/images/garden-scenery/lotus-pool.png",
+      "size": [
+        342,
+        200
+      ],
+      "sha256": "73f7fceeeef3412220b009e7a7fc92f43f3bb831ef8f7ed6bef98c9509be4de6",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "pink-flowers": {
+      "path": "assets/images/garden-scenery/pink-flowers.png",
+      "size": [
+        130,
+        124
+      ],
+      "sha256": "68315dd9a44d21329a6c946e6523034c2859ae4db33e98b89f830dd1e910256a",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "red-mushroom": {
+      "path": "assets/images/garden-scenery/red-mushroom.png",
+      "size": [
+        113,
+        142
+      ],
+      "sha256": "d3ab5b3db9bbf8e167f7c6d34e25cf98901915c960bbbca8e731a2f42e3ec89e",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "river-rock": {
+      "path": "assets/images/garden-scenery/river-rock.png",
+      "size": [
+        113,
+        97
+      ],
+      "sha256": "2cb2b0e997496270900cd8c39c8b5163271dfaabed681fd34f1007a41a8903fa",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "small-pebbles": {
+      "path": "assets/images/garden-scenery/small-pebbles.png",
+      "size": [
+        117,
+        50
+      ],
+      "sha256": "e84b97c6d0502a74834b25cb359744620166ccfbb8e12137e3e3c3584131c4ed",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "stone-lantern": {
+      "path": "assets/images/garden-scenery/stone-lantern.png",
+      "size": [
+        116,
+        158
+      ],
+      "sha256": "fa36bcda5b65ff667eb521308f1d3a13e13fd7c4c15f1c575bc227b9c9f72ed0",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "trailing-vine": {
+      "path": "assets/images/garden-scenery/trailing-vine.png",
+      "size": [
+        57,
+        226
+      ],
+      "sha256": "58f094e37a43d6232e049832e4b95e45617cb0a37d7f643d1c3269e998c93f43",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "vine": {
+      "path": "assets/images/production/vine.png",
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "7f9bc88c5a559c80e1197e4f61d96f46e2858ce389b0216335e8fc1cabfcae40",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "wood-lantern": {
+      "path": "assets/images/garden-scenery/wood-lantern.png",
+      "size": [
+        120,
+        154
+      ],
+      "sha256": "ae3649b7bd385b4465cbc43faee6baf12401258b66635f05384816dc07f2af6d",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    },
+    "yellow-flowers": {
+      "path": "assets/images/garden-scenery/yellow-flowers.png",
+      "size": [
+        106,
+        112
+      ],
+      "sha256": "88e464df40af95c881b0570a39468fd93282aac7d4dc5f3393a2437bd8176315",
+      "visibleAlphaBounds": "not measured; ratio uses entire PNG as source renderer does"
+    }
+  }
+}

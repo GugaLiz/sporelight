@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+NATIVE ROUTE {"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true}
+{"checks":204,"failures":["capsule never enters the visible stone-base footprint","click input cannot walk through the stone","old inside-base pose is restored to a legal nearby landing"],"passed":false,"peakPenetration":0.159999996423721,"routes":[{"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true}],"samples":2086,"suite":"native-prop-collision"}
+ERROR: capsule never enters the visible stone-base footprint
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _run (res://tests/native_prop_collision_test.gd:46)
+       [2] _tick (res://tests/native_route_test.gd:86)
+ERROR: click input cannot walk through the stone
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _run (res://tests/native_prop_collision_test.gd:56)
+       [2] _drain (res://tests/native_route_test.gd:92)
+       [3] _tick (res://tests/native_route_test.gd:86)
+ERROR: old inside-base pose is restored to a legal nearby landing
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _run (res://tests/native_prop_collision_test.gd:64)
+       [2] _tick (res://tests/native_route_test.gd:86)

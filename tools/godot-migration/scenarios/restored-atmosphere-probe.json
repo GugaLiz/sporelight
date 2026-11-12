@@ -1,0 +1,11 @@
+{
+  "name": "Restored atmosphere short real-input workload probe",
+  "requiredViewport": [1280, 720],
+  "requiredDpr": 1,
+  "entryRequirement": "Use explicit --level 2-1 or 1-4 in an isolated release browser. This is an effect-cost diagnostic, not normal-home or full route acceptance.",
+  "phases": [
+    {"name": "atmosphere-idle", "actions": [{"waitMs": 5000}], "settleMs": 0},
+    {"name": "atmosphere-walk", "actions": [{"key": "ArrowRight", "holdMs": 1000}, {"key": "ArrowLeft", "holdMs": 1000}], "settleMs": 500},
+    {"name": "atmosphere-idle-after", "actions": [{"waitMs": 5000}], "settleMs": 0}
+  ]
+}

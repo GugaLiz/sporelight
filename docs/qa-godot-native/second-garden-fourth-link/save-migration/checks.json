@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "720be212060e7c3c3856ffd14316cd66f02f665e9d3af54c48c58d4bc27af5f8",
+    "files": 536
+  },
+  "source": {
+    "sha256": "720be212060e7c3c3856ffd14316cd66f02f665e9d3af54c48c58d4bc27af5f8",
+    "files": 536
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_second_garden_save_migration_test",
+      "code": 1,
+      "elapsedMs": 649,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":835,\"failures\":[\"test uses the actual corrected board, not fabricated replacement supports\",\"[\\\"g:root:1:0\\\", 4, \\\"f:3:1\\\"] valid legacy save migrates\",\"[\\\"g:root:1:2\\\", 4, \\\"f:3:1\\\"] valid legacy save migrates\",\"current revision cannot use removed or unknown support: f:3:1\",\"current revision cannot use removed or unknown support: f:4:2\",\"explicit revision 1 receives the same migration\",\"real repository accepts and normalizes old complete save\"],\"passed\":false,\"suite\":\"native-second-garden-save-migration\"}\r\n",
+      "stderr": "ERROR: test uses the actual corrected board, not fabricated replacement supports\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_second_garden_save_migration_test.gd:19)\r\n       [1] _run (res://tests/native_second_garden_save_migration_test.gd:38)\r\nERROR: [\"g:root:1:0\", 4, \"f:3:1\"] valid legacy save migrates\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_second_garden_save_migration_test.gd:19)\r\n       [1] _run (res://tests/native_second_garden_save_migration_test.gd:47)\r\nERROR: [\"g:root:1:2\", 4, \"f:3:1\"] valid legacy save migrates\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_second_garden_save_migration_test.gd:19)\r\n       [1] _run (res://tests/native_second_garden_save_migration_test.gd:47)\r\nERROR: current revision cannot use removed or unknown support: f:3:1\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_second_garden_save_migration_test.gd:19)\r\n       [1] _reject (res://tests/native_second_garden_save_migration_test.gd:74)\r\n       [2] _test_rejections (res://tests/native_second_garden_save_migration_test.gd:91)\r\n       [3] _run (res://tests/native_second_garden_save_migration_test.gd:65)\r\nERROR: current revision cannot use removed or unknown support: f:4:2\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_second_garden_save_migration_test.gd:19)\r\n       [1] _reject (res://tests/native_second_garden_save_migration_test.gd:74)\r\n       [2] _test_rejections (res://tests/native_second_garden_save_migration_test.gd:91)\r\n       [3] _run (res://tests/native_second_garden_save_migration_test.gd:65)\r\nERROR: explicit revision 1 receives the same migration\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_second_garden_save_migration_test.gd:19)\r\n       [1] _test_untouched (res://tests/native_second_garden_save_migration_test.gd:119)\r\n       [2] _run (res://tests/native_second_garden_save_migration_test.gd:66)\r\nERROR: real repository accepts and normalizes old complete save\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_second_garden_save_migration_test.gd:19)\r\n       [1] _test_file_roundtrip (res://tests/native_second_garden_save_migration_test.gd:131)\r\n       [2] _run (res://tests/native_second_garden_save_migration_test.gd:67)\r\nSCRIPT ERROR: Invalid access to property or key '1-2' on a base object of type 'Dictionary'.\r\n   at: _test_file_roundtrip (res://tests/native_second_garden_save_migration_test.gd:137)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _test_file_roundtrip (res://tests/native_second_garden_save_migration_test.gd:137)\r\n       [1] _run (res://tests/native_second_garden_save_migration_test.gd:67)\r\n",
+      "passed": false
+    }
+  ]
+}

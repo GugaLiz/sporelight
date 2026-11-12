@@ -1,0 +1,69 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+NATIVE ROUTE {"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true}
+NATIVE ROUTE {"completed":false,"expectedSteps":21,"level":"2-2","steps":12,"success":false}
+{"checks":262,"failures":["item:mirrorA has a real local hard-base obstacle","item:mirrorB has a real local hard-base obstacle","mark:source has a real local hard-base obstacle","OriginalScenery_04_stone_lantern has a real local hard-base obstacle","OriginalScenery_06_river_rock has a real local hard-base obstacle","original non-slot destination is preserved","drop stance is reached by real movement","2-2/12/act/drop:mirrorB:f:1:0 accepted through application transaction: 先站到镜叶旁边，再把它稳稳放下。","2-2 authored route completes with native bodies"],"passed":false,"peakPenetration":0.0,"routes":[{"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true},{"completed":false,"expectedSteps":21,"level":"2-2","steps":12,"success":false}],"samples":2780,"suite":"native-prop-collision"}
+ERROR: item:mirrorA has a real local hard-base obstacle
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _pond (res://tests/native_prop_collision_test.gd:88)
+       [2] _tick (res://tests/native_route_test.gd:86)
+ERROR: item:mirrorB has a real local hard-base obstacle
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _pond (res://tests/native_prop_collision_test.gd:88)
+       [2] _tick (res://tests/native_route_test.gd:86)
+ERROR: mark:source has a real local hard-base obstacle
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _pond (res://tests/native_prop_collision_test.gd:88)
+       [2] _tick (res://tests/native_route_test.gd:86)
+ERROR: OriginalScenery_04_stone_lantern has a real local hard-base obstacle
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _pond (res://tests/native_prop_collision_test.gd:88)
+       [2] _tick (res://tests/native_route_test.gd:86)
+ERROR: OriginalScenery_06_river_rock has a real local hard-base obstacle
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _pond (res://tests/native_prop_collision_test.gd:88)
+       [2] _tick (res://tests/native_route_test.gd:86)
+ERROR: original non-slot destination is preserved
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _pond (res://tests/native_prop_collision_test.gd:110)
+       [2] _drain (res://tests/native_route_test.gd:92)
+       [3] _tick (res://tests/native_route_test.gd:86)
+ERROR: drop stance is reached by real movement
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _pond (res://tests/native_prop_collision_test.gd:111)
+       [2] _drain (res://tests/native_route_test.gd:92)
+       [3] _tick (res://tests/native_route_test.gd:86)
+SCRIPT ERROR: Invalid access to property or key 'command' on a base object of type 'Dictionary'.
+   at: Harness._advance_prop_drop (res://application/main.gd:785)
+   GDScript backtrace (most recent call first):
+       [0] _advance_prop_drop (res://application/main.gd:785)
+       [1] _physics_process (res://application/main.gd:1142)
+       [2] _tick (res://tests/native_route_test.gd:75)
+ERROR: 2-2/12/act/drop:mirrorB:f:1:0 accepted through application transaction: 先站到镜叶旁边，再把它稳稳放下。
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _replay (res://tests/native_route_test.gd:152)
+       [2] _drain (res://tests/native_route_test.gd:92)
+       [3] _tick (res://tests/native_route_test.gd:86)
+ERROR: 2-2 authored route completes with native bodies
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _replay (res://tests/native_route_test.gd:164)
+       [2] _drain (res://tests/native_route_test.gd:92)
+       [3] _tick (res://tests/native_route_test.gd:86)

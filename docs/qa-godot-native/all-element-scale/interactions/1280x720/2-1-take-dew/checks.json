@@ -1,0 +1,3153 @@
+{
+  "level": "2-1",
+  "command": "take:dew",
+  "size": [
+    1280,
+    720
+  ],
+  "passed": true,
+  "after": {
+    "buttons": [
+      {
+        "action": "undo",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 65699579487,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_undo",
+        "pressed": false,
+        "text": "撤销",
+        "tooltip": "撤销上一次意图 · Z",
+        "visibleRect": [
+          388,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 388,
+        "y": 656
+      },
+      {
+        "action": "primary",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 65817020006,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_primary",
+        "pressed": false,
+        "text": "放在脚边的固定地面 · E",
+        "tooltip": "放在脚边的固定地面 · E",
+        "visibleRect": [
+          457,
+          656,
+          228,
+          44
+        ],
+        "width": 228,
+        "x": 457,
+        "y": 656
+      },
+      {
+        "action": "switch",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 65934460525,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_switch",
+        "pressed": false,
+        "text": "换手",
+        "tooltip": "切换伙伴 · T",
+        "visibleRect": [
+          690,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 690,
+        "y": 656
+      },
+      {
+        "action": "hint",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 66051901044,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_hint",
+        "pressed": false,
+        "text": "提示",
+        "tooltip": "主动请求一点帮助 · H",
+        "visibleRect": [
+          759,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 759,
+        "y": 656
+      },
+      {
+        "action": "follow",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 66169341563,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/CompanionFollow",
+        "pressed": false,
+        "text": "等候",
+        "tooltip": "让伙伴在此等待",
+        "visibleRect": [
+          828,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 828,
+        "y": 656
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 66706212506,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Pause",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置 · Esc",
+        "visibleRect": [
+          1174,
+          12,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 1174,
+        "y": 12
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 66823653025,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Map",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "选择花园",
+        "visibleRect": [
+          1224,
+          12,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 1224,
+        "y": 12
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 67612182224,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Overview",
+        "pressed": false,
+        "text": "全景",
+        "tooltip": "查看整片花园 / 回到身边",
+        "visibleRect": [
+          1108,
+          12,
+          60,
+          44
+        ],
+        "width": 60,
+        "x": 1108,
+        "y": 12
+      }
+    ],
+    "character": {
+      "blend": false,
+      "buddy": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          608.302856445312,
+          420.532745361328
+        ],
+        "frame": 0,
+        "grounded": true,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": -0.230000004172325,
+          "z": 4.19999980926514
+        }
+      },
+      "facing": "front",
+      "footpoint": {
+        "h": 0,
+        "x": 0,
+        "z": 4
+      },
+      "key": "idle_front",
+      "luvie": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          640,
+          421.638397216797
+        ],
+        "frame": 0,
+        "grounded": true,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": 0,
+          "z": 4
+        }
+      },
+      "moving": false,
+      "pose": {
+        "clip": "idle_front",
+        "key": "idle_front"
+      },
+      "screen_footpoint": {
+        "x": 640,
+        "y": 421.638397216797
+      },
+      "stair_contact": {
+        "bodyHeight": 0.000135415000841022,
+        "clearance": 0,
+        "ground": 0,
+        "nativeFloor": true,
+        "penetration": 0,
+        "phase": "native-surface",
+        "rail_h": 0,
+        "supportHeight": 0,
+        "visualHeight": 0
+      }
+    },
+    "commands": [
+      {
+        "id": "switch",
+        "label": "换手：操控小苔灵"
+      },
+      {
+        "id": "follow",
+        "label": "各自等候",
+        "selected": true
+      },
+      {
+        "id": "drop:dew:f:0:4",
+        "label": "放在脚边的固定地面"
+      }
+    ],
+    "context": {
+      "choices": [
+        {
+          "disabled": false,
+          "id": "drop:dew:f:0:4",
+          "label": "放在脚边的固定地面",
+          "reason": ""
+        }
+      ],
+      "id": "drop:dew:f:0:4",
+      "label": "放在脚边的固定地面",
+      "tile": {
+        "h": 0,
+        "id": "f:0:4",
+        "kind": "water",
+        "small": false,
+        "x": 0,
+        "z": 4
+      }
+    },
+    "continuousInput": true,
+    "gameHudVisible": true,
+    "growthChoices": [],
+    "hasActiveGame": true,
+    "hintVisible": false,
+    "homeActive": false,
+    "hudRegions": [
+      {
+        "name": "Heading",
+        "rect": [
+          12,
+          12,
+          360,
+          102
+        ]
+      },
+      {
+        "name": "JourneyTools",
+        "rect": [
+          380,
+          648,
+          520,
+          60
+        ]
+      },
+      {
+        "name": "JourneyMessage",
+        "rect": [
+          380,
+          590,
+          520,
+          48
+        ]
+      },
+      {
+        "name": "Navigation",
+        "rect": [
+          1174,
+          12,
+          94,
+          44
+        ]
+      },
+      {
+        "name": "Overview",
+        "rect": [
+          1108,
+          12,
+          60,
+          44
+        ]
+      }
+    ],
+    "input": {
+      "blocked": "",
+      "buffered": "",
+      "held": [],
+      "remaining": 0
+    },
+    "message": "用柔软的叶片包好清露，收进贴身的小挎袋。",
+    "motion": {},
+    "moving": false,
+    "native": {
+      "actors": {
+        "buddy": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": true,
+          "position": [
+            -0.230000004172325,
+            0.000135415000841022,
+            4.19999980926514
+          ],
+          "support": "f:0:4",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        },
+        "luvie": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": true,
+          "position": [
+            0,
+            0.000135415000841022,
+            4
+          ],
+          "support": "f:0:4",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "moving": false,
+      "path": [],
+      "stable": true
+    },
+    "origin": [
+      934.856994628906,
+      274.209808349609
+    ],
+    "overview": false,
+    "paused": false,
+    "pendingButton": "",
+    "performance": {
+      "fps": 10,
+      "memoryBytes": 58603594,
+      "processMs": 12.3,
+      "textureBytes": 90434428
+    },
+    "progress": {
+      "last_level": "2-1",
+      "memories": {},
+      "records": {},
+      "runs": {
+        "1-4": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "f:3:5",
+            "luvie": "f:-2:5"
+          },
+          "beat": 0,
+          "collected": [
+            "spore-0"
+          ],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [
+            "latch"
+          ],
+          "follow": false,
+          "frozen": null,
+          "growth": {},
+          "items": {
+            "bell": {
+              "angle": 0,
+              "tile": "f:-2:5"
+            }
+          },
+          "levelId": "1-4",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:3:5"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:-2:5"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {},
+          "water": 0
+        },
+        "2-1": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "f:0:4",
+            "luvie": "f:0:4"
+          },
+          "beat": 0,
+          "collected": [
+            "spore-0"
+          ],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {
+            "dew": {
+              "angle": 0,
+              "holder": "luvie",
+              "picked": true,
+              "tile": ""
+            }
+          },
+          "levelId": "2-1",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.23,
+                  0.0001,
+                  0.2
+                ],
+                "support": "f:0:4"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:0:4"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "float": 0
+          },
+          "water": 0
+        }
+      }
+    },
+    "qaSequence": 72,
+    "render": {
+      "meshRebuilds": 68,
+      "native": true,
+      "offscreenViews": 1,
+      "props": 14,
+      "surfaces": 46,
+      "terrainUpdates": 3,
+      "viewportUpdateMode": 4
+    },
+    "reviewing": false,
+    "revision": 1,
+    "rolling": false,
+    "safeCamera": false,
+    "safeRect": [
+      14,
+      126,
+      1252,
+      510
+    ],
+    "scale": 2.10612173951675,
+    "settings": {
+      "ambient": 0.25,
+      "bgm": 0.35,
+      "continuousInput": true,
+      "dynamicLight": true,
+      "fullscreen": false,
+      "inputSettingsRevision": 1,
+      "language": "zh-CN",
+      "lowMotion": false,
+      "particles": true,
+      "quality": "standard",
+      "safeCamera": false,
+      "sfx": 0.6,
+      "touchControls": false,
+      "vibration": false
+    },
+    "snapshot": {
+      "active": "luvie",
+      "actors": {
+        "buddy": "f:0:4",
+        "luvie": "f:0:4"
+      },
+      "beat": 0,
+      "collected": [
+        "spore-0"
+      ],
+      "completed": false,
+      "designVersion": 2,
+      "discovered": [],
+      "flags": [],
+      "follow": true,
+      "frozen": null,
+      "growth": {},
+      "items": {
+        "dew": {
+          "angle": 0,
+          "holder": "luvie",
+          "picked": true,
+          "tile": ""
+        }
+      },
+      "levelId": "2-1",
+      "mode": 0,
+      "observations": [],
+      "playing": false,
+      "runtime": {
+        "poses": {
+          "buddy": {
+            "facing": "front",
+            "offset": [
+              -0.23,
+              0.0001,
+              0.2
+            ],
+            "support": "f:0:4"
+          },
+          "luvie": {
+            "facing": "front",
+            "offset": [
+              0,
+              0.0001,
+              0
+            ],
+            "support": "f:0:4"
+          }
+        },
+        "version": 1
+      },
+      "song": [
+        "turn",
+        "rise",
+        "rest"
+      ],
+      "turns": {
+        "float": 0
+      },
+      "water": 0
+    },
+    "strolling": false,
+    "targets": [
+      {
+        "id": "f:-5:-1",
+        "x": 640,
+        "y": 53.0668830871582
+      },
+      {
+        "id": "f:-4:-1",
+        "x": 713.71435546875,
+        "y": 89.9240417480469
+      },
+      {
+        "id": "f:-3:-1",
+        "x": 787.4287109375,
+        "y": 126.781219482422
+      },
+      {
+        "id": "f:-5:0",
+        "x": 566.28564453125,
+        "y": 89.9240417480469
+      },
+      {
+        "id": "f:-4:0",
+        "x": 640,
+        "y": 126.781219482422
+      },
+      {
+        "id": "f:-3:0",
+        "x": 713.71435546875,
+        "y": 163.638397216797
+      },
+      {
+        "id": "f:-5:1",
+        "x": 492.571319580078,
+        "y": 126.781219482422
+      },
+      {
+        "id": "f:-4:1",
+        "x": 566.28564453125,
+        "y": 163.638397216797
+      },
+      {
+        "id": "f:-3:1",
+        "x": 640,
+        "y": 200.495559692383
+      },
+      {
+        "id": "f:3:-1",
+        "x": 1229.71411132812,
+        "y": 289.241455078125
+      },
+      {
+        "id": "f:4:-1",
+        "x": 1303.42846679688,
+        "y": 326.0986328125
+      },
+      {
+        "id": "f:5:-1",
+        "x": 1377.14282226562,
+        "y": 362.955810546875
+      },
+      {
+        "id": "f:3:0",
+        "x": 1155.99987792969,
+        "y": 326.0986328125
+      },
+      {
+        "id": "f:4:0",
+        "x": 1229.71411132812,
+        "y": 362.955810546875
+      },
+      {
+        "id": "f:5:0",
+        "x": 1303.42846679688,
+        "y": 399.81298828125
+      },
+      {
+        "id": "f:3:1",
+        "x": 1082.28540039062,
+        "y": 362.955810546875
+      },
+      {
+        "id": "f:4:1",
+        "x": 1155.99987792969,
+        "y": 399.81298828125
+      },
+      {
+        "id": "f:5:1",
+        "x": 1229.71411132812,
+        "y": 436.670166015625
+      },
+      {
+        "id": "f:-1:-5",
+        "x": 1229.71435546875,
+        "y": -64.2986907958984
+      },
+      {
+        "id": "f:0:-5",
+        "x": 1303.42846679688,
+        "y": -27.4416160583496
+      },
+      {
+        "id": "f:1:-5",
+        "x": 1377.14282226562,
+        "y": 9.41554069519043
+      },
+      {
+        "id": "f:-1:-4",
+        "x": 1156,
+        "y": -27.4414024353027
+      },
+      {
+        "id": "f:0:-4",
+        "x": 1229.71411132812,
+        "y": 9.41564750671387
+      },
+      {
+        "id": "f:1:-4",
+        "x": 1303.42846679688,
+        "y": 46.2728271484375
+      },
+      {
+        "id": "f:-1:-3",
+        "x": 1082.28564453125,
+        "y": 9.41564750671387
+      },
+      {
+        "id": "f:0:-3",
+        "x": 1155.99987792969,
+        "y": 46.2727203369141
+      },
+      {
+        "id": "f:1:-3",
+        "x": 1229.71411132812,
+        "y": 83.1298980712891
+      },
+      {
+        "id": "f:-4:2",
+        "x": 492.571502685547,
+        "y": 200.495559692383
+      },
+      {
+        "id": "f:-4:3",
+        "x": 418.857177734375,
+        "y": 237.352737426758
+      },
+      {
+        "id": "f:-4:4",
+        "x": 345.143005371094,
+        "y": 274.209808349609
+      },
+      {
+        "id": "f:-3:4",
+        "x": 418.857360839844,
+        "y": 311.066986083984
+      },
+      {
+        "id": "f:-2:4",
+        "x": 492.571502685547,
+        "y": 347.924133300781
+      },
+      {
+        "id": "f:-1:4",
+        "x": 566.285827636719,
+        "y": 384.781311035156
+      },
+      {
+        "id": "f:0:4",
+        "x": 640,
+        "y": 421.638397216797
+      },
+      {
+        "id": "f:0:3",
+        "x": 713.714172363281,
+        "y": 384.781311035156
+      },
+      {
+        "id": "f:0:2",
+        "x": 787.428466796875,
+        "y": 347.924133300781
+      },
+      {
+        "id": "f:-2:0",
+        "x": 787.428466796875,
+        "y": 200.495559692383
+      },
+      {
+        "id": "m:float:-1:-1",
+        "x": 934.857177734375,
+        "y": 200.495559692383
+      },
+      {
+        "id": "m:float:0:-1",
+        "x": 1008.5712890625,
+        "y": 237.352630615234
+      },
+      {
+        "id": "m:float:1:-1",
+        "x": 1082.28564453125,
+        "y": 274.209808349609
+      },
+      {
+        "id": "m:float:-1:0",
+        "x": 861.142822265625,
+        "y": 237.352737426758
+      },
+      {
+        "id": "m:float:0:0",
+        "x": 934.856994628906,
+        "y": 274.209808349609
+      },
+      {
+        "id": "m:float:1:0",
+        "x": 1008.5712890625,
+        "y": 311.066986083984
+      },
+      {
+        "id": "m:float:-1:1",
+        "x": 787.428466796875,
+        "y": 274.209899902344
+      },
+      {
+        "id": "m:float:0:1",
+        "x": 861.142639160156,
+        "y": 311.066986083984
+      },
+      {
+        "id": "m:float:1:1",
+        "x": 934.856994628906,
+        "y": 347.924133300781
+      }
+    ],
+    "tiles": [
+      {
+        "h": 0,
+        "id": "f:-5:-1",
+        "small": false,
+        "x": -5,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-4:-1",
+        "small": false,
+        "x": -4,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-3:-1",
+        "small": false,
+        "x": -3,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-5:0",
+        "small": false,
+        "x": -5,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-4:0",
+        "small": false,
+        "x": -4,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-3:0",
+        "small": false,
+        "x": -3,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-5:1",
+        "small": false,
+        "x": -5,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "f:-4:1",
+        "small": false,
+        "x": -4,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "f:-3:1",
+        "small": false,
+        "x": -3,
+        "z": 1
+      },
+      {
+        "h": 1,
+        "id": "f:3:-1",
+        "small": false,
+        "x": 3,
+        "z": -1
+      },
+      {
+        "h": 1,
+        "id": "f:4:-1",
+        "small": false,
+        "x": 4,
+        "z": -1
+      },
+      {
+        "h": 1,
+        "id": "f:5:-1",
+        "small": false,
+        "x": 5,
+        "z": -1
+      },
+      {
+        "h": 1,
+        "id": "f:3:0",
+        "small": false,
+        "x": 3,
+        "z": 0
+      },
+      {
+        "h": 1,
+        "id": "f:4:0",
+        "small": false,
+        "x": 4,
+        "z": 0
+      },
+      {
+        "h": 1,
+        "id": "f:5:0",
+        "small": false,
+        "x": 5,
+        "z": 0
+      },
+      {
+        "h": 1,
+        "id": "f:3:1",
+        "small": false,
+        "x": 3,
+        "z": 1
+      },
+      {
+        "h": 1,
+        "id": "f:4:1",
+        "small": false,
+        "x": 4,
+        "z": 1
+      },
+      {
+        "h": 1,
+        "id": "f:5:1",
+        "small": false,
+        "x": 5,
+        "z": 1
+      },
+      {
+        "h": 2,
+        "id": "f:-1:-5",
+        "small": false,
+        "x": -1,
+        "z": -5
+      },
+      {
+        "h": 2,
+        "id": "f:0:-5",
+        "small": false,
+        "x": 0,
+        "z": -5
+      },
+      {
+        "h": 2,
+        "id": "f:1:-5",
+        "small": false,
+        "x": 1,
+        "z": -5
+      },
+      {
+        "h": 2,
+        "id": "f:-1:-4",
+        "small": false,
+        "x": -1,
+        "z": -4
+      },
+      {
+        "h": 2,
+        "id": "f:0:-4",
+        "small": false,
+        "x": 0,
+        "z": -4
+      },
+      {
+        "h": 2,
+        "id": "f:1:-4",
+        "small": false,
+        "x": 1,
+        "z": -4
+      },
+      {
+        "h": 2,
+        "id": "f:-1:-3",
+        "small": false,
+        "x": -1,
+        "z": -3
+      },
+      {
+        "h": 2,
+        "id": "f:0:-3",
+        "small": false,
+        "x": 0,
+        "z": -3
+      },
+      {
+        "h": 2,
+        "id": "f:1:-3",
+        "small": false,
+        "x": 1,
+        "z": -3
+      },
+      {
+        "h": 0,
+        "id": "f:-4:2",
+        "small": false,
+        "x": -4,
+        "z": 2
+      },
+      {
+        "h": 0,
+        "id": "f:-4:3",
+        "small": false,
+        "x": -4,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:-4:4",
+        "small": false,
+        "x": -4,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:-3:4",
+        "small": false,
+        "x": -3,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:-2:4",
+        "kind": "water",
+        "small": false,
+        "x": -2,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:-1:4",
+        "kind": "water",
+        "small": false,
+        "x": -1,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:0:4",
+        "kind": "water",
+        "small": false,
+        "x": 0,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:0:3",
+        "kind": "water",
+        "small": false,
+        "x": 0,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:0:2",
+        "kind": "water",
+        "small": false,
+        "x": 0,
+        "z": 2
+      },
+      {
+        "h": 0,
+        "id": "f:-2:0",
+        "kind": "root",
+        "small": false,
+        "x": -2,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:float:-1:-1",
+        "kind": "module",
+        "local": [
+          -1,
+          -1
+        ],
+        "module": "float",
+        "x": -1,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "m:float:0:-1",
+        "kind": "module",
+        "local": [
+          0,
+          -1
+        ],
+        "module": "float",
+        "x": 0,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "m:float:1:-1",
+        "kind": "module",
+        "local": [
+          1,
+          -1
+        ],
+        "module": "float",
+        "x": 1,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "m:float:-1:0",
+        "kind": "module",
+        "local": [
+          -1,
+          0
+        ],
+        "module": "float",
+        "x": -1,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:float:0:0",
+        "kind": "module",
+        "local": [
+          0,
+          0
+        ],
+        "module": "float",
+        "x": 0,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:float:1:0",
+        "kind": "module",
+        "local": [
+          1,
+          0
+        ],
+        "module": "float",
+        "x": 1,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:float:-1:1",
+        "kind": "module",
+        "local": [
+          -1,
+          1
+        ],
+        "module": "float",
+        "x": -1,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "m:float:0:1",
+        "kind": "module",
+        "local": [
+          0,
+          1
+        ],
+        "module": "float",
+        "x": 0,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "m:float:1:1",
+        "kind": "module",
+        "local": [
+          1,
+          1
+        ],
+        "module": "float",
+        "x": 1,
+        "z": 1
+      }
+    ],
+    "ui": {
+      "controls": [
+        {
+          "class": "Label",
+          "height": 24,
+          "instanceId": 64592283166,
+          "name": "@Label@10",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/@Label@10",
+          "setting_id": "",
+          "text": "2-1 · 池塘之声",
+          "visibleRect": [
+            20,
+            20,
+            344,
+            24
+          ],
+          "width": 344,
+          "x": 20,
+          "y": 20
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 64659392034,
+          "name": "@Label@11",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/GardenStatusAndCollection/@Label@11",
+          "setting_id": "",
+          "text": "露薇  ·  清露  ·  伙伴同行",
+          "visibleRect": [
+            20,
+            48,
+            298,
+            17
+          ],
+          "width": 298,
+          "x": 20,
+          "y": 48
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 64776832553,
+          "name": "CollectionCount",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/GardenStatusAndCollection/CollectionCount",
+          "setting_id": "",
+          "text": "1 / 4",
+          "visibleRect": [
+            342,
+            48,
+            22,
+            17
+          ],
+          "width": 22,
+          "x": 342,
+          "y": 48
+        },
+        {
+          "class": "Label",
+          "height": 37,
+          "instanceId": 64810386987,
+          "name": "@Label@12",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/@Label@12",
+          "setting_id": "",
+          "text": "听听池塘需要哪一层水。",
+          "visibleRect": [
+            20,
+            69,
+            344,
+            37
+          ],
+          "width": 344,
+          "x": 20,
+          "y": 69
+        },
+        {
+          "action": "undo",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 65699579487,
+          "name": "Action_undo",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_undo",
+          "pressed": false,
+          "setting_id": "",
+          "text": "撤销",
+          "tooltip": "撤销上一次意图 · Z",
+          "visibleRect": [
+            388,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 388,
+          "y": 656
+        },
+        {
+          "action": "primary",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 65817020006,
+          "name": "Action_primary",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_primary",
+          "pressed": false,
+          "setting_id": "",
+          "text": "放在脚边的固定地面 · E",
+          "tooltip": "放在脚边的固定地面 · E",
+          "visibleRect": [
+            457,
+            656,
+            228,
+            44
+          ],
+          "width": 228,
+          "x": 457,
+          "y": 656
+        },
+        {
+          "action": "switch",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 65934460525,
+          "name": "Action_switch",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_switch",
+          "pressed": false,
+          "setting_id": "",
+          "text": "换手",
+          "tooltip": "切换伙伴 · T",
+          "visibleRect": [
+            690,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 690,
+          "y": 656
+        },
+        {
+          "action": "hint",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 66051901044,
+          "name": "Action_hint",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_hint",
+          "pressed": false,
+          "setting_id": "",
+          "text": "提示",
+          "tooltip": "主动请求一点帮助 · H",
+          "visibleRect": [
+            759,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 759,
+          "y": 656
+        },
+        {
+          "action": "follow",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 66169341563,
+          "name": "CompanionFollow",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/CompanionFollow",
+          "pressed": false,
+          "setting_id": "",
+          "text": "等候",
+          "tooltip": "让伙伴在此等待",
+          "visibleRect": [
+            828,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 828,
+          "y": 656
+        },
+        {
+          "class": "ScrollContainer",
+          "height": 32,
+          "instanceId": 66370668167,
+          "name": "@ScrollContainer@33",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyMessage/@ScrollContainer@33",
+          "setting_id": "",
+          "visibleRect": [
+            388,
+            598,
+            504,
+            32
+          ],
+          "width": 504,
+          "x": 388,
+          "y": 598
+        },
+        {
+          "class": "Label",
+          "height": 32,
+          "instanceId": 66337113733,
+          "name": "@Label@32",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyMessage/@ScrollContainer@33/@Label@32",
+          "setting_id": "",
+          "text": "用柔软的叶片包好清露，收进贴身的小挎袋。",
+          "visibleRect": [
+            388,
+            598,
+            504,
+            32
+          ],
+          "width": 504,
+          "x": 388,
+          "y": 598
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 66706212506,
+          "name": "Pause",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Pause",
+          "pressed": false,
+          "setting_id": "",
+          "text": "Ⅱ",
+          "tooltip": "暂停与设置 · Esc",
+          "visibleRect": [
+            1174,
+            12,
+            44,
+            44
+          ],
+          "width": 44,
+          "x": 1174,
+          "y": 12
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 66823653025,
+          "name": "Map",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Map",
+          "pressed": false,
+          "setting_id": "",
+          "text": "地图",
+          "tooltip": "选择花园",
+          "visibleRect": [
+            1224,
+            12,
+            44,
+            44
+          ],
+          "width": 44,
+          "x": 1224,
+          "y": 12
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 67612182224,
+          "name": "Overview",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Overview",
+          "pressed": false,
+          "setting_id": "",
+          "text": "全景",
+          "tooltip": "查看整片花园 / 回到身边",
+          "visibleRect": [
+            1108,
+            12,
+            60,
+            44
+          ],
+          "width": 60,
+          "x": 1108,
+          "y": 12
+        }
+      ],
+      "modalOpen": false,
+      "settings": {
+        "ambient": 0.25,
+        "bgm": 0.35,
+        "continuousInput": true,
+        "dynamicLight": true,
+        "fullscreen": false,
+        "inputSettingsRevision": 1,
+        "language": "zh-CN",
+        "lowMotion": false,
+        "particles": true,
+        "quality": "standard",
+        "safeCamera": false,
+        "sfx": 0.6,
+        "touchControls": false,
+        "vibration": false
+      }
+    },
+    "viewport": [
+      1280,
+      720
+    ],
+    "worldVisible": true
+  },
+  "undo": {
+    "buttons": [
+      {
+        "action": "undo",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": true,
+        "height": 44,
+        "instanceId": 65699579487,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_undo",
+        "pressed": false,
+        "text": "撤销",
+        "tooltip": "撤销上一次意图 · Z",
+        "visibleRect": [
+          388,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 388,
+        "y": 656
+      },
+      {
+        "action": "primary",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 65817020006,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_primary",
+        "pressed": false,
+        "text": "接住露珠 · E",
+        "tooltip": "接住露珠 · E",
+        "visibleRect": [
+          457,
+          656,
+          228,
+          44
+        ],
+        "width": 228,
+        "x": 457,
+        "y": 656
+      },
+      {
+        "action": "switch",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 65934460525,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_switch",
+        "pressed": false,
+        "text": "换手",
+        "tooltip": "切换伙伴 · T",
+        "visibleRect": [
+          690,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 690,
+        "y": 656
+      },
+      {
+        "action": "hint",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 66051901044,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_hint",
+        "pressed": false,
+        "text": "提示",
+        "tooltip": "主动请求一点帮助 · H",
+        "visibleRect": [
+          759,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 759,
+        "y": 656
+      },
+      {
+        "action": "follow",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 66169341563,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/CompanionFollow",
+        "pressed": false,
+        "text": "等候",
+        "tooltip": "让伙伴在此等待",
+        "visibleRect": [
+          828,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 828,
+        "y": 656
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 66706212506,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Pause",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置 · Esc",
+        "visibleRect": [
+          1174,
+          12,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 1174,
+        "y": 12
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 66823653025,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Map",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "选择花园",
+        "visibleRect": [
+          1224,
+          12,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 1224,
+        "y": 12
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 67612182224,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Overview",
+        "pressed": false,
+        "text": "全景",
+        "tooltip": "查看整片花园 / 回到身边",
+        "visibleRect": [
+          1108,
+          12,
+          60,
+          44
+        ],
+        "width": 60,
+        "x": 1108,
+        "y": 12
+      }
+    ],
+    "character": {
+      "blend": false,
+      "buddy": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 9.99999974737875e-05,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          608.302856445312,
+          420.531158447266
+        ],
+        "frame": 0,
+        "grounded": true,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": -0.230000004172325,
+          "z": 4.19999980926514
+        }
+      },
+      "facing": "front",
+      "footpoint": {
+        "h": 0,
+        "x": 0,
+        "z": 4
+      },
+      "key": "idle_front",
+      "luvie": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 9.99999974737875e-05,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          640,
+          421.636810302734
+        ],
+        "frame": 0,
+        "grounded": true,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": 0,
+          "z": 4
+        }
+      },
+      "moving": false,
+      "pose": {
+        "clip": "idle_front",
+        "key": "idle_front"
+      },
+      "screen_footpoint": {
+        "x": 640,
+        "y": 421.636810302734
+      },
+      "stair_contact": {
+        "bodyHeight": 9.99999974737875e-05,
+        "clearance": 0,
+        "ground": 0,
+        "nativeFloor": true,
+        "penetration": 0,
+        "phase": "native-surface",
+        "rail_h": 0,
+        "supportHeight": 0,
+        "visualHeight": 0
+      }
+    },
+    "commands": [
+      {
+        "id": "switch",
+        "label": "换手：操控小苔灵"
+      },
+      {
+        "id": "follow",
+        "label": "各自等候",
+        "selected": true
+      },
+      {
+        "id": "take:dew",
+        "label": "接住露珠"
+      }
+    ],
+    "context": {
+      "choices": [
+        {
+          "disabled": false,
+          "id": "take:dew",
+          "label": "接住露珠",
+          "reason": ""
+        }
+      ],
+      "id": "take:dew",
+      "label": "接住露珠",
+      "tile": {
+        "h": 0,
+        "id": "f:0:4",
+        "kind": "water",
+        "small": false,
+        "x": 0,
+        "z": 4
+      }
+    },
+    "continuousInput": true,
+    "gameHudVisible": true,
+    "growthChoices": [],
+    "hasActiveGame": true,
+    "hintVisible": false,
+    "homeActive": false,
+    "hudRegions": [
+      {
+        "name": "Heading",
+        "rect": [
+          12,
+          12,
+          360,
+          102
+        ]
+      },
+      {
+        "name": "JourneyTools",
+        "rect": [
+          380,
+          648,
+          520,
+          60
+        ]
+      },
+      {
+        "name": "JourneyMessage",
+        "rect": [
+          380,
+          590,
+          520,
+          48
+        ]
+      },
+      {
+        "name": "Navigation",
+        "rect": [
+          1174,
+          12,
+          94,
+          44
+        ]
+      },
+      {
+        "name": "Overview",
+        "rect": [
+          1108,
+          12,
+          60,
+          44
+        ]
+      }
+    ],
+    "input": {
+      "blocked": "",
+      "buffered": "",
+      "held": [],
+      "remaining": 0
+    },
+    "message": "回到刚才的稳定时刻。",
+    "motion": {},
+    "moving": false,
+    "native": {
+      "actors": {
+        "buddy": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": true,
+          "position": [
+            -0.230000004172325,
+            9.99999974737875e-05,
+            4.19999980926514
+          ],
+          "support": "f:0:4",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        },
+        "luvie": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": true,
+          "position": [
+            0,
+            9.99999974737875e-05,
+            4
+          ],
+          "support": "f:0:4",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "moving": false,
+      "path": [],
+      "stable": true
+    },
+    "origin": [
+      934.856994628906,
+      274.208221435547
+    ],
+    "overview": false,
+    "paused": false,
+    "pendingButton": "",
+    "performance": {
+      "fps": 31,
+      "memoryBytes": 58628558,
+      "processMs": 38.155,
+      "textureBytes": 90434428
+    },
+    "progress": {
+      "last_level": "2-1",
+      "memories": {},
+      "records": {},
+      "runs": {
+        "1-4": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "f:3:5",
+            "luvie": "f:-2:5"
+          },
+          "beat": 0,
+          "collected": [
+            "spore-0"
+          ],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [
+            "latch"
+          ],
+          "follow": false,
+          "frozen": null,
+          "growth": {},
+          "items": {
+            "bell": {
+              "angle": 0,
+              "tile": "f:-2:5"
+            }
+          },
+          "levelId": "1-4",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:3:5"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:-2:5"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {},
+          "water": 0
+        },
+        "2-1": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "f:0:4",
+            "luvie": "f:0:4"
+          },
+          "beat": 0,
+          "collected": [
+            "spore-0"
+          ],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {
+            "dew": {
+              "angle": 0,
+              "tile": "f:0:4"
+            }
+          },
+          "levelId": "2-1",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.23,
+                  0.0001,
+                  0.2
+                ],
+                "support": "f:0:4"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  0
+                ],
+                "support": "f:0:4"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "float": 0
+          },
+          "water": 0
+        }
+      }
+    },
+    "qaSequence": 81,
+    "render": {
+      "meshRebuilds": 68,
+      "native": true,
+      "offscreenViews": 1,
+      "props": 15,
+      "surfaces": 46,
+      "terrainUpdates": 3,
+      "viewportUpdateMode": 4
+    },
+    "reviewing": false,
+    "revision": 2,
+    "rolling": false,
+    "safeCamera": false,
+    "safeRect": [
+      14,
+      126,
+      1252,
+      510
+    ],
+    "scale": 2.10612173951675,
+    "settings": {
+      "ambient": 0.25,
+      "bgm": 0.35,
+      "continuousInput": true,
+      "dynamicLight": true,
+      "fullscreen": false,
+      "inputSettingsRevision": 1,
+      "language": "zh-CN",
+      "lowMotion": false,
+      "particles": true,
+      "quality": "standard",
+      "safeCamera": false,
+      "sfx": 0.6,
+      "touchControls": false,
+      "vibration": false
+    },
+    "snapshot": {
+      "active": "luvie",
+      "actors": {
+        "buddy": "f:0:4",
+        "luvie": "f:0:4"
+      },
+      "beat": 0,
+      "collected": [
+        "spore-0"
+      ],
+      "completed": false,
+      "designVersion": 2,
+      "discovered": [],
+      "flags": [],
+      "follow": true,
+      "frozen": null,
+      "growth": {},
+      "items": {
+        "dew": {
+          "angle": 0,
+          "tile": "f:0:4"
+        }
+      },
+      "levelId": "2-1",
+      "mode": 0,
+      "observations": [],
+      "playing": false,
+      "runtime": {
+        "poses": {
+          "buddy": {
+            "facing": "front",
+            "offset": [
+              -0.23,
+              0.0001,
+              0.2
+            ],
+            "support": "f:0:4"
+          },
+          "luvie": {
+            "facing": "front",
+            "offset": [
+              0,
+              0.0001,
+              0
+            ],
+            "support": "f:0:4"
+          }
+        },
+        "version": 1
+      },
+      "song": [
+        "turn",
+        "rise",
+        "rest"
+      ],
+      "turns": {
+        "float": 0
+      },
+      "water": 0
+    },
+    "strolling": false,
+    "targets": [
+      {
+        "id": "f:-5:-1",
+        "x": 640,
+        "y": 53.0652732849121
+      },
+      {
+        "id": "f:-4:-1",
+        "x": 713.71435546875,
+        "y": 89.9224548339844
+      },
+      {
+        "id": "f:-3:-1",
+        "x": 787.4287109375,
+        "y": 126.779632568359
+      },
+      {
+        "id": "f:-5:0",
+        "x": 566.28564453125,
+        "y": 89.9224548339844
+      },
+      {
+        "id": "f:-4:0",
+        "x": 640,
+        "y": 126.779632568359
+      },
+      {
+        "id": "f:-3:0",
+        "x": 713.71435546875,
+        "y": 163.636810302734
+      },
+      {
+        "id": "f:-5:1",
+        "x": 492.571319580078,
+        "y": 126.779632568359
+      },
+      {
+        "id": "f:-4:1",
+        "x": 566.28564453125,
+        "y": 163.636810302734
+      },
+      {
+        "id": "f:-3:1",
+        "x": 640,
+        "y": 200.493957519531
+      },
+      {
+        "id": "f:3:-1",
+        "x": 1229.71411132812,
+        "y": 289.239868164062
+      },
+      {
+        "id": "f:4:-1",
+        "x": 1303.42846679688,
+        "y": 326.097045898438
+      },
+      {
+        "id": "f:5:-1",
+        "x": 1377.14282226562,
+        "y": 362.954223632812
+      },
+      {
+        "id": "f:3:0",
+        "x": 1155.99987792969,
+        "y": 326.097045898438
+      },
+      {
+        "id": "f:4:0",
+        "x": 1229.71411132812,
+        "y": 362.954223632812
+      },
+      {
+        "id": "f:5:0",
+        "x": 1303.42846679688,
+        "y": 399.811401367188
+      },
+      {
+        "id": "f:3:1",
+        "x": 1082.28540039062,
+        "y": 362.954223632812
+      },
+      {
+        "id": "f:4:1",
+        "x": 1155.99987792969,
+        "y": 399.811401367188
+      },
+      {
+        "id": "f:5:1",
+        "x": 1229.71411132812,
+        "y": 436.668548583984
+      },
+      {
+        "id": "f:-1:-5",
+        "x": 1229.71435546875,
+        "y": -64.3001022338867
+      },
+      {
+        "id": "f:0:-5",
+        "x": 1303.42846679688,
+        "y": -27.4430313110352
+      },
+      {
+        "id": "f:1:-5",
+        "x": 1377.14282226562,
+        "y": 9.4141674041748
+      },
+      {
+        "id": "f:-1:-4",
+        "x": 1156,
+        "y": -27.4428176879883
+      },
+      {
+        "id": "f:0:-4",
+        "x": 1229.71411132812,
+        "y": 9.41425323486328
+      },
+      {
+        "id": "f:1:-4",
+        "x": 1303.42846679688,
+        "y": 46.2714309692383
+      },
+      {
+        "id": "f:-1:-3",
+        "x": 1082.28564453125,
+        "y": 9.41425323486328
+      },
+      {
+        "id": "f:0:-3",
+        "x": 1155.99987792969,
+        "y": 46.2713241577148
+      },
+      {
+        "id": "f:1:-3",
+        "x": 1229.71411132812,
+        "y": 83.1285018920898
+      },
+      {
+        "id": "f:-4:2",
+        "x": 492.571502685547,
+        "y": 200.493957519531
+      },
+      {
+        "id": "f:-4:3",
+        "x": 418.857177734375,
+        "y": 237.351150512695
+      },
+      {
+        "id": "f:-4:4",
+        "x": 345.143005371094,
+        "y": 274.208221435547
+      },
+      {
+        "id": "f:-3:4",
+        "x": 418.857360839844,
+        "y": 311.065399169922
+      },
+      {
+        "id": "f:-2:4",
+        "x": 492.571502685547,
+        "y": 347.922546386719
+      },
+      {
+        "id": "f:-1:4",
+        "x": 566.285827636719,
+        "y": 384.779724121094
+      },
+      {
+        "id": "f:0:4",
+        "x": 640,
+        "y": 421.636810302734
+      },
+      {
+        "id": "f:0:3",
+        "x": 713.714172363281,
+        "y": 384.779724121094
+      },
+      {
+        "id": "f:0:2",
+        "x": 787.428466796875,
+        "y": 347.922546386719
+      },
+      {
+        "id": "f:-2:0",
+        "x": 787.428466796875,
+        "y": 200.493957519531
+      },
+      {
+        "id": "m:float:-1:-1",
+        "x": 934.857177734375,
+        "y": 200.493957519531
+      },
+      {
+        "id": "m:float:0:-1",
+        "x": 1008.5712890625,
+        "y": 237.351043701172
+      },
+      {
+        "id": "m:float:1:-1",
+        "x": 1082.28564453125,
+        "y": 274.208221435547
+      },
+      {
+        "id": "m:float:-1:0",
+        "x": 861.142822265625,
+        "y": 237.351150512695
+      },
+      {
+        "id": "m:float:0:0",
+        "x": 934.856994628906,
+        "y": 274.208221435547
+      },
+      {
+        "id": "m:float:1:0",
+        "x": 1008.5712890625,
+        "y": 311.065399169922
+      },
+      {
+        "id": "m:float:-1:1",
+        "x": 787.428466796875,
+        "y": 274.208312988281
+      },
+      {
+        "id": "m:float:0:1",
+        "x": 861.142639160156,
+        "y": 311.065399169922
+      },
+      {
+        "id": "m:float:1:1",
+        "x": 934.856994628906,
+        "y": 347.922546386719
+      }
+    ],
+    "tiles": [
+      {
+        "h": 0,
+        "id": "f:-5:-1",
+        "small": false,
+        "x": -5,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-4:-1",
+        "small": false,
+        "x": -4,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-3:-1",
+        "small": false,
+        "x": -3,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-5:0",
+        "small": false,
+        "x": -5,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-4:0",
+        "small": false,
+        "x": -4,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-3:0",
+        "small": false,
+        "x": -3,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-5:1",
+        "small": false,
+        "x": -5,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "f:-4:1",
+        "small": false,
+        "x": -4,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "f:-3:1",
+        "small": false,
+        "x": -3,
+        "z": 1
+      },
+      {
+        "h": 1,
+        "id": "f:3:-1",
+        "small": false,
+        "x": 3,
+        "z": -1
+      },
+      {
+        "h": 1,
+        "id": "f:4:-1",
+        "small": false,
+        "x": 4,
+        "z": -1
+      },
+      {
+        "h": 1,
+        "id": "f:5:-1",
+        "small": false,
+        "x": 5,
+        "z": -1
+      },
+      {
+        "h": 1,
+        "id": "f:3:0",
+        "small": false,
+        "x": 3,
+        "z": 0
+      },
+      {
+        "h": 1,
+        "id": "f:4:0",
+        "small": false,
+        "x": 4,
+        "z": 0
+      },
+      {
+        "h": 1,
+        "id": "f:5:0",
+        "small": false,
+        "x": 5,
+        "z": 0
+      },
+      {
+        "h": 1,
+        "id": "f:3:1",
+        "small": false,
+        "x": 3,
+        "z": 1
+      },
+      {
+        "h": 1,
+        "id": "f:4:1",
+        "small": false,
+        "x": 4,
+        "z": 1
+      },
+      {
+        "h": 1,
+        "id": "f:5:1",
+        "small": false,
+        "x": 5,
+        "z": 1
+      },
+      {
+        "h": 2,
+        "id": "f:-1:-5",
+        "small": false,
+        "x": -1,
+        "z": -5
+      },
+      {
+        "h": 2,
+        "id": "f:0:-5",
+        "small": false,
+        "x": 0,
+        "z": -5
+      },
+      {
+        "h": 2,
+        "id": "f:1:-5",
+        "small": false,
+        "x": 1,
+        "z": -5
+      },
+      {
+        "h": 2,
+        "id": "f:-1:-4",
+        "small": false,
+        "x": -1,
+        "z": -4
+      },
+      {
+        "h": 2,
+        "id": "f:0:-4",
+        "small": false,
+        "x": 0,
+        "z": -4
+      },
+      {
+        "h": 2,
+        "id": "f:1:-4",
+        "small": false,
+        "x": 1,
+        "z": -4
+      },
+      {
+        "h": 2,
+        "id": "f:-1:-3",
+        "small": false,
+        "x": -1,
+        "z": -3
+      },
+      {
+        "h": 2,
+        "id": "f:0:-3",
+        "small": false,
+        "x": 0,
+        "z": -3
+      },
+      {
+        "h": 2,
+        "id": "f:1:-3",
+        "small": false,
+        "x": 1,
+        "z": -3
+      },
+      {
+        "h": 0,
+        "id": "f:-4:2",
+        "small": false,
+        "x": -4,
+        "z": 2
+      },
+      {
+        "h": 0,
+        "id": "f:-4:3",
+        "small": false,
+        "x": -4,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:-4:4",
+        "small": false,
+        "x": -4,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:-3:4",
+        "small": false,
+        "x": -3,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:-2:4",
+        "kind": "water",
+        "small": false,
+        "x": -2,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:-1:4",
+        "kind": "water",
+        "small": false,
+        "x": -1,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:0:4",
+        "kind": "water",
+        "small": false,
+        "x": 0,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:0:3",
+        "kind": "water",
+        "small": false,
+        "x": 0,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:0:2",
+        "kind": "water",
+        "small": false,
+        "x": 0,
+        "z": 2
+      },
+      {
+        "h": 0,
+        "id": "f:-2:0",
+        "kind": "root",
+        "small": false,
+        "x": -2,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:float:-1:-1",
+        "kind": "module",
+        "local": [
+          -1,
+          -1
+        ],
+        "module": "float",
+        "x": -1,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "m:float:0:-1",
+        "kind": "module",
+        "local": [
+          0,
+          -1
+        ],
+        "module": "float",
+        "x": 0,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "m:float:1:-1",
+        "kind": "module",
+        "local": [
+          1,
+          -1
+        ],
+        "module": "float",
+        "x": 1,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "m:float:-1:0",
+        "kind": "module",
+        "local": [
+          -1,
+          0
+        ],
+        "module": "float",
+        "x": -1,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:float:0:0",
+        "kind": "module",
+        "local": [
+          0,
+          0
+        ],
+        "module": "float",
+        "x": 0,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:float:1:0",
+        "kind": "module",
+        "local": [
+          1,
+          0
+        ],
+        "module": "float",
+        "x": 1,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:float:-1:1",
+        "kind": "module",
+        "local": [
+          -1,
+          1
+        ],
+        "module": "float",
+        "x": -1,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "m:float:0:1",
+        "kind": "module",
+        "local": [
+          0,
+          1
+        ],
+        "module": "float",
+        "x": 0,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "m:float:1:1",
+        "kind": "module",
+        "local": [
+          1,
+          1
+        ],
+        "module": "float",
+        "x": 1,
+        "z": 1
+      }
+    ],
+    "ui": {
+      "controls": [
+        {
+          "class": "Label",
+          "height": 24,
+          "instanceId": 64592283166,
+          "name": "@Label@10",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/@Label@10",
+          "setting_id": "",
+          "text": "2-1 · 池塘之声",
+          "visibleRect": [
+            20,
+            20,
+            344,
+            24
+          ],
+          "width": 344,
+          "x": 20,
+          "y": 20
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 64659392034,
+          "name": "@Label@11",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/GardenStatusAndCollection/@Label@11",
+          "setting_id": "",
+          "text": "露薇  ·  伙伴同行",
+          "visibleRect": [
+            20,
+            48,
+            298,
+            17
+          ],
+          "width": 298,
+          "x": 20,
+          "y": 48
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 64776832553,
+          "name": "CollectionCount",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/GardenStatusAndCollection/CollectionCount",
+          "setting_id": "",
+          "text": "1 / 4",
+          "visibleRect": [
+            342,
+            48,
+            22,
+            17
+          ],
+          "width": 22,
+          "x": 342,
+          "y": 48
+        },
+        {
+          "class": "Label",
+          "height": 37,
+          "instanceId": 64810386987,
+          "name": "@Label@12",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/@Label@12",
+          "setting_id": "",
+          "text": "听听池塘需要哪一层水。",
+          "visibleRect": [
+            20,
+            69,
+            344,
+            37
+          ],
+          "width": 344,
+          "x": 20,
+          "y": 69
+        },
+        {
+          "action": "undo",
+          "class": "Button",
+          "command_id": "",
+          "disabled": true,
+          "height": 44,
+          "instanceId": 65699579487,
+          "name": "Action_undo",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_undo",
+          "pressed": false,
+          "setting_id": "",
+          "text": "撤销",
+          "tooltip": "撤销上一次意图 · Z",
+          "visibleRect": [
+            388,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 388,
+          "y": 656
+        },
+        {
+          "action": "primary",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 65817020006,
+          "name": "Action_primary",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_primary",
+          "pressed": false,
+          "setting_id": "",
+          "text": "接住露珠 · E",
+          "tooltip": "接住露珠 · E",
+          "visibleRect": [
+            457,
+            656,
+            228,
+            44
+          ],
+          "width": 228,
+          "x": 457,
+          "y": 656
+        },
+        {
+          "action": "switch",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 65934460525,
+          "name": "Action_switch",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_switch",
+          "pressed": false,
+          "setting_id": "",
+          "text": "换手",
+          "tooltip": "切换伙伴 · T",
+          "visibleRect": [
+            690,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 690,
+          "y": 656
+        },
+        {
+          "action": "hint",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 66051901044,
+          "name": "Action_hint",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_hint",
+          "pressed": false,
+          "setting_id": "",
+          "text": "提示",
+          "tooltip": "主动请求一点帮助 · H",
+          "visibleRect": [
+            759,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 759,
+          "y": 656
+        },
+        {
+          "action": "follow",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 66169341563,
+          "name": "CompanionFollow",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/CompanionFollow",
+          "pressed": false,
+          "setting_id": "",
+          "text": "等候",
+          "tooltip": "让伙伴在此等待",
+          "visibleRect": [
+            828,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 828,
+          "y": 656
+        },
+        {
+          "class": "ScrollContainer",
+          "height": 32,
+          "instanceId": 66370668167,
+          "name": "@ScrollContainer@33",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyMessage/@ScrollContainer@33",
+          "setting_id": "",
+          "visibleRect": [
+            388,
+            598,
+            504,
+            32
+          ],
+          "width": 504,
+          "x": 388,
+          "y": 598
+        },
+        {
+          "class": "Label",
+          "height": 32,
+          "instanceId": 66337113733,
+          "name": "@Label@32",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyMessage/@ScrollContainer@33/@Label@32",
+          "setting_id": "",
+          "text": "回到刚才的稳定时刻。",
+          "visibleRect": [
+            388,
+            598,
+            504,
+            32
+          ],
+          "width": 504,
+          "x": 388,
+          "y": 598
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 66706212506,
+          "name": "Pause",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Pause",
+          "pressed": false,
+          "setting_id": "",
+          "text": "Ⅱ",
+          "tooltip": "暂停与设置 · Esc",
+          "visibleRect": [
+            1174,
+            12,
+            44,
+            44
+          ],
+          "width": 44,
+          "x": 1174,
+          "y": 12
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 66823653025,
+          "name": "Map",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Map",
+          "pressed": false,
+          "setting_id": "",
+          "text": "地图",
+          "tooltip": "选择花园",
+          "visibleRect": [
+            1224,
+            12,
+            44,
+            44
+          ],
+          "width": 44,
+          "x": 1224,
+          "y": 12
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 67612182224,
+          "name": "Overview",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Overview",
+          "pressed": false,
+          "setting_id": "",
+          "text": "全景",
+          "tooltip": "查看整片花园 / 回到身边",
+          "visibleRect": [
+            1108,
+            12,
+            60,
+            44
+          ],
+          "width": 60,
+          "x": 1108,
+          "y": 12
+        }
+      ],
+      "modalOpen": false,
+      "settings": {
+        "ambient": 0.25,
+        "bgm": 0.35,
+        "continuousInput": true,
+        "dynamicLight": true,
+        "fullscreen": false,
+        "inputSettingsRevision": 1,
+        "language": "zh-CN",
+        "lowMotion": false,
+        "particles": true,
+        "quality": "standard",
+        "safeCamera": false,
+        "sfx": 0.6,
+        "touchControls": false,
+        "vibration": false
+      }
+    },
+    "viewport": [
+      1280,
+      720
+    ],
+    "worldVisible": true
+  },
+  "inputTrace": [
+    {
+      "kind": "action",
+      "command": "take:dew",
+      "input": "keyboard/control"
+    },
+    {
+      "kind": "key",
+      "key": "z"
+    }
+  ],
+  "errors": []
+}

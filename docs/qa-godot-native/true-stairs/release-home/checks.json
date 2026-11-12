@@ -1,0 +1,4326 @@
+{
+  "build": {
+    "engine": "4.7.2.stable.official.ed1daf0bf",
+    "template": {
+      "kind": "scene-demand",
+      "target": "release",
+      "sha256": "51d3a8bac3b56cb9187a5d3545d9e60ead680ce0ddbe8ab1a20417cb4cfe35c9",
+      "sourceCommit": "ed1daf0bf001b61586d9930840f2f1394092c079",
+      "patchSha256": "2ebe73bf943c34bbf4413bc562c1b60e5fd54f19ce09f31e57e24405b1e74e4c",
+      "flags": [
+        "platform=web",
+        "target=template_release",
+        "arch=wasm32",
+        "threads=no",
+        "dlink_enabled=no",
+        "javascript_eval=yes",
+        "production=yes",
+        "debug_symbols=no",
+        "optimize=size",
+        "lto=thin",
+        "use_closure_compiler=no",
+        "linkflags=-Wl,--thinlto-jobs=4"
+      ]
+    },
+    "webMode": "release",
+    "source": {
+      "sha256": "9796b59d37be59b477680c85b8f1d8dcbc6bb07b2e4556a89fecf624438ac417",
+      "files": 498
+    },
+    "initialSource": {
+      "sha256": "9796b59d37be59b477680c85b8f1d8dcbc6bb07b2e4556a89fecf624438ac417",
+      "files": 498
+    },
+    "results": [
+      {
+        "name": "import",
+        "code": 0
+      },
+      {
+        "name": "Web",
+        "code": 0
+      }
+    ],
+    "browserAssets": [
+      {
+        "file": "loader/bg.webp",
+        "bytes": 192922,
+        "sha256": "05e4ef75ac6d923a83ca1f3fb24ae2bdc0da7b3322836b36dd35463d95f401dd"
+      },
+      {
+        "file": "loader/logo.png",
+        "bytes": 246612,
+        "sha256": "09678d4b5e799c076651d939dfc4e365af0364f9445321ae24541087d3e8348e"
+      },
+      {
+        "file": "loader/hero.png",
+        "bytes": 120700,
+        "sha256": "6b91c11811facee09dacac1e2fff8d7532114827d9e069660db99dac70ff6e39"
+      },
+      {
+        "file": "loader/orb.png",
+        "bytes": 9679,
+        "sha256": "4bbc3dbb8e49a38e28366ecf4bc8fd8bed9117db81fd732124b1af5b10228637"
+      }
+    ]
+  },
+  "scenario": {
+    "name": "Ordinary home entry, first growth, undo and repeated growth",
+    "requiredViewport": [
+      1280,
+      720
+    ],
+    "requiredDpr": 1,
+    "entryRequirement": "Fresh isolated browser, ordinary URL, no QA or level override. Reload keeps this isolated journey. Review both runs independently.",
+    "validationStatus": "Ordinary official release b8980c78 screenshot review confirms Enter/Enter opens 1-1, both growths complete (bud 0/1), and undo retracts the committed bridge (bud 1/1). Collector drains two actual animation frames before settling; early pre-drain validation is retained as a rejected measurement scenario.",
+    "phases": [
+      {
+        "name": "home-enter-game",
+        "actions": [
+          {
+            "key": "Enter"
+          },
+          {
+            "waitMs": 350
+          },
+          {
+            "key": "Enter"
+          }
+        ],
+        "settleMs": 1200,
+        "expected": "Home closes and the current 1-1 garden becomes playable. No confirmation overlay remains."
+      },
+      {
+        "name": "idle-before-growth",
+        "actions": [
+          {
+            "waitMs": 3000
+          }
+        ],
+        "settleMs": 0,
+        "expected": "Both actors stand at the starting island beside the root."
+      },
+      {
+        "name": "growth-first",
+        "actions": [
+          {
+            "key": "1"
+          }
+        ],
+        "settleMs": 1800,
+        "expected": "Root bridge grows and settles. On the first run this is the first actual growth draw in this browser."
+      },
+      {
+        "name": "undo-growth-first",
+        "actions": [
+          {
+            "key": "z"
+          }
+        ],
+        "settleMs": 1000,
+        "expected": "Bridge retracts to the previous state. Verify visually before treating the next action as a repeat."
+      },
+      {
+        "name": "growth-repeat",
+        "actions": [
+          {
+            "key": "1"
+          }
+        ],
+        "settleMs": 1800,
+        "expected": "The same root bridge grows again."
+      },
+      {
+        "name": "undo-growth-repeat",
+        "actions": [
+          {
+            "key": "z"
+          }
+        ],
+        "settleMs": 1000,
+        "expected": "Return to the root's initial state so the same-context reload has the same action available."
+      },
+      {
+        "name": "idle-after-actions",
+        "actions": [
+          {
+            "waitMs": 3000
+          }
+        ],
+        "settleMs": 0,
+        "expected": "Stable garden, characters supported, controls visible."
+      }
+    ]
+  },
+  "runs": [
+    {
+      "index": 0,
+      "kind": "fresh-context-first-visit",
+      "phases": [
+        {
+          "name": "home-enter-game",
+          "startMs": 7601.005000114441,
+          "endMs": 9312.710000038147,
+          "inputs": [
+            {
+              "at": 7602.640000104904,
+              "action": {
+                "key": "Enter"
+              }
+            },
+            {
+              "at": 7607.6849999427795,
+              "action": {
+                "waitMs": 350
+              }
+            },
+            {
+              "at": 7966.3949999809265,
+              "action": {
+                "key": "Enter"
+              }
+            }
+          ],
+          "expected": "Home closes and the current 1-1 garden becomes playable. No confirmation overlay remains.",
+          "visualReview": "pending",
+          "cpu": {
+            "TaskDurationMs": 588.4909999999994,
+            "ScriptDurationMs": 565.4599999999999,
+            "LayoutDurationMs": 0.0,
+            "RecalcStyleDurationMs": 0.02499999999999898,
+            "taskBusyFraction": 0.3438039849309487
+          },
+          "durationMs": 1711.704999923706,
+          "rAF": {
+            "count": 52,
+            "medianMs": 32.82000000000153,
+            "p95Ms": 33.774999999999636,
+            "p99Ms": 66.75,
+            "maxMs": 66.75,
+            "over33ms": 6,
+            "over50ms": 1,
+            "over100ms": 0
+          },
+          "callbackDelivery": {
+            "count": 52,
+            "medianMs": 32.84500002861023,
+            "p95Ms": 33.890000104904175,
+            "p99Ms": 71.69500017166138,
+            "maxMs": 71.69500017166138,
+            "over33ms": 7,
+            "over50ms": 2,
+            "over100ms": 0
+          },
+          "frames": [
+            {
+              "start": 7590.495,
+              "end": 7623.835,
+              "ms": 33.340000000000146,
+              "deliveryStart": 7590.674999952316,
+              "deliveryEnd": 7624.0650000572205,
+              "deliveryMs": 33.390000104904175
+            },
+            {
+              "start": 7623.835,
+              "end": 7656.205,
+              "ms": 32.36999999999989,
+              "deliveryStart": 7624.0650000572205,
+              "deliveryEnd": 7680.715000152588,
+              "deliveryMs": 56.65000009536743
+            },
+            {
+              "start": 7656.205,
+              "end": 7689.295,
+              "ms": 33.090000000000146,
+              "deliveryStart": 7680.715000152588,
+              "deliveryEnd": 7689.52999997139,
+              "deliveryMs": 8.81499981880188
+            },
+            {
+              "start": 7689.295,
+              "end": 7721.815,
+              "ms": 32.51999999999953,
+              "deliveryStart": 7689.52999997139,
+              "deliveryEnd": 7722.0650000572205,
+              "deliveryMs": 32.53500008583069
+            },
+            {
+              "start": 7721.815,
+              "end": 7754.905,
+              "ms": 33.090000000000146,
+              "deliveryStart": 7722.0650000572205,
+              "deliveryEnd": 7755.079999923706,
+              "deliveryMs": 33.014999866485596
+            },
+            {
+              "start": 7754.905,
+              "end": 7787.48,
+              "ms": 32.57499999999982,
+              "deliveryStart": 7755.079999923706,
+              "deliveryEnd": 7787.6900000572205,
+              "deliveryMs": 32.610000133514404
+            },
+            {
+              "start": 7787.48,
+              "end": 7820.3,
+              "ms": 32.82000000000062,
+              "deliveryStart": 7787.6900000572205,
+              "deliveryEnd": 7820.4349999427795,
+              "deliveryMs": 32.74499988555908
+            },
+            {
+              "start": 7820.3,
+              "end": 7852.565,
+              "ms": 32.26499999999942,
+              "deliveryStart": 7820.4349999427795,
+              "deliveryEnd": 7852.795000076294,
+              "deliveryMs": 32.360000133514404
+            },
+            {
+              "start": 7852.565,
+              "end": 7885.22,
+              "ms": 32.655000000000655,
+              "deliveryStart": 7852.795000076294,
+              "deliveryEnd": 7885.4349999427795,
+              "deliveryMs": 32.639999866485596
+            },
+            {
+              "start": 7885.22,
+              "end": 7918.215,
+              "ms": 32.99499999999989,
+              "deliveryStart": 7885.4349999427795,
+              "deliveryEnd": 7918.40499997139,
+              "deliveryMs": 32.97000002861023
+            },
+            {
+              "start": 7918.215,
+              "end": 7950.835,
+              "ms": 32.61999999999989,
+              "deliveryStart": 7918.40499997139,
+              "deliveryEnd": 7950.9800000190735,
+              "deliveryMs": 32.575000047683716
+            },
+            {
+              "start": 7950.835,
+              "end": 7983.425,
+              "ms": 32.590000000000146,
+              "deliveryStart": 7950.9800000190735,
+              "deliveryEnd": 7983.65499997139,
+              "deliveryMs": 32.674999952316284
+            },
+            {
+              "start": 7983.425,
+              "end": 8050.175,
+              "ms": 66.75,
+              "deliveryStart": 7983.65499997139,
+              "deliveryEnd": 8055.350000143051,
+              "deliveryMs": 71.69500017166138
+            },
+            {
+              "start": 8050.175,
+              "end": 8082.775,
+              "ms": 32.599999999999454,
+              "deliveryStart": 8055.350000143051,
+              "deliveryEnd": 8082.985000133514,
+              "deliveryMs": 27.634999990463257
+            },
+            {
+              "start": 8082.775,
+              "end": 8115.515,
+              "ms": 32.74000000000069,
+              "deliveryStart": 8082.985000133514,
+              "deliveryEnd": 8115.775000095367,
+              "deliveryMs": 32.78999996185303
+            },
+            {
+              "start": 8115.515,
+              "end": 8148.085,
+              "ms": 32.56999999999971,
+              "deliveryStart": 8115.775000095367,
+              "deliveryEnd": 8148.265000104904,
+              "deliveryMs": 32.49000000953674
+            },
+            {
+              "start": 8148.085,
+              "end": 8180.635,
+              "ms": 32.55000000000018,
+              "deliveryStart": 8148.265000104904,
+              "deliveryEnd": 8180.785000085831,
+              "deliveryMs": 32.519999980926514
+            },
+            {
+              "start": 8180.635,
+              "end": 8212.94,
+              "ms": 32.30500000000029,
+              "deliveryStart": 8180.785000085831,
+              "deliveryEnd": 8213.120000123978,
+              "deliveryMs": 32.33500003814697
+            },
+            {
+              "start": 8212.94,
+              "end": 8245.74,
+              "ms": 32.79999999999927,
+              "deliveryStart": 8213.120000123978,
+              "deliveryEnd": 8245.900000095367,
+              "deliveryMs": 32.77999997138977
+            },
+            {
+              "start": 8245.74,
+              "end": 8278.285,
+              "ms": 32.54500000000007,
+              "deliveryStart": 8245.900000095367,
+              "deliveryEnd": 8278.485000133514,
+              "deliveryMs": 32.58500003814697
+            },
+            {
+              "start": 8278.285,
+              "end": 8311.615,
+              "ms": 33.32999999999993,
+              "deliveryStart": 8278.485000133514,
+              "deliveryEnd": 8311.769999980927,
+              "deliveryMs": 33.28499984741211
+            },
+            {
+              "start": 8311.615,
+              "end": 8344.515,
+              "ms": 32.899999999999636,
+              "deliveryStart": 8311.769999980927,
+              "deliveryEnd": 8344.680000066757,
+              "deliveryMs": 32.91000008583069
+            },
+            {
+              "start": 8344.515,
+              "end": 8377.43,
+              "ms": 32.91500000000087,
+              "deliveryStart": 8344.680000066757,
+              "deliveryEnd": 8377.650000095367,
+              "deliveryMs": 32.97000002861023
+            },
+            {
+              "start": 8377.43,
+              "end": 8410.675,
+              "ms": 33.24499999999898,
+              "deliveryStart": 8377.650000095367,
+              "deliveryEnd": 8410.825000047684,
+              "deliveryMs": 33.174999952316284
+            },
+            {
+              "start": 8410.675,
+              "end": 8443.685,
+              "ms": 33.01000000000022,
+              "deliveryStart": 8410.825000047684,
+              "deliveryEnd": 8443.819999933243,
+              "deliveryMs": 32.99499988555908
+            },
+            {
+              "start": 8443.685,
+              "end": 8475.965,
+              "ms": 32.280000000000655,
+              "deliveryStart": 8443.819999933243,
+              "deliveryEnd": 8476.204999923706,
+              "deliveryMs": 32.38499999046326
+            },
+            {
+              "start": 8475.965,
+              "end": 8508.675,
+              "ms": 32.70999999999913,
+              "deliveryStart": 8476.204999923706,
+              "deliveryEnd": 8508.819999933243,
+              "deliveryMs": 32.61500000953674
+            },
+            {
+              "start": 8508.675,
+              "end": 8541.495,
+              "ms": 32.82000000000153,
+              "deliveryStart": 8508.819999933243,
+              "deliveryEnd": 8541.680000066757,
+              "deliveryMs": 32.860000133514404
+            },
+            {
+              "start": 8541.495,
+              "end": 8574.035,
+              "ms": 32.539999999999054,
+              "deliveryStart": 8541.680000066757,
+              "deliveryEnd": 8574.200000047684,
+              "deliveryMs": 32.519999980926514
+            },
+            {
+              "start": 8574.035,
+              "end": 8606.36,
+              "ms": 32.32500000000073,
+              "deliveryStart": 8574.200000047684,
+              "deliveryEnd": 8606.505000114441,
+              "deliveryMs": 32.3050000667572
+            },
+            {
+              "start": 8606.36,
+              "end": 8639.14,
+              "ms": 32.779999999998836,
+              "deliveryStart": 8606.505000114441,
+              "deliveryEnd": 8639.350000143051,
+              "deliveryMs": 32.84500002861023
+            },
+            {
+              "start": 8639.14,
+              "end": 8672.235,
+              "ms": 33.095000000001164,
+              "deliveryStart": 8639.350000143051,
+              "deliveryEnd": 8672.450000047684,
+              "deliveryMs": 33.09999990463257
+            },
+            {
+              "start": 8672.235,
+              "end": 8705.925,
+              "ms": 33.68999999999869,
+              "deliveryStart": 8672.450000047684,
+              "deliveryEnd": 8706.16000008583,
+              "deliveryMs": 33.71000003814697
+            },
+            {
+              "start": 8705.925,
+              "end": 8738.64,
+              "ms": 32.715000000000146,
+              "deliveryStart": 8706.16000008583,
+              "deliveryEnd": 8738.870000123978,
+              "deliveryMs": 32.71000003814697
+            },
+            {
+              "start": 8738.64,
+              "end": 8771.92,
+              "ms": 33.280000000000655,
+              "deliveryStart": 8738.870000123978,
+              "deliveryEnd": 8772.18499994278,
+              "deliveryMs": 33.31499981880188
+            },
+            {
+              "start": 8771.92,
+              "end": 8805.05,
+              "ms": 33.1299999999992,
+              "deliveryStart": 8772.18499994278,
+              "deliveryEnd": 8805.27999997139,
+              "deliveryMs": 33.09500002861023
+            },
+            {
+              "start": 8805.05,
+              "end": 8837.67,
+              "ms": 32.6200000000008,
+              "deliveryStart": 8805.27999997139,
+              "deliveryEnd": 8837.924999952316,
+              "deliveryMs": 32.644999980926514
+            },
+            {
+              "start": 8837.67,
+              "end": 8871.445,
+              "ms": 33.774999999999636,
+              "deliveryStart": 8837.924999952316,
+              "deliveryEnd": 8871.66000008583,
+              "deliveryMs": 33.735000133514404
+            },
+            {
+              "start": 8871.445,
+              "end": 8904.225,
+              "ms": 32.780000000000655,
+              "deliveryStart": 8871.66000008583,
+              "deliveryEnd": 8904.465000152588,
+              "deliveryMs": 32.8050000667572
+            },
+            {
+              "start": 8904.225,
+              "end": 8937.745,
+              "ms": 33.52000000000044,
+              "deliveryStart": 8904.465000152588,
+              "deliveryEnd": 8937.954999923706,
+              "deliveryMs": 33.489999771118164
+            },
+            {
+              "start": 8937.745,
+              "end": 8971.02,
+              "ms": 33.274999999999636,
+              "deliveryStart": 8937.954999923706,
+              "deliveryEnd": 8971.289999961853,
+              "deliveryMs": 33.33500003814697
+            },
+            {
+              "start": 8971.02,
+              "end": 9004.955,
+              "ms": 33.93499999999949,
+              "deliveryStart": 8971.289999961853,
+              "deliveryEnd": 9005.180000066757,
+              "deliveryMs": 33.890000104904175
+            },
+            {
+              "start": 9004.955,
+              "end": 9038.17,
+              "ms": 33.215000000000146,
+              "deliveryStart": 9005.180000066757,
+              "deliveryEnd": 9038.365000009537,
+              "deliveryMs": 33.18499994277954
+            },
+            {
+              "start": 9038.17,
+              "end": 9071.395,
+              "ms": 33.225000000000364,
+              "deliveryStart": 9038.365000009537,
+              "deliveryEnd": 9071.730000019073,
+              "deliveryMs": 33.36500000953674
+            },
+            {
+              "start": 9071.395,
+              "end": 9104.255,
+              "ms": 32.85999999999876,
+              "deliveryStart": 9071.730000019073,
+              "deliveryEnd": 9104.5,
+              "deliveryMs": 32.769999980926514
+            },
+            {
+              "start": 9104.255,
+              "end": 9137.87,
+              "ms": 33.6150000000016,
+              "deliveryStart": 9104.5,
+              "deliveryEnd": 9138.075000047684,
+              "deliveryMs": 33.575000047683716
+            },
+            {
+              "start": 9137.87,
+              "end": 9170.735,
+              "ms": 32.86499999999978,
+              "deliveryStart": 9138.075000047684,
+              "deliveryEnd": 9170.944999933243,
+              "deliveryMs": 32.86999988555908
+            },
+            {
+              "start": 9170.735,
+              "end": 9203.61,
+              "ms": 32.875,
+              "deliveryStart": 9170.944999933243,
+              "deliveryEnd": 9203.829999923706,
+              "deliveryMs": 32.88499999046326
+            },
+            {
+              "start": 9203.61,
+              "end": 9236.39,
+              "ms": 32.779999999998836,
+              "deliveryStart": 9203.829999923706,
+              "deliveryEnd": 9236.650000095367,
+              "deliveryMs": 32.82000017166138
+            },
+            {
+              "start": 9236.39,
+              "end": 9269.025,
+              "ms": 32.63500000000022,
+              "deliveryStart": 9236.650000095367,
+              "deliveryEnd": 9269.225000143051,
+              "deliveryMs": 32.575000047683716
+            },
+            {
+              "start": 9269.025,
+              "end": 9302.21,
+              "ms": 33.18499999999949,
+              "deliveryStart": 9269.225000143051,
+              "deliveryEnd": 9302.414999961853,
+              "deliveryMs": 33.18999981880188
+            },
+            {
+              "start": 9302.21,
+              "end": 9334.82,
+              "ms": 32.61000000000058,
+              "deliveryStart": 9302.414999961853,
+              "deliveryEnd": 9335.09500002861,
+              "deliveryMs": 32.6800000667572
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 7623.995000123978,
+              "end": 7679.995000123978,
+              "ms": 56
+            },
+            {
+              "start": 7983.610000133514,
+              "end": 8054.610000133514,
+              "ms": 71
+            }
+          ],
+          "longTaskTotalMs": 127.0,
+          "glSyncCalls": {}
+        },
+        {
+          "name": "idle-before-growth",
+          "startMs": 10003.94000005722,
+          "endMs": 13100.515000104904,
+          "inputs": [
+            {
+              "at": 10005.365000009537,
+              "action": {
+                "waitMs": 3000
+              }
+            }
+          ],
+          "expected": "Both actors stand at the starting island beside the root.",
+          "visualReview": "pending",
+          "cpu": {
+            "TaskDurationMs": 1006.0680000000009,
+            "ScriptDurationMs": 962.7010000000002,
+            "LayoutDurationMs": 0.0,
+            "RecalcStyleDurationMs": 0.0,
+            "taskBusyFraction": 0.32489702331915377
+          },
+          "durationMs": 3096.5750000476837,
+          "rAF": {
+            "count": 95,
+            "medianMs": 32.955000000001746,
+            "p95Ms": 33.82999999999993,
+            "p99Ms": 33.965000000000146,
+            "maxMs": 33.965000000000146,
+            "over33ms": 15,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "callbackDelivery": {
+            "count": 95,
+            "medianMs": 32.96000003814697,
+            "p95Ms": 33.83999991416931,
+            "p99Ms": 33.97000002861023,
+            "maxMs": 33.97000002861023,
+            "over33ms": 14,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "frames": [
+            {
+              "start": 9989.765,
+              "end": 10022.7,
+              "ms": 32.93500000000131,
+              "deliveryStart": 9990.009999990463,
+              "deliveryEnd": 10022.94000005722,
+              "deliveryMs": 32.9300000667572
+            },
+            {
+              "start": 10022.7,
+              "end": 10055.775,
+              "ms": 33.07499999999891,
+              "deliveryStart": 10022.94000005722,
+              "deliveryEnd": 10056.015000104904,
+              "deliveryMs": 33.075000047683716
+            },
+            {
+              "start": 10055.775,
+              "end": 10088.22,
+              "ms": 32.44499999999971,
+              "deliveryStart": 10056.015000104904,
+              "deliveryEnd": 10088.569999933243,
+              "deliveryMs": 32.55499982833862
+            },
+            {
+              "start": 10088.22,
+              "end": 10122.17,
+              "ms": 33.95000000000073,
+              "deliveryStart": 10088.569999933243,
+              "deliveryEnd": 10122.420000076294,
+              "deliveryMs": 33.85000014305115
+            },
+            {
+              "start": 10122.17,
+              "end": 10154.705,
+              "ms": 32.534999999999854,
+              "deliveryStart": 10122.420000076294,
+              "deliveryEnd": 10154.94000005722,
+              "deliveryMs": 32.519999980926514
+            },
+            {
+              "start": 10154.705,
+              "end": 10187.445,
+              "ms": 32.73999999999978,
+              "deliveryStart": 10154.94000005722,
+              "deliveryEnd": 10187.700000047684,
+              "deliveryMs": 32.75999999046326
+            },
+            {
+              "start": 10187.445,
+              "end": 10219.925,
+              "ms": 32.47999999999956,
+              "deliveryStart": 10187.700000047684,
+              "deliveryEnd": 10220.125,
+              "deliveryMs": 32.424999952316284
+            },
+            {
+              "start": 10219.925,
+              "end": 10253.13,
+              "ms": 33.20499999999993,
+              "deliveryStart": 10220.125,
+              "deliveryEnd": 10253.41000008583,
+              "deliveryMs": 33.28500008583069
+            },
+            {
+              "start": 10253.13,
+              "end": 10286.96,
+              "ms": 33.82999999999993,
+              "deliveryStart": 10253.41000008583,
+              "deliveryEnd": 10287.25,
+              "deliveryMs": 33.83999991416931
+            },
+            {
+              "start": 10286.96,
+              "end": 10319.915,
+              "ms": 32.955000000001746,
+              "deliveryStart": 10287.25,
+              "deliveryEnd": 10320.210000038147,
+              "deliveryMs": 32.96000003814697
+            },
+            {
+              "start": 10319.915,
+              "end": 10352.91,
+              "ms": 32.99499999999898,
+              "deliveryStart": 10320.210000038147,
+              "deliveryEnd": 10353.16000008583,
+              "deliveryMs": 32.950000047683716
+            },
+            {
+              "start": 10352.91,
+              "end": 10385.54,
+              "ms": 32.63000000000102,
+              "deliveryStart": 10353.16000008583,
+              "deliveryEnd": 10385.835000038147,
+              "deliveryMs": 32.674999952316284
+            },
+            {
+              "start": 10385.54,
+              "end": 10418.605,
+              "ms": 33.06499999999869,
+              "deliveryStart": 10385.835000038147,
+              "deliveryEnd": 10418.920000076294,
+              "deliveryMs": 33.08500003814697
+            },
+            {
+              "start": 10418.605,
+              "end": 10452.02,
+              "ms": 33.41500000000087,
+              "deliveryStart": 10418.920000076294,
+              "deliveryEnd": 10452.265000104904,
+              "deliveryMs": 33.34500002861023
+            },
+            {
+              "start": 10452.02,
+              "end": 10485.17,
+              "ms": 33.149999999999636,
+              "deliveryStart": 10452.265000104904,
+              "deliveryEnd": 10485.40499997139,
+              "deliveryMs": 33.139999866485596
+            },
+            {
+              "start": 10485.17,
+              "end": 10518.185,
+              "ms": 33.01499999999942,
+              "deliveryStart": 10485.40499997139,
+              "deliveryEnd": 10518.400000095367,
+              "deliveryMs": 32.99500012397766
+            },
+            {
+              "start": 10518.185,
+              "end": 10551.54,
+              "ms": 33.35500000000138,
+              "deliveryStart": 10518.400000095367,
+              "deliveryEnd": 10551.765000104904,
+              "deliveryMs": 33.36500000953674
+            },
+            {
+              "start": 10551.54,
+              "end": 10584.69,
+              "ms": 33.149999999999636,
+              "deliveryStart": 10551.765000104904,
+              "deliveryEnd": 10584.884999990463,
+              "deliveryMs": 33.11999988555908
+            },
+            {
+              "start": 10584.69,
+              "end": 10617.635,
+              "ms": 32.94499999999971,
+              "deliveryStart": 10584.884999990463,
+              "deliveryEnd": 10617.884999990463,
+              "deliveryMs": 33
+            },
+            {
+              "start": 10617.635,
+              "end": 10650.25,
+              "ms": 32.61499999999978,
+              "deliveryStart": 10617.884999990463,
+              "deliveryEnd": 10650.430000066757,
+              "deliveryMs": 32.545000076293945
+            },
+            {
+              "start": 10650.25,
+              "end": 10683.32,
+              "ms": 33.06999999999971,
+              "deliveryStart": 10650.430000066757,
+              "deliveryEnd": 10683.475000143051,
+              "deliveryMs": 33.045000076293945
+            },
+            {
+              "start": 10683.32,
+              "end": 10716.5,
+              "ms": 33.18000000000029,
+              "deliveryStart": 10683.475000143051,
+              "deliveryEnd": 10716.77999997139,
+              "deliveryMs": 33.30499982833862
+            },
+            {
+              "start": 10716.5,
+              "end": 10749.465,
+              "ms": 32.965000000000146,
+              "deliveryStart": 10716.77999997139,
+              "deliveryEnd": 10749.69000005722,
+              "deliveryMs": 32.91000008583069
+            },
+            {
+              "start": 10749.465,
+              "end": 10782.34,
+              "ms": 32.875,
+              "deliveryStart": 10749.69000005722,
+              "deliveryEnd": 10782.555000066757,
+              "deliveryMs": 32.86500000953674
+            },
+            {
+              "start": 10782.34,
+              "end": 10814.78,
+              "ms": 32.44000000000051,
+              "deliveryStart": 10782.555000066757,
+              "deliveryEnd": 10814.950000047684,
+              "deliveryMs": 32.394999980926514
+            },
+            {
+              "start": 10814.78,
+              "end": 10847.075,
+              "ms": 32.29500000000007,
+              "deliveryStart": 10814.950000047684,
+              "deliveryEnd": 10847.255000114441,
+              "deliveryMs": 32.3050000667572
+            },
+            {
+              "start": 10847.075,
+              "end": 10879.585,
+              "ms": 32.5099999999984,
+              "deliveryStart": 10847.255000114441,
+              "deliveryEnd": 10879.914999961853,
+              "deliveryMs": 32.65999984741211
+            },
+            {
+              "start": 10879.585,
+              "end": 10912.505,
+              "ms": 32.92000000000007,
+              "deliveryStart": 10879.914999961853,
+              "deliveryEnd": 10912.799999952316,
+              "deliveryMs": 32.88499999046326
+            },
+            {
+              "start": 10912.505,
+              "end": 10945.91,
+              "ms": 33.405000000000655,
+              "deliveryStart": 10912.799999952316,
+              "deliveryEnd": 10946.170000076294,
+              "deliveryMs": 33.37000012397766
+            },
+            {
+              "start": 10945.91,
+              "end": 10978.81,
+              "ms": 32.899999999999636,
+              "deliveryStart": 10946.170000076294,
+              "deliveryEnd": 10979.02999997139,
+              "deliveryMs": 32.859999895095825
+            },
+            {
+              "start": 10978.81,
+              "end": 11012.25,
+              "ms": 33.44000000000051,
+              "deliveryStart": 10979.02999997139,
+              "deliveryEnd": 11012.480000019073,
+              "deliveryMs": 33.450000047683716
+            },
+            {
+              "start": 11012.25,
+              "end": 11045.17,
+              "ms": 32.92000000000007,
+              "deliveryStart": 11012.480000019073,
+              "deliveryEnd": 11045.485000133514,
+              "deliveryMs": 33.00500011444092
+            },
+            {
+              "start": 11045.17,
+              "end": 11078.315,
+              "ms": 33.14500000000044,
+              "deliveryStart": 11045.485000133514,
+              "deliveryEnd": 11078.55999994278,
+              "deliveryMs": 33.07499980926514
+            },
+            {
+              "start": 11078.315,
+              "end": 11111.625,
+              "ms": 33.30999999999949,
+              "deliveryStart": 11078.55999994278,
+              "deliveryEnd": 11111.77999997139,
+              "deliveryMs": 33.22000002861023
+            },
+            {
+              "start": 11111.625,
+              "end": 11144.45,
+              "ms": 32.82500000000073,
+              "deliveryStart": 11111.77999997139,
+              "deliveryEnd": 11144.680000066757,
+              "deliveryMs": 32.90000009536743
+            },
+            {
+              "start": 11144.45,
+              "end": 11177.38,
+              "ms": 32.92999999999847,
+              "deliveryStart": 11144.680000066757,
+              "deliveryEnd": 11177.674999952316,
+              "deliveryMs": 32.99499988555908
+            },
+            {
+              "start": 11177.38,
+              "end": 11210.25,
+              "ms": 32.8700000000008,
+              "deliveryStart": 11177.674999952316,
+              "deliveryEnd": 11210.77999997139,
+              "deliveryMs": 33.105000019073486
+            },
+            {
+              "start": 11210.25,
+              "end": 11243.44,
+              "ms": 33.19000000000051,
+              "deliveryStart": 11210.77999997139,
+              "deliveryEnd": 11243.620000123978,
+              "deliveryMs": 32.84000015258789
+            },
+            {
+              "start": 11243.44,
+              "end": 11276.125,
+              "ms": 32.68499999999949,
+              "deliveryStart": 11243.620000123978,
+              "deliveryEnd": 11276.390000104904,
+              "deliveryMs": 32.769999980926514
+            },
+            {
+              "start": 11276.125,
+              "end": 11309.365,
+              "ms": 33.23999999999978,
+              "deliveryStart": 11276.390000104904,
+              "deliveryEnd": 11309.549999952316,
+              "deliveryMs": 33.15999984741211
+            },
+            {
+              "start": 11309.365,
+              "end": 11342.37,
+              "ms": 33.00500000000102,
+              "deliveryStart": 11309.549999952316,
+              "deliveryEnd": 11342.509999990463,
+              "deliveryMs": 32.96000003814697
+            },
+            {
+              "start": 11342.37,
+              "end": 11375.64,
+              "ms": 33.26999999999862,
+              "deliveryStart": 11342.509999990463,
+              "deliveryEnd": 11375.81500005722,
+              "deliveryMs": 33.3050000667572
+            },
+            {
+              "start": 11375.64,
+              "end": 11408.85,
+              "ms": 33.210000000000946,
+              "deliveryStart": 11375.81500005722,
+              "deliveryEnd": 11409.025000095367,
+              "deliveryMs": 33.21000003814697
+            },
+            {
+              "start": 11408.85,
+              "end": 11441.14,
+              "ms": 32.289999999999054,
+              "deliveryStart": 11409.025000095367,
+              "deliveryEnd": 11441.31500005722,
+              "deliveryMs": 32.28999996185303
+            },
+            {
+              "start": 11441.14,
+              "end": 11473.425,
+              "ms": 32.284999999999854,
+              "deliveryStart": 11441.31500005722,
+              "deliveryEnd": 11473.630000114441,
+              "deliveryMs": 32.31500005722046
+            },
+            {
+              "start": 11473.425,
+              "end": 11506.15,
+              "ms": 32.725000000000364,
+              "deliveryStart": 11473.630000114441,
+              "deliveryEnd": 11506.34500002861,
+              "deliveryMs": 32.71499991416931
+            },
+            {
+              "start": 11506.15,
+              "end": 11538.78,
+              "ms": 32.63000000000102,
+              "deliveryStart": 11506.34500002861,
+              "deliveryEnd": 11539.015000104904,
+              "deliveryMs": 32.670000076293945
+            },
+            {
+              "start": 11538.78,
+              "end": 11571.575,
+              "ms": 32.79500000000007,
+              "deliveryStart": 11539.015000104904,
+              "deliveryEnd": 11571.775000095367,
+              "deliveryMs": 32.75999999046326
+            },
+            {
+              "start": 11571.575,
+              "end": 11603.78,
+              "ms": 32.20499999999993,
+              "deliveryStart": 11571.775000095367,
+              "deliveryEnd": 11604.009999990463,
+              "deliveryMs": 32.234999895095825
+            },
+            {
+              "start": 11603.78,
+              "end": 11636.145,
+              "ms": 32.36499999999978,
+              "deliveryStart": 11604.009999990463,
+              "deliveryEnd": 11636.380000114441,
+              "deliveryMs": 32.37000012397766
+            },
+            {
+              "start": 11636.145,
+              "end": 11668.935,
+              "ms": 32.789999999999054,
+              "deliveryStart": 11636.380000114441,
+              "deliveryEnd": 11669.15499997139,
+              "deliveryMs": 32.77499985694885
+            },
+            {
+              "start": 11668.935,
+              "end": 11701.57,
+              "ms": 32.63500000000022,
+              "deliveryStart": 11669.15499997139,
+              "deliveryEnd": 11701.819999933243,
+              "deliveryMs": 32.66499996185303
+            },
+            {
+              "start": 11701.57,
+              "end": 11734.63,
+              "ms": 33.05999999999949,
+              "deliveryStart": 11701.819999933243,
+              "deliveryEnd": 11734.91000008583,
+              "deliveryMs": 33.09000015258789
+            },
+            {
+              "start": 11734.63,
+              "end": 11767.38,
+              "ms": 32.75,
+              "deliveryStart": 11734.91000008583,
+              "deliveryEnd": 11767.615000009537,
+              "deliveryMs": 32.704999923706055
+            },
+            {
+              "start": 11767.38,
+              "end": 11799.715,
+              "ms": 32.335000000000946,
+              "deliveryStart": 11767.615000009537,
+              "deliveryEnd": 11800.06500005722,
+              "deliveryMs": 32.450000047683716
+            },
+            {
+              "start": 11799.715,
+              "end": 11833.205,
+              "ms": 33.48999999999978,
+              "deliveryStart": 11800.06500005722,
+              "deliveryEnd": 11833.495000123978,
+              "deliveryMs": 33.4300000667572
+            },
+            {
+              "start": 11833.205,
+              "end": 11866.375,
+              "ms": 33.17000000000007,
+              "deliveryStart": 11833.495000123978,
+              "deliveryEnd": 11866.585000038147,
+              "deliveryMs": 33.08999991416931
+            },
+            {
+              "start": 11866.375,
+              "end": 11899.73,
+              "ms": 33.35499999999956,
+              "deliveryStart": 11866.585000038147,
+              "deliveryEnd": 11900.009999990463,
+              "deliveryMs": 33.424999952316284
+            },
+            {
+              "start": 11899.73,
+              "end": 11932.51,
+              "ms": 32.780000000000655,
+              "deliveryStart": 11900.009999990463,
+              "deliveryEnd": 11932.840000152588,
+              "deliveryMs": 32.830000162124634
+            },
+            {
+              "start": 11932.51,
+              "end": 11965.64,
+              "ms": 33.1299999999992,
+              "deliveryStart": 11932.840000152588,
+              "deliveryEnd": 11965.855000019073,
+              "deliveryMs": 33.014999866485596
+            },
+            {
+              "start": 11965.64,
+              "end": 11998.815,
+              "ms": 33.17500000000109,
+              "deliveryStart": 11965.855000019073,
+              "deliveryEnd": 11999.015000104904,
+              "deliveryMs": 33.16000008583069
+            },
+            {
+              "start": 11998.815,
+              "end": 12031.715,
+              "ms": 32.899999999999636,
+              "deliveryStart": 11999.015000104904,
+              "deliveryEnd": 12031.924999952316,
+              "deliveryMs": 32.90999984741211
+            },
+            {
+              "start": 12031.715,
+              "end": 12064.295,
+              "ms": 32.57999999999993,
+              "deliveryStart": 12031.924999952316,
+              "deliveryEnd": 12064.505000114441,
+              "deliveryMs": 32.580000162124634
+            },
+            {
+              "start": 12064.295,
+              "end": 12096.6,
+              "ms": 32.30500000000029,
+              "deliveryStart": 12064.505000114441,
+              "deliveryEnd": 12096.825000047684,
+              "deliveryMs": 32.3199999332428
+            },
+            {
+              "start": 12096.6,
+              "end": 12129.105,
+              "ms": 32.5049999999992,
+              "deliveryStart": 12096.825000047684,
+              "deliveryEnd": 12129.319999933243,
+              "deliveryMs": 32.49499988555908
+            },
+            {
+              "start": 12129.105,
+              "end": 12162.05,
+              "ms": 32.94499999999971,
+              "deliveryStart": 12129.319999933243,
+              "deliveryEnd": 12162.30999994278,
+              "deliveryMs": 32.99000000953674
+            },
+            {
+              "start": 12162.05,
+              "end": 12195.805,
+              "ms": 33.75500000000102,
+              "deliveryStart": 12162.30999994278,
+              "deliveryEnd": 12196.019999980927,
+              "deliveryMs": 33.71000003814697
+            },
+            {
+              "start": 12195.805,
+              "end": 12229,
+              "ms": 33.19499999999971,
+              "deliveryStart": 12196.019999980927,
+              "deliveryEnd": 12229.230000019073,
+              "deliveryMs": 33.21000003814697
+            },
+            {
+              "start": 12229,
+              "end": 12262.4,
+              "ms": 33.399999999999636,
+              "deliveryStart": 12229.230000019073,
+              "deliveryEnd": 12262.620000123978,
+              "deliveryMs": 33.390000104904175
+            },
+            {
+              "start": 12262.4,
+              "end": 12295.87,
+              "ms": 33.470000000001164,
+              "deliveryStart": 12262.620000123978,
+              "deliveryEnd": 12296.090000152588,
+              "deliveryMs": 33.47000002861023
+            },
+            {
+              "start": 12295.87,
+              "end": 12328.335,
+              "ms": 32.46499999999833,
+              "deliveryStart": 12296.090000152588,
+              "deliveryEnd": 12328.545000076294,
+              "deliveryMs": 32.454999923706055
+            },
+            {
+              "start": 12328.335,
+              "end": 12360.82,
+              "ms": 32.48500000000058,
+              "deliveryStart": 12328.545000076294,
+              "deliveryEnd": 12360.954999923706,
+              "deliveryMs": 32.40999984741211
+            },
+            {
+              "start": 12360.82,
+              "end": 12393.28,
+              "ms": 32.460000000000946,
+              "deliveryStart": 12360.954999923706,
+              "deliveryEnd": 12393.52999997139,
+              "deliveryMs": 32.575000047683716
+            },
+            {
+              "start": 12393.28,
+              "end": 12426.48,
+              "ms": 33.19999999999891,
+              "deliveryStart": 12393.52999997139,
+              "deliveryEnd": 12426.740000009537,
+              "deliveryMs": 33.21000003814697
+            },
+            {
+              "start": 12426.48,
+              "end": 12460.18,
+              "ms": 33.70000000000073,
+              "deliveryStart": 12426.740000009537,
+              "deliveryEnd": 12460.450000047684,
+              "deliveryMs": 33.71000003814697
+            },
+            {
+              "start": 12460.18,
+              "end": 12494.145,
+              "ms": 33.965000000000146,
+              "deliveryStart": 12460.450000047684,
+              "deliveryEnd": 12494.34500002861,
+              "deliveryMs": 33.894999980926514
+            },
+            {
+              "start": 12494.145,
+              "end": 12526.73,
+              "ms": 32.58499999999913,
+              "deliveryStart": 12494.34500002861,
+              "deliveryEnd": 12526.950000047684,
+              "deliveryMs": 32.605000019073486
+            },
+            {
+              "start": 12526.73,
+              "end": 12560.2,
+              "ms": 33.470000000001164,
+              "deliveryStart": 12526.950000047684,
+              "deliveryEnd": 12560.490000009537,
+              "deliveryMs": 33.53999996185303
+            },
+            {
+              "start": 12560.2,
+              "end": 12594.105,
+              "ms": 33.904999999998836,
+              "deliveryStart": 12560.490000009537,
+              "deliveryEnd": 12594.375,
+              "deliveryMs": 33.88499999046326
+            },
+            {
+              "start": 12594.105,
+              "end": 12627.43,
+              "ms": 33.32500000000073,
+              "deliveryStart": 12594.375,
+              "deliveryEnd": 12627.664999961853,
+              "deliveryMs": 33.28999996185303
+            },
+            {
+              "start": 12627.43,
+              "end": 12659.965,
+              "ms": 32.534999999999854,
+              "deliveryStart": 12627.664999961853,
+              "deliveryEnd": 12660.27999997139,
+              "deliveryMs": 32.61500000953674
+            },
+            {
+              "start": 12659.965,
+              "end": 12693.745,
+              "ms": 33.780000000000655,
+              "deliveryStart": 12660.27999997139,
+              "deliveryEnd": 12693.980000019073,
+              "deliveryMs": 33.700000047683716
+            },
+            {
+              "start": 12693.745,
+              "end": 12727.16,
+              "ms": 33.414999999999054,
+              "deliveryStart": 12693.980000019073,
+              "deliveryEnd": 12727.390000104904,
+              "deliveryMs": 33.41000008583069
+            },
+            {
+              "start": 12727.16,
+              "end": 12760.205,
+              "ms": 33.04500000000007,
+              "deliveryStart": 12727.390000104904,
+              "deliveryEnd": 12760.519999980927,
+              "deliveryMs": 33.12999987602234
+            },
+            {
+              "start": 12760.205,
+              "end": 12793.19,
+              "ms": 32.98500000000058,
+              "deliveryStart": 12760.519999980927,
+              "deliveryEnd": 12793.400000095367,
+              "deliveryMs": 32.88000011444092
+            },
+            {
+              "start": 12793.19,
+              "end": 12826.025,
+              "ms": 32.83499999999913,
+              "deliveryStart": 12793.400000095367,
+              "deliveryEnd": 12826.259999990463,
+              "deliveryMs": 32.859999895095825
+            },
+            {
+              "start": 12826.025,
+              "end": 12859.25,
+              "ms": 33.225000000000364,
+              "deliveryStart": 12826.259999990463,
+              "deliveryEnd": 12859.585000038147,
+              "deliveryMs": 33.325000047683716
+            },
+            {
+              "start": 12859.25,
+              "end": 12892.2,
+              "ms": 32.95000000000073,
+              "deliveryStart": 12859.585000038147,
+              "deliveryEnd": 12892.420000076294,
+              "deliveryMs": 32.83500003814697
+            },
+            {
+              "start": 12892.2,
+              "end": 12925.28,
+              "ms": 33.07999999999993,
+              "deliveryStart": 12892.420000076294,
+              "deliveryEnd": 12925.575000047684,
+              "deliveryMs": 33.15499997138977
+            },
+            {
+              "start": 12925.28,
+              "end": 12957.905,
+              "ms": 32.625,
+              "deliveryStart": 12925.575000047684,
+              "deliveryEnd": 12958.120000123978,
+              "deliveryMs": 32.545000076293945
+            },
+            {
+              "start": 12957.905,
+              "end": 12990.715,
+              "ms": 32.80999999999949,
+              "deliveryStart": 12958.120000123978,
+              "deliveryEnd": 12990.980000019073,
+              "deliveryMs": 32.859999895095825
+            },
+            {
+              "start": 12990.715,
+              "end": 13023.76,
+              "ms": 33.04500000000007,
+              "deliveryStart": 12990.980000019073,
+              "deliveryEnd": 13024.02999997139,
+              "deliveryMs": 33.049999952316284
+            },
+            {
+              "start": 13023.76,
+              "end": 13056.25,
+              "ms": 32.48999999999978,
+              "deliveryStart": 13024.02999997139,
+              "deliveryEnd": 13056.505000114441,
+              "deliveryMs": 32.47500014305115
+            },
+            {
+              "start": 13056.25,
+              "end": 13090.18,
+              "ms": 33.93000000000029,
+              "deliveryStart": 13056.505000114441,
+              "deliveryEnd": 13090.475000143051,
+              "deliveryMs": 33.97000002861023
+            },
+            {
+              "start": 13090.18,
+              "end": 13123.055,
+              "ms": 32.875,
+              "deliveryStart": 13090.475000143051,
+              "deliveryEnd": 13123.34500002861,
+              "deliveryMs": 32.86999988555908
+            }
+          ],
+          "longTasks": [],
+          "longTaskTotalMs": 0,
+          "glSyncCalls": {}
+        },
+        {
+          "name": "growth-first",
+          "startMs": 13790.84500002861,
+          "endMs": 15861.15499997139,
+          "inputs": [
+            {
+              "at": 13792.30999994278,
+              "action": {
+                "key": "1"
+              }
+            }
+          ],
+          "expected": "Root bridge grows and settles. On the first run this is the first actual growth draw in this browser.",
+          "visualReview": "pending",
+          "cpu": {
+            "TaskDurationMs": 967.4209999999998,
+            "ScriptDurationMs": 910.9159999999998,
+            "LayoutDurationMs": 0.0,
+            "RecalcStyleDurationMs": 0.0,
+            "taskBusyFraction": 0.467283160505788
+          },
+          "durationMs": 2070.3099999427795,
+          "rAF": {
+            "count": 59,
+            "medianMs": 32.909999999999854,
+            "p95Ms": 33.80999999999949,
+            "p99Ms": 196.13500000000022,
+            "maxMs": 196.13500000000022,
+            "over33ms": 7,
+            "over50ms": 1,
+            "over100ms": 1
+          },
+          "callbackDelivery": {
+            "count": 59,
+            "medianMs": 32.87999987602234,
+            "p95Ms": 33.875,
+            "p99Ms": 215.71000003814697,
+            "maxMs": 215.71000003814697,
+            "over33ms": 9,
+            "over50ms": 1,
+            "over100ms": 1
+          },
+          "frames": [
+            {
+              "start": 13777.875,
+              "end": 13810.99,
+              "ms": 33.11499999999978,
+              "deliveryStart": 13778.15499997139,
+              "deliveryEnd": 13811.295000076294,
+              "deliveryMs": 33.140000104904175
+            },
+            {
+              "start": 13810.99,
+              "end": 14007.125,
+              "ms": 196.13500000000022,
+              "deliveryStart": 13811.295000076294,
+              "deliveryEnd": 14027.005000114441,
+              "deliveryMs": 215.71000003814697
+            },
+            {
+              "start": 14007.125,
+              "end": 14040.355,
+              "ms": 33.22999999999956,
+              "deliveryStart": 14027.005000114441,
+              "deliveryEnd": 14040.644999980927,
+              "deliveryMs": 13.639999866485596
+            },
+            {
+              "start": 14040.355,
+              "end": 14072.84,
+              "ms": 32.48500000000058,
+              "deliveryStart": 14040.644999980927,
+              "deliveryEnd": 14073.039999961853,
+              "deliveryMs": 32.394999980926514
+            },
+            {
+              "start": 14072.84,
+              "end": 14105.58,
+              "ms": 32.73999999999978,
+              "deliveryStart": 14073.039999961853,
+              "deliveryEnd": 14105.769999980927,
+              "deliveryMs": 32.730000019073486
+            },
+            {
+              "start": 14105.58,
+              "end": 14138.34,
+              "ms": 32.76000000000022,
+              "deliveryStart": 14105.769999980927,
+              "deliveryEnd": 14138.52999997139,
+              "deliveryMs": 32.75999999046326
+            },
+            {
+              "start": 14138.34,
+              "end": 14170.76,
+              "ms": 32.42000000000007,
+              "deliveryStart": 14138.52999997139,
+              "deliveryEnd": 14171.115000009537,
+              "deliveryMs": 32.58500003814697
+            },
+            {
+              "start": 14170.76,
+              "end": 14203.29,
+              "ms": 32.530000000000655,
+              "deliveryStart": 14171.115000009537,
+              "deliveryEnd": 14203.495000123978,
+              "deliveryMs": 32.38000011444092
+            },
+            {
+              "start": 14203.29,
+              "end": 14237.125,
+              "ms": 33.83499999999913,
+              "deliveryStart": 14203.495000123978,
+              "deliveryEnd": 14237.31500005722,
+              "deliveryMs": 33.8199999332428
+            },
+            {
+              "start": 14237.125,
+              "end": 14269.815,
+              "ms": 32.69000000000051,
+              "deliveryStart": 14237.31500005722,
+              "deliveryEnd": 14270.005000114441,
+              "deliveryMs": 32.69000005722046
+            },
+            {
+              "start": 14269.815,
+              "end": 14302.625,
+              "ms": 32.80999999999949,
+              "deliveryStart": 14270.005000114441,
+              "deliveryEnd": 14302.81500005722,
+              "deliveryMs": 32.80999994277954
+            },
+            {
+              "start": 14302.625,
+              "end": 14336.435,
+              "ms": 33.80999999999949,
+              "deliveryStart": 14302.81500005722,
+              "deliveryEnd": 14336.69000005722,
+              "deliveryMs": 33.875
+            },
+            {
+              "start": 14336.435,
+              "end": 14369.14,
+              "ms": 32.70499999999993,
+              "deliveryStart": 14336.69000005722,
+              "deliveryEnd": 14369.370000123978,
+              "deliveryMs": 32.6800000667572
+            },
+            {
+              "start": 14369.14,
+              "end": 14402.77,
+              "ms": 33.63000000000102,
+              "deliveryStart": 14369.370000123978,
+              "deliveryEnd": 14402.985000133514,
+              "deliveryMs": 33.61500000953674
+            },
+            {
+              "start": 14402.77,
+              "end": 14435.365,
+              "ms": 32.594999999999345,
+              "deliveryStart": 14402.985000133514,
+              "deliveryEnd": 14435.555000066757,
+              "deliveryMs": 32.5699999332428
+            },
+            {
+              "start": 14435.365,
+              "end": 14468.42,
+              "ms": 33.05500000000029,
+              "deliveryStart": 14435.555000066757,
+              "deliveryEnd": 14468.634999990463,
+              "deliveryMs": 33.079999923706055
+            },
+            {
+              "start": 14468.42,
+              "end": 14501.265,
+              "ms": 32.844999999999345,
+              "deliveryStart": 14468.634999990463,
+              "deliveryEnd": 14501.47000002861,
+              "deliveryMs": 32.83500003814697
+            },
+            {
+              "start": 14501.265,
+              "end": 14534.355,
+              "ms": 33.090000000000146,
+              "deliveryStart": 14501.47000002861,
+              "deliveryEnd": 14534.52999997139,
+              "deliveryMs": 33.05999994277954
+            },
+            {
+              "start": 14534.355,
+              "end": 14567.28,
+              "ms": 32.92500000000109,
+              "deliveryStart": 14534.52999997139,
+              "deliveryEnd": 14567.519999980927,
+              "deliveryMs": 32.99000000953674
+            },
+            {
+              "start": 14567.28,
+              "end": 14600.14,
+              "ms": 32.85999999999876,
+              "deliveryStart": 14567.519999980927,
+              "deliveryEnd": 14600.340000152588,
+              "deliveryMs": 32.82000017166138
+            },
+            {
+              "start": 14600.14,
+              "end": 14632.715,
+              "ms": 32.57500000000073,
+              "deliveryStart": 14600.340000152588,
+              "deliveryEnd": 14632.880000114441,
+              "deliveryMs": 32.53999996185303
+            },
+            {
+              "start": 14632.715,
+              "end": 14665.875,
+              "ms": 33.159999999999854,
+              "deliveryStart": 14632.880000114441,
+              "deliveryEnd": 14666.120000123978,
+              "deliveryMs": 33.24000000953674
+            },
+            {
+              "start": 14665.875,
+              "end": 14698.945,
+              "ms": 33.06999999999971,
+              "deliveryStart": 14666.120000123978,
+              "deliveryEnd": 14699.164999961853,
+              "deliveryMs": 33.044999837875366
+            },
+            {
+              "start": 14698.945,
+              "end": 14732.105,
+              "ms": 33.159999999999854,
+              "deliveryStart": 14699.164999961853,
+              "deliveryEnd": 14732.28500008583,
+              "deliveryMs": 33.12000012397766
+            },
+            {
+              "start": 14732.105,
+              "end": 14764.845,
+              "ms": 32.73999999999978,
+              "deliveryStart": 14732.28500008583,
+              "deliveryEnd": 14765.02999997139,
+              "deliveryMs": 32.74499988555908
+            },
+            {
+              "start": 14764.845,
+              "end": 14797.37,
+              "ms": 32.525000000001455,
+              "deliveryStart": 14765.02999997139,
+              "deliveryEnd": 14797.579999923706,
+              "deliveryMs": 32.549999952316284
+            },
+            {
+              "start": 14797.37,
+              "end": 14830.62,
+              "ms": 33.25,
+              "deliveryStart": 14797.579999923706,
+              "deliveryEnd": 14830.799999952316,
+              "deliveryMs": 33.22000002861023
+            },
+            {
+              "start": 14830.62,
+              "end": 14863.83,
+              "ms": 33.20999999999913,
+              "deliveryStart": 14830.799999952316,
+              "deliveryEnd": 14864.025000095367,
+              "deliveryMs": 33.22500014305115
+            },
+            {
+              "start": 14863.83,
+              "end": 14896.66,
+              "ms": 32.82999999999993,
+              "deliveryStart": 14864.025000095367,
+              "deliveryEnd": 14896.825000047684,
+              "deliveryMs": 32.799999952316284
+            },
+            {
+              "start": 14896.66,
+              "end": 14929.65,
+              "ms": 32.98999999999978,
+              "deliveryStart": 14896.825000047684,
+              "deliveryEnd": 14929.94000005722,
+              "deliveryMs": 33.11500000953674
+            },
+            {
+              "start": 14929.65,
+              "end": 14962.73,
+              "ms": 33.07999999999993,
+              "deliveryStart": 14929.94000005722,
+              "deliveryEnd": 14963.025000095367,
+              "deliveryMs": 33.08500003814697
+            },
+            {
+              "start": 14962.73,
+              "end": 14995.825,
+              "ms": 33.095000000001164,
+              "deliveryStart": 14963.025000095367,
+              "deliveryEnd": 14996.005000114441,
+              "deliveryMs": 32.980000019073486
+            },
+            {
+              "start": 14995.825,
+              "end": 15028.67,
+              "ms": 32.844999999999345,
+              "deliveryStart": 14996.005000114441,
+              "deliveryEnd": 15028.84500002861,
+              "deliveryMs": 32.83999991416931
+            },
+            {
+              "start": 15028.67,
+              "end": 15061.36,
+              "ms": 32.69000000000051,
+              "deliveryStart": 15028.84500002861,
+              "deliveryEnd": 15061.495000123978,
+              "deliveryMs": 32.65000009536743
+            },
+            {
+              "start": 15061.36,
+              "end": 15094.385,
+              "ms": 33.024999999999636,
+              "deliveryStart": 15061.495000123978,
+              "deliveryEnd": 15094.900000095367,
+              "deliveryMs": 33.40499997138977
+            },
+            {
+              "start": 15094.385,
+              "end": 15128.185,
+              "ms": 33.79999999999927,
+              "deliveryStart": 15094.900000095367,
+              "deliveryEnd": 15128.620000123978,
+              "deliveryMs": 33.72000002861023
+            },
+            {
+              "start": 15128.185,
+              "end": 15161.12,
+              "ms": 32.93500000000131,
+              "deliveryStart": 15128.620000123978,
+              "deliveryEnd": 15162.245000123978,
+              "deliveryMs": 33.625
+            },
+            {
+              "start": 15161.12,
+              "end": 15194.645,
+              "ms": 33.524999999999636,
+              "deliveryStart": 15162.245000123978,
+              "deliveryEnd": 15195.41000008583,
+              "deliveryMs": 33.16499996185303
+            },
+            {
+              "start": 15194.645,
+              "end": 15227.385,
+              "ms": 32.73999999999978,
+              "deliveryStart": 15195.41000008583,
+              "deliveryEnd": 15227.525000095367,
+              "deliveryMs": 32.11500000953674
+            },
+            {
+              "start": 15227.385,
+              "end": 15260.295,
+              "ms": 32.909999999999854,
+              "deliveryStart": 15227.525000095367,
+              "deliveryEnd": 15260.745000123978,
+              "deliveryMs": 33.22000002861023
+            },
+            {
+              "start": 15260.295,
+              "end": 15293.64,
+              "ms": 33.344999999999345,
+              "deliveryStart": 15260.745000123978,
+              "deliveryEnd": 15294.015000104904,
+              "deliveryMs": 33.269999980926514
+            },
+            {
+              "start": 15293.64,
+              "end": 15326.685,
+              "ms": 33.04500000000007,
+              "deliveryStart": 15294.015000104904,
+              "deliveryEnd": 15326.890000104904,
+              "deliveryMs": 32.875
+            },
+            {
+              "start": 15326.685,
+              "end": 15360.165,
+              "ms": 33.48000000000138,
+              "deliveryStart": 15326.890000104904,
+              "deliveryEnd": 15360.68499994278,
+              "deliveryMs": 33.794999837875366
+            },
+            {
+              "start": 15360.165,
+              "end": 15392.92,
+              "ms": 32.7549999999992,
+              "deliveryStart": 15360.68499994278,
+              "deliveryEnd": 15393.18499994278,
+              "deliveryMs": 32.5
+            },
+            {
+              "start": 15392.92,
+              "end": 15425.595,
+              "ms": 32.67499999999927,
+              "deliveryStart": 15393.18499994278,
+              "deliveryEnd": 15426.110000133514,
+              "deliveryMs": 32.92500019073486
+            },
+            {
+              "start": 15425.595,
+              "end": 15458.475,
+              "ms": 32.88000000000102,
+              "deliveryStart": 15426.110000133514,
+              "deliveryEnd": 15469.549999952316,
+              "deliveryMs": 43.43999981880188
+            },
+            {
+              "start": 15458.475,
+              "end": 15491.075,
+              "ms": 32.600000000000364,
+              "deliveryStart": 15469.549999952316,
+              "deliveryEnd": 15492.269999980927,
+              "deliveryMs": 22.72000002861023
+            },
+            {
+              "start": 15491.075,
+              "end": 15524.145,
+              "ms": 33.06999999999971,
+              "deliveryStart": 15492.269999980927,
+              "deliveryEnd": 15524.495000123978,
+              "deliveryMs": 32.22500014305115
+            },
+            {
+              "start": 15524.145,
+              "end": 15557.415,
+              "ms": 33.27000000000044,
+              "deliveryStart": 15524.495000123978,
+              "deliveryEnd": 15557.829999923706,
+              "deliveryMs": 33.334999799728394
+            },
+            {
+              "start": 15557.415,
+              "end": 15589.85,
+              "ms": 32.43499999999949,
+              "deliveryStart": 15557.829999923706,
+              "deliveryEnd": 15590.105000019073,
+              "deliveryMs": 32.27500009536743
+            },
+            {
+              "start": 15589.85,
+              "end": 15622.4,
+              "ms": 32.54999999999927,
+              "deliveryStart": 15590.105000019073,
+              "deliveryEnd": 15622.575000047684,
+              "deliveryMs": 32.47000002861023
+            },
+            {
+              "start": 15622.4,
+              "end": 15655.535,
+              "ms": 33.13500000000022,
+              "deliveryStart": 15622.575000047684,
+              "deliveryEnd": 15655.77999997139,
+              "deliveryMs": 33.204999923706055
+            },
+            {
+              "start": 15655.535,
+              "end": 15687.97,
+              "ms": 32.43499999999949,
+              "deliveryStart": 15655.77999997139,
+              "deliveryEnd": 15688.16000008583,
+              "deliveryMs": 32.38000011444092
+            },
+            {
+              "start": 15687.97,
+              "end": 15720.305,
+              "ms": 32.335000000000946,
+              "deliveryStart": 15688.16000008583,
+              "deliveryEnd": 15720.495000123978,
+              "deliveryMs": 32.33500003814697
+            },
+            {
+              "start": 15720.305,
+              "end": 15752.725,
+              "ms": 32.42000000000007,
+              "deliveryStart": 15720.495000123978,
+              "deliveryEnd": 15752.920000076294,
+              "deliveryMs": 32.424999952316284
+            },
+            {
+              "start": 15752.725,
+              "end": 15785.585,
+              "ms": 32.85999999999876,
+              "deliveryStart": 15752.920000076294,
+              "deliveryEnd": 15785.799999952316,
+              "deliveryMs": 32.87999987602234
+            },
+            {
+              "start": 15785.585,
+              "end": 15818.55,
+              "ms": 32.965000000000146,
+              "deliveryStart": 15785.799999952316,
+              "deliveryEnd": 15818.740000009537,
+              "deliveryMs": 32.94000005722046
+            },
+            {
+              "start": 15818.55,
+              "end": 15851.58,
+              "ms": 33.030000000000655,
+              "deliveryStart": 15818.740000009537,
+              "deliveryEnd": 15851.735000133514,
+              "deliveryMs": 32.99500012397766
+            },
+            {
+              "start": 15851.58,
+              "end": 15883.905,
+              "ms": 32.32500000000073,
+              "deliveryStart": 15851.735000133514,
+              "deliveryEnd": 15884.125,
+              "deliveryMs": 32.389999866485596
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 13811.200000047684,
+              "end": 14026.200000047684,
+              "ms": 215
+            }
+          ],
+          "longTaskTotalMs": 215.0,
+          "glSyncCalls": {}
+        },
+        {
+          "name": "undo-growth-first",
+          "startMs": 16552.97000002861,
+          "endMs": 17657.485000133514,
+          "inputs": [
+            {
+              "at": 16554.575000047684,
+              "action": {
+                "key": "z"
+              }
+            }
+          ],
+          "expected": "Bridge retracts to the previous state. Verify visually before treating the next action as a repeat.",
+          "visualReview": "pending",
+          "cpu": {
+            "TaskDurationMs": 405.22499999999974,
+            "ScriptDurationMs": 383.5690000000001,
+            "LayoutDurationMs": 0.0,
+            "RecalcStyleDurationMs": 0.0,
+            "taskBusyFraction": 0.366880485970324
+          },
+          "durationMs": 1104.5150001049042,
+          "rAF": {
+            "count": 35,
+            "medianMs": 32.515000000003056,
+            "p95Ms": 33.37999999999738,
+            "p99Ms": 33.49499999999898,
+            "maxMs": 33.49499999999898,
+            "over33ms": 1,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "callbackDelivery": {
+            "count": 35,
+            "medianMs": 32.5,
+            "p95Ms": 33.420000076293945,
+            "p99Ms": 37.269999980926514,
+            "maxMs": 37.269999980926514,
+            "over33ms": 3,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "frames": [
+            {
+              "start": 16538.47,
+              "end": 16570.855,
+              "ms": 32.3849999999984,
+              "deliveryStart": 16538.730000019073,
+              "deliveryEnd": 16571.075000047684,
+              "deliveryMs": 32.34500002861023
+            },
+            {
+              "start": 16570.855,
+              "end": 16603.79,
+              "ms": 32.93500000000131,
+              "deliveryStart": 16571.075000047684,
+              "deliveryEnd": 16608.34500002861,
+              "deliveryMs": 37.269999980926514
+            },
+            {
+              "start": 16603.79,
+              "end": 16636.445,
+              "ms": 32.654999999998836,
+              "deliveryStart": 16608.34500002861,
+              "deliveryEnd": 16636.66000008583,
+              "deliveryMs": 28.31500005722046
+            },
+            {
+              "start": 16636.445,
+              "end": 16668.93,
+              "ms": 32.48500000000058,
+              "deliveryStart": 16636.66000008583,
+              "deliveryEnd": 16669.110000133514,
+              "deliveryMs": 32.450000047683716
+            },
+            {
+              "start": 16668.93,
+              "end": 16701.29,
+              "ms": 32.36000000000058,
+              "deliveryStart": 16669.110000133514,
+              "deliveryEnd": 16701.495000123978,
+              "deliveryMs": 32.38499999046326
+            },
+            {
+              "start": 16701.29,
+              "end": 16734.185,
+              "ms": 32.89500000000044,
+              "deliveryStart": 16701.495000123978,
+              "deliveryEnd": 16734.370000123978,
+              "deliveryMs": 32.875
+            },
+            {
+              "start": 16734.185,
+              "end": 16767.26,
+              "ms": 33.07499999999709,
+              "deliveryStart": 16734.370000123978,
+              "deliveryEnd": 16767.490000009537,
+              "deliveryMs": 33.11999988555908
+            },
+            {
+              "start": 16767.26,
+              "end": 16799.605,
+              "ms": 32.345000000001164,
+              "deliveryStart": 16767.490000009537,
+              "deliveryEnd": 16799.77999997139,
+              "deliveryMs": 32.28999996185303
+            },
+            {
+              "start": 16799.605,
+              "end": 16832.15,
+              "ms": 32.54500000000189,
+              "deliveryStart": 16799.77999997139,
+              "deliveryEnd": 16832.27999997139,
+              "deliveryMs": 32.5
+            },
+            {
+              "start": 16832.15,
+              "end": 16864.845,
+              "ms": 32.69499999999971,
+              "deliveryStart": 16832.27999997139,
+              "deliveryEnd": 16864.97000002861,
+              "deliveryMs": 32.69000005722046
+            },
+            {
+              "start": 16864.845,
+              "end": 16897.165,
+              "ms": 32.31999999999971,
+              "deliveryStart": 16864.97000002861,
+              "deliveryEnd": 16897.30999994278,
+              "deliveryMs": 32.33999991416931
+            },
+            {
+              "start": 16897.165,
+              "end": 16929.68,
+              "ms": 32.51499999999942,
+              "deliveryStart": 16897.30999994278,
+              "deliveryEnd": 16929.884999990463,
+              "deliveryMs": 32.575000047683716
+            },
+            {
+              "start": 16929.68,
+              "end": 16962.185,
+              "ms": 32.50500000000102,
+              "deliveryStart": 16929.884999990463,
+              "deliveryEnd": 16962.370000123978,
+              "deliveryMs": 32.485000133514404
+            },
+            {
+              "start": 16962.185,
+              "end": 16994.665,
+              "ms": 32.47999999999956,
+              "deliveryStart": 16962.370000123978,
+              "deliveryEnd": 16994.825000047684,
+              "deliveryMs": 32.454999923706055
+            },
+            {
+              "start": 16994.665,
+              "end": 17026.96,
+              "ms": 32.294999999998254,
+              "deliveryStart": 16994.825000047684,
+              "deliveryEnd": 17027.150000095367,
+              "deliveryMs": 32.325000047683716
+            },
+            {
+              "start": 17026.96,
+              "end": 17059.855,
+              "ms": 32.89500000000044,
+              "deliveryStart": 17027.150000095367,
+              "deliveryEnd": 17060.085000038147,
+              "deliveryMs": 32.93499994277954
+            },
+            {
+              "start": 17059.855,
+              "end": 17092.425,
+              "ms": 32.56999999999971,
+              "deliveryStart": 17060.085000038147,
+              "deliveryEnd": 17092.65499997139,
+              "deliveryMs": 32.5699999332428
+            },
+            {
+              "start": 17092.425,
+              "end": 17124.92,
+              "ms": 32.49499999999898,
+              "deliveryStart": 17092.65499997139,
+              "deliveryEnd": 17125.110000133514,
+              "deliveryMs": 32.455000162124634
+            },
+            {
+              "start": 17124.92,
+              "end": 17157.4,
+              "ms": 32.4800000000032,
+              "deliveryStart": 17125.110000133514,
+              "deliveryEnd": 17157.605000019073,
+              "deliveryMs": 32.49499988555908
+            },
+            {
+              "start": 17157.4,
+              "end": 17190.895,
+              "ms": 33.49499999999898,
+              "deliveryStart": 17157.605000019073,
+              "deliveryEnd": 17191.025000095367,
+              "deliveryMs": 33.420000076293945
+            },
+            {
+              "start": 17190.895,
+              "end": 17223.19,
+              "ms": 32.294999999998254,
+              "deliveryStart": 17191.025000095367,
+              "deliveryEnd": 17223.34500002861,
+              "deliveryMs": 32.3199999332428
+            },
+            {
+              "start": 17223.19,
+              "end": 17256.03,
+              "ms": 32.840000000000146,
+              "deliveryStart": 17223.34500002861,
+              "deliveryEnd": 17256.200000047684,
+              "deliveryMs": 32.855000019073486
+            },
+            {
+              "start": 17256.03,
+              "end": 17288.43,
+              "ms": 32.400000000001455,
+              "deliveryStart": 17256.200000047684,
+              "deliveryEnd": 17288.620000123978,
+              "deliveryMs": 32.420000076293945
+            },
+            {
+              "start": 17288.43,
+              "end": 17320.91,
+              "ms": 32.47999999999956,
+              "deliveryStart": 17288.620000123978,
+              "deliveryEnd": 17321.049999952316,
+              "deliveryMs": 32.42999982833862
+            },
+            {
+              "start": 17320.91,
+              "end": 17353.3,
+              "ms": 32.38999999999942,
+              "deliveryStart": 17321.049999952316,
+              "deliveryEnd": 17353.485000133514,
+              "deliveryMs": 32.43500018119812
+            },
+            {
+              "start": 17353.3,
+              "end": 17385.99,
+              "ms": 32.69000000000233,
+              "deliveryStart": 17353.485000133514,
+              "deliveryEnd": 17386.22000002861,
+              "deliveryMs": 32.734999895095825
+            },
+            {
+              "start": 17385.99,
+              "end": 17419.085,
+              "ms": 33.094999999997526,
+              "deliveryStart": 17386.22000002861,
+              "deliveryEnd": 17419.275000095367,
+              "deliveryMs": 33.0550000667572
+            },
+            {
+              "start": 17419.085,
+              "end": 17451.785,
+              "ms": 32.70000000000073,
+              "deliveryStart": 17419.275000095367,
+              "deliveryEnd": 17451.97500014305,
+              "deliveryMs": 32.700000047683716
+            },
+            {
+              "start": 17451.785,
+              "end": 17484.01,
+              "ms": 32.224999999998545,
+              "deliveryStart": 17451.97500014305,
+              "deliveryEnd": 17484.325000047684,
+              "deliveryMs": 32.34999990463257
+            },
+            {
+              "start": 17484.01,
+              "end": 17517.135,
+              "ms": 33.125,
+              "deliveryStart": 17484.325000047684,
+              "deliveryEnd": 17517.329999923706,
+              "deliveryMs": 33.00499987602234
+            },
+            {
+              "start": 17517.135,
+              "end": 17549.65,
+              "ms": 32.515000000003056,
+              "deliveryStart": 17517.329999923706,
+              "deliveryEnd": 17549.855000019073,
+              "deliveryMs": 32.52500009536743
+            },
+            {
+              "start": 17549.65,
+              "end": 17581.985,
+              "ms": 32.33499999999913,
+              "deliveryStart": 17549.855000019073,
+              "deliveryEnd": 17582.204999923706,
+              "deliveryMs": 32.34999990463257
+            },
+            {
+              "start": 17581.985,
+              "end": 17614.775,
+              "ms": 32.79000000000087,
+              "deliveryStart": 17582.204999923706,
+              "deliveryEnd": 17614.965000152588,
+              "deliveryMs": 32.760000228881836
+            },
+            {
+              "start": 17614.775,
+              "end": 17648.155,
+              "ms": 33.37999999999738,
+              "deliveryStart": 17614.965000152588,
+              "deliveryEnd": 17648.34500002861,
+              "deliveryMs": 33.37999987602234
+            },
+            {
+              "start": 17648.155,
+              "end": 17681.53,
+              "ms": 33.375,
+              "deliveryStart": 17648.34500002861,
+              "deliveryEnd": 17681.75500011444,
+              "deliveryMs": 33.41000008583069
+            }
+          ],
+          "longTasks": [],
+          "longTaskTotalMs": 0,
+          "glSyncCalls": {}
+        },
+        {
+          "name": "growth-repeat",
+          "startMs": 18382.610000133514,
+          "endMs": 20308.950000047684,
+          "inputs": [
+            {
+              "at": 18384.15499997139,
+              "action": {
+                "key": "1"
+              }
+            }
+          ],
+          "expected": "The same root bridge grows again.",
+          "visualReview": "pending",
+          "cpu": {
+            "TaskDurationMs": 548.7109999999991,
+            "ScriptDurationMs": 503.32199999999983,
+            "LayoutDurationMs": 0.0,
+            "RecalcStyleDurationMs": 0.0,
+            "taskBusyFraction": 0.2848463926536581
+          },
+          "durationMs": 1926.3399999141693,
+          "rAF": {
+            "count": 60,
+            "medianMs": 32.654999999998836,
+            "p95Ms": 33.50500000000102,
+            "p99Ms": 33.955000000001746,
+            "maxMs": 33.955000000001746,
+            "over33ms": 6,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "callbackDelivery": {
+            "count": 60,
+            "medianMs": 32.65999984741211,
+            "p95Ms": 33.55000019073486,
+            "p99Ms": 63.69000005722046,
+            "maxMs": 63.69000005722046,
+            "over33ms": 7,
+            "over50ms": 1,
+            "over100ms": 0
+          },
+          "frames": [
+            {
+              "start": 18368.185,
+              "end": 18401.655,
+              "ms": 33.469999999997526,
+              "deliveryStart": 18368.384999990463,
+              "deliveryEnd": 18401.84500002861,
+              "deliveryMs": 33.46000003814697
+            },
+            {
+              "start": 18401.655,
+              "end": 18434.19,
+              "ms": 32.534999999999854,
+              "deliveryStart": 18401.84500002861,
+              "deliveryEnd": 18465.53500008583,
+              "deliveryMs": 63.69000005722046
+            },
+            {
+              "start": 18434.19,
+              "end": 18467.275,
+              "ms": 33.085000000002765,
+              "deliveryStart": 18465.53500008583,
+              "deliveryEnd": 18471.194999933243,
+              "deliveryMs": 5.659999847412109
+            },
+            {
+              "start": 18467.275,
+              "end": 18499.68,
+              "ms": 32.404999999998836,
+              "deliveryStart": 18471.194999933243,
+              "deliveryEnd": 18499.950000047684,
+              "deliveryMs": 28.755000114440918
+            },
+            {
+              "start": 18499.68,
+              "end": 18532.6,
+              "ms": 32.919999999998254,
+              "deliveryStart": 18499.950000047684,
+              "deliveryEnd": 18532.795000076294,
+              "deliveryMs": 32.84500002861023
+            },
+            {
+              "start": 18532.6,
+              "end": 18565.46,
+              "ms": 32.86000000000058,
+              "deliveryStart": 18532.795000076294,
+              "deliveryEnd": 18565.69000005722,
+              "deliveryMs": 32.894999980926514
+            },
+            {
+              "start": 18565.46,
+              "end": 18597.725,
+              "ms": 32.26499999999942,
+              "deliveryStart": 18565.69000005722,
+              "deliveryEnd": 18597.91000008583,
+              "deliveryMs": 32.22000002861023
+            },
+            {
+              "start": 18597.725,
+              "end": 18630.435,
+              "ms": 32.710000000002765,
+              "deliveryStart": 18597.91000008583,
+              "deliveryEnd": 18630.63000011444,
+              "deliveryMs": 32.72000002861023
+            },
+            {
+              "start": 18630.435,
+              "end": 18662.925,
+              "ms": 32.48999999999796,
+              "deliveryStart": 18630.63000011444,
+              "deliveryEnd": 18663.120000123978,
+              "deliveryMs": 32.49000000953674
+            },
+            {
+              "start": 18662.925,
+              "end": 18696.365,
+              "ms": 33.44000000000233,
+              "deliveryStart": 18663.120000123978,
+              "deliveryEnd": 18696.55999994278,
+              "deliveryMs": 33.43999981880188
+            },
+            {
+              "start": 18696.365,
+              "end": 18728.645,
+              "ms": 32.279999999998836,
+              "deliveryStart": 18696.55999994278,
+              "deliveryEnd": 18728.884999990463,
+              "deliveryMs": 32.325000047683716
+            },
+            {
+              "start": 18728.645,
+              "end": 18761.47,
+              "ms": 32.82500000000073,
+              "deliveryStart": 18728.884999990463,
+              "deliveryEnd": 18761.65499997139,
+              "deliveryMs": 32.769999980926514
+            },
+            {
+              "start": 18761.47,
+              "end": 18793.75,
+              "ms": 32.279999999998836,
+              "deliveryStart": 18761.65499997139,
+              "deliveryEnd": 18793.93499994278,
+              "deliveryMs": 32.27999997138977
+            },
+            {
+              "start": 18793.75,
+              "end": 18827.705,
+              "ms": 33.955000000001746,
+              "deliveryStart": 18793.93499994278,
+              "deliveryEnd": 18827.91000008583,
+              "deliveryMs": 33.97500014305115
+            },
+            {
+              "start": 18827.705,
+              "end": 18860.34,
+              "ms": 32.6349999999984,
+              "deliveryStart": 18827.91000008583,
+              "deliveryEnd": 18860.495000123978,
+              "deliveryMs": 32.58500003814697
+            },
+            {
+              "start": 18860.34,
+              "end": 18893.345,
+              "ms": 33.00500000000102,
+              "deliveryStart": 18860.495000123978,
+              "deliveryEnd": 18893.569999933243,
+              "deliveryMs": 33.07499980926514
+            },
+            {
+              "start": 18893.345,
+              "end": 18926.87,
+              "ms": 33.52499999999782,
+              "deliveryStart": 18893.569999933243,
+              "deliveryEnd": 18927.06500005722,
+              "deliveryMs": 33.49500012397766
+            },
+            {
+              "start": 18926.87,
+              "end": 18959.395,
+              "ms": 32.525000000001455,
+              "deliveryStart": 18927.06500005722,
+              "deliveryEnd": 18959.63000011444,
+              "deliveryMs": 32.56500005722046
+            },
+            {
+              "start": 18959.395,
+              "end": 18991.85,
+              "ms": 32.45499999999811,
+              "deliveryStart": 18959.63000011444,
+              "deliveryEnd": 18992.015000104904,
+              "deliveryMs": 32.38499999046326
+            },
+            {
+              "start": 18991.85,
+              "end": 19024.565,
+              "ms": 32.715000000000146,
+              "deliveryStart": 18992.015000104904,
+              "deliveryEnd": 19024.704999923706,
+              "deliveryMs": 32.68999981880188
+            },
+            {
+              "start": 19024.565,
+              "end": 19058.07,
+              "ms": 33.50500000000102,
+              "deliveryStart": 19024.704999923706,
+              "deliveryEnd": 19058.25500011444,
+              "deliveryMs": 33.55000019073486
+            },
+            {
+              "start": 19058.07,
+              "end": 19090.725,
+              "ms": 32.654999999998836,
+              "deliveryStart": 19058.25500011444,
+              "deliveryEnd": 19090.900000095367,
+              "deliveryMs": 32.644999980926514
+            },
+            {
+              "start": 19090.725,
+              "end": 19123.875,
+              "ms": 33.150000000001455,
+              "deliveryStart": 19090.900000095367,
+              "deliveryEnd": 19124.090000152588,
+              "deliveryMs": 33.19000005722046
+            },
+            {
+              "start": 19123.875,
+              "end": 19156.325,
+              "ms": 32.45000000000073,
+              "deliveryStart": 19124.090000152588,
+              "deliveryEnd": 19156.5,
+              "deliveryMs": 32.40999984741211
+            },
+            {
+              "start": 19156.325,
+              "end": 19189.575,
+              "ms": 33.25,
+              "deliveryStart": 19156.5,
+              "deliveryEnd": 19189.80999994278,
+              "deliveryMs": 33.30999994277954
+            },
+            {
+              "start": 19189.575,
+              "end": 19222.765,
+              "ms": 33.18999999999869,
+              "deliveryStart": 19189.80999994278,
+              "deliveryEnd": 19222.954999923706,
+              "deliveryMs": 33.144999980926514
+            },
+            {
+              "start": 19222.765,
+              "end": 19255.33,
+              "ms": 32.56500000000233,
+              "deliveryStart": 19222.954999923706,
+              "deliveryEnd": 19255.52999997139,
+              "deliveryMs": 32.575000047683716
+            },
+            {
+              "start": 19255.33,
+              "end": 19287.945,
+              "ms": 32.61499999999796,
+              "deliveryStart": 19255.52999997139,
+              "deliveryEnd": 19288.16000008583,
+              "deliveryMs": 32.63000011444092
+            },
+            {
+              "start": 19287.945,
+              "end": 19320.58,
+              "ms": 32.63500000000204,
+              "deliveryStart": 19288.16000008583,
+              "deliveryEnd": 19320.819999933243,
+              "deliveryMs": 32.65999984741211
+            },
+            {
+              "start": 19320.58,
+              "end": 19353.125,
+              "ms": 32.544999999998254,
+              "deliveryStart": 19320.819999933243,
+              "deliveryEnd": 19353.295000076294,
+              "deliveryMs": 32.47500014305115
+            },
+            {
+              "start": 19353.125,
+              "end": 19385.995,
+              "ms": 32.86999999999898,
+              "deliveryStart": 19353.295000076294,
+              "deliveryEnd": 19386.174999952316,
+              "deliveryMs": 32.87999987602234
+            },
+            {
+              "start": 19385.995,
+              "end": 19418.305,
+              "ms": 32.31000000000131,
+              "deliveryStart": 19386.174999952316,
+              "deliveryEnd": 19418.5,
+              "deliveryMs": 32.325000047683716
+            },
+            {
+              "start": 19418.305,
+              "end": 19451.42,
+              "ms": 33.11499999999796,
+              "deliveryStart": 19418.5,
+              "deliveryEnd": 19451.615000009537,
+              "deliveryMs": 33.11500000953674
+            },
+            {
+              "start": 19451.42,
+              "end": 19484.215,
+              "ms": 32.79500000000189,
+              "deliveryStart": 19451.615000009537,
+              "deliveryEnd": 19484.40499997139,
+              "deliveryMs": 32.78999996185303
+            },
+            {
+              "start": 19484.215,
+              "end": 19516.42,
+              "ms": 32.20499999999811,
+              "deliveryStart": 19484.40499997139,
+              "deliveryEnd": 19516.59500002861,
+              "deliveryMs": 32.19000005722046
+            },
+            {
+              "start": 19516.42,
+              "end": 19548.8,
+              "ms": 32.38000000000102,
+              "deliveryStart": 19516.59500002861,
+              "deliveryEnd": 19548.990000009537,
+              "deliveryMs": 32.394999980926514
+            },
+            {
+              "start": 19548.8,
+              "end": 19581.235,
+              "ms": 32.43500000000131,
+              "deliveryStart": 19548.990000009537,
+              "deliveryEnd": 19581.424999952316,
+              "deliveryMs": 32.43499994277954
+            },
+            {
+              "start": 19581.235,
+              "end": 19613.915,
+              "ms": 32.68000000000029,
+              "deliveryStart": 19581.424999952316,
+              "deliveryEnd": 19614.09500002861,
+              "deliveryMs": 32.670000076293945
+            },
+            {
+              "start": 19613.915,
+              "end": 19646.905,
+              "ms": 32.98999999999796,
+              "deliveryStart": 19614.09500002861,
+              "deliveryEnd": 19647.069999933243,
+              "deliveryMs": 32.97499990463257
+            },
+            {
+              "start": 19646.905,
+              "end": 19679.52,
+              "ms": 32.6150000000016,
+              "deliveryStart": 19647.069999933243,
+              "deliveryEnd": 19679.700000047684,
+              "deliveryMs": 32.63000011444092
+            },
+            {
+              "start": 19679.52,
+              "end": 19712.585,
+              "ms": 33.06499999999869,
+              "deliveryStart": 19679.700000047684,
+              "deliveryEnd": 19712.745000123978,
+              "deliveryMs": 33.045000076293945
+            },
+            {
+              "start": 19712.585,
+              "end": 19746.345,
+              "ms": 33.76000000000204,
+              "deliveryStart": 19712.745000123978,
+              "deliveryEnd": 19746.490000009537,
+              "deliveryMs": 33.74499988555908
+            },
+            {
+              "start": 19746.345,
+              "end": 19778.685,
+              "ms": 32.340000000000146,
+              "deliveryStart": 19746.490000009537,
+              "deliveryEnd": 19778.829999923706,
+              "deliveryMs": 32.33999991416931
+            },
+            {
+              "start": 19778.685,
+              "end": 19810.915,
+              "ms": 32.22999999999956,
+              "deliveryStart": 19778.829999923706,
+              "deliveryEnd": 19811.045000076294,
+              "deliveryMs": 32.21500015258789
+            },
+            {
+              "start": 19810.915,
+              "end": 19843.33,
+              "ms": 32.41500000000087,
+              "deliveryStart": 19811.045000076294,
+              "deliveryEnd": 19843.539999961853,
+              "deliveryMs": 32.49499988555908
+            },
+            {
+              "start": 19843.33,
+              "end": 19875.77,
+              "ms": 32.43999999999869,
+              "deliveryStart": 19843.539999961853,
+              "deliveryEnd": 19875.94000005722,
+              "deliveryMs": 32.40000009536743
+            },
+            {
+              "start": 19875.77,
+              "end": 19908.225,
+              "ms": 32.45499999999811,
+              "deliveryStart": 19875.94000005722,
+              "deliveryEnd": 19908.375,
+              "deliveryMs": 32.43499994277954
+            },
+            {
+              "start": 19908.225,
+              "end": 19941.2,
+              "ms": 32.97500000000218,
+              "deliveryStart": 19908.375,
+              "deliveryEnd": 19941.355000019073,
+              "deliveryMs": 32.980000019073486
+            },
+            {
+              "start": 19941.2,
+              "end": 19973.745,
+              "ms": 32.544999999998254,
+              "deliveryStart": 19941.355000019073,
+              "deliveryEnd": 19973.875,
+              "deliveryMs": 32.519999980926514
+            },
+            {
+              "start": 19973.745,
+              "end": 20006.495,
+              "ms": 32.75,
+              "deliveryStart": 19973.875,
+              "deliveryEnd": 20006.674999952316,
+              "deliveryMs": 32.799999952316284
+            },
+            {
+              "start": 20006.495,
+              "end": 20038.845,
+              "ms": 32.35000000000218,
+              "deliveryStart": 20006.674999952316,
+              "deliveryEnd": 20038.980000019073,
+              "deliveryMs": 32.3050000667572
+            },
+            {
+              "start": 20038.845,
+              "end": 20071.27,
+              "ms": 32.42499999999927,
+              "deliveryStart": 20038.980000019073,
+              "deliveryEnd": 20071.430000066757,
+              "deliveryMs": 32.450000047683716
+            },
+            {
+              "start": 20071.27,
+              "end": 20103.675,
+              "ms": 32.404999999998836,
+              "deliveryStart": 20071.430000066757,
+              "deliveryEnd": 20103.860000133514,
+              "deliveryMs": 32.4300000667572
+            },
+            {
+              "start": 20103.675,
+              "end": 20136.77,
+              "ms": 33.095000000001164,
+              "deliveryStart": 20103.860000133514,
+              "deliveryEnd": 20136.960000038147,
+              "deliveryMs": 33.09999990463257
+            },
+            {
+              "start": 20136.77,
+              "end": 20169.56,
+              "ms": 32.79000000000087,
+              "deliveryStart": 20136.960000038147,
+              "deliveryEnd": 20169.730000019073,
+              "deliveryMs": 32.769999980926514
+            },
+            {
+              "start": 20169.56,
+              "end": 20202.14,
+              "ms": 32.57999999999811,
+              "deliveryStart": 20169.730000019073,
+              "deliveryEnd": 20202.299999952316,
+              "deliveryMs": 32.5699999332428
+            },
+            {
+              "start": 20202.14,
+              "end": 20234.735,
+              "ms": 32.595000000001164,
+              "deliveryStart": 20202.299999952316,
+              "deliveryEnd": 20234.870000123978,
+              "deliveryMs": 32.57000017166138
+            },
+            {
+              "start": 20234.735,
+              "end": 20267.645,
+              "ms": 32.909999999999854,
+              "deliveryStart": 20234.870000123978,
+              "deliveryEnd": 20267.78500008583,
+              "deliveryMs": 32.91499996185303
+            },
+            {
+              "start": 20267.645,
+              "end": 20300.775,
+              "ms": 33.13000000000102,
+              "deliveryStart": 20267.78500008583,
+              "deliveryEnd": 20300.924999952316,
+              "deliveryMs": 33.139999866485596
+            },
+            {
+              "start": 20300.775,
+              "end": 20334.01,
+              "ms": 33.234999999996944,
+              "deliveryStart": 20300.924999952316,
+              "deliveryEnd": 20334.22000002861,
+              "deliveryMs": 33.295000076293945
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 18401.795000076294,
+              "end": 18464.795000076294,
+              "ms": 63
+            }
+          ],
+          "longTaskTotalMs": 63.0,
+          "glSyncCalls": {}
+        },
+        {
+          "name": "undo-growth-repeat",
+          "startMs": 20972.180000066757,
+          "endMs": 22086.245000123978,
+          "inputs": [
+            {
+              "at": 20974.045000076294,
+              "action": {
+                "key": "z"
+              }
+            }
+          ],
+          "expected": "Return to the root's initial state so the same-context reload has the same action available.",
+          "visualReview": "pending",
+          "cpu": {
+            "TaskDurationMs": 391.66499999999974,
+            "ScriptDurationMs": 370.7390000000004,
+            "LayoutDurationMs": 0.0,
+            "RecalcStyleDurationMs": 0.0,
+            "taskBusyFraction": 0.3515638674403047
+          },
+          "durationMs": 1114.0650000572205,
+          "rAF": {
+            "count": 35,
+            "medianMs": 32.73500000000058,
+            "p95Ms": 33.330000000001746,
+            "p99Ms": 33.56999999999971,
+            "maxMs": 33.56999999999971,
+            "over33ms": 1,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "callbackDelivery": {
+            "count": 35,
+            "medianMs": 32.71499991416931,
+            "p95Ms": 33.575000047683716,
+            "p99Ms": 36.28500008583069,
+            "maxMs": 36.28500008583069,
+            "over33ms": 3,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "frames": [
+            {
+              "start": 20960.245,
+              "end": 20993.135,
+              "ms": 32.88999999999942,
+              "deliveryStart": 20960.40499997139,
+              "deliveryEnd": 20993.319999933243,
+              "deliveryMs": 32.91499996185303
+            },
+            {
+              "start": 20993.135,
+              "end": 21026.145,
+              "ms": 33.01000000000204,
+              "deliveryStart": 20993.319999933243,
+              "deliveryEnd": 21029.605000019073,
+              "deliveryMs": 36.28500008583069
+            },
+            {
+              "start": 21026.145,
+              "end": 21059.295,
+              "ms": 33.14999999999782,
+              "deliveryStart": 21029.605000019073,
+              "deliveryEnd": 21059.555000066757,
+              "deliveryMs": 29.950000047683716
+            },
+            {
+              "start": 21059.295,
+              "end": 21092.395,
+              "ms": 33.10000000000218,
+              "deliveryStart": 21059.555000066757,
+              "deliveryEnd": 21092.575000047684,
+              "deliveryMs": 33.019999980926514
+            },
+            {
+              "start": 21092.395,
+              "end": 21125.245,
+              "ms": 32.849999999998545,
+              "deliveryStart": 21092.575000047684,
+              "deliveryEnd": 21125.414999961853,
+              "deliveryMs": 32.83999991416931
+            },
+            {
+              "start": 21125.245,
+              "end": 21157.93,
+              "ms": 32.68500000000131,
+              "deliveryStart": 21125.414999961853,
+              "deliveryEnd": 21158.16000008583,
+              "deliveryMs": 32.74500012397766
+            },
+            {
+              "start": 21157.93,
+              "end": 21190.7,
+              "ms": 32.77000000000044,
+              "deliveryStart": 21158.16000008583,
+              "deliveryEnd": 21190.865000009537,
+              "deliveryMs": 32.704999923706055
+            },
+            {
+              "start": 21190.7,
+              "end": 21223.425,
+              "ms": 32.724999999998545,
+              "deliveryStart": 21190.865000009537,
+              "deliveryEnd": 21223.610000133514,
+              "deliveryMs": 32.74500012397766
+            },
+            {
+              "start": 21223.425,
+              "end": 21256.14,
+              "ms": 32.715000000000146,
+              "deliveryStart": 21223.610000133514,
+              "deliveryEnd": 21256.31500005722,
+              "deliveryMs": 32.704999923706055
+            },
+            {
+              "start": 21256.14,
+              "end": 21288.755,
+              "ms": 32.6150000000016,
+              "deliveryStart": 21256.31500005722,
+              "deliveryEnd": 21288.894999980927,
+              "deliveryMs": 32.579999923706055
+            },
+            {
+              "start": 21288.755,
+              "end": 21321.545,
+              "ms": 32.789999999997235,
+              "deliveryStart": 21288.894999980927,
+              "deliveryEnd": 21321.69000005722,
+              "deliveryMs": 32.795000076293945
+            },
+            {
+              "start": 21321.545,
+              "end": 21354.67,
+              "ms": 33.125,
+              "deliveryStart": 21321.69000005722,
+              "deliveryEnd": 21354.835000038147,
+              "deliveryMs": 33.144999980926514
+            },
+            {
+              "start": 21354.67,
+              "end": 21387.01,
+              "ms": 32.340000000000146,
+              "deliveryStart": 21354.835000038147,
+              "deliveryEnd": 21387.150000095367,
+              "deliveryMs": 32.31500005722046
+            },
+            {
+              "start": 21387.01,
+              "end": 21419.4,
+              "ms": 32.390000000003056,
+              "deliveryStart": 21387.150000095367,
+              "deliveryEnd": 21419.590000152588,
+              "deliveryMs": 32.44000005722046
+            },
+            {
+              "start": 21419.4,
+              "end": 21452.255,
+              "ms": 32.85499999999956,
+              "deliveryStart": 21419.590000152588,
+              "deliveryEnd": 21452.400000095367,
+              "deliveryMs": 32.80999994277954
+            },
+            {
+              "start": 21452.255,
+              "end": 21484.99,
+              "ms": 32.73500000000058,
+              "deliveryStart": 21452.400000095367,
+              "deliveryEnd": 21485.115000009537,
+              "deliveryMs": 32.71499991416931
+            },
+            {
+              "start": 21484.99,
+              "end": 21517.85,
+              "ms": 32.859999999996944,
+              "deliveryStart": 21485.115000009537,
+              "deliveryEnd": 21518.085000038147,
+              "deliveryMs": 32.97000002861023
+            },
+            {
+              "start": 21517.85,
+              "end": 21550.385,
+              "ms": 32.534999999999854,
+              "deliveryStart": 21518.085000038147,
+              "deliveryEnd": 21550.519999980927,
+              "deliveryMs": 32.43499994277954
+            },
+            {
+              "start": 21550.385,
+              "end": 21583.45,
+              "ms": 33.06500000000233,
+              "deliveryStart": 21550.519999980927,
+              "deliveryEnd": 21583.579999923706,
+              "deliveryMs": 33.05999994277954
+            },
+            {
+              "start": 21583.45,
+              "end": 21617.02,
+              "ms": 33.56999999999971,
+              "deliveryStart": 21583.579999923706,
+              "deliveryEnd": 21617.15499997139,
+              "deliveryMs": 33.575000047683716
+            },
+            {
+              "start": 21617.02,
+              "end": 21649.39,
+              "ms": 32.36999999999898,
+              "deliveryStart": 21617.15499997139,
+              "deliveryEnd": 21649.569999933243,
+              "deliveryMs": 32.41499996185303
+            },
+            {
+              "start": 21649.39,
+              "end": 21682.18,
+              "ms": 32.79000000000087,
+              "deliveryStart": 21649.569999933243,
+              "deliveryEnd": 21682.30999994278,
+              "deliveryMs": 32.74000000953674
+            },
+            {
+              "start": 21682.18,
+              "end": 21714.455,
+              "ms": 32.275000000001455,
+              "deliveryStart": 21682.30999994278,
+              "deliveryEnd": 21714.670000076294,
+              "deliveryMs": 32.360000133514404
+            },
+            {
+              "start": 21714.455,
+              "end": 21746.96,
+              "ms": 32.50499999999738,
+              "deliveryStart": 21714.670000076294,
+              "deliveryEnd": 21747.110000133514,
+              "deliveryMs": 32.44000005722046
+            },
+            {
+              "start": 21746.96,
+              "end": 21779.25,
+              "ms": 32.29000000000087,
+              "deliveryStart": 21747.110000133514,
+              "deliveryEnd": 21779.44000005722,
+              "deliveryMs": 32.329999923706055
+            },
+            {
+              "start": 21779.25,
+              "end": 21811.595,
+              "ms": 32.345000000001164,
+              "deliveryStart": 21779.44000005722,
+              "deliveryEnd": 21811.78500008583,
+              "deliveryMs": 32.34500002861023
+            },
+            {
+              "start": 21811.595,
+              "end": 21844.565,
+              "ms": 32.969999999997526,
+              "deliveryStart": 21811.78500008583,
+              "deliveryEnd": 21844.769999980927,
+              "deliveryMs": 32.984999895095825
+            },
+            {
+              "start": 21844.565,
+              "end": 21877.73,
+              "ms": 33.16500000000087,
+              "deliveryStart": 21844.769999980927,
+              "deliveryEnd": 21877.91000008583,
+              "deliveryMs": 33.140000104904175
+            },
+            {
+              "start": 21877.73,
+              "end": 21910.345,
+              "ms": 32.6150000000016,
+              "deliveryStart": 21877.91000008583,
+              "deliveryEnd": 21910.490000009537,
+              "deliveryMs": 32.579999923706055
+            },
+            {
+              "start": 21910.345,
+              "end": 21942.655,
+              "ms": 32.30999999999767,
+              "deliveryStart": 21910.490000009537,
+              "deliveryEnd": 21942.855000019073,
+              "deliveryMs": 32.36500000953674
+            },
+            {
+              "start": 21942.655,
+              "end": 21975.22,
+              "ms": 32.56500000000233,
+              "deliveryStart": 21942.855000019073,
+              "deliveryEnd": 21975.53500008583,
+              "deliveryMs": 32.6800000667572
+            },
+            {
+              "start": 21975.22,
+              "end": 22007.445,
+              "ms": 32.224999999998545,
+              "deliveryStart": 21975.53500008583,
+              "deliveryEnd": 22007.664999961853,
+              "deliveryMs": 32.12999987602234
+            },
+            {
+              "start": 22007.445,
+              "end": 22040.775,
+              "ms": 33.330000000001746,
+              "deliveryStart": 22007.664999961853,
+              "deliveryEnd": 22041.170000076294,
+              "deliveryMs": 33.50500011444092
+            },
+            {
+              "start": 22040.775,
+              "end": 22073.715,
+              "ms": 32.93999999999869,
+              "deliveryStart": 22041.170000076294,
+              "deliveryEnd": 22073.91000008583,
+              "deliveryMs": 32.74000000953674
+            },
+            {
+              "start": 22073.715,
+              "end": 22106.375,
+              "ms": 32.659999999999854,
+              "deliveryStart": 22073.91000008583,
+              "deliveryEnd": 22106.585000038147,
+              "deliveryMs": 32.674999952316284
+            }
+          ],
+          "longTasks": [],
+          "longTaskTotalMs": 0,
+          "glSyncCalls": {}
+        },
+        {
+          "name": "idle-after-actions",
+          "startMs": 22774.275000095367,
+          "endMs": 25862.924999952316,
+          "inputs": [
+            {
+              "at": 22776.120000123978,
+              "action": {
+                "waitMs": 3000
+              }
+            }
+          ],
+          "expected": "Stable garden, characters supported, controls visible.",
+          "visualReview": "pending",
+          "cpu": {
+            "TaskDurationMs": 1002.3879999999998,
+            "ScriptDurationMs": 931.5300000000004,
+            "LayoutDurationMs": 0.0,
+            "RecalcStyleDurationMs": 0.0,
+            "taskBusyFraction": 0.3245391999891297
+          },
+          "durationMs": 3088.649999856949,
+          "rAF": {
+            "count": 95,
+            "medianMs": 32.87999999999738,
+            "p95Ms": 33.75500000000102,
+            "p99Ms": 34.33999999999651,
+            "maxMs": 34.33999999999651,
+            "over33ms": 13,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "callbackDelivery": {
+            "count": 95,
+            "medianMs": 32.875,
+            "p95Ms": 33.77000021934509,
+            "p99Ms": 34.33999991416931,
+            "maxMs": 34.33999991416931,
+            "over33ms": 12,
+            "over50ms": 0,
+            "over100ms": 0
+          },
+          "frames": [
+            {
+              "start": 22761.38,
+              "end": 22794.215,
+              "ms": 32.83499999999913,
+              "deliveryStart": 22761.620000123978,
+              "deliveryEnd": 22794.394999980927,
+              "deliveryMs": 32.77499985694885
+            },
+            {
+              "start": 22794.215,
+              "end": 22826.61,
+              "ms": 32.39500000000044,
+              "deliveryStart": 22794.394999980927,
+              "deliveryEnd": 22826.805000066757,
+              "deliveryMs": 32.41000008583069
+            },
+            {
+              "start": 22826.61,
+              "end": 22859.485,
+              "ms": 32.875,
+              "deliveryStart": 22826.805000066757,
+              "deliveryEnd": 22859.715000152588,
+              "deliveryMs": 32.91000008583069
+            },
+            {
+              "start": 22859.485,
+              "end": 22891.845,
+              "ms": 32.36000000000058,
+              "deliveryStart": 22859.715000152588,
+              "deliveryEnd": 22892.02999997139,
+              "deliveryMs": 32.31499981880188
+            },
+            {
+              "start": 22891.845,
+              "end": 22925.385,
+              "ms": 33.539999999997235,
+              "deliveryStart": 22892.02999997139,
+              "deliveryEnd": 22925.640000104904,
+              "deliveryMs": 33.610000133514404
+            },
+            {
+              "start": 22925.385,
+              "end": 22959.14,
+              "ms": 33.75500000000102,
+              "deliveryStart": 22925.640000104904,
+              "deliveryEnd": 22959.325000047684,
+              "deliveryMs": 33.68499994277954
+            },
+            {
+              "start": 22959.14,
+              "end": 22991.58,
+              "ms": 32.44000000000233,
+              "deliveryStart": 22959.325000047684,
+              "deliveryEnd": 22991.81500005722,
+              "deliveryMs": 32.49000000953674
+            },
+            {
+              "start": 22991.58,
+              "end": 23025.92,
+              "ms": 34.33999999999651,
+              "deliveryStart": 22991.81500005722,
+              "deliveryEnd": 23026.15499997139,
+              "deliveryMs": 34.33999991416931
+            },
+            {
+              "start": 23025.92,
+              "end": 23058.435,
+              "ms": 32.515000000003056,
+              "deliveryStart": 23026.15499997139,
+              "deliveryEnd": 23058.680000066757,
+              "deliveryMs": 32.52500009536743
+            },
+            {
+              "start": 23058.435,
+              "end": 23091.41,
+              "ms": 32.974999999998545,
+              "deliveryStart": 23058.680000066757,
+              "deliveryEnd": 23091.59500002861,
+              "deliveryMs": 32.91499996185303
+            },
+            {
+              "start": 23091.41,
+              "end": 23124.325,
+              "ms": 32.91500000000087,
+              "deliveryStart": 23091.59500002861,
+              "deliveryEnd": 23124.495000123978,
+              "deliveryMs": 32.90000009536743
+            },
+            {
+              "start": 23124.325,
+              "end": 23157.23,
+              "ms": 32.904999999998836,
+              "deliveryStart": 23124.495000123978,
+              "deliveryEnd": 23157.430000066757,
+              "deliveryMs": 32.93499994277954
+            },
+            {
+              "start": 23157.23,
+              "end": 23190.275,
+              "ms": 33.04500000000189,
+              "deliveryStart": 23157.430000066757,
+              "deliveryEnd": 23190.430000066757,
+              "deliveryMs": 33
+            },
+            {
+              "start": 23190.275,
+              "end": 23223.165,
+              "ms": 32.88999999999942,
+              "deliveryStart": 23190.430000066757,
+              "deliveryEnd": 23223.384999990463,
+              "deliveryMs": 32.954999923706055
+            },
+            {
+              "start": 23223.165,
+              "end": 23256.765,
+              "ms": 33.599999999998545,
+              "deliveryStart": 23223.384999990463,
+              "deliveryEnd": 23256.954999923706,
+              "deliveryMs": 33.5699999332428
+            },
+            {
+              "start": 23256.765,
+              "end": 23289.165,
+              "ms": 32.400000000001455,
+              "deliveryStart": 23256.954999923706,
+              "deliveryEnd": 23289.319999933243,
+              "deliveryMs": 32.36500000953674
+            },
+            {
+              "start": 23289.165,
+              "end": 23321.62,
+              "ms": 32.45499999999811,
+              "deliveryStart": 23289.319999933243,
+              "deliveryEnd": 23321.81500005722,
+              "deliveryMs": 32.49500012397766
+            },
+            {
+              "start": 23321.62,
+              "end": 23354.235,
+              "ms": 32.6150000000016,
+              "deliveryStart": 23321.81500005722,
+              "deliveryEnd": 23354.414999961853,
+              "deliveryMs": 32.59999990463257
+            },
+            {
+              "start": 23354.235,
+              "end": 23387.38,
+              "ms": 33.14500000000044,
+              "deliveryStart": 23354.414999961853,
+              "deliveryEnd": 23387.620000123978,
+              "deliveryMs": 33.205000162124634
+            },
+            {
+              "start": 23387.38,
+              "end": 23419.96,
+              "ms": 32.57999999999811,
+              "deliveryStart": 23387.620000123978,
+              "deliveryEnd": 23420.144999980927,
+              "deliveryMs": 32.52499985694885
+            },
+            {
+              "start": 23419.96,
+              "end": 23452.29,
+              "ms": 32.330000000001746,
+              "deliveryStart": 23420.144999980927,
+              "deliveryEnd": 23452.490000009537,
+              "deliveryMs": 32.34500002861023
+            },
+            {
+              "start": 23452.29,
+              "end": 23485.475,
+              "ms": 33.18499999999767,
+              "deliveryStart": 23452.490000009537,
+              "deliveryEnd": 23485.644999980927,
+              "deliveryMs": 33.15499997138977
+            },
+            {
+              "start": 23485.475,
+              "end": 23518.56,
+              "ms": 33.085000000002765,
+              "deliveryStart": 23485.644999980927,
+              "deliveryEnd": 23518.730000019073,
+              "deliveryMs": 33.08500003814697
+            },
+            {
+              "start": 23518.56,
+              "end": 23551.72,
+              "ms": 33.159999999999854,
+              "deliveryStart": 23518.730000019073,
+              "deliveryEnd": 23551.870000123978,
+              "deliveryMs": 33.140000104904175
+            },
+            {
+              "start": 23551.72,
+              "end": 23584.005,
+              "ms": 32.284999999999854,
+              "deliveryStart": 23551.870000123978,
+              "deliveryEnd": 23584.18499994278,
+              "deliveryMs": 32.31499981880188
+            },
+            {
+              "start": 23584.005,
+              "end": 23616.53,
+              "ms": 32.52499999999782,
+              "deliveryStart": 23584.18499994278,
+              "deliveryEnd": 23616.69000005722,
+              "deliveryMs": 32.50500011444092
+            },
+            {
+              "start": 23616.53,
+              "end": 23649.03,
+              "ms": 32.5,
+              "deliveryStart": 23616.69000005722,
+              "deliveryEnd": 23649.210000038147,
+              "deliveryMs": 32.519999980926514
+            },
+            {
+              "start": 23649.03,
+              "end": 23682.015,
+              "ms": 32.98500000000058,
+              "deliveryStart": 23649.210000038147,
+              "deliveryEnd": 23682.204999923706,
+              "deliveryMs": 32.99499988555908
+            },
+            {
+              "start": 23682.015,
+              "end": 23715.265,
+              "ms": 33.25,
+              "deliveryStart": 23682.204999923706,
+              "deliveryEnd": 23715.454999923706,
+              "deliveryMs": 33.25
+            },
+            {
+              "start": 23715.265,
+              "end": 23747.74,
+              "ms": 32.47500000000218,
+              "deliveryStart": 23715.454999923706,
+              "deliveryEnd": 23747.930000066757,
+              "deliveryMs": 32.47500014305115
+            },
+            {
+              "start": 23747.74,
+              "end": 23780.395,
+              "ms": 32.654999999998836,
+              "deliveryStart": 23747.930000066757,
+              "deliveryEnd": 23780.569999933243,
+              "deliveryMs": 32.639999866485596
+            },
+            {
+              "start": 23780.395,
+              "end": 23813.205,
+              "ms": 32.81000000000131,
+              "deliveryStart": 23780.569999933243,
+              "deliveryEnd": 23813.394999980927,
+              "deliveryMs": 32.825000047683716
+            },
+            {
+              "start": 23813.205,
+              "end": 23846.09,
+              "ms": 32.8849999999984,
+              "deliveryStart": 23813.394999980927,
+              "deliveryEnd": 23846.295000076294,
+              "deliveryMs": 32.90000009536743
+            },
+            {
+              "start": 23846.09,
+              "end": 23878.965,
+              "ms": 32.875,
+              "deliveryStart": 23846.295000076294,
+              "deliveryEnd": 23879.150000095367,
+              "deliveryMs": 32.855000019073486
+            },
+            {
+              "start": 23878.965,
+              "end": 23911.4,
+              "ms": 32.43500000000131,
+              "deliveryStart": 23879.150000095367,
+              "deliveryEnd": 23911.53500008583,
+              "deliveryMs": 32.38499999046326
+            },
+            {
+              "start": 23911.4,
+              "end": 23945.14,
+              "ms": 33.73999999999796,
+              "deliveryStart": 23911.53500008583,
+              "deliveryEnd": 23945.329999923706,
+              "deliveryMs": 33.794999837875366
+            },
+            {
+              "start": 23945.14,
+              "end": 23978.095,
+              "ms": 32.955000000001746,
+              "deliveryStart": 23945.329999923706,
+              "deliveryEnd": 23978.289999961853,
+              "deliveryMs": 32.96000003814697
+            },
+            {
+              "start": 23978.095,
+              "end": 24011.41,
+              "ms": 33.31499999999869,
+              "deliveryStart": 23978.289999961853,
+              "deliveryEnd": 24011.605000019073,
+              "deliveryMs": 33.31500005722046
+            },
+            {
+              "start": 24011.41,
+              "end": 24044.21,
+              "ms": 32.79999999999927,
+              "deliveryStart": 24011.605000019073,
+              "deliveryEnd": 24044.400000095367,
+              "deliveryMs": 32.795000076293945
+            },
+            {
+              "start": 24044.21,
+              "end": 24077.54,
+              "ms": 33.330000000001746,
+              "deliveryStart": 24044.400000095367,
+              "deliveryEnd": 24077.75,
+              "deliveryMs": 33.34999990463257
+            },
+            {
+              "start": 24077.54,
+              "end": 24110.875,
+              "ms": 33.33499999999913,
+              "deliveryStart": 24077.75,
+              "deliveryEnd": 24111.019999980927,
+              "deliveryMs": 33.269999980926514
+            },
+            {
+              "start": 24110.875,
+              "end": 24143.495,
+              "ms": 32.61999999999898,
+              "deliveryStart": 24111.019999980927,
+              "deliveryEnd": 24143.69000005722,
+              "deliveryMs": 32.670000076293945
+            },
+            {
+              "start": 24143.495,
+              "end": 24176.305,
+              "ms": 32.81000000000131,
+              "deliveryStart": 24143.69000005722,
+              "deliveryEnd": 24176.495000123978,
+              "deliveryMs": 32.8050000667572
+            },
+            {
+              "start": 24176.305,
+              "end": 24209.015,
+              "ms": 32.70999999999913,
+              "deliveryStart": 24176.495000123978,
+              "deliveryEnd": 24209.204999923706,
+              "deliveryMs": 32.709999799728394
+            },
+            {
+              "start": 24209.015,
+              "end": 24241.41,
+              "ms": 32.39500000000044,
+              "deliveryStart": 24209.204999923706,
+              "deliveryEnd": 24241.605000019073,
+              "deliveryMs": 32.40000009536743
+            },
+            {
+              "start": 24241.41,
+              "end": 24274.43,
+              "ms": 33.02000000000044,
+              "deliveryStart": 24241.605000019073,
+              "deliveryEnd": 24274.625,
+              "deliveryMs": 33.019999980926514
+            },
+            {
+              "start": 24274.43,
+              "end": 24307.415,
+              "ms": 32.98500000000058,
+              "deliveryStart": 24274.625,
+              "deliveryEnd": 24307.605000019073,
+              "deliveryMs": 32.980000019073486
+            },
+            {
+              "start": 24307.415,
+              "end": 24339.695,
+              "ms": 32.279999999998836,
+              "deliveryStart": 24307.605000019073,
+              "deliveryEnd": 24339.890000104904,
+              "deliveryMs": 32.28500008583069
+            },
+            {
+              "start": 24339.695,
+              "end": 24372.37,
+              "ms": 32.67499999999927,
+              "deliveryStart": 24339.890000104904,
+              "deliveryEnd": 24372.55999994278,
+              "deliveryMs": 32.669999837875366
+            },
+            {
+              "start": 24372.37,
+              "end": 24405.325,
+              "ms": 32.955000000001746,
+              "deliveryStart": 24372.55999994278,
+              "deliveryEnd": 24405.569999933243,
+              "deliveryMs": 33.00999999046326
+            },
+            {
+              "start": 24405.325,
+              "end": 24437.69,
+              "ms": 32.36499999999796,
+              "deliveryStart": 24405.569999933243,
+              "deliveryEnd": 24437.900000095367,
+              "deliveryMs": 32.330000162124634
+            },
+            {
+              "start": 24437.69,
+              "end": 24470.805,
+              "ms": 33.1150000000016,
+              "deliveryStart": 24437.900000095367,
+              "deliveryEnd": 24470.995000123978,
+              "deliveryMs": 33.09500002861023
+            },
+            {
+              "start": 24470.805,
+              "end": 24503.7,
+              "ms": 32.89500000000044,
+              "deliveryStart": 24470.995000123978,
+              "deliveryEnd": 24503.924999952316,
+              "deliveryMs": 32.92999982833862
+            },
+            {
+              "start": 24503.7,
+              "end": 24536.615,
+              "ms": 32.91500000000087,
+              "deliveryStart": 24503.924999952316,
+              "deliveryEnd": 24536.84500002861,
+              "deliveryMs": 32.920000076293945
+            },
+            {
+              "start": 24536.615,
+              "end": 24569.265,
+              "ms": 32.64999999999782,
+              "deliveryStart": 24536.84500002861,
+              "deliveryEnd": 24569.509999990463,
+              "deliveryMs": 32.66499996185303
+            },
+            {
+              "start": 24569.265,
+              "end": 24601.85,
+              "ms": 32.58499999999913,
+              "deliveryStart": 24569.509999990463,
+              "deliveryEnd": 24602.06500005722,
+              "deliveryMs": 32.5550000667572
+            },
+            {
+              "start": 24601.85,
+              "end": 24634.675,
+              "ms": 32.82500000000073,
+              "deliveryStart": 24602.06500005722,
+              "deliveryEnd": 24634.865000009537,
+              "deliveryMs": 32.799999952316284
+            },
+            {
+              "start": 24634.675,
+              "end": 24667.58,
+              "ms": 32.905000000002474,
+              "deliveryStart": 24634.865000009537,
+              "deliveryEnd": 24667.77999997139,
+              "deliveryMs": 32.91499996185303
+            },
+            {
+              "start": 24667.58,
+              "end": 24699.92,
+              "ms": 32.33999999999651,
+              "deliveryStart": 24667.77999997139,
+              "deliveryEnd": 24700.125,
+              "deliveryMs": 32.34500002861023
+            },
+            {
+              "start": 24699.92,
+              "end": 24732.565,
+              "ms": 32.64500000000044,
+              "deliveryStart": 24700.125,
+              "deliveryEnd": 24732.805000066757,
+              "deliveryMs": 32.6800000667572
+            },
+            {
+              "start": 24732.565,
+              "end": 24766.86,
+              "ms": 34.29500000000189,
+              "deliveryStart": 24732.805000066757,
+              "deliveryEnd": 24767.049999952316,
+              "deliveryMs": 34.24499988555908
+            },
+            {
+              "start": 24766.86,
+              "end": 24799.51,
+              "ms": 32.64999999999782,
+              "deliveryStart": 24767.049999952316,
+              "deliveryEnd": 24799.740000009537,
+              "deliveryMs": 32.69000005722046
+            },
+            {
+              "start": 24799.51,
+              "end": 24832.515,
+              "ms": 33.00500000000102,
+              "deliveryStart": 24799.740000009537,
+              "deliveryEnd": 24832.694999933243,
+              "deliveryMs": 32.954999923706055
+            },
+            {
+              "start": 24832.515,
+              "end": 24866.225,
+              "ms": 33.70999999999913,
+              "deliveryStart": 24832.694999933243,
+              "deliveryEnd": 24866.465000152588,
+              "deliveryMs": 33.77000021934509
+            },
+            {
+              "start": 24866.225,
+              "end": 24899.11,
+              "ms": 32.88500000000204,
+              "deliveryStart": 24866.465000152588,
+              "deliveryEnd": 24899.340000152588,
+              "deliveryMs": 32.875
+            },
+            {
+              "start": 24899.11,
+              "end": 24932.175,
+              "ms": 33.06499999999869,
+              "deliveryStart": 24899.340000152588,
+              "deliveryEnd": 24932.365000009537,
+              "deliveryMs": 33.02499985694885
+            },
+            {
+              "start": 24932.175,
+              "end": 24965.675,
+              "ms": 33.5,
+              "deliveryStart": 24932.365000009537,
+              "deliveryEnd": 24965.865000009537,
+              "deliveryMs": 33.5
+            },
+            {
+              "start": 24965.675,
+              "end": 24998.025,
+              "ms": 32.35000000000218,
+              "deliveryStart": 24965.865000009537,
+              "deliveryEnd": 24998.245000123978,
+              "deliveryMs": 32.38000011444092
+            },
+            {
+              "start": 24998.025,
+              "end": 25030.905,
+              "ms": 32.87999999999738,
+              "deliveryStart": 24998.245000123978,
+              "deliveryEnd": 25031.134999990463,
+              "deliveryMs": 32.889999866485596
+            },
+            {
+              "start": 25030.905,
+              "end": 25063.655,
+              "ms": 32.75,
+              "deliveryStart": 25031.134999990463,
+              "deliveryEnd": 25063.84500002861,
+              "deliveryMs": 32.71000003814697
+            },
+            {
+              "start": 25063.655,
+              "end": 25097.295,
+              "ms": 33.63999999999942,
+              "deliveryStart": 25063.84500002861,
+              "deliveryEnd": 25097.50500011444,
+              "deliveryMs": 33.66000008583069
+            },
+            {
+              "start": 25097.295,
+              "end": 25130.855,
+              "ms": 33.56000000000131,
+              "deliveryStart": 25097.50500011444,
+              "deliveryEnd": 25131.06500005722,
+              "deliveryMs": 33.55999994277954
+            },
+            {
+              "start": 25130.855,
+              "end": 25163.67,
+              "ms": 32.81499999999869,
+              "deliveryStart": 25131.06500005722,
+              "deliveryEnd": 25163.900000095367,
+              "deliveryMs": 32.83500003814697
+            },
+            {
+              "start": 25163.67,
+              "end": 25197.5,
+              "ms": 33.830000000001746,
+              "deliveryStart": 25163.900000095367,
+              "deliveryEnd": 25197.69000005722,
+              "deliveryMs": 33.78999996185303
+            },
+            {
+              "start": 25197.5,
+              "end": 25230.905,
+              "ms": 33.404999999998836,
+              "deliveryStart": 25197.69000005722,
+              "deliveryEnd": 25231.045000076294,
+              "deliveryMs": 33.355000019073486
+            },
+            {
+              "start": 25230.905,
+              "end": 25263.43,
+              "ms": 32.525000000001455,
+              "deliveryStart": 25231.045000076294,
+              "deliveryEnd": 25263.620000123978,
+              "deliveryMs": 32.575000047683716
+            },
+            {
+              "start": 25263.43,
+              "end": 25296.355,
+              "ms": 32.92499999999927,
+              "deliveryStart": 25263.620000123978,
+              "deliveryEnd": 25296.625,
+              "deliveryMs": 33.00499987602234
+            },
+            {
+              "start": 25296.355,
+              "end": 25330.115,
+              "ms": 33.76000000000204,
+              "deliveryStart": 25296.625,
+              "deliveryEnd": 25330.35000014305,
+              "deliveryMs": 33.72500014305115
+            },
+            {
+              "start": 25330.115,
+              "end": 25363.01,
+              "ms": 32.8949999999968,
+              "deliveryStart": 25330.35000014305,
+              "deliveryEnd": 25363.194999933243,
+              "deliveryMs": 32.84499979019165
+            },
+            {
+              "start": 25363.01,
+              "end": 25395.82,
+              "ms": 32.81000000000131,
+              "deliveryStart": 25363.194999933243,
+              "deliveryEnd": 25396.009999990463,
+              "deliveryMs": 32.81500005722046
+            },
+            {
+              "start": 25395.82,
+              "end": 25428.44,
+              "ms": 32.61999999999898,
+              "deliveryStart": 25396.009999990463,
+              "deliveryEnd": 25428.63000011444,
+              "deliveryMs": 32.62000012397766
+            },
+            {
+              "start": 25428.44,
+              "end": 25461.435,
+              "ms": 32.99500000000262,
+              "deliveryStart": 25428.63000011444,
+              "deliveryEnd": 25461.769999980927,
+              "deliveryMs": 33.139999866485596
+            },
+            {
+              "start": 25461.435,
+              "end": 25494.425,
+              "ms": 32.98999999999796,
+              "deliveryStart": 25461.769999980927,
+              "deliveryEnd": 25494.620000123978,
+              "deliveryMs": 32.85000014305115
+            },
+            {
+              "start": 25494.425,
+              "end": 25527.495,
+              "ms": 33.06999999999971,
+              "deliveryStart": 25494.620000123978,
+              "deliveryEnd": 25527.670000076294,
+              "deliveryMs": 33.049999952316284
+            },
+            {
+              "start": 25527.495,
+              "end": 25560.535,
+              "ms": 33.04000000000087,
+              "deliveryStart": 25527.670000076294,
+              "deliveryEnd": 25560.680000066757,
+              "deliveryMs": 33.00999999046326
+            },
+            {
+              "start": 25560.535,
+              "end": 25593.165,
+              "ms": 32.63000000000102,
+              "deliveryStart": 25560.680000066757,
+              "deliveryEnd": 25593.384999990463,
+              "deliveryMs": 32.704999923706055
+            },
+            {
+              "start": 25593.165,
+              "end": 25625.755,
+              "ms": 32.590000000000146,
+              "deliveryStart": 25593.384999990463,
+              "deliveryEnd": 25625.960000038147,
+              "deliveryMs": 32.575000047683716
+            },
+            {
+              "start": 25625.755,
+              "end": 25658.85,
+              "ms": 33.094999999997526,
+              "deliveryStart": 25625.960000038147,
+              "deliveryEnd": 25659.295000076294,
+              "deliveryMs": 33.33500003814697
+            },
+            {
+              "start": 25658.85,
+              "end": 25691.515,
+              "ms": 32.66500000000087,
+              "deliveryStart": 25659.295000076294,
+              "deliveryEnd": 25692.28500008583,
+              "deliveryMs": 32.99000000953674
+            },
+            {
+              "start": 25691.515,
+              "end": 25723.865,
+              "ms": 32.35000000000218,
+              "deliveryStart": 25692.28500008583,
+              "deliveryEnd": 25724.215000152588,
+              "deliveryMs": 31.930000066757202
+            },
+            {
+              "start": 25723.865,
+              "end": 25756.405,
+              "ms": 32.539999999997235,
+              "deliveryStart": 25724.215000152588,
+              "deliveryEnd": 25756.60000014305,
+              "deliveryMs": 32.38499999046326
+            },
+            {
+              "start": 25756.405,
+              "end": 25788.86,
+              "ms": 32.455000000001746,
+              "deliveryStart": 25756.60000014305,
+              "deliveryEnd": 25789.025000095367,
+              "deliveryMs": 32.424999952316284
+            },
+            {
+              "start": 25788.86,
+              "end": 25821.405,
+              "ms": 32.544999999998254,
+              "deliveryStart": 25789.025000095367,
+              "deliveryEnd": 25821.545000076294,
+              "deliveryMs": 32.519999980926514
+            },
+            {
+              "start": 25821.405,
+              "end": 25854.48,
+              "ms": 33.07500000000073,
+              "deliveryStart": 25821.545000076294,
+              "deliveryEnd": 25854.620000123978,
+              "deliveryMs": 33.075000047683716
+            },
+            {
+              "start": 25854.48,
+              "end": 25886.86,
+              "ms": 32.38000000000102,
+              "deliveryStart": 25854.620000123978,
+              "deliveryEnd": 25887.069999933243,
+              "deliveryMs": 32.44999980926514
+            }
+          ],
+          "longTasks": [],
+          "longTaskTotalMs": 0,
+          "glSyncCalls": {}
+        }
+      ],
+      "startupMs": 6821.545000076294,
+      "environment": {
+        "qa": false,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 Ti (0x00002191) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "dpr": 1,
+        "canvas": [
+          1280,
+          720
+        ],
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+      },
+      "startup": {
+        "startMs": 0,
+        "endMs": 6821.545000076294,
+        "durationMs": 6821.545000076294,
+        "rAF": {
+          "count": 32,
+          "medianMs": 32.6899999999996,
+          "p95Ms": 262.005,
+          "p99Ms": 5398.305,
+          "maxMs": 5398.305,
+          "over33ms": 5,
+          "over50ms": 3,
+          "over100ms": 3
+        },
+        "callbackDelivery": {
+          "count": 32,
+          "medianMs": 32.61500000953674,
+          "p95Ms": 349.36500000953674,
+          "p99Ms": 5435.495000123978,
+          "maxMs": 5435.495000123978,
+          "over33ms": 6,
+          "over50ms": 3,
+          "over100ms": 2
+        },
+        "frames": [
+          {
+            "start": 113.0699999332428,
+            "end": 155.9,
+            "ms": 42.83000006675721,
+            "deliveryStart": 113.0699999332428,
+            "deliveryEnd": 173.17000007629395,
+            "deliveryMs": 60.10000014305115
+          },
+          {
+            "start": 155.9,
+            "end": 259.265,
+            "ms": 103.36499999999998,
+            "deliveryStart": 173.17000007629395,
+            "deliveryEnd": 522.5350000858307,
+            "deliveryMs": 349.36500000953674
+          },
+          {
+            "start": 259.265,
+            "end": 521.27,
+            "ms": 262.005,
+            "deliveryStart": 522.5350000858307,
+            "deliveryEnd": 533.204999923706,
+            "deliveryMs": 10.669999837875366
+          },
+          {
+            "start": 521.27,
+            "end": 553.59,
+            "ms": 32.32000000000005,
+            "deliveryStart": 533.204999923706,
+            "deliveryEnd": 554.5599999427795,
+            "deliveryMs": 21.355000019073486
+          },
+          {
+            "start": 553.59,
+            "end": 587.205,
+            "ms": 33.61500000000001,
+            "deliveryStart": 554.5599999427795,
+            "deliveryEnd": 596.1400001049042,
+            "deliveryMs": 41.580000162124634
+          },
+          {
+            "start": 587.205,
+            "end": 620.15,
+            "ms": 32.944999999999936,
+            "deliveryStart": 596.1400001049042,
+            "deliveryEnd": 624.875,
+            "deliveryMs": 28.734999895095825
+          },
+          {
+            "start": 620.15,
+            "end": 652.805,
+            "ms": 32.65499999999997,
+            "deliveryStart": 624.875,
+            "deliveryEnd": 656.7799999713898,
+            "deliveryMs": 31.90499997138977
+          },
+          {
+            "start": 652.805,
+            "end": 685.34,
+            "ms": 32.53500000000008,
+            "deliveryStart": 656.7799999713898,
+            "deliveryEnd": 691.5099999904633,
+            "deliveryMs": 34.730000019073486
+          },
+          {
+            "start": 685.34,
+            "end": 717.9,
+            "ms": 32.559999999999945,
+            "deliveryStart": 691.5099999904633,
+            "deliveryEnd": 733.2400000095367,
+            "deliveryMs": 41.730000019073486
+          },
+          {
+            "start": 717.9,
+            "end": 750.465,
+            "ms": 32.565000000000055,
+            "deliveryStart": 733.2400000095367,
+            "deliveryEnd": 6168.735000133514,
+            "deliveryMs": 5435.495000123978
+          },
+          {
+            "start": 750.465,
+            "end": 6148.77,
+            "ms": 5398.305,
+            "deliveryStart": 6168.735000133514,
+            "deliveryEnd": 6182.035000085831,
+            "deliveryMs": 13.299999952316284
+          },
+          {
+            "start": 6148.77,
+            "end": 6181.37,
+            "ms": 32.599999999999454,
+            "deliveryStart": 6182.035000085831,
+            "deliveryEnd": 6198.8150000572205,
+            "deliveryMs": 16.77999997138977
+          },
+          {
+            "start": 6181.37,
+            "end": 6214.33,
+            "ms": 32.960000000000036,
+            "deliveryStart": 6198.8150000572205,
+            "deliveryEnd": 6214.600000143051,
+            "deliveryMs": 15.785000085830688
+          },
+          {
+            "start": 6214.33,
+            "end": 6246.83,
+            "ms": 32.5,
+            "deliveryStart": 6214.600000143051,
+            "deliveryEnd": 6247.27999997139,
+            "deliveryMs": 32.67999982833862
+          },
+          {
+            "start": 6246.83,
+            "end": 6279.44,
+            "ms": 32.60999999999967,
+            "deliveryStart": 6247.27999997139,
+            "deliveryEnd": 6279.7699999809265,
+            "deliveryMs": 32.49000000953674
+          },
+          {
+            "start": 6279.44,
+            "end": 6311.965,
+            "ms": 32.525000000000546,
+            "deliveryStart": 6279.7699999809265,
+            "deliveryEnd": 6312.210000038147,
+            "deliveryMs": 32.44000005722046
+          },
+          {
+            "start": 6311.965,
+            "end": 6344.655,
+            "ms": 32.6899999999996,
+            "deliveryStart": 6312.210000038147,
+            "deliveryEnd": 6344.9800000190735,
+            "deliveryMs": 32.769999980926514
+          },
+          {
+            "start": 6344.655,
+            "end": 6377.27,
+            "ms": 32.61500000000069,
+            "deliveryStart": 6344.9800000190735,
+            "deliveryEnd": 6377.555000066757,
+            "deliveryMs": 32.575000047683716
+          },
+          {
+            "start": 6377.27,
+            "end": 6409.555,
+            "ms": 32.284999999999854,
+            "deliveryStart": 6377.555000066757,
+            "deliveryEnd": 6409.850000143051,
+            "deliveryMs": 32.295000076293945
+          },
+          {
+            "start": 6409.555,
+            "end": 6441.78,
+            "ms": 32.224999999999454,
+            "deliveryStart": 6409.850000143051,
+            "deliveryEnd": 6442.055000066757,
+            "deliveryMs": 32.204999923706055
+          },
+          {
+            "start": 6441.78,
+            "end": 6474.115,
+            "ms": 32.335000000000036,
+            "deliveryStart": 6442.055000066757,
+            "deliveryEnd": 6474.865000009537,
+            "deliveryMs": 32.80999994277954
+          },
+          {
+            "start": 6474.115,
+            "end": 6507.075,
+            "ms": 32.960000000000036,
+            "deliveryStart": 6474.865000009537,
+            "deliveryEnd": 6507.285000085831,
+            "deliveryMs": 32.420000076293945
+          },
+          {
+            "start": 6507.075,
+            "end": 6540.195,
+            "ms": 33.11999999999989,
+            "deliveryStart": 6507.285000085831,
+            "deliveryEnd": 6540.634999990463,
+            "deliveryMs": 33.34999990463257
+          },
+          {
+            "start": 6540.195,
+            "end": 6573.05,
+            "ms": 32.85500000000047,
+            "deliveryStart": 6540.634999990463,
+            "deliveryEnd": 6573.25,
+            "deliveryMs": 32.61500000953674
+          },
+          {
+            "start": 6573.05,
+            "end": 6605.595,
+            "ms": 32.54500000000007,
+            "deliveryStart": 6573.25,
+            "deliveryEnd": 6605.789999961853,
+            "deliveryMs": 32.53999996185303
+          },
+          {
+            "start": 6605.595,
+            "end": 6637.98,
+            "ms": 32.38499999999931,
+            "deliveryStart": 6605.789999961853,
+            "deliveryEnd": 6638.40499997139,
+            "deliveryMs": 32.61500000953674
+          },
+          {
+            "start": 6637.98,
+            "end": 6670.585,
+            "ms": 32.60500000000047,
+            "deliveryStart": 6638.40499997139,
+            "deliveryEnd": 6671.430000066757,
+            "deliveryMs": 33.02500009536743
+          },
+          {
+            "start": 6670.585,
+            "end": 6703.75,
+            "ms": 33.164999999999964,
+            "deliveryStart": 6671.430000066757,
+            "deliveryEnd": 6703.954999923706,
+            "deliveryMs": 32.52499985694885
+          },
+          {
+            "start": 6703.75,
+            "end": 6736.835,
+            "ms": 33.085000000000036,
+            "deliveryStart": 6703.954999923706,
+            "deliveryEnd": 6737.1050000190735,
+            "deliveryMs": 33.15000009536743
+          },
+          {
+            "start": 6736.835,
+            "end": 6769.67,
+            "ms": 32.835000000000036,
+            "deliveryStart": 6737.1050000190735,
+            "deliveryEnd": 6770.3150000572205,
+            "deliveryMs": 33.21000003814697
+          },
+          {
+            "start": 6769.67,
+            "end": 6802.92,
+            "ms": 33.25,
+            "deliveryStart": 6770.3150000572205,
+            "deliveryEnd": 6803.1849999427795,
+            "deliveryMs": 32.86999988555908
+          },
+          {
+            "start": 6802.92,
+            "end": 6836.225,
+            "ms": 33.30500000000029,
+            "deliveryStart": 6803.1849999427795,
+            "deliveryEnd": 6836.3949999809265,
+            "deliveryMs": 33.21000003814697
+          }
+        ],
+        "longTasks": [
+          {
+            "start": 178.9650001525879,
+            "end": 521.9650001525879,
+            "ms": 343
+          },
+          {
+            "start": 740.1549999713898,
+            "end": 6168.15499997139,
+            "ms": 5428
+          }
+        ],
+        "longTaskTotalMs": 5771.0,
+        "glSyncCalls": {}
+      },
+      "loaderPhases": [
+        {
+          "phase": "removed",
+          "at": 116.24000000953674
+        },
+        {
+          "phase": "preparing",
+          "at": 118.18499994277954
+        },
+        {
+          "phase": "downloading",
+          "at": 554.75
+        },
+        {
+          "phase": "opening",
+          "at": 733.3700001239777
+        },
+        {
+          "phase": "ready",
+          "at": 6168.515000104904
+        },
+        {
+          "phase": "removed",
+          "at": 6474.84500002861
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "failure": null,
+  "entry": "ordinary-home",
+  "levelOverride": "",
+  "glProfile": false,
+  "cpuProfile": false,
+  "scope": "Fresh isolated browser profile does not guarantee empty OS/driver caches. No QA publisher. CDP TaskDuration is renderer main-thread task time, not isolated Godot CPU or GPU duration. GL wrappers measure synchronous API latency and add overhead. First action and repeated action must both be present and visually verified. Collection completion is not a frame-budget or gameplay pass.",
+  "visualReview": "pending",
+  "performanceVerdict": "not-assessed",
+  "collectionCompletedWithoutErrors": true
+}

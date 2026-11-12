@@ -1,0 +1,63 @@
+{
+  "initialSource": {
+    "sha256": "7af0251eb3a184265d8dccaeb90b984a4a9e62d4e77bbcc5f9f81ad6c217e7be",
+    "files": 478
+  },
+  "source": {
+    "sha256": "7af0251eb3a184265d8dccaeb90b984a4a9e62d4e77bbcc5f9f81ad6c217e7be",
+    "files": 478
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "service_hud_test",
+      "code": 0,
+      "elapsedMs": 2001,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":186,\"failures\":[],\"passed\":true,\"scope\":\"Actual HUD controls, layout and intents; not GPU/pointer/audio verification.\",\"suite\":\"native-ui\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "service_modal_lifecycle_test",
+      "code": 0,
+      "elapsedMs": 4808,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":262,\"failures\":[],\"passed\":true,\"scope\":\"Real HUD/controller with in-memory saves and observable view/audio adapters; emitted pressed signals and headless layout are not real pointer, GPU or audible-playback verification.\",\"suite\":\"service-modal-lifecycle\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_application_test",
+      "code": 0,
+      "elapsedMs": 3482,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nPASS native application: 61 checks\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_first_garden_contract_test",
+      "code": 0,
+      "elapsedMs": 1633,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":93,\"failures\":[],\"passed\":true,\"suite\":\"first-garden-contract\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_root_route_plan_test",
+      "code": 0,
+      "elapsedMs": 471,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":40,\"failures\":[],\"passed\":true,\"suite\":\"root-route-plan\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_root_weaving_hud_test",
+      "code": 1,
+      "elapsedMs": 343,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n",
+      "stderr": "SCRIPT ERROR: Parse Error: Expected end of statement after expression, found \",\" instead.\r\n   at: GDScript::reload (res://tests/native_root_weaving_hud_test.gd:49)\r\nERROR: Failed to load script \"res://tests/native_root_weaving_hud_test.gd\" with error \"Parse error\".\r\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)\r\n",
+      "passed": false
+    }
+  ]
+}

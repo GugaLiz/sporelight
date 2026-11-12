@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "08547acf75fd316537c4f43b5617f7ff91e60b5c58203823d1dfa415243754ea",
+    "files": 556
+  },
+  "source": {
+    "sha256": "08547acf75fd316537c4f43b5617f7ff91e60b5c58203823d1dfa415243754ea",
+    "files": 556
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_ferry_prop_layout_test",
+      "code": 0,
+      "elapsedMs": 3145,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":570,\"failures\":[],\"gpuPixelsVerified\":false,\"minimumFlowerGapWorld\":0.127667174647271,\"minimumInsectGapWorld\":0.426389629233141,\"passed\":true,\"suite\":\"native-ferry-prop-layout\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_prop_scale_test",
+      "code": 4294967295,
+      "elapsedMs": 139581,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n",
+      "stderr": "ERROR: Node not found: \"spore\" (relative to \"/root/@Node2D@2/NativeWorldViewport/Garden/Props/Mark_seed\").\r\n   at: get_node (scene/main/node.cpp:1975)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_prop_scale_test.gd:60)\r\nSCRIPT ERROR: Invalid access to property or key 'texture' on a base object of type 'null instance'.\r\n   at: _run (res://tests/native_prop_scale_test.gd:61)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_prop_scale_test.gd:61)\r\n",
+      "passed": false
+    }
+  ]
+}

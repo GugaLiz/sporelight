@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "official": {
+      "verificationOnly": true,
+      "qaGuardDelta": "Three OS.is_debug_build guards removed in isolated main.gd only",
+      "originalMainSha256": "ba12d1b7af6a4ca534d06a23028358432238d36b3213af3bc56b8db5e25283bd",
+      "fixtureMainSha256": "7547780ee8595b98d1998c4aa3354ddfbf90123d037bab6deb278ec2d9218e51",
+      "webMode": "release",
+      "template": {
+        "kind": "official",
+        "customTemplateSha256": null
+      },
+      "pckSha256": "2118f9561ec2ef22ccce5e2969d8e5deca4360062ba6051e07825aa6c51a8129",
+      "scope": "Engine image comparison fixture, never delivered. Independent normal exports retain QA guards."
+    },
+    "candidate": {
+      "verificationOnly": true,
+      "qaGuardDelta": "Three OS.is_debug_build guards removed in isolated main.gd only",
+      "originalMainSha256": "ba12d1b7af6a4ca534d06a23028358432238d36b3213af3bc56b8db5e25283bd",
+      "fixtureMainSha256": "7547780ee8595b98d1998c4aa3354ddfbf90123d037bab6deb278ec2d9218e51",
+      "webMode": "release",
+      "template": {
+        "kind": "scene-demand",
+        "customTemplateSha256": "51d3a8bac3b56cb9187a5d3545d9e60ead680ce0ddbe8ab1a20417cb4cfe35c9"
+      },
+      "pckSha256": "2118f9561ec2ef22ccce5e2969d8e5deca4360062ba6051e07825aa6c51a8129",
+      "scope": "Engine image comparison fixture, never delivered. Independent normal exports retain QA guards."
+    }
+  },
+  "pckSha256": "2118f9561ec2ef22ccce5e2969d8e5deca4360062ba6051e07825aa6c51a8129",
+  "samples": [
+    {
+      "size": "1280x720",
+      "level": "1-1",
+      "state": "arrival",
+      "origin": "initial",
+      "official": null,
+      "candidate": null,
+      "passed": false
+    },
+    {
+      "size": "1280x720",
+      "level": "2-1",
+      "state": "arrival",
+      "origin": "initial",
+      "official": null,
+      "candidate": null,
+      "passed": false
+    },
+    {
+      "size": "1280x720",
+      "level": "3-4",
+      "state": "arrival",
+      "origin": "initial",
+      "official": null,
+      "candidate": null,
+      "passed": false
+    }
+  ],
+  "errors": [],
+  "scope": "Exact full-frame comparison of verification-only release engine fixtures.\n\nBoth exports must use byte-identical PCKs. Settings change only inside isolated\nbrowser profiles: lowMotion=true, particles=false; lights/materials/MSAA remain.\nSelf-comparison detects animation/camera noise; no masks or tolerances are used.\nRestored states cover visual output, not real-input gameplay or motion timing.\n",
+  "fixtureOnlySettings": {
+    "lowMotion": true,
+    "particles": false,
+    "hideHud": true,
+    "visualTimeMs": 1200
+  },
+  "guardAudit": "Current runtime matches exported manifest; fixture main is exactly three QA guards removed; PCK bytes independently hashed and identical.",
+  "failure": "Visible requested settings/menu control not found",
+  "passed": false
+}

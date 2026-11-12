@@ -1,0 +1,39 @@
+{
+  "initialSource": {
+    "sha256": "615f6c1a130ed12d56eb8365f97b283116b0e1b1f83b50cb97419908d2956f90",
+    "files": 572
+  },
+  "source": {
+    "sha256": "615f6c1a130ed12d56eb8365f97b283116b0e1b1f83b50cb97419908d2956f90",
+    "files": 572
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_core_click_test",
+      "code": 0,
+      "elapsedMs": 11584,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"shiftedCoreLevels\":[\"1-2\",\"1-3\",\"1-4\",\"2-1\",\"2-2\",\"2-3\",\"2-4\",\"3-1\",\"3-2\",\"3-3\",\"3-4\"],\"shiftedCoreStates\":19}\r\n{\"checks\":5594,\"failures\":[],\"gpuPixelsVerified\":false,\"maxBodySurfaceGap\":0.00120317935943604,\"passed\":true,\"samples\":322,\"suite\":\"native-core-click\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_motion_cache_test",
+      "code": 0,
+      "elapsedMs": 28211,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":9087,\"failures\":[],\"gpuPixelsVerified\":false,\"measurements\":[{\"batch\":0,\"elapsedMs\":155.469,\"frames\":60,\"surfaces\":70,\"tilesCalls\":0},{\"batch\":1,\"elapsedMs\":249.335,\"frames\":60,\"surfaces\":70,\"tilesCalls\":0},{\"batch\":2,\"elapsedMs\":228.655,\"frames\":60,\"surfaces\":70,\"tilesCalls\":0},{\"batch\":3,\"elapsedMs\":221.477,\"frames\":60,\"surfaces\":70,\"tilesCalls\":0},{\"actorSamples\":120,\"elapsedMs\":1.273,\"tilesCalls\":0}],\"passed\":true,\"suite\":\"native-motion-cache\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_route_test",
+      "code": 1,
+      "elapsedMs": 189823,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":11,\"level\":\"1-1\",\"steps\":11,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":11,\"level\":\"1-2\",\"steps\":11,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":10,\"level\":\"1-3\",\"steps\":10,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":16,\"level\":\"2-1\",\"steps\":16,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":21,\"level\":\"2-2\",\"steps\":21,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":27,\"level\":\"2-3\",\"steps\":27,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":13,\"level\":\"2-4\",\"steps\":13,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":43,\"level\":\"3-1\",\"steps\":43,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":36,\"level\":\"3-2\",\"steps\":36,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":59,\"level\":\"3-3\",\"steps\":59,\"success\":true}\r\nNATIVE ROUTE {\"completed\":false,\"expectedSteps\":96,\"level\":\"3-4\",\"steps\":46,\"success\":false}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":31,\"level\":\"cloud-1\",\"steps\":31,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":17,\"level\":\"cloud-2\",\"steps\":17,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":36,\"level\":\"cloud-3\",\"steps\":36,\"success\":true}\r\n{\"checks\":1634,\"failures\":[\"3-4/46/act/turn:light accepted through application transaction: 先离开这段道路的边缘，再让它收回。\",\"3-4 authored route completes with native bodies\"],\"maxBodySurfaceGap\":0.171365395188332,\"maxVisualContactError\":0.16247969865799,\"passed\":false,\"routes\":[{\"completed\":true,\"expectedSteps\":11,\"level\":\"1-1\",\"steps\":11,\"success\":true},{\"completed\":true,\"expectedSteps\":11,\"level\":\"1-2\",\"steps\":11,\"success\":true},{\"completed\":true,\"expectedSteps\":10,\"level\":\"1-3\",\"steps\":10,\"success\":true},{\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true},{\"completed\":true,\"expectedSteps\":16,\"level\":\"2-1\",\"steps\":16,\"success\":true},{\"completed\":true,\"expectedSteps\":21,\"level\":\"2-2\",\"steps\":21,\"success\":true},{\"completed\":true,\"expectedSteps\":27,\"level\":\"2-3\",\"steps\":27,\"success\":true},{\"completed\":true,\"expectedSteps\":13,\"level\":\"2-4\",\"steps\":13,\"success\":true},{\"completed\":true,\"expectedSteps\":43,\"level\":\"3-1\",\"steps\":43,\"success\":true},{\"completed\":true,\"expectedSteps\":36,\"level\":\"3-2\",\"steps\":36,\"success\":true},{\"completed\":true,\"expectedSteps\":59,\"level\":\"3-3\",\"steps\":59,\"success\":true},{\"completed\":false,\"expectedSteps\":96,\"level\":\"3-4\",\"steps\":46,\"success\":false},{\"completed\":true,\"expectedSteps\":31,\"level\":\"cloud-1\",\"steps\":31,\"success\":true},{\"completed\":true,\"expectedSteps\":17,\"level\":\"cloud-2\",\"steps\":17,\"success\":true},{\"completed\":true,\"expectedSteps\":36,\"level\":\"cloud-3\",\"steps\":36,\"success\":true}],\"samples\":17744,\"suite\":\"native-full-routes\"}\r\n",
+      "stderr": "ERROR: 3-4/46/act/turn:light accepted through application transaction: 先离开这段道路的边缘，再让它收回。\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _replay (res://tests/native_route_test.gd:152)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: 3-4 authored route completes with native bodies\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _replay (res://tests/native_route_test.gd:164)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    }
+  ]
+}

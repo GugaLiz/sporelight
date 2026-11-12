@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"cases":[{"bridgeLeaves":3,"label":"cloud-1/0->1","warmTileQueries":0},{"bridgeLeaves":3,"label":"cloud-1/1->0","warmTileQueries":0},{"label":"cloud-2/lift","originalPathPreserved":true},{"bridgeLeaves":3,"label":"cloud-3/1->0","warmTileQueries":0},{"bridgeLeaves":3,"label":"cloud-3/0->1","warmTileQueries":0}],"checks":2965,"failures":["cloud-3/1->0 destination support IDs exact","cloud-3/0->1 destination support IDs exact"],"gpuPixelsVerified":false,"passed":false,"suite":"native-cloud-bridge-motion"}
+ERROR: cloud-3/1->0 destination support IDs exact
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_cloud_bridge_motion_test.gd:25)
+       [1] _test_bridge (res://tests/native_cloud_bridge_motion_test.gd:112)
+       [2] _run (res://tests/native_cloud_bridge_motion_test.gd:42)
+ERROR: cloud-3/0->1 destination support IDs exact
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_cloud_bridge_motion_test.gd:25)
+       [1] _test_bridge (res://tests/native_cloud_bridge_motion_test.gd:112)
+       [2] _run (res://tests/native_cloud_bridge_motion_test.gd:43)

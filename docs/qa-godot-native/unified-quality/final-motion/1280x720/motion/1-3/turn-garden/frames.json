@@ -1,0 +1,5705 @@
+{
+  "command": "turn:garden",
+  "before": {
+    "buttons": [
+      {
+        "action": "undo",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": true,
+        "height": 44,
+        "instanceId": 72813119093,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_undo",
+        "pressed": false,
+        "text": "撤销",
+        "tooltip": "撤销上一次意图 · Z",
+        "visibleRect": [
+          443,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 443,
+        "y": 656
+      },
+      {
+        "action": "primary",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 72930559612,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_primary",
+        "pressed": false,
+        "text": "连人带庭院转90°  · E",
+        "tooltip": "连人带庭院转90°  · E",
+        "visibleRect": [
+          512,
+          656,
+          256,
+          44
+        ],
+        "width": 256,
+        "x": 512,
+        "y": 656
+      },
+      {
+        "action": "hint",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 73165440650,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_hint",
+        "pressed": false,
+        "text": "提示",
+        "tooltip": "主动请求一点帮助 · H",
+        "visibleRect": [
+          773,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 773,
+        "y": 656
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 73819752112,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Pause",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置 · Esc",
+        "visibleRect": [
+          1174,
+          12,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 1174,
+        "y": 12
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 73937192631,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Map",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "选择花园",
+        "visibleRect": [
+          1224,
+          12,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 1224,
+        "y": 12
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 74725721830,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Overview",
+        "pressed": false,
+        "text": "全景",
+        "tooltip": "查看整片花园 / 回到身边",
+        "visibleRect": [
+          1108,
+          12,
+          60,
+          44
+        ],
+        "width": 60,
+        "x": 1108,
+        "y": 12
+      }
+    ],
+    "character": {
+      "blend": false,
+      "buddy": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 3.12495976686478e-05,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          606.828857421875,
+          440.435729980469
+        ],
+        "frame": 0,
+        "grounded": true,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": -0.370000004768372,
+          "z": 0.479999989271164
+        }
+      },
+      "facing": "front",
+      "footpoint": {
+        "h": 0,
+        "x": -0.400000005960464,
+        "z": 0
+      },
+      "key": "idle_front",
+      "luvie": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          640,
+          421.638397216797
+        ],
+        "frame": 0,
+        "grounded": true,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": -0.400000005960464,
+          "z": 0
+        }
+      },
+      "moving": false,
+      "pose": {
+        "clip": "idle_front",
+        "key": "idle_front"
+      },
+      "screen_footpoint": {
+        "x": 640,
+        "y": 421.638397216797
+      },
+      "stair_contact": {
+        "bodyHeight": 0.000135415000841022,
+        "clearance": 0,
+        "ground": 0,
+        "nativeFloor": true,
+        "penetration": 0,
+        "phase": "native-surface",
+        "rail_h": 0,
+        "supportHeight": 0,
+        "visualHeight": 0
+      }
+    },
+    "commands": [
+      {
+        "id": "turn:garden",
+        "label": "连人带庭院转90° ↻"
+      }
+    ],
+    "context": {
+      "choices": [
+        {
+          "disabled": false,
+          "id": "turn:garden",
+          "label": "连人带庭院转90° ↻",
+          "reason": ""
+        }
+      ],
+      "id": "turn:garden",
+      "label": "连人带庭院转90° ↻",
+      "tile": {
+        "h": 0,
+        "id": "m:garden:0:0",
+        "kind": "module",
+        "local": [
+          0,
+          0
+        ],
+        "module": "garden",
+        "x": 0,
+        "z": 0
+      }
+    },
+    "continuousInput": true,
+    "gameHudVisible": true,
+    "growthChoices": [],
+    "hasActiveGame": true,
+    "hintVisible": false,
+    "homeActive": false,
+    "hudRegions": [
+      {
+        "name": "Heading",
+        "rect": [
+          12,
+          12,
+          360,
+          102
+        ]
+      },
+      {
+        "name": "JourneyTools",
+        "rect": [
+          435,
+          648,
+          410,
+          60
+        ]
+      },
+      {
+        "name": "JourneyMessage",
+        "rect": [
+          380,
+          590,
+          520,
+          48
+        ]
+      },
+      {
+        "name": "Navigation",
+        "rect": [
+          1174,
+          12,
+          94,
+          44
+        ]
+      },
+      {
+        "name": "Overview",
+        "rect": [
+          1108,
+          12,
+          60,
+          44
+        ]
+      }
+    ],
+    "input": {
+      "blocked": "",
+      "buffered": "",
+      "held": [],
+      "remaining": 0
+    },
+    "message": "让苔藓庭院与远岸相遇。",
+    "motion": {},
+    "moving": false,
+    "native": {
+      "actors": {
+        "buddy": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": true,
+          "position": [
+            -0.370000004768372,
+            3.12495976686478e-05,
+            0.479999989271164
+          ],
+          "support": "m:garden:0:0",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        },
+        "luvie": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": true,
+          "position": [
+            -0.400000005960464,
+            0.000135415000841022,
+            0
+          ],
+          "support": "m:garden:0:0",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "moving": false,
+      "path": [],
+      "stable": true
+    },
+    "origin": [
+      669.485900878906,
+      436.38134765625
+    ],
+    "overview": false,
+    "paused": false,
+    "pendingButton": "",
+    "performance": {
+      "fps": 27,
+      "memoryBytes": 57759572,
+      "processMs": 13.5,
+      "textureBytes": 80118360
+    },
+    "progress": {
+      "last_level": "1-1",
+      "memories": {},
+      "records": {},
+      "runs": {}
+    },
+    "qaSequence": 28,
+    "render": {
+      "meshRebuilds": 47,
+      "native": true,
+      "offscreenViews": 1,
+      "props": 25,
+      "surfaces": 41,
+      "terrainUpdates": 2,
+      "viewportUpdateMode": 4
+    },
+    "reviewing": false,
+    "revision": 0,
+    "rolling": false,
+    "safeCamera": false,
+    "safeRect": [
+      14,
+      126,
+      1252,
+      510
+    ],
+    "scale": 2.10612173951675,
+    "settings": {
+      "ambient": 0.25,
+      "bgm": 0.35,
+      "continuousInput": true,
+      "dynamicLight": true,
+      "fullscreen": false,
+      "inputSettingsRevision": 1,
+      "language": "zh-CN",
+      "lowMotion": false,
+      "particles": true,
+      "quality": "standard",
+      "safeCamera": false,
+      "sfx": 0.6,
+      "touchControls": false,
+      "vibration": false
+    },
+    "snapshot": {
+      "active": "luvie",
+      "actors": {
+        "buddy": "m:garden:0:0",
+        "luvie": "m:garden:0:0"
+      },
+      "beat": 0,
+      "collected": [],
+      "completed": false,
+      "designVersion": 2,
+      "discovered": [],
+      "flags": [],
+      "follow": true,
+      "frozen": null,
+      "growth": {},
+      "items": {},
+      "levelId": "1-3",
+      "mode": 0,
+      "observations": [],
+      "playing": false,
+      "runtime": {
+        "poses": {
+          "buddy": {
+            "facing": "front",
+            "offset": [
+              -0.37,
+              0,
+              0.48
+            ],
+            "support": "m:garden:0:0"
+          },
+          "luvie": {
+            "facing": "front",
+            "offset": [
+              -0.4,
+              0.0001,
+              0
+            ],
+            "support": "m:garden:0:0"
+          }
+        },
+        "version": 1
+      },
+      "song": [
+        "turn",
+        "rise",
+        "rest"
+      ],
+      "turns": {
+        "garden": 0
+      },
+      "water": 0
+    },
+    "strolling": false,
+    "targets": [
+      {
+        "id": "f:-5:-1",
+        "x": 374.628723144531,
+        "y": 215.238510131836
+      },
+      {
+        "id": "f:-4:-1",
+        "x": 448.342864990234,
+        "y": 252.095672607422
+      },
+      {
+        "id": "f:-3:-1",
+        "x": 522.057189941406,
+        "y": 288.952850341797
+      },
+      {
+        "id": "f:-5:0",
+        "x": 300.914581298828,
+        "y": 252.095581054688
+      },
+      {
+        "id": "f:-4:0",
+        "x": 374.628723144531,
+        "y": 288.952758789062
+      },
+      {
+        "id": "f:-3:0",
+        "x": 448.343078613281,
+        "y": 325.809936523438
+      },
+      {
+        "id": "f:-5:1",
+        "x": 227.200241088867,
+        "y": 288.952758789062
+      },
+      {
+        "id": "f:-4:1",
+        "x": 300.914367675781,
+        "y": 325.809936523438
+      },
+      {
+        "id": "f:-3:1",
+        "x": 374.628723144531,
+        "y": 362.667083740234
+      },
+      {
+        "id": "f:-1:-5",
+        "x": 964.342895507812,
+        "y": 156.555740356445
+      },
+      {
+        "id": "f:0:-5",
+        "x": 1038.05725097656,
+        "y": 193.412902832031
+      },
+      {
+        "id": "f:1:-5",
+        "x": 1111.77160644531,
+        "y": 230.270065307617
+      },
+      {
+        "id": "f:-1:-4",
+        "x": 890.628540039062,
+        "y": 193.412902832031
+      },
+      {
+        "id": "f:0:-4",
+        "x": 964.342895507812,
+        "y": 230.270065307617
+      },
+      {
+        "id": "f:1:-4",
+        "x": 1038.05725097656,
+        "y": 267.127227783203
+      },
+      {
+        "id": "f:-1:-3",
+        "x": 816.914184570312,
+        "y": 230.270065307617
+      },
+      {
+        "id": "f:0:-3",
+        "x": 890.628540039062,
+        "y": 267.127227783203
+      },
+      {
+        "id": "f:1:-3",
+        "x": 964.342895507812,
+        "y": 303.984405517578
+      },
+      {
+        "id": "f:-1:3",
+        "x": 374.628723144531,
+        "y": 510.095672607422
+      },
+      {
+        "id": "f:0:3",
+        "x": 448.343078613281,
+        "y": 546.952880859375
+      },
+      {
+        "id": "f:1:3",
+        "x": 522.057434082031,
+        "y": 583.809997558594
+      },
+      {
+        "id": "f:-1:4",
+        "x": 300.914367675781,
+        "y": 546.952880859375
+      },
+      {
+        "id": "f:0:4",
+        "x": 374.628723144531,
+        "y": 583.809997558594
+      },
+      {
+        "id": "f:1:4",
+        "x": 448.343078613281,
+        "y": 620.667175292969
+      },
+      {
+        "id": "f:-1:5",
+        "x": 227.200012207031,
+        "y": 583.809997558594
+      },
+      {
+        "id": "f:0:5",
+        "x": 300.914367675781,
+        "y": 620.667175292969
+      },
+      {
+        "id": "f:1:5",
+        "x": 374.628723144531,
+        "y": 657.524353027344
+      },
+      {
+        "id": "f:3:-1",
+        "x": 964.342895507812,
+        "y": 568.778442382812
+      },
+      {
+        "id": "f:4:-1",
+        "x": 1038.05700683594,
+        "y": 605.635559082031
+      },
+      {
+        "id": "f:5:-1",
+        "x": 1111.77136230469,
+        "y": 642.492736816406
+      },
+      {
+        "id": "f:3:0",
+        "x": 890.628723144531,
+        "y": 605.635559082031
+      },
+      {
+        "id": "f:4:0",
+        "x": 964.342895507812,
+        "y": 642.492614746094
+      },
+      {
+        "id": "f:5:0",
+        "x": 1038.05725097656,
+        "y": 679.349792480469
+      },
+      {
+        "id": "f:3:1",
+        "x": 816.914367675781,
+        "y": 642.492736816406
+      },
+      {
+        "id": "f:4:1",
+        "x": 890.628540039062,
+        "y": 679.349792480469
+      },
+      {
+        "id": "f:5:1",
+        "x": 964.342895507812,
+        "y": 716.206970214844
+      },
+      {
+        "id": "m:garden:0:0",
+        "x": 669.485900878906,
+        "y": 436.38134765625
+      },
+      {
+        "id": "m:garden:-1:0",
+        "x": 595.771545410156,
+        "y": 399.524169921875
+      },
+      {
+        "id": "m:garden:-2:0",
+        "x": 522.057434082031,
+        "y": 362.6669921875
+      },
+      {
+        "id": "m:garden:0:1",
+        "x": 595.771545410156,
+        "y": 473.238494873047
+      },
+      {
+        "id": "m:garden:0:2",
+        "x": 522.057189941406,
+        "y": 510.095672607422
+      }
+    ],
+    "tiles": [
+      {
+        "h": 0,
+        "id": "f:-5:-1",
+        "small": false,
+        "x": -5,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-4:-1",
+        "small": false,
+        "x": -4,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-3:-1",
+        "small": false,
+        "x": -3,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-5:0",
+        "small": false,
+        "x": -5,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-4:0",
+        "small": false,
+        "x": -4,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-3:0",
+        "small": false,
+        "x": -3,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-5:1",
+        "small": false,
+        "x": -5,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "f:-4:1",
+        "small": false,
+        "x": -4,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "f:-3:1",
+        "small": false,
+        "x": -3,
+        "z": 1
+      },
+      {
+        "h": 1,
+        "id": "f:-1:-5",
+        "small": false,
+        "x": -1,
+        "z": -5
+      },
+      {
+        "h": 1,
+        "id": "f:0:-5",
+        "small": false,
+        "x": 0,
+        "z": -5
+      },
+      {
+        "h": 1,
+        "id": "f:1:-5",
+        "small": false,
+        "x": 1,
+        "z": -5
+      },
+      {
+        "h": 1,
+        "id": "f:-1:-4",
+        "small": false,
+        "x": -1,
+        "z": -4
+      },
+      {
+        "h": 1,
+        "id": "f:0:-4",
+        "small": false,
+        "x": 0,
+        "z": -4
+      },
+      {
+        "h": 1,
+        "id": "f:1:-4",
+        "small": false,
+        "x": 1,
+        "z": -4
+      },
+      {
+        "h": 1,
+        "id": "f:-1:-3",
+        "small": false,
+        "x": -1,
+        "z": -3
+      },
+      {
+        "h": 1,
+        "id": "f:0:-3",
+        "small": false,
+        "x": 0,
+        "z": -3
+      },
+      {
+        "h": 1,
+        "id": "f:1:-3",
+        "small": false,
+        "x": 1,
+        "z": -3
+      },
+      {
+        "h": 0,
+        "id": "f:-1:3",
+        "small": false,
+        "x": -1,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:0:3",
+        "small": false,
+        "x": 0,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:1:3",
+        "small": false,
+        "x": 1,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:-1:4",
+        "small": false,
+        "x": -1,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:0:4",
+        "small": false,
+        "x": 0,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:1:4",
+        "small": false,
+        "x": 1,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:-1:5",
+        "small": false,
+        "x": -1,
+        "z": 5
+      },
+      {
+        "h": 0,
+        "id": "f:0:5",
+        "small": false,
+        "x": 0,
+        "z": 5
+      },
+      {
+        "h": 0,
+        "id": "f:1:5",
+        "small": false,
+        "x": 1,
+        "z": 5
+      },
+      {
+        "h": -1,
+        "id": "f:3:-1",
+        "small": false,
+        "x": 3,
+        "z": -1
+      },
+      {
+        "h": -1,
+        "id": "f:4:-1",
+        "small": false,
+        "x": 4,
+        "z": -1
+      },
+      {
+        "h": -1,
+        "id": "f:5:-1",
+        "small": false,
+        "x": 5,
+        "z": -1
+      },
+      {
+        "h": -1,
+        "id": "f:3:0",
+        "small": false,
+        "x": 3,
+        "z": 0
+      },
+      {
+        "h": -1,
+        "id": "f:4:0",
+        "small": false,
+        "x": 4,
+        "z": 0
+      },
+      {
+        "h": -1,
+        "id": "f:5:0",
+        "small": false,
+        "x": 5,
+        "z": 0
+      },
+      {
+        "h": -1,
+        "id": "f:3:1",
+        "small": false,
+        "x": 3,
+        "z": 1
+      },
+      {
+        "h": -1,
+        "id": "f:4:1",
+        "small": false,
+        "x": 4,
+        "z": 1
+      },
+      {
+        "h": -1,
+        "id": "f:5:1",
+        "small": false,
+        "x": 5,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "m:garden:0:0",
+        "kind": "module",
+        "local": [
+          0,
+          0
+        ],
+        "module": "garden",
+        "x": 0,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:garden:-1:0",
+        "kind": "module",
+        "local": [
+          -1,
+          0
+        ],
+        "module": "garden",
+        "x": -1,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:garden:-2:0",
+        "kind": "module",
+        "local": [
+          -2,
+          0
+        ],
+        "module": "garden",
+        "x": -2,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:garden:0:1",
+        "kind": "module",
+        "local": [
+          0,
+          1
+        ],
+        "module": "garden",
+        "x": 0,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "m:garden:0:2",
+        "kind": "module",
+        "local": [
+          0,
+          2
+        ],
+        "module": "garden",
+        "x": 0,
+        "z": 2
+      }
+    ],
+    "ui": {
+      "controls": [
+        {
+          "class": "Label",
+          "height": 24,
+          "instanceId": 71705822772,
+          "name": "@Label@10",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/@Label@10",
+          "setting_id": "",
+          "text": "1-3 · 苔藓山谷",
+          "visibleRect": [
+            20,
+            20,
+            344,
+            24
+          ],
+          "width": 344,
+          "x": 20,
+          "y": 20
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 71772931640,
+          "name": "@Label@11",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/GardenStatusAndCollection/@Label@11",
+          "setting_id": "",
+          "text": "露薇",
+          "visibleRect": [
+            20,
+            48,
+            298,
+            17
+          ],
+          "width": 298,
+          "x": 20,
+          "y": 48
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 71890372159,
+          "name": "CollectionCount",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/GardenStatusAndCollection/CollectionCount",
+          "setting_id": "",
+          "text": "0 / 4",
+          "visibleRect": [
+            342,
+            48,
+            22,
+            17
+          ],
+          "width": 22,
+          "x": 342,
+          "y": 48
+        },
+        {
+          "class": "Label",
+          "height": 37,
+          "instanceId": 71923926593,
+          "name": "@Label@12",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/@Label@12",
+          "setting_id": "",
+          "text": "让苔藓庭院与远岸相遇。",
+          "visibleRect": [
+            20,
+            69,
+            344,
+            37
+          ],
+          "width": 344,
+          "x": 20,
+          "y": 69
+        },
+        {
+          "action": "undo",
+          "class": "Button",
+          "command_id": "",
+          "disabled": true,
+          "height": 44,
+          "instanceId": 72813119093,
+          "name": "Action_undo",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_undo",
+          "pressed": false,
+          "setting_id": "",
+          "text": "撤销",
+          "tooltip": "撤销上一次意图 · Z",
+          "visibleRect": [
+            443,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 443,
+          "y": 656
+        },
+        {
+          "action": "primary",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 72930559612,
+          "name": "Action_primary",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_primary",
+          "pressed": false,
+          "setting_id": "",
+          "text": "连人带庭院转90°  · E",
+          "tooltip": "连人带庭院转90°  · E",
+          "visibleRect": [
+            512,
+            656,
+            256,
+            44
+          ],
+          "width": 256,
+          "x": 512,
+          "y": 656
+        },
+        {
+          "action": "hint",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 73165440650,
+          "name": "Action_hint",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_hint",
+          "pressed": false,
+          "setting_id": "",
+          "text": "提示",
+          "tooltip": "主动请求一点帮助 · H",
+          "visibleRect": [
+            773,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 773,
+          "y": 656
+        },
+        {
+          "class": "ScrollContainer",
+          "height": 32,
+          "instanceId": 73484207773,
+          "name": "@ScrollContainer@33",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyMessage/@ScrollContainer@33",
+          "setting_id": "",
+          "visibleRect": [
+            388,
+            598,
+            504,
+            32
+          ],
+          "width": 504,
+          "x": 388,
+          "y": 598
+        },
+        {
+          "class": "Label",
+          "height": 32,
+          "instanceId": 73450653339,
+          "name": "@Label@32",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyMessage/@ScrollContainer@33/@Label@32",
+          "setting_id": "",
+          "text": "让苔藓庭院与远岸相遇。",
+          "visibleRect": [
+            388,
+            598,
+            504,
+            32
+          ],
+          "width": 504,
+          "x": 388,
+          "y": 598
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 73819752112,
+          "name": "Pause",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Pause",
+          "pressed": false,
+          "setting_id": "",
+          "text": "Ⅱ",
+          "tooltip": "暂停与设置 · Esc",
+          "visibleRect": [
+            1174,
+            12,
+            44,
+            44
+          ],
+          "width": 44,
+          "x": 1174,
+          "y": 12
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 73937192631,
+          "name": "Map",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Map",
+          "pressed": false,
+          "setting_id": "",
+          "text": "地图",
+          "tooltip": "选择花园",
+          "visibleRect": [
+            1224,
+            12,
+            44,
+            44
+          ],
+          "width": 44,
+          "x": 1224,
+          "y": 12
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 74725721830,
+          "name": "Overview",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Overview",
+          "pressed": false,
+          "setting_id": "",
+          "text": "全景",
+          "tooltip": "查看整片花园 / 回到身边",
+          "visibleRect": [
+            1108,
+            12,
+            60,
+            44
+          ],
+          "width": 60,
+          "x": 1108,
+          "y": 12
+        }
+      ],
+      "modalOpen": false,
+      "settings": {
+        "ambient": 0.25,
+        "bgm": 0.35,
+        "continuousInput": true,
+        "dynamicLight": true,
+        "fullscreen": false,
+        "inputSettingsRevision": 1,
+        "language": "zh-CN",
+        "lowMotion": false,
+        "particles": true,
+        "quality": "standard",
+        "safeCamera": false,
+        "sfx": 0.6,
+        "touchControls": false,
+        "vibration": false
+      }
+    },
+    "viewport": [
+      1280,
+      720
+    ],
+    "worldVisible": true
+  },
+  "expected": {
+    "designVersion": 2,
+    "levelId": "1-3",
+    "active": "luvie",
+    "actors": {
+      "luvie": "m:garden:0:0",
+      "buddy": "m:garden:0:0"
+    },
+    "follow": true,
+    "growth": {},
+    "turns": {
+      "garden": 1
+    },
+    "flags": [],
+    "items": {},
+    "collected": [],
+    "observations": [],
+    "discovered": [],
+    "water": 0,
+    "mode": 0,
+    "frozen": null,
+    "song": [
+      "turn",
+      "rise",
+      "rest"
+    ],
+    "beat": 0,
+    "playing": false,
+    "completed": false
+  },
+  "visualReview": "pending",
+  "samples": [
+    {
+      "at": 27464.03500008583,
+      "qaSequence": 37,
+      "observedProgress": 0,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.370000004768372,
+              3.12495976686478e-05,
+              0.479999989271164
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.400000005960464,
+              0.000135415000841022,
+              0
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            606.828857421875,
+            440.435729980469
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.370000004768372,
+            "z": 0.479999989271164
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.400000005960464,
+          "z": 0
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            640,
+            421.638397216797
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.400000005960464,
+            "z": 0
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 640,
+          "y": 421.638397216797
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        669.485900878906,
+        436.38134765625
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-000.png"
+    },
+    {
+      "at": 27522.924999952316,
+      "qaSequence": 38,
+      "observedProgress": 0.08064516129032259,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.05,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.38376247882843,
+              3.12495976686478e-05,
+              0.469069689512253
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.399831831455231,
+              0.000135415000841022,
+              -0.0115983607247472
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            606.619873046875,
+            439.525634765625
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.38376247882843,
+            "z": 0.469069689512253
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.399831831455231,
+          "z": -0.0115983607247472
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            640.867309570312,
+            421.217254638672
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.399831831455231,
+            "z": -0.0115983607247472
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 640.867309570312,
+          "y": 421.217254638672
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        669.485900878906,
+        436.38134765625
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-001.png"
+    },
+    {
+      "at": 27581.930000066757,
+      "qaSequence": 39,
+      "observedProgress": 0.16129032258064518,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.1,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.420199304819107,
+              3.12495976686478e-05,
+              0.436729401350021
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.39760833978653,
+              0.000135415000841022,
+              -0.0436763279139996
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            605.705810546875,
+            437.287841796875
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.420199304819107,
+            "z": 0.436729401350021
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.39760833978653,
+          "z": -0.0436763279139996
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            642.78369140625,
+            420.414154052734
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.39760833978653,
+            "z": -0.0436763279139996
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 642.78369140625,
+          "y": 420.414154052734
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        668.873901367188,
+        436.678588867188
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-002.png"
+    },
+    {
+      "at": 27640.22000002861,
+      "qaSequence": 40,
+      "observedProgress": 0.24193548387096772,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.15,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.470198810100555,
+              3.12495976686478e-05,
+              0.382378160953522
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.389343947172165,
+              0.000135415000841022,
+              -0.0917130634188652
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            604.557922363281,
+            434.087646484375
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.470198810100555,
+            "z": 0.382378160953522
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.389343947172165,
+          "z": -0.0917130634188652
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            645.465209960938,
+            419.594146728516
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.389343947172165,
+            "z": -0.0917130634188652
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 645.465209960938,
+          "y": 419.594146728516
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        667.405090332031,
+        437.324523925781
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-003.png"
+    },
+    {
+      "at": 27697.924999952316,
+      "qaSequence": 41,
+      "observedProgress": 0.32258064516129037,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.2,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.523155868053436,
+              3.12495976686478e-05,
+              0.305954158306122
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.370733112096786,
+              0.000135415000841022,
+              -0.150189802050591
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            604.307189941406,
+            430.059936523438
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.523155868053436,
+            "z": 0.305954158306122
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.370733112096786,
+          "z": -0.150189802050591
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            649.167358398438,
+            418.86572265625
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.370733112096786,
+            "z": -0.150189802050591
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 649.167358398438,
+          "y": 418.86572265625
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        665.424438476562,
+        438.065277099609
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-004.png"
+    },
+    {
+      "at": 27758.004999876022,
+      "qaSequence": 42,
+      "observedProgress": 0.40322580645161293,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.25,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.568501353263855,
+              3.12495976686478e-05,
+              0.210014700889587
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.338853895664215,
+              0.000135415000841022,
+              -0.212551280856133
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            604.3173828125,
+            425.977508544922
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.568501353263855,
+            "z": 0.210014700889587
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.338853895664215,
+          "z": -0.212551280856133
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            652.394714355469,
+            418.867004394531
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.338853895664215,
+            "z": -0.212551280856133
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 652.394714355469,
+          "y": 418.867004394531
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        661.705017089844,
+        439.190307617188
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-005.png"
+    },
+    {
+      "at": 27823.94000005722,
+      "qaSequence": 43,
+      "observedProgress": 0.48387096774193544,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.3,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.597652912139893,
+              3.12495976686478e-05,
+              0.100553661584854
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.293381243944168,
+              0.000135415000841022,
+              -0.271896034479141
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            605.175354003906,
+            422.000671386719
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.597652912139893,
+            "z": 0.100553661584854
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.293381243944168,
+          "z": -0.271896034479141
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            655.059509277344,
+            419.487762451172
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.293381243944168,
+            "z": -0.271896034479141
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 655.059509277344,
+          "y": 419.487762451172
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        656.643249511719,
+        440.322174072266
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-006.png"
+    },
+    {
+      "at": 27881.69000005722,
+      "qaSequence": 44,
+      "observedProgress": 0.564516129032258,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.35,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.605899810791016,
+              3.12495976686478e-05,
+              -0.0136183202266693
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.237022742629051,
+              0.000135415000841022,
+              -0.322211474180222
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            607.05810546875,
+            418.334808349609
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.605899810791016,
+            "z": -0.0136183202266693
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.237022742629051,
+          "z": -0.322211474180222
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            656.997375488281,
+            420.556732177734
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.237022742629051,
+            "z": -0.322211474180222
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 656.997375488281,
+          "y": 420.556732177734
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        650.717529296875,
+        441.168426513672
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-007.png"
+    },
+    {
+      "at": 27941.670000076294,
+      "qaSequence": 45,
+      "observedProgress": 0.6451612903225807,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.4,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.593519806861877,
+              3.12495976686478e-05,
+              -0.122614115476608
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.175058603286743,
+              0.000135415000841022,
+              -0.35965883731842
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            608.665344238281,
+            415.240814208984
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.593519806861877,
+            "z": -0.122614115476608
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.175058603286743,
+          "z": -0.35965883731842
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            656.985229492188,
+            421.927398681641
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.175058603286743,
+            "z": -0.35965883731842
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 656.985229492188,
+          "y": 421.927398681641
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        643.377868652344,
+        441.635589599609
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-008.png"
+    },
+    {
+      "at": 28001.474999904633,
+      "qaSequence": 46,
+      "observedProgress": 0.7258064516129032,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.45,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.565656125545502,
+              3.12495976686478e-05,
+              -0.217561811208725
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.114198856055737,
+              0.000135415000841022,
+              -0.38335183262825
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            610.768798828125,
+            412.650268554688
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.565656125545502,
+            "z": -0.217561811208725
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.114198856055737,
+          "z": -0.38335183262825
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            656.268432617188,
+            423.179168701172
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.114198856055737,
+            "z": -0.38335183262825
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 656.268432617188,
+          "y": 423.179168701172
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        636.428283691406,
+        441.517486572266
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-009.png"
+    },
+    {
+      "at": 28055.359999895096,
+      "qaSequence": 47,
+      "observedProgress": 0.8064516129032259,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.5,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.531002163887024,
+              3.12495976686478e-05,
+              -0.292124450206757
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.0612589828670025,
+              0.000135415000841022,
+              -0.395281344652176
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            611.974975585938,
+            410.531066894531
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.531002163887024,
+            "z": -0.292124450206757
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.0612589828670025,
+          "z": -0.395281344652176
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            654.205871582031,
+            424.042236328125
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.0612589828670025,
+            "z": -0.395281344652176
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 654.205871582031,
+          "y": 424.042236328125
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        629.583557128906,
+        440.869201660156
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-010.png"
+    },
+    {
+      "at": 28111.83999991417,
+      "qaSequence": 48,
+      "observedProgress": 0.8870967741935485,
+      "finished": false,
+      "motion": {
+        "after": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        },
+        "before": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.37,
+                  0,
+                  0.48
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  -0.4,
+                  0.0001,
+                  0
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 0
+          },
+          "water": 0
+        },
+        "duration": 0.62,
+        "elapsed": 0.55,
+        "kind": "turn:garden"
+      },
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.499801874160767,
+              3.12495976686478e-05,
+              -0.342779934406281
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.0222078338265419,
+              0.000135415000841022,
+              -0.399383038282394
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": false
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            612.122863769531,
+            408.817901611328
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.499801874160767,
+            "z": -0.342779934406281
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": -0.0222078338265419,
+          "z": -0.399383038282394
+        },
+        "key": "interact",
+        "luvie": {
+          "clip": "interact",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            651.500732421875,
+            424.334411621094
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.0222078338265419,
+            "z": -0.399383038282394
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "interact",
+          "key": "interact"
+        },
+        "screen_footpoint": {
+          "x": 651.500732421875,
+          "y": 424.334411621094
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        623.697570800781,
+        439.873199462891
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-011.png"
+    },
+    {
+      "at": 28259.585000038147,
+      "qaSequence": 50,
+      "observedProgress": 1,
+      "finished": true,
+      "motion": {},
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              -0.479999959468842,
+              3.12495976686478e-05,
+              -0.370000034570694
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          },
+          "luvie": {
+            "facing": "front",
+            "floorHeight": 0,
+            "onFloor": true,
+            "position": [
+              1.74845560252379e-08,
+              0.000135415000841022,
+              -0.400000005960464
+            ],
+            "support": "m:garden:0:0",
+            "velocity": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "character": {
+        "blend": false,
+        "buddy": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 3.12495976686478e-05,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            610.891479492188,
+            407.443634033203
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": -0.479999959468842,
+            "z": -0.370000034570694
+          }
+        },
+        "facing": "front",
+        "footpoint": {
+          "h": 0,
+          "x": 1.74845560252379e-08,
+          "z": -0.400000005960464
+        },
+        "key": "idle_front",
+        "luvie": {
+          "clip": "idle_front",
+          "contact": {
+            "bodyHeight": 0.000135415000841022,
+            "clearance": 0,
+            "ground": 0,
+            "nativeFloor": true,
+            "penetration": 0,
+            "phase": "native-surface",
+            "rail_h": 0,
+            "supportHeight": 0,
+            "visualHeight": 0
+          },
+          "facing": "front",
+          "foot": [
+            648.485961914062,
+            424.029205322266
+          ],
+          "frame": 0,
+          "grounded": true,
+          "moving": false,
+          "nativeBody": true,
+          "point": {
+            "h": 0,
+            "x": 1.74845560252379e-08,
+            "z": -0.400000005960464
+          }
+        },
+        "moving": false,
+        "pose": {
+          "clip": "idle_front",
+          "key": "idle_front"
+        },
+        "screen_footpoint": {
+          "x": 648.485961914062,
+          "y": 424.029205322266
+        },
+        "stair_contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        }
+      },
+      "origin": [
+        619.000061035156,
+        438.772155761719
+      ],
+      "scale": 2.10612173951675,
+      "image": "frame-012.png"
+    }
+  ],
+  "keyframes": [
+    {
+      "targetProgress": 0,
+      "observedProgress": 0,
+      "image": "000-before.png",
+      "source": "pre-input"
+    },
+    {
+      "targetProgress": 0.25,
+      "observedProgress": 0.24193548387096772,
+      "delta": 0.008064516129032279,
+      "image": "frame-003.png",
+      "qaSequence": 40
+    },
+    {
+      "targetProgress": 0.5,
+      "observedProgress": 0.48387096774193544,
+      "delta": 0.016129032258064557,
+      "image": "frame-006.png",
+      "qaSequence": 43
+    },
+    {
+      "targetProgress": 0.75,
+      "observedProgress": 0.7258064516129032,
+      "delta": 0.024193548387096753,
+      "image": "frame-009.png",
+      "qaSequence": 46
+    },
+    {
+      "targetProgress": 1,
+      "observedProgress": 1,
+      "image": "frame-012.png",
+      "source": "first observed motion cleared"
+    }
+  ],
+  "after": {
+    "buttons": [
+      {
+        "action": "undo",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 72813119093,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_undo",
+        "pressed": false,
+        "text": "撤销",
+        "tooltip": "撤销上一次意图 · Z",
+        "visibleRect": [
+          443,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 443,
+        "y": 656
+      },
+      {
+        "action": "primary",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 72930559612,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_primary",
+        "pressed": false,
+        "text": "连人带庭院转90°  · E",
+        "tooltip": "连人带庭院转90°  · E",
+        "visibleRect": [
+          512,
+          656,
+          256,
+          44
+        ],
+        "width": 256,
+        "x": 512,
+        "y": 656
+      },
+      {
+        "action": "hint",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 73165440650,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_hint",
+        "pressed": false,
+        "text": "提示",
+        "tooltip": "主动请求一点帮助 · H",
+        "visibleRect": [
+          773,
+          656,
+          64,
+          44
+        ],
+        "width": 64,
+        "x": 773,
+        "y": 656
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 73819752112,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Pause",
+        "pressed": false,
+        "text": "Ⅱ",
+        "tooltip": "暂停与设置 · Esc",
+        "visibleRect": [
+          1174,
+          12,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 1174,
+        "y": 12
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 73937192631,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Map",
+        "pressed": false,
+        "text": "地图",
+        "tooltip": "选择花园",
+        "visibleRect": [
+          1224,
+          12,
+          44,
+          44
+        ],
+        "width": 44,
+        "x": 1224,
+        "y": 12
+      },
+      {
+        "action": "",
+        "class": "Button",
+        "clipped": false,
+        "command_id": "",
+        "disabled": false,
+        "height": 44,
+        "instanceId": 74725721830,
+        "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Overview",
+        "pressed": false,
+        "text": "全景",
+        "tooltip": "查看整片花园 / 回到身边",
+        "visibleRect": [
+          1108,
+          12,
+          60,
+          44
+        ],
+        "width": 60,
+        "x": 1108,
+        "y": 12
+      }
+    ],
+    "character": {
+      "blend": false,
+      "buddy": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 3.12495976686478e-05,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          602.405517578125,
+          405.052825927734
+        ],
+        "frame": 0,
+        "grounded": true,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": -0.479999959468842,
+          "z": -0.370000034570694
+        }
+      },
+      "facing": "front",
+      "footpoint": {
+        "h": 0,
+        "x": 1.74845560252379e-08,
+        "z": -0.400000005960464
+      },
+      "key": "idle_front",
+      "luvie": {
+        "clip": "idle_front",
+        "contact": {
+          "bodyHeight": 0.000135415000841022,
+          "clearance": 0,
+          "ground": 0,
+          "nativeFloor": true,
+          "penetration": 0,
+          "phase": "native-surface",
+          "rail_h": 0,
+          "supportHeight": 0,
+          "visualHeight": 0
+        },
+        "facing": "front",
+        "foot": [
+          640,
+          421.638397216797
+        ],
+        "frame": 0,
+        "grounded": true,
+        "moving": false,
+        "nativeBody": true,
+        "point": {
+          "h": 0,
+          "x": 1.74845560252379e-08,
+          "z": -0.400000005960464
+        }
+      },
+      "moving": false,
+      "pose": {
+        "clip": "idle_front",
+        "key": "idle_front"
+      },
+      "screen_footpoint": {
+        "x": 640,
+        "y": 421.638397216797
+      },
+      "stair_contact": {
+        "bodyHeight": 0.000135415000841022,
+        "clearance": 0,
+        "ground": 0,
+        "nativeFloor": true,
+        "penetration": 0,
+        "phase": "native-surface",
+        "rail_h": 0,
+        "supportHeight": 0,
+        "visualHeight": 0
+      }
+    },
+    "commands": [
+      {
+        "id": "turn:garden",
+        "label": "连人带庭院转90° ↻"
+      }
+    ],
+    "context": {
+      "choices": [
+        {
+          "disabled": false,
+          "id": "turn:garden",
+          "label": "连人带庭院转90° ↻",
+          "reason": ""
+        }
+      ],
+      "id": "turn:garden",
+      "label": "连人带庭院转90° ↻",
+      "tile": {
+        "h": 0,
+        "id": "m:garden:0:0",
+        "kind": "module",
+        "local": [
+          0,
+          0
+        ],
+        "module": "garden",
+        "x": 0,
+        "z": 0
+      }
+    },
+    "continuousInput": true,
+    "gameHudVisible": true,
+    "growthChoices": [],
+    "hasActiveGame": true,
+    "hintVisible": false,
+    "homeActive": false,
+    "hudRegions": [
+      {
+        "name": "Heading",
+        "rect": [
+          12,
+          12,
+          360,
+          102
+        ]
+      },
+      {
+        "name": "JourneyTools",
+        "rect": [
+          435,
+          648,
+          410,
+          60
+        ]
+      },
+      {
+        "name": "Navigation",
+        "rect": [
+          1174,
+          12,
+          94,
+          44
+        ]
+      },
+      {
+        "name": "Overview",
+        "rect": [
+          1108,
+          12,
+          60,
+          44
+        ]
+      }
+    ],
+    "input": {
+      "blocked": "",
+      "buffered": "",
+      "held": [],
+      "remaining": 0
+    },
+    "message": "整座庭院托着旅人转向远方。看看出口、水与光的位置。",
+    "motion": {},
+    "moving": false,
+    "native": {
+      "actors": {
+        "buddy": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": true,
+          "position": [
+            -0.479999959468842,
+            3.12495976686478e-05,
+            -0.370000034570694
+          ],
+          "support": "m:garden:0:0",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        },
+        "luvie": {
+          "facing": "front",
+          "floorHeight": 0,
+          "onFloor": true,
+          "position": [
+            1.74845560252379e-08,
+            0.000135415000841022,
+            -0.400000005960464
+          ],
+          "support": "m:garden:0:0",
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "moving": false,
+      "path": [],
+      "stable": true
+    },
+    "origin": [
+      610.514099121094,
+      436.38134765625
+    ],
+    "overview": false,
+    "paused": false,
+    "pendingButton": "",
+    "performance": {
+      "fps": 32,
+      "memoryBytes": 58389176,
+      "processMs": 16.71,
+      "textureBytes": 80118360
+    },
+    "progress": {
+      "last_level": "1-3",
+      "memories": {},
+      "records": {},
+      "runs": {
+        "1-3": {
+          "active": "luvie",
+          "actors": {
+            "buddy": "m:garden:0:0",
+            "luvie": "m:garden:0:0"
+          },
+          "beat": 0,
+          "collected": [],
+          "completed": false,
+          "designVersion": 2,
+          "discovered": [],
+          "flags": [],
+          "follow": true,
+          "frozen": null,
+          "growth": {},
+          "items": {},
+          "levelId": "1-3",
+          "mode": 0,
+          "observations": [],
+          "playing": false,
+          "runtime": {
+            "poses": {
+              "buddy": {
+                "facing": "front",
+                "offset": [
+                  -0.48,
+                  0,
+                  -0.37
+                ],
+                "support": "m:garden:0:0"
+              },
+              "luvie": {
+                "facing": "front",
+                "offset": [
+                  0,
+                  0.0001,
+                  -0.4
+                ],
+                "support": "m:garden:0:0"
+              }
+            },
+            "version": 1
+          },
+          "song": [
+            "turn",
+            "rise",
+            "rest"
+          ],
+          "turns": {
+            "garden": 1
+          },
+          "water": 0
+        }
+      }
+    },
+    "qaSequence": 125,
+    "render": {
+      "meshRebuilds": 58,
+      "native": true,
+      "offscreenViews": 1,
+      "props": 24,
+      "surfaces": 41,
+      "terrainUpdates": 4,
+      "viewportUpdateMode": 4
+    },
+    "reviewing": false,
+    "revision": 1,
+    "rolling": false,
+    "safeCamera": false,
+    "safeRect": [
+      14,
+      126,
+      1252,
+      510
+    ],
+    "scale": 2.10612173951675,
+    "settings": {
+      "ambient": 0.25,
+      "bgm": 0.35,
+      "continuousInput": true,
+      "dynamicLight": true,
+      "fullscreen": false,
+      "inputSettingsRevision": 1,
+      "language": "zh-CN",
+      "lowMotion": false,
+      "particles": true,
+      "quality": "standard",
+      "safeCamera": false,
+      "sfx": 0.6,
+      "touchControls": false,
+      "vibration": false
+    },
+    "snapshot": {
+      "active": "luvie",
+      "actors": {
+        "buddy": "m:garden:0:0",
+        "luvie": "m:garden:0:0"
+      },
+      "beat": 0,
+      "collected": [],
+      "completed": false,
+      "designVersion": 2,
+      "discovered": [],
+      "flags": [],
+      "follow": true,
+      "frozen": null,
+      "growth": {},
+      "items": {},
+      "levelId": "1-3",
+      "mode": 0,
+      "observations": [],
+      "playing": false,
+      "runtime": {
+        "poses": {
+          "buddy": {
+            "facing": "front",
+            "offset": [
+              -0.48,
+              0,
+              -0.37
+            ],
+            "support": "m:garden:0:0"
+          },
+          "luvie": {
+            "facing": "front",
+            "offset": [
+              0,
+              0.0001,
+              -0.4
+            ],
+            "support": "m:garden:0:0"
+          }
+        },
+        "version": 1
+      },
+      "song": [
+        "turn",
+        "rise",
+        "rest"
+      ],
+      "turns": {
+        "garden": 1
+      },
+      "water": 0
+    },
+    "strolling": false,
+    "targets": [
+      {
+        "id": "f:-5:-1",
+        "x": 315.657104492188,
+        "y": 215.238418579102
+      },
+      {
+        "id": "f:-4:-1",
+        "x": 389.371459960938,
+        "y": 252.095581054688
+      },
+      {
+        "id": "f:-3:-1",
+        "x": 463.085815429688,
+        "y": 288.952758789062
+      },
+      {
+        "id": "f:-5:0",
+        "x": 241.942779541016,
+        "y": 252.095581054688
+      },
+      {
+        "id": "f:-4:0",
+        "x": 315.657104492188,
+        "y": 288.952758789062
+      },
+      {
+        "id": "f:-3:0",
+        "x": 389.371459960938,
+        "y": 325.809936523438
+      },
+      {
+        "id": "f:-5:1",
+        "x": 168.228424072266,
+        "y": 288.952758789062
+      },
+      {
+        "id": "f:-4:1",
+        "x": 241.942779541016,
+        "y": 325.809936523438
+      },
+      {
+        "id": "f:-3:1",
+        "x": 315.657104492188,
+        "y": 362.667083740234
+      },
+      {
+        "id": "f:-1:-5",
+        "x": 905.371276855469,
+        "y": 156.555816650391
+      },
+      {
+        "id": "f:0:-5",
+        "x": 979.08544921875,
+        "y": 193.412902832031
+      },
+      {
+        "id": "f:1:-5",
+        "x": 1052.7998046875,
+        "y": 230.270065307617
+      },
+      {
+        "id": "f:-1:-4",
+        "x": 831.657165527344,
+        "y": 193.412994384766
+      },
+      {
+        "id": "f:0:-4",
+        "x": 905.371276855469,
+        "y": 230.270065307617
+      },
+      {
+        "id": "f:1:-4",
+        "x": 979.085632324219,
+        "y": 267.127227783203
+      },
+      {
+        "id": "f:-1:-3",
+        "x": 757.942810058594,
+        "y": 230.270172119141
+      },
+      {
+        "id": "f:0:-3",
+        "x": 831.656921386719,
+        "y": 267.127227783203
+      },
+      {
+        "id": "f:1:-3",
+        "x": 905.371276855469,
+        "y": 303.984405517578
+      },
+      {
+        "id": "f:-1:3",
+        "x": 315.657104492188,
+        "y": 510.095794677734
+      },
+      {
+        "id": "f:0:3",
+        "x": 389.371276855469,
+        "y": 546.952880859375
+      },
+      {
+        "id": "f:1:3",
+        "x": 463.085601806641,
+        "y": 583.809997558594
+      },
+      {
+        "id": "f:-1:4",
+        "x": 241.942977905273,
+        "y": 546.952880859375
+      },
+      {
+        "id": "f:0:4",
+        "x": 315.657104492188,
+        "y": 583.809936523438
+      },
+      {
+        "id": "f:1:4",
+        "x": 389.371459960938,
+        "y": 620.667114257812
+      },
+      {
+        "id": "f:-1:5",
+        "x": 168.228637695312,
+        "y": 583.809997558594
+      },
+      {
+        "id": "f:0:5",
+        "x": 241.942779541016,
+        "y": 620.667114257812
+      },
+      {
+        "id": "f:1:5",
+        "x": 315.657104492188,
+        "y": 657.524291992188
+      },
+      {
+        "id": "f:3:-1",
+        "x": 905.371276855469,
+        "y": 568.778381347656
+      },
+      {
+        "id": "f:4:-1",
+        "x": 979.085632324219,
+        "y": 605.635559082031
+      },
+      {
+        "id": "f:5:-1",
+        "x": 1052.80004882812,
+        "y": 642.492736816406
+      },
+      {
+        "id": "f:3:0",
+        "x": 831.656921386719,
+        "y": 605.635559082031
+      },
+      {
+        "id": "f:4:0",
+        "x": 905.371276855469,
+        "y": 642.492736816406
+      },
+      {
+        "id": "f:5:0",
+        "x": 979.085632324219,
+        "y": 679.349853515625
+      },
+      {
+        "id": "f:3:1",
+        "x": 757.942565917969,
+        "y": 642.492736816406
+      },
+      {
+        "id": "f:4:1",
+        "x": 831.656921386719,
+        "y": 679.349853515625
+      },
+      {
+        "id": "f:5:1",
+        "x": 905.371276855469,
+        "y": 716.20703125
+      },
+      {
+        "id": "m:garden:0:0",
+        "x": 610.514099121094,
+        "y": 436.38134765625
+      },
+      {
+        "id": "m:garden:-1:0",
+        "x": 684.228454589844,
+        "y": 399.524169921875
+      },
+      {
+        "id": "m:garden:-2:0",
+        "x": 757.942565917969,
+        "y": 362.6669921875
+      },
+      {
+        "id": "m:garden:0:1",
+        "x": 536.799926757812,
+        "y": 399.524261474609
+      },
+      {
+        "id": "m:garden:0:2",
+        "x": 463.085601806641,
+        "y": 362.667083740234
+      }
+    ],
+    "tiles": [
+      {
+        "h": 0,
+        "id": "f:-5:-1",
+        "small": false,
+        "x": -5,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-4:-1",
+        "small": false,
+        "x": -4,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-3:-1",
+        "small": false,
+        "x": -3,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "f:-5:0",
+        "small": false,
+        "x": -5,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-4:0",
+        "small": false,
+        "x": -4,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-3:0",
+        "small": false,
+        "x": -3,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "f:-5:1",
+        "small": false,
+        "x": -5,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "f:-4:1",
+        "small": false,
+        "x": -4,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "f:-3:1",
+        "small": false,
+        "x": -3,
+        "z": 1
+      },
+      {
+        "h": 1,
+        "id": "f:-1:-5",
+        "small": false,
+        "x": -1,
+        "z": -5
+      },
+      {
+        "h": 1,
+        "id": "f:0:-5",
+        "small": false,
+        "x": 0,
+        "z": -5
+      },
+      {
+        "h": 1,
+        "id": "f:1:-5",
+        "small": false,
+        "x": 1,
+        "z": -5
+      },
+      {
+        "h": 1,
+        "id": "f:-1:-4",
+        "small": false,
+        "x": -1,
+        "z": -4
+      },
+      {
+        "h": 1,
+        "id": "f:0:-4",
+        "small": false,
+        "x": 0,
+        "z": -4
+      },
+      {
+        "h": 1,
+        "id": "f:1:-4",
+        "small": false,
+        "x": 1,
+        "z": -4
+      },
+      {
+        "h": 1,
+        "id": "f:-1:-3",
+        "small": false,
+        "x": -1,
+        "z": -3
+      },
+      {
+        "h": 1,
+        "id": "f:0:-3",
+        "small": false,
+        "x": 0,
+        "z": -3
+      },
+      {
+        "h": 1,
+        "id": "f:1:-3",
+        "small": false,
+        "x": 1,
+        "z": -3
+      },
+      {
+        "h": 0,
+        "id": "f:-1:3",
+        "small": false,
+        "x": -1,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:0:3",
+        "small": false,
+        "x": 0,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:1:3",
+        "small": false,
+        "x": 1,
+        "z": 3
+      },
+      {
+        "h": 0,
+        "id": "f:-1:4",
+        "small": false,
+        "x": -1,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:0:4",
+        "small": false,
+        "x": 0,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:1:4",
+        "small": false,
+        "x": 1,
+        "z": 4
+      },
+      {
+        "h": 0,
+        "id": "f:-1:5",
+        "small": false,
+        "x": -1,
+        "z": 5
+      },
+      {
+        "h": 0,
+        "id": "f:0:5",
+        "small": false,
+        "x": 0,
+        "z": 5
+      },
+      {
+        "h": 0,
+        "id": "f:1:5",
+        "small": false,
+        "x": 1,
+        "z": 5
+      },
+      {
+        "h": -1,
+        "id": "f:3:-1",
+        "small": false,
+        "x": 3,
+        "z": -1
+      },
+      {
+        "h": -1,
+        "id": "f:4:-1",
+        "small": false,
+        "x": 4,
+        "z": -1
+      },
+      {
+        "h": -1,
+        "id": "f:5:-1",
+        "small": false,
+        "x": 5,
+        "z": -1
+      },
+      {
+        "h": -1,
+        "id": "f:3:0",
+        "small": false,
+        "x": 3,
+        "z": 0
+      },
+      {
+        "h": -1,
+        "id": "f:4:0",
+        "small": false,
+        "x": 4,
+        "z": 0
+      },
+      {
+        "h": -1,
+        "id": "f:5:0",
+        "small": false,
+        "x": 5,
+        "z": 0
+      },
+      {
+        "h": -1,
+        "id": "f:3:1",
+        "small": false,
+        "x": 3,
+        "z": 1
+      },
+      {
+        "h": -1,
+        "id": "f:4:1",
+        "small": false,
+        "x": 4,
+        "z": 1
+      },
+      {
+        "h": -1,
+        "id": "f:5:1",
+        "small": false,
+        "x": 5,
+        "z": 1
+      },
+      {
+        "h": 0,
+        "id": "m:garden:0:0",
+        "kind": "module",
+        "local": [
+          0,
+          0
+        ],
+        "module": "garden",
+        "x": 0,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:garden:-1:0",
+        "kind": "module",
+        "local": [
+          -1,
+          0
+        ],
+        "module": "garden",
+        "x": 0,
+        "z": -1
+      },
+      {
+        "h": 0,
+        "id": "m:garden:-2:0",
+        "kind": "module",
+        "local": [
+          -2,
+          0
+        ],
+        "module": "garden",
+        "x": 0,
+        "z": -2
+      },
+      {
+        "h": 0,
+        "id": "m:garden:0:1",
+        "kind": "module",
+        "local": [
+          0,
+          1
+        ],
+        "module": "garden",
+        "x": -1,
+        "z": 0
+      },
+      {
+        "h": 0,
+        "id": "m:garden:0:2",
+        "kind": "module",
+        "local": [
+          0,
+          2
+        ],
+        "module": "garden",
+        "x": -2,
+        "z": 0
+      }
+    ],
+    "ui": {
+      "controls": [
+        {
+          "class": "Label",
+          "height": 24,
+          "instanceId": 71705822772,
+          "name": "@Label@10",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/@Label@10",
+          "setting_id": "",
+          "text": "1-3 · 苔藓山谷",
+          "visibleRect": [
+            20,
+            20,
+            344,
+            24
+          ],
+          "width": 344,
+          "x": 20,
+          "y": 20
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 71772931640,
+          "name": "@Label@11",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/GardenStatusAndCollection/@Label@11",
+          "setting_id": "",
+          "text": "露薇",
+          "visibleRect": [
+            20,
+            48,
+            298,
+            17
+          ],
+          "width": 298,
+          "x": 20,
+          "y": 48
+        },
+        {
+          "class": "Label",
+          "height": 17,
+          "instanceId": 71890372159,
+          "name": "CollectionCount",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/GardenStatusAndCollection/CollectionCount",
+          "setting_id": "",
+          "text": "0 / 4",
+          "visibleRect": [
+            342,
+            48,
+            22,
+            17
+          ],
+          "width": 22,
+          "x": 342,
+          "y": 48
+        },
+        {
+          "class": "Label",
+          "height": 37,
+          "instanceId": 71923926593,
+          "name": "@Label@12",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Heading/@VBoxContainer@8/@Label@12",
+          "setting_id": "",
+          "text": "让苔藓庭院与远岸相遇。",
+          "visibleRect": [
+            20,
+            69,
+            344,
+            37
+          ],
+          "width": 344,
+          "x": 20,
+          "y": 69
+        },
+        {
+          "action": "undo",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 72813119093,
+          "name": "Action_undo",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_undo",
+          "pressed": false,
+          "setting_id": "",
+          "text": "撤销",
+          "tooltip": "撤销上一次意图 · Z",
+          "visibleRect": [
+            443,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 443,
+          "y": 656
+        },
+        {
+          "action": "primary",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 72930559612,
+          "name": "Action_primary",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_primary",
+          "pressed": false,
+          "setting_id": "",
+          "text": "连人带庭院转90°  · E",
+          "tooltip": "连人带庭院转90°  · E",
+          "visibleRect": [
+            512,
+            656,
+            256,
+            44
+          ],
+          "width": 256,
+          "x": 512,
+          "y": 656
+        },
+        {
+          "action": "hint",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 73165440650,
+          "name": "Action_hint",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/JourneyTools/@Control@28/Action_hint",
+          "pressed": false,
+          "setting_id": "",
+          "text": "提示",
+          "tooltip": "主动请求一点帮助 · H",
+          "visibleRect": [
+            773,
+            656,
+            64,
+            44
+          ],
+          "width": 64,
+          "x": 773,
+          "y": 656
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 73819752112,
+          "name": "Pause",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Pause",
+          "pressed": false,
+          "setting_id": "",
+          "text": "Ⅱ",
+          "tooltip": "暂停与设置 · Esc",
+          "visibleRect": [
+            1174,
+            12,
+            44,
+            44
+          ],
+          "width": 44,
+          "x": 1174,
+          "y": 12
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 73937192631,
+          "name": "Map",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Navigation/Map",
+          "pressed": false,
+          "setting_id": "",
+          "text": "地图",
+          "tooltip": "选择花园",
+          "visibleRect": [
+            1224,
+            12,
+            44,
+            44
+          ],
+          "width": 44,
+          "x": 1224,
+          "y": 12
+        },
+        {
+          "action": "",
+          "class": "Button",
+          "command_id": "",
+          "disabled": false,
+          "height": 44,
+          "instanceId": 74725721830,
+          "name": "Overview",
+          "path": "/root/Sporelight/@CanvasLayer@5/@Control@6/Overview",
+          "pressed": false,
+          "setting_id": "",
+          "text": "全景",
+          "tooltip": "查看整片花园 / 回到身边",
+          "visibleRect": [
+            1108,
+            12,
+            60,
+            44
+          ],
+          "width": 60,
+          "x": 1108,
+          "y": 12
+        }
+      ],
+      "modalOpen": false,
+      "settings": {
+        "ambient": 0.25,
+        "bgm": 0.35,
+        "continuousInput": true,
+        "dynamicLight": true,
+        "fullscreen": false,
+        "inputSettingsRevision": 1,
+        "language": "zh-CN",
+        "lowMotion": false,
+        "particles": true,
+        "quality": "standard",
+        "safeCamera": false,
+        "sfx": 0.6,
+        "touchControls": false,
+        "vibration": false
+      }
+    },
+    "viewport": [
+      1280,
+      720
+    ],
+    "worldVisible": true
+  }
+}

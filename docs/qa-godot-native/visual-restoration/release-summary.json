@@ -1,0 +1,179 @@
+{
+  "scope": "Short sequential release probes; not all-device or full performance acceptance",
+  "rows": [
+    {
+      "name": "delivery-home",
+      "source": {
+        "sha256": "0e3e3da5f3d19dce6655807bcaef36cb564ab3ea39a07962623e61b0025a1e2a",
+        "files": 536
+      },
+      "errors": [],
+      "startupMs": 6631.505000114441,
+      "phases": [
+        {
+          "name": "home-enter-game",
+          "rafP95Ms": 61.64500000000044,
+          "longestTaskMs": 111
+        },
+        {
+          "name": "idle-before-growth",
+          "rafP95Ms": 31.795000000000073,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "growth-first",
+          "rafP95Ms": 31.985000000000582,
+          "longestTaskMs": 223
+        },
+        {
+          "name": "undo-growth-first",
+          "rafP95Ms": 32.07500000000073,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "growth-repeat",
+          "rafP95Ms": 31.639999999999418,
+          "longestTaskMs": 54
+        },
+        {
+          "name": "undo-growth-repeat",
+          "rafP95Ms": 31.88000000000102,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "idle-after-actions",
+          "rafP95Ms": 31.820000000003347,
+          "longestTaskMs": 0
+        }
+      ]
+    },
+    {
+      "name": "delivery-workload",
+      "source": {
+        "sha256": "0e3e3da5f3d19dce6655807bcaef36cb564ab3ea39a07962623e61b0025a1e2a",
+        "files": 536
+      },
+      "errors": [],
+      "startupMs": 5966.52999997139,
+      "phases": [
+        {
+          "name": "idle-initial",
+          "rafP95Ms": 31.56999999999971,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "walk-continuous-1",
+          "rafP95Ms": 31.98999999999978,
+          "longestTaskMs": 164
+        },
+        {
+          "name": "walk-continuous-2",
+          "rafP95Ms": 31.829999999999927,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "walk-continuous-3",
+          "rafP95Ms": 31.709999999999127,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "approach-turn-center",
+          "rafP95Ms": 31.7599999999984,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "turn-first",
+          "rafP95Ms": 32.159999999999854,
+          "longestTaskMs": 282
+        },
+        {
+          "name": "turn-repeat-to-2",
+          "rafP95Ms": 31.885000000002037,
+          "longestTaskMs": 68
+        },
+        {
+          "name": "turn-repeat-to-3",
+          "rafP95Ms": 31.674999999999272,
+          "longestTaskMs": 71
+        },
+        {
+          "name": "turn-repeat-to-0",
+          "rafP95Ms": 31.67500000000291,
+          "longestTaskMs": 60
+        },
+        {
+          "name": "turn-repeat-same-0-to-1",
+          "rafP95Ms": 31.99500000000262,
+          "longestTaskMs": 61
+        },
+        {
+          "name": "undo-latest-stable-state",
+          "rafP95Ms": 31.904999999998836,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "undo-next-stable-state",
+          "rafP95Ms": 31.715000000003783,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "idle-after-actions",
+          "rafP95Ms": 31.75,
+          "longestTaskMs": 0
+        }
+      ]
+    },
+    {
+      "name": "delivery-pond",
+      "source": {
+        "sha256": "0e3e3da5f3d19dce6655807bcaef36cb564ab3ea39a07962623e61b0025a1e2a",
+        "files": 536
+      },
+      "errors": [],
+      "startupMs": 6100.6849999427795,
+      "phases": [
+        {
+          "name": "atmosphere-idle",
+          "rafP95Ms": 31.764999999999418,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "atmosphere-walk",
+          "rafP95Ms": 31.924999999999272,
+          "longestTaskMs": 51
+        },
+        {
+          "name": "atmosphere-idle-after",
+          "rafP95Ms": 31.875,
+          "longestTaskMs": 0
+        }
+      ]
+    },
+    {
+      "name": "delivery-sanctuary",
+      "source": {
+        "sha256": "0e3e3da5f3d19dce6655807bcaef36cb564ab3ea39a07962623e61b0025a1e2a",
+        "files": 536
+      },
+      "errors": [],
+      "startupMs": 6317.75,
+      "phases": [
+        {
+          "name": "atmosphere-idle",
+          "rafP95Ms": 31.734999999999673,
+          "longestTaskMs": 0
+        },
+        {
+          "name": "atmosphere-walk",
+          "rafP95Ms": 31.94000000000051,
+          "longestTaskMs": 96
+        },
+        {
+          "name": "atmosphere-idle-after",
+          "rafP95Ms": 31.81000000000131,
+          "longestTaskMs": 0
+        }
+      ]
+    }
+  ]
+}

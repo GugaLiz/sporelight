@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"checks":3108,"failures":[],"motions":34,"passed":true,"suite":"native-prop-alignment"}
+ERROR: Original scenery has no real flat support: 2-1/7/fern
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] place_original (res://presentation/native/original_garden_dressing.gd:206)
+       [1] scenery (res://presentation/native/original_garden_dressing.gd:187)
+       [2] scenery (res://presentation/native/chapter_garden_dressing.gd:35)
+       [3] _add_scenery (res://presentation/native/native_garden_stage.gd:1050)
+       [4] _update_props (res://presentation/native/native_garden_stage.gd:769)
+       [5] refresh_world (res://presentation/native/native_garden_stage.gd:415)
+       [6] set_motion (res://presentation/native/native_garden_stage.gd:1873)
+       [7] check_motion (res://tests/native_prop_alignment_test.gd:150)
+       [8] run (res://tests/native_prop_alignment_test.gd:40)

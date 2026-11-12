@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "8c01febae63ad310f93eb87a86ce7c56116e4bd0cfa76801b8b2e9f33cb6c6f1",
+    "files": 572
+  },
+  "source": {
+    "sha256": "8c01febae63ad310f93eb87a86ce7c56116e4bd0cfa76801b8b2e9f33cb6c6f1",
+    "files": 572
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_heavy_lever_test",
+      "code": 1,
+      "elapsedMs": 7228,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":false,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":0,\"success\":false}\r\n{\"checks\":46,\"failures\":[\"1-4/0/act/use:hold accepted through application transaction: 露薇扳住重杆。换小苔灵走过短桥与低拱吧。\",\"1-4 authored route completes with native bodies\"],\"passed\":false,\"routes\":[{\"completed\":false,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":0,\"success\":false}],\"samples\":322,\"scope\":\"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route\",\"suite\":\"native-heavy-lever\"}\r\n",
+      "stderr": "ERROR: 1-4/0/act/use:hold accepted through application transaction: 露薇扳住重杆。换小苔灵走过短桥与低拱吧。\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _replay (res://tests/native_route_test.gd:152)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: 1-4 authored route completes with native bodies\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _replay (res://tests/native_route_test.gd:164)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "initialSource": {
+    "sha256": "178e2a56e9e54a0acff41bf1bfdc27df84798365b655d762bfd16def180a46e2",
+    "files": 490
+  },
+  "source": {
+    "sha256": "178e2a56e9e54a0acff41bf1bfdc27df84798365b655d762bfd16def180a46e2",
+    "files": 490
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "service_hud_test",
+      "code": 0,
+      "elapsedMs": 3532,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":186,\"failures\":[],\"passed\":true,\"scope\":\"Actual HUD controls, layout and intents; not GPU/pointer/audio verification.\",\"suite\":\"native-ui\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "service_modal_lifecycle_test",
+      "code": 0,
+      "elapsedMs": 7688,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":262,\"failures\":[],\"passed\":true,\"scope\":\"Real HUD/controller with in-memory saves and observable view/audio adapters; emitted pressed signals and headless layout are not real pointer, GPU or audible-playback verification.\",\"suite\":\"service-modal-lifecycle\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "service_home_navigation_test",
+      "code": 0,
+      "elapsedMs": 4961,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":382,\"failures\":[],\"passed\":true,\"scope\":\"Real HUD/controller with memory saves and observable view/audio adapters. Emitted pressed signals and state assertions do not certify real pointer hit testing, artwork pixels or audible playback.\",\"suite\":\"service-home-navigation\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "rule_application",
+      "code": 1,
+      "elapsedMs": 3609,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cases\":1,\"checks\":108,\"commands\":11,\"failures\":[\"authored/1-1/animated/10/act/repair/JS-oracle\",\"authored/1-1/animated/10/act/repair/exactly-one-save-per-change\",\"authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change\",\"authored/1-1/animated/10/act/repair/persisted-state\",\"authored/1-1/animated/10/act/repair/real-JSON-reload\",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/JS-oracle \",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/exactly-one-save-per-change \",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change \",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/persisted-state \",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/real-JSON-reload \"],\"passed\":false,\"suite\":\"garden-application-replay\"}\r\n",
+      "stderr": "ERROR: authored/1-1/animated/10/act/repair/JS-oracle\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _same (res://tests/rule_application.gd:144)\r\n       [2] _replay (res://tests/rule_application.gd:201)\r\n       [3] _run (res://tests/rule_application.gd:350)\r\nERROR: authored/1-1/animated/10/act/repair/exactly-one-save-per-change\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _replay (res://tests/rule_application.gd:203)\r\n       [2] _run (res://tests/rule_application.gd:350)\r\nERROR: authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _replay (res://tests/rule_application.gd:204)\r\n       [2] _run (res://tests/rule_application.gd:350)\r\nERROR: authored/1-1/animated/10/act/repair/persisted-state\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _same (res://tests/rule_application.gd:144)\r\n       [2] _replay (res://tests/rule_application.gd:206)\r\n       [3] _run (res://tests/rule_application.gd:350)\r\nERROR: authored/1-1/animated/10/act/repair/real-JSON-reload\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _same (res://tests/rule_application.gd:144)\r\n       [2] _replay (res://tests/rule_application.gd:208)\r\n       [3] _run (res://tests/rule_application.gd:350)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_interaction_priority_test",
+      "code": 0,
+      "elapsedMs": 1784,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":27,\"failures\":[],\"passed\":true,\"suite\":\"native-interaction-priority\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "ff5b50face4565eb5888c04b08e2aed8cd88ae65a741848db3e5fda8e38aa45e",
+    "files": 572
+  },
+  "source": {
+    "sha256": "2de206102530b1c4ee7b700df657eeee0185203c56e910030619dc8182586b61",
+    "files": 573
+  },
+  "stable": false,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_prop_collision_test",
+      "code": 1,
+      "elapsedMs": 24198,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\n{\"checks\":204,\"failures\":[\"capsule never enters the visible stone-base footprint\",\"click input cannot walk through the stone\",\"old inside-base pose is restored to a legal nearby landing\"],\"passed\":false,\"peakPenetration\":0.159999996423721,\"routes\":[{\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}],\"samples\":2086,\"suite\":\"native-prop-collision\"}\r\n",
+      "stderr": "ERROR: capsule never enters the visible stone-base footprint\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_prop_collision_test.gd:46)\r\n       [2] _tick (res://tests/native_route_test.gd:86)\r\nERROR: click input cannot walk through the stone\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_prop_collision_test.gd:56)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: old inside-base pose is restored to a legal nearby landing\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_prop_collision_test.gd:64)\r\n       [2] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    }
+  ]
+}

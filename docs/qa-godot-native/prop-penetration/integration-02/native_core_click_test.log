@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ROUTE STALL {"actors":{"buddy":{"facing":"right","floorHeight":0.649999976158142,"onFloor":true,"position":[-8.27575302124023,0.65091872215271,0.271052300930023],"support":"f:-8:0","velocity":[0.0,0.0,0.0]},"luvie":{"facing":"right","floorHeight":0.649999976158142,"onFloor":true,"position":[-8.06679630279541,0.650308012962341,0.298721253871918],"support":"f:-8:0","velocity":[0.0,0.0,0.0]}},"moving":true,"path":["f:-8:0","f:-8:1"],"stable":true}
+STALL COLLISION (-8.066254, 1.290269, 0.136323) normal=(0.0, 0.0, 1.0) support=
+{"shiftedCoreLevels":["1-2","1-3","1-4","2-1","2-2","2-3","2-4","3-1","3-2","3-3","3-4"],"shiftedCoreStates":19}
+{"checks":5561,"failures":["approach displaced flower physical route settles","walk to a legal support outside the flower base","diagonal approach tile is outside unchanged repair proximity"],"gpuPixelsVerified":false,"maxBodySurfaceGap":0.00178712606430054,"passed":false,"samples":632,"suite":"native-core-click"}
+ERROR: approach displaced flower physical route settles
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _walk_to (res://tests/native_route_test.gd:107)
+       [2] _drain (res://tests/native_route_test.gd:93)
+       [3] _tick (res://tests/native_route_test.gd:86)
+ERROR: walk to a legal support outside the flower base
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _run (res://tests/native_core_click_test.gd:17)
+       [2] _walk_to (res://tests/native_route_test.gd:114)
+       [3] _drain (res://tests/native_route_test.gd:93)
+       [4] _tick (res://tests/native_route_test.gd:86)
+ERROR: diagonal approach tile is outside unchanged repair proximity
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:45)
+       [1] _run (res://tests/native_core_click_test.gd:18)
+       [2] _walk_to (res://tests/native_route_test.gd:114)
+       [3] _drain (res://tests/native_route_test.gd:93)
+       [4] _tick (res://tests/native_route_test.gd:86)

@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "c386de69619e657ceca84d2424fa4a59275f3a3e1a842b90c598f8c10b1654a2",
+    "files": 580
+  },
+  "source": {
+    "sha256": "c386de69619e657ceca84d2424fa4a59275f3a3e1a842b90c598f8c10b1654a2",
+    "files": 580
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_small_planter_test",
+      "code": 1,
+      "elapsedMs": 28583,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":447,\"failures\":[\"1-4/0/mark:home default operators have separate projected silhouettes\",\"1-4/1/mark:home default operators have separate projected silhouettes\",\"1-4/2/mark:home default operators have separate projected silhouettes\"],\"gpuPixelsVerified\":false,\"passed\":false,\"physicalFootSamples\":1372,\"planters\":28,\"suite\":\"native-small-planter\"}\r\n",
+      "stderr": "ERROR: 1-4/0/mark:home default operators have separate projected silhouettes\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _operator_projection (res://tests/native_small_planter_test.gd:51)\r\n       [2] _verify_planters (res://tests/native_small_planter_test.gd:60)\r\n       [3] _run (res://tests/native_small_planter_test.gd:131)\r\n       [4] _tick (res://tests/native_route_test.gd:92)\r\nERROR: 1-4/1/mark:home default operators have separate projected silhouettes\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _operator_projection (res://tests/native_small_planter_test.gd:51)\r\n       [2] _verify_planters (res://tests/native_small_planter_test.gd:60)\r\n       [3] _run (res://tests/native_small_planter_test.gd:131)\r\n       [4] _tick (res://tests/native_route_test.gd:92)\r\nERROR: 1-4/2/mark:home default operators have separate projected silhouettes\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _operator_projection (res://tests/native_small_planter_test.gd:51)\r\n       [2] _verify_planters (res://tests/native_small_planter_test.gd:60)\r\n       [3] _run (res://tests/native_small_planter_test.gd:131)\r\n       [4] _tick (res://tests/native_route_test.gd:92)\r\n",
+      "passed": false
+    }
+  ]
+}

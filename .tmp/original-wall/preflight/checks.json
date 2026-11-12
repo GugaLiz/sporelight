@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "c82d3844249fa1dcf882573c3ec9b36f81622772d56b46fe854ffda8d42a5436",
+    "files": 562
+  },
+  "source": {
+    "sha256": "c82d3844249fa1dcf882573c3ec9b36f81622772d56b46fe854ffda8d42a5436",
+    "files": 562
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_original_wall_test",
+      "code": 1,
+      "elapsedMs": 2185,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":17,\"failures\":[\"original wall still terminates beam\"],\"gpuPixelsVerified\":false,\"passed\":false,\"suite\":\"native-original-wall\"}\r\n",
+      "stderr": "ERROR: Node not found: \"OriginalWall_2_1\" (relative to \"/root/@Node2D@2/NativeWorldViewport/Garden/Props\").\r\n   at: get_node (scene/main/node.cpp:1975)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_original_wall_test.gd:23)\r\nSCRIPT ERROR: Cannot call method 'get_node' on a null value.\r\n   at: _validate (res://tests/native_original_wall_test.gd:43)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _validate (res://tests/native_original_wall_test.gd:43)\r\n       [1] _run (res://tests/native_original_wall_test.gd:24)\r\n",
+      "passed": false
+    }
+  ]
+}

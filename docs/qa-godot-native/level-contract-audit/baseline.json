@@ -1,0 +1,1012 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-11-10",
+  "timezone": "Asia/Shanghai",
+  "purpose": "Traceability snapshot; hashes do not replace gameplay, save, physics, or visual verification.",
+  "gitHead": "b82fd640e2e28272e699912e132bc09ff1274e4b",
+  "workingTreeIncludesPriorUncommittedPrototypeChanges": true,
+  "runtimeSource": {
+    "sha256": "b2786fabf6dd9982a0af42d776c6e8494be48e45c55e39a4ba1fda6de171f802",
+    "files": 478
+  },
+  "definitionHashEncoding": "UTF-8 JSON; sort_keys=True; ensure_ascii=False; separators=(comma,colon)",
+  "levelCount": 15,
+  "acceptedReferenceLevel": "1-1",
+  "firstGarden": {
+    "fixedTileCount": 19,
+    "coreTile": "f:3:-2",
+    "seedBudget": 1,
+    "physicalHeightUnit": 0.65,
+    "eastStairs": [
+      0.58,
+      1.48,
+      6
+    ],
+    "rearStairs": [
+      0.41,
+      1.31,
+      6
+    ],
+    "southStairs": [
+      0.58,
+      1.48,
+      6
+    ],
+    "eastGapExtra": 0.65,
+    "status": "User accepted as quality baseline on 2026-11-10; preserve during other-level work."
+  },
+  "runtimePresentationProfiles": [
+    "1-1",
+    "1-2"
+  ],
+  "prototypeOnly": [
+    "1-2 root-weaving; memory repository"
+  ],
+  "sourceFiles": [
+    {
+      "path": "godot/content/levels.json",
+      "sha256": "626f7b4bc0aeb941f7c460d7e9e8116f3496c7b975d2306e440e5a2c74ce0ef0"
+    },
+    {
+      "path": "godot/content/cloud-levels.json",
+      "sha256": "8ba28716af776139c54f2211046cd5b48dfd2270d51b293bbab9a632cebd3602"
+    },
+    {
+      "path": "godot/core/garden_world.gd",
+      "sha256": "c9eb1536186120938c374c2241fbea5b3dbb75b3c6deee39217c64e8682e5475"
+    },
+    {
+      "path": "godot/core/cloud_garden_world.gd",
+      "sha256": "0fbd59b3671d7afdaac2451f0947dd4998804c1cfbf84b6ac9cc0a996d1371c1"
+    },
+    {
+      "path": "godot/application/game_session.gd",
+      "sha256": "7309bf092b21888bcbfcb1b4f63950ab5052a31686977ec15d7e64d81fa6d3c4"
+    },
+    {
+      "path": "godot/application/native_movement.gd",
+      "sha256": "68219e885b2a32e4cccfa06ef4dd2a7a18153427ed41fabaa24d62a9fed97b6d"
+    },
+    {
+      "path": "godot/application/native_interaction.gd",
+      "sha256": "1988c8a29f86aceb84a80f53274cb76ae599c7b5eb2aa78a5f94ed0c7da99e1d"
+    },
+    {
+      "path": "godot/application/native_action_policy.gd",
+      "sha256": "50dc78d87e2409977c8901c412190b36af94329317360f11ca2b7809cb48b9e7"
+    },
+    {
+      "path": "godot/application/hint_navigation.gd",
+      "sha256": "a62c510307da6aad4174833844d8b9fb1d74ba713c8fdf6b63c403a409a17153"
+    },
+    {
+      "path": "godot/presentation/native/first_garden_profile.gd",
+      "sha256": "c43a32fde58923a4b61c108b8a2996fd39650308e8d68b348930f1c884f89b12"
+    },
+    {
+      "path": "godot/presentation/native/first_garden_dressing.gd",
+      "sha256": "9d715dbef2b8926407529bcf505e634b29ba48b8a426b278d636fb37df9488d2"
+    },
+    {
+      "path": "godot/presentation/native/level_presentation_profiles.gd",
+      "sha256": "93d55ff55d2d382161aea824e7fcf4b978ac61987413e1ef287fc5acee1f7326"
+    },
+    {
+      "path": "godot/presentation/native/native_surface.gd",
+      "sha256": "025648cb072ed0dc413268bec68fff5ba1d79fd4b12aeaa436da40436271f535"
+    },
+    {
+      "path": "godot/presentation/native/native_garden_stage.gd",
+      "sha256": "153e90f01f704ea4e47a8a1a0ccce2406ad69b992d7f4598c2416afa4aa2266d"
+    },
+    {
+      "path": "godot/presentation/native/integrated_garden_props.gd",
+      "sha256": "3cd27cffd822afa25b5da4a4e8f6c56ad5178532b1d6589a8a44195499ae1235"
+    },
+    {
+      "path": "godot/presentation/native/stair_geometry.gd",
+      "sha256": "9e4009dcb730df4a8361888ec8d66034615fde922b40627af790ed33c830a3b6"
+    },
+    {
+      "path": "godot/presentation/native/terrace_materials.gd",
+      "sha256": "9e7791e467a86ff0ef1df62b4dcbeae60a961e7741a0950458d5725b849558ed"
+    },
+    {
+      "path": "godot/presentation/native/painted_stone_uv.gd",
+      "sha256": "2cba43d424c26b1b1521393815094ee25c5325466e2dd9290562b816953eb629"
+    },
+    {
+      "path": "godot/presentation/native/garden_prop.gdshader",
+      "sha256": "68e102df71f9d4e478a83536e4388546b0e20ca48d3dd427d1ef829e5b37022a"
+    },
+    {
+      "path": "godot/presentation/native/garden_contact.gdshader",
+      "sha256": "90c76fe4e1dfef48cf3fb32af756a030c96428675ec4b7f866ab807a9afc8b41"
+    },
+    {
+      "path": "godot/presentation/native/garden_stair.gdshader",
+      "sha256": "feaa53fb236908a9b6ddeb1e0f54a898971de2a1d633bb0d3bd80197e0a4ab81"
+    },
+    {
+      "path": "godot/prototypes/root_weaving.gd",
+      "sha256": "301b27bb655ca65bb0ffd0e5f8e0848fe83a1b3e2b94c0a18a1133b2427f8b9e"
+    },
+    {
+      "path": "godot/prototypes/root_weaving_stage.gd",
+      "sha256": "40651418b1b3d2a060e8345d7ae57b153e21f20b356e023bee10c7db6b4145a3"
+    },
+    {
+      "path": "godot/tests/fixtures/reference.json",
+      "sha256": "26fa81bfdcccbdf288e4a70ddbc7aab3976315cd47b8d76b22ef0ab17c4ce8a2"
+    },
+    {
+      "path": "godot/tests/fixtures/cloud-reference.json",
+      "sha256": "2a8b5bed1e42e249bdd0eba3b2a7f629b4dc68ebdb0e619eda9ad79352fb7f1d"
+    }
+  ],
+  "levels": [
+    {
+      "id": "1-1",
+      "ordinalWithinGroup": 1,
+      "group": "mainline",
+      "title": "初生的孢子",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "79195cf888e14ac6ec5994eb6b9fce66c2d14d06a9a53231102fc75ce74dea31",
+      "start": "f:0:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:3:-2",
+          "label": "种下第一束微光",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 3,
+      "milestoneGifts": null,
+      "dual": false,
+      "roots": [
+        {
+          "id": "root",
+          "at": "f:0:0",
+          "budget": 1,
+          "sockets": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "goal": [
+            1,
+            0
+          ],
+          "h": 0
+        }
+      ],
+      "modules": [],
+      "walls": []
+    },
+    {
+      "id": "1-2",
+      "ordinalWithinGroup": 2,
+      "group": "mainline",
+      "title": "第一朵花",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "53a8b1c7fd8f1bfb8eeb5ddee2e230e5d7f99f9996e85aa6aa861feb6ca7124e",
+      "start": "f:0:1",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:4:1",
+          "label": "照料第一朵花",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 3,
+      "milestoneGifts": null,
+      "dual": false,
+      "roots": [
+        {
+          "id": "root",
+          "at": "f:1:1",
+          "budget": 4,
+          "sockets": [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ]
+          ],
+          "goal": [
+            3,
+            1
+          ],
+          "h": 0
+        }
+      ],
+      "modules": [],
+      "walls": [
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "1-3",
+      "ordinalWithinGroup": 3,
+      "group": "mainline",
+      "title": "苔藓山谷",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "ff92b4bca5d4abc241eb2f0077d552fa78ccfe9530180e4cdacd5c2d0b4b16ab",
+      "start": "f:-4:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:0:-4",
+          "label": "照料山顶花床",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 4,
+      "milestoneGifts": null,
+      "dual": false,
+      "roots": [],
+      "modules": [
+        {
+          "id": "garden",
+          "x": 0,
+          "z": 0,
+          "h": 0,
+          "shape": [
+            [
+              0,
+              0
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "kind": "rotate"
+        }
+      ],
+      "walls": []
+    },
+    {
+      "id": "1-4",
+      "ordinalWithinGroup": 4,
+      "group": "mainline",
+      "title": "鼹鼠的家",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "95deeb8a52578e2a22d7972c38d66709a841271f56f60f8cf9ef90b3d1d5279a",
+      "start": "f:-3:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:-9:0",
+          "label": "在花园中央种下微光",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 4,
+      "milestoneGifts": null,
+      "dual": true,
+      "roots": [],
+      "modules": [],
+      "walls": []
+    },
+    {
+      "id": "2-1",
+      "ordinalWithinGroup": 5,
+      "group": "mainline",
+      "title": "池塘之声",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "53a27102f531d9e8281f59a64571db3a2747d0b3d875d18b4fd1755e19d88c6b",
+      "start": "m:float:0:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:4:0",
+          "label": "唤醒池塘花床",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 4,
+      "milestoneGifts": null,
+      "dual": true,
+      "roots": [],
+      "modules": [
+        {
+          "id": "float",
+          "x": 0,
+          "z": 0,
+          "h": 0,
+          "shape": [
+            [
+              -1,
+              -1
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              1,
+              -1
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              -1,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "kind": "lift",
+          "low": 0,
+          "high": 2
+        }
+      ],
+      "walls": []
+    },
+    {
+      "id": "2-2",
+      "ordinalWithinGroup": 6,
+      "group": "mainline",
+      "title": "涟漪之谜",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "9b1b3e33460cd26b7207000d7338b4de56b802255dff8c614f97f5f8246f1b87",
+      "start": "f:0:2",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:4:0",
+          "label": "接住绕过石壁的光",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 5,
+      "milestoneGifts": null,
+      "dual": true,
+      "roots": [],
+      "modules": [],
+      "walls": [
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "2-3",
+      "ordinalWithinGroup": 7,
+      "group": "mainline",
+      "title": "雨滴节拍",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "898c040d40582dfc8c6678074b56630bb2a27a1b1700ca5a73d5ad980419b3a6",
+      "start": "f:-4:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:1:-4",
+          "label": "一起听雨",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 4,
+      "milestoneGifts": null,
+      "dual": true,
+      "roots": [],
+      "modules": [
+        {
+          "id": "stage",
+          "x": 0,
+          "z": 0,
+          "h": 0,
+          "shape": [
+            [
+              0,
+              0
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "kind": "rotate"
+        }
+      ],
+      "walls": []
+    },
+    {
+      "id": "2-4",
+      "ordinalWithinGroup": 8,
+      "group": "mainline",
+      "title": "池塘守护者",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "1ab6585757e327a29df5d19cdb4c4782906892e65195cc30561485b89f71aba0",
+      "start": "f:-4:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:10:0",
+          "label": "照料授粉后的花岸",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 5,
+      "milestoneGifts": null,
+      "dual": true,
+      "roots": [],
+      "modules": [
+        {
+          "id": "boat",
+          "x": 0,
+          "z": 0,
+          "h": 0,
+          "shape": [
+            [
+              -1,
+              -1
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              1,
+              -1
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              -1,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "kind": "slide",
+          "axis": "x",
+          "distance": 6
+        }
+      ],
+      "walls": []
+    },
+    {
+      "id": "3-1",
+      "ordinalWithinGroup": 9,
+      "group": "mainline",
+      "title": "微光引路",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "3e89dc8c657ca7c6d68d5c79e97c32885d5203c02434f4f80140f034c4c49466",
+      "start": "f:-3:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:4:0",
+          "label": "把微光留在灯井",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 5,
+      "milestoneGifts": null,
+      "dual": true,
+      "roots": [],
+      "modules": [],
+      "walls": []
+    },
+    {
+      "id": "3-2",
+      "ordinalWithinGroup": 10,
+      "group": "mainline",
+      "title": "影子的形状",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "7444c329847ad84ac48c52c3adfd354ebf8acad7964959ef8b0dc42ebfdfd58e",
+      "start": "f:0:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:3:4",
+          "label": "穿过相接的影路",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 5,
+      "milestoneGifts": null,
+      "dual": true,
+      "roots": [],
+      "modules": [],
+      "walls": []
+    },
+    {
+      "id": "3-3",
+      "ordinalWithinGroup": 11,
+      "group": "mainline",
+      "title": "共生之歌",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "b0cce6a49341b95d98c69a755381439890119851b05509666f7b2feca88ee84a",
+      "start": "f:-4:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:0:4",
+          "label": "共生花床",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": 6,
+      "milestoneGifts": null,
+      "dual": true,
+      "roots": [
+        {
+          "id": "root",
+          "at": "f:1:-4",
+          "budget": 4,
+          "sockets": [
+            [
+              2,
+              -4
+            ],
+            [
+              3,
+              -4
+            ],
+            [
+              4,
+              -4
+            ],
+            [
+              4,
+              -3
+            ]
+          ],
+          "goal": [
+            4,
+            -3
+          ],
+          "h": 0
+        }
+      ],
+      "modules": [
+        {
+          "id": "water",
+          "x": 0,
+          "z": 0,
+          "h": 0,
+          "shape": [
+            [
+              0,
+              0
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              -2
+            ]
+          ],
+          "kind": "rotate"
+        },
+        {
+          "id": "lift",
+          "x": 4,
+          "z": 0,
+          "h": 0,
+          "shape": [
+            [
+              -1,
+              -1
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              1,
+              -1
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              -1,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "kind": "lift",
+          "low": 0,
+          "high": 2
+        }
+      ],
+      "walls": []
+    },
+    {
+      "id": "3-4",
+      "ordinalWithinGroup": 12,
+      "group": "mainline",
+      "title": "沉睡的守护者",
+      "definitionSource": "godot/content/levels.json",
+      "definitionSha256": "9902542453ce859893ea58a083834df4e3e06d560e0d6a73ea09353abf76a353",
+      "start": "f:-4:0",
+      "coreMarks": [
+        {
+          "id": "core",
+          "tile": "f:-4:0",
+          "label": "一起种下微光",
+          "kind": "core"
+        }
+      ],
+      "optionalCollectionTotal": null,
+      "milestoneGifts": 8,
+      "dual": true,
+      "roots": [
+        {
+          "id": "root",
+          "at": "f:1:-4",
+          "budget": 3,
+          "sockets": [
+            [
+              2,
+              -4
+            ],
+            [
+              3,
+              -4
+            ],
+            [
+              4,
+              -4
+            ]
+          ],
+          "goal": [
+            4,
+            -4
+          ],
+          "h": 0
+        }
+      ],
+      "modules": [
+        {
+          "id": "inner",
+          "x": 0,
+          "z": 0,
+          "h": 0,
+          "shape": [
+            [
+              0,
+              0
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              -2
+            ]
+          ],
+          "kind": "rotate"
+        },
+        {
+          "id": "lift",
+          "x": 4,
+          "z": 0,
+          "h": 0,
+          "shape": [
+            [
+              -1,
+              -1
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              1,
+              -1
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              -1,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "kind": "lift",
+          "low": 0,
+          "high": 2
+        },
+        {
+          "id": "water",
+          "x": 0,
+          "z": 8,
+          "h": 0,
+          "shape": [
+            [
+              0,
+              0
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "kind": "rotate",
+          "small": true
+        },
+        {
+          "id": "light",
+          "x": 8,
+          "z": 4,
+          "h": 2,
+          "shape": [
+            [
+              0,
+              0
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              -2
+            ]
+          ],
+          "kind": "rotate",
+          "axis": "z",
+          "distance": -4
+        }
+      ],
+      "walls": []
+    },
+    {
+      "id": "cloud-1",
+      "ordinalWithinGroup": 1,
+      "group": "cloud",
+      "title": "风眠拱庭",
+      "definitionSource": "godot/content/cloud-levels.json",
+      "definitionSha256": "eaba5c94f021386e116d3465930ca2c46badbc854a714f82ce8b410a49d4a386",
+      "start": "floor:1:7",
+      "coreMarks": [
+        {
+          "id": "finish",
+          "tile": "floor:10:3",
+          "label": "种下第一束微光",
+          "kind": "core",
+          "text": "",
+          "x": 10,
+          "z": 3,
+          "h": 1
+        }
+      ],
+      "optionalCollectionTotal": 2,
+      "milestoneGifts": null,
+      "dual": false,
+      "roots": [],
+      "modules": [],
+      "walls": []
+    },
+    {
+      "id": "cloud-2",
+      "ordinalWithinGroup": 2,
+      "group": "cloud",
+      "title": "浮水花院",
+      "definitionSource": "godot/content/cloud-levels.json",
+      "definitionSha256": "6b35884760f3f0f3f4ea24f030c26b50a60c6fffa75d7799681e339b4b09804b",
+      "start": "floor:1:7",
+      "coreMarks": [
+        {
+          "id": "finish",
+          "tile": "floor:10:4",
+          "label": "引水入花池",
+          "kind": "core",
+          "text": "",
+          "x": 10,
+          "z": 4,
+          "h": 3
+        }
+      ],
+      "optionalCollectionTotal": 2,
+      "milestoneGifts": null,
+      "dual": false,
+      "roots": [],
+      "modules": [],
+      "walls": []
+    },
+    {
+      "id": "cloud-3",
+      "ordinalWithinGroup": 3,
+      "group": "cloud",
+      "title": "星灯归舍",
+      "definitionSource": "godot/content/cloud-levels.json",
+      "definitionSha256": "d4cef7b4c6b9b87180625fd994afa7bb822565043616b738503e58bcc93a1a36",
+      "start": "floor:1:7",
+      "coreMarks": [
+        {
+          "id": "finish",
+          "tile": "floor:8:0",
+          "label": "一起点亮星灯",
+          "kind": "core",
+          "text": "",
+          "x": 8,
+          "z": 0,
+          "h": 1
+        }
+      ],
+      "optionalCollectionTotal": 2,
+      "milestoneGifts": null,
+      "dual": false,
+      "roots": [],
+      "modules": [],
+      "walls": []
+    }
+  ],
+  "checks": {
+    "report": "headless/checks.json",
+    "passed": true,
+    "stableRuntimeSource": true,
+    "suites": 5,
+    "totalAssertions": 1981,
+    "all15AuthoredRoutesCompleted": true,
+    "newGpuOrBrowserAcceptance": false
+  }
+}

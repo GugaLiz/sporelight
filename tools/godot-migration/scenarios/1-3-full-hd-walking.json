@@ -1,0 +1,151 @@
+{
+  "name": "1-3 full HD sustained walking diagnostic",
+  "requiredViewport": [
+    1920,
+    1080
+  ],
+  "requiredDpr": 1,
+  "entryRequirement": "Fresh isolated context with --level 1-3. This is explicit-level diagnosis, not normal-home acceptance. No save edits or QA state restoration.",
+  "evidence": [
+    "godot/tests/fixtures/reference.json authored/1-3 steps 0-4",
+    "godot/application/input_router.gd OFFSETS: right is +x",
+    "godot/application/native_movement.gd SPEED 3.25",
+    "docs/qa-godot-native/full-performance/baseline-1-3/game.png: central handle near CSS(646,403)"
+  ],
+  "validationStatus": "Pending screenshot review at 1920x1080. No coordinate input.",
+  "phases": [
+    {
+      "name": "idle-initial",
+      "actions": [
+        {
+          "waitMs": 6000
+        }
+      ],
+      "settleMs": 0,
+      "expected": "1-3 western starting island; no overlay; both actors visible."
+    },
+    {
+      "name": "walk-continuous-1",
+      "actions": [
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        }
+      ],
+      "settleMs": 500,
+      "expected": "29 seconds alternating along the west-island to central-garden x corridor, z=0; cross support cells with companion following. End differs from start. Confirm positions from screenshots; reject blocked or stationary workload."
+    }
+  ]
+}

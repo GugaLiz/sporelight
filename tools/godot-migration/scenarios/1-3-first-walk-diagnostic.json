@@ -1,0 +1,75 @@
+{
+  "name": "1-3 first walking diagnostic with optional GL/CPU instrumentation",
+  "requiredViewport": [
+    1280,
+    720
+  ],
+  "requiredDpr": 1,
+  "entryRequirement": "Fresh isolated context with --level 1-3. This is explicit-level diagnosis, not normal-home acceptance. No save edits or QA state restoration.",
+  "evidence": [
+    "godot/tests/fixtures/reference.json authored/1-3 steps 0-4",
+    "godot/application/input_router.gd OFFSETS: right is +x",
+    "godot/application/native_movement.gd SPEED 3.25",
+    "docs/qa-godot-native/full-performance/baseline-1-3/game.png: central handle near CSS(646,403)"
+  ],
+  "validationStatus": "Final 5411b226 baseline screenshot review confirms actual west-island/center corridor displacement in each round, carried garden rotations 0-to-1 and back to0 after four turns, then repeat0-to-1. Undo remains an observed checkpoint operation without assuming history depth. Candidate workload must be reviewed independently.",
+  "phases": [
+    {
+      "name": "idle-initial",
+      "actions": [
+        {
+          "waitMs": 6000
+        }
+      ],
+      "settleMs": 0,
+      "expected": "1-3 western starting island; no overlay; both actors visible."
+    },
+    {
+      "name": "walk-continuous-1",
+      "actions": [
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowRight",
+          "holdMs": 1000
+        },
+        {
+          "key": "ArrowLeft",
+          "holdMs": 1000
+        }
+      ],
+      "settleMs": 500,
+      "expected": "Ten seconds real alternating corridor walking; instrumentation diagnosis, not the clean sustained timing comparison."
+    }
+  ]
+}

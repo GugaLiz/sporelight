@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "matrixBuild": {
+    "sha256": "6f83b6936f427a5a41d90faf4713528a3b98ed15e4340d6632402b3c14512522",
+    "files": 488
+  },
+  "finalBuild": {
+    "sha256": "eaf75d3b05341720f3cac3ce1bfe7cf2a0c1642db18a8abc2d9925393cdec4a4",
+    "files": 488
+  },
+  "runtimeDelta": "Only three Label3D style assignments on the sun/moon post crest; no transforms, inputs, geometry, rules or lifecycle changes.",
+  "stageDiff": "--- matrix/native_garden_stage.gd\n+++ final/native_garden_stage.gd\n@@ -664,6 +664,9 @@\n \t\t\tcrest.position.y = 0.56\n \t\t\tcrest.font_size = 42\n \t\t\tcrest.pixel_size = 0.006\n+\t\t\tcrest.outline_size = 4\n+\t\t\tcrest.outline_modulate = Color(\"58685c\")\n+\t\t\tcrest.modulate = Color(\"f3dea2\") if id == \"sunPost\" else Color(\"c3d7ee\")\n \t\t\tcrest.billboard = BaseMaterial3D.BILLBOARD_ENABLED\n \t\t\tcrest.no_depth_test = false\n \t\t\tnode.add_child(crest)\n",
+  "validation": "Style build: 4 headless suites (chapter/mechanism/ray/world render), 3-2 desktop/mobile GPU, 14 desktop input routes and desktop first garden passed. Touch passed 11/14; 3-1/cloud-2/cloud-3 menu issues and first-garden harness timing led to the separately recorded final interaction build."
+}

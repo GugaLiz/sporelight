@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"checks":95,"failures":["3-4 ray waits for actual alignment at 1.0","3-4 beam visibility reuses native nodes and meshes"],"gpuPixelsVerified":false,"passed":false,"scope":"Slab clipping, real native light endpoints, current discovery bounds and unchanged receiver/reflection rules.","suite":"native-rule-ray-presentation"}
+ERROR: 3-4 ray waits for actual alignment at 1.0
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_rule_ray_presentation_test.gd:167)
+       [1] _test_alignment_motion (res://tests/native_rule_ray_presentation_test.gd:116)
+       [2] _run (res://tests/native_rule_ray_presentation_test.gd:26)
+ERROR: 3-4 beam visibility reuses native nodes and meshes
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_rule_ray_presentation_test.gd:167)
+       [1] _test_alignment_motion (res://tests/native_rule_ray_presentation_test.gd:117)
+       [2] _run (res://tests/native_rule_ray_presentation_test.gd:26)

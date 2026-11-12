@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "5635ca3cb6e8fa8803ded4b9944c1994cd5282bda8ba09b33996e4c47382de82",
+    "files": 496
+  },
+  "source": {
+    "sha256": "5635ca3cb6e8fa8803ded4b9944c1994cd5282bda8ba09b33996e4c47382de82",
+    "files": 496
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_cloud_bridge_motion_test",
+      "code": 1,
+      "elapsedMs": 2523,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cases\":[{\"bridgeLeaves\":3,\"label\":\"cloud-1/0->1\",\"warmTileQueries\":0},{\"bridgeLeaves\":3,\"label\":\"cloud-1/1->0\",\"warmTileQueries\":0},{\"label\":\"cloud-2/lift\",\"originalPathPreserved\":true},{\"bridgeLeaves\":3,\"label\":\"cloud-3/1->0\",\"warmTileQueries\":0},{\"bridgeLeaves\":3,\"label\":\"cloud-3/0->1\",\"warmTileQueries\":0}],\"checks\":2965,\"failures\":[\"cloud-3/1->0 destination support IDs exact\",\"cloud-3/0->1 destination support IDs exact\"],\"gpuPixelsVerified\":false,\"passed\":false,\"suite\":\"native-cloud-bridge-motion\"}\r\n",
+      "stderr": "ERROR: cloud-3/1->0 destination support IDs exact\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_cloud_bridge_motion_test.gd:25)\r\n       [1] _test_bridge (res://tests/native_cloud_bridge_motion_test.gd:112)\r\n       [2] _run (res://tests/native_cloud_bridge_motion_test.gd:42)\r\nERROR: cloud-3/0->1 destination support IDs exact\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_cloud_bridge_motion_test.gd:25)\r\n       [1] _test_bridge (res://tests/native_cloud_bridge_motion_test.gd:112)\r\n       [2] _run (res://tests/native_cloud_bridge_motion_test.gd:43)\r\n",
+      "passed": false
+    }
+  ]
+}

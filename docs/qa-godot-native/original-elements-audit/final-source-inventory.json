@@ -1,0 +1,2787 @@
+{
+  "scope": "Read-only code and existing CPU evidence reconciliation; no rerun, no screenshot measurement",
+  "sourceInstances": 104,
+  "sourceAssetTypes": 19,
+  "alphaThreshold": 64,
+  "conversion": "P / 70 * sqrt(2); visible width multiplied by alpha bbox width / PNG width",
+  "runtimeSourceHashes": {
+    "godot/presentation/native/original_garden_dressing.gd": "f8b6cb327694fc3e88ca1099cd2d434070bde24ce22cd1dccc8eeab0d896e023",
+    "godot/presentation/native/first_garden_dressing.gd": "9d715dbef2b8926407529bcf505e634b29ba48b8a426b278d636fb37df9488d2",
+    "godot/presentation/native/second_garden_dressing.gd": "b1bff03346fef2e0fb5daf4192df6ac1e20e00ab6ea63746935764990d83877c",
+    "godot/presentation/native/original_pond_environment.gd": "7454fea21498ad961a7050e929efe9773558668cb517d1eeb28531aa1ebd5db0"
+  },
+  "assets": {
+    "arch": {
+      "size": [
+        256,
+        256
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        37,
+        8,
+        219,
+        232
+      ],
+      "visibleWidthFraction": 0.7109375,
+      "visibleHeightFraction": 0.875,
+      "sourceCanvasWidths": [
+        90
+      ],
+      "sha256": "6d3ee98996884b6c7d37cd9283f5aaca2326336ab2eb521352d9c0e443e51d60",
+      "path": "assets/images/grid-world/arch.png"
+    },
+    "berry-bush": {
+      "size": [
+        134,
+        115
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        134,
+        115
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        39,
+        46
+      ],
+      "sha256": "983383a73d1bf3b6c81aa7ef006960a8f7606966f7ff158166ff3429b7d03bd7",
+      "path": "assets/images/garden-scenery/berry-bush.png"
+    },
+    "blue-flowers": {
+      "size": [
+        112,
+        118
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        112,
+        118
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30,
+        35,
+        42
+      ],
+      "sha256": "dfd66082f695221ecf540fae9f265c5977257113ba1be7389027eecff524542d",
+      "path": "assets/images/garden-scenery/blue-flowers.png"
+    },
+    "blue-mushroom": {
+      "size": [
+        100,
+        130
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        100,
+        130
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30,
+        35
+      ],
+      "sha256": "6203f2d95ee3a31ccbfbbb3aea3da1b56bd9a2ec1e7f9da049ceae68a509da30",
+      "path": "assets/images/garden-scenery/blue-mushroom.png"
+    },
+    "bush": {
+      "size": [
+        141,
+        119
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        141,
+        119
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        39
+      ],
+      "sha256": "ecc022bcbf502a74588e5ffdded54b85082aeaa3e3cadb0ba6185ecf559b7761",
+      "path": "assets/images/grid-world/bush.png"
+    },
+    "fern": {
+      "size": [
+        126,
+        114
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        126,
+        114
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30,
+        35
+      ],
+      "sha256": "224026803ba4ba0808a4df502b08ed8b4a9d062b1c6c95ce73a980bf4d8b1ccf",
+      "path": "assets/images/garden-scenery/fern.png"
+    },
+    "glow-flower": {
+      "size": [
+        182,
+        272
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        182,
+        272
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30,
+        35
+      ],
+      "sha256": "b9d104c081274e1169b8bda2d601a8971aaaacb40dab68660f81f0fdb54dac12",
+      "path": "assets/images/garden-scenery/glow-flower.png"
+    },
+    "gold-lotus": {
+      "size": [
+        128,
+        148
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        128,
+        148
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        32,
+        42
+      ],
+      "sha256": "9f4651677f2671532c942c8fc21ee0e976cc3b4b277f485b7d3f6b878a3b8b22",
+      "path": "assets/images/garden-scenery/gold-lotus.png"
+    },
+    "ivory-lotus": {
+      "size": [
+        94,
+        102
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        94,
+        102
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30,
+        42
+      ],
+      "sha256": "669f9eb5551b85a9028603ff410a5b0bd797bdc730af650e236c370c5a3a2843",
+      "path": "assets/images/garden-scenery/ivory-lotus.png"
+    },
+    "light-tower": {
+      "size": [
+        272,
+        405
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        272,
+        405
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        65
+      ],
+      "sha256": "053287548175a3fce464989b17de030902fa9986751f08675e119cc99da9b221",
+      "path": "assets/images/garden-scenery/light-tower.png"
+    },
+    "lotus-pool": {
+      "size": [
+        342,
+        200
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        342,
+        200
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        47
+      ],
+      "sha256": "73f7fceeeef3412220b009e7a7fc92f43f3bb831ef8f7ed6bef98c9509be4de6",
+      "path": "assets/images/garden-scenery/lotus-pool.png"
+    },
+    "pink-flowers": {
+      "size": [
+        130,
+        124
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        130,
+        124
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30,
+        35,
+        42
+      ],
+      "sha256": "68315dd9a44d21329a6c946e6523034c2859ae4db33e98b89f830dd1e910256a",
+      "path": "assets/images/garden-scenery/pink-flowers.png"
+    },
+    "red-mushroom": {
+      "size": [
+        113,
+        142
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        113,
+        142
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30,
+        35
+      ],
+      "sha256": "d3ab5b3db9bbf8e167f7c6d34e25cf98901915c960bbbca8e731a2f42e3ec89e",
+      "path": "assets/images/garden-scenery/red-mushroom.png"
+    },
+    "river-rock": {
+      "size": [
+        113,
+        97
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        113,
+        97
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30
+      ],
+      "sha256": "2cb2b0e997496270900cd8c39c8b5163271dfaabed681fd34f1007a41a8903fa",
+      "path": "assets/images/garden-scenery/river-rock.png"
+    },
+    "small-pebbles": {
+      "size": [
+        117,
+        50
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        117,
+        50
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        25
+      ],
+      "sha256": "e84b97c6d0502a74834b25cb359744620166ccfbb8e12137e3e3c3584131c4ed",
+      "path": "assets/images/garden-scenery/small-pebbles.png"
+    },
+    "stone-lantern": {
+      "size": [
+        116,
+        158
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        116,
+        158
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        29,
+        30
+      ],
+      "sha256": "fa36bcda5b65ff667eb521308f1d3a13e13fd7c4c15f1c575bc227b9c9f72ed0",
+      "path": "assets/images/garden-scenery/stone-lantern.png"
+    },
+    "trailing-vine": {
+      "size": [
+        57,
+        226
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        57,
+        226
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [],
+      "sha256": "58f094e37a43d6232e049832e4b95e45617cb0a37d7f643d1c3269e998c93f43",
+      "path": "assets/images/garden-scenery/trailing-vine.png"
+    },
+    "violet-crystal": {
+      "size": [
+        86,
+        111
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        86,
+        111
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30
+      ],
+      "sha256": "7c65b30fab092fdf00a4a736c8c04cff2eb7c73fa1f96841923714604052ed99",
+      "path": "assets/images/garden-scenery/violet-crystal.png"
+    },
+    "wood-lantern": {
+      "size": [
+        120,
+        154
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        120,
+        154
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        40
+      ],
+      "sha256": "ae3649b7bd385b4465cbc43faee6baf12401258b66635f05384816dc07f2af6d",
+      "path": "assets/images/garden-scenery/wood-lantern.png"
+    },
+    "yellow-flowers": {
+      "size": [
+        106,
+        112
+      ],
+      "alphaThreshold": 64,
+      "alphaBoundsXYXY": [
+        0,
+        0,
+        106,
+        112
+      ],
+      "visibleWidthFraction": 1.0,
+      "visibleHeightFraction": 1.0,
+      "sourceCanvasWidths": [
+        30,
+        35,
+        42
+      ],
+      "sha256": "88e464df40af95c881b0570a39468fd93282aac7d4dc5f3393a2437bd8176315",
+      "path": "assets/images/garden-scenery/yellow-flowers.png"
+    }
+  },
+  "instances": [
+    {
+      "level": "1-1",
+      "index": 0,
+      "asset": "small-pebbles",
+      "sourcePositionXZH": [
+        -1,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 25,
+      "sourceCanvasRatio": 0.35714285714285715,
+      "sourceVisibleAlphaWidthRatio": 0.35714285714285715,
+      "standardNativeCanvasWidth": 0.5050762722761054,
+      "standardNativeVisibleAlphaWidth": 0.5050762722761054,
+      "support": null,
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "approved first profile category mapping",
+      "mappingNote": "专用类别对应 #12:(2.64,-2.3) 宽0.25；#15:(4.25,-1.91) 宽0.26；不宣称同位同宽",
+      "nativeRatioApplied": false
+    },
+    {
+      "level": "1-1",
+      "index": 1,
+      "asset": "pink-flowers",
+      "sourcePositionXZH": [
+        -2.24,
+        0,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": null,
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "approved first profile category mapping",
+      "mappingNote": "专用类别对应 #1:(-2.25,0.27) 宽0.34；#4:(-0.78,3.3) 宽0.33；#10:(2.38,-2.31) 宽0.36；不宣称同位同宽",
+      "nativeRatioApplied": false
+    },
+    {
+      "level": "1-1",
+      "index": 2,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        1.76,
+        -1,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": null,
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "approved first profile category mapping",
+      "mappingNote": "专用类别对应 #8:(2.04,-2.12) 宽0.43；不宣称同位同宽",
+      "nativeRatioApplied": false
+    },
+    {
+      "level": "1-1",
+      "index": 3,
+      "asset": "yellow-flowers",
+      "sourcePositionXZH": [
+        -1.24,
+        2,
+        -1
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": null,
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "approved first profile category mapping",
+      "mappingNote": "专用类别对应 #11:(1.83,-1.77) 宽0.25；#16:(4.27,-1.65) 宽0.24；#17:(-1.18,2.24) 宽0.42；不宣称同位同宽",
+      "nativeRatioApplied": false
+    },
+    {
+      "level": "1-1",
+      "index": 4,
+      "asset": "red-mushroom",
+      "sourcePositionXZH": [
+        4,
+        -1.24,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": null,
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "approved first profile category mapping",
+      "mappingNote": "专用类别对应 #2:(-1.65,-1.28) 宽0.26；#6:(3.94,-2.27) 宽0.28；不宣称同位同宽",
+      "nativeRatioApplied": false
+    },
+    {
+      "level": "1-1",
+      "index": 5,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        0.24,
+        3,
+        -1
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": null,
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "approved first profile category mapping",
+      "mappingNote": "专用类别对应 #7:(4.29,0.27) 宽0.3；#14:(3.6,-2.18) 宽0.35；不宣称同位同宽",
+      "nativeRatioApplied": false
+    },
+    {
+      "level": "1-2",
+      "index": 0,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        -1.24,
+        2,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-1:2",
+      "actualPhysicalXYZFromExistingEvidence": [
+        -1.28999996185303,
+        0.0149999996647239,
+        2.22000002861023
+      ],
+      "mappingStatus": "preserved safe revision2 placement",
+      "mappingNote": "f:-1:2；实际物理XYZ=(-1.29,0.015,2.22)；专用安全位置映射",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-2",
+      "index": 1,
+      "asset": "yellow-flowers",
+      "sourcePositionXZH": [
+        5,
+        -0.24,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:5:1",
+      "actualPhysicalXYZFromExistingEvidence": [
+        6.70000028610229,
+        0.464999973773956,
+        1.29999995231628
+      ],
+      "mappingStatus": "preserved safe revision2 placement",
+      "mappingNote": "f:5:1；实际物理XYZ=(6.7,0.465,1.3)；专用安全位置映射",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-2",
+      "index": 2,
+      "asset": "red-mushroom",
+      "sourcePositionXZH": [
+        5.24,
+        2,
+        1
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:5:2",
+      "actualPhysicalXYZFromExistingEvidence": [
+        6.69000005722046,
+        0.464999973773956,
+        2.28999996185303
+      ],
+      "mappingStatus": "preserved safe revision2 placement",
+      "mappingNote": "f:5:2；实际物理XYZ=(6.69,0.465,2.29)；专用安全位置映射",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 0,
+      "asset": "red-mushroom",
+      "sourcePositionXZH": [
+        -4,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-4:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 1,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        1,
+        -5.24,
+        1
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:1:-5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:-5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 2,
+      "asset": "gold-lotus",
+      "sourcePositionXZH": [
+        -1.24,
+        -3,
+        1
+      ],
+      "sourceCanvasPixels": 32,
+      "sourceCanvasRatio": 0.45714285714285713,
+      "sourceVisibleAlphaWidthRatio": 0.45714285714285713,
+      "standardNativeCanvasWidth": 0.646497628513415,
+      "standardNativeVisibleAlphaWidth": 0.646497628513415,
+      "support": "f:-1:-3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:-3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 3,
+      "asset": "bush",
+      "sourcePositionXZH": [
+        -4,
+        1.24,
+        0
+      ],
+      "sourceCanvasPixels": 39,
+      "sourceCanvasRatio": 0.5571428571428572,
+      "sourceVisibleAlphaWidthRatio": 0.5571428571428572,
+      "standardNativeCanvasWidth": 0.7879189847507244,
+      "standardNativeVisibleAlphaWidth": 0.7879189847507244,
+      "support": "f:-4:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 4,
+      "asset": "berry-bush",
+      "sourcePositionXZH": [
+        1.24,
+        -3,
+        1
+      ],
+      "sourceCanvasPixels": 39,
+      "sourceCanvasRatio": 0.5571428571428572,
+      "sourceVisibleAlphaWidthRatio": 0.5571428571428572,
+      "standardNativeCanvasWidth": 0.7879189847507244,
+      "standardNativeVisibleAlphaWidth": 0.7879189847507244,
+      "support": "f:1:-3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:-3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 5,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        -1.24,
+        3,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-1:3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 6,
+      "asset": "small-pebbles",
+      "sourcePositionXZH": [
+        2.76,
+        -1,
+        -1
+      ],
+      "sourceCanvasPixels": 25,
+      "sourceCanvasRatio": 0.35714285714285715,
+      "sourceVisibleAlphaWidthRatio": 0.35714285714285715,
+      "standardNativeCanvasWidth": 0.5050762722761054,
+      "standardNativeVisibleAlphaWidth": 0.5050762722761054,
+      "support": "f:3:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:3:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 7,
+      "asset": "pink-flowers",
+      "sourcePositionXZH": [
+        1,
+        2.76,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:1:3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 8,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        -1.24,
+        5,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-1:5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 9,
+      "asset": "yellow-flowers",
+      "sourcePositionXZH": [
+        5,
+        -1.24,
+        -1
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:5:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:5:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 10,
+      "asset": "red-mushroom",
+      "sourcePositionXZH": [
+        2.76,
+        1,
+        -1
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:3:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:3:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 11,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        1.24,
+        5,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:1:5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 12,
+      "asset": "gold-lotus",
+      "sourcePositionXZH": [
+        5.24,
+        1,
+        -1
+      ],
+      "sourceCanvasPixels": 32,
+      "sourceCanvasRatio": 0.45714285714285713,
+      "sourceVisibleAlphaWidthRatio": 0.45714285714285713,
+      "standardNativeCanvasWidth": 0.646497628513415,
+      "standardNativeVisibleAlphaWidth": 0.646497628513415,
+      "support": "f:5:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:5:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-3",
+      "index": 13,
+      "asset": "arch",
+      "sourcePositionXZH": [
+        -5,
+        -1,
+        0
+      ],
+      "sourceCanvasPixels": 90,
+      "sourceCanvasRatio": 1.2857142857142858,
+      "sourceVisibleAlphaWidthRatio": 0.9140625000000001,
+      "standardNativeCanvasWidth": 1.8182745801939795,
+      "standardNativeVisibleAlphaWidth": 1.2926795843566572,
+      "support": "f:-5:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-5:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 0,
+      "asset": "gold-lotus",
+      "sourcePositionXZH": [
+        -2,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 32,
+      "sourceCanvasRatio": 0.45714285714285713,
+      "sourceVisibleAlphaWidthRatio": 0.45714285714285713,
+      "standardNativeCanvasWidth": 0.646497628513415,
+      "standardNativeVisibleAlphaWidth": 0.646497628513415,
+      "support": "f:-2:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-2:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 1,
+      "asset": "bush",
+      "sourcePositionXZH": [
+        -1.76,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 39,
+      "sourceCanvasRatio": 0.5571428571428572,
+      "sourceVisibleAlphaWidthRatio": 0.5571428571428572,
+      "standardNativeCanvasWidth": 0.7879189847507244,
+      "standardNativeVisibleAlphaWidth": 0.7879189847507244,
+      "support": "f:-2:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-2:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 2,
+      "asset": "berry-bush",
+      "sourcePositionXZH": [
+        -4.24,
+        4,
+        0
+      ],
+      "sourceCanvasPixels": 39,
+      "sourceCanvasRatio": 0.5571428571428572,
+      "sourceVisibleAlphaWidthRatio": 0.5571428571428572,
+      "standardNativeCanvasWidth": 0.7879189847507244,
+      "standardNativeVisibleAlphaWidth": 0.7879189847507244,
+      "support": "f:-4:4",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:4；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 3,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        1.76,
+        -1,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:2:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 4,
+      "asset": "small-pebbles",
+      "sourcePositionXZH": [
+        -4.24,
+        6,
+        0
+      ],
+      "sourceCanvasPixels": 25,
+      "sourceCanvasRatio": 0.35714285714285715,
+      "sourceVisibleAlphaWidthRatio": 0.35714285714285715,
+      "standardNativeCanvasWidth": 0.5050762722761054,
+      "standardNativeVisibleAlphaWidth": 0.5050762722761054,
+      "support": "f:-4:6",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:6；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 5,
+      "asset": "pink-flowers",
+      "sourcePositionXZH": [
+        4,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:4:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:4:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 6,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        1.76,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:2:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 7,
+      "asset": "yellow-flowers",
+      "sourcePositionXZH": [
+        4.24,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:4:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:4:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 8,
+      "asset": "red-mushroom",
+      "sourcePositionXZH": [
+        1.76,
+        4,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:2:4",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:4；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 9,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        4,
+        3.76,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:4:4",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:4:4；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 10,
+      "asset": "gold-lotus",
+      "sourcePositionXZH": [
+        1.76,
+        6,
+        0
+      ],
+      "sourceCanvasPixels": 32,
+      "sourceCanvasRatio": 0.45714285714285713,
+      "sourceVisibleAlphaWidthRatio": 0.45714285714285713,
+      "standardNativeCanvasWidth": 0.646497628513415,
+      "standardNativeVisibleAlphaWidth": 0.646497628513415,
+      "support": "f:2:6",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:6；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 11,
+      "asset": "bush",
+      "sourcePositionXZH": [
+        4.24,
+        6,
+        0
+      ],
+      "sourceCanvasPixels": 39,
+      "sourceCanvasRatio": 0.5571428571428572,
+      "sourceVisibleAlphaWidthRatio": 0.5571428571428572,
+      "standardNativeCanvasWidth": 0.7879189847507244,
+      "standardNativeVisibleAlphaWidth": 0.7879189847507244,
+      "support": "f:4:6",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:4:6；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 12,
+      "asset": "pink-flowers",
+      "sourcePositionXZH": [
+        -11,
+        -2,
+        2
+      ],
+      "sourceCanvasPixels": 42,
+      "sourceCanvasRatio": 0.6,
+      "sourceVisibleAlphaWidthRatio": 0.6,
+      "standardNativeCanvasWidth": 0.8485281374238571,
+      "standardNativeVisibleAlphaWidth": 0.8485281374238571,
+      "support": "f:-11:-2",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-11:-2；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 13,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        -11,
+        2,
+        2
+      ],
+      "sourceCanvasPixels": 42,
+      "sourceCanvasRatio": 0.6,
+      "sourceVisibleAlphaWidthRatio": 0.6,
+      "standardNativeCanvasWidth": 0.8485281374238571,
+      "standardNativeVisibleAlphaWidth": 0.8485281374238571,
+      "support": "f:-11:2",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-11:2；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 14,
+      "asset": "yellow-flowers",
+      "sourcePositionXZH": [
+        -9,
+        2,
+        1
+      ],
+      "sourceCanvasPixels": 42,
+      "sourceCanvasRatio": 0.6,
+      "sourceVisibleAlphaWidthRatio": 0.6,
+      "standardNativeCanvasWidth": 0.8485281374238571,
+      "standardNativeVisibleAlphaWidth": 0.8485281374238571,
+      "support": "f:-9:2",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-9:2；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 15,
+      "asset": "ivory-lotus",
+      "sourcePositionXZH": [
+        -7,
+        -2,
+        1
+      ],
+      "sourceCanvasPixels": 42,
+      "sourceCanvasRatio": 0.6,
+      "sourceVisibleAlphaWidthRatio": 0.6,
+      "standardNativeCanvasWidth": 0.8485281374238571,
+      "standardNativeVisibleAlphaWidth": 0.8485281374238571,
+      "support": "f:-7:-2",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-7:-2；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 16,
+      "asset": "gold-lotus",
+      "sourcePositionXZH": [
+        -7,
+        2,
+        1
+      ],
+      "sourceCanvasPixels": 42,
+      "sourceCanvasRatio": 0.6,
+      "sourceVisibleAlphaWidthRatio": 0.6,
+      "standardNativeCanvasWidth": 0.8485281374238571,
+      "standardNativeVisibleAlphaWidth": 0.8485281374238571,
+      "support": "f:-7:2",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-7:2；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 17,
+      "asset": "berry-bush",
+      "sourcePositionXZH": [
+        -11,
+        0,
+        2
+      ],
+      "sourceCanvasPixels": 46,
+      "sourceCanvasRatio": 0.6571428571428571,
+      "sourceVisibleAlphaWidthRatio": 0.6571428571428571,
+      "standardNativeCanvasWidth": 0.9293403409880339,
+      "standardNativeVisibleAlphaWidth": 0.9293403409880339,
+      "support": "f:-11:0",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-11:0；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "1-4",
+      "index": 18,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        -7,
+        -1.7,
+        1
+      ],
+      "sourceCanvasPixels": 29,
+      "sourceCanvasRatio": 0.4142857142857143,
+      "sourceVisibleAlphaWidthRatio": 0.4142857142857143,
+      "standardNativeCanvasWidth": 0.5858884758402823,
+      "standardNativeVisibleAlphaWidth": 0.5858884758402823,
+      "support": "f:-7:-2",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-7:-2；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 0,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        -1.24,
+        -5,
+        2
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-1:-5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:-5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 1,
+      "asset": "ivory-lotus",
+      "sourcePositionXZH": [
+        -4,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-4:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 2,
+      "asset": "berry-bush",
+      "sourcePositionXZH": [
+        1,
+        -5.24,
+        2
+      ],
+      "sourceCanvasPixels": 39,
+      "sourceCanvasRatio": 0.5571428571428572,
+      "sourceVisibleAlphaWidthRatio": 0.5571428571428572,
+      "standardNativeCanvasWidth": 0.7879189847507244,
+      "standardNativeVisibleAlphaWidth": 0.7879189847507244,
+      "support": "f:1:-5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:-5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 3,
+      "asset": "yellow-flowers",
+      "sourcePositionXZH": [
+        -1.24,
+        -3,
+        2
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-1:-3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:-3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 4,
+      "asset": "lotus-pool",
+      "sourcePositionXZH": [
+        -2.76,
+        0,
+        0
+      ],
+      "sourceCanvasPixels": 47,
+      "sourceCanvasRatio": 0.6714285714285714,
+      "sourceVisibleAlphaWidthRatio": 0.6714285714285714,
+      "standardNativeCanvasWidth": 0.9495433918790782,
+      "standardNativeVisibleAlphaWidth": 0.9495433918790782,
+      "support": "f:-3:0",
+      "actualPhysicalXYZFromExistingEvidence": [
+        -2.88000011444092,
+        0.00800000037997961,
+        0.0
+      ],
+      "mappingStatus": "nearest flat painted-foot support",
+      "mappingNote": "f:-3:0；同高内收到X/Z=(-2.88,0)；节点Y=0.008",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 5,
+      "asset": "pink-flowers",
+      "sourcePositionXZH": [
+        1.24,
+        -3,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:1:-3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:-3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 6,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        -4.24,
+        2,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-4:2",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:2；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 7,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        -4.24,
+        4,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-4:4",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:4；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 8,
+      "asset": "river-rock",
+      "sourcePositionXZH": [
+        2.76,
+        -1,
+        1
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:3:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:3:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 9,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        5,
+        -1.24,
+        1
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:5:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:5:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 10,
+      "asset": "ivory-lotus",
+      "sourcePositionXZH": [
+        2.76,
+        1,
+        1
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:3:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:3:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-1",
+      "index": 11,
+      "asset": "berry-bush",
+      "sourcePositionXZH": [
+        5.24,
+        1,
+        1
+      ],
+      "sourceCanvasPixels": 39,
+      "sourceCanvasRatio": 0.5571428571428572,
+      "sourceVisibleAlphaWidthRatio": 0.5571428571428572,
+      "standardNativeCanvasWidth": 0.7879189847507244,
+      "standardNativeVisibleAlphaWidth": 0.7879189847507244,
+      "support": "f:5:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:5:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-2",
+      "index": 0,
+      "asset": "berry-bush",
+      "sourcePositionXZH": [
+        0,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 39,
+      "sourceCanvasRatio": 0.5571428571428572,
+      "sourceVisibleAlphaWidthRatio": 0.5571428571428572,
+      "standardNativeCanvasWidth": 0.7879189847507244,
+      "standardNativeVisibleAlphaWidth": 0.7879189847507244,
+      "support": "f:0:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:0:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-2",
+      "index": 1,
+      "asset": "yellow-flowers",
+      "sourcePositionXZH": [
+        -1.24,
+        0,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-1:0",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:0；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-2",
+      "index": 2,
+      "asset": "lotus-pool",
+      "sourcePositionXZH": [
+        3,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 47,
+      "sourceCanvasRatio": 0.6714285714285714,
+      "sourceVisibleAlphaWidthRatio": 0.6714285714285714,
+      "standardNativeCanvasWidth": 0.9495433918790782,
+      "standardNativeVisibleAlphaWidth": 0.9495433918790782,
+      "support": "f:3:-1",
+      "actualPhysicalXYZFromExistingEvidence": [
+        3.0,
+        0.00800000037997961,
+        -1.12000000476837
+      ],
+      "mappingStatus": "nearest flat painted-foot support",
+      "mappingNote": "f:3:-1；同高内收到X/Z=(3,-1.12)；节点Y=0.008",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-2",
+      "index": 3,
+      "asset": "pink-flowers",
+      "sourcePositionXZH": [
+        -1.24,
+        3,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-1:3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-2",
+      "index": 4,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        2.76,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:3:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:3:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-2",
+      "index": 5,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        1,
+        3.24,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:1:3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-2",
+      "index": 6,
+      "asset": "river-rock",
+      "sourcePositionXZH": [
+        5.24,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:5:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:5:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-3",
+      "index": 0,
+      "asset": "lotus-pool",
+      "sourcePositionXZH": [
+        -1.24,
+        -5,
+        2
+      ],
+      "sourceCanvasPixels": 47,
+      "sourceCanvasRatio": 0.6714285714285714,
+      "sourceVisibleAlphaWidthRatio": 0.6714285714285714,
+      "standardNativeCanvasWidth": 0.9495433918790782,
+      "standardNativeVisibleAlphaWidth": 0.9495433918790782,
+      "support": "f:-1:-5",
+      "actualPhysicalXYZFromExistingEvidence": [
+        -1.12000000476837,
+        1.30799996852875,
+        -5.0
+      ],
+      "mappingStatus": "nearest flat painted-foot support",
+      "mappingNote": "f:-1:-5；同高内收到X/Z=(-1.12,-5)；节点Y=1.308",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-3",
+      "index": 1,
+      "asset": "pink-flowers",
+      "sourcePositionXZH": [
+        -3,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-3:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-3:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-3",
+      "index": 2,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        -1.24,
+        -3,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-1:-3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:-3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-3",
+      "index": 3,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        -2.76,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-3:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-3:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-4",
+      "index": 0,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        11,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:11:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "deferred until real surface",
+      "mappingNote": "f:11:-1；初态延迟，授粉后同坐标恢复",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-4",
+      "index": 1,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        11.24,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:11:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "deferred until real surface",
+      "mappingNote": "f:11:1；初态延迟，授粉后同坐标恢复",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "2-4",
+      "index": 2,
+      "asset": "wood-lantern",
+      "sourcePositionXZH": [
+        -5,
+        -1,
+        0
+      ],
+      "sourceCanvasPixels": 40,
+      "sourceCanvasRatio": 0.5714285714285714,
+      "sourceVisibleAlphaWidthRatio": 0.5714285714285714,
+      "standardNativeCanvasWidth": 0.8081220356417687,
+      "standardNativeVisibleAlphaWidth": 0.8081220356417687,
+      "support": "f:-5:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-5:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 0,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        -2,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-2:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-2:-1；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 1,
+      "asset": "violet-crystal",
+      "sourcePositionXZH": [
+        -1.76,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-2:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-2:1；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 2,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        -4.24,
+        4,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-4:4",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:4；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 3,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        -2,
+        3.76,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-2:4",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-2:4；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 4,
+      "asset": "glow-flower",
+      "sourcePositionXZH": [
+        -4.24,
+        6,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-4:6",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:6；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 5,
+      "asset": "blue-mushroom",
+      "sourcePositionXZH": [
+        1.76,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:2:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:1；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 6,
+      "asset": "small-pebbles",
+      "sourcePositionXZH": [
+        -1.76,
+        6,
+        0
+      ],
+      "sourceCanvasPixels": 25,
+      "sourceCanvasRatio": 0.35714285714285715,
+      "sourceVisibleAlphaWidthRatio": 0.35714285714285715,
+      "standardNativeCanvasWidth": 0.5050762722761054,
+      "standardNativeVisibleAlphaWidth": 0.5050762722761054,
+      "support": "f:-2:6",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-2:6；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 7,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        1.76,
+        4,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:2:4",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:4；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 8,
+      "asset": "violet-crystal",
+      "sourcePositionXZH": [
+        4,
+        3.76,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:4:4",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:4:4；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 9,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        1.76,
+        6,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:2:6",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:6；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-1",
+      "index": 10,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        4.24,
+        6,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:4:6",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:4:6；保持原逻辑X/Z；暗区显隐跟随真实地面",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-2",
+      "index": 0,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        1.76,
+        0,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:2:0",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:0；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-2",
+      "index": 1,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        1.76,
+        3,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:2:3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-2",
+      "index": 2,
+      "asset": "glow-flower",
+      "sourcePositionXZH": [
+        4,
+        2.76,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:4:3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:4:3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-2",
+      "index": 3,
+      "asset": "blue-mushroom",
+      "sourcePositionXZH": [
+        1.76,
+        5,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:2:5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:2:5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-2",
+      "index": 4,
+      "asset": "small-pebbles",
+      "sourcePositionXZH": [
+        4.24,
+        5,
+        0
+      ],
+      "sourceCanvasPixels": 25,
+      "sourceCanvasRatio": 0.35714285714285715,
+      "sourceVisibleAlphaWidthRatio": 0.35714285714285715,
+      "standardNativeCanvasWidth": 0.5050762722761054,
+      "standardNativeVisibleAlphaWidth": 0.5050762722761054,
+      "support": "f:4:5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:4:5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 0,
+      "asset": "glow-flower",
+      "sourcePositionXZH": [
+        -1.24,
+        -5,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-1:-5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:-5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 1,
+      "asset": "blue-mushroom",
+      "sourcePositionXZH": [
+        -4,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-4:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 2,
+      "asset": "small-pebbles",
+      "sourcePositionXZH": [
+        -1.24,
+        -3,
+        0
+      ],
+      "sourceCanvasPixels": 25,
+      "sourceCanvasRatio": 0.35714285714285715,
+      "sourceVisibleAlphaWidthRatio": 0.35714285714285715,
+      "standardNativeCanvasWidth": 0.5050762722761054,
+      "standardNativeVisibleAlphaWidth": 0.5050762722761054,
+      "support": "f:-1:-3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:-3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 3,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        -4,
+        1.24,
+        0
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-4:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-4:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 4,
+      "asset": "violet-crystal",
+      "sourcePositionXZH": [
+        -1.24,
+        3,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-1:3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 5,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        1,
+        2.76,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:1:3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 6,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        -1.24,
+        5,
+        2
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:-1:5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 7,
+      "asset": "glow-flower",
+      "sourcePositionXZH": [
+        6.76,
+        -1,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:7:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:7:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 8,
+      "asset": "blue-mushroom",
+      "sourcePositionXZH": [
+        1.24,
+        5,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:1:5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:1:5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 9,
+      "asset": "small-pebbles",
+      "sourcePositionXZH": [
+        9,
+        -1.24,
+        2
+      ],
+      "sourceCanvasPixels": 25,
+      "sourceCanvasRatio": 0.35714285714285715,
+      "sourceVisibleAlphaWidthRatio": 0.35714285714285715,
+      "standardNativeCanvasWidth": 0.5050762722761054,
+      "standardNativeVisibleAlphaWidth": 0.5050762722761054,
+      "support": "f:9:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:9:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 10,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        6.76,
+        1,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:7:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:7:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-3",
+      "index": 11,
+      "asset": "violet-crystal",
+      "sourcePositionXZH": [
+        9.24,
+        1,
+        2
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:9:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:9:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-4",
+      "index": 0,
+      "asset": "small-pebbles",
+      "sourcePositionXZH": [
+        -5.24,
+        -1,
+        0
+      ],
+      "sourceCanvasPixels": 25,
+      "sourceCanvasRatio": 0.35714285714285715,
+      "sourceVisibleAlphaWidthRatio": 0.35714285714285715,
+      "standardNativeCanvasWidth": 0.5050762722761054,
+      "standardNativeVisibleAlphaWidth": 0.5050762722761054,
+      "support": "f:-5:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-5:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-4",
+      "index": 1,
+      "asset": "fern",
+      "sourcePositionXZH": [
+        -1.24,
+        -5,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-1:-5",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:-5；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-4",
+      "index": 2,
+      "asset": "violet-crystal",
+      "sourcePositionXZH": [
+        -3,
+        -1.24,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-3:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-3:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-4",
+      "index": 3,
+      "asset": "stone-lantern",
+      "sourcePositionXZH": [
+        -5.24,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-5:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-5:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-4",
+      "index": 4,
+      "asset": "blue-flowers",
+      "sourcePositionXZH": [
+        -1.24,
+        -3,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-1:-3",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-1:-3；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-4",
+      "index": 5,
+      "asset": "glow-flower",
+      "sourcePositionXZH": [
+        -2.76,
+        1,
+        0
+      ],
+      "sourceCanvasPixels": 30,
+      "sourceCanvasRatio": 0.42857142857142855,
+      "sourceVisibleAlphaWidthRatio": 0.42857142857142855,
+      "standardNativeCanvasWidth": 0.6060915267313265,
+      "standardNativeVisibleAlphaWidth": 0.6060915267313265,
+      "support": "f:-3:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:-3:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-4",
+      "index": 6,
+      "asset": "blue-mushroom",
+      "sourcePositionXZH": [
+        6.76,
+        1,
+        2
+      ],
+      "sourceCanvasPixels": 35,
+      "sourceCanvasRatio": 0.5,
+      "sourceVisibleAlphaWidthRatio": 0.5,
+      "standardNativeCanvasWidth": 0.7071067811865476,
+      "standardNativeVisibleAlphaWidth": 0.7071067811865476,
+      "support": "f:7:1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:7:1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    },
+    {
+      "level": "3-4",
+      "index": 7,
+      "asset": "light-tower",
+      "sourcePositionXZH": [
+        7,
+        -1,
+        2
+      ],
+      "sourceCanvasPixels": 65,
+      "sourceCanvasRatio": 0.9285714285714286,
+      "sourceVisibleAlphaWidthRatio": 0.9285714285714286,
+      "standardNativeCanvasWidth": 1.313198307917874,
+      "standardNativeVisibleAlphaWidth": 1.313198307917874,
+      "support": "f:7:-1",
+      "actualPhysicalXYZFromExistingEvidence": null,
+      "mappingStatus": "original logical position",
+      "mappingNote": "f:7:-1；保持原逻辑X/Z",
+      "nativeRatioApplied": true
+    }
+  ],
+  "firstProfileExtrasAndMappings": [
+    [
+      "fern",
+      -2.27,
+      -1.22,
+      0.45
+    ],
+    [
+      "pink-flowers",
+      -2.25,
+      0.27,
+      0.34
+    ],
+    [
+      "red-mushroom",
+      -1.65,
+      -1.28,
+      0.26
+    ],
+    [
+      "fern",
+      -1.24,
+      3.26,
+      0.46
+    ],
+    [
+      "pink-flowers",
+      -0.78,
+      3.3,
+      0.33
+    ],
+    [
+      "fern",
+      4.28,
+      -2.24,
+      0.48
+    ],
+    [
+      "red-mushroom",
+      3.94,
+      -2.27,
+      0.28
+    ],
+    [
+      "blue-flowers",
+      4.29,
+      0.27,
+      0.3
+    ],
+    [
+      "stone-lantern",
+      2.04,
+      -2.12,
+      0.43
+    ],
+    [
+      "fern",
+      1.78,
+      -2.3,
+      0.34
+    ],
+    [
+      "pink-flowers",
+      2.38,
+      -2.31,
+      0.36
+    ],
+    [
+      "yellow-flowers",
+      1.83,
+      -1.77,
+      0.25
+    ],
+    [
+      "small-pebbles",
+      2.64,
+      -2.3,
+      0.25
+    ],
+    [
+      "bush",
+      3.35,
+      -2.32,
+      0.4
+    ],
+    [
+      "blue-flowers",
+      3.6,
+      -2.18,
+      0.35
+    ],
+    [
+      "small-pebbles",
+      4.25,
+      -1.91,
+      0.26
+    ],
+    [
+      "yellow-flowers",
+      4.27,
+      -1.65,
+      0.24
+    ],
+    [
+      "yellow-flowers",
+      -1.18,
+      2.24,
+      0.42
+    ]
+  ],
+  "pondExistingEvidence": [
+    {
+      "bankSamples": 48,
+      "children": 108,
+      "inventory": {
+        "bank_props": 25,
+        "frogs": 2,
+        "leaves": 7,
+        "meadow_shrubs": 2,
+        "moss": 32,
+        "pads": 14,
+        "reeds": 11
+      },
+      "level": "2-1",
+      "meshIndices": 858,
+      "meshVertices": 288,
+      "residents": [
+        {
+          "actual": [
+            -6.54999971389771,
+            4.90000009536743
+          ],
+          "source": [
+            -6.69999980926514,
+            4.90000009536743
+          ]
+        },
+        {
+          "actual": [
+            5.53933954238892,
+            3.73933982849121
+          ],
+          "source": [
+            6.59999990463257,
+            4.80000019073486
+          ]
+        }
+      ]
+    },
+    {
+      "bankSamples": 36,
+      "children": 78,
+      "inventory": {
+        "bank_props": 19,
+        "frogs": 2,
+        "leaves": 5,
+        "meadow_shrubs": 2,
+        "moss": 24,
+        "pads": 10,
+        "reeds": 5
+      },
+      "level": "2-2",
+      "meshIndices": 642,
+      "meshVertices": 216,
+      "residents": [
+        {
+          "actual": [
+            -2.70000004768372,
+            3.90000009536743
+          ],
+          "source": [
+            -2.70000004768372,
+            3.90000009536743
+          ]
+        },
+        {
+          "actual": [
+            6.59999990463257,
+            3.79999995231628
+          ],
+          "source": [
+            6.59999990463257,
+            3.79999995231628
+          ]
+        }
+      ]
+    },
+    {
+      "bankSamples": 42,
+      "children": 88,
+      "inventory": {
+        "bank_props": 22,
+        "frogs": 1,
+        "leaves": 6,
+        "meadow_shrubs": 2,
+        "moss": 28,
+        "pads": 11,
+        "reeds": 6
+      },
+      "level": "2-3",
+      "meshIndices": 750,
+      "meshVertices": 252,
+      "residents": [
+        {
+          "actual": [
+            -6.54999971389771,
+            1.89999997615814
+          ],
+          "source": [
+            -6.69999980926514,
+            1.89999997615814
+          ]
+        }
+      ]
+    },
+    {
+      "bankSamples": 36,
+      "children": 101,
+      "inventory": {
+        "bank_props": 19,
+        "frogs": 2,
+        "leaves": 5,
+        "meadow_shrubs": 2,
+        "moss": 24,
+        "pads": 21,
+        "reeds": 10
+      },
+      "level": "2-4",
+      "meshIndices": 642,
+      "meshVertices": 216,
+      "residents": [
+        {
+          "actual": [
+            -6.69999980926514,
+            1.89999997615814
+          ],
+          "source": [
+            -6.69999980926514,
+            1.89999997615814
+          ]
+        },
+        {
+          "actual": [
+            12.6000003814697,
+            1.79999995231628
+          ],
+          "source": [
+            12.6000003814697,
+            1.79999995231628
+          ]
+        }
+      ]
+    }
+  ]
+}

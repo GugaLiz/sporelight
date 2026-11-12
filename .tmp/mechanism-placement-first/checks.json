@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "ce187a36a3e108c42f4ef96816380d83f475b3b0a6653e27e60ddee86feca9f3",
+    "files": 569
+  },
+  "source": {
+    "sha256": "ce187a36a3e108c42f4ef96816380d83f475b3b0a6653e27e60ddee86feca9f3",
+    "files": 569
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_core_click_test",
+      "code": 1,
+      "elapsedMs": 4345,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":19,\"failures\":[\"multiple visible petals are clickable in false\",\"current camera has unblocked flower input in false\",\"multiple visible petals are clickable in true\",\"current camera has unblocked flower input in true\",\"flower has visible unblocked actual input point\",\"actual flower input routes to authorized core tile\",\"normal repair proximity and mechanism preconditions now satisfied\",\"explicit original repair completes after flower click\"],\"gpuPixelsVerified\":false,\"maxBodySurfaceGap\":0.000942885875701904,\"passed\":false,\"samples\":110,\"suite\":\"native-core-click\"}\r\n",
+      "stderr": "ERROR: multiple visible petals are clickable in false\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:38)\r\n       [2] _walk_to (res://tests/native_route_test.gd:118)\r\n       [3] _drain (res://tests/native_route_test.gd:92)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\nERROR: current camera has unblocked flower input in false\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:39)\r\n       [2] _walk_to (res://tests/native_route_test.gd:118)\r\n       [3] _drain (res://tests/native_route_test.gd:92)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\nERROR: multiple visible petals are clickable in true\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:38)\r\n       [2] _walk_to (res://tests/native_route_test.gd:118)\r\n       [3] _drain (res://tests/native_route_test.gd:92)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\nERROR: current camera has unblocked flower input in true\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:39)\r\n       [2] _walk_to (res://tests/native_route_test.gd:118)\r\n       [3] _drain (res://tests/native_route_test.gd:92)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\nERROR: flower has visible unblocked actual input point\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:42)\r\n       [2] _walk_to (res://tests/native_route_test.gd:118)\r\n       [3] _drain (res://tests/native_route_test.gd:92)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\nERROR: actual flower input routes to authorized core tile\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:47)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: normal repair proximity and mechanism preconditions now satisfied\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:48)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: explicit original repair completes after flower click\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:52)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_mechanism_props_test",
+      "code": 0,
+      "elapsedMs": 13491,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":267,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"scope\":\"Current-state cues, actual actions and undo, refresh invalidation, collision-free props and unchanged domain snapshots.\",\"suite\":\"native-mechanism-props\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "1-4 heavy lever ordinary release input review",
+  "requiredViewport": [1280,720],
+  "requiredDpr": 1,
+  "entryRequirement": "Explicit --level 1-4 on an isolated release browser. No QA bridge or save injection. Review actual before/after images; collection is not full puzzle acceptance.",
+  "phases": [
+    {"name":"pull-heavy-lever","actions":[{"key":"1"}],"settleMs":1300},
+    {"name":"switch-companion-while-holding","actions":[{"key":"t"}],"settleMs":600},
+    {"name":"switch-back","actions":[{"key":"t"}],"settleMs":600},
+    {"name":"release-by-same-tile-step","actions":[{"key":"ArrowLeft","holdMs":100}],"settleMs":600},
+    {"name":"undo-restores-hold","actions":[{"key":"z"}],"settleMs":700},
+    {"name":"pause-and-resume","actions":[{"key":"Escape"},{"waitMs":200},{"key":"Escape"}],"settleMs":600}
+  ]
+}

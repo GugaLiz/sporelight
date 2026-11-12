@@ -1,0 +1,30 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "holding" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://presentation/native/native_garden_stage.gd:1640)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/native_route_test.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/native_heavy_lever_test.gd:0)
+ERROR: Failed to load script "res://tests/native_heavy_lever_test.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _setup (res://tests/native_route_test.gd:64)
+   GDScript backtrace (most recent call first):
+       [0] _setup (res://tests/native_route_test.gd:64)
+       [1] _run (res://tests/native_heavy_lever_test.gd:21)
+SCRIPT ERROR: Cannot call method 'show' on a null value.
+   at: Harness._enter_level (res://application/main.gd:188)
+   GDScript backtrace (most recent call first):
+       [0] _enter_level (res://application/main.gd:188)
+       [1] _fresh (res://tests/native_heavy_lever_test.gd:6)
+       [2] _run (res://tests/native_heavy_lever_test.gd:22)
+SCRIPT ERROR: Invalid access to property or key 'world' on a base object of type 'Nil'.
+   at: _fresh (res://tests/native_heavy_lever_test.gd:7)
+   GDScript backtrace (most recent call first):
+       [0] _fresh (res://tests/native_heavy_lever_test.gd:7)
+       [1] _run (res://tests/native_heavy_lever_test.gd:22)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_actor_body' in base 'Nil'.
+   at: _run (res://tests/native_heavy_lever_test.gd:23)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/native_heavy_lever_test.gd:23)

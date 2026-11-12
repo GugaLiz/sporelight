@@ -1,0 +1,88 @@
+{
+  "name": "Ordinary home entry, first growth, undo and repeated growth",
+  "requiredViewport": [
+    1280,
+    720
+  ],
+  "requiredDpr": 1,
+  "entryRequirement": "Fresh isolated browser, ordinary URL, no QA or level override. Reload keeps this isolated journey. Review both runs independently.",
+  "validationStatus": "Ordinary official release b8980c78 screenshot review confirms Enter/Enter opens 1-1, both growths complete (bud 0/1), and undo retracts the committed bridge (bud 1/1). Collector drains two actual animation frames before settling; early pre-drain validation is retained as a rejected measurement scenario.",
+  "phases": [
+    {
+      "name": "home-enter-game",
+      "actions": [
+        {
+          "key": "Enter"
+        },
+        {
+          "waitMs": 350
+        },
+        {
+          "key": "Enter"
+        }
+      ],
+      "settleMs": 1200,
+      "expected": "Home closes and the current 1-1 garden becomes playable. No confirmation overlay remains."
+    },
+    {
+      "name": "idle-before-growth",
+      "actions": [
+        {
+          "waitMs": 3000
+        }
+      ],
+      "settleMs": 0,
+      "expected": "Both actors stand at the starting island beside the root."
+    },
+    {
+      "name": "growth-first",
+      "actions": [
+        {
+          "key": "1"
+        }
+      ],
+      "settleMs": 1800,
+      "expected": "Root bridge grows and settles. On the first run this is the first actual growth draw in this browser."
+    },
+    {
+      "name": "undo-growth-first",
+      "actions": [
+        {
+          "key": "z"
+        }
+      ],
+      "settleMs": 1000,
+      "expected": "Bridge retracts to the previous state. Verify visually before treating the next action as a repeat."
+    },
+    {
+      "name": "growth-repeat",
+      "actions": [
+        {
+          "key": "1"
+        }
+      ],
+      "settleMs": 1800,
+      "expected": "The same root bridge grows again."
+    },
+    {
+      "name": "undo-growth-repeat",
+      "actions": [
+        {
+          "key": "z"
+        }
+      ],
+      "settleMs": 1000,
+      "expected": "Return to the root's initial state so the same-context reload has the same action available."
+    },
+    {
+      "name": "idle-after-actions",
+      "actions": [
+        {
+          "waitMs": 3000
+        }
+      ],
+      "settleMs": 0,
+      "expected": "Stable garden, characters supported, controls visible."
+    }
+  ]
+}

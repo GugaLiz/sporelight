@@ -1,0 +1,142 @@
+{
+  "passed": true,
+  "finalBuild": {
+    "sha256": "0e920007a200c6bc248c7eec777932b8edbfb985dd831984bcbecd12748889f6",
+    "files": 488
+  },
+  "scope": "14 adjusted levels plus approved first-garden regression. Source-specific matrices and exact runtime delta proofs are retained separately.",
+  "evidence": [
+    {
+      "report": "final-headless/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "6f83b6936f427a5a41d90faf4713528a3b98ed15e4340d6632402b3c14512522",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-reference/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "6f83b6936f427a5a41d90faf4713528a3b98ed15e4340d6632402b3c14512522",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-gpu/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "6f83b6936f427a5a41d90faf4713528a3b98ed15e4340d6632402b3c14512522",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-motion/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "6f83b6936f427a5a41d90faf4713528a3b98ed15e4340d6632402b3c14512522",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-lift-motion/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "6f83b6936f427a5a41d90faf4713528a3b98ed15e4340d6632402b3c14512522",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-label-headless/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "eaf75d3b05341720f3cac3ce1bfe7cf2a0c1642db18a8abc2d9925393cdec4a4",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-style-gpu/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "eaf75d3b05341720f3cac3ce1bfe7cf2a0c1642db18a8abc2d9925393cdec4a4",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-browser-desktop/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "eaf75d3b05341720f3cac3ce1bfe7cf2a0c1642db18a8abc2d9925393cdec4a4",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-interaction-headless/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "0e920007a200c6bc248c7eec777932b8edbfb985dd831984bcbecd12748889f6",
+        "files": 488
+      }
+    },
+    {
+      "report": "accepted-browser-touch/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "0e920007a200c6bc248c7eec777932b8edbfb985dd831984bcbecd12748889f6",
+        "files": 488
+      }
+    },
+    {
+      "report": "accepted-first-garden-desktop/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "0e920007a200c6bc248c7eec777932b8edbfb985dd831984bcbecd12748889f6",
+        "files": 488
+      }
+    },
+    {
+      "report": "accepted-first-garden-touch-safe-target/checks.json",
+      "passed": true,
+      "source": {
+        "sha256": "0e920007a200c6bc248c7eec777932b8edbfb985dd831984bcbecd12748889f6",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-label-delta.json",
+      "passed": true,
+      "source": {
+        "sha256": "eaf75d3b05341720f3cac3ce1bfe7cf2a0c1642db18a8abc2d9925393cdec4a4",
+        "files": 488
+      }
+    },
+    {
+      "report": "final-interaction-delta.json",
+      "passed": true,
+      "source": {
+        "sha256": "0e920007a200c6bc248c7eec777932b8edbfb985dd831984bcbecd12748889f6",
+        "files": 488
+      }
+    },
+    {
+      "report": "protected-contracts.json",
+      "passed": true,
+      "source": {
+        "sha256": "0e920007a200c6bc248c7eec777932b8edbfb985dd831984bcbecd12748889f6",
+        "files": 488
+      }
+    }
+  ],
+  "retainedFailures": [
+    "candidate-motion/",
+    "final-browser-touch/",
+    "final-first-garden-touch/",
+    "accepted-first-garden-touch/"
+  ],
+  "limitations": [
+    "GPU state captures are not continuous gameplay.",
+    "14 final touch routes used 516 taps and no keyboard traversal fallback; first-garden touch regression used 3 keyboard fallback paths. Menu scrolling assistance remains possible.",
+    "Headless Chromium is not real-device or all-platform performance certification.",
+    "Historical first-garden fixture remains unchanged; current first-garden contracts and routes validate the approved layout."
+  ]
+}
