@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-11",
+  "scope": "Targeted CPU freeze; parent owns final shared-stage digest and GPU review",
+  "checks": [
+    {
+      "suite": "native_original_sanctuary_test",
+      "checks": 285,
+      "states": 8,
+      "failures": 0,
+      "rerunAfterResidentMove": true
+    },
+    {
+      "suite": "native_garden_effects_test",
+      "checks": 2156,
+      "failures": 0,
+      "rerunAfterResidentMove": false
+    },
+    {
+      "suite": "native_prop_alignment_test",
+      "checks": 3108,
+      "motions": 34,
+      "failures": 0,
+      "rerunAfterResidentMove": false
+    }
+  ],
+  "total": 5549,
+  "gpuPixelsVerified": false,
+  "files": {
+    "godot/presentation/native/original_sanctuary_dressing.gd": "96611ad64ffbcdc2a6457a7af0d18e22f97f26def396d13f3d1f51f93765584c",
+    "godot/presentation/native/original_fountain_effect.gdshader": "b3deb17e96eb9eb263482d659a128b5f5a868c3d460394115e32195fc736415a",
+    "godot/presentation/native/native_garden_atmosphere.gd": "ba2d41e4f63a40e36d2ae6b641bffae4b69865306be63eb2830f508638d7b84c",
+    "godot/tests/native_original_sanctuary_test.gd": "b9bac5e59c9e295c9fa6c48b66872c0681454f43cd87a74e4eeaeb03cb0e4e62"
+  },
+  "revision": "3-4 resident front-right complete footprint separated from actual final core and completed actor capsules",
+  "priorFreeze": "native-sanctuary-first-freeze.json",
+  "priorResidentFreeze": "native-sanctuary-resident-left-freeze.json"
+}

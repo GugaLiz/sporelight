@@ -16,7 +16,7 @@ class Dressing:
 		preload("res://presentation/native/second_garden_dressing.gd").scenery(stage)
 		preload("res://prototypes/root_weaving_courtyard.gd").build(stage)
 	static func obstacle(stage: Node, wall: Array) -> void:
-		preload("res://prototypes/root_weaving_obstacle.gd").build(stage, wall)
+		preload("res://presentation/native/isolated_rock_spire.gd").build(stage, wall)
 
 func _select_presentation() -> void:
 	super._select_presentation()
@@ -29,6 +29,14 @@ func growth_choice_layout() -> Array:
 
 func target_position(id: String) -> Vector2:
 	return project(_growth_target(id))
+
+func draft_origin() -> Vector2:
+	var root: Dictionary = world.level.roots[0]
+	var grown: Array = world.state.growth[root.id]
+	return target_position(str(grown.back())) if not grown.is_empty() else project(world.point_for(str(root.at)))
+
+func draft_number(index: int) -> int:
+	return world.state.growth[world.level.roots[0].id].size() + index + 1
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not planning:
@@ -72,17 +80,19 @@ func draw_context(canvas: CanvasItem) -> void:
 	if font == null: return
 	for socket: Array in world.level.roots[0].sockets:
 		var id := "g:root:%d:%d" % [socket[0], socket[1]]
+		if id in world.state.growth.root: continue
 		var polygon := _polygon(id)
 		canvas.draw_colored_polygon(polygon, Color(1, 0.96, 0.78, 0.09))
 		polygon.append(polygon[0])
 		canvas.draw_polyline(polygon, Color(1, 0.96, 0.78, 0.35), 1.0, true)
-	var previous := project(world.point_for("f:1:1"))
+	var previous := draft_origin()
 	for i in range(draft.size()):
 		var at := target_position(draft[i])
 		canvas.draw_colored_polygon(_polygon(draft[i]), Color(0.68, 0.80, 0.47, 0.65))
-		canvas.draw_line(previous, at, Color("f8e2a2"), 3, true)
+		var direction := previous.direction_to(at)
+		canvas.draw_line(previous + direction * 13, at - direction * 13, Color("f8e2a2"), 3, true)
 		canvas.draw_circle(at, 12, Color("537151"))
-		var number := str(i + 1)
+		var number := str(draft_number(i))
 		canvas.draw_string(font, at + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x / 2, 5), number, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("fff6dd"))
 		previous = at
 	for choice: Dictionary in options:

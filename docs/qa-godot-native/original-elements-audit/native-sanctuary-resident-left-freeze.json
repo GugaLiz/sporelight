@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-11",
+  "scope": "Targeted CPU freeze; parent owns final shared-stage digest and GPU review",
+  "checks": [
+    {
+      "suite": "native_original_sanctuary_test",
+      "checks": 201,
+      "states": 8,
+      "failures": 0,
+      "rerunAfterResidentMove": true
+    },
+    {
+      "suite": "native_garden_effects_test",
+      "checks": 2156,
+      "failures": 0,
+      "rerunAfterResidentMove": false
+    },
+    {
+      "suite": "native_prop_alignment_test",
+      "checks": 3108,
+      "motions": 34,
+      "failures": 0,
+      "rerunAfterResidentMove": false
+    }
+  ],
+  "total": 5465,
+  "gpuPixelsVerified": false,
+  "files": {
+    "godot/presentation/native/original_sanctuary_dressing.gd": "5385bb12acf66f201c9bee24c325883007053da921e45d193b1b99fc989fae75",
+    "godot/presentation/native/original_fountain_effect.gdshader": "b3deb17e96eb9eb263482d659a128b5f5a868c3d460394115e32195fc736415a",
+    "godot/presentation/native/native_garden_atmosphere.gd": "ba2d41e4f63a40e36d2ae6b641bffae4b69865306be63eb2830f508638d7b84c",
+    "godot/tests/native_original_sanctuary_test.gd": "cec20fa43f1b8b6cc80e0e90435576c1454ece7cf11128ef42b3c82f26a79e1a"
+  },
+  "revision": "3-4 resident same-height front-left placement after independent GPU occlusion finding",
+  "priorFreeze": "native-sanctuary-first-freeze.json"
+}

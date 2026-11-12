@@ -2,6 +2,7 @@
 all actions under test use actual pointer/keyboard events in an isolated context."""
 import argparse, base64, json, math, sys, time, traceback, urllib.request
 from pathlib import Path
+from qa_core_approach import authored_core_approach, reached_core_approach
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / ".cache/native-qa-python"))
 from playwright.sync_api import sync_playwright
@@ -12,6 +13,8 @@ parser.add_argument("--mode", choices=["capture", "gameplay", "home", "cover", "
 parser.add_argument("--levels", default="")
 parser.add_argument("--sizes", default="1280x720,390x844,568x320")
 parser.add_argument("--off-axis", action="store_true", help="Walk onto the water module arm before the rotation sample (3-3).")
+parser.add_argument("--touch", action="store_true", help="Use real touchscreen taps for gameplay targets and action buttons; keyboard fallback still records offscreen traversal.")
+parser.add_argument("--mechanism-command", default="", help="Exact authored action for motion sampling; otherwise use the first turn action.")
 args = parser.parse_args()
 with urllib.request.urlopen(args.base.rstrip("/")+"/__build.json") as response:
     build=json.load(response)
@@ -31,27 +34,32 @@ def native_cloud(s):
     return result
 cases += [{"id":e["id"],"initial":native_cloud(e["initial"]),"steps":[{"command":step["command"],"snapshot":native_cloud(step["snapshot"])} for step in e["steps"]]} for e in cloud["levels"]]
 results, errors = [], []
+input_trace = []
 def state(page):
     return page.evaluate("() => structuredClone(window.__sporelightState)")
 def fresh(page):
     n = state(page).get("qaSequence", 0)
     page.wait_for_function("n => window.__sporelightState?.qaSequence > n", arg=n, timeout=15000)
     return state(page)
-def click_rect(page, rect, touch=False):
+def click_rect(page, rect, touch=None, settle=True):
+    touch = args.touch if touch is None else touch
     # A modal can be opened before Godot's deferred container pass is drawn.
     # Let geometry settle so a tap cannot land on the following row.
-    page.wait_for_timeout(180)
+    if settle: page.wait_for_timeout(180)
     canvas = page.locator("#canvas")
     box = canvas.bounding_box()
     backing = canvas.evaluate("e => [e.width, e.height]")
     x, y, w, h = rect
     point = (box["x"]+(x+w/2)*box["width"]/backing[0], box["y"]+(y+h/2)*box["height"]/backing[1])
+    input_trace.append({"kind":"tap" if touch else "click", "point":list(point)})
     if touch: page.touchscreen.tap(*point)
     else: page.mouse.click(*point)
-def find_button(page, query, touch=False, optional=False):
+def find_button(page, query, touch=None, optional=False):
+    def matches(button):
+        return all(v in button.get("text", "") if k == "contains" else button.get("path", "").endswith(v) if k == "path_suffix" else button.get(k) == v for k, v in query.items())
     for attempt in range(32):
         s = fresh(page)
-        candidates = [b for b in s.get("buttons", []) if not b.get("disabled") and all((v in b.get("text","") if k=="contains" else b.get(k)==v) for k,v in query.items())]
+        candidates = [b for b in s.get("buttons", []) if not b.get("disabled") and matches(b)]
         if candidates:
             b = candidates[-1]
             rect = b.get("visibleRect", [b["x"],b["y"],b["width"],b["height"]])
@@ -62,7 +70,7 @@ def find_button(page, query, touch=False, optional=False):
             scrolls = [c for c in s.get("ui",{}).get("controls",[]) if c["class"]=="ScrollContainer" and c.get("visibleRect",[0,0,0,0])[3]>20]
             if scrolls:
                 r=scrolls[-1]["visibleRect"]
-                targets=[c for c in s.get("ui",{}).get("controls",[]) if c.get("class","").endswith("Button") and all((v in c.get("text","") if k=="contains" else c.get(k)==v) for k,v in query.items())]
+                targets=[c for c in s.get("ui",{}).get("controls",[]) if c.get("class","").endswith("Button") and matches(c)]
                 direction=-1 if targets and targets[-1].get("y",0)<r[1] else 1 if targets else 1 if attempt%16<8 else -1
                 page.mouse.move(r[0]+r[2]/2,r[1]+r[3]/2)
                 page.mouse.wheel(0,direction*200)
@@ -88,46 +96,133 @@ def stable(page, level=None):
     }""",arg={"level":level,"sequence":sequence},timeout=20000)
     return fresh(page)
 def prepare(page, snapshot):
+    page.wait_for_selector("#status", state="detached", timeout=120000)
     page.evaluate("snapshot => window.__sporelightRequest(JSON.stringify({type:'snapshot',snapshot,time:1200}))",snapshot)
     page.wait_for_function("id => window.__sporelightState?.snapshot?.levelId===id && !window.__sporelightState.homeActive",arg=snapshot["levelId"],timeout=15000)
     return stable(page,snapshot["levelId"])
 def check_contacts(s, label):
     assert s.get("native"), label+": native movement active"
+    generic_stairs = s["snapshot"]["levelId"] in {
+        "1-3", "1-4", "2-1", "2-2", "2-3", "2-4",
+        "3-1", "3-2", "3-3", "3-4", "cloud-1", "cloud-2", "cloud-3",
+    }
+    diagnostics = {}
     for who, actor in s["native"].get("actors",{}).items():
         p=actor["position"]
         assert all(math.isfinite(v) for v in p), label+": finite "+who
         assert actor["support"]==s["snapshot"]["actors"][who], label+": support "+who
-        assert abs(p[1]-actor["floorHeight"])<0.16, label+": ground contact "+who+" "+str(actor)
+        diagnostics[who] = {"bodyCentreGap": p[1]-actor["floorHeight"]}
+        if generic_stairs:
+            # Four short treads let the capsule touch a higher step ahead of
+            # its centre. Real sweep evidence: movement-candidate/contact-aware.log
+            # has 1312 contacts, zero surface error and <=.001892 penetration
+            # despite a .257125 centre gap. That gap is diagnostic, not a sole.
+            visual = s["character"][who]
+            contact = visual["contact"]
+            assert all(math.isfinite(contact[k]) for k in ["visualHeight", "supportHeight"]), label+": finite visual contact "+who
+            gap = contact["visualHeight"] - contact["supportHeight"]
+            assert -0.001 <= gap <= 0.1625 + 0.001, label+": visible sole within one actual stair "+who+" "+str(contact)
+            if not visual["moving"]:
+                assert abs(gap) < 0.001, label+": stopped visible sole on actual tread "+who+" "+str(contact)
+            diagnostics[who]["visibleSoleGap"] = gap
+        else:
+            assert abs(p[1]-actor["floorHeight"])<0.16, label+": ground contact "+who+" "+str(actor)
+    return diagnostics
+def enter_map_level(page, level, touch=False):
+    chapter = "cloud" if level.startswith("cloud-") else {"1": "valley", "2": "pond", "3": "cave"}[level.split("-")[0]]
+    # Inspect/select through the visible world overview and numbered landmark;
+    # entering is a separate real button, not the old long-list row.
+    find_button(page, {"action": "world_overview"}, touch)
+    find_button(page, {"path_suffix": "/ChapterPreview_" + chapter}, touch)
+    find_button(page, {"path_suffix": "/MapMarker_" + level}, touch)
+    find_button(page, {"path_suffix": "/MapEnterLevel"}, touch)
+    page.wait_for_function("id => {const s=window.__sporelightState;return s?.snapshot.levelId===id&&!s.paused&&s.worldVisible;}", arg=level, timeout=15000)
+    return stable(page, level)
+
 def open_game(page, level, touch=False):
     s=fresh(page)
     if not s.get("homeActive"):
         page.keyboard.press("Escape")
         find_button(page,{"action":"home"},touch)
     find_button(page,{"action":"map"},touch)
-    find_button(page,{"contains":level+"  "},touch)
-    return stable(page,level)
+    return enter_map_level(page, level, touch)
 def move_to(page, tile):
     s=fresh(page)
+    before=s["snapshot"]
+    def movement_only(result):
+        for key in ["growth","turns","water","mode"]:
+            assert result["snapshot"].get(key)==before.get(key), "walking to "+tile+" accidentally changed mechanism "+key
+        return result
     actor=s["snapshot"]["active"]
+    def core_arrival(result):
+        evidence = reached_core_approach(result, tile, actor)
+        if evidence:
+            input_trace.append({"kind": "core-approach", **evidence})
+            return movement_only(result)
+        return None
     if s["snapshot"]["actors"][actor]==tile:
+        return s
+    if core_arrival(s) is not None:
         return s
     target=next((t for t in s["targets"] if t["id"]==tile),None)
     if target and 0<target["x"]<s["viewport"][0] and 0<target["y"]<s["viewport"][1]:
-        click_rect(page,[target["x"]-1,target["y"]-1,2,2])
-        try:
-            page.wait_for_function("tile => {const s=window.__sporelightState;return s?.snapshot.actors[s.snapshot.active]===tile&&!s.moving;}",arg=tile,timeout=2500)
-            return fresh(page)
-        except Exception:
-            pass
+        # The follow camera may still ease after the body settles. A GUI-style
+        # delay after reading world coordinates can tap an unrelated growth +.
+        # Observe projection settling, then tap the latest visible target now.
+        for _ in range(8):
+            observed=fresh(page)
+            latest=next((t for t in observed["targets"] if t["id"]==tile),None)
+            if latest is None: break
+            delta=math.hypot(latest["x"]-target["x"],latest["y"]-target["y"])
+            target=latest
+            s=observed
+            if delta<0.5: break
+        # The first garden intentionally places direction controls around its
+        # seedbed. A projected floor centre can lie under a visible + control;
+        # that point means "grow", not "walk". Never click through that UI.
+        growth_hits=[choice for choice in s.get("growthChoices",[]) if math.hypot(choice["x"]-target["x"],choice["y"]-target["y"])<=25]
+        button_hits=[]
+        for button in s.get("buttons",[]):
+            x,y,w,h=button.get("visibleRect",[0,0,0,0])
+            if x<=target["x"]<=x+w and y<=target["y"]<=y+h:
+                button_hits.append(button.get("action") or button.get("text"))
+        if growth_hits or button_hits:
+            filename="blocked-"+s["snapshot"]["levelId"]+"-"+tile.replace(":","_")+"-"+str(len(input_trace))+".png"
+            page.screenshot(path=str(OUT/filename))
+            input_trace.append({"kind":"pointer-blocked-by-control","tile":tile,"point":[target["x"],target["y"]],"growthChoices":growth_hits,"buttons":button_hits,"image":filename})
+        else:
+            input_trace.append({"kind":"world-target", "tile":tile, "point":[target["x"],target["y"]]})
+            click_rect(page,[target["x"]-1,target["y"]-1,2,2],settle=False)
+            try:
+                contract = authored_core_approach(s, tile)
+                destinations = [tile] + ([contract["support"]] if contract else [])
+                page.wait_for_function("value => {const s=window.__sporelightState;return s?.snapshot.active===value.actor&&value.destinations.includes(s.snapshot.actors[value.actor])&&!s.moving;}",arg={"actor":actor,"destinations":destinations},timeout=9000 if before['levelId'] in ['1-4','2-2','3-4'] else 2500)
+                arrived = fresh(page)
+                if arrived["snapshot"]["actors"][actor] == tile:
+                    return movement_only(arrived)
+                accepted = core_arrival(arrived)
+                if accepted is not None:
+                    return accepted
+            except Exception:
+                pass
     # A deliberately hidden or offscreen path can be traversed by keyboard.
     # Build a path only through the current rule-authorized tile graph; every
     # segment is still executed by real held input and the in-game guard.
     s=fresh(page)
+    movement_only(s)
+    accepted = core_arrival(s)
+    if accepted is not None:
+        return accepted
+    # A completely occupied explicit core has no keyboard destination inside
+    # its stone. Walk to its one authored approach; ordinary floors keep their
+    # exact target and cannot use this exception.
+    contract = authored_core_approach(s, tile)
+    destination = contract["support"] if contract else tile
     tiles={t["id"]:t for t in s.get("tiles",[])}
     at=s["snapshot"]["actors"][actor]
     queue=[(at,[])];seen={at};path=None
     for key,route in queue:
-        if key==tile: path=route;break
+        if key==destination: path=route;break
         a=tiles[key]
         for name,b in tiles.items():
             if name in seen or b.get("solid") or actor=="luvie" and b.get("small"):continue
@@ -136,20 +231,40 @@ def move_to(page, tile):
             if s["snapshot"]["levelId"].startswith("cloud-") and a["h"]!=b["h"] and "stair" not in [a.get("kind"),b.get("kind")]:continue
             seen.add(name);queue.append((name,route+[name]))
     assert path is not None,"connected keyboard route "+tile
+    input_trace.append({"kind":"keyboard-fallback", "from":at, "target":tile, "physicalTarget":destination, "path":path})
     for dest in path:
         s=fresh(page);a=tiles[s["snapshot"]["actors"][actor]];b=tiles[dest]
         key="ArrowRight" if b["x"]>a["x"] else "ArrowLeft" if b["x"]<a["x"] else "ArrowDown" if b["z"]>a["z"] else "ArrowUp"
+        trace={"kind":"key-step", "key":key, "target":dest, "reached":False}
+        input_trace.append(trace)
         page.keyboard.down(key)
         try:
             page.wait_for_function("value => {const s=window.__sporelightState;return s?.snapshot.actors[value.actor]===value.tile;}",arg={"actor":actor,"tile":dest},timeout=6000)
+            trace["reached"]=True
         finally:
             page.keyboard.up(key)
         stable(page)
-    return fresh(page)
+    arrived = fresh(page)
+    if contract:
+        accepted = core_arrival(arrived)
+        assert accepted is not None, "explicit core approach did not physically settle: "+tile
+        return accepted
+    return movement_only(arrived)
 def action(page, command):
+    input_trace.append({"kind":"action", "command":command, "input":"touch" if args.touch else "keyboard/control"})
     s=fresh(page)
     before_revision=s["revision"]
-    if command=="switch":
+    if args.touch and command in ["switch", "follow"]:
+        find_button(page,{"action":command},True)
+    elif args.touch:
+        # Opening the same menu as a player preserves the distinction between
+        # the principal object and the explicit choice of a growth direction.
+        assert any(c.get("id")==command for c in s.get("commands",[])), "available command "+command
+        find_button(page,{"action":"primary"},True)
+        after=stable(page)
+        if after["revision"]==before_revision:
+            find_button(page,{"command_id":command},True)
+    elif command=="switch":
         page.keyboard.press("t")
     elif command=="follow":
         find_button(page,{"action":"follow"})
@@ -168,14 +283,15 @@ def action(page, command):
     assert command=="pet" or result["revision"]>before_revision, "action did not commit: "+command+"; "+result.get("message","")
     return result
 def run_case(browser, size, case, mode):
+    input_trace.clear()
     folder=OUT/(str(size[0])+"x"+str(size[1]))/case["id"]
     folder.mkdir(parents=True,exist_ok=True)
-    context=browser.new_context(viewport={"width":size[0],"height":size[1]},has_touch=size[0]<600,device_scale_factor=1)
+    context=browser.new_context(viewport={"width":size[0],"height":size[1]},has_touch=args.touch or size[0]<600,device_scale_factor=1)
     page=context.new_page()
     local_errors=[]
     page.on("pageerror",lambda e:local_errors.append(str(e)))
     page.on("console",lambda m:local_errors.append(m.text) if m.type=="error" or "SCRIPT ERROR:" in m.text else None)
-    row={"level":case["id"],"size":list(size),"mode":mode}
+    row={"level":case["id"],"size":list(size),"mode":mode,"input":"touch with keyboard traversal fallback" if args.touch else "mouse and keyboard"}
     try:
         page.goto(args.base+"?qa=1",wait_until="networkidle",timeout=120000)
         page.wait_for_function("() => typeof window.__sporelightRequest==='function' && window.__sporelightState?.snapshot",timeout=120000)
@@ -201,8 +317,17 @@ def run_case(browser, size, case, mode):
                         move_to(page,intended)
                     s=action(page,c["value"])
                 elif c["kind"]=="undo":
-                    page.keyboard.press("z");s=stable(page)
+                    if args.touch: find_button(page,{"action":"undo"},True)
+                    else: page.keyboard.press("z")
+                    s=stable(page)
                 check_contacts(s,"step "+str(i))
+                # A revision alone could belong to a different nearby action.
+                # Assert mechanism outcomes while allowing native follower poses
+                # and incidental collectible timing to differ from old fixtures.
+                if c["kind"]=="act":
+                    for key in ["growth","turns","flags","items","water","mode","frozen","song","beat","cloudSeed","cloudLatch"]:
+                        if key in step["snapshot"]:
+                            assert s["snapshot"].get(key)==step["snapshot"][key], "action outcome differs for "+c["value"]+" in "+key
                 expected_before=step["snapshot"]
             assert s["snapshot"]["completed"],"completed through real input"
             page.screenshot(path=str(folder/"completed.png"))
@@ -215,15 +340,17 @@ def run_case(browser, size, case, mode):
         page.screenshot(path=str(folder/"failure.png"))
     finally:
         row["errors"]=local_errors
+        row["inputTrace"]=list(input_trace)
         (folder/"checks.json").write_text(json.dumps(row,ensure_ascii=False,indent=2),encoding="utf-8")
         context.close()
     results.append(row)
     print(json.dumps({k:row.get(k) for k in ["level","size","mode","passed","step","command","reason"]},ensure_ascii=False),flush=True)
 def run_first_garden(browser, size):
     """Story, optional exploration and both directions survive an art revision."""
+    input_trace.clear()
     folder = OUT / (str(size[0])+"x"+str(size[1])) / "first-garden"
     folder.mkdir(parents=True, exist_ok=True)
-    context = browser.new_context(viewport={"width":size[0], "height":size[1]}, device_scale_factor=1)
+    context = browser.new_context(viewport={"width":size[0], "height":size[1]}, device_scale_factor=1, has_touch=args.touch)
     page = context.new_page()
     local_errors = []
     page.on("pageerror", lambda e: local_errors.append(str(e)))
@@ -298,6 +425,7 @@ def run_first_garden(browser, size):
         page.wait_for_timeout(600)
         page.reload(wait_until="networkidle", timeout=120000)
         page.wait_for_function("() => window.__sporelightState?.snapshot", timeout=120000)
+        page.wait_for_selector("#status", state="detached", timeout=120000)
         if fresh(page).get("homeActive"):
             find_button(page, {"action":"continue"})
         s = stable(page)
@@ -319,6 +447,7 @@ def run_first_garden(browser, size):
         page.screenshot(path=str(folder/"failure.png"))
     finally:
         row["errors"] = local_errors
+        row["inputTrace"] = list(input_trace)
         (folder/"checks.json").write_text(json.dumps(row, ensure_ascii=False, indent=2), encoding="utf-8")
         context.close()
     results.append(row)
@@ -350,7 +479,7 @@ def run_home(browser, size, touch):
             expect_home()
         find_button(page,{"action":"map"},touch)
         page.wait_for_timeout(300)
-        find_button(page,{"contains":"1-1  "},touch)
+        enter_map_level(page,"1-1",touch)
         s=stable(page,"1-1")
         assert not s["homeActive"] and not s["paused"]
         # E opens a direction choice without selecting the puzzle answer.
@@ -438,9 +567,9 @@ def run_cover(browser, size):
             s=expect_cover()
             assert s["snapshot"]==before,"cover child navigation preserves rules"
         open_home_child(page,"云庭微光")
-        page.wait_for_function("() => window.__sporelightState?.buttons.some(b=>b.text.startsWith('cloud-1  ')&&b.visibleRect?.[3]>20)",timeout=5000)
+        page.wait_for_function("() => window.__sporelightState?.buttons.some(b=>b.path.endsWith('/MapMarker_cloud-1')&&b.visibleRect?.[3]>20)",timeout=5000)
         s=fresh(page)
-        assert any(b.get("text","").startswith("cloud-1  ") and b.get("visibleRect",[0,0,0,0])[3]>20 for b in s["buttons"]),"cloud entry focuses its existing map section"
+        assert any(b.get("path","").endswith("/MapMarker_cloud-1") and b.get("visibleRect",[0,0,0,0])[3]>20 for b in s["buttons"]),"cloud entry opens the independent illustrated chapter"
         page.screenshot(path=str(folder/"cloud-map.png"))
         page.keyboard.press("Escape");expect_cover()
         # Verify the reduced-motion cover through the real settings toggle.
@@ -556,7 +685,7 @@ def run_mechanism(browser, size, level):
         case=next(c for c in cases if c["id"]==level)
         previous=case["initial"];transition=None
         for step in case["steps"]:
-            if step["command"]["kind"]=="act" and step["command"]["value"].startswith("turn:"):
+            if step["command"]["kind"]=="act" and (step["command"]["value"]==args.mechanism_command if args.mechanism_command else step["command"]["value"].startswith("turn:")):
                 transition=(previous,step);break
             previous=step["snapshot"]
         assert transition,"rotation example exists"
@@ -569,6 +698,7 @@ def run_mechanism(browser, size, level):
             row["beforeSnapshot"]=s["snapshot"]
             check_contacts(s,"off-axis rotation starting support")
         command=transition[1]["command"]["value"]
+        row["command"]=command
         available=[c for c in s["commands"] if c["id"] not in ["switch","follow"]]
         index=next(i for i,c in enumerate(available) if c["id"]==command)
         page.screenshot(path=str(folder/"before.png"))

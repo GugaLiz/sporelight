@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "56ef27f5b11dd057c702a7e7268d034030e573893f8d5ef77f6bcef84dc8a6b9",
+    "files": 563
+  },
+  "source": {
+    "sha256": "56ef27f5b11dd057c702a7e7268d034030e573893f8d5ef77f6bcef84dc8a6b9",
+    "files": 563
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_core_click_test",
+      "code": 1,
+      "elapsedMs": 6098,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nCLICK BEFORE {\"actors\":{\"buddy\":\"f:-8:-1\",\"luvie\":\"f:-8:-1\"},\"command\":\"\",\"hit\":\"f:-5:0\",\"locked\":false,\"paused\":false,\"route\":[\"f:-9:-1\",\"f:-9:0\"],\"screen\":\"(57.81433, 58.63139)\"}\r\nCLICK AFTER {\"actors\":{\"buddy\":{\"facing\":\"right\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-8.29817390441895,0.650832056999207,-0.786659300327301],\"support\":\"f:-8:-1\",\"velocity\":[0.0,0.0,0.0]},\"luvie\":{\"facing\":\"right\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-8.02063465118408,0.650931239128113,-0.999429106712341],\"support\":\"f:-8:-1\",\"velocity\":[0.0,0.0,0.0]}},\"moving\":true,\"path\":[\"f:-7:-1\",\"f:-7:0\",\"f:-6:0\",\"f:-5:0\"],\"stable\":true}\r\n{\"checks\":57,\"failures\":[\"actual flower input routes to authorized core tile\",\"normal repair proximity and mechanism preconditions now satisfied\",\"explicit original repair completes after flower click\"],\"gpuPixelsVerified\":false,\"maxBodySurfaceGap\":0.254147887229919,\"passed\":false,\"samples\":296,\"suite\":\"native-core-click\"}\r\n",
+      "stderr": "ERROR: actual flower input routes to authorized core tile\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:46)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: normal repair proximity and mechanism preconditions now satisfied\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:47)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: explicit original repair completes after flower click\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:51)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_original_wall_test",
+      "code": 0,
+      "elapsedMs": 2200,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nWALL RAY BASELINE {\"array_match\":false,\"rays\":[{\"h\":0,\"x\":0,\"z\":1},{\"h\":0,\"x\":1,\"z\":1},{\"h\":0,\"x\":2,\"z\":1}],\"walls\":[[2.0,1.0]]}\r\n{\"checks\":25,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"suite\":\"native-original-wall\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

@@ -4,6 +4,7 @@ extends RefCounted
 
 const DIRECTIONS: Dictionary = {"up": [0, -1], "right": [1, 0], "down": [0, 1], "left": [-1, 0]}
 const ACTORS: Array = ["luvie", "buddy"]
+const SECOND_GARDEN_LAYOUT_REVISION := 2
 static var _definitions: Array = []
 var level: Dictionary
 var state: Dictionary
@@ -22,6 +23,7 @@ func _init(level_id: String = "1-1", saved: Dictionary = {}) -> void:
 			level = definition.duplicate(true)
 			break
 	state = {"designVersion": 2, "levelId": level.id, "active": "luvie", "actors": {"luvie": level.start, "buddy": level.get("buddy", level.start)}, "follow": not level.id in ["1-4", "2-3", "3-1", "3-4"], "growth": {}, "turns": {}, "flags": [], "items": {}, "collected": [], "observations": [], "discovered": [], "water": 0, "mode": 0, "frozen": null, "song": ["turn", "rise", "rest"], "beat": 0, "playing": false, "completed": false}
+	if level.id == "1-2": state.layoutRevision = SECOND_GARDEN_LAYOUT_REVISION
 	for root: Dictionary in level.roots:
 		state.growth[root.id] = []
 	for module: Dictionary in level.modules:
@@ -67,6 +69,11 @@ func _restore(saved: Dictionary, initial: Dictionary) -> bool:
 			return false
 	if not s.get("active") in ACTORS:
 		return false
+	var migrate_second_layout := false
+	if level.id == "1-2":
+		var revision: Variant = s.get("layoutRevision", 1)
+		if not _integer(revision) or not int(revision) in [1, SECOND_GARDEN_LAYOUT_REVISION]: return false
+		migrate_second_layout = int(revision) < SECOND_GARDEN_LAYOUT_REVISION
 	for key: String in ["flags", "collected", "observations"]:
 		if not s.get(key) is Array:
 			return false
@@ -145,13 +152,32 @@ func _restore(saved: Dictionary, initial: Dictionary) -> bool:
 	if held.luvie > 1 or held.buddy > 1:
 		return false
 	state = s
+	# A permanent return latch no longer needs a traveller to hold the lever.
+	# Old saves may carry both flags; discard only the obsolete hold state.
+	if level.id == "1-4" and flag("latch"):
+		state.flags = state.flags.filter(func(value: Variant) -> bool: return value != "hold")
 	var world_tiles: Array = tiles()
-	for who: String in ACTORS:
-		var tile: Dictionary = _find_tile(str(s.actors.get(who, "")), world_tiles)
-		if tile.is_empty() or tile.get("solid", false) or (who == "luvie" and tile.get("small", false)):
-			return false
+	# Validate the original root chain before relocating any legacy actor.
+	# A migration must never turn an invalid chain into an accepted save.
+	for root: Dictionary in level.roots:
+		var previous: Dictionary = _find_tile(root.at, world_tiles)
+		if previous.is_empty(): return false
+		for id: String in s.growth[root.id]:
+			var tile: Dictionary = _growth_point(id, root.h)
+			if tile.is_empty() or _distance(previous, tile) != 1 or not _socket(root, tile.x, tile.z): return false
+			if level.id == "1-2" and id != "g:%s:%d:%d" % [root.id, int(tile.x), int(tile.z)]: return false
+			previous = tile
+	var original_tiles := world_tiles.duplicate()
+	if migrate_second_layout:
+		# These exact supports existed in revision 1. Do not accept arbitrary
+		# missing IDs merely because the actor is going to be moved afterward.
+		original_tiles.append({"id": "f:3:1", "x": 3, "z": 1, "h": 0})
+		original_tiles.append({"id": "f:4:2", "x": 4, "z": 2, "h": 1})
+	if not _restored_actors_exist(s, original_tiles): return false
 	if s.has("runtime"):
-		if not s.runtime is Dictionary or int(s.runtime.get("version", 0)) != 1 or not s.runtime.get("poses") is Dictionary:
+		if not s.runtime is Dictionary: return false
+		if level.id == "1-2" and not _integer(s.runtime.get("version")): return false
+		if int(s.runtime.get("version", 0)) != 1 or not s.runtime.get("poses") is Dictionary:
 			return false
 		for who: String in s.runtime.poses:
 			var pose: Variant = s.runtime.poses[who]
@@ -165,16 +191,42 @@ func _restore(saved: Dictionary, initial: Dictionary) -> bool:
 	for item: Dictionary in s.items.values():
 		if item.tile != "" and _find_tile(item.tile, world_tiles).is_empty():
 			return false
-	for root: Dictionary in level.roots:
-		var previous: Dictionary = point_for(root.at)
-		for id: Variant in s.growth[root.id]:
-			if not id is String:
-				return false
-			var tile: Dictionary = _growth_point(id, root.h)
-			if tile.is_empty() or _distance(previous, tile) != 1 or not _socket(root, tile.x, tile.z):
-				return false
-			previous = tile
+	if migrate_second_layout: _migrate_second_garden_layout(s, original_tiles)
+	if level.id == "1-2": s.layoutRevision = SECOND_GARDEN_LAYOUT_REVISION
+	# Migration is complete only if every resulting support exists on the
+	# actual new board. Revision-2 saves never receive legacy-ID allowances.
+	return _restored_actors_exist(s, world_tiles)
+
+static func _restored_actors_exist(saved: Dictionary, world_tiles: Array) -> bool:
+	for who: String in ACTORS:
+		var tile: Dictionary = _find_tile(str(saved.actors.get(who, "")), world_tiles)
+		if tile.is_empty() or tile.get("solid", false) or (who == "luvie" and tile.get("small", false)): return false
 	return true
+
+func _migrate_second_garden_layout(saved: Dictionary, old_tiles: Array) -> void:
+	var root: Dictionary = level.roots[0]
+	var path: Array = saved.growth[root.id]
+	var complete := connected(root)
+	var retreat := str(path.back()) if not path.is_empty() else str(root.at)
+	for who: String in ACTORS:
+		var old_id := str(saved.actors[who])
+		var old_tile := _find_tile(old_id, old_tiles)
+		var target := old_id
+		var keep_offset := false
+		if not complete and old_id.begins_with("f:") and float(old_tile.x) >= 3.0:
+			# Old three-segment routes could enter the bank prematurely. Keep
+			# their work, but return actors to the existing path without sowing.
+			target = retreat
+		elif old_id == "f:3:1":
+			target = "g:root:3:1"
+			keep_offset = true # Same position, height and physical mapping.
+		elif old_id == "f:4:2":
+			target = "f:5:2"
+		if target == old_id: continue
+		saved.actors[who] = target
+		if saved.get("runtime") is Dictionary and saved.runtime.poses.has(who):
+			if keep_offset: saved.runtime.poses[who].support = target
+			else: saved.runtime.poses.erase(who)
 
 func snapshot() -> Dictionary:
 	return state.duplicate(true)
@@ -334,10 +386,7 @@ func tiles() -> Array:
 	match str(level.id):
 		"1-1": base = base.filter(func(t: Dictionary) -> bool: return t.z != 1)
 		"1-4":
-			var handle: Dictionary = _find_tile(cell(-3, 0), level.tiles)
-			var holder: Dictionary = _find_tile(str(state.actors.luvie), base)
-			var holding: bool = flag("hold") and not handle.is_empty() and not holder.is_empty() and holder.h == handle.h and _distance(holder, handle) <= 1
-			if flag("latch") or holding:
+			if flag("latch") or lever_held():
 				_line(base, [-2, 0], [2, 0])
 			if flag("latch") or state.actors.buddy == cell(3, 5):
 				_line(base, [-3, 1], [-3, 4])
@@ -423,7 +472,9 @@ func rays() -> Array:
 		seen[key] = true
 		result.append({"x": x, "z": z, "h": height})
 		if (level.id == "2-2" and x == 4 and z == 0) or (level.id == "3-4" and x == -4 and z == 0): break
-		if [x, z] in level.get("walls", []): break
+		# JSON coordinates are floats; Array membership compares their Variant
+		# element types with the integer ray cursor. Compare numeric axes instead.
+		if level.get("walls", []).any(func(wall: Array) -> bool: return float(wall[0]) == float(x) and float(wall[1]) == float(z)): break
 		for name: String in state.items:
 			var item: Dictionary = state.items[name]
 			if name.begins_with("mirror") and item.get("holder", "") == "" and item.tile != "":
@@ -474,9 +525,9 @@ func lamp_at_receiver() -> bool:
 		if p.x == 3 and p.z == 3: return true
 	return false
 
-func visible(tile: Dictionary) -> bool:
+func visible(tile: Dictionary, world_tiles: Array = []) -> bool:
 	if level.id != "3-1" or flag("window") or tile.id in state.get("discovered", []): return true
-	var world_tiles: Array = tiles()
+	if world_tiles.is_empty(): world_tiles = tiles()
 	for id: String in state.actors.values():
 		var position: Dictionary = _find_tile(id, world_tiles)
 		if not position.is_empty() and _distance(position, tile) <= 2: return true
@@ -530,6 +581,12 @@ func together(world_tiles: Array = []) -> bool:
 	var b: Dictionary = point_for(str(state.actors.buddy), world_tiles)
 	return not a.is_empty() and not b.is_empty() and _distance(a, b) <= 1 and a.h == b.h
 
+func lever_held() -> bool:
+	if level.id != "1-4" or not flag("hold") or flag("latch"): return false
+	var handle: Dictionary = _find_tile(cell(-3, 0), level.tiles)
+	var holder: Dictionary = _find_tile(str(state.actors.luvie), level.tiles)
+	return not holder.is_empty() and holder.h == handle.h and _distance(holder, handle) <= 1
+
 func move(id: String) -> Dictionary:
 	if state.playing or _find_tile(id, neighbors(str(state.actors[actor()]))).is_empty():
 		return {"ok": false, "message": "这里尚未接通，看看地面、高度与庭院的朝向。"}
@@ -539,7 +596,9 @@ func move(id: String) -> Dictionary:
 		if state.follow:
 			var other: String = "buddy" if actor() == "luvie" else "luvie"
 			var path: Array = path_to(id, other)
-			if not path.is_empty(): state.actors[other] = path[0]
+			if not path.is_empty():
+				state.actors[other] = path[0]
+				if other == "luvie": state.flags = state.flags.filter(func(value: Variant) -> bool: return value != "hold")
 		return "石板记住了两双小脚印。"
 	)
 
@@ -560,6 +619,16 @@ func record_checkpoint() -> void:
 	_history.append(snapshot())
 	if _history.size() > 400:
 		_history.pop_front()
+
+## Native same-support movement must release exactly like a grid crossing.
+## The command names the moving actor, including an inactive following hero.
+func release_lever(who: String, record_history: bool = true) -> Dictionary:
+	if level.id != "1-4" or who != "luvie" or not flag("hold"):
+		return {"ok":false,"message":"露薇现在没有扳住重杆。"}
+	return _transaction(func() -> String:
+		state.flags = state.flags.filter(func(value: Variant) -> bool: return value != "hold")
+		return "露薇松开重杆。"
+	, record_history)
 
 func _fail(message: String) -> String:
 	_error = message
@@ -620,19 +689,19 @@ func _update_outcomes() -> void:
 				var id: String = "gift-%s-%d" % [f, i]
 				if not id in state.collected: state.collected.append(id)
 
-func ready() -> bool:
+func ready(world_tiles: Array = []) -> bool:
 	match str(level.id):
 		"1-1", "1-2": return connected()
 		"1-3": return true
-		"1-4": return flag("latch") and flag("home") and together()
+		"1-4": return flag("latch") and flag("home") and together(world_tiles)
 		"2-1": return flag("care") and state.water == 1
 		"2-2": return beam_hits(4, 0)
-		"2-3": return flag("latch") and together()
+		"2-3": return flag("latch") and together(world_tiles)
 		"2-4": return flag("pollinated")
-		"3-1": return flag("window") and together() and state.items.lamp.get("holder", "") != ""
+		"3-1": return flag("window") and together(world_tiles) and state.items.lamp.get("holder", "") != ""
 		"3-2": return (state.mode == 0 or state.frozen == 0) and (state.mode == 1 or state.frozen == 1)
 		"3-3": return flag("root") and state.turns.water == 1 and int(state.turns.lift) % 2 == 1
-		"3-4": return flag("root") and flag("rain") and flag("star") and flag("moon") and state.turns.inner == 1 and state.turns.water == 1 and beam_hits(-4, 0) and together()
+		"3-4": return flag("root") and flag("rain") and flag("star") and flag("moon") and state.turns.inner == 1 and state.turns.water == 1 and beam_hits(-4, 0) and together(world_tiles)
 	return false
 
 func commands() -> Array:
@@ -641,7 +710,7 @@ func commands() -> Array:
 	# No board survives this call, crosses an action, or changes tiles()' independent results.
 	var world_tiles: Array = tiles()
 	if state.completed:
-		if level.get("dual", false): result.append_array([{"id": "switch", "label": "换手看看花园"}, {"id": "follow", "label": "关闭自动同行" if state.follow else "沿小路一起走", "selected": state.follow}])
+		if level.get("dual", false): result.append_array([{"id": "switch", "label": "切换角色看看花园"}, {"id": "follow", "label": "关闭自动同行" if state.follow else "沿小路一起走", "selected": state.follow}])
 		for mark: Dictionary in level.marks:
 			if mark.kind in ["rest", "observe"] and near(mark.tile, "", world_tiles): result.append({"id": "observe:" + mark.id, "label": mark.label})
 		return result
@@ -650,7 +719,7 @@ func commands() -> Array:
 		if mark.kind == "core" and near(mark.tile, "", world_tiles): near_core = true
 	if actor() == "luvie" and state.follow and not together(world_tiles) and near_core and not path_to(str(state.actors.luvie), "buddy").is_empty(): result.append({"id": "rejoin", "label": "等伙伴沿路跟上"})
 	if level.get("dual", false):
-		result.append({"id": "switch", "label": "换手：操控小苔灵" if actor() == "luvie" else "换手：操控露薇"})
+		result.append({"id": "switch", "label": "切换角色：操控小苔灵" if actor() == "luvie" else "切换角色：操控露薇"})
 		result.append({"id": "follow", "label": "各自等候" if state.follow else "一起走（需要连通）", "selected": state.follow})
 	for root: Dictionary in level.roots:
 		if near(root.at, "", world_tiles) and actor() == "luvie":
@@ -674,7 +743,10 @@ func commands() -> Array:
 			elif level.id == "2-1": label = "水位：%s → %s" % [["低", "中", "高"][int(state.water)], ["低", "中", "高"][(int(state.water) + 1) % 3]]
 			elif own.get("kind") == "rotate": label = "转动沟槽与庭院 ↻"
 			result.append({"id": "valve:" + mark.id, "label": label})
-		if mark.kind == "lever" and actor() == "luvie": result.append({"id": "use:" + mark.id, "label": "保持拉杆 · 换小苔灵过桥" if mark.id == "hold" and flag("hold") else "已经安定了" if flag(mark.id) else mark.label})
+		if mark.kind == "lever" and actor() == "luvie":
+			if mark.id != "hold" or not flag("latch"):
+				result.append({"id": "use:" + mark.id, "label": "保持重杆 · 换小苔灵过桥" if mark.id == "hold" and lever_held() else "已经安定了" if flag(mark.id) else mark.label})
+				if mark.id == "hold" and lever_held(): result.append({"id":"release:hold", "label":"松开重杆"})
 		if mark.kind == "latch" and actor() == "luvie" and not flag("latch"): result.append({"id": "use:latch", "label": mark.label})
 		if mark.kind == "flower" and mark.id in ["care", "home", "plant", "invite"] and not (mark.id == "home" and flag("home")): result.append({"id": "use:" + mark.id, "label": mark.label})
 		if mark.id == "freeze": result.append({"id": "freeze", "label": "留影苔：固定当前投影"})
@@ -720,7 +792,7 @@ func _apply(id: String) -> String:
 		return "换你来帮我啦。另一位会留在原地安心等候。"
 	if id == "rejoin":
 		var path: Array = path_to(str(state.actors.luvie), "buddy")
-		if path.is_empty(): return _fail("伙伴身旁的路还没有接通，先换手看看。")
+		if path.is_empty(): return _fail("伙伴身旁的路还没有接通，先切换角色看看。")
 		state.actors.buddy = path[0]
 		return "小苔灵沿石板靠近你，一起把微光种下。"
 	if id == "follow":
@@ -782,10 +854,17 @@ func _apply(id: String) -> String:
 		state.items[parts[1]].angle = (int(state.items[parts[1]].angle) + 1) % (4 if parts[1] == "lamp" else 2)
 		return "叶片转向了，光沿实际方向前进。"
 	if id == "use:hold":
+		if level.id != "1-4" or actor() != "luvie": return _fail("重杆需要露薇来扳住。")
+		if flag("latch"): return _fail("归途门闩已经固定，不用再扳住重杆。")
 		_set_flag("hold")
 		return "露薇扳住重杆。换小苔灵走过短桥与低拱吧。"
+	if id == "release:hold":
+		if level.id != "1-4" or actor() != "luvie" or not flag("hold"): return _fail("露薇现在没有扳住重杆。")
+		state.flags = state.flags.filter(func(value: Variant) -> bool: return value != "hold")
+		return "露薇松开重杆，临时短桥收回了。"
 	if id == "use:latch":
 		_set_flag("latch")
+		if level.id == "1-4": state.flags = state.flags.filter(func(value: Variant) -> bool: return value != "hold")
 		return "归途固定了，两位可以沿真实的路重新会合。"
 	if id == "use:window":
 		if not lamp_at_receiver(): return _fail("先让小苔灵把灯带到照孔，朝上照亮接收叶。")

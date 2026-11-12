@@ -10,11 +10,15 @@ static func create(spec: Dictionary, profile: Script, texture: Callable, solid: 
 	var top: StandardMaterial3D = solid.call(Color.WHITE)
 	top.albedo_texture = texture.call(str(spec.paving))
 	top.uv1_scale = spec.get("top_scale", Vector3.ONE)
-	# Reuse the painted stone grain, with wall-plane courses and physical
-	# dimensions instead of repeating the complete overhead paving image.
+	# Walls use the original vertical masonry painting in full. Cropping a
+	# paving stone and inventing new brick joints loses its aged wall texture.
 	var side := ShaderMaterial.new()
 	side.shader = IslandStoneShader
 	side.set_shader_parameter("original_stone", texture.call("paving-valley"))
+	side.set_shader_parameter("wall_art", texture.call(str(spec.get("wall_art", "masonry-valley"))))
+	side.set_shader_parameter("wall_art_right", texture.call(str(spec.get("wall_art_right", spec.get("wall_art", "masonry-valley")))))
+	side.set_shader_parameter("wall_wash", spec.get("wall_wash", Color("b4b894")))
+	side.set_shader_parameter("wall_pixels_per_unit", Vector2(70.0, 48.0 / 0.65))
 	side.set_shader_parameter("stair_side", connector)
 	# Sample original painted stone faces. UVs restart on every physical tread;
 	# do not stretch an isometric stair picture across a flat incline.

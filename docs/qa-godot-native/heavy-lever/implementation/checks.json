@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "6dbcc53212e90b340792653da7020de1be0c777dd12e90f81f00dd816163d6b4",
+    "files": 572
+  },
+  "source": {
+    "sha256": "b5f258bebe4d2db2558b9228e75e82d7004f74e06d707d160256d764c3987e71",
+    "files": 572
+  },
+  "stable": false,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_heavy_lever_test",
+      "code": 4294967295,
+      "elapsedMs": 144802,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n",
+      "stderr": "SCRIPT ERROR: Parse Error: Cannot infer the type of \"holding\" variable because the value doesn't have a set type.\r\n   at: GDScript::reload (res://presentation/native/native_garden_stage.gd:1640)\r\nSCRIPT ERROR: Compile Error: Failed to compile depended scripts.\r\n   at: GDScript::reload (res://tests/native_route_test.gd:0)\r\nSCRIPT ERROR: Compile Error: Failed to compile depended scripts.\r\n   at: GDScript::reload (res://tests/native_heavy_lever_test.gd:0)\r\nERROR: Failed to load script \"res://tests/native_heavy_lever_test.gd\" with error \"Compilation failed\".\r\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)\r\nSCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.\r\n   at: _setup (res://tests/native_route_test.gd:64)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _setup (res://tests/native_route_test.gd:64)\r\n       [1] _run (res://tests/native_heavy_lever_test.gd:21)\r\nSCRIPT ERROR: Cannot call method 'show' on a null value.\r\n   at: Harness._enter_level (res://application/main.gd:188)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _enter_level (res://application/main.gd:188)\r\n       [1] _fresh (res://tests/native_heavy_lever_test.gd:6)\r\n       [2] _run (res://tests/native_heavy_lever_test.gd:22)\r\nSCRIPT ERROR: Invalid access to property or key 'world' on a base object of type 'Nil'.\r\n   at: _fresh (res://tests/native_heavy_lever_test.gd:7)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _fresh (res://tests/native_heavy_lever_test.gd:7)\r\n       [1] _run (res://tests/native_heavy_lever_test.gd:22)\r\nSCRIPT ERROR: Invalid call. Nonexistent function 'get_actor_body' in base 'Nil'.\r\n   at: _run (res://tests/native_heavy_lever_test.gd:23)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_heavy_lever_test.gd:23)\r\n",
+      "passed": false
+    }
+  ]
+}

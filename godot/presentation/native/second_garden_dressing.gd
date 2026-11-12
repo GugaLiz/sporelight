@@ -2,39 +2,74 @@ class_name SecondGardenDressing
 extends RefCounted
 
 const Props = preload("res://presentation/native/integrated_garden_props.gd")
-const Surface = preload("res://presentation/native/native_surface.gd")
+const RockSpire = preload("res://presentation/native/isolated_rock_spire.gd")
+const SceneryScale = preload("res://presentation/native/scenery_scale.gd")
+const Original = preload("res://presentation/native/original_garden_dressing.gd")
+const OriginalRatios = preload("res://presentation/native/original_prop_ratios.gd")
 
 static func planter(stage: Node, parent: Node3D) -> void:
-	# Leave a landing between the arrival flight and the flowerbed footprint.
-	Props.planter(stage, parent, 0.98, Vector3(0.10, 0, 0.03))
+	var layout: Dictionary = OriginalRatios.core_layout(stage, parent)
+	parent.set_meta("original_core_layout", layout)
+	Props.planter(stage, parent, float(layout.width), layout.shift)
 
 static func obstacle(stage: Node, wall: Array) -> void:
-	var tile := {"id":"rock-foundation", "x":float(wall[0]), "z":float(wall[1]), "h":0, "kind":"fixed"}
-	var base := Surface.new()
-	stage._props.add_child(base)
-	base.configure(tile, [0.0,0.0,0.0,0.0], [true,true,true,true], -0.67, stage._terrace_materials(tile))
-	# An obstacle pedestal must not look like an already completed road joining
-	# the two islands, nor provide an extra physics support outside the rules.
-	base.scale = Vector3(0.68, 1, 0.68)
-	base.get_node("SupportCollision").collision_layer = 0
-	var stone: Sprite3D = stage._sprite(stage._props, "rock", 0.94, Vector3(float(wall[0]), 0.015, float(wall[1])), true)
-	stone.offset.y = stone.texture.get_height() * 0.5
-	stage._contact_patch(stage._props, Vector2(0.72,0.64), Vector3(float(wall[0]),0.008,float(wall[1])),0.22)
+	RockSpire.build(stage, wall)
 
 static func scenery(stage: Node) -> void:
+	var context := Original.Placement.prepare(stage)
 	# Borders remain quiet around both possible root paths; neither is marked
 	# as the preferred answer. Plants never occupy the approach to a mechanism.
 	for entry: Array in [
-		["fern",-1.26,2.27,0.43], ["pink-flowers",-0.76,2.30,0.30],
-		["red-mushroom",-1.27,0.24,0.24], ["blue-flowers",-0.22,-0.28,0.29],
-		["fern",5.25,-0.26,0.42], ["yellow-flowers",4.28,-0.29,0.26],
-		["pink-flowers",5.28,2.26,0.34], ["blue-flowers",4.30,2.30,0.28]]:
-		var tile_id := "f:%d:%d" % [int(roundf(float(entry[1]))),int(roundf(float(entry[2]))) ]
-		var at := Vector3(float(entry[1]),0,float(entry[2]))
-		at = stage.physical_position(at)
-		at.y = stage.support_height(at, tile_id) + 0.015
-		stage._sprite(stage._props, str(entry[0]), float(entry[3]), at, true)
-	for at: Vector3 in [Vector3(-0.8,0,2.503), Vector3(4.72,0.45,2.503)]:
-		var vine: Sprite3D = stage._sprite(stage._props,"trailing-vine",0.23,stage.physical_position(at))
+		["stone-lantern", "f:-1:2", Vector2(-0.29, 0.22)],
+		["pink-flowers", "f:-1:2", Vector2(0.24, 0.30)],
+		["red-mushroom", "f:-1:0", Vector2(-0.27, 0.24)],
+		["blue-flowers", "f:0:0", Vector2(-0.22, -0.28)],
+		# Broad plant bases belong on the side landing, not rear stair noses.
+		["fern", "f:5:1", Vector2(0.30, -0.30)],
+		["yellow-flowers", "f:5:1", Vector2(0.30, 0.30)],
+		["red-mushroom", "f:5:2", Vector2(0.29, 0.29)]]:
+		var source_index := 0 if entry[0] == "stone-lantern" else 1 if entry[0] == "yellow-flowers" else 2 if entry[0] == "red-mushroom" and entry[1] == "f:5:2" else -1
+		var tile: Dictionary=stage._tile_map[str(entry[1])]
+		var desired:=Vector3(float(tile.x)+entry[2].x,float(tile.h),float(tile.z)+entry[2].y)
+		var safe:=Original.Placement.place(stage,desired,str(entry[0]),Original.canvas_width(30.0),source_index,context)
+		if safe.is_empty():continue
+		var sprite: Sprite3D=stage._sprite(stage._props,str(entry[0]),Original.canvas_width(30.0),safe.at,true)
+		sprite.name="SecondGarden_"+str(entry[0]).replace("-","_")+"_"+str(entry[1]).replace(":","_")
+		sprite.set_meta("dressing_support",str(safe.support))
+		sprite.set_meta("dressing_alias",str(entry[0]))
+		sprite.set_meta("dressing_offset",Vector2(safe.at.x-stage.tile_position_id(str(safe.support)).x,safe.at.z-stage.tile_position_id(str(safe.support)).z))
+		Original.ground_sprite(sprite, str(entry[0]))
+		sprite.set_meta("original_scenery_pixels", 30.0)
+		# Preserve the reviewed positions on the revised physical island. The
+		# original north yellow flower moves to this flat east landing; the
+		# original lantern and south mushroom retain their corresponding rims.
+		sprite.set_meta("original_scenery_index", source_index)
+		sprite.set_meta("original_scenery_alias", str(entry[0]))
+		sprite.set_meta("original_scenery_support", str(safe.support))
+		sprite.set_meta("original_scenery_migration", str(safe.migration))
+		sprite.set_meta("original_scenery_position",desired)
+		var reference:=desired
+		if source_index>=0:
+			var original: Array=Original.SOURCE_PROPS["1-2"][source_index]
+			reference=Vector3(float(original[1]),float(original[3]),float(original[2]))
+		sprite.set_meta("original_scenery_reference_position",reference)
+		sprite.set_meta("original_scenery_contact_kind","complete_hard_base" if Original.Placement.HARD_CONTACT.has(str(entry[0])) else "root_cluster_with_free_crown")
+		sprite.set_meta("original_scenery_foot_radius",safe.radius)
+	for entry: Array in [["f:-1:2", Vector2(0.20, 0.503)], ["f:5:2", Vector2(-0.28, 0.503)]]:
+		var vine := _place(stage, "trailing-vine", str(entry[0]), entry[1], SceneryScale.nominal_width("trailing-vine"))
 		vine.billboard = BaseMaterial3D.BILLBOARD_DISABLED
 		vine.offset = Vector2(0,-vine.texture.get_height()*0.44)
+	Original.wall_vines(stage)
+
+
+static func _place(stage: Node, alias: String, support: String, offset: Vector2, width: float) -> Sprite3D:
+	# Anchor to the actual support: island spacing and stair elevations belong
+	# to the profile, never to scenery. Rim offsets keep the walking centre free.
+	var at: Vector3 = stage.tile_position(stage._tile_map[support]) + Vector3(offset.x, 0, offset.y)
+	at.y = stage.support_height(at, support) + 0.015
+	var sprite: Sprite3D = stage._sprite(stage._props, alias, width, at, true)
+	sprite.name = "SecondGarden_" + alias.replace("-", "_") + "_" + support.replace(":", "_")
+	sprite.set_meta("dressing_support", support)
+	sprite.set_meta("dressing_alias", alias)
+	sprite.set_meta("dressing_offset", offset)
+	return sprite

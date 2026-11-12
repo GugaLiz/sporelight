@@ -62,7 +62,7 @@ func _run() -> void:
 	# The front tile is now a complete landing; the flight starts behind it.
 	var surface: Node3D = stage._surfaces["f:3:-1"]
 	var outer_wall: MeshInstance3D = stage._surfaces["f:4:-1"]._sides
-	_check(outer_wall.mesh.surface_get_material(0).get_shader_parameter("original_stone") == stage._texture("paving-valley"), "island walls share the original irregular paving stone")
+	_check(outer_wall.mesh.surface_get_material(0).get_shader_parameter("wall_art") == stage._texture("masonry-valley"), "island walls restore the complete original masonry painting")
 	_check(surface._ramps.mesh.surface_get_material(0).get_shader_parameter("original_stair") == stage._texture("stairs"), "uses original stair texture for treads")
 	_check(surface._risers.mesh.surface_get_material(0).get_shader_parameter("original_stair") == stage._texture("stairs"), "uses original stair texture for risers")
 	for part: MeshInstance3D in [surface._ramps, surface._risers]:

@@ -33,6 +33,14 @@ for(const id of ['pause','map','spore','back','undo','roll','sow','hint','retry'
 for(const id of ['panel-paper','button-paper','button-green'])add(id,`material-ready/${id}.png`,[.5,.5],'ui');
 add('paper-texture','gallery-journal/paper-texture.jpg',[0,0],'ui');
 for(const [id,file] of [['gallery-vine','gallery-journal/vine.png'],['gallery-mushroom','gallery-journal/mushroom.png'],['gallery-lily','production/lily-open.png'],['gallery-arch','production/arch.png'],['gallery-cave-bloom','reference-scenes/plant-cave-bloom.png']])add(id,file,[.5,.5],'gallery');
+// Original illustrated chapter maps; live native controls cover baked counters.
+for(const chapter of ['valley','pond','cave']){
+ add(`map-${chapter}`,`reference-scenes/map-${chapter}.jpg`,[.5,.5],'chapter-map');
+ add(`chapter-${chapter}`,`reference-scenes/chapter-${chapter}.jpg`,[.5,.5],'chapter-map');
+}
+for(const id of ['plant-bud','plant-dormant','plant-bloom','plant-pond-bloom'])add(`map-${id}`,`reference-scenes/${id}.png`,[.5,.5],'chapter-map');
+add('map-terrain-steps','reference-scenes/terrain-steps.png',[.5,.5],'chapter-map');
+add('map-moss','production/moss.png',[.5,.5],'chapter-map');
 // The original cover is an illustrated animated scene, not a generic menu modal.
 for(const id of ['idle-front','idle-side','crouch-lower','crouch','crouch-happy','turn-quarter',...Array.from({length:8},(_,i)=>`step-${i+1}`)])add(`cover-${id}`,`menu-walk-redrawn/${id}.png`,[.5,236/256],'cover');
 for(const id of ['orb','firefly'])add(`cover-${id}`,`menu-fx-redrawn/${id}.png`,[.5,.5],'cover');

@@ -1,7 +1,7 @@
 class_name GardenCommand
 extends RefCounted
 
-enum Kind { MOVE, INTERACT, UNDO, ACTOR_MOVE }
+enum Kind { MOVE, INTERACT, UNDO, ACTOR_MOVE, RELEASE_HOLD }
 
 var kind: Kind
 var value: String
@@ -24,6 +24,11 @@ static func move_actor(who: String, tile_id: String) -> GardenCommand:
 
 static func undo_action() -> GardenCommand:
 	return GardenCommand.new(Kind.UNDO)
+
+static func release_hold(who: String) -> GardenCommand:
+	var result := GardenCommand.new(Kind.RELEASE_HOLD, "release:hold")
+	result.actor_id = who
+	return result
 
 func to_dictionary() -> Dictionary:
 	var result := {"kind": Kind.keys()[kind].to_lower(), "value": value}

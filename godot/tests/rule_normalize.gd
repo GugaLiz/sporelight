@@ -51,11 +51,29 @@ func _initialize() -> void:
 		if not str(entry.name).ends_with("json-numeric-enums"): continue
 		var world = World.new(str(entry.levelId))
 		var normalized: Dictionary = world.normalize_saved(entry.input)
+		var expected: Dictionary = entry.expected.duplicate(true)
+		if str(entry.levelId) == "1-2":
+			# The archived TS fixture predates approved layout revision 2 (docs68).
+			# This enum-only case stays on f:0:1: the sole schema change is the
+			# revision stamp, not actor relocation or rewritten numeric values.
+			expected.layoutRevision = 2
 		if entry.levelId == "2-1":
 			# Raising this initial fixture submerges its uncarried dew; JS constructor also rejects it.
 			_check(not normalized.ok, "2-1 numeric enum fixture still rejects a submerged critical item")
 		else:
-			_check(normalized.ok and _equal(normalized.snapshot, entry.expected), str(entry.name) + " JSON float enum values preserve rules")
+			_check(normalized.ok and _equal(normalized.snapshot, expected), str(entry.name) + " JSON float enum values preserve rules under the current save schema")
+		if str(entry.levelId) == "1-2" and normalized.ok:
+			_check(not entry.input.has("layoutRevision") and not entry.expected.has("layoutRevision"), "1-2 archived input/expected fixture is never rewritten")
+			_check(world.normalize_saved(normalized.snapshot).snapshot == normalized.snapshot, "1-2 numeric enum migration is idempotent")
+			for field: String in ["water","mode","frozen","beat"]:
+				_check(normalized.snapshot[field] is int and float(normalized.snapshot[field]) == float(entry.input[field]), "1-2 JSON " + field + " preserves numeric value and canonical integer type")
+			var removed: Dictionary = normalized.snapshot.duplicate(true)
+			removed.actors.luvie = "f:3:1"
+			_check(not world.normalize_saved(removed).ok, "revision2 cannot reuse removed fixed landing as a valid numeric-enum save")
+			for revision: Variant in [2.5,3,true]:
+				var unsupported: Dictionary = normalized.snapshot.duplicate(true)
+				unsupported.layoutRevision = revision
+				_check(not world.normalize_saved(unsupported).ok, "revision stamp remains strict after enum normalization: " + str(revision))
 	for pair: Array in [["2-1", "valve:water"], ["3-2", "freeze"]]:
 		for entry: Dictionary in fixture.cases:
 			if entry.name != "authored/" + str(pair[0]): continue

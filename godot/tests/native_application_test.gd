@@ -90,6 +90,11 @@ func _run() -> void:
 	var entry_scale: float = app.view.scale_factor
 	app._sync_hud()
 	_check(app.view._layout == entry_layout and is_equal_approx(app.view.scale_factor, entry_scale), "first movement HUD refresh cannot reframe the level")
+	app._on_command("overview")
+	_check(app.view.overview and app.hud._overview.button_pressed, "manual overview synchronizes camera and HUD")
+	_check(app.view._layout == app.hud.overview_world_rect(), "manual overview avoids the visible journey message")
+	app._on_command("overview")
+	_check(not app.view.overview and app.view._layout == entry_layout, "manual overview exit restores the normal reference layout")
 	_check(app._primary() == "context", "first root never chooses the right-hand solution for the player")
 	var before: Dictionary = app.session.world.snapshot()
 	app._on_command("hint")

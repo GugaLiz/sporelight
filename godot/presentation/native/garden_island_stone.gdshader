@@ -3,10 +3,23 @@ render_mode cull_disabled;
 #include "res://presentation/native/garden_growth.gdshaderinc"
 
 uniform sampler2D original_stone : source_color, filter_linear_mipmap, repeat_disable;
+// Repeat the complete authored wall, including its mortar, chips and moss.
+// This is distinct from original_stone, which dresses the narrow stair sides.
+uniform sampler2D wall_art : source_color, filter_linear_mipmap, repeat_enable;
+uniform sampler2D wall_art_right : source_color, filter_linear_mipmap, repeat_enable;
+uniform vec2 wall_pixels_per_unit = vec2(70.0, 73.846153846);
+uniform vec4 wall_wash : source_color = vec4(0.70588, 0.72157, 0.58039, 1.0);
+uniform vec4 wall_foot : source_color = vec4(0.2, 0.30196, 0.25490, 1.0);
 uniform bool stair_side = false;
+varying float right_wall;
+varying float wall_depth;
 
 void vertex() {
 	growth_distance = dot(VERTEX, growth_axis) + 0.5;
+	// Local orientation stays attached to rotating supports. Do not project
+	// world-space texture coordinates through a moving module.
+	right_wall = abs(NORMAL.x) > abs(NORMAL.z) ? 1.0 : 0.0;
+	wall_depth = max(0.0, -VERTEX.y);
 }
 
 float stone_hash(vec2 p) {
@@ -15,27 +28,24 @@ float stone_hash(vec2 p) {
 
 void fragment() {
 	if (growth_hidden()) discard;
-	// UV is the unfolded vertical wall in world units. Build horizontal stone
-	// courses here; the paving's painted overhead joints are not wall joints.
+	// Surface UVs already unfold the vertical wall at 1/4.5 world units.
+	// The original Canvas renderer uses 70 source pixels per tile and 48
+	// pixels per .65 height unit. Keep that anisotropic density, including
+	// its opposite horizontal direction on the right-facing wall.
 	vec2 at = UV * 4.5;
-	vec2 block_size = stair_side ? vec2(0.36, 0.17) : vec2(0.48, 0.30);
-	float row_y = at.y / block_size.y;
-	float row = floor(row_y);
-	float along = at.x / block_size.x + stone_hash(vec2(row, 4.0)) * 0.85;
-	vec2 cell = vec2(floor(along), row);
-	vec2 local = vec2(fract(along), fract(row_y));
-	float seed = stone_hash(cell);
-	// Only sample the interior of the original broad warm stone. This keeps
-	// its painted grain without projecting grass or a second perspective.
-	vec2 sample_uv = vec2(0.27, 0.35) + local * vec2(0.32, 0.34);
-	vec3 stone = texture(original_stone, sample_uv).rgb;
-	float wobble = sin(at.x * 31.0 + row * 2.7) * 0.0025;
-	vec2 edge = min(local, vec2(1.0) - local) * block_size;
-	float distance_to_joint = min(edge.x, edge.y + wobble);
-	float joint = 1.0 - smoothstep(0.003, 0.010, distance_to_joint);
-	float bevel = smoothstep(0.008, 0.024, distance_to_joint);
-	vec3 face = stone * (0.85 + seed * 0.09) * mix(0.91, 1.0, bevel);
-	ALBEDO = mix(face, stone * vec3(0.54, 0.55, 0.46), joint * 0.72);
+	vec2 pixels = vec2(at.x * (right_wall > 0.5 ? -1.0 : 1.0), at.y) * wall_pixels_per_unit;
+	vec3 paint;
+	if (right_wall > 0.5) {
+		paint = texture(wall_art_right, pixels / vec2(textureSize(wall_art_right, 0))).rgb;
+	} else {
+		paint = texture(wall_art, pixels / vec2(textureSize(wall_art, 0))).rgb;
+	}
+	// Let the painted joints and stone variation supply detail. A subtle
+	// depth wash recalls the original foundation shading without replacing
+	// the painted wall with a uniform tint or a second procedural brick grid.
+	float foundation_fade = smoothstep(0.0, 1.6, wall_depth);
+	vec3 face = mix(paint, wall_wash.rgb, 0.035 * (1.0 - foundation_fade));
+	ALBEDO = mix(face, wall_foot.rgb, 0.16 * foundation_fade);
 	if (stair_side) {
 		// A narrow stringer is dressed in long stones, not several courses of
 		// wall bricks cut into tiny triangles by the diagonal top and bottom.

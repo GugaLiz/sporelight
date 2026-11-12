@@ -4,6 +4,11 @@ render_mode unshaded, cull_disabled, depth_prepass_alpha;
 // Reuse the authored bitmap; grade its painted materials for the garden.
 uniform sampler2D original_paint : source_color, filter_linear_mipmap, repeat_disable;
 uniform int prop_kind = 0; // 0 flowerbed, 1 root, 2 collectible
+// Original defaults preserve the approved first and second garden exactly.
+// Later chapters set their own stone palette on a separate cached material.
+uniform vec3 stone_tint = vec3(1.12, 1.04, 0.77);
+uniform vec3 plant_tint = vec3(0.86, 0.84, 0.73);
+uniform float stone_saturation = 0.26;
 
 void fragment() {
 	vec4 paint = texture(original_paint, UV);
@@ -11,9 +16,9 @@ void fragment() {
 	vec3 color = paint.rgb;
 	if (prop_kind == 0) {
 		float stone = smoothstep(0.49, 0.69, UV.y);
-		vec3 limestone = mix(vec3(value), color, 0.26) * vec3(1.12, 1.04, 0.77);
+		vec3 limestone = mix(vec3(value), color, stone_saturation) * stone_tint;
 		color = mix(color, limestone, stone * 0.90);
-		color = mix(vec3(value), color, 0.86) * vec3(0.86, 0.84, 0.73);
+		color = mix(vec3(value), color, 0.86) * plant_tint;
 	} else if (prop_kind == 1) {
 		color = mix(vec3(value), color, 0.72) * vec3(0.83, 0.85, 0.71);
 		float bright = smoothstep(0.44, 0.78, min(paint.r, min(paint.g, paint.b)));

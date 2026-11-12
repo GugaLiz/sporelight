@@ -13,6 +13,7 @@ var app: Node
 var samples := 0
 var max_visual_penetration := 0.0
 var max_body_surface_gap := 0.0
+var _hard_base_failures: Dictionary = {}
 
 class Harness:
 	extends "res://application/main.gd"
@@ -79,6 +80,11 @@ func _tick() -> void:
 		var body: CharacterBody3D = app.view.get_actor_body(who)
 		var support: String = str(app.session.world.state.actors[who])
 		var floor_height: float = app.view.support_height(body.position, support, who)
+		if not app.view.prop_physical_point_clear(body.position,who):
+			var failure_key: String = str(app.session.world.level.id)+"/"+who
+			if not _hard_base_failures.has(failure_key):
+				_hard_base_failures[failure_key]=true
+				_check(false,failure_key+" physical route entered a hard prop base at "+str(body.position))
 		max_body_surface_gap = maxf(max_body_surface_gap, absf(body.position.y - floor_height))
 		var visual: Node3D = app.view.actor_visual_root(who)
 		if visual != null:
@@ -93,6 +99,9 @@ func _drain(limit: int = 240) -> bool:
 	return false
 
 func _walk_to(id: String, label: String) -> bool:
+	# The old 1-2 landing was a fixed tile overlapping its fourth root.
+	# Preserve the recorded player destination while requiring the grown tile.
+	if str(app.session.world.level.id) == "1-2" and id == "f:3:1": id = "g:root:3:1"
 	var current: String = str(app.session.world.state.actors[app.session.world.actor()])
 	if id == current:
 		return true
@@ -100,7 +109,11 @@ func _walk_to(id: String, label: String) -> bool:
 	if not _check(not path.is_empty(), label + " has a permitted route from " + current):
 		return false
 	app._execute(Command.move_to(id), "move")
-	var drained := await _drain(maxi(240, path.size() * 60))
+	# A real hard base can require a longer physical detour than the rule-grid
+	# route. Budget for the actual planned supports; keep the same stop and
+	# destination assertions instead of treating a valid detour as a deadlock.
+	var physical_steps: int = app.native_movement.click_path.size()
+	var drained := await _drain(maxi(240, maxi(path.size() * 60, physical_steps * 90)))
 	if not _check(drained, label + " physical route settles"):
 		print("ROUTE STALL ", JSON.stringify(app.native_movement.qa_state()))
 		var body: CharacterBody3D = app.view.get_actor_body(app.session.world.actor())
@@ -110,6 +123,14 @@ func _walk_to(id: String, label: String) -> bool:
 			print("STALL COLLISION ", collision.get_position(), " normal=", collision.get_normal(), " support=", collider.get_meta("support_id", "") if collider != null else "")
 		return false
 	var reached: bool = str(app.session.world.state.actors[app.session.world.actor()]) == id
+	# A core's stone base can occupy its entire logical centre. Preserve the
+	# fixture's request and the domain's existing near(core) interaction range;
+	# the physical endpoint must be a clear reachable approach, not inside it.
+	if not reached and app.native_movement._uses_prop_obstacles() and app.native_movement._is_core_request(id):
+		var core_waypoint: Dictionary = app.native_movement._prop_waypoint(app.session.world.point_for(id),app.session.world.actor())
+		if core_waypoint.is_empty():
+			var body: CharacterBody3D = app.view.get_actor_body(app.session.world.actor())
+			reached = app.session.world.near(id) and app.view.prop_point_clear(body.position,app.session.world.actor())
 	if not _check(reached, label + " reaches " + id):
 		print("ROUTE WRONG SUPPORT ", JSON.stringify(app.native_movement.qa_state()))
 	return reached
@@ -145,6 +166,7 @@ func _replay(id: String, steps: Array, initial: Dictionary) -> void:
 			app._on_command(str(command.value))
 			var drained := await _drain()
 			success = _check(drained, label + " action and passengers settle")
+			if not drained: print("ROUTE ACTION STALL ",JSON.stringify({"motion":app.motion,"waiting_repair":app.waiting_repair,"status":app.status_message,"movement":app.native_movement.qa_state()}))
 			if success:
 				success = _check(app.session.revision > revision or bool(app.session.world.state.completed), label + " accepted through application transaction: " + app.status_message)
 		else:

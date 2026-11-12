@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "8369cc7ebc02337e426bef80ee5942443ae2bf01b7fa0e7c1a8358ee66fa55d7",
+    "files": 573
+  },
+  "source": {
+    "sha256": "547821bd87517b879fdd694647501890bf9863d71895d945ab6b81103893fb96",
+    "files": 573
+  },
+  "stable": false,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_prop_collision_test",
+      "code": 1,
+      "elapsedMs": 27794,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nROUTE STALL {\"actors\":{\"buddy\":{\"facing\":\"left\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-7.08512210845947,0.649349093437195,0.270357549190521],\"support\":\"f:-7:0\",\"velocity\":[0.0,0.0,0.0]},\"luvie\":{\"facing\":\"left\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-6.87059020996094,0.649515569210052,-0.00000982442088570679],\"support\":\"f:-7:0\",\"velocity\":[0.0,0.0,0.0]}},\"moving\":true,\"path\":[\"f:-7:0\"],\"stable\":true}\r\nSTALL COLLISION (-7.033677, 1.290182, -0.00001) normal=(1.0, 0.0, 0.0) support=\r\nNATIVE ROUTE {\"completed\":false,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":46,\"success\":false}\r\n{\"checks\":188,\"failures\":[\"a click into the stone does not leave an endless walking loop\",\"1-4/46/move/f:-7:0 physical route settles\",\"1-4 authored route completes with native bodies\"],\"passed\":false,\"peakPenetration\":0.0,\"routes\":[{\"completed\":false,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":46,\"success\":false}],\"samples\":2696,\"suite\":\"native-prop-collision\"}\r\n",
+      "stderr": "ERROR: a click into the stone does not leave an endless walking loop\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_prop_collision_test.gd:55)\r\n       [2] _drain (res://tests/native_route_test.gd:93)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: 1-4/46/move/f:-7:0 physical route settles\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _walk_to (res://tests/native_route_test.gd:107)\r\n       [2] _drain (res://tests/native_route_test.gd:93)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: 1-4 authored route completes with native bodies\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _replay (res://tests/native_route_test.gd:164)\r\n       [2] _walk_to (res://tests/native_route_test.gd:114)\r\n       [3] _drain (res://tests/native_route_test.gd:93)\r\n       [4] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    }
+  ]
+}

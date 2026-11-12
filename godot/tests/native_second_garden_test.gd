@@ -9,12 +9,20 @@ func _action(id: String) -> void:
 	_check(await _drain(), id + " transaction settles")
 	_check(app.session.revision > revision, id + " accepted")
 
+func _check_progress(count: int) -> void:
+	var before: Dictionary = app.session.world.snapshot()
+	var context: Dictionary = app._native_interaction_context()
+	_check(context.get("label", "") == "根路 %d/4" % count, "committed path progress stays in the primary action")
+	_check(context.get("id", "") == "context", "progress does not auto-select a root action")
+	_check(app.session.world.snapshot() == before, "reading progress never changes rules or support")
+
 func _run() -> void:
 	_setup()
 	for directions: Array in [["up","right","right","down"], ["down","right","right","up"]]:
 		app._enter_level("1-2")
 		await _tick()
 		await _walk_to("f:1:1", "approach seedbed")
+		_check_progress(0)
 		_check(app.session.world.budget() == 4, "four-segment budget retained")
 		_check(not app.session.world.act("grow:root:right").ok, "rock blocks the direct route")
 		for direction: String in directions:
@@ -23,6 +31,7 @@ func _run() -> void:
 			_check(not app.motion.is_empty(), "each segment has a preview")
 			_check(app.session.world.state.growth == before.growth, "preview never opens traversable roots")
 			await _drain()
+			_check_progress(app.session.world.state.growth.root.size())
 			var restored := World.new("1-2", app.session.world.snapshot())
 			_check(restored.state.growth == app.session.world.state.growth, "partial route survives save restore")
 		_check(app.session.world.budget() == 0, "four segments exhaust the seed")
@@ -51,6 +60,7 @@ func _run() -> void:
 	await _action("grow:root:up")
 	app._on_command("undo")
 	_check(app.session.world.state.growth.root.is_empty(), "undo restores budget and topology")
+	_check_progress(0)
 	await _action("grow:root:up")
 	await _action("retract:root")
 	_check(app.session.world.state.growth.root.is_empty(), "retract removes the last segment")

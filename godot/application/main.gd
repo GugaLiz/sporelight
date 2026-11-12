@@ -10,6 +10,7 @@ const World = preload("res://core/garden_world.gd")
 const View = preload("res://presentation/world/garden_view.gd")
 const HUD = preload("res://ui/garden_hud.gd")
 const Repository = preload("res://services/save_repository.gd")
+const SnapshotNormalizer = preload("res://services/snapshot_normalizer.gd")
 const Audio = preload("res://services/audio_service.gd")
 const Router = preload("res://application/input_router.gd")
 const Command = preload("res://contracts/game_command.gd")
@@ -56,7 +57,10 @@ var native_enabled := false
 var _hint_tier := 0
 var _native_save_clock := 0.0
 var _native_was_moving := false
+var _approaching_heavy_lever := false
+var _pending_prop_drop: Dictionary = {}
 var _portrait_blocked := false
+var _snapshot_normalizer := SnapshotNormalizer.new()
 
 func _ready() -> void:
 	# The playtest reuses this application with an in-memory repository.
@@ -119,6 +123,8 @@ func _ready() -> void:
 	audio.configure(settings)
 	view.set_settings(settings)
 	hud.set_repository(repository)
+	if native_enabled and hud.has_method("set_dialogue_proximity"):
+		hud.set_dialogue_proximity(Callable(view,"mole_dialogue_near_actor"))
 	if hud.has_method("apply_settings"):
 		hud.apply_settings(settings)
 	hud.command_requested.connect(_on_command)
@@ -171,11 +177,11 @@ func _normalize_snapshot(snapshot: Dictionary) -> Dictionary:
 			break
 	if not valid:
 		return {"ok": false}
-	var factory: Script = load("res://core/world_factory.gd")
-	var initial: RefCounted = factory.create(id) if factory != null else World.new(id)
-	return initial.normalize_saved(snapshot)
+	return _snapshot_normalizer.normalize(snapshot)
 
 func _enter_level(level_id: String, review: bool = false) -> void:
+	_cancel_prop_drop()
+	_approaching_heavy_lever = false
 	# Scene changes own the old modal's lifetime; do not leave a live overlay
 	# above an unpaused world or resume the previous scene on the way out.
 	if hud is HUD:
@@ -220,6 +226,7 @@ func _enter_level(level_id: String, review: bool = false) -> void:
 		native_movement = NativeMovement.new()
 		native_movement.setup(session, view, input_router)
 		native_movement.support_changed.connect(_on_native_support_changed)
+		native_movement.interaction_changed.connect(_on_native_support_changed)
 		native_movement.blocked.connect(_message)
 		_hint_tier = 0
 	hud.set_overview(false)
@@ -355,6 +362,8 @@ func _locked() -> bool:
 	return paused or not motion.is_empty() or (session.world.state.completed and not strolling)
 
 func _step(direction: String, manual: bool = true) -> void:
+	if manual: _cancel_prop_drop()
+	if manual: _approaching_heavy_lever = false
 	if native_movement != null:
 		if not _locked():
 			audio.start()
@@ -393,6 +402,7 @@ func _step(direction: String, manual: bool = true) -> void:
 	input_router.suppress_held(direction)
 
 func _go(tile_id: String) -> void:
+	_cancel_prop_drop()
 	if _locked() or session.world.state.playing:
 		return
 	if hud.has_method("close_context_choices"):
@@ -403,8 +413,10 @@ func _go(tile_id: String) -> void:
 	if path.is_empty() and tile_id != str(session.world.point().id):
 		_message("这里暂时走不到，先观察道路的连接。")
 		return
+	_approaching_heavy_lever = false
 	route = path.duplicate()
 	if native_movement != null:
+		if route.is_empty(): route = [tile_id]
 		native_movement.request_path(route)
 		route.clear()
 
@@ -431,11 +443,9 @@ func _command_states() -> Dictionary:
 	return _command_cache
 
 func _primary() -> String:
-	var commands: Array = _local_commands()
 	if native_movement != null:
-		var context := _native_interaction_context()
-		var choices: Array = context.get("choices", [])
-		return str(choices[0].id) if choices.size() == 1 and not str(choices[0].id).begins_with("grow:") else "context" if not choices.is_empty() else ""
+		return _context_primary(_native_interaction_context())
+	var commands: Array = _local_commands()
 	for id in ["repair", "rejoin"]:
 		for command in commands:
 			if str(command.id) == id and (id != "repair" or session.world.ready()):
@@ -446,7 +456,16 @@ func _primary() -> String:
 				return str(command.id)
 	return str(commands[0].id) if not commands.is_empty() else ""
 
+func _context_primary(context: Dictionary) -> String:
+	var choices: Array = context.get("choices", [])
+	return str(choices[0].id) if choices.size() == 1 and not str(choices[0].id).begins_with("grow:") else "context" if not choices.is_empty() else ""
+
 func _on_command(id: String) -> void:
+	_cancel_prop_drop()
+	if id != "use:hold": _approaching_heavy_lever = false
+	if session != null and str(session.world.level.id) == "1-4" and session.world.actor() == "luvie" and session.world.lever_held() and id in ["mode","jump"]:
+		_message("先松开重杆，再跳跃或变成蘑菇球。")
+		return
 	if id == "home":
 		_show_home()
 		return
@@ -574,7 +593,7 @@ func _on_command(id: String) -> void:
 			if native_movement != null:
 				view.overview = not view.overview
 				hud.set_overview(view.overview)
-				view.set_layout(hud.safe_world_rect())
+				_update_layout()
 				return
 			if get_viewport().get_visible_rect().size.x >= 650 or safe_camera:
 				_message("当前镜头已展示整片花园。全景切换适用于小屏跟随镜头。")
@@ -656,6 +675,7 @@ func _on_command(id: String) -> void:
 			_execute(Command.interact(id), id)
 
 func _execute(command: GardenCommand, clip: String) -> void:
+	_cancel_prop_drop()
 	if native_movement != null:
 		if command.kind == GardenCommand.Kind.MOVE:
 			var path: Array = session.world.path_to(command.value)
@@ -677,6 +697,24 @@ func _execute(command: GardenCommand, clip: String) -> void:
 		return
 	if not outcome.changed:
 		return
+	if native_movement != null and command.kind == GardenCommand.Kind.INTERACT and command.value.begins_with("drop:"):
+		if _approach_prop_drop(command, clip): return
+	if native_movement != null and command.value == "use:hold":
+		rolling = false
+		native_movement.rolling = false
+		view.set_actor_mode("luvie",false)
+		var handle: Dictionary = session.world.point_for("f:-3:0")
+		var station: Vector3 = view.actor_rest_position(handle,"luvie")
+		var body: CharacterBody3D = view.get_actor_body("luvie")
+		if Vector2(body.position.x-station.x,body.position.z-station.z).length() > .06:
+			var approach: Array = session.world.path_to(str(handle.id))
+			if approach.is_empty() and str(session.world.state.actors.luvie) != str(handle.id): return
+			if approach.is_empty(): approach = [str(handle.id)]
+			_approaching_heavy_lever = true
+			input_router.clear()
+			native_movement.request_path(approach)
+			_message("露薇走近把手，再扳住重杆。")
+			return
 	if native_movement != null and command.kind != GardenCommand.Kind.UNDO and not native_movement.can_change_to(outcome.after):
 		_message("先离开这段道路的边缘，再让它收回。")
 		return
@@ -700,6 +738,69 @@ func _execute(command: GardenCommand, clip: String) -> void:
 	view.set_motion(outcome.before, outcome.after, 0.0, clip)
 	_sync_hud()
 
+func _cancel_prop_drop() -> void:
+	if _pending_prop_drop.is_empty(): return
+	_pending_prop_drop.clear()
+	if native_movement != null: native_movement.stop()
+
+func _approach_prop_drop(command: GardenCommand, clip: String) -> bool:
+	var who: String = session.world.actor()
+	var parts := command.value.split(":")
+	var item_id: String = str(parts[1])
+	var tile_id: String = ":".join(parts.slice(2))
+	var stance: Dictionary = view.prop_drop_stance(tile_id, who, item_id)
+	var body: CharacterBody3D = view.get_actor_body(who)
+	if body == null or not stance.get("point") is Vector3:
+		_message("这里暂时没有能安全放下物件的站位，先挪开一点再试。")
+		return true
+	var point: Vector3 = stance.point
+	var companions: Dictionary = stance.get("companions",{})
+	if _prop_stance_reached(body,point) and companions.is_empty(): return false
+	# Keep the original command, target and support separate: a nearby slot
+	# can legally differ from the actor's current tile. Never rewrite the drop.
+	_pending_prop_drop = {"command": command.value, "clip": clip, "actor": who,
+		"support": str(session.world.state.actors[who]), "session": session.get_instance_id(),
+		"revision": session.revision, "level": str(session.world.level.id), "point": point,"companions":companions}
+	_approaching_heavy_lever = false
+	route.clear()
+	pending_button = ""
+	input_router.clear()
+	if not native_movement.request_local_target(point,companions):
+		_cancel_prop_drop()
+		_message("还走不到安全的放置位置，先挪开一点再试。")
+		return true
+	_message("先站到物件旁边，再把它稳稳放下。")
+	return true
+
+func _prop_stance_reached(body: CharacterBody3D,point: Vector3) -> bool:
+	if body == null: return false
+	var at := body.global_position
+	return Vector2(at.x-point.x,at.z-point.z).length()<=.055 and absf(at.y-point.y)<=.03
+
+func _advance_prop_drop() -> void:
+	if _pending_prop_drop.is_empty(): return
+	var pending: Dictionary = _pending_prop_drop.duplicate()
+	if paused or home_active or not motion.is_empty() or session.get_instance_id() != int(pending.session) or session.revision != int(pending.revision) or str(session.world.level.id) != str(pending.level) or session.world.actor() != str(pending.actor) or str(session.world.state.actors.get(str(pending.actor), "")) != str(pending.support):
+		_cancel_prop_drop()
+		return
+	if native_movement.is_moving(): return
+	var body: CharacterBody3D = view.get_actor_body(str(pending.actor))
+	var point: Vector3 = pending.point
+	_pending_prop_drop.clear()
+	if not _prop_stance_reached(body,point):
+		native_movement.stop()
+		_message("还没有站稳到安全位置，物件仍留在手中。")
+		return
+	for other: String in pending.get("companions",{}):
+		var companion: CharacterBody3D = view.get_actor_body(other)
+		if not _prop_stance_reached(companion,pending.companions[other]):
+			native_movement.stop()
+			_message("先让两位旅人都离开底座，再放下物件。")
+			return
+	# Re-prepare against the settled state, rather than committing the preview
+	# made before walking. Existing occupancy guards still own road removal.
+	_execute(Command.interact(str(pending.command)), str(pending.clip))
+
 func _commit(prepared: GardenCommandResult) -> void:
 	var committed: GardenCommandResult = session.commit(prepared)
 	if not committed.accepted:
@@ -711,6 +812,9 @@ func _commit(prepared: GardenCommandResult) -> void:
 		return
 	if native_movement != null:
 		native_movement.finish_mechanism()
+		if str(session.world.level.id) == "1-4" and session.world.actor() == "luvie" and session.world.lever_held():
+			rolling = false
+			native_movement.rolling = false
 		if view.has_method("set_actor_mode"):
 			for who: String in ["luvie", "buddy"]:
 				view.set_actor_mode(who, rolling and who == session.world.actor())
@@ -822,7 +926,10 @@ func _sync_hud() -> void:
 		# Existing nonvisual harnesses retain their three-argument HUD contract.
 		hud.update_state(session.world, _locked(), status_message)
 	hud.set_journey(Journey.describe(session.world))
-	var primary: String = _primary()
+	# The label and the visible action menu describe the same immutable state
+	# and physical pose. Resolve proximity once for this synchronous refresh.
+	var context: Dictionary = _native_interaction_context() if native_movement != null else {}
+	var primary: String = _context_primary(context) if native_movement != null else _primary()
 	var primary_label: String = "走近后互动 · E"
 	for command in session.world.commands():
 		if str(command.id) == primary:
@@ -831,8 +938,7 @@ func _sync_hud() -> void:
 	hud.set_action_label("mode", "滚动中" if rolling else "行走")
 	hud.set_action_feedback(primary, _command_states())
 	if native_movement != null and hud.has_method("set_interaction_context"):
-		var context := _native_interaction_context()
-		var point: Vector2 = view.project(context.get("tile", session.world.point()))
+		var point: Vector2 = view.project(context.tile if context.has("tile") else session.world.point())
 		hud.set_interaction_context(str(context.get("id", "")), str(context.get("label", "")), context.get("choices", []), point)
 		if view.has_method("set_interaction_context"):
 			view.set_interaction_context(context)
@@ -852,10 +958,17 @@ func _entry_message() -> String:
 func _update_layout() -> void:
 	if view != null and hud != null:
 		if hud is HUD:
-			hud.set_overview_available(get_viewport().get_visible_rect().size.x < 650 and not safe_camera)
-		view.set_layout(hud.safe_world_rect() if safe_camera or native_movement != null else Rect2())
+			# Native gardens keep a common play scale on every screen; their
+			# overview must remain reachable when the full map extends offscreen.
+			hud.set_overview_available(native_movement != null or (get_viewport().get_visible_rect().size.x < 650 and not safe_camera))
+		view.set_layout(_camera_safe_rect() if safe_camera or native_movement != null else Rect2())
 		if view.has_method("set_ui_regions") and hud.has_method("layout_regions"):
 			view.set_ui_regions(hud.layout_regions())
+
+func _camera_safe_rect() -> Rect2:
+	if view != null and view.overview and hud.has_method("overview_world_rect"):
+		return hud.overview_world_rect()
+	return hud.safe_world_rect()
 
 func _on_hud_chrome_changed() -> void:
 	# Keep framing in sync with settled HUD containers, even while standing still.
@@ -863,6 +976,7 @@ func _on_hud_chrome_changed() -> void:
 
 func _set_portrait_blocked(value: bool) -> void:
 	if value == _portrait_blocked: return
+	_cancel_prop_drop()
 	_portrait_blocked = value
 	pending_button = ""
 	if input_router != null: input_router.clear()
@@ -873,11 +987,13 @@ func _set_portrait_blocked(value: bool) -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and input_router != null:
+		_cancel_prop_drop()
 		pending_button = ""
 		input_router.clear()
 		if native_movement != null and motion.is_empty():
 			native_movement.stop()
 	if what == NOTIFICATION_APPLICATION_PAUSED and view != null:
+		_cancel_prop_drop()
 		pending_button = ""
 		input_router.clear()
 		view.set_paused(true)
@@ -999,7 +1115,7 @@ func _publish_qa() -> void:
 		if not bool(tile.get("solid", false)) and session.world.visible(tile):
 			var point: Vector2 = view.project(tile)
 			targets.append({"id": str(tile.id), "x": point.x, "y": point.y})
-	var safe_rect: Rect2 = hud.safe_world_rect()
+	var safe_rect: Rect2 = _camera_safe_rect()
 	var payload: Dictionary = {"snapshot": session.world.snapshot(), "moving": not motion.is_empty() or (native_movement != null and native_movement.is_moving()),
 		"homeActive": home_active, "worldVisible": view.visible,
 		"gameHudVisible": hud.is_game_interface_visible(), "hasActiveGame": has_active_game,
@@ -1037,7 +1153,10 @@ func _physics_process(delta: float) -> void:
 	if native_movement == null or session == null:
 		return
 	var context_open: bool = hud.has_method("is_context_open") and hud.is_context_open()
+	if not _pending_prop_drop.is_empty() and (not input_router.movement_vector().is_zero_approx() or context_open):
+		_cancel_prop_drop()
 	native_movement.tick(minf(delta, 0.05), not _locked() and not home_active and not context_open)
+	_advance_prop_drop()
 	var moving: bool = native_movement.is_moving()
 	_native_save_clock += delta
 	if not paused and motion.is_empty() and ((_native_was_moving and not moving) or (moving and _native_save_clock >= 1.0)):
@@ -1048,6 +1167,17 @@ func _physics_process(delta: float) -> void:
 	_native_was_moving = moving
 
 func _advance_native_actions(delta: float) -> void:
+	if not _pending_prop_drop.is_empty(): return
+	if _approaching_heavy_lever:
+		if not input_router.movement_vector().is_zero_approx():
+			_approaching_heavy_lever = false
+		elif not native_movement.is_moving():
+			_approaching_heavy_lever = false
+			var station: Vector3 = view.actor_rest_position(session.world.point_for("f:-3:0"),"luvie")
+			var body: CharacterBody3D = view.get_actor_body("luvie")
+			if session.world.actor() == "luvie" and Vector2(body.position.x-station.x,body.position.z-station.z).length() <= .06:
+				_execute(Command.interact("use:hold"),"use:hold")
+			return
 	if not pending_button.is_empty():
 		var intent := pending_button
 		pending_button = ""

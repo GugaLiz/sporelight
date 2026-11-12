@@ -50,7 +50,7 @@ func _run() -> void:
 	for id: String in ["1-1", "1-2", "1-3", "1-1"]:
 		world = World.new(id)
 		stage.set_world(world)
-		_check(stage.has_presentation_feature("physical_stair_steps") == (id in ["1-1", "1-2"]), id + " profile does not leak across level changes")
+		_check(stage.has_presentation_feature("physical_stair_steps"), id + " registered garden uses physical stairs")
 		if id != "1-1":
 			_check(stage.physical_position(Vector3(3, 0, 0)) == Vector3(3, 0, 0), id + " retains original coordinates")
 			for surface: Node3D in stage._surfaces.values():

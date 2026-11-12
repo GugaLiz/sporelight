@@ -16,6 +16,9 @@ const GalleryCatalog := preload("res://ui/gallery_catalog.gd")
 const Journey := preload("res://application/journey_view.gd")
 const MenuCover := preload("res://ui/menu_cover.gd")
 const MenuButtons := preload("res://ui/menu_button_styles.gd")
+const ChapterMap := preload("res://ui/chapter_map.gd")
+const GameHUDSkin := preload("res://ui/game_hud_skin.gd")
+const FourthGuidance := preload("res://ui/fourth_garden_guidance.gd")
 
 var _built := false
 var _chrome_layout_pending := false
@@ -26,6 +29,10 @@ var _message_panel: PanelContainer
 var _title: Label
 var _rule: Label
 var _status: Label
+var _status_row: HBoxContainer
+var _collection_count: Label
+var _collection_icon: TextureRect
+var _game_skin := GameHUDSkin.new()
 var _score: Label
 var _message: Label
 var _hint_button: Button
@@ -40,6 +47,8 @@ var _overlay_scroll: ScrollContainer
 var _map_frame: VBoxContainer
 var _map_heading: Label
 var _map_description: Label
+var _chapter_map: Control
+var _map_selection: Dictionary = {}
 var _gallery_frame: VBoxContainer
 var _gallery_heading: Label
 var _gallery_description: Label
@@ -69,6 +78,7 @@ var _journey_count: Label
 var _journey_steps: HFlowContainer
 var _journey_next: Label
 var _journey_key := ""
+var _fourth_journey: Dictionary = {}
 var _chapter_label: Label
 var _short_landscape := false
 var _heading_content: VBoxContainer
@@ -87,6 +97,11 @@ var _context_screen := Vector2(-1, -1)
 var _primary_id := ""
 var _touch_mode := false
 var _message_remaining := 0.0
+var _mole_conversation := FourthGuidance.new()
+var _mole_message_active := false
+var _fourth_default_message := false
+var _guidance_level := ""
+var _dialogue_proximity: Callable
 var _interaction_label := "走近物件"
 var _nearby_commands: Array = []
 var _context_stick := Vector2.ZERO
@@ -143,7 +158,25 @@ func setup() -> void:
 	_status.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_status.clip_text = true
 	_status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_heading_content.add_child(_status)
+	_status_row = HBoxContainer.new()
+	_status_row.name = "GardenStatusAndCollection"
+	_status_row.add_theme_constant_override("separation", 5)
+	_heading_content.add_child(_status_row)
+	_status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_status_row.add_child(_status)
+	_collection_icon = TextureRect.new()
+	_collection_icon.name = "CollectionSpore"
+	_collection_icon.texture = GameHUDSkin.SPORE
+	_collection_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_collection_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_collection_icon.custom_minimum_size = Vector2(14, 14)
+	_collection_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_status_row.add_child(_collection_icon)
+	_collection_count = _label("0 / 0", 11, Color("a37a38"))
+	_collection_count.name = "CollectionCount"
+	_collection_count.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_collection_count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_status_row.add_child(_collection_count)
 	_rule = _label("", 11, MUTED)
 	_rule.max_lines_visible = 2
 	_rule.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -156,6 +189,8 @@ func setup() -> void:
 	_journey_count.visible = false
 	_heading_content.add_child(_journey_count)
 	_journey_steps = HFlowContainer.new()
+	_journey_steps.add_theme_constant_override("h_separation",6)
+	_journey_steps.add_theme_constant_override("v_separation",2)
 	_journey_steps.visible = false
 	_heading_content.add_child(_journey_steps)
 
@@ -208,14 +243,14 @@ func setup() -> void:
 	_tool_grid = Control.new()
 	_tool_grid.resized.connect(_layout_tool_buttons)
 	_tools.add_child(_tool_grid)
-	for pair in [["撤销", "undo"], ["走近物件", "primary"], ["换手", "switch"], ["提示", "hint"]]:
+	for pair in [["撤销", "undo"], ["走近物件", "primary"], ["切换角色", "switch"], ["提示", "hint"]]:
 		var action := String(pair[1])
 		var button := _button(String(pair[0]))
 		button.name = "Action_" + action
 		_compact_button(button)
 		button.pressed.connect(func() -> void: command_requested.emit(action))
 		button.set_meta("action", action)
-		button.set_meta("default_tooltip", String({"undo": "撤销上一次意图 · Z", "primary": "操作当前对象 · E", "switch": "切换伙伴 · T", "hint": "主动请求一点帮助 · H"}.get(action, "")))
+		button.set_meta("default_tooltip", String({"undo": "撤销上一次意图 · Z", "primary": "操作当前对象 · E", "switch": "切换角色 · T", "hint": "主动请求一点帮助 · H"}.get(action, "")))
 		button.tooltip_text = String(button.get_meta("default_tooltip"))
 		_tool_grid.add_child(button)
 		_tool_buttons.append(button)
@@ -253,6 +288,9 @@ func setup() -> void:
 	_message_panel.add_child(_hint_button)
 	_hint_button.hide()
 	_message_panel.visible = false
+	_game_skin.attach(_heading, "heading")
+	_game_skin.attach(_tools, "tools")
+	_game_skin.attach(_message_panel, "message")
 
 	_nav = HBoxContainer.new()
 	_nav.name = "Navigation"
@@ -305,6 +343,10 @@ func setup() -> void:
 	for control in [_heading, _tools, _nav, _pad, _overview]:
 		control.minimum_size_changed.connect(_queue_chrome_layout)
 		control.resized.connect(_queue_chrome_layout)
+	# Temporary containers can grow beyond the requested size after shaping.
+	# Refresh only the camera area here, without resetting their authored size.
+	for control in [_message_panel, _panel]:
+		control.resized.connect(func() -> void: layout_changed.emit())
 	_layout()
 
 func _queue_chrome_layout() -> void:
@@ -330,6 +372,8 @@ func update_state(world: Variant, locked: bool = false, message: String = "", bu
 	if world == null:
 		return
 	var level: Dictionary = world.level
+	if _guidance_level!=str(level.id):
+		_guidance_level=str(level.id);_mole_conversation=FourthGuidance.new();_mole_message_active=false
 	var state: Dictionary = world.state
 	_title.text = "%s · %s" % [level.get("id", ""), level.get("title", "微光苔原")]
 	_rule.text = str(Journey.describe(world).get("goal", level.get("rule", "")))
@@ -351,8 +395,9 @@ func update_state(world: Variant, locked: bool = false, message: String = "", bu
 			_status.text += "  ·  " + _item_label(String(item_id))
 	var collected: int = state.get("collected", []).size()
 	_score.text = "%d / %d 沿途微光" % [collected, int(level.get("total", 0))]
-	if budget == 0 and int(level.get("total", 0)) > 0:
-		_status.text += "  ·  微光 %d/%d" % [collected, int(level.get("total", 0))]
+	_collection_count.text = "%d / %d" % [collected, int(level.get("total", 0))]
+	_collection_count.tooltip_text = _score.text
+	_collection_icon.tooltip_text = _score.text
 	if bool(level.get("dual", false)) and get_viewport_rect().size.x >= 650:
 		_status.text += "  ·  伙伴" + ("同行" if bool(state.get("follow", false)) else "等候")
 	if str(level.get("companionMode", "")) == "cloud":
@@ -384,7 +429,15 @@ func update_state(world: Variant, locked: bool = false, message: String = "", bu
 	_overview.disabled = locked or not _overview_available
 	if _context_open and locked:
 		close_context_choices()
-	if not message.is_empty() and _message.text != message:
+	var default_fourth: bool=str(level.id)=="1-4" and not message.is_empty() and message in [str(Journey.describe(world).get("goal","")),str(level.get("intro",""))]
+	if default_fourth:
+		var current_journey: Dictionary=FourthGuidance.journey(world)
+		var current_goal: String=str(current_journey.next) if bool(state.get("completed",false)) else "当前目标："+str(current_journey.next)
+		var other_feedback: bool=not _fourth_default_message and _message_remaining>0 and _message.text!=message
+		if not _inline_hint and not (_mole_message_active and _message_remaining>0) and not other_feedback and _message.text!=current_goal:
+			set_message(current_goal)
+			_fourth_default_message=true
+	elif not message.is_empty() and _message.text != message:
 		set_message(message)
 	_layout()
 
@@ -428,6 +481,10 @@ func set_action_feedback(primary_id: String, states: Dictionary) -> void:
 
 
 func _action_styles(button: Button, available: bool, primary: bool) -> void:
+	if primary and available:
+		_game_skin.apply_primary(button)
+		return
+	button.set_meta("game_action_skin", "secondary" if available else "unavailable")
 	for state_name in ["normal", "hover", "pressed", "disabled"]:
 		var background := Color("f7e8cf")
 		if primary and available:
@@ -452,13 +509,20 @@ func _action_styles(button: Button, available: bool, primary: bool) -> void:
 	button.add_theme_color_override("font_color", INK if available else MUTED)
 	button.add_theme_color_override("font_hover_color", INK)
 	button.add_theme_color_override("font_pressed_color", INK)
+	button.add_theme_color_override("font_focus_color", INK)
+	button.add_theme_color_override("font_disabled_color", Color("b3a38e"))
 
 
 func set_journey(journey: Dictionary) -> void:
 	setup()
-	_journey_key = JSON.stringify(journey)
-	_rule.text = str(journey.get("goal", _rule.text))
-	_journey_next.text = String(journey.get("next", ""))
+	var fourth: bool=_world!=null and str(_world.level.id)=="1-4"
+	var display: Dictionary=FourthGuidance.journey(_world) if fourth else journey
+	var key:=JSON.stringify(display)+str(fourth)
+	if key==_journey_key:return
+	_journey_key = key
+	_fourth_journey=display if fourth else {}
+	_rule.text = str(display.get("goal", _rule.text))
+	_journey_next.text = String(display.get("next", ""))
 	_journey_count.text = ""
 	_journey_step_count = 0
 	_current_journey_step = -1
@@ -467,8 +531,19 @@ func set_journey(journey: Dictionary) -> void:
 	for child in _journey_steps.get_children():
 		_journey_steps.remove_child(child)
 		child.queue_free()
-	# Progress remains available in the journal. The play screen never lists
-	# future mechanisms or the solver's next command.
+	if fourth:
+		_journey_step_count=4
+		_current_journey_step=int(display.current)
+		for index in display.steps.size():
+			var step: Dictionary=display.steps[index]
+			var prefix: String="✓ " if step.done else "› " if index==_current_journey_step else "· "
+			var label:=_label(prefix+str(step.label),11,Color("78866a") if step.done else INK if index==_current_journey_step else MUTED)
+			label.autowrap_mode=TextServer.AUTOWRAP_OFF
+			label.custom_minimum_size.x=150
+			_journey_steps.add_child(label)
+			_journey_labels.append(label)
+	# Other gardens retain their existing compact goal; staged help stays opt-in.
+	_layout()
 
 
 func set_touch_mode(enabled: bool) -> void:
@@ -481,6 +556,7 @@ func apply_settings(settings: Dictionary) -> void:
 	_settings = settings.duplicate(true)
 	if is_instance_valid(_home_cover):
 		_home_cover.configure(_settings)
+	if is_instance_valid(_chapter_map): _chapter_map.apply_settings(_settings)
 	_layout()
 
 
@@ -667,10 +743,12 @@ func _focus_context_choice() -> void:
 
 
 func show_hint(world: Variant, tier: int = 0) -> void:
-	show_hint_content(str(Journey.hint(world, tier).get("message", "")), tier)
+	show_hint_content(FourthGuidance.hint(world,tier) if str(world.level.id)=="1-4" else str(Journey.hint(world, tier).get("message", "")), tier)
 
 func show_hint_content(message: String, tier: int = 0) -> void:
 	setup()
+	_mole_message_active=false
+	_fourth_default_message=false
 	close_context_choices()
 	_inline_hint = true
 	_message_remaining = 0.0
@@ -691,6 +769,9 @@ func hide_hint() -> void:
 	layout_changed.emit()
 
 
+func set_dialogue_proximity(provider: Callable) -> void:
+	_dialogue_proximity=provider
+
 func _process(delta: float) -> void:
 	if is_context_open() and _context_stick_step != 0:
 		_context_repeat_remaining -= delta
@@ -702,11 +783,20 @@ func _process(delta: float) -> void:
 		if _message_remaining <= 0.0:
 			_message_panel.hide()
 			layout_changed.emit()
+	if _world!=null and _guidance_level=="1-4" and _game_interface_visible and not is_modal_open() and not _locked:
+		var physical_near: Variant=_dialogue_proximity.call() if _dialogue_proximity.is_valid() else null
+		var speech: Dictionary=_mole_conversation.poll(_world,delta,not _inline_hint and not _busy and not _context_open and (_message_remaining<=0 or _mole_message_active),physical_near)
+		if bool(speech.get("hide",false)) and _mole_message_active:
+			_mole_message_active=false;_message_remaining=0;_message_panel.hide();layout_changed.emit()
+		elif speech.has("text"):
+			set_message("鼹鼠："+str(speech.text))
+			_mole_message_active=true;_message_remaining=float(speech.seconds)
 
 func set_overview(value: bool) -> void:
 	setup()
 	_overview.button_pressed = value
 	_overview.text = "跟随" if value else "全景"
+	layout_changed.emit()
 
 func set_overview_available(value: bool) -> void:
 	_overview_available = value
@@ -716,6 +806,8 @@ func set_overview_available(value: bool) -> void:
 
 func set_message(text: String) -> void:
 	setup()
+	_mole_message_active=false
+	_fourth_default_message=false
 	_inline_hint = false
 	_hint_button.hide()
 	_message.get_parent().show()
@@ -750,11 +842,22 @@ func layout_regions() -> Array[Dictionary]:
 
 func safe_world_rect() -> Rect2:
 	setup()
-	var viewport_size := get_viewport_rect().size
-	var free: Array[Rect2] = [Rect2(Vector2(14, 14), viewport_size - Vector2(28, 28))]
 	# Temporary feedback and object menus must not resize/recenter the world.
 	# They still appear in layout_regions() for pointer blocking.
-	for blocker in [_heading, _tools, _nav, _pad, _overview]:
+	return _uncovered_world_rect([_heading, _tools, _nav, _pad, _overview])
+
+
+func overview_world_rect() -> Rect2:
+	setup()
+	# Overview promises the whole garden, including its foreground. Keep hints
+	# and local choices usable, but frame the map clear of their visible panels.
+	return _uncovered_world_rect([_heading, _tools, _nav, _pad, _overview, _message_panel, _panel])
+
+
+func _uncovered_world_rect(blockers: Array) -> Rect2:
+	var viewport_size := get_viewport_rect().size
+	var free: Array[Rect2] = [Rect2(Vector2(14, 14), viewport_size - Vector2(28, 28))]
+	for blocker: Control in blockers:
 		if not blocker.visible:
 			continue
 		var blocked: Rect2 = blocker.get_rect().grow(12)
@@ -920,6 +1023,9 @@ func show_home(levels: Array, progress: Dictionary, can_continue: bool, explore_
 func _focus_cloud_entry() -> void:
 	if _page_kind != "map" or not is_instance_valid(_overlay):
 		return
+	if is_instance_valid(_chapter_map):
+		_chapter_map.select_chapter("cloud")
+		return
 	for node in _overlay.find_children("*", "Button", true, false):
 		if str(node.get_meta("level_id", "")).begins_with("cloud-"):
 			_overlay.set_meta("preferred_focus", node)
@@ -972,60 +1078,43 @@ func _add_return_buttons(box: VBoxContainer) -> void:
 
 
 func show_menu(levels: Array, progress: Dictionary = {}) -> void:
-	var box := _open_page("map", "花园地图", show_menu.bind(levels, progress))
-	var toolbar := _configure_map_frame(box)
-	box.add_theme_constant_override("separation", 8)
-	var last_chapter := ""
-	var previous_mainline := ""
-	for index in levels.size():
-		var level: Dictionary = levels[index]
-		var id := String(level.get("id", ""))
-		var chapter := str(level.get("chapter", "cloud" if id.begins_with("cloud-") else id.get_slice("-", 0)))
-		if chapter != last_chapter:
-			if not last_chapter.is_empty():
-				box.add_child(HSeparator.new())
-			box.add_child(_label(str({"valley": "第一章 · 苔藓山谷", "1": "第一章 · 苔藓山谷", "pond": "第二章 · 雨滴池塘", "2": "第二章 · 雨滴池塘", "cave": "第三章 · 星光洞穴", "3": "第三章 · 星光洞穴", "cloud": "云庭微光 · 独立花园"}.get(chapter, "花园")), 17))
-			last_chapter = chapter
-		var completed := bool(progress.get("records", {}).get(id, {}).get("completed", false))
-		var is_cloud := id.begins_with("cloud-") or chapter == "cloud"
-		var unlocked := is_cloud or previous_mainline.is_empty() or completed or bool(progress.get("unlock_all", false)) or bool(progress.get("records", {}).get(previous_mainline, {}).get("completed", false))
-		var button := _button("%s  %s%s" % [id, level.get("title", ""), " · 已复苏" if completed else ("" if unlocked else " · 尚未苏醒")])
-		button.disabled = not unlocked
-		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.set_meta("level_id", id)
-		MenuButtons.level_row(button, completed)
-		button.tooltip_text = "先让前一片花园复苏，再来这里看看。" if not unlocked else "重访这片已复苏的花园。" if completed else "走进这片花园。"
-		button.pressed.connect(func() -> void:
-			close_overlay(false)
-			level_requested.emit(id))
-		box.add_child(button)
-		if is_cloud:
-			_add_cloud_story_entry(box, id)
-		if not is_cloud:
-			previous_mainline = id
-	var settings_button := _button("设置")
-	settings_button.pressed.connect(func() -> void: command_requested.emit("settings"))
-	var journal_button := _button("花园纪事")
-	journal_button.pressed.connect(func() -> void: show_journal(levels, progress))
-	var gallery_button := _button("图鉴")
-	gallery_button.pressed.connect(func() -> void: show_gallery(_repository.data if _repository != null else {"mainline": progress}))
-	var tools: Array[Button] = [settings_button, gallery_button, journal_button]
-	if _repository != null:
-		var saves_button := _button("导入 / 导出旅程")
-		saves_button.pressed.connect(func() -> void: show_save_tools(_repository))
-		tools.append(saves_button)
-	for button in tools:
-		MenuButtons.utility(button)
-		var font := button.get_theme_font("font")
-		button.custom_minimum_size.x = maxf(60, ceilf(font.get_string_size(button.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x) + 40)
-		toolbar.add_child(button)
-	_add_fixed_return_buttons(_map_frame, "MapReturnActions")
-	var first_level := _first_map_level(box)
-	if first_level != null:
-		_overlay.set_meta("preferred_focus", first_level)
-		if not _navigating_back:
-			_overlay_scroll.scroll_vertical = 0
-			_reset_map_scroll.call_deferred(_overlay_scroll, first_level)
+	if not _navigating_back:
+		_map_selection.clear()
+	_open_page("map", "花园地图", show_menu.bind(levels, progress))
+	# Keep the existing modal lifecycle and page stack, replacing only its body.
+	_overlay_paper.get_parent().hide()
+	_chapter_map = ChapterMap.new()
+	_chapter_map.apply_settings(_settings)
+	_chapter_map.can_resume = _game_interface_visible
+	_chapter_map.can_save = _repository != null
+	for level: Dictionary in levels:
+		var id := str(level.get("id", ""))
+		if not id.begins_with("cloud-"):
+			continue
+		var total := 0
+		for mark: Dictionary in _cloud_level(id).get("marks", []):
+			if not str(mark.get("text", "")).is_empty():
+				total += 1
+		_chapter_map.story_labels[id] = "口袋里的小事 · %d/%d" % [_cloud_found(id).size(), total]
+	_overlay.add_child(_chapter_map)
+	_chapter_map.selection_changed.connect(func(chapter: String, id: String) -> void:
+		_map_selection = {"chapter": chapter, "level": id})
+	_chapter_map.level_requested.connect(func(id: String) -> void:
+		close_overlay(false)
+		level_requested.emit(id))
+	_chapter_map.cloud_story_requested.connect(show_cloud_stories)
+	_chapter_map.action_requested.connect(func(action: String) -> void:
+		match action:
+			"resume": close_overlay()
+			"journal": show_journal(levels, progress)
+			"gallery": show_gallery(_repository.data if _repository != null else {"mainline": progress})
+			"save": show_save_tools(_repository)
+			_:
+				command_requested.emit(action)
+	)
+	_chapter_map.configure(levels, progress, _map_selection)
+	_map_selection = {"chapter": _chapter_map.chapter, "level": _chapter_map.selected_id}
+	_overlay.set_meta("preferred_focus", _chapter_map.preferred_focus)
 	_resize_overlay()
 
 
@@ -1414,6 +1503,7 @@ func close_overlay(resume_game: bool = true) -> void:
 	_map_frame = null
 	_map_heading = null
 	_map_description = null
+	_chapter_map = null
 	_gallery_frame = null
 	_gallery_heading = null
 	_gallery_description = null
@@ -1430,6 +1520,8 @@ func close_overlay(resume_game: bool = true) -> void:
 func navigate_back() -> void:
 	if is_context_open():
 		close_context_choices()
+		return
+	if is_instance_valid(_chapter_map) and _chapter_map.close_overview():
 		return
 	if not is_modal_open():
 		return
@@ -1547,6 +1639,9 @@ func _focus_first_control(node: Node) -> bool:
 
 
 func _resize_overlay() -> void:
+	if is_instance_valid(_chapter_map):
+		_chapter_map._schedule_layout()
+		return
 	if is_instance_valid(_home_cover):
 		_home_cover.relayout()
 		return
@@ -1593,20 +1688,29 @@ func _layout() -> void:
 	_overview.visible = _game_interface_visible
 	_panel.visible = _game_interface_visible and _context_open and not is_modal_open()
 	_pad.visible = _game_interface_visible and _touch_mode and bool(_settings.get("touchControls", false)) and not _context_open
-	_rule.visible = extent.y > 500
+	var fourth_stages: bool=not _fourth_journey.is_empty() and _guidance_level=="1-4"
+	_rule.visible = extent.y > 500 and not fourth_stages
 	_chapter_label.hide()
-	_journey_count.hide()
-	_journey_steps.hide()
+	_journey_count.visible=fourth_stages
+	_journey_steps.visible=fourth_stages and not _short_landscape
+	if fourth_stages:
+		var progress_text: String="%d/4 · %s" % [int(_fourth_journey.done),str(_fourth_journey.next)] if _short_landscape else "归家旅程  %d / 4" % int(_fourth_journey.done)
+		if _journey_count.text!=progress_text:_journey_count.text=progress_text
+		_set_layout_font(_journey_count,10 if _short_landscape else 11)
 	_panel_header.hide()
 	_panel_separator.hide()
 	_score_row.hide()
 	_journey_next.hide()
 	_heading.position = Vector2(margin, margin)
 	_set_panel_inset(_heading, 4 if _short_landscape else 8)
-	_heading_content.add_theme_constant_override("separation", 2 if _short_landscape else 4)
-	_heading.size = Vector2(minf(360, maxf(120, extent.x - 196 - margin)), 46 if _short_landscape else 82 if extent.y > 500 else 62)
-	_title.add_theme_font_size_override("font_size", 13 if _short_landscape else 14 if extent.x < 650 else 16)
-	_status.add_theme_font_size_override("font_size", 9 if _short_landscape else 10 if extent.x < 650 else 11)
+	var separation:=2 if _short_landscape else 4
+	if _heading_content.get_theme_constant("separation")!=separation:_heading_content.add_theme_constant_override("separation",separation)
+	var heading_height: float=(62 if _short_landscape else 124) if fourth_stages else (46 if _short_landscape else 82 if extent.y > 500 else 62)
+	_heading.size = Vector2(minf(360, maxf(120, extent.x - 196 - margin)), heading_height)
+	_set_layout_font(_title,13 if _short_landscape else 14 if extent.x < 650 else 16)
+	_set_layout_font(_status,9 if _short_landscape else 10 if extent.x < 650 else 11)
+	_set_layout_font(_collection_count,9 if _short_landscape else 10 if extent.x < 650 else 11)
+	_collection_icon.custom_minimum_size = Vector2(12, 12) if _short_landscape else Vector2(14, 14)
 	_nav.position = Vector2(extent.x - margin - 94, margin)
 	_nav.size = Vector2(94, 44)
 	for child in _nav.get_children():
@@ -1633,7 +1737,7 @@ func _layout() -> void:
 		var hint_height := maxf(72, text_height + 40)
 		_message_panel.position.y = _tools.position.y - hint_height - 8
 		_message_panel.size.y = hint_height
-	_message.add_theme_font_size_override("font_size", 10 if _short_landscape else 11 if extent.x < 650 else 12)
+	_set_layout_font(_message,10 if _short_landscape else 11 if extent.x < 650 else 12)
 	_message.max_lines_visible = 1 if _short_landscape else 3
 	_message.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_message.tooltip_text = _message.text
@@ -1653,6 +1757,10 @@ func _layout() -> void:
 		_message_panel.visible = false
 	layout_changed.emit()
 
+
+func _set_layout_font(label: Label,font_size: int) -> void:
+	if label.get_theme_font_size("font_size")!=font_size:
+		label.add_theme_font_size_override("font_size",font_size)
 
 func _set_panel_inset(panel: PanelContainer, inset: float) -> void:
 	var existing: StyleBox = panel.get_theme_stylebox("panel")

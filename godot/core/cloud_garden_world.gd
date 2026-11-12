@@ -192,7 +192,7 @@ func budget() -> int:
 func connected(_root: Dictionary = {}) -> bool:
 	return ready()
 
-func ready() -> bool:
+func ready(_world_tiles: Array = []) -> bool:
 	return bool(state.cloudSeed) if level.id == "cloud-1" else state.cloudBuddy == "follow" if level.id == "cloud-3" else true
 
 func together(world_tiles: Array = []) -> bool:
@@ -209,7 +209,7 @@ func together(world_tiles: Array = []) -> bool:
 		return left.distance_to(right) <= 1.1
 	return true
 
-func visible(_tile: Dictionary) -> bool:
+func visible(_tile: Dictionary, _world_tiles: Array = []) -> bool:
 	return true
 
 func growth_guidance() -> Dictionary:

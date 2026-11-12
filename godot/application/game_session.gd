@@ -31,6 +31,8 @@ func prepare(command: GardenCommand) -> GardenCommandResult:
 			outcome = preview.move(command.value)
 		GardenCommand.Kind.ACTOR_MOVE:
 			outcome = preview.move_actor(command.actor_id, command.value, false)
+		GardenCommand.Kind.RELEASE_HOLD:
+			outcome = preview.release_lever(command.actor_id, false)
 		GardenCommand.Kind.INTERACT:
 			outcome = preview.act(command.value, command.value == "beat" and bool(preview.state.get("playing", false)))
 	result.accepted = bool(outcome.get("ok", false))
@@ -50,6 +52,8 @@ func commit(prepared: GardenCommandResult) -> GardenCommandResult:
 	var outcome: Dictionary
 	if prepared.command.kind == GardenCommand.Kind.ACTOR_MOVE:
 		outcome = world.move_actor(prepared.command.actor_id, prepared.command.value, false)
+	elif prepared.command.kind == GardenCommand.Kind.RELEASE_HOLD:
+		outcome = world.release_lever(prepared.command.actor_id, false)
 	elif prepared.command.kind == GardenCommand.Kind.MOVE:
 		outcome = world.move(prepared.command.value)
 	else:

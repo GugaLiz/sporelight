@@ -56,11 +56,22 @@ func _show_menu() -> void:
 func _locked() -> bool:
 	return super._locked() or (_is_weaving() and phase in ["planning", "growing"])
 
+func _planned_count() -> int:
+	return session.world.state.growth.root.size() + (plan.commands.size() if plan != null else 0)
+
+func _root_budget() -> int:
+	return int(session.world.level.roots[0].budget)
+
 func _native_interaction_context() -> Dictionary:
 	var context := super._native_interaction_context()
 	if not _is_weaving(): return context
 	if phase in ["planning", "growing"]:
-		return {"id": "weave:confirm", "label": "让根桥生长" if phase == "planning" else "根桥生长中", "choices": [], "tile": session.world.point_for("f:1:1")}
+		# The goal text is hidden on short landscape screens. Keep progress in
+		# the existing primary action, where both mouse and touch can read it.
+		var label := "根桥生长 %d/%d" % [_planned_count(), _root_budget()]
+		if phase == "planning":
+			label = "让根桥生长" if plan != null and plan.ready() else "规划根桥 %d/%d" % [_planned_count(), _root_budget()]
+		return {"id": "weave:confirm", "label": label, "choices": [], "tile": session.world.point_for("f:1:1")}
 	if not session.world.connected():
 		for choice: Dictionary in context.get("choices", []):
 			if str(choice.id).begins_with("grow:root:"):
@@ -180,28 +191,62 @@ func _sync_hud() -> void:
 	view.options = plan.choices() if view.planning else []
 	super._sync_hud()
 	if not _is_weaving(): return
+	if not session.world.state.completed:
+		hud.set_journey(_weaving_journey())
 	if phase in ["planning", "growing"]:
-		var count: int = session.world.state.growth.root.size() + (plan.commands.size() if plan != null else 0)
-		var goal := "点亮落点，规划根桥 %d / 4" % count if phase == "planning" else "根桥正沿路线逐节生长。"
-		hud.set_journey({"goal": goal, "next": "撤销可退一步；空草稿再撤销可退出规划。" if phase == "planning" else "等它落稳，再走向对岸花坛。"})
 		hud.set_action_enabled("undo", phase == "planning" and not paused)
 		var ready: bool = phase == "planning" and plan != null and plan.ready()
 		hud.set_action_enabled("primary", ready and not paused)
-		hud.set_action_feedback("weave:confirm", {"weave:confirm": {"available": ready, "reason": "先用剩余芽节把路线接到对岸。"}})
+		var reason := "根桥正在生长，等它落稳。" if phase == "growing" else "还需规划 %d 节，接到对岸后才能生长。" % (_root_budget() - _planned_count())
+		hud.set_action_feedback("weave:confirm", {"weave:confirm": {"available": ready, "reason": reason}})
 	elif _native_interaction_context().get("id", "") == "weave:plan":
 		hud.set_action_feedback("weave:plan", {"weave:plan": {"available": true}})
+	# Refresh only help the player already opened; never reveal a solution or
+	# reopen a dismissed hint as the route changes.
+	if hud.is_hint_visible(): hud.show_hint_content(_weaving_hint(), _hint_tier)
 	view.queue_redraw()
 	_publish_qa()
 
+func _weaving_journey() -> Dictionary:
+	var goal := "为岩石另一侧的小花找到一条路。"
+	var next := "像上一片花园一样走近根台，这次先规划，再让根桥生长。"
+	match phase:
+		"planning":
+			goal = "路线已接到对岸，确认后根桥才会生长。" if plan.ready() else "规划根桥 %d / %d · 还可安排 %d 节" % [_planned_count(), _root_budget(), _root_budget() - _planned_count()]
+			next = "点击发光落点或按方向键；撤销可退一步，空草稿再撤销可退出。"
+		"growing":
+			goal = "根桥正沿路线生长 %d / %d。" % [_planned_count(), _root_budget()]
+			next = "等它落稳，再走向对岸花坛。"
+		"crossing":
+			goal = "根桥已接通，去对岸照料第一朵花。"
+			next = "走到花坛旁互动；沿途微光可以自由收集。"
+	return {"goal": goal, "next": next}
+
+func _weaving_hint() -> String:
+	if session.world.state.completed: return str(Journey.hint(session.world, _hint_tier).message)
+	var messages: Array = []
+	match phase:
+		"planning":
+			if plan.ready():
+				messages = ["路线已接到对岸，现在仍是草稿。", "确认后根桥才会逐节长出；想改路线，可以先撤销。", "点击“让根桥生长”或按 E，等根桥落稳后再过桥。"]
+			else:
+				messages = ["正在规划，根桥还没有长出；还可安排 %d 节。" % (_root_budget() - _planned_count()), "每一节都从根尖继续。点发光的＋或按方向键；撤销可以退一步。", "沿岩石上侧或下侧连续绕行，最后一节接回对岸入口，再确认生长。"]
+		"growing":
+			messages = ["根桥正在沿你安排的路线生长。", "等最后一节落稳，就可以走到对岸。", "现在不需要再选落点；根桥接通后，走到花坛旁互动。"]
+		"crossing":
+			messages = ["你安排的根桥已经接通，小花还在对岸等你。", "接通道路后，还需要亲自到花坛旁照料它。", "点击对岸花坛所在的地面前往，再用主操作按钮或 E 照料；不必收齐微光。"]
+		_:
+			messages = ["岩石挡住了直路，周围还留有空隙。", "这次有四节根芽。走近根台先规划路线，确认后再一起生长。", "开始规划后，点发光落点从岩石上侧或下侧绕行；四节接到对岸，再确认。"]
+	return str(messages[clampi(_hint_tier, 0, 2)])
+
 func _apply_native_hint(event: String) -> void:
-	if not _is_weaving() or session.world.connected():
+	if not _is_weaving():
 		super._apply_native_hint(event)
 		return
 	var next := HintNavigation.transition(_hint_tier, hud.is_hint_visible(), event)
 	_hint_tier = int(next.tier)
 	if next.visible:
-		var messages := ["走近根台，开始规划一条绕过岩石的根桥。", "点击发光落点，连续安排四节芽；撤销可以退一步。", "沿岩石上侧或下侧绕行，接到对岸后确认生长，再走到花坛旁。"]
-		hud.show_hint_content(messages[_hint_tier], _hint_tier)
+		hud.show_hint_content(_weaving_hint(), _hint_tier)
 	else: hud.hide_hint()
 
 func _process(delta: float) -> void:

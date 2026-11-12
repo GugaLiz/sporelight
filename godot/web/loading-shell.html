@@ -282,7 +282,7 @@ const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
       const nextPhase = ratio >= 1 ? 'opening' : 'downloading';
       label.textContent = ratio >= 1 ? '正在唤醒花园…' : '正在收集苔原的微光…';
       if (overlay.dataset.phase !== nextPhase) {
-        caption.textContent = ratio >= 1 ? '微光已经汇齐，花园正在慢慢醒来。' : '每一粒微光，都在向这里靠近。';
+        caption.textContent = ratio >= 1 ? '资源已加载完成，首次准备画面还需要一些时间。' : '每一粒微光，都在向这里靠近。';
         overlay.dataset.phase = nextPhase;
       }
     } else {

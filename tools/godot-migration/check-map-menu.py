@@ -1,7 +1,8 @@
-"""Real map menu clicks, scroll bounds, focus/hover pixels and return paths."""
+"""Real illustrated-map selection, unlocks, chapter navigation and return paths."""
 import argparse
 import json
 import sys
+import time
 import urllib.request
 from pathlib import Path
 
@@ -12,11 +13,12 @@ from playwright.sync_api import sync_playwright
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--base", default="http://localhost:4201/")
 parser.add_argument("--output", default="docs/qa-godot-native/map-buttons/map")
-parser.add_argument("--sizes", default="1280x720,390x844,320x568,568x320,594x462,2560x1440,3440x1440")
+parser.add_argument("--sizes", default="1280x720,844x390,390x844,320x568,568x320,594x462,2560x1440,3440x1440")
+parser.add_argument("--touch", action="store_true")
 args = parser.parse_args()
 OUT = ROOT / args.output
 OUT.mkdir(parents=True, exist_ok=True)
-with urllib.request.urlopen(args.base + "__build.json") as response:
+with urllib.request.urlopen(args.base.rstrip("/") + "/__build.json") as response:
     build = json.load(response)
 results = []
 
@@ -30,136 +32,177 @@ def controls(page):
     return state(page)["ui"]["controls"]
 
 
-def point(page, rect):
+def css_rect(page, rect):
     box = page.locator("#canvas").bounding_box()
     backing = page.locator("#canvas").evaluate("c => [c.width,c.height]")
-    return [box["x"] + (rect[0] + rect[2] / 2) * box["width"] / backing[0], box["y"] + (rect[1] + rect[3] / 2) * box["height"] / backing[1]]
+    return {"x": box["x"] + rect[0] * box["width"] / backing[0],
+            "y": box["y"] + rect[1] * box["height"] / backing[1],
+            "width": rect[2] * box["width"] / backing[0],
+            "height": rect[3] * box["height"] / backing[1]}
 
 
-def pick(page, text=None, prefix=None, action=None):
-    for attempt in range(40):
+def point(page, rect):
+    r = css_rect(page, rect)
+    return [r["x"] + r["width"] / 2, r["y"] + r["height"] / 2]
+
+
+def pick(page, text=None, action=None, suffix=None):
+    for attempt in range(30):
         entries = controls(page)
-        item = next((c for c in entries if c["class"] == "Button" and (text is None or c.get("text") == text) and (prefix is None or c.get("text", "").startswith(prefix)) and (action is None or c.get("action") == action)), None)
-        if item is None and action == "map" and not any(c["class"] == "ScrollContainer" for c in entries):
-            item = next((c for c in entries if c["class"] == "Button" and c.get("text") == "地图"), None)
-        if item and item["visibleRect"][2] > 36 and item["visibleRect"][3] >= min(40, item["height"]):
-            return item
-        if item and item.get("disabled") and item["visibleRect"][2] > 36 and item["visibleRect"][3] > 20:
-            return item
-        scroll = next(c for c in entries if c["class"] == "ScrollContainer")
-        r = scroll["visibleRect"]
-        direction = (-1 if item["y"] < r[1] else 1) if item else (1 if attempt % 20 < 10 else -1)
-        page.mouse.move(*point(page, r))
-        page.mouse.wheel(0, direction * 200)
-        page.wait_for_timeout(160)
-    raise AssertionError("Not reachable: " + str([text, prefix, action]))
+        matches = [c for c in entries if c["class"] == "Button"
+                   and (text is None or c.get("text") == text)
+                   and (action is None or c.get("action") == action)
+                   and (suffix is None or c.get("path", "").endswith(suffix))]
+        if not matches and action == "map":
+            matches = [c for c in entries if c["class"] == "Button" and c.get("text") == "地图"]
+        for item in sorted(matches, key=lambda c: bool(c.get("disabled"))):
+            if item["visibleRect"][2] >= 20 and item["visibleRect"][3] >= 20:
+                return item
+        # Child pages scroll; the illustrated map has no old chapter-list row.
+        scrolls = [c for c in entries if c["class"] == "ScrollContainer"
+                   and c.get("visibleRect", [0, 0, 0, 0])[3] > 25]
+        if scrolls:
+            rect = scrolls[-1]["visibleRect"]
+            direction = -1 if matches and matches[-1]["y"] < rect[1] else 1 if attempt % 20 < 10 else -1
+            page.mouse.move(*point(page, rect))
+            page.mouse.wheel(0, direction * 200)
+        page.wait_for_timeout(100)
+    raise AssertionError("Not reachable: " + str([text, action, suffix]))
 
 
-def click(page, **query):
+def click(page, touch=False, **query):
     item = pick(page, **query)
     assert not item.get("disabled"), str(query)
-    page.mouse.click(*point(page, item["visibleRect"]))
+    (page.touchscreen.tap if touch else page.mouse.click)(*point(page, item["visibleRect"]))
+    return item
 
 
 def map_controls(page):
-    return [c for c in controls(page) if "/MapFrame/" in c["path"]]
+    return [c for c in controls(page) if "/IllustratedChapterMap/" in c["path"]]
 
 
-def run(browser, size, dpr=1):
-    label = f"{size[0]}x{size[1]}-dpr{dpr:g}"
+def select_chapter(page, chapter, touch=False):
+    click(page, touch, action="world_overview")
+    page.wait_for_function("() => window.__sporelightState?.buttons.some(b=>b.path.includes('/WorldOverview/'))")
+    click(page, touch, suffix="/ChapterPreview_" + chapter)
+
+
+def selected(page, level):
+    return any("/MapSelectedCard/" in c["path"] and c.get("text", "").startswith(level + " ·")
+               for c in map_controls(page))
+
+
+def run(browser, requested_size, dpr=1):
+    label = f"{requested_size[0]}x{requested_size[1]}-dpr{dpr:g}"
     folder = OUT / label
     folder.mkdir(parents=True, exist_ok=True)
-    row = {"size": list(size), "dpr": dpr, "errors": []}
-    context = browser.new_context(viewport={"width": size[0], "height": size[1]}, device_scale_factor=dpr)
+    portrait = requested_size[1] > requested_size[0]
+    touch = args.touch or portrait
+    row = {"size": list(requested_size), "dpr": dpr, "touch": touch, "errors": []}
+    context = browser.new_context(viewport={"width": requested_size[0], "height": requested_size[1]},
+                                  device_scale_factor=dpr, has_touch=touch)
     page = context.new_page()
     page.on("pageerror", lambda e: row["errors"].append(str(e)))
     page.on("console", lambda m: row["errors"].append(m.text) if m.type == "error" or "SCRIPT ERROR:" in m.text else None)
     try:
-        page.goto(args.base + "?qa=1&home=1&unlockAll=0", wait_until="networkidle")
-        page.wait_for_selector("#status", state="detached", timeout=90000)
-        click(page, action="map")
-        assert map_controls(page), "real map frame is visible"
-        page.wait_for_function("() => window.__sporelightState?.buttons.some(b=>b.text.startsWith('1-1  ')&&b.visibleRect?.[3]>=49)", timeout=5000)
-        page.screenshot(path=str(folder / "map-top.png"), scale="css")
+        page.goto(args.base.rstrip("/") + "/?qa=1&home=1&unlockAll=0", wait_until="networkidle")
+        page.wait_for_selector("#status", state="detached", timeout=120000)
+        page.wait_for_function("() => window.__sporelightState?.snapshot", timeout=120000)
+        if portrait:
+            page.wait_for_function("() => window.__sporelightPortraitBlocked === true")
+            before = state(page)["snapshot"]
+            page.screenshot(path=str(folder / "portrait-blocked.png"), scale="css")
+            page.touchscreen.tap(requested_size[0] / 2, requested_size[1] / 2)
+            assert state(page)["snapshot"] == before, "portrait gate prevents game input"
+            page.set_viewport_size({"width": requested_size[1], "height": requested_size[0]})
+            page.wait_for_function("() => window.__sporelightPortraitBlocked === false")
+            row["portraitGateVerified"] = True
+        row["testedViewport"] = page.viewport_size
+        click(page, touch, action="map")
+        assert selected(page, "1-1"), "first journey selects the actual saved first level"
         initial = state(page)["snapshot"]
-        first = pick(page, prefix="1-1  ")
-        locked = pick(page, prefix="1-2  ")
-        assert not first["disabled"] and locked["disabled"], "authored unlock status"
-        page.mouse.click(*point(page, locked["visibleRect"]))
-        assert state(page)["snapshot"] == initial and map_controls(page), "locked click cannot enter a level or mutate the puzzle"
-        before = {c["name"] + c.get("text", ""): c["visibleRect"] for c in map_controls(page) if "/MapUtilities/" in c["path"] or "/MapReturnActions/" in c["path"] or c.get("text") == "花园地图"}
-        assert before
+        page.screenshot(path=str(folder / "map-first.png"), scale="css")
+        assert len([c for c in map_controls(page) if "/MapMarker_" in c["path"] and c["class"] == "Button"]) == 4
+        assert not pick(page, suffix="/MapEnterLevel")["disabled"]
+        click(page, touch, suffix="/MapMarker_1-2")
+        locked = pick(page, suffix="/MapEnterLevel")
+        assert locked["disabled"] and selected(page, "1-2"), "locked landmark is inspectable without entering"
+        (page.touchscreen.tap if touch else page.mouse.click)(*point(page, locked["visibleRect"]))
+        assert state(page)["snapshot"] == initial and selected(page, "1-2"), "locked click preserves puzzle"
+        page.screenshot(path=str(folder / "map-locked.png"), scale="css")
         for item in map_controls(page):
-            if "/MapUtilities/" in item["path"] and item["class"] == "Button":
-                assert item["width"] >= 44 and item["height"] >= 44
-                assert item["visibleRect"][2] >= item["width"] - 0.1, "utility is not clipped"
-        cloud = pick(page, prefix="cloud-1  ")
-        assert not cloud["disabled"], "independent garden remains playable"
-        page.screenshot(path=str(folder / "map-scrolled.png"), scale="css")
-        after = {c["name"] + c.get("text", ""): c["visibleRect"] for c in map_controls(page) if "/MapUtilities/" in c["path"] or "/MapReturnActions/" in c["path"] or c.get("text") == "花园地图"}
-        assert before == after, "title, tools and return actions remain fixed while chapters scroll"
-        scroll = next(c for c in controls(page) if c["class"] == "ScrollContainer")
-        sx, sy, sw, sh = scroll["visibleRect"]
-        assert sw > 100 and sh >= 70 / dpr, "usable chapter viewport"
-        click(page, text="设置")
+            if item["class"] == "Button":
+                rect = css_rect(page, item["visibleRect"])
+                assert rect["width"] >= 43.5 and rect["height"] >= 43.5, "map hit area remains 44 CSS pixels"
+        click(page, touch, action="world_overview")
+        assert all("/WorldOverview/" in c["path"] or c.get("disabled")
+                   for c in map_controls(page) if c["class"] == "Button"), "overview owns interaction; live backdrop stays inert"
+        page.screenshot(path=str(folder / "world-overview.png"), scale="css")
         page.keyboard.press("Escape")
-        assert map_controls(page), "settings returns to originating map"
-        for text in ["图鉴", "花园纪事", "导入 / 导出旅程"]:
-            click(page, text=text)
+        assert selected(page, "1-2"), "Escape closes overview without losing selection"
+        select_chapter(page, "pond", touch)
+        assert selected(page, "2-1") and pick(page, suffix="/MapEnterLevel")["disabled"], "chapter preview cannot bypass unlock"
+        page.screenshot(path=str(folder / "pond-locked.png"), scale="css")
+        select_chapter(page, "cloud", touch)
+        assert selected(page, "cloud-1") and not pick(page, suffix="/MapEnterLevel")["disabled"], "independent cloud garden is playable"
+        click(page, touch, suffix="/MapMarker_cloud-2")
+        for action in ["settings", "gallery", "journal", "save"]:
+            click(page, touch, action=action)
             page.keyboard.press("Escape")
-            assert map_controls(page), text + " returns to map"
-        # Open a real run, turn off cover animation through the real preference,
-        # and return home. The map remains unchanged by the held-still setting.
-        click(page, prefix="1-1  ")
-        page.wait_for_function("() => window.__sporelightState?.worldVisible&&!window.__sporelightState.paused")
+            assert selected(page, "cloud-2"), action + " returns to the same chapter and landmark"
+        story = next(c for c in map_controls(page) if c["class"] == "Button" and c.get("text", "").startswith("口袋里的小事"))
+        (page.touchscreen.tap if touch else page.mouse.click)(*point(page, story["visibleRect"]))
         page.keyboard.press("Escape")
-        page.wait_for_function("() => window.__sporelightState?.paused")
-        page.wait_for_timeout(120)
-        for attempt in range(25):
-            toggle = next(c for c in controls(page) if c.get("setting_id") == "lowMotion")
-            if toggle["visibleRect"][3] > 25:
-                page.mouse.click(*point(page, toggle["visibleRect"]))
-                break
-            scroll = next(c for c in controls(page) if c["class"] == "ScrollContainer")
-            page.mouse.move(*point(page, scroll["visibleRect"]))
-            page.mouse.wheel(0, 200)
-        assert state(page)["settings"]["lowMotion"], "real reduce-motion toggle applied"
-        page.keyboard.press("Escape")
-        page.wait_for_function("() => !window.__sporelightState?.paused")
-        page.wait_for_timeout(180)
-        click(page, action="map")
-        page.wait_for_timeout(180)
-        # The first Enter must select a level, not the fixed toolbar.
-        page.keyboard.press("Enter")
-        page.wait_for_function("() => window.__sporelightState?.worldVisible&&!window.__sporelightState.paused")
-        page.keyboard.press("Escape")
-        page.wait_for_function("() => window.__sporelightState?.paused")
-        page.keyboard.press("Escape")
-        page.wait_for_function("() => !window.__sporelightState?.paused")
-        click(page, action="map")
-        item = pick(page, prefix="1-1  ")
+        assert selected(page, "cloud-2"), "cloud story restores selected landmark"
+        click(page, touch, suffix="/MapEnterLevel")
+        page.wait_for_function("() => {const s=window.__sporelightState;return s?.worldVisible&&!s.paused&&s.snapshot.levelId==='cloud-2';}")
+        click(page, touch, action="map")
+        assert map_controls(page), "map reopens from the actual cloud game"
+        select_chapter(page, "valley", touch)
+        click(page, touch, suffix="/MapMarker_1-1")
+        # The map is static; compare actual focused/hovered entry pixels.
         page.mouse.move(1, 1)
-        page.wait_for_timeout(100)
-        rect = item["visibleRect"]
-        backing = page.locator("#canvas").evaluate("c => [c.width,c.height]")
-        box = page.locator("#canvas").bounding_box()
-        clip = {"x": rect[0] * box["width"] / backing[0], "y": rect[1] * box["height"] / backing[1], "width": rect[2] * box["width"] / backing[0], "height": rect[3] * box["height"] / backing[1]}
+        page.wait_for_timeout(250)
+        item = pick(page, suffix="/MapEnterLevel")
+        clip = css_rect(page, item["visibleRect"])
         focused = page.screenshot(path=str(folder / "level-focused.png"), clip=clip, scale="css")
-        # Move focus to a fixed toolbar entry, outside the chapter scroller.
-        # Tab can otherwise focus an offscreen enabled cloud level and scroll
-        # the list, which would compare different rows at the same coordinates.
-        # Shift+Tab reaches the preceding fixed utility, rather than a later
-        # offscreen cloud level. The chapter scroller therefore stays still.
         page.keyboard.press("Shift+Tab")
-        item = pick(page, prefix="1-1  ")
-        rect = item["visibleRect"]
-        page.mouse.move(*point(page, rect))
-        page.wait_for_timeout(120)
+        page.mouse.move(*point(page, item["visibleRect"]))
+        page.wait_for_timeout(150)
         hovered = page.screenshot(path=str(folder / "level-hovered.png"), clip=clip, scale="css")
-        assert focused == hovered, "real focused-level and hovered-level pixels match"
-        assert state(page)["snapshot"]["growth"] == initial["growth"], "menu navigation retains seed rules and state"
+        assert focused == hovered, "focused and hovered entry pixels match"
+        previous_instance = item["instanceId"]
+        previous_sequence = state(page)["qaSequence"]
+        click(page, touch, suffix="/MapMarker_1-1")
+        # Selection rebuilds the controls and installs keyboard focus deferred.
+        # Wait for the new button, then observe focus pixels with the pointer
+        # outside it. Do not send Enter to the old, queued-for-deletion widget.
+        page.wait_for_function("""previous => {
+            const s=window.__sporelightState;
+            const button=s?.buttons.find(b=>b.path.endsWith('/MapEnterLevel'));
+            return s && s.qaSequence>previous.sequence+1 && button &&
+                button.instanceId!==previous.instance && !button.disabled &&
+                s.ui.controls.some(c=>c.path.includes('/MapSelectedCard/')&&c.text?.startsWith('1-1 ·'));
+        }""", arg={"instance": previous_instance, "sequence": previous_sequence}, timeout=10000)
+        page.mouse.move(1, 1)
+        deadline = time.monotonic() + 5
+        while True:
+            current = pick(page, suffix="/MapEnterLevel")
+            ready_pixels = page.screenshot(clip=css_rect(page, current["visibleRect"]), scale="css")
+            if ready_pixels == focused:
+                (folder / "level-focus-before-enter.png").write_bytes(ready_pixels)
+                row["enterSynchronization"] = {"previousInstance": previous_instance, "newInstance": current["instanceId"],
+                                               "focusPixelsMatch": True, "qaSequence": state(page)["qaSequence"]}
+                break
+            if time.monotonic() >= deadline:
+                raise AssertionError("New selected entry did not acquire the observed keyboard-focus appearance")
+            page.wait_for_timeout(80)
+        page.keyboard.press("Enter")
+        page.wait_for_function("() => {const s=window.__sporelightState;return s?.worldVisible&&!s.paused&&s.snapshot.levelId==='1-1';}")
+        assert state(page)["snapshot"]["growth"] == initial["growth"], "navigation retains seed rules and growth"
+        page.screenshot(path=str(folder / "entered-garden.png"), scale="css")
         assert not row["errors"], str(row["errors"])
-        row.update(passed=True, focusMatchesHover=True, fixedRegions=before)
+        row.update(passed=True, focusMatchesHover=True)
     except Exception as e:
         import traceback
         row.update(passed=False, reason=str(e), traceback=traceback.format_exc())
@@ -178,5 +221,7 @@ with sync_playwright() as p:
     run(browser, (1280, 720), 1.25)
     browser.close()
 passed = bool(results) and all(r["passed"] for r in results)
-(OUT / "checks.json").write_text(json.dumps({"passed": passed, "build": build, "results": results, "scope": "Actual isolated browser input, fixed-region geometry and held-still focus/hover PNG equality. Authored unlock restrictions remain active. Simulated viewports/DPR are not physical-device certification."}, ensure_ascii=False, indent=2), encoding="utf-8")
+(OUT / "checks.json").write_text(json.dumps({"passed": passed, "build": build, "results": results,
+    "scope": "Actual isolated pointer/touch/keyboard navigation, authored unlocks, selected-level return paths, CSS hit areas and focus/hover PNG equality. Portrait touch checks the existing rotation gate then resumes landscape. No QA state injection; screenshots require visual review."},
+    ensure_ascii=False, indent=2), encoding="utf-8")
 raise SystemExit(0 if passed else 1)

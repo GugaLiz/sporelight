@@ -86,10 +86,10 @@ func _home_map_and_child_pages() -> void:
 	_hidden_game(app, "home/map")
 	var first: Button
 	for node: Node in app.hud._overlay.find_children("", "Button", true, false):
-		if node.text.begins_with("1-1  "):
+		if node.get_meta("level_id", "") == "1-1":
 			first = node
 	_check(first != null and not first.disabled, "home/start/shows-a-real-unlocked-first-garden")
-	_press(app, "返回主界面", "home/map/back")
+	_press_action(app, "home", "home/map/back")
 	_home(app, "home/map/back")
 	for entry: String in ["设置", "花园纪事", "图鉴", "导入 / 导出旅程"]:
 		if entry in ["花园纪事", "图鉴"]:
@@ -109,7 +109,7 @@ func _home_map_and_child_pages() -> void:
 	_press_action(app, "map", "home/map/select")
 	first = null
 	for node: Node in app.hud._overlay.find_children("", "Button", true, false):
-		if node.text.begins_with("1-1  "):
+		if node.get_meta("level_id", "") == "1-1":
 			first = node
 	if first != null:
 		first.pressed.emit()

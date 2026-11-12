@@ -1,7 +1,7 @@
 class_name NativeGardenSurface
 extends Node3D
 
-## Flat support islands with explicitly bounded ramp corridors. One geometry
+## Flat support islands with explicitly bounded stair corridors. One geometry
 ## definition supplies the visible mesh, collision and motor sampling.
 const HALF := 0.5
 const RAMP_HALF_WIDTH := 0.32
@@ -23,6 +23,8 @@ var thin_plate := false
 const TRAVERSAL_THICKNESS := 0.20
 var terrain_profile: Script
 var authored_terrace := false
+var generic_stairs := false
+const GenericStairs = preload("res://presentation/native/generic_stair_geometry.gd")
 var _grid: Array = GRID
 const GrowthTop = preload("res://presentation/native/garden_growth_top.gdshader")
 var _growth_overrides: Dictionary = {}
@@ -33,9 +35,14 @@ func set_growth_reveal(progress: float, glow: bool = true, path_direction: Vecto
 			part.material_override = _growth_overrides[part]
 		_growth_overrides.clear()
 		return
-	if not thin_plate or not authored_terrace: return
+	if not thin_plate or not (authored_terrace or generic_stairs): return
 	var axis := Vector2.RIGHT if absf(center.x) > absf(center.z) else Vector2.DOWN
-	var positive_is_high := _connector_bottom(axis * HALF) > _connector_bottom(-axis * HALF)
+	if generic_stairs:
+		for index in range(4):
+			if not is_zero_approx(rises[index]):
+				axis = GenericStairs.AXES[index]
+				break
+	var positive_is_high := _height_in_region(axis * HALF, axis * HALF) > _height_in_region(-axis * HALF, -axis * HALF) if generic_stairs else _connector_bottom(axis * HALF) > _connector_bottom(-axis * HALF)
 	var direction := Vector3(axis.x, 0, axis.y) * (-1.0 if positive_is_high else 1.0)
 	if not path_direction.is_zero_approx(): direction = path_direction
 	for part: MeshInstance3D in [_top, _ramps, _risers, _sides, _treads]:
@@ -65,7 +72,8 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 	position = center
 	rises = ramp_rises.duplicate()
 	authored_terrace = terrain_profile != null
-	_grid = terrain_profile.sampling_grid() if authored_terrace else GRID
+	generic_stairs = not authored_terrace and materials.get("generic_stairs", false)
+	_grid = terrain_profile.sampling_grid() if authored_terrace else GenericStairs.GRID if generic_stairs else GRID
 	thin_plate = str(tile.get("kind", "")) in ["root", "bridge", "shadow"] or str(tile.id).begins_with("g:")
 	if _top != null:
 		_top.material_override = materials.top
@@ -73,7 +81,7 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 		_ramps.material_override = materials.ramp
 		_treads.material_override = materials.trim
 		_risers.material_override = materials.get("riser", materials.side)
-	var key := str([rises, exposed, bottom - center.y, tile.get("kind", "fixed"), materials.get("key", "")])
+	var key := str([rises, exposed, bottom - center.y, tile.get("kind", "fixed"), materials.get("key", ""), generic_stairs])
 	if _geometry_key == key:
 		return
 	_geometry_key = key
@@ -120,6 +128,8 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 	var wall_vertices := PackedVector3Array()
 	var wall_uvs := PackedVector2Array()
 	var wall_face_uvs := PackedVector2Array()
+	var join_vertices := PackedVector3Array()
+	var join_uvs := PackedVector2Array()
 	var flat_vertices := PackedVector3Array()
 	var flat_uvs := PackedVector2Array()
 	var ramp_vertices := PackedVector3Array()
@@ -145,16 +155,19 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 				var c: Vector3 = corners[triangle[2]]
 				var sloped := maxf(a.y, maxf(b.y, c.y)) - minf(a.y, minf(b.y, c.y)) > 0.0001
 				if authored_terrace and not terrain_profile.stair_spec(Vector2(center.x, center.z) + middle).is_empty(): sloped = true
+				if generic_stairs and not GenericStairs.descriptor(middle, rises).is_empty(): sloped = true
 				for vertex: Vector3 in [a, b, c]:
 					if sloped:
 						ramp_vertices.append(vertex)
-						ramp_uvs.append(terrain_profile.stone_uv(terrain_profile.tread_uv(Vector2(center.x + vertex.x, center.z + vertex.z), Vector2(center.x, center.z) + middle)) if authored_terrace else Vector2(vertex.x + HALF, vertex.z + HALF))
+						ramp_uvs.append(terrain_profile.stone_uv(terrain_profile.tread_uv(Vector2(center.x + vertex.x, center.z + vertex.z), Vector2(center.x, center.z) + middle)) if authored_terrace else GenericStairs.StoneUV.sample(GenericStairs.tread_uv(Vector2(vertex.x, vertex.z), middle, rises)) if generic_stairs else Vector2(vertex.x + HALF, vertex.z + HALF))
 						if authored_terrace:
 							var face: Vector2 = terrain_profile.tread_uv(Vector2(center.x + vertex.x, center.z + vertex.z), Vector2(center.x, center.z) + middle)
 							var spec: Dictionary = terrain_profile.stair_spec(Vector2(center.x, center.z) + middle)
 							# The descending connector's exposed nose is the far edge.
 							if int(spec.get("axis", 0)) == 1: face.y = 1.0 - face.y
 							ramp_face_uvs.append(face)
+						elif generic_stairs:
+							ramp_face_uvs.append(GenericStairs.tread_uv(Vector2(vertex.x, vertex.z), middle, rises))
 					else:
 						flat_vertices.append(vertex)
 						flat_uvs.append(Vector2(vertex.x + HALF, vertex.z + HALF))
@@ -170,6 +183,34 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 							_connector_side(wall_vertices, wall_uvs, wall_face_uvs, a, b, lower_a, lower_b)
 						else:
 							_wall(wall_vertices, wall_uvs, a, b, lower_a, lower_b)
+					elif not authored_terrace and rises[edge] < -0.0001:
+						# The central ramp meets its neighbor, but tapered shoulders
+						# do not: the upper island still needs its exposed cut face.
+						# At a shared edge the other half is rise - this half's Y.
+						var lower_a := rises[edge] - a.y
+						var lower_b := rises[edge] - b.y
+						if thin_plate:
+							lower_a = maxf(lower_a, a.y - TRAVERSAL_THICKNESS)
+							lower_b = maxf(lower_b, b.y - TRAVERSAL_THICKNESS)
+						if a.y > lower_a + 0.0001 or b.y > lower_b + 0.0001:
+							var gap_a := 2.0 * a.y - rises[edge]
+							var gap_b := 2.0 * b.y - rises[edge]
+							if thin_plate and (gap_a < TRAVERSAL_THICKNESS) != (gap_b < TRAVERSAL_THICKNESS):
+								# Clip at the actual slab depth, not just at the grid
+								# endpoints: the transition lies inside a shoulder cell.
+								var cut := a.lerp(b, (TRAVERSAL_THICKNESS - gap_a) / (gap_b - gap_a))
+								_wall(join_vertices, join_uvs, a, cut, lower_a, cut.y - TRAVERSAL_THICKNESS)
+								_wall(join_vertices, join_uvs, cut, b, cut.y - TRAVERSAL_THICKNESS, lower_b)
+							else:
+								_wall(join_vertices, join_uvs, a, b, lower_a, lower_b)
+					elif generic_stairs and thin_plate and rises[edge] > 0.0001:
+						# The lower narrow slab has an exposed end outside its flight.
+						var upper_a := a
+						var upper_b := b
+						upper_a.y = minf(a.y, rises[edge] - a.y - TRAVERSAL_THICKNESS)
+						upper_b.y = minf(b.y, rises[edge] - b.y - TRAVERSAL_THICKNESS)
+						if upper_a.y > a.y - TRAVERSAL_THICKNESS + 0.0001:
+							_wall(join_vertices, join_uvs, upper_a, upper_b, a.y - TRAVERSAL_THICKNESS, b.y - TRAVERSAL_THICKNESS)
 				else:
 					var step: Vector2 = [Vector2(0, -0.001), Vector2(0.001, 0), Vector2(0, 0.001), Vector2(-0.001, 0)][edge]
 					var edge_middle := Vector2((a.x + b.x) / 2.0, (a.z + b.z) / 2.0)
@@ -177,19 +218,40 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 					var other_a := _height_in_region(Vector2(a.x, a.z), region)
 					var other_b := _height_in_region(Vector2(b.x, b.z), region)
 					if a.y > other_a + 0.0001 or b.y > other_b + 0.0001:
-						if authored_terrace:
-							_step_wall(riser_vertices, riser_uvs, a, b, other_a, other_b, riser_face_uvs)
+						if authored_terrace or generic_stairs:
+							var lower_a := maxf(other_a, a.y - TRAVERSAL_THICKNESS) if generic_stairs and thin_plate else other_a
+							var lower_b := maxf(other_b, b.y - TRAVERSAL_THICKNESS) if generic_stairs and thin_plate else other_b
+							_step_wall(riser_vertices, riser_uvs, a, b, lower_a, lower_b, riser_face_uvs)
 						else:
 							_wall(wall_vertices, wall_uvs, a, b, other_a, other_b)
-			if thin_plate and authored_terrace:
-				# The solid slab has a sloping underside and exposed tread edges.
+					if generic_stairs and thin_plate and (a.y < other_a - 0.0001 or b.y < other_b - 0.0001):
+						# The bottom silhouette faces the opposite direction to the
+						# riser. Close only the exposed part of each thin solid.
+						var upper_a := a
+						var upper_b := b
+						upper_a.y = minf(a.y, other_a - TRAVERSAL_THICKNESS)
+						upper_b.y = minf(b.y, other_b - TRAVERSAL_THICKNESS)
+						_wall(wall_vertices, wall_uvs, upper_a, upper_b, a.y - TRAVERSAL_THICKNESS, b.y - TRAVERSAL_THICKNESS)
+			if thin_plate and (authored_terrace or generic_stairs):
+				# Authored connectors retain their sloping soffit. Generic narrow
+				# flights use a closed stepped soffit of constant physical thickness.
 				for index in [0, 1, 2, 0, 2, 3]:
 					var vertex: Vector3 = corners[index]
-					vertex.y = _connector_bottom(Vector2(vertex.x, vertex.z))
+					vertex.y = _connector_bottom(Vector2(vertex.x, vertex.z)) if authored_terrace else vertex.y - TRAVERSAL_THICKNESS
 					wall_vertices.append(vertex)
 					wall_uvs.append(Vector2((center.x + vertex.x + center.z + vertex.z) / 4.5, -(center.y + vertex.y) / 4.5))
 	_top.mesh = _mesh(flat_vertices, flat_uvs, materials.top)
 	_ramps.mesh = _mesh(ramp_vertices, ramp_uvs, materials.ramp, ramp_face_uvs) if not ramp_vertices.is_empty() else null
+	# Authored meshes keep their existing collision contract. For generic
+	# real stairs every visible structural face also belongs to collision.
+	var collision_wall_vertices := wall_vertices
+	if generic_stairs:
+		collision_wall_vertices = collision_wall_vertices.duplicate()
+		collision_wall_vertices.append_array(join_vertices)
+	if not join_vertices.is_empty():
+		wall_vertices = wall_vertices.duplicate()
+		wall_vertices.append_array(join_vertices)
+		wall_uvs.append_array(join_uvs)
 	while wall_face_uvs.size() < wall_vertices.size(): wall_face_uvs.append(Vector2(0, -1))
 	_sides.mesh = _mesh(wall_vertices, wall_uvs, materials.side, wall_face_uvs) if not wall_vertices.is_empty() else null
 	_risers.mesh = _mesh(riser_vertices, riser_uvs, materials.get("riser", materials.side), riser_face_uvs) if not riser_vertices.is_empty() else null
@@ -228,28 +290,65 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 				b += outward
 				_wall(edge_vertices, edge_uvs, a, b, a.y - 0.025, b.y - 0.025)
 	for direction in range(4):
-		if authored_terrace: continue
+		if authored_terrace or generic_stairs: continue
 		if is_zero_approx(rises[direction]): continue
 		var axis: Vector2 = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)][direction]
-		var cross_axis := Vector2(-axis.y, axis.x)
-		for distance: float in [0.25, 0.31, 0.37, 0.43, 0.49]:
-			var corners: Array[Vector3] = []
-			for corner: Vector2 in [Vector2(-0.27, -0.005), Vector2(0.27, -0.005), Vector2(0.27, 0.005), Vector2(-0.27, 0.005)]:
-				var point := axis * (distance + corner.y) + cross_axis * corner.x
-				corners.append(Vector3(point.x, sample_height(to_global(Vector3(point.x, 0, point.y))) - global_position.y + 0.006, point.y))
-			for index in [0, 2, 1, 0, 3, 2]:
-				edge_vertices.append(corners[index])
-				edge_uvs.append(Vector2.ZERO)
+		for row in range(4):
+			# Both halves use the same .10 spacing across the full .60 flight.
+			# Each owns only its half of the shared center strip and landing lip.
+			var distance := lerpf(LANDING_HALF, HALF, float(row) / 3.0)
+			_append_ramp_trim(top_vertices, axis, maxf(LANDING_HALF, distance - 0.005), minf(HALF, distance + 0.005), edge_vertices, edge_uvs)
 	_treads.mesh = _mesh(edge_vertices, edge_uvs, materials.trim) if not edge_vertices.is_empty() else null
 	var shape := ConcavePolygonShape3D.new()
 	shape.backface_collision = true
 	var faces := top_vertices.duplicate()
-	faces.append_array(wall_vertices)
+	faces.append_array(collision_wall_vertices)
 	faces.append_array(riser_vertices)
 	shape.set_faces(faces)
 	(_body.get_child(0) as CollisionShape3D).shape = shape
 	set_meta("support_id", tile_id)
 	_body.set_meta("support_id", tile_id)
+
+func _append_ramp_trim(support: PackedVector3Array, axis: Vector2, start: float, finish: float, vertices: PackedVector3Array, uvs: PackedVector2Array) -> void:
+	var across := Vector2(-axis.y, axis.x)
+	for index in range(0, support.size(), 3):
+		var polygon: Array[Vector3] = [support[index], support[index + 1], support[index + 2]]
+		var low := Vector2(INF, INF)
+		var high := Vector2(-INF, -INF)
+		for vertex: Vector3 in polygon:
+			var at := Vector2(vertex.x, vertex.z)
+			var projected := Vector2(at.dot(axis), at.dot(across))
+			low = low.min(projected)
+			high = high.max(projected)
+		if high.x <= start or low.x >= finish or high.y <= -RAMP_HALF_WIDTH or low.y >= RAMP_HALF_WIDTH: continue
+		# Clip against each real supporting triangle. A single wide quad can
+		# bridge an orthogonal ramp ridge even when all four corners touch it.
+		polygon = _clip_trim(polygon, -axis, -start)
+		polygon = _clip_trim(polygon, axis, finish)
+		polygon = _clip_trim(polygon, -across, RAMP_HALF_WIDTH)
+		polygon = _clip_trim(polygon, across, RAMP_HALF_WIDTH)
+		for triangle in range(1, polygon.size() - 1):
+			var a := polygon[0]
+			var b := polygon[triangle]
+			var c := polygon[triangle + 1]
+			if absf(Vector2(b.x - a.x, b.z - a.z).cross(Vector2(c.x - a.x, c.z - a.z))) < 0.00000001: continue
+			for vertex: Vector3 in [a, b, c]:
+				vertices.append(vertex + Vector3(0, 0.006, 0))
+				uvs.append(Vector2.ZERO)
+
+func _clip_trim(polygon: Array[Vector3], normal: Vector2, limit: float) -> Array[Vector3]:
+	var result: Array[Vector3] = []
+	if polygon.is_empty(): return result
+	var previous: Vector3 = polygon.back()
+	var previous_distance := Vector2(previous.x, previous.z).dot(normal) - limit
+	for current: Vector3 in polygon:
+		var current_distance := Vector2(current.x, current.z).dot(normal) - limit
+		if (previous_distance <= 0) != (current_distance <= 0):
+			result.append(previous.lerp(current, previous_distance / (previous_distance - current_distance)))
+		if current_distance <= 0: result.append(current)
+		previous = current
+		previous_distance = current_distance
+	return result
 
 func _has_connector_side(edge: int) -> bool:
 	if not thin_plate or not authored_terrace: return false
@@ -279,6 +378,7 @@ func _connector_bottom(at: Vector2) -> float:
 func _height_in_region(at: Vector2, region: Vector2) -> float:
 	if authored_terrace:
 		return terrain_profile.height(Vector2(center.x, center.z) + at, Vector2(center.x, center.z) + region) - center.y
+	if generic_stairs: return GenericStairs.height(region, rises)
 	var positive := 0.0
 	var negative := 0.0
 	var values: Array[float] = []
@@ -314,6 +414,28 @@ func sample_height(at: Vector3) -> float:
 			return to_global(Vector3(xz.x, height, xz.y)).y
 	return global_position.y
 
+func stair_descriptor(at: Vector3) -> Dictionary:
+	if not generic_stairs: return {}
+	var local := to_local(at)
+	var result := GenericStairs.descriptor(Vector2(local.x, local.z), rises)
+	if result.is_empty(): return result
+	var axis: Vector2 = result.axis
+	result.axis = (global_basis * Vector3(axis.x, 0, axis.y)).normalized()
+	return result
+
+func stride_height(at: Vector3) -> float:
+	var actual := sample_height(at)
+	if not generic_stairs: return actual
+	var local := to_local(at)
+	var region := Vector2(clampf(local.x, -HALF, HALF), clampf(local.z, -HALF, HALF))
+	# The sole starts anticipating .10 before the first nose, including the
+	# last .025 of the landing. The pace/UV descriptor deliberately starts at
+	# .20, so it must not clip this continuous envelope at the landing edge.
+	var step_height := 0.0
+	for rise: float in rises: step_height = maxf(step_height, absf(rise) / 4.0)
+	var smooth_height := to_global(Vector3(region.x, GenericStairs.height(region, rises, true), region.y)).y
+	return clampf(smooth_height, actual, actual + step_height)
+
 func _step_wall(vertices: PackedVector3Array, uvs: PackedVector2Array, a: Vector3, b: Vector3, lower_a: float, lower_b: float, face_uvs: PackedVector2Array) -> void:
 	var c := Vector3(b.x, lower_b, b.z)
 	var d := Vector3(a.x, lower_a, a.z)
@@ -321,7 +443,7 @@ func _step_wall(vertices: PackedVector3Array, uvs: PackedVector2Array, a: Vector
 		vertices.append(vertex)
 		var across := vertex.x + HALF if absf(a.x - b.x) > absf(a.z - b.z) else vertex.z + HALF
 		var face := Vector2(across, clampf((maxf(a.y, b.y) - vertex.y) / maxf(0.001, maxf(a.y - lower_a, b.y - lower_b)), 0, 1))
-		uvs.append(terrain_profile.stone_uv(face, true))
+		uvs.append(terrain_profile.stone_uv(face, true) if authored_terrace else GenericStairs.StoneUV.sample(face, true))
 		face_uvs.append(face)
 
 func _wall(vertices: PackedVector3Array, uvs: PackedVector2Array, a: Vector3, b: Vector3, lower_a: float, lower_b: float) -> void:

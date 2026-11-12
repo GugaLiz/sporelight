@@ -4,12 +4,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / ".cache/native-qa-python"))
 from playwright.sync_api import sync_playwright
-OUT = ROOT / "docs/qa-godot-native/root-weaving-playtest"
-OUT.mkdir(parents=True, exist_ok=True)
 reports = []
 parser = argparse.ArgumentParser()
 parser.add_argument("--sizes",default="1280x720,844x390")
+parser.add_argument("--output",default="docs/qa-godot-native/root-weaving-playtest")
 args = parser.parse_args()
+OUT = ROOT / args.output
+OUT.mkdir(parents=True, exist_ok=True)
+
+def primary(page):
+    return next(b for b in state(page)['buttons'] if b['action']=='primary')
 
 def state(page):
     return page.evaluate("() => window.__rootWeaving")
@@ -48,7 +52,10 @@ def pick(page, direction, touch):
     choice = next(c for c in s["choices"] if c["id"] == "grow:root:"+direction)
     point(page, choice["x"], choice["y"], touch)
     page.wait_for_function("n => window.__rootWeaving.draft.length===n", arg=len(s["draft"])+1)
-    assert not state(page)["snapshot"]["growth"]["root"], "draft cannot open a walkable road"
+    assert state(page)["snapshot"]["growth"]["root"] == s["snapshot"]["growth"]["root"], "draft cannot open a walkable road"
+    n=len(state(page)['draft'])+len(s['snapshot']['growth']['root'])
+    assert ('让根桥生长' if n==4 else f'规划根桥 {n}/4') in primary(page)['text']
+    assert primary(page)['disabled'] == (n<4)
 
 def hint_check(page,touch):
     if state(page)['hintVisible']:
@@ -96,6 +103,7 @@ with sync_playwright() as p:
             else: page.keyboard.press("e")
             page.wait_for_function("window.__rootWeaving.phase==='planning'")
             assert next(b for b in state(page)['buttons'] if b['action']=='primary')['disabled']
+            assert '规划根桥 0/4' in primary(page)['text'], 'progress must be visible without desktop heading'
             if touch:
                 pick(page,"up",touch)
                 pick(page,"right",touch)
@@ -138,6 +146,20 @@ with sync_playwright() as p:
                 assert len(state(page)["snapshot"]["growth"]["root"])==4
                 page.screenshot(path=str(OUT / f"{width}-{route[0]}-grown.png"))
                 if route[0] == 'up':
+                    # Replan only the last segment after real growth undo.
+                    button(page,'undo',touch)
+                    page.wait_for_function("window.__rootWeaving.phase==='explore' && window.__rootWeaving.snapshot.growth.root.length===3")
+                    button(page,'primary',touch)
+                    page.wait_for_function("window.__rootWeaving.phase==='planning'")
+                    assert '规划根桥 3/4' in primary(page)['text']
+                    pick(page,'down',touch)
+                    page.screenshot(path=str(OUT / f"{width}-resumed-draft.png"))
+                    button(page,'undo',touch)
+                    page.wait_for_function("window.__rootWeaving.draft.length===0")
+                    assert len(state(page)['snapshot']['growth']['root'])==3
+                    pick(page,'down',touch)
+                    button(page,'primary',touch)
+                    page.wait_for_function("window.__rootWeaving.phase==='crossing'")
                     # The former rear staircase must remain an accessible garden.
                     for tile_id in ['f:4:0','f:5:0']:
                         target=next(t for t in state(page)['targets'] if t['id']==tile_id)

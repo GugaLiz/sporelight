@@ -28,7 +28,7 @@ async function run(label,args){
 try{
  if(!filter.length)await run('import',['--headless','--path',join(root,'godot'),'--editor','--import']);
  initialSource=await sourceDigest(root);
- const core=['rule_reference.gd','rule_normalize.gd','rule_query_scope.gd','service_save_test.gd','service_hud_test.gd','service_button_test.gd','service_modal_lifecycle_test.gd','service_home_navigation_test.gd','session_test.gd','rule_input.gd','rule_integration.gd','rule_application.gd'];
+ const core=['rule_reference.gd','rule_normalize.gd','rule_query_scope.gd','service_save_test.gd','service_snapshot_normalizer_test.gd','service_hud_test.gd','service_button_test.gd','service_modal_lifecycle_test.gd','service_home_navigation_test.gd','session_test.gd','rule_input.gd','rule_integration.gd','rule_application.gd'];
  const native=(await readdir(join(root,'godot/tests'))).filter(f=>/^native_.*test\.gd$/.test(f)).sort();
  for(const file of [...core,...native]){
   const label=file.replace(/\.gd$/,'');

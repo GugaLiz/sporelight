@@ -2,6 +2,8 @@ extends SceneTree
 const FirstGarden = preload("res://presentation/native/first_garden_profile.gd")
 const Stage = preload("res://presentation/native/native_garden_stage.gd")
 const World = preload("res://core/garden_world.gd")
+const Cloud = preload("res://core/cloud_garden_world.gd")
+const Profiles = preload("res://presentation/native/level_presentation_profiles.gd")
 var failures: Array[String] = []
 var checks := 0
 
@@ -46,14 +48,51 @@ func _run() -> void:
 	for spec: Vector3 in [FirstGarden.EAST, FirstGarden.REAR, FirstGarden.SOUTH]:
 		_check((spec.y - spec.x) / spec.z >= 0.1499, "treads preserve the authored minimum usable depth")
 	_check_stride(stage)
-	stage.set_world(World.new("1-3"))
-	for who: String in ["luvie", "buddy"]:
-		stage.update_actor_visual(who, Vector3.ZERO)
-		_check(stage.get_actor_body(who).get_node("Visual/Art").billboard == BaseMaterial3D.BILLBOARD_ENABLED, "unverified other levels retain established rendering")
+	_check_chapter_depth(stage)
 	print(JSON.stringify({"suite":"actor-depth-clearance", "checks":checks, "passed":failures.is_empty(), "failures":failures}))
 	stage.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)
+
+func _check_chapter_depth(stage: Node) -> void:
+	for id: String in Profiles.CHAPTER_LEVELS:
+		var world: RefCounted = Cloud.new(id) if id.begins_with("cloud-") else World.new(id)
+		stage.set_world(world)
+		for who: String in ["luvie", "buddy"]:
+			var body: CharacterBody3D = stage.get_actor_body(who)
+			var art: AnimatedSprite3D = body.get_node("Visual/Art")
+			body.get_node("Visual/AnimationPlayer").stop()
+			stage.actor_visual_root(who).scale = Vector3.ONE
+			# Exercise both fixed and moving supports, including narrow low arches,
+			# without redefining the world's permitted connections.
+			for tile: Dictionary in world.tiles():
+				if bool(tile.get("solid", false)) or (who == "luvie" and bool(tile.get("small", false))): continue
+				world.state.actors[who] = str(tile.id)
+				body.position = stage.tile_position(tile)
+				body.position.y = stage.support_height(body.position, str(tile.id), who) + 0.018
+				for facing: String in ["front", "back", "left", "right"]:
+					stage._presentation = Profiles.CHAPTER_GARDEN.duplicate()
+					stage._presentation.vertical_actor_depth = false
+					stage.update_actor_visual(who, Vector3.ZERO, facing)
+					var original_pose_height: float = art.scale.y
+					stage._presentation.vertical_actor_depth = true
+					stage.update_actor_visual(who, Vector3.ZERO, facing)
+					var foot: Vector3 = stage.actor_visual_root(who).global_position
+					var head := art.to_global(Vector3(0, 1, 0))
+					_check(Vector2(head.x - foot.x, head.z - foot.z).length() < 0.0001, id + " artwork stays vertical above its real foot")
+					_check(stage.world_to_screen(head).distance_to(stage.world_to_screen(foot + stage._camera.global_basis.y * original_pose_height)) < 0.01, id + " keeps original projected artwork height including waiting/sleeping pose")
+					_check(absf(foot.y - stage.support_height(foot, str(tile.id), who)) < 0.0001, id + " foot stays on actual support")
+					_check(not art.no_depth_test and art.alpha_cut == SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS, id + " preserves structural occlusion")
+					var before := art.basis
+					for repeat in range(3): stage.update_actor_visual(who, Vector3.ZERO, facing)
+					_check(art.basis.is_equal_approx(before), id + " does not accumulate depth compensation")
+	var unknown := World.new("1-3")
+	unknown.level = unknown.level.duplicate(true)
+	unknown.level.id = "unregistered-presentation"
+	stage.set_world(unknown)
+	for who: String in ["luvie", "buddy"]:
+		stage.update_actor_visual(who, Vector3.ZERO)
+		_check(stage.get_actor_body(who).get_node("Visual/Art").billboard == BaseMaterial3D.BILLBOARD_ENABLED, "unregistered levels retain established fallback")
 
 func _check_stride(stage: Node) -> void:
 	for who: String in ["luvie", "buddy"]:

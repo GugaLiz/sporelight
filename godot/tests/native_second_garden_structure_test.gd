@@ -2,11 +2,16 @@ extends "res://tests/native_movement_test.gd"
 
 func _run() -> void:
 	await _setup("1-2")
+	var obstacle: Node = stage._props.get_node_or_null("IsolatedRockSpire")
+	_check(obstacle != null, "rock is an isolated unpaved outcrop, not a bridge pedestal")
+	if obstacle != null:
+		_check(obstacle.find_children("*", "CollisionObject3D", true, false).is_empty(), "decorative rock never adds support")
+	_check(session.world.point_for("f:2:1").is_empty(), "blocked rock cell remains absent from walkable tiles")
 	movement.request_path(session.world.path_to("f:1:1"))
 	await _frames(55)
 	for direction: String in ["up","right","right","down"]:
 		await _action("grow:root:" + direction)
-	movement.request_path(session.world.path_to("f:3:1"))
+	movement.request_path(session.world.path_to("g:root:3:1"))
 	await _frames(170)
 	var hero: CharacterBody3D = stage.get_actor_body("luvie")
 	for offset: float in [-0.30,-0.22,0.22,0.30]:
@@ -23,8 +28,8 @@ func _run() -> void:
 		await _frames(34)
 		_key(KEY_A,false)
 		await _frames(4)
-		_check(session.world.state.actors.luvie == "f:3:1", "off-center entrance descends safely")
-		movement.request_path(["f:3:1"])
+		_check(session.world.state.actors.luvie == "g:root:3:1", "off-center entrance descends to the required fourth root")
+		movement.request_path(["g:root:3:1"])
 		await _frames(30)
 	for lane in [4,5]:
 		movement.request_path(session.world.path_to("f:%d:1" % lane))

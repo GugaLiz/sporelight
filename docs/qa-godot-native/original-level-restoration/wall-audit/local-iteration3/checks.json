@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "9e02653bfc67b360c13c7c8c9ad22c998d92913e834daca9648a13695f246f74",
+    "files": 563
+  },
+  "source": {
+    "sha256": "9e02653bfc67b360c13c7c8c9ad22c998d92913e834daca9648a13695f246f74",
+    "files": 563
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_core_click_test",
+      "code": 1,
+      "elapsedMs": 6029,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":57,\"failures\":[\"actual flower input routes to authorized core tile\",\"normal repair proximity and mechanism preconditions now satisfied\",\"explicit original repair completes after flower click\"],\"gpuPixelsVerified\":false,\"maxBodySurfaceGap\":0.254147887229919,\"passed\":false,\"samples\":296,\"suite\":\"native-core-click\"}\r\n",
+      "stderr": "ERROR: actual flower input routes to authorized core tile\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:44)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: normal repair proximity and mechanism preconditions now satisfied\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:45)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\nERROR: explicit original repair completes after flower click\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:45)\r\n       [1] _run (res://tests/native_core_click_test.gd:49)\r\n       [2] _drain (res://tests/native_route_test.gd:92)\r\n       [3] _tick (res://tests/native_route_test.gd:86)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_original_wall_test",
+      "code": 1,
+      "elapsedMs": 2098,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nWALL RAY BASELINE {\"array_match\":false,\"rays\":[{\"h\":0,\"x\":0,\"z\":1},{\"h\":0,\"x\":1,\"z\":1},{\"h\":0,\"x\":2,\"z\":1},{\"h\":0,\"x\":3,\"z\":1},{\"h\":0,\"x\":4,\"z\":1},{\"h\":0,\"x\":5,\"z\":1},{\"h\":0,\"x\":6,\"z\":1},{\"h\":0,\"x\":7,\"z\":1},{\"h\":0,\"x\":8,\"z\":1},{\"h\":0,\"x\":9,\"z\":1},{\"h\":0,\"x\":10,\"z\":1},{\"h\":0,\"x\":11,\"z\":1},{\"h\":0,\"x\":12,\"z\":1},{\"h\":0,\"x\":13,\"z\":1},{\"h\":0,\"x\":14,\"z\":1},{\"h\":0,\"x\":15,\"z\":1},{\"h\":0,\"x\":16,\"z\":1}],\"walls\":[[2.0,1.0]]}\r\n{\"checks\":25,\"failures\":[\"original wall still terminates beam\"],\"gpuPixelsVerified\":false,\"passed\":false,\"suite\":\"native-original-wall\"}\r\n",
+      "stderr": "",
+      "passed": false
+    }
+  ]
+}
