@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-15T12:41:06.264Z",
+  "scope": "Historical failure comparison only; failed suites remain failed, no runtime or fixture edits",
+  "comparisons": [
+    {
+      "suite": "rule_reference",
+      "baseline_log": "docs/qa-godot-native/element-library-20261115/baseline-rule-reference.log",
+      "current_log": "docs/qa-godot-native/element-library-20261115/historical-current/rule_reference.log",
+      "baseline_errors": [
+        "ERROR: authored/1-1/initial: $.tiles length expected 16; got 19"
+      ],
+      "current_errors": [
+        "ERROR: authored/1-1/initial: $.tiles length expected 16; got 19"
+      ],
+      "identical_errors": true,
+      "current_passed": false,
+      "current_source_stable": true,
+      "current_source": {
+        "sha256": "b59444d71d3ee3e938c2b504637cce9379086930cb0c6dbb5b50f94e343c86f2",
+        "files": 668
+      },
+      "test_source_identical": true,
+      "baseline_summaries": [
+        {
+          "cases": 1,
+          "checks": 1,
+          "commands": 0,
+          "passed": false,
+          "referenceCommit": "5791bbc3dd90549b4c7ea302507ead577f51dd67",
+          "suite": "garden-rule-reference"
+        }
+      ],
+      "current_summaries": [
+        {
+          "cases": 1,
+          "checks": 1,
+          "commands": 0,
+          "passed": false,
+          "referenceCommit": "5791bbc3dd90549b4c7ea302507ead577f51dd67",
+          "suite": "garden-rule-reference"
+        }
+      ]
+    },
+    {
+      "suite": "native_movement_test",
+      "baseline_log": "docs/qa-godot-native/element-library-20261115/baseline-movement.log",
+      "current_log": "docs/qa-godot-native/element-library-20261115/historical-current/native_movement_test.log",
+      "baseline_errors": [
+        "ERROR: cloud-2 uses shared physical motor on a legal edge"
+      ],
+      "current_errors": [
+        "ERROR: cloud-2 uses shared physical motor on a legal edge"
+      ],
+      "identical_errors": true,
+      "current_passed": false,
+      "current_source_stable": true,
+      "current_source": {
+        "sha256": "b59444d71d3ee3e938c2b504637cce9379086930cb0c6dbb5b50f94e343c86f2",
+        "files": 668
+      },
+      "test_source_identical": true,
+      "baseline_summaries": [],
+      "current_summaries": []
+    },
+    {
+      "suite": "native_world_render_test",
+      "baseline_log": "docs/qa-godot-native/element-library-20261115/baseline-world-render.log",
+      "current_log": "docs/qa-godot-native/element-library-20261115/cpu-final/native_world_render_test.log",
+      "baseline_errors": [
+        "ERROR: actor/world layers do not collide actor against actor"
+      ],
+      "current_errors": [
+        "ERROR: actor/world layers do not collide actor against actor"
+      ],
+      "identical_errors": true,
+      "current_passed": false,
+      "current_source_stable": false,
+      "current_source": {
+        "sha256": "b59444d71d3ee3e938c2b504637cce9379086930cb0c6dbb5b50f94e343c86f2",
+        "files": 668
+      },
+      "test_source_identical": true,
+      "baseline_summaries": [
+        {
+          "checks": 69500,
+          "failures": [
+            "actor/world layers do not collide actor against actor"
+          ],
+          "gpuPixelsVerified": false,
+          "levels": [
+            "1-1",
+            "1-2",
+            "1-3",
+            "1-4",
+            "2-1",
+            "2-2",
+            "2-3",
+            "2-4",
+            "3-1",
+            "3-2",
+            "3-3",
+            "3-4",
+            "cloud-1",
+            "cloud-2",
+            "cloud-3"
+          ],
+          "passed": false,
+          "scope": "Actual 3D mesh/collider support samples, level-independent flat landings and bounded ramps, topology refresh caching and circular module motion. GPU appearance and moving character contact require separate checks.",
+          "states": 88,
+          "suite": "native-world-render-contract"
+        }
+      ],
+      "current_summaries": [
+        {
+          "checks": 69500,
+          "failures": [
+            "actor/world layers do not collide actor against actor"
+          ],
+          "gpuPixelsVerified": false,
+          "levels": [
+            "1-1",
+            "1-2",
+            "1-3",
+            "1-4",
+            "2-1",
+            "2-2",
+            "2-3",
+            "2-4",
+            "3-1",
+            "3-2",
+            "3-3",
+            "3-4",
+            "cloud-1",
+            "cloud-2",
+            "cloud-3"
+          ],
+          "passed": false,
+          "scope": "Actual 3D mesh/collider support samples, level-independent flat landings and bounded ramps, topology refresh caching and circular module motion. GPU appearance and moving character contact require separate checks.",
+          "states": 88,
+          "suite": "native-world-render-contract"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Matching ERROR messages establishes reproduction on the frozen baseline, not that the historical behavior is acceptable.",
+    "The cpu-final world-render run had a changing source digest; its assertion summary and ERROR list match the frozen baseline, but it is not claimed as a stable-source full-suite pass."
+  ],
+  "prop_baseline_comparison": {
+    "report": "docs/qa-godot-native/element-library-20261115/props-comparison.json",
+    "source": {
+      "sha256": "f10081185502e18e06b6773f6b032690d9f840dea6ca5fa169a3423a4143a30d",
+      "files": 664
+    },
+    "stable": true,
+    "suites": [
+      {
+        "suite": "native_mechanism_props_test",
+        "identical_errors": true,
+        "error_count": 1,
+        "current_passed": false
+      },
+      {
+        "suite": "native_original_dressing_test",
+        "identical_errors": true,
+        "error_count": 45,
+        "current_passed": false
+      },
+      {
+        "suite": "native_small_planter_test",
+        "identical_errors": true,
+        "error_count": 6,
+        "current_passed": false
+      }
+    ]
+  },
+  "all_requested_historical_errors_reproduced": true
+}

@@ -1,0 +1,28 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+NATIVE ROUTE {"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true}
+{"checks":241,"failures":["held recovery preserves bridge passenger support","permanent saved road does not resume temporary hold","fixed pin and released actor agree","reduced motion leaves mechanism state intact"],"passed":false,"routes":[{"completed":true,"expectedSteps":50,"level":"1-4","steps":50,"success":true}],"samples":2402,"scope":"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route","suite":"native-heavy-lever"}
+ERROR: held recovery preserves bridge passenger support
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:46)
+       [1] _run (res://tests/native_heavy_lever_test.gd:111)
+       [2] _tick (res://tests/native_route_test.gd:92)
+ERROR: permanent saved road does not resume temporary hold
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:46)
+       [1] _run (res://tests/native_heavy_lever_test.gd:117)
+       [2] _tick (res://tests/native_route_test.gd:92)
+ERROR: fixed pin and released actor agree
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:46)
+       [1] _run (res://tests/native_heavy_lever_test.gd:118)
+       [2] _tick (res://tests/native_route_test.gd:92)
+ERROR: reduced motion leaves mechanism state intact
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:46)
+       [1] _run (res://tests/native_heavy_lever_test.gd:120)
+       [2] _tick (res://tests/native_route_test.gd:92)

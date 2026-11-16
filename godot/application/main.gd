@@ -715,10 +715,13 @@ func _execute(command: GardenCommand, clip: String) -> void:
 			native_movement.request_path(approach)
 			_message("露薇走近把手，再扳住重杆。")
 			return
-	if native_movement != null and command.kind != GardenCommand.Kind.UNDO and not native_movement.can_change_to(outcome.after):
+	# Trial reset restores both travellers and the garden from one saved moment.
+	# A road-removal guard only applies when bodies stay on their current supports.
+	var trial_reset := command.kind == GardenCommand.Kind.INTERACT and command.value == "resetSong" and str(session.world.level.id) == "2-3" and not str(outcome.before.get("trial", "")).is_empty()
+	if native_movement != null and command.kind != GardenCommand.Kind.UNDO and not trial_reset and not native_movement.can_change_to(outcome.after):
 		_message("先离开这段道路的边缘，再让它收回。")
 		return
-	var immediate: bool = (native_movement == null and bool(settings.get("lowMotion", false))) or clip in ["switch", "follow", "play", "undo"] or clip.begins_with("swap:")
+	var immediate: bool = trial_reset or (native_movement == null and bool(settings.get("lowMotion", false))) or clip in ["switch", "follow", "play", "undo"] or clip.begins_with("swap:")
 	if immediate:
 		if command.kind == GardenCommand.Kind.UNDO:
 			if native_movement != null:
@@ -755,7 +758,7 @@ func _approach_prop_drop(command: GardenCommand, clip: String) -> bool:
 		return true
 	var point: Vector3 = stance.point
 	var companions: Dictionary = stance.get("companions",{})
-	if _prop_stance_reached(body,point) and companions.is_empty(): return false
+	if _prop_stance_reached(body,point) and companions.is_empty() and bool(stance.get("ready",true)): return false
 	# Keep the original command, target and support separate: a nearby slot
 	# can legally differ from the actor's current tile. Never rewrite the drop.
 	_pending_prop_drop = {"command": command.value, "clip": clip, "actor": who,
@@ -765,7 +768,7 @@ func _approach_prop_drop(command: GardenCommand, clip: String) -> bool:
 	route.clear()
 	pending_button = ""
 	input_router.clear()
-	if not native_movement.request_local_target(point,companions):
+	if not native_movement.request_local_target(point,companions,.001):
 		_cancel_prop_drop()
 		_message("还走不到安全的放置位置，先挪开一点再试。")
 		return true
@@ -811,24 +814,34 @@ func _commit(prepared: GardenCommandResult) -> void:
 		_message(committed.message)
 		return
 	if native_movement != null:
-		native_movement.finish_mechanism()
+		if committed.command.value == "resetSong" and str(session.world.level.id) == "2-3":
+			# Read the restored trial poses before any capture can overwrite them.
+			native_movement.restore()
+		else:
+			native_movement.finish_mechanism()
 		if str(session.world.level.id) == "1-4" and session.world.actor() == "luvie" and session.world.lever_held():
 			rolling = false
 			native_movement.rolling = false
 		if view.has_method("set_actor_mode"):
 			for who: String in ["luvie", "buddy"]:
 				view.set_actor_mode(who, rolling and who == session.world.actor())
-		if committed.command.value == "resetSong":
-			native_movement.restore()
 	_save()
 	input_router.world_changed()
-	var kind: String = "grow"
+	var kind: String = "tap"
 	if committed.command.kind == GardenCommand.Kind.MOVE:
 		kind = "move"
 	elif session.world.state.completed:
 		kind = "complete"
 	elif committed.command.value.begins_with("take:"):
 		kind = "collect"
+	elif committed.command.value == "beat":
+		var beat := int(committed.before.get("beat", 0))
+		var song: Array = committed.before.get("song", [])
+		if beat >= 0 and beat < song.size(): kind = str(song[beat])
+	elif committed.command.value == "use:latch":
+		kind = "latch"
+	elif committed.command.value.begins_with("grow:") or committed.command.value.begins_with("retract:") or committed.command.value in ["repair", "use:plant", "use:care"]:
+		kind = "grow"
 	audio.play(kind)
 
 func _after_motion() -> void:
@@ -853,11 +866,11 @@ func _show_growth_hint() -> void:
 		hud.set_overview(true)
 	var guidance: Dictionary = session.world.growth_guidance()
 	if bool(guidance.get("retract", false)):
-		_message("这段根线需要调整：先回发光的根台，收回最后一节，再跟随箭头。")
-	elif session.world.near(str(session.world.level.roots[0].at)):
-		_message("点击地图上发光的＋，让根须沿箭头长出下一节；最后一节也要接入花床。")
+		_message("这段根线需要调整：退到末节前一格或回到根台，收回空着的最后一节后再搭建。")
+	elif session.world.can_grow_root(session.world.level.roots[0]):
+		_message("点击地图上发光的＋长出一节，再走上新地板继续搭建；最后一节也要接入花床。")
 	else:
-		_message("根线还没接入花床。先回地图上标出的根台，再点击发光的＋补齐。")
+		_message("第一节从根台搭建；已有根路时，先走到最后一块地板，再点击发光的＋续建。")
 
 func _save() -> void:
 	if strolling or reviewing:
@@ -1198,7 +1211,8 @@ func _advance_native_actions(delta: float) -> void:
 func _on_native_support_changed(_who: String, _result: RefCounted) -> void:
 	view.refresh_world(session.world, true)
 	input_router.world_changed()
-	audio.play("move")
+	if _result != null and _result.command.kind in [GardenCommand.Kind.MOVE, GardenCommand.Kind.ACTOR_MOVE]:
+		audio.play("move")
 	_save()
 	_sync_hud()
 

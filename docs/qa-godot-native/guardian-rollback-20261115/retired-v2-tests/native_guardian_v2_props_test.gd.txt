@@ -1,0 +1,105 @@
+extends SceneTree
+## V2 art contract: fixed optical source, real high wall, paired lift calls.
+## Prepared states validate models, not the player's full route or pixels.
+const World = preload("res://core/garden_world.gd")
+const Stage = preload("res://presentation/native/native_garden_stage.gd")
+const Dressing = preload("res://presentation/native/guardian_dressing.gd")
+const Scenery = preload("res://presentation/native/original_garden_dressing.gd")
+var checks := 0
+var failures: Array[String] = []
+
+func _initialize() -> void: _run.call_deferred()
+func _check(ok: bool,label: String) -> void:
+	checks+=1
+	if not ok: failures.append(label); push_error(label)
+
+func _foot_inside(base: MeshInstance3D, anchor: Vector3) -> bool:
+	var bounds := base.mesh.get_aabb()
+	for index in range(8):
+		var at: Vector3 = base.to_global(bounds.get_endpoint(index))
+		if absf(at.x-anchor.x)>.5001 or absf(at.z-anchor.z)>.5001: return false
+	return true
+
+func _run() -> void:
+	var stage := Stage.new()
+	root.add_child(stage)
+	await process_frame
+	var cold := World.new("3-4")
+	var saved: Dictionary = cold.snapshot().duplicate(true)
+	var tiles: Array = cold.tiles().duplicate(true)
+	stage.set_world(cold)
+	_check(not stage._props_nodes.has("mark:inner"),"fixed central path has no misleading wheel")
+	_check(stage._props_nodes["mark:root"].has_node("RootFrontierShoot"),"root action is represented by a low living shoot rather than a second planter")
+	_check(stage._props_nodes["mark:root"].find_children("*","CollisionObject3D",true,false).is_empty(),"root shoot adds no hard foot to the growth approach")
+	_check(not stage._props_nodes["mark:water"].has_node("NaturalWheel"),"water gate has no duplicate turntable wheel")
+	_check(not stage._props_nodes["mark:water"].has_node("WaterOutletTrough"),"water gate has no disconnected tiny outlet")
+	var arches: Array = stage._props.get_children().filter(func(node: Node) -> bool: return str(node.name).begins_with("LowArch_"))
+	_check(arches.size()==1 and str(arches[0].name)=="LowArch_f_-4_2","only the true west entrance has a low arch; the waterwheel bank stays unobstructed")
+	var lamp: Node3D = stage._props_nodes["guardian:emitter"]
+	var mouth: MeshInstance3D = lamp.get_node("FixedLamp/LampMouth")
+	_check(mouth.global_position.is_equal_approx(Vector3(8,1.67,3)),"fixed lamp aperture matches v2 source centre")
+	_check(mouth.global_basis.y.normalized().is_equal_approx(Vector3.FORWARD),"fixed lamp physically faces north")
+	_check(not lamp.has_node("FixedLamp/CrankAxle") and not lamp.has_node("TurningLamp"),"fixed source has no crank or turning body")
+	_check(lamp.find_children("*","CollisionObject3D",true,false).is_empty(),"source art reuses mark foot and adds no duplicate collider")
+	var beam: Array = cold.rays()
+	_check(beam.back().x==8 and beam.back().z==-1,"empty mirror seat sends real beam to the backstone")
+	var stone: Node3D = stage._props.get_node("GuardianBackstone")
+	var bank: Dictionary = stage._tile_map["f:8:-1"]
+	_check(bool(bank.get("solid",false)),"backstone owns a real blocked wall cell")
+	_check(stone.global_position.is_equal_approx(stage.tile_position(bank)),"backstone starts on actual high bank instead of low ground")
+	var stone_body: MeshInstance3D = stone.get_node("BeamStopStone")
+	_check(_foot_inside(stone_body,stone.global_position),"complete natural rock stays within actual wall support")
+	_check(stone_body.mesh is ArrayMesh and stone.get_child_count()==1,"backstone is one irregular rock rather than stacked box slabs")
+	var stone_bounds := stone_body.mesh.get_aabb()
+	_check(is_equal_approx(stone_bounds.position.y,0) and stone_bounds.size.x<=.8401 and stone_bounds.size.z<=.7201,"natural rock retains the grounded .84 by .72 footprint envelope")
+	var relative_beam: Vector3 = stone_body.to_local(Vector3(8,1.67,-1))
+	_check(stone_bounds.has_point(relative_beam),"actual beam endpoint lies inside the physical backstone")
+	var rock_vertices: PackedVector3Array = stone_body.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
+	var front_intersection := false
+	var back_intersection := false
+	for index in range(0,rock_vertices.size(),3):
+		if Geometry3D.ray_intersects_triangle(relative_beam,Vector3.FORWARD,rock_vertices[index],rock_vertices[index+1],rock_vertices[index+2])!=null: front_intersection=true
+		if Geometry3D.ray_intersects_triangle(relative_beam,Vector3.BACK,rock_vertices[index],rock_vertices[index+1],rock_vertices[index+2])!=null: back_intersection=true
+	_check(front_intersection and back_intersection,"beam endpoint lies between actual front/back rock faces, not merely inside an empty bounding box")
+	_check(stone.find_children("*","CollisionObject3D",true,false).is_empty(),"wall visual adds no second collider or walking slab")
+	var low: Node3D = stage._props_nodes["mark:liftcall_low"]
+	var high: Node3D = stage._props_nodes["mark:liftcall_high"]
+	for control: Node3D in [low,high]:
+		var point: Vector3 = stage.tile_position(stage._tile_map[str(control.get_meta("tile_id"))])
+		_check(control.global_position.is_equal_approx(point),"call lever belongs to its fixed shore")
+		_check(_foot_inside(control.get_node("InstrumentBase"),point),"call lever full base stays inside shore")
+		_check(control.has_node("FixedCallLever/HandlePivot/WoodenGrip"),"call station is a tangible wood lever")
+		_check(control.find_children("*","Label3D",true,false).is_empty(),"call station has no text placard")
+		_check(control.find_children("*","CollisionObject3D",true,false).size()==1,"call station uses exactly one shared instrument foot collider")
+	_check(low.get_node("FixedCallLever/TimberPost").mesh.size==high.get_node("FixedCallLever/TimberPost").mesh.size,"both stations use identical post dimensions")
+	_check(low.get_node("FixedCallLever/HandlePivot/WoodenGrip").mesh.height==high.get_node("FixedCallLever/HandlePivot/WoodenGrip").mesh.height,"both stations use identical handle dimensions")
+	_check(bool(low.get_meta("lift_at_station")) and not bool(high.get_meta("lift_at_station")),"cold call feedback identifies the lower dock")
+	for entry: Array in Scenery.SOURCE_PROPS["3-4"]:
+		_check(str(entry[0]) not in ["light-tower","violet-crystal","glow-flower","blue-mushroom","stone-lantern"],"v2 keeps scenery out of the optical objective")
+	_check(is_equal_approx(float(stage._props_nodes["mark:core"].get_meta("original_core_layout").width),1.65),"core planter retains compact approved width")
+	_check(cold.snapshot()==saved and cold.tiles()==tiles,"prop build preserves state and topology")
+	var raised := World.new("3-4")
+	raised.state.turns.lift=1
+	var low_id := low.get_instance_id()
+	var high_id := high.get_instance_id()
+	for progress: float in [0,.25,.5,.9999,1,.5,0]:
+		Dressing.update_motion(stage,cold,raised,progress)
+		_check(low.get_instance_id()==low_id and high.get_instance_id()==high_id,"lift motion reuses fixed call geometry")
+		_check(is_equal_approx(low.get_node("FixedCallLever/PositionSleeve").position.y,lerpf(.10,.40,progress)),"lower call sleeve tracks actual interpolated platform height")
+		_check(is_equal_approx(high.get_node("FixedCallLever/PositionSleeve").position.y,lerpf(.10,.40,progress)),"upper call sleeve tracks the same height")
+		_check(low.global_position.is_equal_approx(Vector3(4,0,-2)) and high.global_position.is_equal_approx(Vector3(7,1.3,0)),"call levers never ride the moving platform")
+		_check(mouth.global_position.is_equal_approx(Vector3(8,1.67,3)) and mouth.global_basis.y.normalized().is_equal_approx(Vector3.FORWARD),"unrelated lift action cannot rotate or displace the source")
+	for angle in range(4):
+		var world := World.new("3-4")
+		world.state.items.mirror.tile="f:8:0"
+		world.state.items.mirror.angle=angle
+		stage.set_world(world)
+		var receiver: Node3D = stage._props_nodes["mark:core"].get_node("GuardianReceivingShoot")
+		_check(bool(receiver.get_meta("receiver_powered"))==(angle%2==0),"flower reads current mirror reflection, not prior success")
+		_check(receiver.get_node("ReceivingFlower").global_position.is_equal_approx(Vector3(-4,1.67,0)),"receiver and mirror beam share a real optical centre")
+	stage.set_world(World.new("2-2"))
+	_check(not stage._props_nodes.has("guardian:emitter") and not stage._props.has_node("GuardianBackstone"),"pond does not inherit v2 source or backstone")
+	stage.queue_free()
+	await process_frame
+	print(JSON.stringify({"suite":"guardian-v2-props","checks":checks,"passed":failures.is_empty(),"failures":failures,"gpuPixelsVerified":false}))
+	quit(0 if failures.is_empty() else 1)

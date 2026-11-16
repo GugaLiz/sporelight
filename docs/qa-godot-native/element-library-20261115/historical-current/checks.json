@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "b59444d71d3ee3e938c2b504637cce9379086930cb0c6dbb5b50f94e343c86f2",
+    "files": 668
+  },
+  "source": {
+    "sha256": "b59444d71d3ee3e938c2b504637cce9379086930cb0c6dbb5b50f94e343c86f2",
+    "files": 668
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "rule_reference",
+      "code": 1,
+      "elapsedMs": 457,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cases\":1,\"checks\":1,\"commands\":0,\"passed\":false,\"referenceCommit\":\"5791bbc3dd90549b4c7ea302507ead577f51dd67\",\"suite\":\"garden-rule-reference\"}\r\n",
+      "stderr": "ERROR: authored/1-1/initial: $.tiles length expected 16; got 19\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_reference.gd:111)\r\n       [1] _initialize (res://tests/rule_reference.gd:25)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_movement_test",
+      "code": 1,
+      "elapsedMs": 21918,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNative floor samples: 2392, maximum contact error 0.11318\r\nFAIL native movement: 1 failures / 45 checks\r\n",
+      "stderr": "ERROR: cloud-2 uses shared physical motor on a legal edge\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_movement_test.gd:130)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\n",
+      "passed": false
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+extends "res://tests/native_growth_frontier_capture.gd"
+## Revision 2 is an explicitly redesigned level, not a rewrite of the old fixture.
+## Both complete routes start empty and use real bodies and E/menu actions.
+var completed_cases: Array = []
+
+func _start() -> bool:
+	var settled: bool=await super._start()
+	# Reparenting the harness from its tiny non-focusable host to the full
+	# test SubViewport does not emit a size_changed signal on the old view.
+	app.view._resize()
+	app._update_layout()
+	return settled
+
+func _capture(label: String) -> void:
+	await super._capture(label)
+	_check(app.view._viewport.size==dimensions,label+" native 3D viewport matches capture size")
+	var world_pixels: Image=app.view._viewport.get_texture().get_image()
+	var visible_samples:=0
+	for y in range(0,world_pixels.get_height(),20):
+		for x in range(0,world_pixels.get_width(),20):
+			if world_pixels.get_pixel(x,y).a>.1: visible_samples+=1
+	_check(visible_samples>40,label+" actual world geometry is present in rendered pixels")
+
+func _swap(label: String) -> bool:
+	app._on_command("switch")
+	return _check(await _drain(700),label+" role switch settles")
+
+func _water_job() -> bool:
+	if not await _swap("companion goes to the visible sluice"): return false
+	if not await _walk_to("m:water:0:0","companion follows permanent low path to sluice"): return false
+	await _capture("water-closed")
+	if not await _e_action("valve:water","open-sluice"): return false
+	_check(app.session.world.flag("rain"),"actual opening stores water independently of root bridge")
+	await _capture("water-open")
+	app._on_command("undo")
+	_check(await _drain(700) and not app.session.world.flag("rain"),"undo initial opening clears stored water")
+	await _capture("water-undo")
+	if not await _e_action("valve:water","reopen-sluice"): return false
+	# View-clock snapshots expose actual shader/mesh animation without advancing game state.
+	app.view.set_visual_time(1200)
+	await _capture("water-time-a")
+	app.view.set_visual_time(2200)
+	await _capture("water-time-b")
+	app.view.set_paused(true)
+	var held_time: float=app.view.visual_time
+	for unused in range(12): await process_frame
+	_check(app.view.visual_time==held_time,"paused water uses paused stage clock")
+	app.view.set_paused(false)
+	app.view.resume_visual_time()
+	if not await _e_action("valve:water","close-after-charge"): return false
+	_check(app.session.world.flag("rain"),"closing sluice retains stored power")
+	await _capture("water-closed-stored")
+	if not await _walk_to("f:-3:0","companion returns by the same permanent path"): return false
+	return await _swap("hero resumes bridge and mirror")
+
+func _bridge_job() -> bool:
+	if not await _walk_to("f:1:-4","hero follows fixed inner approach to visible bridge gap"): return false
+	await _capture("bridge-gap-and-opposite-bank")
+	for index in range(3):
+		if not await _build("grow:root:right","build-section-"+str(index+1)): return false
+	_check(app.session.world.flag("root"),"three actual sections connect only the authored gap")
+	if not await _walk_to("f:1:-4","return beside mirror after bridge construction"): return false
+	if not await _e_action("take:mirror","pick-up-heavy-mirror"): return false
+	_check(str(app.session.world.state.items.mirror.get("holder",""))=="luvie","hero actually carries mirror")
+	await _capture("carrying-mirror")
+	return true
+
+func _complete_route(water_first: bool) -> bool:
+	await _capture("cold")
+	app.view.overview=true
+	await _capture("cold-complete-layout")
+	app.view.overview=false
+	_check(not app.hud._collection_count.visible and not app.hud._collection_icon.visible,"no unexplained gift counter in guardian HUD")
+	if water_first:
+		if not await _water_job(): return false
+		if not await _bridge_job(): return false
+	else:
+		if not await _bridge_job(): return false
+		if not await _water_job(): return false
+	if not await _walk_to("m:lift:0:0","carry mirror over completed bridge to low lift"): return false
+	await _capture("lift-ready-with-stored-water")
+	if not await _e_action("valve:lift","raise-loaded-lift"): return false
+	if not await _walk_to("f:8:0","carry mirror onto high landing"): return false
+	if not await _e_action("drop:mirror:f:8:0","seat-mirror"): return false
+	_check(not app.session.world.beam_hits(-4,0),"initial mirror direction does not automatically solve reflection")
+	await _capture("mirror-before-alignment")
+	if not await _e_action("angle:mirror","turn-only-the-mirror"): return false
+	_check(app.session.world.beam_hits(-4,0) and app.session.world.flag("star"),"mirror sends actual fixed-source light to flower")
+	await _capture("light-reaches-flower")
+	# A real second actor calls the empty lift down, then the stranded hero
+	# calls it back from the upper bank. No snapshot or actor injection.
+	if not await _walk_to("f:7:0","hero waits at permanent upper call handle"): return false
+	if not await _swap("companion goes to lower call handle"): return false
+	if not await _walk_to("f:4:-2","companion reaches lower bank over completed roots"): return false
+	if not await _e_action("call:lift","lower-bank-recalls-empty-lift"): return false
+	_check(app.session.world.state.turns.lift==0,"lower call actually lowers empty lift")
+	await _capture("empty-lift-called-down")
+	if not await _swap("hero recalls lift from high bank"): return false
+	if not await _e_action("call:lift","upper-bank-recalls-empty-lift"): return false
+	_check(app.session.world.state.turns.lift==1,"upper call actually raises empty lift")
+	await _capture("lift-recalled-up")
+	if not await _walk_to("m:lift:0:0","hero walks back onto recalled lift"): return false
+	if not await _e_action("valve:lift","descend-for-return"): return false
+	if not await _walk_to("f:-4:0","hero returns by the same root bridge and fixed approach"): return false
+	if not await _swap("companion returns too"): return false
+	if not await _walk_to("f:-4:0","companion returns along existing route"): return false
+	if not await _swap("hero actively cares for flower"): return false
+	_check(app.session.world.ready(),"both branches and real reunion make care ready")
+	await _capture("together-at-lit-flower")
+	if not await _e_action("repair","care-and-bloom"): return false
+	_check(app.session.world.state.completed,"complete fresh revision-two route")
+	await _capture("completion-page")
+	var stay := _find_stay(app.hud)
+	if not _check(stay != null,"actual completion overlay offers stay"): return false
+	stay.pressed.emit()
+	_check(await _drain(700),"stay transition settles")
+	_check(not app.hud.is_modal_open() and app.strolling,"real stay button closes overlay and enters completed garden")
+	await _capture("completed")
+	app.view.overview=true
+	await _capture("completed-overview")
+	return bool(app.session.world.state.completed)
+
+func _hashes() -> Dictionary:
+	var result: Dictionary=super._hashes()
+	for path: String in ["content/levels.json","application/guardian_flow_guidance.gd","ui/garden_hud.gd","application/native_action_policy.gd","presentation/native/guardian_dressing.gd","presentation/native/guardian_waterworks.gd","presentation/native/guardian_channel_water.gdshader","presentation/native/guardian_optics.gd","tests/native_guardian_redesign_capture.gd"]:
+		result[path]=FileAccess.get_sha256("res://"+path) if FileAccess.file_exists("res://"+path) else "absent"
+	return result
+
+func _run() -> void:
+	if output.is_empty() or DisplayServer.get_name()=="headless": push_error("Output and actual GPU required"); quit(2); return
+	DirAccess.make_dir_recursive_absolute(output)
+	var before:=_hashes()
+	current_level="3-4"
+	for size: Vector2i in [Vector2i(1280,720),Vector2i(844,390)]:
+		dimensions=size; branch="guardian-redesign"
+		if await _start():
+			var succeeded:=await _complete_route(size.x<1000)
+			completed_cases.append({"viewport":[size.x,size.y],"waterFirst":size.x<1000,"completed":succeeded,"freshStart":true})
+			await _dispose()
+	var after:=_hashes()
+	_check(before==after,"redesign sources stable during actual input capture")
+	failures.append_array(logger.captured_errors())
+	var report: Dictionary={"suite":"guardian-redesign","passed":failures.is_empty(),"checks":checks,"failures":failures,"sourceSha256":source_sha,"sourceFilesStable":before==after,"initialSources":before,"finalSources":after,"cases":completed_cases,"images":images,"events":events,"growthInputs":growth_inputs,"samples":samples,"maxBodySurfaceGap":max_body_surface_gap,"scope":"Two fresh revision-two journeys, bridge-first/water-first, E/menu and physical frontier building, real empty-lift recall at both banks, reflected light, return and active care. No prepared completion; native GPU not Web/audio/performance."}
+	report.hostWindow={"noFocus":root.get_flag(Window.FLAG_NO_FOCUS),"position":str(DisplayServer.window_get_position()),"size":str(DisplayServer.window_get_size())}
+	FileAccess.open(output.path_join("checks.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"  ")+"\n")
+	finished=true
+	print(JSON.stringify({"passed":report.passed,"checks":checks,"failures":failures,"images":images.size(),"cases":completed_cases}))
+	quit(0 if report.passed else 1)

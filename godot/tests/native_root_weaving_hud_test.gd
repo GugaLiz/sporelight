@@ -21,9 +21,14 @@ func check(value: bool, label: String) -> void:
 		push_error(label)
 
 func drain(app: Node) -> void:
-	for i in range(100):
+	for i in range(1600):
+		var count: int = app.session.world.state.growth.root.size()
+		var at_frontier: bool = app.session.world.can_grow_root(app.session.world.level.roots[0])
 		app._process(0.05)
-		await process_frame
+		if app.session.world.state.growth.root.size() > count:
+			check(at_frontier, "queued growth commits only after physically reaching the previous board")
+		await physics_frame
+		app._physics_process(1.0 / 60.0)
 		if app.phase != "growing" and app.motion.is_empty(): break
 
 func _run() -> void:
@@ -81,7 +86,7 @@ func _run() -> void:
 	app._on_command("hint")
 	check("确认后" in app.hud._hint_label.text, "ready hint explains that the road has not grown yet")
 	app._on_command("primary")
-	check("最后一节" in app.hud._hint_label.text, "growth help replaces obsolete planning instructions")
+	check("前端" in app.hud._hint_label.text, "growth help describes building from the current frontier")
 	app._process(0.05)
 	check(app.phase == "growing" and not app.motion.is_empty(), "confirmation uses original motion transaction")
 	app._on_command("settings")
@@ -121,6 +126,17 @@ func _run() -> void:
 	app._process(0.05)
 	app._on_command("restart")
 	check(app.phase == "explore" and app.motion.is_empty() and app.growth_queue.is_empty() and app.session.world.state.growth.root.is_empty(), "restart during growth immediately cancels pending queue")
+	app._on_command("primary")
+	for direction in ["down", "right", "right", "up"]: app._on_command("dir:" + direction)
+	app._on_command("primary")
+	for i in range(100):
+		app._process(0.05)
+		if app._walking_frontier: break
+	check(app._walking_frontier and app.session.world.state.growth.root.size() == 1, "queue requests a physical walk after building its first board")
+	app.native_movement.stop()
+	app._process(0.05)
+	check(app.phase == "explore" and app.growth_queue.is_empty() and app.session.world.state.growth.root.size() == 1, "blocked or interrupted approach exits queue and retains the existing board")
+	app._on_command("restart")
 	app._on_command("primary")
 	app._on_command("dir:down")
 	app._show_menu()

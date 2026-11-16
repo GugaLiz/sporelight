@@ -1,5 +1,6 @@
 class_name OriginalGardenDressing
 extends RefCounted
+const Props = preload("res://elements/prop_definitions.gd")
 
 ## Browser-original authored instances. Generated from the verified TS scenery
 ## function; source canvas widths are pixels against a 70 px projected tile.
@@ -140,28 +141,7 @@ const SOURCE_PROPS := {
 
 ## Source alpha >= 64, last 5% opaque rows: size, foot left/right, last row.
 ## The arch deliberately retains its transparent margins and complete pillars.
-const SOURCE_FEET := {
-	"berry-bush": [134, 115, 29, 106, 114],
-	"fern": [126, 114, 44, 97, 113],
-	"small-pebbles": [117, 50, 19, 111, 49],
-	"pink-flowers": [130, 124, 69, 103, 123],
-	"stone-lantern": [116, 158, 33, 90, 157],
-	"yellow-flowers": [106, 112, 40, 77, 111],
-	"red-mushroom": [113, 142, 25, 91, 141],
-	"blue-flowers": [112, 118, 38, 87, 117],
-	"gold-lotus": [128, 148, 14, 113, 147],
-	"bush": [141, 119, 57, 93, 118],
-	"river-rock": [113, 97, 30, 93, 96],
-	"ivory-lotus": [94, 102, 37, 60, 101],
-	"lotus-pool": [342, 200, 96, 252, 199],
-	"blue-mushroom": [100, 130, 20, 81, 129],
-	"violet-crystal": [86, 111, 8, 81, 110],
-	"glow-flower": [182, 272, 37, 148, 271],
-	"arch": [256, 256, 127, 192, 231],
-	"wood-lantern": [120, 154, 4, 58, 153],
-	"light-tower": [272, 405, 63, 213, 404],
-	"trailing-vine": [57, 226, 30, 38, 225],
-}
+static var SOURCE_FEET = Props.section("scenery").source_feet
 
 static func canvas_width(pixels: float, local_tile_width: float = TILE_SCREEN_WIDTH) -> float:
 	return pixels * local_tile_width / PIXELS_PER_TILE

@@ -1,0 +1,439 @@
+{
+  "version": 1,
+  "description": "Actor identity/body/capabilities are independent from replaceable visual skins. Defaults preserve all 12 authored mainline gardens.",
+  "actors": {
+    "luvie": {
+      "name": "Luvie",
+      "default_skin": "luvie.original",
+      "body": {
+        "radius": 0.16,
+        "height": 0.8,
+        "collision_center": [
+          0,
+          0.4,
+          0
+        ],
+        "layer": 2,
+        "mask": 1,
+        "floor_max_angle": 0.959931,
+        "floor_snap_length": 0.28,
+        "platform_floor_layers": 1,
+        "shadow_radius": 0.21,
+        "shadow_height": 0.004,
+        "shadow_position": [
+          0,
+          0.012,
+          0
+        ],
+        "carry_position": [
+          0.17,
+          0.46,
+          0.06
+        ],
+        "carry_model_position": [
+          0.19,
+          0.35,
+          0.07
+        ]
+      },
+      "motor": "garden_walk",
+      "capabilities": "hero_original"
+    },
+    "buddy": {
+      "name": "Buddy",
+      "default_skin": "buddy.original",
+      "body": {
+        "radius": 0.13,
+        "height": 0.56,
+        "collision_center": [
+          0,
+          0.28,
+          0
+        ],
+        "layer": 2,
+        "mask": 1,
+        "floor_max_angle": 0.959931,
+        "floor_snap_length": 0.28,
+        "platform_floor_layers": 1,
+        "shadow_radius": 0.21,
+        "shadow_height": 0.004,
+        "shadow_position": [
+          0,
+          0.012,
+          0
+        ],
+        "carry_position": [
+          0.17,
+          0.46,
+          0.06
+        ],
+        "carry_model_position": [
+          0.19,
+          0.35,
+          0.07
+        ]
+      },
+      "motor": "garden_walk",
+      "capabilities": "companion_original"
+    }
+  },
+  "skins": {
+    "luvie.original": {
+      "allowed_actors": [
+        "luvie"
+      ],
+      "renderer": "sprite_frames",
+      "standing": {
+        "canvas": [
+          256,
+          256
+        ],
+        "foot": [
+          128,
+          236
+        ],
+        "pixel_size": 0.00625
+      },
+      "clips": {
+        "idle_front": {
+          "frames": [
+            "idle-front"
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "walk_front": {
+          "frames": [
+            "walk-1",
+            "walk-7",
+            "walk-8",
+            "walk-9",
+            "walk-10",
+            "walk-11",
+            "walk-12",
+            "walk-8"
+          ],
+          "fps": 14.545454545454545,
+          "loop": true
+        },
+        "idle_back": {
+          "frames": [
+            "idle-back"
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "walk_back": {
+          "frames": [
+            "walk-back-1",
+            "walk-back-2",
+            "walk-back-3",
+            "walk-back-4",
+            "walk-back-5",
+            "walk-back-6",
+            "walk-back-7",
+            "walk-back-8",
+            "walk-back-9",
+            "walk-back-10",
+            "walk-back-11",
+            "walk-back-12"
+          ],
+          "fps": 21.818181818181817,
+          "loop": true
+        },
+        "idle_left": {
+          "frames": [
+            "idle-side"
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "walk_left": {
+          "frames": [
+            "walk-side-1",
+            "walk-side-2",
+            "walk-side-3",
+            "walk-side-4",
+            "walk-side-5",
+            "walk-side-6",
+            "walk-side-7",
+            "walk-side-8",
+            "walk-side-9",
+            "walk-side-10",
+            "walk-side-11",
+            "walk-side-12"
+          ],
+          "fps": 21.818181818181817,
+          "loop": true
+        },
+        "idle_right": {
+          "frames": [
+            "idle-side"
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "walk_right": {
+          "frames": [
+            "walk-side-1",
+            "walk-side-2",
+            "walk-side-3",
+            "walk-side-4",
+            "walk-side-5",
+            "walk-side-6",
+            "walk-side-7",
+            "walk-side-8",
+            "walk-side-9",
+            "walk-side-10",
+            "walk-side-11",
+            "walk-side-12"
+          ],
+          "fps": 21.818181818181817,
+          "loop": true
+        },
+        "interact": {
+          "frames": [
+            "interact"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hold_lever": {
+          "frames": [
+            "idle-side"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "sow": {
+          "frames": [
+            "sow-1",
+            "sow-2",
+            "sow-3",
+            "sow-4",
+            "sow-5"
+          ],
+          "fps": 9,
+          "loop": false
+        },
+        "complete": {
+          "frames": [
+            "salute"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "jump": {
+          "frames": [
+            "jump-1",
+            "jump-2",
+            "jump-3",
+            "jump-4",
+            "jump-5",
+            "jump-6",
+            "jump-7",
+            "jump-8",
+            "jump-9",
+            "jump-10",
+            "jump-11",
+            "jump-12"
+          ],
+          "fps": 24,
+          "loop": false
+        },
+        "roll": {
+          "frames": [
+            "ball"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      },
+      "pose_overrides": {
+        "interact": {
+          "foot": [
+            146,
+            234
+          ],
+          "scale": 0.8345323741007195
+        },
+        "sow": {
+          "frames": {
+            "0": {
+              "foot": [
+                169,
+                229
+              ],
+              "scale": 0.8592592592592593
+            },
+            "1": {
+              "foot": [
+                169,
+                229
+              ],
+              "scale": 0.8592592592592593
+            },
+            "2": {
+              "foot": [
+                169,
+                229
+              ],
+              "scale": 0.8592592592592593
+            },
+            "3": {
+              "foot": [
+                169,
+                229
+              ],
+              "scale": 0.8592592592592593
+            },
+            "4": {
+              "foot": [
+                142,
+                235
+              ],
+              "scale": 0.9206349206349206
+            }
+          }
+        },
+        "complete": {
+          "foot": [
+            146,
+            235
+          ],
+          "scale": 0.9206349206349206
+        }
+      },
+      "roll": {
+        "pixel_size": 0.00808080808080808,
+        "height": 0.4,
+        "rotation_speed": 0.008
+      },
+      "motion": {
+        "walk_reference_speed": 3.2,
+        "walk_speed_min": 0.45,
+        "walk_speed_max": 1.4,
+        "flip_right": true
+      },
+      "carry_scale": 1
+    },
+    "buddy.original": {
+      "allowed_actors": [
+        "buddy"
+      ],
+      "renderer": "procedural_buddy",
+      "standing": {
+        "canvas": [
+          128,
+          128
+        ],
+        "foot": [
+          64,
+          112
+        ],
+        "pixel_size": 0.0062
+      },
+      "clips": {
+        "idle_front": {
+          "frames": [
+            "@procedural_buddy"
+          ],
+          "fps": 5,
+          "loop": true
+        },
+        "roll": {
+          "frames": [
+            "ball"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      },
+      "pose_overrides": {},
+      "roll": {
+        "pixel_size": 0.005656565656565657,
+        "height": 0.28,
+        "rotation_speed": 0.01
+      },
+      "motion": {
+        "walk_sway_speed": 0.014,
+        "walk_sway_angle": 0.025,
+        "waiting_scale": [
+          1.04,
+          0.9,
+          1
+        ],
+        "sleep_scale": [
+          1.04,
+          0.78,
+          1
+        ],
+        "flip_right": false,
+        "walk_reference_speed": 3.2,
+        "walk_speed_min": 0.45,
+        "walk_speed_max": 1.4
+      },
+      "carry_scale": 0.66
+    }
+  },
+  "motors": {
+    "garden_walk": {
+      "walk_speed": 3.25,
+      "follow_speed": 3.45,
+      "roll_multiplier": 1.15,
+      "gravity": 20,
+      "ground_velocity": -0.8,
+      "terminal_velocity": -12,
+      "lane_align_speed": 2.6
+    }
+  },
+  "capability_profiles": {
+    "hero_original": {
+      "small_passage": false,
+      "carry_heavy_mirror": true,
+      "grow_roots": true,
+      "care_flower": true,
+      "hold_heavy_lever": true,
+      "jump_emote": true,
+      "roll_on_connected_support": true
+    },
+    "companion_original": {
+      "small_passage": true,
+      "carry_heavy_mirror": false,
+      "grow_roots": false,
+      "care_flower": false,
+      "hold_heavy_lever": false,
+      "jump_emote": true,
+      "roll_on_connected_support": true
+    }
+  },
+  "visual_motion": {
+    "breath_duration": 2.4,
+    "breath_peak": [
+      1.004,
+      1.01,
+      1.004
+    ],
+    "jump_duration": 0.55,
+    "jump_peak_time": 0.26,
+    "jump_height": 0.3,
+    "jump_soft_height": 0.04,
+    "jump_changes_support": false
+  },
+  "carry": {
+    "canvas": [
+      64,
+      64
+    ],
+    "origin": [
+      24,
+      48
+    ],
+    "raster": 4,
+    "character_pixel": 0.01391304347826087,
+    "pouch_scale": 0.65,
+    "default_source_width": 18,
+    "dew_source_width": 25,
+    "semantics": "leaf-pouch-thumbnail"
+  }
+}

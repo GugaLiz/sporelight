@@ -1,5 +1,6 @@
 class_name NativeInteraction
 extends RefCounted
+const GuardianFlow := preload("res://application/guardian_flow_guidance.gd")
 
 ## Pure proximity/grouping policy. Availability remains owned by domain queries;
 ## this module never executes an action or mutates a command supplied by callers.
@@ -20,11 +21,12 @@ static func context(world: RefCounted, commands: Array, availability: Dictionary
 		if not groups.has(key):
 			groups[key] = {"tile": target, "distance": distance, "choices": []}
 		var entry: Dictionary = command.duplicate(true)
+		entry.label = GuardianFlow.command_label(world, id, str(entry.label))
 		entry["disabled"] = not bool(availability.get(id, {}).get("available", false))
 		entry["reason"] = str(availability.get(id, {}).get("reason", ""))
 		groups[key].choices.append(entry)
 	if groups.is_empty():
-		return {}
+		return _rehearsal_context(world, commands, availability, world_tiles)
 	var sorted: Array = groups.values()
 	sorted.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		# Nearby observation does not steal the main action from a mechanism.
@@ -72,12 +74,38 @@ static func context(world: RefCounted, commands: Array, availability: Dictionary
 	return {"id": str(choices[0].id) if choices.size() == 1 and not root_action else "context", "label": label, "choices": choices, "tile": selected.tile}
 
 
+static func _rehearsal_context(world: RefCounted, commands: Array, availability: Dictionary, world_tiles: Array) -> Dictionary:
+	# The original rehearsal exposes these existing commands to either actor,
+	# including passengers who cannot walk back to the piano. Physical targets
+	# keep priority; this fallback never adds an action to the domain list.
+	if str(world.level.id) != "2-3" or str(world.state.get("trial", "")).is_empty() or world.flag("latch"):
+		return {}
+	var choices: Array = []
+	for command: Dictionary in commands:
+		var id := str(command.id)
+		if id not in ["play", "resetSong"]:
+			continue
+		var entry: Dictionary = command.duplicate(true)
+		entry["disabled"] = not bool(availability.get(id, {}).get("available", false))
+		entry["reason"] = str(availability.get(id, {}).get("reason", ""))
+		choices.append(entry)
+	if choices.is_empty():
+		return {}
+	return {"id": str(choices[0].id) if choices.size() == 1 else "context", "label": str(choices[0].label) if choices.size() == 1 else "选择操作", "choices": choices, "tile": world.point_for(str(world.state.actors[world.actor()]), world_tiles)}
+
+
 static func command_tile(world: RefCounted, command: Dictionary, world_tiles: Array = []) -> Dictionary:
 	# A context owns one read-only derived board. Standalone callers keep the
 	# same fresh-query behavior, without a cache surviving an action or pose.
 	if world_tiles.is_empty(): world_tiles = world.tiles()
 	var id := str(command.id)
 	var parts := id.split(":")
+	if (id.begins_with("grow:") or id.begins_with("retract:")) and parts.size() >= 2:
+		for root: Dictionary in world.level.roots:
+			if str(root.id) == str(parts[1]):
+				# The selectable new board is still the preview target, but the
+				# interaction belongs to completed ground under the builder.
+				return world.root_growth_station(root, world_tiles) if id.begins_with("grow:") else world.root_retract_station(root, world_tiles)
 	var target := str(command.get("target", ""))
 	if not target.is_empty():
 		var tile: Dictionary = world.point_for(target, world_tiles)
@@ -86,10 +114,6 @@ static func command_tile(world: RefCounted, command: Dictionary, world_tiles: Ar
 		for mark: Dictionary in world.level.marks:
 			if str(mark.id) == target:
 				return world.point_for(str(mark.tile), world_tiles)
-	if id.begins_with("grow:") or id.begins_with("retract:"):
-		for root: Dictionary in world.level.roots:
-			if str(root.id) == str(parts[1]):
-				return world.point_for(str(root.at), world_tiles)
 	if id.begins_with("take:") or id.begins_with("angle:"):
 		var item: Dictionary = world.state.items.get(str(parts[1]), {})
 		return world.point_for(str(world.state.actors[world.actor()]), world_tiles) if item.get("holder", "") == world.actor() else world.point_for(str(item.get("tile", "")), world_tiles)

@@ -11,6 +11,7 @@ uniform vec2 wall_pixels_per_unit = vec2(70.0, 73.846153846);
 uniform vec4 wall_wash : source_color = vec4(0.70588, 0.72157, 0.58039, 1.0);
 uniform vec4 wall_foot : source_color = vec4(0.2, 0.30196, 0.25490, 1.0);
 uniform bool stair_side = false;
+uniform int texture_turn = 0;
 varying float right_wall;
 varying float wall_depth;
 
@@ -18,7 +19,13 @@ void vertex() {
 	growth_distance = dot(VERTEX, growth_axis) + 0.5;
 	// Local orientation stays attached to rotating supports. Do not project
 	// world-space texture coordinates through a moving module.
-	right_wall = abs(NORMAL.x) > abs(NORMAL.z) ? 1.0 : 0.0;
+	// Docked geometry is world-aligned again; select the original board face
+	// rather than switching its left/right painting at the landing frame.
+	vec3 paint_normal = NORMAL;
+	if (texture_turn == 1) paint_normal = vec3(NORMAL.z, NORMAL.y, -NORMAL.x);
+	else if (texture_turn == 2) paint_normal = vec3(-NORMAL.x, NORMAL.y, -NORMAL.z);
+	else if (texture_turn == 3) paint_normal = vec3(-NORMAL.z, NORMAL.y, NORMAL.x);
+	right_wall = abs(paint_normal.x) > abs(paint_normal.z) ? 1.0 : 0.0;
 	wall_depth = max(0.0, -VERTEX.y);
 }
 

@@ -1,10 +1,12 @@
 extends RefCounted
+const Props = preload("res://elements/prop_definitions.gd")
 const Positions=preload("res://presentation/native/original_scenery_positions.gd")
+const ArchFootprint=preload("res://presentation/native/native_arch_footprint.gd")
 ## Placement-only contract. Source image scale and saved topology are immutable.
 ## Foot widths describe hard ground contact, not the transparent canvas or crown.
-const CONTACT_PIXELS := {"arch":179.0,"stone-lantern":114.0,"wood-lantern":65.0,"light-tower":272.0,"river-rock":108.0,"small-pebbles":109.0,"red-mushroom":79.0,"blue-mushroom":65.0,"violet-crystal":86.0,"lotus-pool":342.0,"bush":57.0,"berry-bush":78.0,"fern":54.0,"pink-flowers":35.0,"blue-flowers":50.0,"yellow-flowers":38.0,"gold-lotus":100.0,"ivory-lotus":24.0,"glow-flower":112.0}
-const WIDTHS := {"arch":256.0,"stone-lantern":116.0,"wood-lantern":120.0,"light-tower":272.0,"river-rock":113.0,"small-pebbles":117.0,"red-mushroom":113.0,"blue-mushroom":100.0,"violet-crystal":86.0,"lotus-pool":342.0,"bush":141.0,"berry-bush":134.0,"fern":126.0,"pink-flowers":130.0,"blue-flowers":112.0,"yellow-flowers":106.0,"gold-lotus":128.0,"ivory-lotus":94.0,"glow-flower":182.0}
-const HARD_CONTACT := {"arch":[39.0,218.0,160.0],"stone-lantern":[0.0,114.0,62.0],"wood-lantern":[0.0,65.0,31.5],"light-tower":[0.0,272.0,138.5],"river-rock":[4.0,112.0,62.0],"small-pebbles":[8.0,117.0,65.5],"red-mushroom":[19.0,98.0,58.5],"blue-mushroom":[18.0,83.0,51.0],"violet-crystal":[0.0,86.0,45.0]}
+static var CONTACT_PIXELS = Props.section("scenery").contact_pixels
+static var WIDTHS = Props.section("scenery").widths
+static var HARD_CONTACT = Props.section("scenery").hard_contact
 # Authored placement targets, not new tiles. The solver validates every target
 # against real geometry and semantic reservations during a props rebuild only.
 const TARGETS := {
@@ -30,7 +32,8 @@ static func radius(alias: String, width: float) -> float:
 	if HARD_CONTACT.has(alias):
 		var contact: Array=HARD_CONTACT[alias]
 		# Current anchor is the front/lowest foot, often NOT the base midpoint.
-		# Both arch pillars and asymmetric stone feet must fit from that anchor.
+		# Arch radius remains legacy metadata only: prop_supported/prop_clear
+		# use its two inverse-projected plinths, never this anchor-centred box.
 		reach=maxf(float(contact[2])-float(contact[0]),float(contact[1])-float(contact[2]))
 	return width*reach/float(WIDTHS[alias])/sqrt(2.0)+.012
 
@@ -60,7 +63,9 @@ static func prepare(stage: Node) -> Dictionary:
 				ctx.marks.append({"at":stance,"id":str(mark.id)+"/"+who,"kind":"standing","radius":.18})
 	var spawn_id:=str(stage.world.level.get("start",""))
 	if stage._tile_map.has(spawn_id):ctx.marks.append({"at":stage.tile_position_id(spawn_id),"id":"spawn","kind":"spawn","radius":.32})
-	var cache_key:=hash([str(stage.world.level.id),stage._terrain_signature,ctx.core,ctx.height,ctx.marks])
+	# Measured scenery feet can change without a terrain/planter change.
+	# Old successful positions must be rechecked against the new contact area.
+	var cache_key:=hash([str(stage.world.level.id),stage._terrain_signature,ctx.core,ctx.height,ctx.marks,Props.revision()])
 	ctx.cache_key=cache_key
 	if _contexts.has(cache_key):
 		var cached: Dictionary=_contexts[cache_key].duplicate()
@@ -122,6 +127,47 @@ static func supported(stage: Node, at: Vector3, r: float, ctx: Dictionary) -> bo
 			if absf(stage.support_height(sample,id)-at.y)>.012:return false
 	return true
 
+static func footprints(alias: String, at: Vector3, width: float) -> Array[Rect2]:
+	if alias=="arch":return ArchFootprint.scenery(at,width)
+	var r:=radius(alias,width)
+	return [Rect2(Vector2(at.x-r,at.z-r),Vector2.ONE*r*2)]
+
+static func prop_supported(stage: Node, at: Vector3, alias: String, width: float, ctx: Dictionary) -> bool:
+	if alias!="arch":return supported(stage,at,radius(alias,width),ctx)
+	for rect: Rect2 in footprints(alias,at,width):
+		for ix in range(5):
+			for iz in range(5):
+				var sample:=Vector3(lerpf(rect.position.x,rect.end.x,ix*.25),at.y,lerpf(rect.position.y,rect.end.y,iz*.25))
+				var logical: Vector3=stage.logical_position(sample)
+				var id:="f:%d:%d"%[roundi(logical.x),roundi(logical.z)]
+				if not ctx.fixed.has(id) or absf(stage.support_height(sample,id)-at.y)>.012:return false
+	return true
+
+static func prop_clear(at: Vector3, alias: String, width: float, ctx: Dictionary) -> bool:
+	if alias!="arch":return clear(at,radius(alias,width),alias,ctx)
+	for rect: Rect2 in footprints(alias,at,width):
+		if absf(at.y-float(ctx.height))<.02 and rect.grow(.012).intersects(ctx.core):return false
+		for entry: Dictionary in ctx.occupied:
+			if absf(at.y-float(entry.y))>.02:continue
+			var other: Vector2=entry.at
+			var r:=float(entry.radius)
+			if rect.grow(.025).intersects(Rect2(other-Vector2.ONE*r,Vector2.ONE*r*2)):return false
+		for entry: Dictionary in ctx.marks:
+			if str(entry.kind)=="core":continue
+			var center: Vector3=entry.at
+			if absf(at.y-center.y)>.02:continue
+			var point:=Vector2(center.x,center.z)
+			if point.distance_to(point.clamp(rect.position,rect.end))<float(entry.radius):return false
+		for entry: Dictionary in ctx.lanes:
+			if absf(at.y-float(entry.y))>.02:continue
+			var expanded:=rect.grow(.16)
+			var a: Vector2=entry.a;var b: Vector2=entry.b
+			if expanded.has_point(a) or expanded.has_point(b):return false
+			var corners: Array[Vector2]=[expanded.position,Vector2(expanded.end.x,expanded.position.y),expanded.end,Vector2(expanded.position.x,expanded.end.y)]
+			for i in range(4):
+				if Geometry2D.segment_intersects_segment(a,b,corners[i],corners[(i+1)%4])!=null:return false
+	return true
+
 static func clear(at: Vector3,r: float,alias: String,ctx: Dictionary) -> bool:
 	var p:=Vector2(at.x,at.z)
 	if absf(at.y-float(ctx.height))<.02 and Rect2(p-Vector2.ONE*r,Vector2.ONE*r*2).intersects(ctx.core):return false
@@ -160,7 +206,7 @@ static func place(stage: Node, authored: Vector3, alias: String, width: float, i
 		var at: Vector3=Positions.POINTS[authored_key]
 		var logical: Vector3=stage.logical_position(at)
 		var support:="f:%d:%d"%[roundi(logical.x),roundi(logical.z)]
-		if ctx.fixed.has(support) and absf(float(ctx.fixed[support].h)-authored.y)<.001 and clear(at,r,alias,ctx) and supported(stage,at,r,ctx):
+		if ctx.fixed.has(support) and absf(float(ctx.fixed[support].h)-authored.y)<.001 and prop_clear(at,alias,width,ctx) and prop_supported(stage,at,alias,width,ctx):
 			ctx.occupied.append({"at":Vector2(at.x,at.z),"y":at.y,"radius":r})
 			var result:={"at":at+Vector3.UP*.008,"support":support,"migration":"authored same-height full-foot placement; core/standing/docking reserved","radius":r}
 			_placements[cache_key]=result
@@ -199,7 +245,7 @@ static func place(stage: Node, authored: Vector3, alias: String, width: float, i
 	candidates.sort_custom(func(a: Dictionary,b: Dictionary)->bool:return float(a.score)<float(b.score))
 	for candidate: Dictionary in candidates:
 		var at: Vector3=candidate.at
-		if not clear(at,r,alias,ctx) or not supported(stage,at,r,ctx):continue
+		if not prop_clear(at,alias,width,ctx) or not prop_supported(stage,at,alias,width,ctx):continue
 		ctx.occupied.append({"at":Vector2(at.x,at.z),"y":at.y,"radius":r})
 		var result:={"at":at+Vector3.UP*.008,"support":candidate.support,"migration":"same-height complete-foot placement; core/interaction/docking reserved","radius":r}
 		_placements[cache_key]=result

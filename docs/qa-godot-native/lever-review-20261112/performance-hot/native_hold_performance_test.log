@@ -1,0 +1,42 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"cacheCounters":{"convexBuilds":1,"convexHits":15,"fountainHits":19,"fountainSearches":4,"moleHits":13},"checks":20,"failures":[],"gpuPixelsVerified":false,"measurements":[{"commandMs":1155.947,"inclusiveTimings":{"mole":{"calls":1,"inclusiveMs":16.464},"props":{"calls":1,"inclusiveMs":981.703},"refresh":{"calls":1,"inclusiveMs":1153.32},"sanctuary":{"calls":1,"inclusiveMs":918.813},"supportHeight":{"calls":82914,"inclusiveMs":573.305},"terrain":{"calls":1,"inclusiveMs":167.101}},"phase":"cold-enter"}],"passed":true,"scope":"Native CPU only, memory repository; real commands and continuous motor. Nested timings overlap.","suite":"native-hold-performance","timingsInclusive":true}
+ERROR: Failed to open 'user://logs/godot2026-11-13T00.09.10.log'.
+   at: copy (core/io/dir_access.cpp:429)
+ERROR: Failed to open log file for writing: user://logs/godot.log
+   at: rotate_file (core/io/logger.cpp:169)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "held_restore" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://application/native_movement.gd:308)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://application/main.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/native_route_test.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/native_hold_performance_test.gd:0)
+ERROR: Failed to load script "res://tests/native_hold_performance_test.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: Harness._enter_level (res://application/main.gd:226)
+   GDScript backtrace (most recent call first):
+       [0] _enter_level (res://application/main.gd:226)
+       [1] _run (res://tests/native_hold_performance_test.gd:146)
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.
+   at: _measure_command (res://tests/native_hold_performance_test.gd:72)
+   GDScript backtrace (most recent call first):
+       [0] _measure_command (res://tests/native_hold_performance_test.gd:72)
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.
+   at: _measure_command (res://tests/native_hold_performance_test.gd:72)
+   GDScript backtrace (most recent call first):
+       [0] _measure_command (res://tests/native_hold_performance_test.gd:72)
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.
+   at: _measure_command (res://tests/native_hold_performance_test.gd:72)
+   GDScript backtrace (most recent call first):
+       [0] _measure_command (res://tests/native_hold_performance_test.gd:72)
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.
+   at: _measure_command (res://tests/native_hold_performance_test.gd:64)
+   GDScript backtrace (most recent call first):
+       [0] _measure_command (res://tests/native_hold_performance_test.gd:64)
+       [1] _run (res://tests/native_hold_performance_test.gd:154)
+       [2] _measure_command (res://tests/native_hold_performance_test.gd:72)

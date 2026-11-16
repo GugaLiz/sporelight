@@ -37,7 +37,7 @@ func _run() -> void:
 		return
 	capture_baseline = "--capture-second-layout-revision2" in OS.get_cmdline_user_args()
 	baseline = JSON.parse_string(FileAccess.get_file_as_string(BASELINE))
-	_check(FileAccess.get_sha256(BASELINE) == LEGACY_SHA, "historical geometry golden remains byte-for-byte sealed")
+	_check(_sealed_text_hash(BASELINE,LEGACY_SHA), "historical geometry golden content remains sealed across checkout line endings")
 	if not capture_baseline: second_baseline = JSON.parse_string(FileAccess.get_file_as_string(SECOND_BASELINE))
 	stage = Stage.new()
 	root.add_child(stage)
@@ -64,9 +64,14 @@ func _run() -> void:
 		_check(captured.size() == 9, "capture contains only nine upper/lower 0-through-4 revision 2 topologies")
 	else:
 		var legacy_other: int = baseline.states.keys().filter(func(key: String) -> bool: return not key.begins_with("1-2/")).size()
-		_check(states == legacy_other + second_baseline.states.size(), "all sealed historical and second revision topologies covered")
+		# 97号 removed one false 3-3 topology: occupying f:0:3 used to replace
+		# its permanent bank with a shadow slab. The sealed golden is retained.
+		var historical_symbiosis: int=baseline.states.keys().filter(func(key: String)->bool:return key.begins_with("3-3/")).size()
+		var current_symbiosis: int=seen.keys().filter(func(key: String)->bool:return key.begins_with("3-3/")).size()
+		_check(historical_symbiosis==10 and current_symbiosis==9,"97号 explicit fixed-bank correction merges only one obsolete 3-3 topology")
+		_check(states == legacy_other + second_baseline.states.size()-1, "all sealed topologies covered with the single reviewed 97号 3-3 bank exception")
 		_check(second_baseline.levelId == "1-2" and int(second_baseline.layoutRevision) == 2 and second_baseline.states.size() == 9, "revision golden has exact level and topology scope")
-		_check(second_baseline.profileSha256 == FileAccess.get_sha256("res://presentation/native/second_garden_profile.gd"), "second authored height/profile geometry remains unchanged")
+		_check(_sealed_text_hash("res://presentation/native/second_garden_profile.gd",second_baseline.profileSha256), "second authored height/profile content remains unchanged across checkout line endings")
 		_check(_json_equal(second_baseline.legacyComparison, revision_guard.reports), "reviewed historical boundary differences remain exact")
 		_check(joins > 20 and tread_triangles > 100, "multi-level real stair coverage")
 		_crossing_stairs()
@@ -84,6 +89,12 @@ func _second_revision_states() -> void:
 
 func _state(world: RefCounted) -> void:
 	var tiles: Array = world.tiles()
+	if str(world.level.id)=="3-3":
+		var bank: Dictionary=world.point_for("f:0:3",tiles)
+		var authored: Dictionary={}
+		for tile: Dictionary in world.level.tiles:
+			if str(tile.id)=="f:0:3":authored=tile
+		_check(not bank.is_empty() and not authored.is_empty() and str(bank.get("kind","fixed"))=="fixed" and bank.x==authored.x and bank.z==authored.z and bank.h==authored.h,"3-3 permanent south bank never becomes a shadow slab, including occupied fixture states")
 	var key := str(world.level.id) + "/" + _digest(tiles)
 	if seen.has(key): return
 	seen[key] = true
@@ -117,6 +128,11 @@ func _state(world: RefCounted) -> void:
 					_join(surface, stage._surfaces[str(neighbor.id)], axis, key)
 
 func _digest(value: Variant) -> String: return var_to_bytes(value).hex_encode().sha256_text()
+func _sealed_text_hash(path: String, expected: String) -> bool:
+	# Restored Windows checkouts use mixed LF/CRLF. Accept only the exact
+	# historical text with either line ending; no fixture is re-recorded.
+	var text:=FileAccess.get_file_as_string(path).replace("\r\n","\n")
+	return text.sha256_text()==expected or text.replace("\n","\r\n").sha256_text()==expected
 func _mesh_digest(mesh: Mesh) -> String: return "empty" if mesh == null else _digest(mesh.surface_get_arrays(0))
 func _json_equal(expected: Variant, actual: Variant) -> bool:
 	# JSON numbers decode as float; typed in-memory arrays must compare by

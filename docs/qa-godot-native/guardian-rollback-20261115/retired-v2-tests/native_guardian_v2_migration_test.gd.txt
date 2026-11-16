@@ -1,0 +1,72 @@
+extends SceneTree
+const World=preload("res://core/garden_world.gd")
+var checks:=0
+var failures:Array[String]=[]
+func _initialize()->void: _run.call_deferred()
+func _check(ok:bool,label:String)->void:
+	checks+=1
+	if not ok: failures.append(label); push_error(label)
+func _run()->void:
+	var reference:Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/reference.json"))
+	var original:Dictionary
+	for entry:Dictionary in reference.cases:
+		if entry.name=="authored/3-4": original=entry
+	var api:=World.new("3-4")
+	for index:int in range(original.steps.size()):
+		var old:Dictionary=original.steps[index].snapshot.duplicate(true)
+		old.runtime={"version":1,"poses":{}}
+		for who:String in ["luvie","buddy"]:
+			old.runtime.poses[who]={"support":old.actors[who],"offset":[.16,0,.12],"yaw":.5}
+		var result:Dictionary=api.normalize_saved(old)
+		_check(result.ok,"original save accepted at step "+str(index))
+		if not result.ok: continue
+		var saved:Dictionary=result.snapshot
+		_check(saved.layoutRevision==2 and not saved.has("runtime"),"explicit revision with stale physical poses removed")
+		_check(saved.flags==old.flags and saved.growth==old.growth and saved.collected==old.collected and saved.completed==old.completed,"all earned progress and completion retained")
+		_check(saved.items.mirror.get("holder","")==old.items.mirror.get("holder","") and saved.items.mirror.angle==old.items.mirror.angle,"mirror ownership and orientation retained")
+		_check(saved.turns.inner==0 and saved.turns.light==0 and saved.turns.lift==old.turns.lift and saved.turns.water==(1 if old.turns.water==1 else 0),"fixed modules and binary gate migrate explicitly")
+		var w:=World.new("3-4",saved)
+		for who:String in ["luvie","buddy"]:
+			var p:Dictionary=w.point_for(saved.actors[who])
+			_check(not p.is_empty() and not p.get("solid",false) and not (who=="luvie" and p.get("small",false)),"migrated body has legal same-region support")
+		if old.items.mirror.tile=="f:8:0": _check(saved.items.mirror.tile=="f:8:0","installed high mirror is not reset")
+		_check(w.snapshot()==saved,"v2 migrated save roundtrips without further changes")
+	# Check every legacy module identity at every angle, not only fixture route.
+	for module:String in ["inner","water","light"]:
+		var shape:Array=[[0,0],[-1,0],[-2,0],[0,1],[0,2]] if module=="water" else [[0,0],[-1,0],[-2,0],[0,-1],[0,-2]]
+		for angle:int in range(4):
+			for local:Array in shape:
+				var old:Dictionary=original.steps[94].snapshot.duplicate(true)
+				var who:="buddy" if module=="water" else "luvie"
+				old.turns[module]=angle
+				old.actors[who]="m:%s:%d:%d"%[module,local[0],local[1]]
+				var result:Dictionary=api.normalize_saved(old)
+				_check(result.ok,"legacy module position recovered %s/%d/%s"%[module,angle,local])
+				if result.ok:
+					var w:=World.new("3-4",result.snapshot)
+					var p:Dictionary=w.point_for(w.state.actors[who])
+					_check(not p.is_empty() and p.h==(2 if module=="light" else 0),"migration stays on corresponding vertical functional region")
+	# Deleted west/north return loop, old south path and newly solid backstop.
+	for location:String in ["f:-4:-4","f:-4:-3","f:-4:-2","f:-3:-4","f:-2:-4","f:-4:8","f:-3:8","f:-2:8","f:8:-1"]:
+		var old:Dictionary=original.steps[94].snapshot.duplicate(true)
+		var who:="buddy" if location.ends_with(":8") else "luvie"
+		old.actors[who]=location
+		var result:Dictionary=api.normalize_saved(old)
+		_check(result.ok,"removed/newly-solid legacy support recovered "+location)
+		if result.ok:
+			var w:=World.new("3-4",result.snapshot)
+			_check(not w.point_for(w.state.actors[who]).get("solid",false),"old body does not remain inside new backstop")
+	var normal:=World.new("3-4").snapshot()
+	normal.runtime={"version":1,"poses":{"luvie":{"support":normal.actors.luvie,"offset":[.11,0,.09],"yaw":.3}}}
+	_check(api.normalize_saved(normal).snapshot==normal,"valid v2 runtime offsets preserved exactly")
+	for corruption:String in ["unknown_support","future_revision","bad_growth","stale_runtime","legacy_id_on_v2"]:
+		var saved:Dictionary=original.steps[94].snapshot.duplicate(true)
+		match corruption:
+			"unknown_support": saved.actors.luvie="f:100:100"
+			"future_revision": saved.layoutRevision=3
+			"bad_growth": saved.growth.root=["g:root:999:999"]
+			"stale_runtime": saved.runtime={"version":1,"poses":{"luvie":{"support":"f:8:0","offset":[0,0,0]}}}
+			"legacy_id_on_v2": saved.layoutRevision=2; saved.actors.buddy="f:-4:8"
+		_check(not api.normalize_saved(saved).ok,"invalid data is rejected rather than silently migrated: "+corruption)
+	print(JSON.stringify({"suite":"guardian-v2-migration","checks":checks,"passed":failures.is_empty(),"failures":failures,"scope":"Revision-1 validation and explicit progress-preserving relocation; revision-2 exact roundtrip. Historical fixture unchanged."}))
+	quit(0 if failures.is_empty() else 1)

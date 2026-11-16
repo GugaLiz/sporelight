@@ -134,7 +134,13 @@ func _check_core(stage: Node,anchor: Node3D,id: String) -> void:
 	var sprite: Sprite3D = sprites[0]
 	var source_width := (150.0 if id=="3-4" else 110.0)*sqrt(2.0)/70
 	_check(is_equal_approx(layout.source_width,source_width) and is_equal_approx(sprite.pixel_size*sprite.texture.get_width(),layout.width),id+" original source ratio and declared rendered width")
-	_check(is_equal_approx(layout.width,source_width),id+" full source-width chapter core")
+	# 96号用户授权3-3局部花坛缩至1.65m，source_width仍记录原画比例。
+	if id=="3-3":
+		_check(is_equal_approx(layout.width,1.65) and layout.limited and str(layout.reason)=="local_symbiosis_planter_scale",id+" explicitly approved 1.65m local planter exception")
+	elif id=="3-4":
+		_check(is_equal_approx(layout.width,1.65) and layout.limited and str(layout.reason)=="local_guardian_planter_scale",id+" user-requested compact guardian planter exception")
+	else:
+		_check(is_equal_approx(layout.width,source_width),id+" full source-width chapter core")
 	_check(Ratios._supported_footprint(stage,anchor,layout.width,layout.shift),id+" complete core supported by genuine fixed ground")
 	_check(sprite.offset==Vector2(0,102) and not sprite.no_depth_test,id+" original core anchor and depth")
 	_check_hard_feet(anchor,true,id+"/core")

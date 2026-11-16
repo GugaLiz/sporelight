@@ -1,0 +1,87 @@
+{
+  "initialSource": {
+    "sha256": "ff370e1438a2cb63a1538fdb1e78b27fab1d127ea5f4cd266a8ee2bcfc3ea76f",
+    "files": 666
+  },
+  "source": {
+    "sha256": "ee0333724edb6554b4b4af534a28931f23db588ba9678583ef4e6c3a6623163a",
+    "files": 666
+  },
+  "stable": false,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "rule_reference",
+      "code": 1,
+      "elapsedMs": 457,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cases\":1,\"checks\":1,\"commands\":0,\"passed\":false,\"referenceCommit\":\"5791bbc3dd90549b4c7ea302507ead577f51dd67\",\"suite\":\"garden-rule-reference\"}\r\n",
+      "stderr": "ERROR: authored/1-1/initial: $.tiles length expected 16; got 19\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_reference.gd:111)\r\n       [1] _initialize (res://tests/rule_reference.gd:25)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_actor_elements_test",
+      "code": 0,
+      "elapsedMs": 2677,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":87,\"failures\":[],\"passed\":true,\"suite\":\"native-actor-elements\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_element_assets_test",
+      "code": 0,
+      "elapsedMs": 272,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":177,\"failures\":[],\"passed\":true,\"suite\":\"element-assets\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_element_integration_test",
+      "code": 0,
+      "elapsedMs": 5638,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":134,\"failures\":[],\"passed\":true,\"suite\":\"element-integration\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_movement_test",
+      "code": 1,
+      "elapsedMs": 22113,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNative floor samples: 2392, maximum contact error 0.11318\r\nFAIL native movement: 1 failures / 45 checks\r\n",
+      "stderr": "ERROR: cloud-2 uses shared physical motor on a legal edge\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_movement_test.gd:130)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_route_test",
+      "code": 1,
+      "elapsedMs": 151466,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":11,\"level\":\"1-1\",\"steps\":11,\"success\":true}\r\nNATIVE ROUTE {\"completed\":false,\"expectedSteps\":11,\"level\":\"1-2\",\"steps\":2,\"success\":false}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":10,\"level\":\"1-3\",\"steps\":10,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":16,\"level\":\"2-1\",\"steps\":16,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":21,\"level\":\"2-2\",\"steps\":21,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":27,\"level\":\"2-3\",\"steps\":27,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":13,\"level\":\"2-4\",\"steps\":13,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":43,\"level\":\"3-1\",\"steps\":43,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":36,\"level\":\"3-2\",\"steps\":36,\"success\":true}\r\nNATIVE ROUTE {\"completed\":false,\"expectedSteps\":59,\"level\":\"3-3\",\"steps\":10,\"success\":false}\r\nNATIVE ROUTE {\"completed\":false,\"expectedSteps\":96,\"level\":\"3-4\",\"steps\":10,\"success\":false}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":31,\"level\":\"cloud-1\",\"steps\":31,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":17,\"level\":\"cloud-2\",\"steps\":17,\"success\":true}\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":36,\"level\":\"cloud-3\",\"steps\":36,\"success\":true}\r\n{\"checks\":1284,\"failures\":[\"1-2/2/act/grow:root:right accepted through application transaction: 走近操作点，或换一位旅人试试。\",\"1-2 authored route completes with native bodies\",\"3-3/10/act/grow:root:right accepted through application transaction: 走近操作点，或换一位旅人试试。\",\"3-3 authored route completes with native bodies\",\"3-4/10/act/grow:root:right accepted through application transaction: 走近操作点，或换一位旅人试试。\",\"3-4 authored route completes with native bodies\"],\"maxBodySurfaceGap\":0.17133517563343,\"maxVisualContactError\":0.162481278181076,\"passed\":false,\"routes\":[{\"completed\":true,\"expectedSteps\":11,\"level\":\"1-1\",\"steps\":11,\"success\":true},{\"completed\":false,\"expectedSteps\":11,\"level\":\"1-2\",\"steps\":2,\"success\":false},{\"completed\":true,\"expectedSteps\":10,\"level\":\"1-3\",\"steps\":10,\"success\":true},{\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true},{\"completed\":true,\"expectedSteps\":16,\"level\":\"2-1\",\"steps\":16,\"success\":true},{\"completed\":true,\"expectedSteps\":21,\"level\":\"2-2\",\"steps\":21,\"success\":true},{\"completed\":true,\"expectedSteps\":27,\"level\":\"2-3\",\"steps\":27,\"success\":true},{\"completed\":true,\"expectedSteps\":13,\"level\":\"2-4\",\"steps\":13,\"success\":true},{\"completed\":true,\"expectedSteps\":43,\"level\":\"3-1\",\"steps\":43,\"success\":true},{\"completed\":true,\"expectedSteps\":36,\"level\":\"3-2\",\"steps\":36,\"success\":true},{\"completed\":false,\"expectedSteps\":59,\"level\":\"3-3\",\"steps\":10,\"success\":false},{\"completed\":false,\"expectedSteps\":96,\"level\":\"3-4\",\"steps\":10,\"success\":false},{\"completed\":true,\"expectedSteps\":31,\"level\":\"cloud-1\",\"steps\":31,\"success\":true},{\"completed\":true,\"expectedSteps\":17,\"level\":\"cloud-2\",\"steps\":17,\"success\":true},{\"completed\":true,\"expectedSteps\":36,\"level\":\"cloud-3\",\"steps\":36,\"success\":true}],\"samples\":14594,\"suite\":\"native-full-routes\"}\r\n",
+      "stderr": "ERROR: 1-2/2/act/grow:root:right accepted through application transaction: 走近操作点，或换一位旅人试试。\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:50)\r\n       [1] _replay (res://tests/native_route_test.gd:176)\r\n       [2] _drain (res://tests/native_route_test.gd:102)\r\n       [3] _tick (res://tests/native_route_test.gd:96)\r\nERROR: 1-2 authored route completes with native bodies\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:50)\r\n       [1] _replay (res://tests/native_route_test.gd:188)\r\n       [2] _drain (res://tests/native_route_test.gd:102)\r\n       [3] _tick (res://tests/native_route_test.gd:96)\r\nERROR: 3-3/10/act/grow:root:right accepted through application transaction: 走近操作点，或换一位旅人试试。\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:50)\r\n       [1] _replay (res://tests/native_route_test.gd:176)\r\n       [2] _drain (res://tests/native_route_test.gd:102)\r\n       [3] _tick (res://tests/native_route_test.gd:96)\r\nERROR: 3-3 authored route completes with native bodies\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:50)\r\n       [1] _replay (res://tests/native_route_test.gd:188)\r\n       [2] _drain (res://tests/native_route_test.gd:102)\r\n       [3] _tick (res://tests/native_route_test.gd:96)\r\nERROR: 3-4/10/act/grow:root:right accepted through application transaction: 走近操作点，或换一位旅人试试。\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:50)\r\n       [1] _replay (res://tests/native_route_test.gd:176)\r\n       [2] _drain (res://tests/native_route_test.gd:102)\r\n       [3] _tick (res://tests/native_route_test.gd:96)\r\nERROR: 3-4 authored route completes with native bodies\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:50)\r\n       [1] _replay (res://tests/native_route_test.gd:188)\r\n       [2] _drain (res://tests/native_route_test.gd:102)\r\n       [3] _tick (res://tests/native_route_test.gd:96)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_surface_elements_baseline_test",
+      "code": 0,
+      "elapsedMs": 831,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":1129,\"failures\":[],\"levelSurfaceStates\":[{\"level\":\"1-1\",\"states\":21},{\"level\":\"1-2\",\"states\":16},{\"level\":\"1-3\",\"states\":45},{\"level\":\"1-4\",\"states\":72},{\"level\":\"2-1\",\"states\":56},{\"level\":\"2-2\",\"states\":34},{\"level\":\"2-3\",\"states\":40},{\"level\":\"2-4\",\"states\":38},{\"level\":\"3-1\",\"states\":45},{\"level\":\"3-2\",\"states\":25},{\"level\":\"3-3\",\"states\":74},{\"level\":\"3-4\",\"states\":92}],\"passed\":true,\"suite\":\"surface-elements-baseline\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_surface_elements_test",
+      "code": 0,
+      "elapsedMs": 177,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":32,\"failures\":[],\"passed\":true,\"suite\":\"surface-elements\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_surface_identity_test",
+      "code": 0,
+      "elapsedMs": 9904,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cases\":[{\"cells\":5,\"kind\":\"rotate\",\"level\":\"1-3\",\"module\":\"garden\",\"turns\":4},{\"cells\":9,\"kind\":\"lift\",\"level\":\"2-1\",\"module\":\"float\"},{\"cells\":5,\"kind\":\"rotate\",\"level\":\"2-3\",\"module\":\"stage\",\"turns\":4},{\"cells\":9,\"kind\":\"slide\",\"level\":\"2-4\",\"module\":\"boat\"},{\"cells\":5,\"kind\":\"rotate\",\"level\":\"3-3\",\"module\":\"water\",\"turns\":4},{\"cells\":9,\"kind\":\"lift\",\"level\":\"3-3\",\"module\":\"lift\"},{\"cells\":5,\"kind\":\"rotate\",\"level\":\"3-4\",\"module\":\"inner\",\"turns\":4},{\"cells\":9,\"kind\":\"lift\",\"level\":\"3-4\",\"module\":\"lift\"},{\"cells\":5,\"kind\":\"rotate\",\"level\":\"3-4\",\"module\":\"water\",\"turns\":4},{\"cells\":5,\"kind\":\"rotate\",\"level\":\"3-4\",\"module\":\"light\",\"turns\":4}],\"checks\":24838,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"scope\":\"Independent barycentric mesh UV samples and rigid physical point continuity. Prepared orientations and load/undo; no claim of legal full journeys or GPU pixel acceptance.\",\"suite\":\"native-surface-identity\",\"wallPairs\":1086}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

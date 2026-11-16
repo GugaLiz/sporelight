@@ -25,6 +25,7 @@ func _initialize() -> void:
 		check(plan.targets.is_empty() and world.snapshot() == initial, "discarding draft preserves the original garden")
 	var partial := World.new("1-2")
 	partial.act("grow:root:up")
+	for id: String in partial.path_to("g:root:1:0"): check(partial.move(id).ok, "partial setup walks onto first completed board")
 	partial.act("grow:root:right")
 	var before := partial.snapshot()
 	var remaining := Plan.new(partial)

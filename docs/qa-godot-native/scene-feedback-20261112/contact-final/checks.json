@@ -1,0 +1,39 @@
+{
+  "initialSource": {
+    "sha256": "7a0721ec887cadc0ed3461a6824244a9e0f768a35de40cfbec6fcf148071b01a",
+    "files": 584
+  },
+  "source": {
+    "sha256": "7a0721ec887cadc0ed3461a6824244a9e0f768a35de40cfbec6fcf148071b01a",
+    "files": 584
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_fixed_shore_integrity_test",
+      "code": 0,
+      "elapsedMs": 7679,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":68,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"suite\":\"native-fixed-shore-integrity\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_fountain_contact_test",
+      "code": 0,
+      "elapsedMs": 3789,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":667,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"sourceEllipseSamples\":2560,\"suite\":\"native-fountain-contact\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_original_sanctuary_test",
+      "code": 1,
+      "elapsedMs": 4443,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":300,\"failures\":[\"final resident uses complete supported front-right terrace\"],\"gpuPixelsVerified\":false,\"states\":8}\r\n",
+      "stderr": "ERROR: final resident uses complete supported front-right terrace\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_original_sanctuary_test.gd:12)\r\n       [1] _run (res://tests/native_original_sanctuary_test.gd:48)\r\n",
+      "passed": false
+    }
+  ]
+}

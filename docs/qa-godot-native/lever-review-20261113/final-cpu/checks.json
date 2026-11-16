@@ -1,0 +1,47 @@
+{
+  "initialSource": {
+    "sha256": "eb10193e1bfbca0df136779bb11ca1efc6a03727a436e4c7ccfddffa5a767af8",
+    "files": 585
+  },
+  "source": {
+    "sha256": "eb10193e1bfbca0df136779bb11ca1efc6a03727a436e4c7ccfddffa5a767af8",
+    "files": 585
+  },
+  "stable": true,
+  "passed": true,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_fixed_shore_integrity_test",
+      "code": 0,
+      "elapsedMs": 2164,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":68,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"suite\":\"native-fixed-shore-integrity\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_heavy_lever_test",
+      "code": 0,
+      "elapsedMs": 26231,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\n{\"checks\":241,\"failures\":[],\"passed\":true,\"routes\":[{\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}],\"samples\":2404,\"scope\":\"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route\",\"suite\":\"native-heavy-lever\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_hold_performance_test",
+      "code": 0,
+      "elapsedMs": 5433,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cacheCounters\":{\"convexBuilds\":1,\"convexHits\":15,\"fountainHits\":19,\"fountainSearches\":4,\"moleHits\":13},\"checks\":38,\"failures\":[],\"gpuPixelsVerified\":false,\"measurements\":[{\"commandMs\":1232.313,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":16.316},\"props\":{\"calls\":1,\"inclusiveMs\":1035.768},\"refresh\":{\"calls\":2,\"inclusiveMs\":1208.011},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":958.391},\"supportHeight\":{\"calls\":82923,\"inclusiveMs\":598.528},\"terrain\":{\"calls\":1,\"inclusiveMs\":165.238}},\"phase\":\"cold-enter\"},{\"commandMs\":32.419,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":23.885},\"supportHeight\":{\"calls\":74,\"inclusiveMs\":0.948},\"terrain\":{\"calls\":1,\"inclusiveMs\":18.439}},\"maximumSynchronousSliceMs\":32.419,\"obstacleRevisionUnchanged\":true,\"phase\":\"use:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":72.888},{\"commandMs\":21.998,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":16.363},\"supportHeight\":{\"calls\":131,\"inclusiveMs\":2.517},\"terrain\":{\"calls\":1,\"inclusiveMs\":10.797}},\"maximumSynchronousSliceMs\":25.524,\"obstacleRevisionUnchanged\":true,\"phase\":\"release:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":80.399},{\"commandMs\":43.075,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":30.877},\"supportHeight\":{\"calls\":126,\"inclusiveMs\":2.48},\"terrain\":{\"calls\":1,\"inclusiveMs\":25.272}},\"maximumSynchronousSliceMs\":43.075,\"obstacleRevisionUnchanged\":true,\"phase\":\"use:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":102.919},{\"commandMs\":37.597,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":22.482},\"supportHeight\":{\"calls\":16,\"inclusiveMs\":0.262},\"terrain\":{\"calls\":1,\"inclusiveMs\":16.593}},\"maximumSynchronousSliceMs\":37.597,\"obstacleRevisionUnchanged\":true,\"phase\":\"undo\",\"propNodesReused\":true,\"simulationFrames\":0,\"synchronousTotalMs\":37.597}],\"passed\":true,\"scope\":\"Native CPU only, memory repository; real commands and continuous motor. Nested timings overlap.\",\"suite\":\"native-hold-performance\",\"timingsInclusive\":true}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_mechanism_props_test",
+      "code": 0,
+      "elapsedMs": 10237,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":539,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"scope\":\"Current-state cues, actual actions and undo, refresh invalidation, registered hard-base collisions matching visible mesh footprints, and unchanged domain snapshots.\",\"suite\":\"native-mechanism-props\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

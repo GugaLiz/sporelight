@@ -1,0 +1,105 @@
+{
+  "scope": "One native CPU sample sequence per build, memory repository, real main commands/motor. Inclusive timings overlap; no GPU/browser or persistent-save performance claim.",
+  "beforeSource": {
+    "sha256": "a83286c3f7e3ef44aa7180788fdf9e7803cf19224fd329c3e27dda2b644fdb4f",
+    "files": 585
+  },
+  "afterSource": {
+    "sha256": "5de40ad846a1f4b85a0980a651003f3fb54bb2ac83fe78c24fddcd131348b028",
+    "files": 585
+  },
+  "beforeStable": true,
+  "afterStable": true,
+  "runnerPassed": false,
+  "environmentLimit": "Engine user:// log rotation and Windows system certificate-store access failed in child sandbox; no escalation requested. Semantic JSON passes are listed separately from runner status.",
+  "samples": [
+    {
+      "phase": "cold-enter",
+      "beforeCommandMs": 1032.133,
+      "afterCommandMs": 1022.709,
+      "reductionPercent": 0.91,
+      "beforeSanctuaryInclusiveMs": 816.702,
+      "afterSanctuaryInclusiveMs": 806.666,
+      "beforeSupportQueries": 82923,
+      "afterSupportQueries": 82923
+    },
+    {
+      "phase": "use:hold",
+      "beforeCommandMs": 958.279,
+      "afterCommandMs": 46.223,
+      "reductionPercent": 95.18,
+      "beforeSanctuaryInclusiveMs": 893.422,
+      "afterSanctuaryInclusiveMs": 0.922,
+      "beforeSupportQueries": 82983,
+      "afterSupportQueries": 684
+    },
+    {
+      "phase": "release:hold",
+      "beforeCommandMs": 977.929,
+      "afterCommandMs": 30.103,
+      "reductionPercent": 96.92,
+      "beforeSanctuaryInclusiveMs": 916.421,
+      "afterSanctuaryInclusiveMs": 1.616,
+      "beforeSupportQueries": 82535,
+      "afterSupportQueries": 264
+    },
+    {
+      "phase": "use:hold",
+      "beforeCommandMs": 918.453,
+      "afterCommandMs": 35.027,
+      "reductionPercent": 96.19,
+      "beforeSanctuaryInclusiveMs": 867.563,
+      "afterSanctuaryInclusiveMs": 1.623,
+      "beforeSupportQueries": 82540,
+      "afterSupportQueries": 265
+    },
+    {
+      "phase": "undo",
+      "beforeCommandMs": 892.053,
+      "afterCommandMs": 35.089,
+      "reductionPercent": 96.07,
+      "beforeSanctuaryInclusiveMs": 838.614,
+      "afterSanctuaryInclusiveMs": 2.058,
+      "beforeSupportQueries": 82446,
+      "afterSupportQueries": 147
+    }
+  ],
+  "afterCacheCounters": {
+    "convexBuilds": 1,
+    "convexHits": 4,
+    "fountainHits": 8,
+    "fountainSearches": 4,
+    "moleHits": 4
+  },
+  "cacheAssertions": {
+    "passed": true,
+    "failures": [],
+    "checks": 20
+  },
+  "regressions": [
+    {
+      "name": "native_fixed_shore_integrity_test",
+      "semanticPassed": true,
+      "checks": 68,
+      "failures": [],
+      "runnerPassed": false,
+      "elapsedMs": 1915
+    },
+    {
+      "name": "native_fountain_contact_test",
+      "semanticPassed": true,
+      "checks": 695,
+      "failures": [],
+      "runnerPassed": false,
+      "elapsedMs": 2014
+    },
+    {
+      "name": "native_heavy_lever_test",
+      "semanticPassed": true,
+      "checks": 234,
+      "failures": [],
+      "runnerPassed": false,
+      "elapsedMs": 25513
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "ea1c8964cd03735a8ac4eb2b1fc15b4be8b8a59a8027b0a44c20658c0c4be5aa",
+    "files": 640
+  },
+  "source": {
+    "sha256": "ea1c8964cd03735a8ac4eb2b1fc15b4be8b8a59a8027b0a44c20658c0c4be5aa",
+    "files": 640
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_final_root_clearance_test",
+      "code": 1,
+      "elapsedMs": 1108,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nROOT CLEARANCE {\"mirror\":{\"angle\":0,\"tile\":\"f:1:-4\"},\"nearbyObstacles\":[{\"floor\":0.0,\"id\":\"item:mirror\",\"rect\":\"[P: (0.795, -4.205), S: (0.41, 0.41)]\",\"top\":0.41},{\"floor\":0.00800000037997961,\"id\":\"OriginalScenery_02_violet_crystal\",\"rect\":\"[P: (1.003747, -5.476252), S: (0.472505, 0.472505)]\",\"top\":0.41800000037998}],\"radius\":0.179999996423721,\"route\":\"[]\",\"waypoint\":\"{ \\\"point\\\": (2.0, 0.0, -4.0) }\"}\r\n{\"checks\":3,\"failures\":[\"original root stance has physical passage to first built root\"],\"passed\":false,\"suite\":\"native-final-root-clearance\"}\r\n",
+      "stderr": "ERROR: original root stance has physical passage to first built root\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_final_root_clearance_test.gd:12)\r\n       [1] _run (res://tests/native_final_root_clearance_test.gd:35)\r\n",
+      "passed": false
+    }
+  ]
+}

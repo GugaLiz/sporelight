@@ -1,0 +1,78 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "held_restore" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://application/native_movement.gd:308)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://application/main.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/native_route_test.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/native_heavy_lever_test.gd:0)
+ERROR: Failed to load script "res://tests/native_heavy_lever_test.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: Harness._enter_level (res://application/main.gd:226)
+   GDScript backtrace (most recent call first):
+       [0] _enter_level (res://application/main.gd:226)
+       [1] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [2] _run (res://tests/native_heavy_lever_test.gd:24)
+SCRIPT ERROR: Invalid call. Nonexistent function 'restore' in base 'Nil'.
+   at: _fresh (res://tests/native_heavy_lever_test.gd:12)
+   GDScript backtrace (most recent call first):
+       [0] _fresh (res://tests/native_heavy_lever_test.gd:12)
+       [1] _run (res://tests/native_heavy_lever_test.gd:24)
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.
+   at: _drain (res://tests/native_route_test.gd:97)
+   GDScript backtrace (most recent call first):
+       [0] _drain (res://tests/native_route_test.gd:97)
+       [1] _tick (res://tests/native_route_test.gd:92)
+ERROR: actual initial pull settles
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:46)
+       [1] _run (res://tests/native_heavy_lever_test.gd:29)
+       [2] _drain (res://tests/native_route_test.gd:97)
+       [3] _tick (res://tests/native_route_test.gd:92)
+ERROR: move is real but still within the original tile
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:46)
+       [1] _run (res://tests/native_heavy_lever_test.gd:44)
+       [2] _tick (res://tests/native_route_test.gd:78)
+ERROR: first within-tile step releases and retracts bridge
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/native_route_test.gd:46)
+       [1] _run (res://tests/native_heavy_lever_test.gd:45)
+       [2] _tick (res://tests/native_route_test.gd:78)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: Harness._enter_level (res://application/main.gd:226)
+   GDScript backtrace (most recent call first):
+       [0] _enter_level (res://application/main.gd:226)
+       [1] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [2] _run (res://tests/native_heavy_lever_test.gd:51)
+       [3] _tick (res://tests/native_route_test.gd:78)
+SCRIPT ERROR: Invalid call. Nonexistent function 'restore' in base 'Nil'.
+   at: _fresh (res://tests/native_heavy_lever_test.gd:12)
+   GDScript backtrace (most recent call first):
+       [0] _fresh (res://tests/native_heavy_lever_test.gd:12)
+       [1] _run (res://tests/native_heavy_lever_test.gd:51)
+       [2] _tick (res://tests/native_route_test.gd:78)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: Harness._enter_level (res://application/main.gd:226)
+   GDScript backtrace (most recent call first):
+       [0] _enter_level (res://application/main.gd:226)
+       [1] _fresh (res://tests/native_heavy_lever_test.gd:8)
+       [2] _run (res://tests/native_heavy_lever_test.gd:65)
+       [3] _tick (res://tests/native_route_test.gd:92)
+SCRIPT ERROR: Invalid call. Nonexistent function 'restore' in base 'Nil'.
+   at: _fresh (res://tests/native_heavy_lever_test.gd:12)
+   GDScript backtrace (most recent call first):
+       [0] _fresh (res://tests/native_heavy_lever_test.gd:12)
+       [1] _run (res://tests/native_heavy_lever_test.gd:65)
+       [2] _tick (res://tests/native_route_test.gd:92)
+SCRIPT ERROR: Invalid call. Nonexistent function 'capture' in base 'Nil'.
+   at: _run (res://tests/native_heavy_lever_test.gd:68)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/native_heavy_lever_test.gd:68)
+       [1] _tick (res://tests/native_route_test.gd:92)

@@ -1,17 +1,11 @@
 extends RefCounted
+const Props = preload("res://elements/prop_definitions.gd")
 const OriginalRatios = preload("res://presentation/native/original_prop_ratios.gd")
 ## Reviewed alpha >= 128 bounds, in source pixels. Keep floating icons,
 ## hanging vines and authored isometric planters on their dedicated anchors.
-const GROUND_TRIMMED := ["fern", "pink-flowers", "blue-flowers", "yellow-flowers", "red-mushroom", "blue-mushroom", "stone-lantern", "wood-lantern", "flowers", "crystal", "dew-plant", "dew-parcel"]
-const BODY_BOUNDS := {
-	"light": Rect2(16, 55, 224, 177),
-	"lilypad": Rect2(0, 0, 146, 85),
-	"crystal": Rect2(0, 0, 88, 102),
-	"dew-parcel": Rect2(0, 0, 91, 97),
-	"spore": Rect2(6, 6, 197, 149),
-	"bug": Rect2(73, 108, 114, 110),
-}
-const ITEM_WIDTH := {"light": 0.35, "crystal": 0.40, "dew-parcel": 0.38, "spore": 0.30, "bug": 0.28}
+static var GROUND_TRIMMED = Props.section("visual_scale").ground_trimmed
+static var BODY_BOUNDS = Props.rectangles("visual_scale", "body_bounds")
+static var ITEM_WIDTH = Props.section("visual_scale").item_width
 
 static func item_body(sprite: Sprite3D, alias: String) -> void:
 	if sprite.texture == null or not ITEM_WIDTH.has(alias): return

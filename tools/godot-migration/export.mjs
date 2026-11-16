@@ -56,6 +56,19 @@ for(const [name,args]of operations){
    await copyFile(sourceFile,join(directory,file));
    browserAssets.push({file:'loader/'+file,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});
   }
+  // Browser tabs and launchers load these directly, outside the game PCK.
+  const brandingDirectory=join(build,webDirectory,'branding');
+  await mkdir(brandingDirectory,{recursive:true});
+  for(const file of ['icon.svg','favicon.svg','pinned.svg','favicon-16.png','favicon-32.png','icon-192.png','icon-512.png','maskable-192.png','maskable-512.png','apple-touch-icon.png','favicon.ico','sporelight.ico','site.webmanifest']){
+   const sourceFile=join(root,'assets/branding',file);
+   const bytes=await readFile(sourceFile);
+   await copyFile(sourceFile,join(brandingDirectory,file));
+   browserAssets.push({file:'branding/'+file,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});
+  }
+  const faviconSource=join(root,'assets/favicon.ico');
+  const faviconBytes=await readFile(faviconSource);
+  await copyFile(faviconSource,join(build,webDirectory,'favicon.ico'));
+  browserAssets.push({file:'favicon.ico',bytes:faviconBytes.length,sha256:createHash('sha256').update(faviconBytes).digest('hex')});
  }
  results.push({name,code:result.code});
  console.log(name+' passed');

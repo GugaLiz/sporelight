@@ -1,19 +1,21 @@
 extends RefCounted
+const Props = preload("res://elements/prop_definitions.gd")
 ## Full image-canvas ratios from src/app/garden2/render.ts, not alpha bounds.
 ## Sprite cropping must not change the meaning of these widths.
 const TILE_PIXELS := 70.0
 const TILE_PROJECTED_WORLD := 1.41421356237
-const SOURCE_WIDTHS := {"core":110.0,"final_core":150.0,"root":65.0,"flower":55.0,"latch":90.0,"rest":34.0,"observe":34.0,"lamp":54.0,"light":36.0,"crystal":36.0,"dew-plant":49.0,"dew-parcel":34.0,"mirror":52.0,"bug":40.0,"spore":35.0}
-const BODY_BOUNDS := {"flower":Rect2(16,50,224,182),"bloom":Rect2(16,42,224,190),"vine":Rect2(18,12,221,220),"arch":Rect2(37,8,182,224),"flowers":Rect2(0,0,130,124)}
+static var SOURCE_WIDTHS = Props.section("scale").source_widths
+static var BODY_BOUNDS = Props.rectangles("scale", "body_bounds")
 
 static func canvas_width(kind: String, level := "") -> float:
-	if kind == "core" and level == "3-4": kind = "final_core"
-	return float(SOURCE_WIDTHS.get(kind,0.0))*TILE_PROJECTED_WORLD/TILE_PIXELS
+	return Props.canvas_width(kind, level)
 
 static func core_layout(stage: Node, parent: Node3D) -> Dictionary:
 	var id := str(stage.world.level.id)
-	if id == "1-1": return {"width":1.16,"shift":Vector3.ZERO,"source_width":canvas_width("core",id),"limited":true,"reason":"approved_first_garden"}
 	var width := canvas_width("core",id)
+	var fixed := Props.core_override(id)
+	if not fixed.is_empty():
+		return {"width":fixed.width,"shift":fixed.shift,"source_width":width,"limited":true,"reason":fixed.reason}
 	if id == "1-2":
 		# The widened landing already has enough flat space east of its
 		# entrance stairs. Keep the existing narrow-bed size limit, but use
@@ -24,9 +26,13 @@ static func core_layout(stage: Node, parent: Node3D) -> Dictionary:
 			if _supported_footprint(stage,parent,landing_width,landing_shift):
 				return {"width":landing_width,"shift":landing_shift,"source_width":width,"limited":landing_width<width-.001,"reason":"existing_wide_landing_clear_of_entrance_stairs"}
 			landing_width-=.10
-	# Fixed rear placements leave the repair supports usable by both travellers.
+	# Fixed placements leave repair supports and the entrance turn usable by
+	# both travellers. The 1-4 planter uses the empty front-left terrace, away
+	# from the full fountain and the narrow gate's approach.
 	# They never depend on actor occupancy or completion state.
-	var rear_placements := {"1-4":Vector3(1.2,0,-.7),"2-1":Vector3(.6,0,-.6),"2-2":Vector3(.6,0,-.6),"2-3":Vector3(-.6,0,-.7),"2-4":Vector3(.6,0,-.6),"3-1":Vector3(-.6,0,-.7),"3-2":Vector3(.6,0,-.6),"3-4":Vector3(-.424,0,-.07)}
+	# The rain courtyard keeps its full planter on the same rear terrace,
+	# east of the doorway's masonry; the south approach remains unchanged.
+	var rear_placements := Props.rear_placements()
 	if rear_placements.has(id) and _supported_footprint(stage,parent,width,rear_placements[id]):
 		return {"width":width,"shift":rear_placements[id],"source_width":width,"limited":false,"reason":"source_ratio_supported_repair_landing"}
 	# Search translations at the existing interaction, not new support geometry.
@@ -57,14 +63,14 @@ static func core_layout(stage: Node, parent: Node3D) -> Dictionary:
 static func _supported_footprint(stage: Node,parent: Node3D,width: float,shift: Vector3) -> bool:
 	# IntegratedGardenProps' complete square base is 0.80 at canvas width1.16.
 	# Include 0.03 of clearance around it; check interior as well as corners.
-	var half := .40*width/1.16+.03
-	var center: Vector3 = parent.global_position+shift+Vector3(0,0,.07)
+	var half := Props.planter_span(width) * .5 + Vector2.ONE * float(Props.planter_spec().support_clearance)
+	var center: Vector3 = parent.global_position+shift+Props.planter_center()
 	var supports: Array[Node3D] = []
 	for key: String in stage._surfaces:
 		if key.begins_with("f:") and _authored_fixed_support(stage,key): supports.append(stage._surfaces[key])
 	for iz in range(9):
 		for ix in range(9):
-			var point := center+Vector3(lerpf(-half,half,ix/8.0),0,lerpf(-half,half,iz/8.0))
+			var point := center+Vector3(lerpf(-half.x,half.x,ix/8.0),0,lerpf(-half.y,half.y,iz/8.0))
 			var found := false
 			for surface: Node3D in supports:
 				var local := surface.to_local(point)

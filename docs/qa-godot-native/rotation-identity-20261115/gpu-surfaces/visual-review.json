@@ -1,0 +1,9 @@
+{
+  "sourceSha256": "46acd4d56d9436abee0d138c4e12520559fc06fca5604b9758e15c9a816c566e",
+  "framebufferChecksPassed": true,
+  "visualAcceptancePassed": false,
+  "viewedImages": 10,
+  "finding": "3-4 water turn 0 and turn 1 near-end -> settled introduces the far arm cell at docking; UV retention is improved but prepared geometry still visibly pops. Suspected source tile deduplication dropping an overlapping rigid-module cell.",
+  "evidence": ["3-4-water-0-near-end-1280x720.png", "3-4-water-0-settled-1280x720.png", "3-4-water-1-near-end-1280x720.png", "3-4-water-1-settled-1280x720.png"],
+  "scope": "Real native GPU static frame inspection of prepared motion snapshots, not actual input or gameplay conclusion. Initial/fresh-stage floor and walls visually match; prepared actor sprite pose differs and is not the texture target."
+}

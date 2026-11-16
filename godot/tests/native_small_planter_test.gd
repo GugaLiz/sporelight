@@ -52,6 +52,10 @@ func _operator_projection(tile_id: String,label: String) -> void:
 	_check(minf(boxes[0].end.x,boxes[1].end.x)<=maxf(boxes[0].position.x,boxes[1].position.x),label+" default operators have separate projected silhouettes")
 
 func _verify_planters(label: String) -> void:
+	if str(app.session.world.level.id)=="2-3":
+		var deck: Node3D=app.view._props_nodes.get("mark:stage")
+		_check(deck!=null and deck.has_node("SongPassengerMark/PassengerDeckPaint"),label+" real stage keeps its boarding paint")
+		_check(deck!=null and not deck.has_meta("flower_fixed_center") and deck.find_children("*","Sprite3D",true,false).is_empty(),label+" boarding mark has no fixed shore planter")
 	for key: String in app.view._props_nodes:
 		var root_node: Node3D=app.view._props_nodes[key]
 		for child: Node in root_node.get_children():
@@ -68,12 +72,6 @@ func _verify_planters(label: String) -> void:
 			_check(base!=null and base.collision_layer==8,label+"/"+key+" has an actual local hard base")
 			if base==null: continue
 			var shape: BoxShape3D=base.get_node("BaseVolume").shape
-			if root_node.has_meta("flower_fixed_center"):
-				var fixed: Vector3=root_node.get_meta("flower_fixed_center")
-				var anchor: Vector3=child.get_meta("planter_anchor")
-				_check(child.global_position.distance_to(fixed+anchor-Vector3(0,0,.07))<.001,label+" fixed shore art does not ride the stage")
-				_check(base.global_position.distance_to(fixed+Vector3(0,shape.size.y*.5,0))<.001,label+" fixed shore collider does not ride the stage")
-				_check(root_node.has_node("FlowerPlatformRing") and root_node.has_node("FlowerPlatformSymbol"),label+" original stage centre retains a visible boarding cue")
 			var supported := true
 			for ix in range(7):
 				for iz in range(7):

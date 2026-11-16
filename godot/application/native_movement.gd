@@ -7,13 +7,10 @@ signal support_changed(who: String, result: RefCounted)
 signal blocked(message: String)
 signal interaction_changed(who: String, result: RefCounted)
 
-const SPEED := 3.25
-const FOLLOW_SPEED := 3.45
-const GRAVITY := 20.0
+const ActorDefinitions = preload("res://elements/actor_definitions.gd")
 const EDGE_LIMIT := 0.495
 const CLOSED_LIMIT := 0.32
 const ARRIVE_DISTANCE := 0.055
-const LANE_ALIGN_SPEED := 2.6
 const LANDING_RELEASE_EPSILON := 0.002
 const ACTORS := ["luvie", "buddy"]
 const GenericStairs = preload("res://presentation/native/generic_stair_geometry.gd")
@@ -303,6 +300,10 @@ func restore() -> void:
 		stage.reset_actor_actions()
 	stage.refresh_world(session.world, true)
 	var poses: Dictionary = session.world.state.get("runtime", {}).get("poses", {})
+	# Preserve bridge/passenger progress when an old continuous pose
+	# contradicts its hold action; recover the operator at the actual grip.
+	var held_restore: bool=str(session.world.level.id)=="1-4" and session.world.lever_held()
+	if held_restore:session.world.state.actors.luvie="f:-3:0"
 	for who: String in ACTORS:
 		var body: CharacterBody3D = stage.get_actor_body(who)
 		var tile: Dictionary = _point_for(str(session.world.state.actors[who]))
@@ -310,6 +311,13 @@ func restore() -> void:
 			continue
 		var center: Vector3 = stage.tile_position(tile)
 		var pose: Dictionary = poses.get(who, {})
+		if held_restore and who=="luvie":
+			var grip: Vector3=stage.actor_rest_position(tile,who)
+			var saved_offset: Array=pose.get("offset",[])
+			var saved_point:=center
+			if saved_offset.size()==3:saved_point=stage.physical_position(stage.logical_position(center)+Vector3(float(saved_offset[0]),float(saved_offset[1]),float(saved_offset[2])))
+			if str(pose.get("support",""))!=str(tile.id) or Vector2(saved_point.x-grip.x,saved_point.z-grip.z).length()>.06:pose={}
+			_last_facing[who]="left"
 		var offset := Vector3.ZERO
 		if pose.is_empty() and stage.has_method("actor_rest_position"):
 			offset = stage.logical_position(stage.actor_rest_position(tile, who)) - stage.logical_position(center)
@@ -390,16 +398,18 @@ func request_path(path: Array) -> void:
 		if bool(planned.found) and click_path.is_empty(): click_path = [str(planned.approach)]
 		if not bool(planned.found): _notify_blocked("石基占住了这个落脚点，请选择旁边的空地。")
 
-func request_local_target(point: Vector3, companions: Dictionary = {}) -> bool:
+func request_local_target(point: Vector3, companions: Dictionary = {}, arrival: float = ARRIVE_DISTANCE) -> bool:
 	stop()
 	var who: String = session.world.actor()
 	var primary: Dictionary = _validated_local_target(who, point)
 	if primary.is_empty(): return false
+	primary.arrival = clampf(arrival,.001,ARRIVE_DISTANCE)
 	var prepared: Dictionary = {}
 	for companion: String in companions:
 		if companion == who or not companion in ACTORS or not companions[companion] is Vector3: return false
 		var target: Dictionary = _validated_local_target(companion, companions[companion])
 		if target.is_empty(): return false
+		target.arrival = primary.arrival
 		prepared[companion] = target
 	_local_target = primary
 	_local_companions = prepared
@@ -414,7 +424,14 @@ func _validated_local_target(who: String, point: Vector3) -> Dictionary:
 	if absf(logical.x - float(tile.x)) > .48 or absf(logical.z - float(tile.z)) > .48: return {}
 	var height: float = stage.support_height(point, id, who)
 	if absf(point.y - height) > .025: return {}
-	if _uses_prop_obstacles() and (not bool(stage.prop_point_clear(point, who)) or not bool(stage.prop_segment_clear(body.position, point, who))): return {}
+	if _uses_prop_obstacles():
+		var staying := Vector2(point.x-body.position.x,point.z-body.position.z).length() < .001
+		# A companion may need to step aside while this actor already stands
+		# safely clear of the new base. Retain a genuine physical contact;
+		# only a requested move must satisfy the planner's extra clearance.
+		if staying:
+			if not bool(stage.prop_physical_point_clear(body.position,who)): return {}
+		elif not bool(stage.prop_point_clear(point,who)) or not bool(stage.prop_segment_clear(body.position,point,who)): return {}
 	return {"point": point, "who": who, "support": id, "elapsed": 0.0, "stalled": 0.0, "distance": INF}
 
 func _local_intent(who: String, body: CharacterBody3D, delta: float) -> Vector2:
@@ -429,7 +446,7 @@ func _local_intent(who: String, body: CharacterBody3D, delta: float) -> Vector2:
 	target.elapsed = float(target.elapsed) + delta
 	target.stalled = float(target.stalled) + delta if distance >= float(target.distance) - .0005 else 0.0
 	target.distance = distance
-	if distance < ARRIVE_DISTANCE:
+	if distance < float(target.get("arrival",ARRIVE_DISTANCE)):
 		if _local_companions.has(who): _local_companions.erase(who)
 		else: _local_target.clear()
 		return Vector2.ZERO
@@ -441,7 +458,7 @@ func _local_intent(who: String, body: CharacterBody3D, delta: float) -> Vector2:
 		return Vector2.ZERO
 	# Even a long physics frame must finish inside this support; local stance
 	# movement never asks the normal crossing transaction to change its ID.
-	var maximum_speed: float = maxf(FOLLOW_SPEED, SPEED * (1.15 if rolling else 1.0))
+	var maximum_speed: float = maxf(ActorDefinitions.speed(who, true), ActorDefinitions.speed(who, false, rolling))
 	return difference.normalized() * minf(1.0, distance / maxf(.001, maximum_speed * delta))
 
 func nudge(direction: String) -> void:
@@ -519,7 +536,7 @@ func tick(delta: float, enabled: bool = true) -> void:
 							var step_point: Vector3 = step.point
 							var difference: Vector2 = Vector2(step_point.x - other_body.position.x, step_point.z - other_body.position.z)
 							if difference.length() >= ARRIVE_DISTANCE or (difference.length() > .001 and (other_tile != next_id or not bool(stage.prop_segment_clear(other_body.position,target,other)))):
-								follower_intent = difference.limit_length(FOLLOW_SPEED*delta)/maxf(.001,FOLLOW_SPEED*delta)
+								follower_intent = difference.limit_length(ActorDefinitions.speed(other, true)*delta)/maxf(.001,ActorDefinitions.speed(other, true)*delta)
 						elif rejoining:
 							rejoining = false
 				elif rejoining:
@@ -586,7 +603,7 @@ func _route_intent(who: String, body: CharacterBody3D, delta: float = 1.0/60.0) 
 			difference = Vector2(step_point.x - body.position.x, step_point.z - body.position.z)
 			# Long frames must stop at an obstacle corner, not overshoot it into
 			# another rule cell. The next segment still needs its own clear check.
-			var route_speed: float = SPEED*(1.15 if rolling else 1.0)
+			var route_speed: float = ActorDefinitions.speed(who, false, rolling)
 			return difference.limit_length(route_speed*delta)/maxf(.001,route_speed*delta)
 		return difference.normalized()
 	return Vector2.ZERO
@@ -600,9 +617,8 @@ func _move_actor(who: String, intent: Vector2, delta: float, following: bool = f
 	if current.is_empty():
 		return false
 	var center: Vector3 = stage.tile_position(current)
-	var speed := FOLLOW_SPEED if following else SPEED
-	if rolling and not following:
-		speed *= 1.15
+	var motor := ActorDefinitions.motor(who)
+	var speed := ActorDefinitions.speed(who, following, rolling)
 	speed *= stage.stair_pace(body.position, intent, current_id)
 	var planned := Vector2(body.position.x, body.position.z) + intent * speed * delta
 	var allowed: Array = _neighbors(current_id, who)
@@ -617,7 +633,7 @@ func _move_actor(who: String, intent: Vector2, delta: float, following: bool = f
 		_walking_group = true
 	body.velocity.x = actual_intent.x
 	body.velocity.z = actual_intent.y
-	body.velocity.y = -0.8 if body.is_on_floor() else maxf(-12.0, body.velocity.y - GRAVITY * delta)
+	body.velocity.y = float(motor.ground_velocity) if body.is_on_floor() else maxf(float(motor.terminal_velocity), body.velocity.y - float(motor.gravity) * delta)
 	var previous := body.position
 	body.move_and_slide()
 	# A hand cannot remain on the lever while its owner walks inside a tile.
@@ -802,14 +818,14 @@ func _guard_traversal_volume(_who: String, current: Dictionary, actual: Vector2,
 				# A deliberate turn must return through the real flat landing.
 				# Merely clamping the transverse component would lock an actor
 				# forever on the lane's side when a key has no backward component.
-				along = minf(along, move_toward(old_along, entry, LANE_ALIGN_SPEED * delta))
+				along = minf(along, move_toward(old_along, entry, float(ActorDefinitions.motor(_who).lane_align_speed) * delta))
 			across = clampf(across, -clearance, clearance)
 		elif absf(across) > clearance:
 			# An off-center approach waits on the flat landing and aligns by
 			# ordinary horizontal velocity. No root-position or Y teleport.
 			along = minf(along, maxf(entry, old_along))
 			if delta > 0.0:
-				across = move_toward(old_across, clampf(old_across, -clearance, clearance), LANE_ALIGN_SPEED * delta)
+				across = move_toward(old_across, clampf(old_across, -clearance, clearance), float(ActorDefinitions.motor(_who).lane_align_speed) * delta)
 			else:
 				across = old_across
 		result = center + axis * along + lateral * across

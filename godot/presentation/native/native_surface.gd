@@ -10,6 +10,10 @@ const LANDING_HALF := 0.20
 const GRID := [-0.5, -RAMP_SHOULDER, -RAMP_HALF_WIDTH, -LANDING_HALF, 0.0, LANDING_HALF, RAMP_HALF_WIDTH, RAMP_SHOULDER, 0.5]
 var tile_id := ""
 var center := Vector3.ZERO
+# The board's authored paint frame is independent of its current docking pose.
+var texture_origin := Vector3.ZERO
+var texture_turn := 0
+var _texture_attached := false
 var rises: Array[float] = []
 var _top: MeshInstance3D
 var _sides: MeshInstance3D
@@ -50,18 +54,18 @@ func set_growth_reveal(progress: float, glow: bool = true, path_direction: Vecto
 		if not _growth_overrides.has(part):
 			_growth_overrides[part] = part.material_override
 			var original: Material = part.get_active_material(0)
-			var material: ShaderMaterial
-			if original is ShaderMaterial:
-				material = original.duplicate()
-			else:
-				material = ShaderMaterial.new()
-				material.shader = GrowthTop
-				material.set_shader_parameter("original_paving", original.albedo_texture)
-				material.set_shader_parameter("tint", original.albedo_color)
-			part.material_override = material
+			part.material_override = growth_material(original)
 		part.material_override.set_shader_parameter("growth_axis", direction)
 		part.material_override.set_shader_parameter("growth_progress", clampf(progress, 0, 1))
 		part.material_override.set_shader_parameter("growth_glow", glow)
+
+static func growth_material(original: Material) -> ShaderMaterial:
+	if original is ShaderMaterial: return original.duplicate()
+	var material := ShaderMaterial.new()
+	material.shader = GrowthTop
+	material.set_shader_parameter("original_paving", original.albedo_texture)
+	material.set_shader_parameter("tint", original.albedo_color)
+	return material
 
 func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool], bottom: float, materials: Dictionary) -> void:
 	tile_id = str(tile.id)
@@ -69,6 +73,9 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 	terrain_profile = materials.get("terrain_profile")
 	var base_height: float = terrain_profile.base_height(tile) if terrain_profile != null and terrain_profile.has_method("base_height") else float(tile.h) * 0.65
 	center = Vector3(float(tile.x), base_height, float(tile.z))
+	texture_origin = materials.get("texture_origin", center)
+	texture_turn = posmod(int(materials.get("texture_turn", 0)), 4)
+	_texture_attached = materials.has("texture_origin")
 	position = center
 	rises = ramp_rises.duplicate()
 	authored_terrace = terrain_profile != null
@@ -81,7 +88,7 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 		_ramps.material_override = materials.ramp
 		_treads.material_override = materials.trim
 		_risers.material_override = materials.get("riser", materials.side)
-	var key := str([rises, exposed, bottom - center.y, tile.get("kind", "fixed"), materials.get("key", ""), generic_stairs])
+	var key := str([rises, exposed, bottom - center.y, tile.get("kind", "fixed"), materials.get("key", ""), generic_stairs, texture_origin, texture_turn])
 	if _geometry_key == key:
 		return
 	_geometry_key = key
@@ -148,7 +155,7 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 			for index in [0, 2, 1, 0, 3, 2]:
 				var vertex: Vector3 = corners[index]
 				top_vertices.append(vertex)
-				top_uvs.append(Vector2(vertex.x + HALF, vertex.z + HALF))
+				top_uvs.append(_top_uv(vertex))
 			for triangle: Array in [[0, 2, 1], [0, 3, 2]]:
 				var a: Vector3 = corners[triangle[0]]
 				var b: Vector3 = corners[triangle[1]]
@@ -170,7 +177,7 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 							ramp_face_uvs.append(GenericStairs.tread_uv(Vector2(vertex.x, vertex.z), middle, rises))
 					else:
 						flat_vertices.append(vertex)
-						flat_uvs.append(Vector2(vertex.x + HALF, vertex.z + HALF))
+						flat_uvs.append(_top_uv(vertex))
 			for edge in range(4):
 				var exterior: bool = z == 0 if edge == 0 else x == _grid.size() - 2 if edge == 1 else z == _grid.size() - 2 if edge == 2 else x == 0
 				var a: Vector3 = corners[edge]
@@ -239,7 +246,11 @@ func configure(tile: Dictionary, ramp_rises: Array[float], exposed: Array[bool],
 					var vertex: Vector3 = corners[index]
 					vertex.y = _connector_bottom(Vector2(vertex.x, vertex.z)) if authored_terrace else vertex.y - TRAVERSAL_THICKNESS
 					wall_vertices.append(vertex)
-					wall_uvs.append(Vector2((center.x + vertex.x + center.z + vertex.z) / 4.5, -(center.y + vertex.y) / 4.5))
+					if _texture_attached:
+						var painted := texture_origin + _texture_local(vertex)
+						wall_uvs.append(Vector2((painted.x + painted.z) / 4.5, -painted.y / 4.5))
+					else:
+						wall_uvs.append(Vector2((center.x + vertex.x + center.z + vertex.z) / 4.5, -(center.y + vertex.y) / 4.5))
 	_top.mesh = _mesh(flat_vertices, flat_uvs, materials.top)
 	_ramps.mesh = _mesh(ramp_vertices, ramp_uvs, materials.ramp, ramp_face_uvs) if not ramp_vertices.is_empty() else null
 	# Authored meshes keep their existing collision contract. For generic
@@ -449,17 +460,36 @@ func _step_wall(vertices: PackedVector3Array, uvs: PackedVector2Array, a: Vector
 func _wall(vertices: PackedVector3Array, uvs: PackedVector2Array, a: Vector3, b: Vector3, lower_a: float, lower_b: float) -> void:
 	var c := Vector3(b.x, lower_b, b.z)
 	var d := Vector3(a.x, lower_a, a.z)
+	var painted_edge := _texture_local(b - a)
 	for vertex: Vector3 in [a, b, c, a, c, d]:
 		vertices.append(vertex)
 		# Stair subdivision can produce strips narrower than 0.01. A fixed
 		# threshold mistook those X-facing spans for Z spans and collapsed
 		# their UVs, producing stretched diagonal seams. X+Z unfolds the
 		# authored orthogonal walls continuously, including their corners.
-		var horizontal := center.x + vertex.x + center.z + vertex.z if authored_terrace else center.x + vertex.x if absf(a.x - b.x) > absf(a.z - b.z) else center.z + vertex.z
-		# Masonry source contains several rows of bricks. Continuous world-space
-		# UVs keep their physical scale across tiles instead of shrinking an
-		# entire wall atlas into every single cell.
-		uvs.append(terrain_profile.wall_uv(center + vertex) if authored_terrace and terrain_profile.has_method("wall_uv") else Vector2(horizontal / 4.5, -(center.y + vertex.y) / 4.5))
+		if not _texture_attached:
+			# Preserve the established static UV arithmetic byte-for-byte,
+			# including authored first/second-garden historical mesh baselines.
+			var horizontal := center.x + vertex.x + center.z + vertex.z if authored_terrace else center.x + vertex.x if absf(a.x - b.x) > absf(a.z - b.z) else center.z + vertex.z
+			uvs.append(terrain_profile.wall_uv(center + vertex) if authored_terrace and terrain_profile.has_method("wall_uv") else Vector2(horizontal / 4.5, -(center.y + vertex.y) / 4.5))
+			continue
+		var painted := texture_origin + _texture_local(vertex)
+		var horizontal := painted.x + painted.z if authored_terrace else painted.x if absf(painted_edge.x) > absf(painted_edge.z) else painted.z
+		# Continuous authored coordinates retain stone density across cells,
+		# while a rotating, sliding or lifting board keeps its own masonry.
+		uvs.append(terrain_profile.wall_uv(painted) if authored_terrace and terrain_profile.has_method("wall_uv") else Vector2(horizontal / 4.5, -painted.y / 4.5))
+
+func _texture_local(vertex: Vector3) -> Vector3:
+	# Integer quarter turns avoid accumulated trigonometric drift at seams.
+	match texture_turn:
+		1: return Vector3(vertex.z, vertex.y, -vertex.x)
+		2: return Vector3(-vertex.x, vertex.y, -vertex.z)
+		3: return Vector3(-vertex.z, vertex.y, vertex.x)
+	return vertex
+
+func _top_uv(vertex: Vector3) -> Vector2:
+	var painted := _texture_local(vertex)
+	return Vector2(painted.x + HALF, painted.z + HALF)
 
 static func _mesh(vertices: PackedVector3Array, uvs: PackedVector2Array, material: Material, face_uvs: PackedVector2Array = PackedVector2Array()) -> ArrayMesh:
 	var arrays: Array = []

@@ -1,0 +1,92 @@
+extends SceneTree
+const Stage=preload("res://presentation/native/native_garden_stage.gd")
+const World=preload("res://core/garden_world.gd")
+const Waterworks=preload("res://presentation/native/guardian_waterworks.gd")
+var checks:=0
+var failures: Array[String]=[]
+var stage: Node
+func _initialize() -> void: _run.call_deferred()
+func _check(value: bool,label: String) -> void:
+	checks+=1
+	if not value: failures.append(label); push_error(label)
+func _supported(point: Vector3,world: RefCounted) -> bool:
+	for tile: Dictionary in world.tiles():
+		if str(tile.get("module",""))!="water": continue
+		var at: Vector3=stage.tile_position(tile)
+		if absf(point.x-at.x)<=.5001 and absf(point.z-at.z)<=.5001: return true
+	return false
+func _run() -> void:
+	stage=Stage.new()
+	root.add_child(stage)
+	await process_frame
+	var cold:=World.new("3-4")
+	stage.set_world(cold)
+	stage.set_process(false)
+	var water: Node3D=stage._effects.get_node("GuardianWaterworks")
+	var snapshot: Dictionary=cold.snapshot().duplicate(true)
+	var board: Array=cold.tiles().duplicate(true)
+	_check(int(water.get_meta("water_design"))==2,"new fixed water design")
+	_check(water.find_children("*","CollisionObject3D",true,false).is_empty(),"art creates no navigation supports or collisions")
+	_check(water.find_children("*","Label3D",true,false).is_empty(),"no explanatory scene text")
+	for obsolete: String in ["RotatingTrough","PermanentBankPipe","RootBankPipe","LiftReservoirAssembly","FlexibleDockFeed"]:
+		_check(not water.has_node(obsolete),"removed obsolete "+obsolete)
+	for name: String in ["SpringPool","WheelBasin","SluiceGate","WaterwheelDrive","StoneChannel"]:
+		_check(water.get_node(name).visible,"cold-start structure visible: "+name)
+		for node: Node in water.get_node(name).find_children("*","MeshInstance3D",true,false):
+			if node.name=="GuideTransmission": continue # Mounted between bank and existing fixed rail.
+			var mesh: MeshInstance3D=node
+			var bounds:=mesh.mesh.get_aabb()
+			for index in range(8):
+				var point:=mesh.to_global(bounds.get_endpoint(index))
+				_check(_supported(point,cold),"complete mesh footprint on fixed water bank: "+str(node.name)+"/"+str(index))
+	var source: Node3D=water.get_node("SpringPool")
+	var stored: Node3D=water.get_node("WheelBasin/StoredWater")
+	_check(source.get_node("StoredWater").visible and not stored.visible,"source wet but empty reservoir distinct at start")
+	_check(not water.get_node("StoneChannel/RunningWater").visible,"closed sluice stops current flow")
+	var open:=World.new("3-4")
+	open.state.turns.water=1
+	open.state.flags.append("rain")
+	var stable_id:=water.get_instance_id()
+	var geometry_count:=water.find_children("*","MeshInstance3D",true,false).size()
+	for progress: float in [0.0,.25,.5,.9999,1.0]:
+		Waterworks.update(stage,cold,open,progress)
+		_check(stored.visible==(progress>=1.0),"reservoir fills when initial supply settles")
+		_check(water.get_node("StoneChannel/RunningWater").visible==(progress>=1.0),"first current follows real gate completion")
+	var closed:=World.new("3-4")
+	closed.state.flags.append("rain")
+	Waterworks.update(stage,open,closed,1.0)
+	_check(stored.visible and not water.get_node("StoneChannel/RunningWater").visible,"closing gate preserves stored water independently")
+	var bank_origin: Transform3D=water.transform
+	var basin_origin: Transform3D=water.get_node("WheelBasin").transform
+	var raised:=World.new("3-4")
+	raised.state.flags.append("rain")
+	raised.state.turns.lift=1
+	for progress: float in [0.0,.25,.5,.75,1.0]:
+		Waterworks.update(stage,closed,raised,progress)
+		_check(water.transform==bank_origin and water.get_node("WheelBasin").transform==basin_origin,"lift never drags fixed channel or reservoir")
+		_check(water.get_instance_id()==stable_id and water.find_children("*","MeshInstance3D",true,false).size()==geometry_count,"animation reuses built geometry")
+	Waterworks.update(stage,open,cold,.5)
+	_check(not stored.visible,"undo initial supply removes stored water")
+	var wheel: Node3D=water.get_node("WaterwheelDrive/PaddleWheel")
+	stage.visual_time=1000.0
+	Waterworks.update(stage,open,open,1.0)
+	var initial_rotation: float=wheel.rotation.x
+	stage.visual_time=1050.0
+	Waterworks.update(stage,open,open,1.0)
+	_check(wheel.rotation.x<initial_rotation,"visible open water drives paddlewheel")
+	initial_rotation=wheel.rotation.x
+	Waterworks.update(stage,open,open,1.0)
+	_check(is_equal_approx(wheel.rotation.x,initial_rotation),"paused visual clock stops wheel")
+	stage.settings.lowMotion=true
+	stage.visual_time=1200.0
+	Waterworks.update(stage,open,open,1.0)
+	_check(is_equal_approx(wheel.rotation.x,initial_rotation),"reduced motion keeps wheel still")
+	for material: ShaderMaterial in water.get_meta("water_materials"):
+		_check(is_zero_approx(float(material.get_shader_parameter("effect_time"))),"reduced motion fixes shader phase")
+	_check(cold.snapshot()==snapshot and cold.tiles()==board,"dressing never changes domain state or topology")
+	var connection: Vector3=water.get_node("WaterwheelDrive").get_meta("guide_connection")
+	_check(connection.distance_to(Vector3(5.51,-.38,1.28))<.001,"short drive ends at existing fixed south guide")
+	stage.queue_free()
+	await process_frame
+	print(JSON.stringify({"suite":"native-guardian-water-design","checks":checks,"failures":failures,"passed":failures.is_empty(),"gpuPixelsVerified":false}))
+	quit(0 if failures.is_empty() else 1)

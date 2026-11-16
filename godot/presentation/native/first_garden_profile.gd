@@ -85,9 +85,4 @@ static func stone_uv(face: Vector2, riser: bool = false) -> Vector2:
 	return Stone.sample(face, riser)
 
 static func material_spec(tile: Dictionary) -> Dictionary:
-	var paving := "paving-valley"
-	if str(tile.get("kind", "")) == "root": paving = "paving-moss"
-	elif str(tile.id) in ["f:0:0", "f:-2:-1", "f:-1:2", "f:-1:3", "f:4:-1", "f:2:-2", "f:4:-2"]: paving = "paving-grass"
-	var connector := str(tile.id).begins_with("g:")
-	var key := "first_garden_original_" + paving + ("_connector" if connector else "")
-	return {"paving": paving, "connector": connector, "key": key}
+	return preload("res://elements/surface_definitions.gd").terrace_spec("first", tile)

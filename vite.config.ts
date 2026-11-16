@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
+import { localStandardsPlugin } from './tools/standards/portal.mjs';
 
 export default defineConfig({
+  plugins: [localStandardsPlugin(process.cwd())],
   base: './',
   publicDir: 'assets',
   server: {

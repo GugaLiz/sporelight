@@ -10,6 +10,7 @@ var level: Dictionary
 var state: Dictionary
 var _history: Array = []
 var _error: String = ""
+var _validating_guardian_revision2 := false
 
 func _init(level_id: String = "1-1", saved: Dictionary = {}) -> void:
 	if _definitions.is_empty():
@@ -63,6 +64,11 @@ static func _unique(values: Array) -> Array:
 	return result
 
 func _restore(saved: Dictionary, initial: Dictionary) -> bool:
+	if level.id == "3-4" and saved.has("layoutRevision"):
+		if not _integer(saved.layoutRevision) or int(saved.layoutRevision)!=2: return false
+		if not _validating_guardian_revision2:
+			var migrated := _guardian_rollback_revision2(saved)
+			return not migrated.is_empty() and _restore(migrated,initial)
 	var s: Dictionary = saved.duplicate(true)
 	for key: String in ["actors", "items", "turns", "growth"]:
 		if not s.get(key) is Dictionary:
@@ -228,6 +234,113 @@ func _migrate_second_garden_layout(saved: Dictionary, old_tiles: Array) -> void:
 			if keep_offset: saved.runtime.poses[who].support = target
 			else: saved.runtime.poses.erase(who)
 
+func _guardian_revision2_definition() -> Dictionary:
+	# Validation-only description of the rejected layout. It is never selected
+	# by gameplay and cannot be activated by an arbitrary saved-state field.
+	var definition := level.duplicate(true)
+	definition.tiles = definition.tiles.filter(func(tile: Dictionary) -> bool: return not tile.get("small", false))
+	for tile: Dictionary in definition.tiles:
+		if tile.id == "f:8:-1": tile.solid = true
+	for p: Vector2i in [Vector2i(-4,2),Vector2i(-4,3),Vector2i(-3,3),Vector2i(-2,3),Vector2i(-1,3),Vector2i(0,3),Vector2i(1,3),Vector2i(2,3)]:
+		_add(definition.tiles,p.x,p.y,0,"fixed",true)
+	_add(definition.tiles,4,-3,0,"fixed")
+	_add(definition.tiles,4,-2,0,"fixed")
+	_add(definition.tiles,8,2,2,"fixed")
+	definition.walls = [[8,-1]]
+	for module: Dictionary in definition.modules:
+		match str(module.id):
+			"inner": module.kind = "fixed"
+			"water":
+				module.kind = "fixed"; module.x = 4; module.z = 3
+				module.shape = []
+				for x: int in range(-1,2):
+					for z: int in range(-1,2): module.shape.append([x,z])
+			"light":
+				module.kind = "fixed"; module.z = 3
+				module.shape = [[0,0],[0,-1]]
+				module.erase("axis"); module.erase("distance")
+	return definition
+
+func _guardian_rollback_revision2(saved: Dictionary) -> Dictionary:
+	var source: RefCounted = get_script().new("3-4")
+	source._validating_guardian_revision2 = true
+	source.level = _guardian_revision2_definition()
+	# Reuse the unchanged strict snapshot validator against the actual rejected
+	# board, including bodies, items, root-chain topology and finite local poses.
+	if not source._restore(saved,source.snapshot()): return {}
+	source.state.turns.inner = 0
+	source.state.turns.light = 0
+	source.state.turns.water = 1 if int(source.state.turns.water)==1 else 0
+	var source_board: Array = source.tiles()
+	var result: Dictionary = source.snapshot()
+	var lit_before: bool = source.beam_hits(-4,0)
+	result.erase("layoutRevision")
+	result.erase("runtime")
+	result.turns.inner = 0
+	result.turns.light = 1 if lit_before else 0
+	var restored: RefCounted = get_script().new("3-4")
+	restored.state = result
+	var old_board: Array = restored.tiles()
+	for who: String in ACTORS:
+		var id := str(result.actors[who])
+		result.actors[who] = _guardian_rollback_support(id,who,source_board,old_board,result)
+		if str(result.actors[who]).is_empty(): return {}
+	for item: Dictionary in result.items.values():
+		if str(item.tile).is_empty(): continue
+		item.tile = _guardian_rollback_support(str(item.tile),"item",source_board,old_board,result)
+		if str(item.tile).is_empty(): return {}
+	# The rejected version allowed empty platform calls from both shores.
+	# Restore an empty platform at the occupied shore rather than stranding a
+	# valid save in the older version, which has no shore-call command.
+	var occupied := false
+	var high := false
+	for who: String in ACTORS:
+		var id := str(result.actors[who])
+		occupied = occupied or id.begins_with("m:lift:")
+		var point: Dictionary = restored.point_for(id)
+		high = high or (not point.is_empty() and float(point.h)>=2.0)
+	if not occupied: result.turns.lift = 1 if high else 0
+	# Docking removes the opposite landing. Keep a grounded item on the same
+	# shore instead of leaving its saved support attached to that landing.
+	var docked_board: Array = restored.tiles()
+	for item: Dictionary in result.items.values():
+		var id := str(item.tile)
+		if id.is_empty() or not _find_tile(id,docked_board).is_empty(): continue
+		item.tile = _guardian_rollback_support(id,"item",old_board,docked_board,result)
+		if str(item.tile).is_empty(): return {}
+	# Archive the first revision-2 bytes in the saved snapshot. Ordinary saves
+	# preserve this field; repeated normalization cannot nest or overwrite it.
+	var recovery := saved.duplicate(true)
+	recovery.erase("guardianRevision2Recovery")
+	result.guardianRevision2Recovery = {"format":1,"sourceLayoutRevision":2,"snapshot":recovery}
+	return result
+
+func _guardian_rollback_support(id: String, who: String, source_board: Array, old_board: Array, result: Dictionary) -> String:
+	var origin := _find_tile(id,source_board)
+	if origin.is_empty(): return ""
+	var bridge_ready: bool = "root" in result.flags
+	var frontier: String = str(result.growth.root.back()) if not result.growth.root.is_empty() else "f:1:-4"
+	# Before the root bridge, revision 2 let the small companion reach the
+	# lift from its adjacent water court. That connection never existed here.
+	if who in ACTORS and not bridge_ready and (id.begins_with("m:lift:") or float(origin.h)>=2.0 or (float(origin.x)>=3 and float(origin.z)<2)):
+		return "m:water:0:0" if who=="buddy" else frontier
+	if id.begins_with("m:water:"): return "m:water:0:0"
+	if id.begins_with("m:light:"): return "f:8:1"
+	if origin.get("small",false) and float(origin.z)==3 and float(origin.x)>-4: return "f:-4:3"
+	var same := _find_tile(id,old_board)
+	if not same.is_empty() and not same.get("solid",false) and not (who=="luvie" and same.get("small",false)): return id
+	# Recognized removed source supports may move only to a legal same-height
+	# old shore. Invalid IDs were already rejected against the revision-2 graph.
+	var best := ""
+	var distance := INF
+	for tile: Dictionary in old_board:
+		if tile.get("solid",false) or (who=="luvie" and tile.get("small",false)) or float(tile.h)!=float(origin.h): continue
+		var candidate := _distance(origin,tile)
+		if candidate < distance:
+			distance = candidate; best = str(tile.id)
+	return best
+
+
 func snapshot() -> Dictionary:
 	return state.duplicate(true)
 
@@ -306,6 +419,47 @@ static func _growth_point(id: String, height: float) -> Dictionary:
 	if parts.size() != 4 or parts[0] != "g" or not parts[2].is_valid_int() or not parts[3].is_valid_int():
 		return {}
 	return {"id": id, "x": int(parts[2]), "z": int(parts[3]), "h": height, "kind": "root"}
+
+static func _same_support(a: Dictionary, b: Dictionary) -> bool:
+	return not a.is_empty() and not b.is_empty() and is_equal_approx(float(a.x), float(b.x)) and is_equal_approx(float(a.z), float(b.z)) and is_equal_approx(float(a.h), float(b.h))
+
+static func _existing_growth_support(point: Dictionary, world_tiles: Array) -> Dictionary:
+	# A root endpoint can coincide with an authored shore. Use its actual
+	# surviving support, not a synthetic root ID discarded by tiles().
+	for tile: Dictionary in world_tiles:
+		if not bool(tile.get("solid", false)) and _same_support(tile, point): return tile
+	return {}
+
+func root_growth_station(root: Dictionary, world_tiles: Array = []) -> Dictionary:
+	if world_tiles.is_empty(): world_tiles = tiles()
+	var path: Array = state.growth.get(root.id, [])
+	return point_for(str(root.at), world_tiles) if path.is_empty() else _existing_growth_support(_growth_point(str(path.back()), float(root.h)), world_tiles)
+
+func can_grow_root(root: Dictionary, world_tiles: Array = []) -> bool:
+	if actor() != "luvie": return false
+	if world_tiles.is_empty(): world_tiles = tiles()
+	var path: Array = state.growth.get(root.id, [])
+	if path.is_empty(): return near(str(root.at), "", world_tiles)
+	# Every additional board is built from the last completed board. Nearby
+	# island cells (including the seedbed) must not remotely extend the path.
+	return _same_support(point_for(str(state.actors.luvie), world_tiles), root_growth_station(root, world_tiles))
+
+func root_retract_station(root: Dictionary, world_tiles: Array = []) -> Dictionary:
+	if world_tiles.is_empty(): world_tiles = tiles()
+	if near(str(root.at), "", world_tiles): return point_for(str(root.at), world_tiles)
+	var path: Array = state.growth.get(root.id, [])
+	if path.size() < 2: return point_for(str(root.at), world_tiles)
+	return _existing_growth_support(_growth_point(str(path[path.size() - 2]), float(root.h)), world_tiles)
+
+func can_retract_root(root: Dictionary, world_tiles: Array = []) -> bool:
+	if actor() != "luvie" or flag("root"): return false
+	var path: Array = state.growth.get(root.id, [])
+	if path.is_empty(): return false
+	if world_tiles.is_empty(): world_tiles = tiles()
+	# Preserve the original seedbed recovery action, and allow retreating one
+	# board at a time from its predecessor. Occupied last boards still fail
+	# the existing transaction/native support-removal checks.
+	return near(str(root.at), "", world_tiles) or _same_support(point_for(str(state.actors.luvie), world_tiles), root_retract_station(root, world_tiles))
 
 func growth_guidance() -> Dictionary:
 	if level.roots.is_empty() or connected():
@@ -420,11 +574,12 @@ func tiles() -> Array:
 				_add(base, 4, -3)
 				_add(base, 4, -2)
 		if int(state.turns.get("lift", 0)) % 2: _add(base, 6, 0, 2)
-		if level.id == "3-3" and flag("root") and state.turns.get("water", 0) == 1 and int(state.turns.get("lift", 0)) % 2:
+		if symbiosis_final_route_open():
 			_line(base, [4, 1], [4, 2], 2)
 			_line(base, [4, 2], [0, 2], 2)
-			_add(base, 0, 3, 2, "shadow")
-		if level.id == "3-4":
+			# The landing at f:0:3 already belongs to the permanent south bank.
+			# Only the five gap tiles are roots; never replace that solid bank.
+		if level.id == "3-4" and not _validating_guardian_revision2:
 			if flag("root"):
 				_line(base, [0, -4], [-4, -4])
 				for z: int in range(-3, 1): _add(base, -4, z)
@@ -457,12 +612,17 @@ static func _number_key(value: float) -> String:
 func rays() -> Array:
 	if not level.id in ["2-2", "3-4"]: return []
 	var x: int = 0 if level.id == "2-2" else 8
-	var z: int = 1 if level.id == "2-2" else 4
+	var z: int = 1 if level.id == "2-2" else 3 if _validating_guardian_revision2 else 4
 	var dx: int = 1 if level.id == "2-2" else 0
 	var dz: int = 0 if level.id == "2-2" else -1
 	var height: int = 0 if level.id == "2-2" else 2
 	var result: Array = [{"x": x, "z": z, "h": height}]
-	if level.id == "3-4" and state.turns.get("light", 0) != 1: return result
+	if level.id == "3-4" and not _validating_guardian_revision2:
+		# The lamp emits in its actual orientation, even when it misses the
+		# mirror. North remains the authored successful optical arrangement.
+		var direction: Vector2i = [Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN][posmod(int(state.turns.get("light", 0)),4)]
+		dx = direction.x
+		dz = direction.y
 	var seen: Dictionary = {}
 	for unused: int in range(48):
 		x += dx
@@ -689,6 +849,11 @@ func _update_outcomes() -> void:
 				var id: String = "gift-%s-%d" % [f, i]
 				if not id in state.collected: state.collected.append(id)
 
+func symbiosis_final_route_open() -> bool:
+	# Receiving dew stabilizes the roots. Water still powers a low lift's
+	# ascent, but its direction does not withdraw an already raised route.
+	return level.id == "3-3" and flag("root") and int(state.turns.get("lift", 0)) % 2 == 1
+
 func ready(world_tiles: Array = []) -> bool:
 	match str(level.id):
 		"1-1", "1-2": return connected()
@@ -700,8 +865,10 @@ func ready(world_tiles: Array = []) -> bool:
 		"2-4": return flag("pollinated")
 		"3-1": return flag("window") and together(world_tiles) and state.items.lamp.get("holder", "") != ""
 		"3-2": return (state.mode == 0 or state.frozen == 0) and (state.mode == 1 or state.frozen == 1)
-		"3-3": return flag("root") and state.turns.water == 1 and int(state.turns.lift) % 2 == 1
-		"3-4": return flag("root") and flag("rain") and flag("star") and flag("moon") and state.turns.inner == 1 and state.turns.water == 1 and beam_hits(-4, 0) and together(world_tiles)
+		"3-3": return symbiosis_final_route_open()
+		# Water fills the lift reservoir once (rain); inner controls travel,
+		# not cultivation. Only current light and actual reunion stay live.
+		"3-4": return flag("root") and flag("rain") and flag("star") and flag("moon") and beam_hits(-4, 0) and together(world_tiles)
 	return false
 
 func commands() -> Array:
@@ -722,7 +889,7 @@ func commands() -> Array:
 		result.append({"id": "switch", "label": "切换角色：操控小苔灵" if actor() == "luvie" else "切换角色：操控露薇"})
 		result.append({"id": "follow", "label": "各自等候" if state.follow else "一起走（需要连通）", "selected": state.follow})
 	for root: Dictionary in level.roots:
-		if near(root.at, "", world_tiles) and actor() == "luvie":
+		if can_grow_root(root, world_tiles):
 			var path: Array = state.growth[root.id]
 			var end: Dictionary = _growth_point(str(path.back()), root.h) if not path.is_empty() else point_for(root.at, world_tiles)
 			for direction: String in DIRECTIONS:
@@ -730,7 +897,7 @@ func commands() -> Array:
 				var z: float = end.z + DIRECTIONS[direction][1]
 				var target: String = "g:%s:%d:%d" % [root.id, int(x), int(z)]
 				if path.size() < root.budget and _socket(root, x, z) and not target in path: result.append({"id": "grow:%s:%s" % [root.id, direction], "label": "引芽 %s · 余%d" % [{"up": "↑", "right": "→", "down": "↓", "left": "←"}[direction], budget()], "target": target})
-			if not path.is_empty() and not flag("root"): result.append({"id": "retract:" + root.id, "label": "收回最后一节芽"})
+		if can_retract_root(root, world_tiles): result.append({"id": "retract:" + root.id, "label": "收回最后一节芽"})
 	for mark: Dictionary in level.marks:
 		if not near(mark.tile, "", world_tiles): continue
 		var own: Dictionary = {}
@@ -764,11 +931,15 @@ func commands() -> Array:
 					slot = mark
 					break
 			var label: String = "放在脚边的固定地面" if slot.is_empty() else "放入②号镜叶光槽" if level.id == "2-2" else "放到" + str(slot.label)
+			if level.id == "3-2" and id in ["sunPost", "moonPost"]:
+				label = ("日影柱：" if id == "sunPost" else "月影柱：") + label
 			result.append({"id": "drop:%s:%s" % [id, slot.get("tile", state.actors[actor()])], "label": label})
 			if id.begins_with("mirror") or id == "lamp": result.append({"id": "angle:" + id, "label": "把灯转90°" if id == "lamp" else "转动手中的反光叶"})
 		elif item.get("holder", "") == "" and item.tile != "" and near(item.tile, "", world_tiles) and id != "bug":
 			if id != "mirrorA" and (actor() == "luvie" or id == "lamp"):
 				var label: String = "提起暖灯" if id == "lamp" else "搬起日月影柱" if id.ends_with("Post") else "搬起反光叶" if id.begins_with("mirror") else "接住露珠" if id == "dew" else "收好门铃"
+				if level.id == "3-2" and id in ["sunPost", "moonPost"]:
+					label = "搬起日影柱" if id == "sunPost" else "搬起月影柱"
 				result.append({"id": "take:" + id, "label": label})
 			if id.begins_with("mirror"): result.append({"id": "angle:" + id, "label": "转动%s号镜叶" % ("①" if id == "mirrorA" else "②") if level.id == "2-2" else "转动反光叶朝向"})
 	if level.id == "2-3" and state.get("trial", "") != "" and not flag("latch"): result.append_array([{"id": "play", "label": "暂停试奏" if state.playing else "继续试奏"}, {"id": "resetSong", "label": "重新排练（恢复试奏前）"}])
@@ -800,17 +971,28 @@ func _apply(id: String) -> String:
 		state.follow = not state.follow
 		return "一起慢慢走。" if state.follow else "各自站好，再安排一次配合。"
 	if id.begins_with("grow:"):
+		if parts.size() != 3 or not DIRECTIONS.has(parts[2]): return _fail("先走近一点，再看看能帮什么忙。")
 		var root: Dictionary = {}
 		for candidate: Dictionary in level.roots:
 			if candidate.id == parts[1]: root = candidate
 		if root.is_empty(): return _fail("先走近一点，再看看能帮什么忙。")
+		if not can_grow_root(root): return _fail("走到已建道路的前端，再搭下一节石板。")
 		var path: Array = state.growth[parts[1]]
 		var p: Dictionary = _growth_point(str(path.back()), root.h) if not path.is_empty() else point_for(root.at)
 		if level.id == "3-3" and not state.turns.water in [0, 3] and not flag("root"): return _fail("藤根还没接到水，先把沟槽转向北侧。")
 		var direction: Array = DIRECTIONS[parts[2]]
-		path.append("g:%s:%d:%d" % [root.id, int(p.x + direction[0]), int(p.z + direction[1])])
+		var x := int(p.x + direction[0])
+		var z := int(p.z + direction[1])
+		var target := "g:%s:%d:%d" % [root.id, x, z]
+		if path.size() >= int(root.budget) or not _socket(root, x, z) or target in path: return _fail("这里暂时不能再搭下一节石板。")
+		path.append(target)
 		return "根须托起一节石板，你安排的小路正在生长。"
 	if id.begins_with("retract:"):
+		if parts.size() != 2: return _fail("先走近根台，或退到最后一节前面的石板。")
+		var root: Dictionary = {}
+		for candidate: Dictionary in level.roots:
+			if candidate.id == parts[1]: root = candidate
+		if root.is_empty() or not can_retract_root(root): return _fail("先走近根台，或退到最后一节前面的石板。")
 		state.growth[parts[1]].pop_back()
 		return "叶片合拢休息，可以重新安排方向。"
 	if id.begins_with("turn:"):
@@ -821,7 +1003,11 @@ func _apply(id: String) -> String:
 		return "整座庭院托着旅人转向远方。看看出口、水与光的位置。"
 	if id.begins_with("valve:"):
 		var key: String = parts[1]
-		if key == "mode": state.mode = 1 if state.mode == 0 else 0
+		if key == "mode":
+			state.mode = 1 if state.mode == 0 else 0
+			if level.id == "3-2":
+				var daylight := "庭院转为日光。" if state.mode == 0 else "庭院转为月光。"
+				return daylight + ("留影苔记住的道路保持原样。" if state.frozen != null else "")
 		elif level.id == "2-1": state.water = (int(state.water) + 1) % 3
 		elif key == "water": state.turns.water = (int(state.turns.water) + 1) % 4
 		else:
@@ -831,9 +1017,18 @@ func _apply(id: String) -> String:
 		return "水位与落岸变化了，脚下的旅人和物件也一起移动。"
 	if id == "freeze":
 		var points: Array = projection(int(state.mode))
-		if points.is_empty(): return _fail("先把当前光照对应的影柱放到槽中，再留影。")
+		if points.is_empty():
+			if level.id == "3-2":
+				var post_id := "sunPost" if state.mode == 0 else "moonPost"
+				var post_name := "日影柱" if state.mode == 0 else "月影柱"
+				return _fail(post_name + "还在手中，没有可留住的投影。" if state.items.get(post_id, {}).get("holder", "") != "" else "当前没有可留住的投影。")
+			return _fail("先把当前光照对应的影柱放到槽中，再留影。")
+		var replacing: bool = state.frozen != null
 		state.frozen = state.mode
 		state.shadowMemory = points
+		if level.id == "3-2":
+			var shadow_name := "日影" if state.mode == 0 else "月影"
+			return "留影苔已用当前" + shadow_name + "替换上一次留影。" if replacing else "留影苔记住了当前" + shadow_name + "。"
 		return "留影苔记住了这段实际投影，再换一个时刻看看。"
 	if id.begins_with("take:"):
 		for item: Dictionary in state.items.values():
@@ -843,12 +1038,16 @@ func _apply(id: String) -> String:
 		if id == "take:dew":
 			state.items.dew.picked = true
 			return "用柔软的叶片包好清露，收进贴身的小挎袋。"
+		if level.id == "3-2" and parts[1] in ["sunPost", "moonPost"]:
+			return "日影柱已收进叶包。" if parts[1] == "sunPost" else "月影柱已收进叶包。"
 		return "把门铃收进小挎袋，带回鼹鼠的家。" if id == "take:bell" else "稳稳带好了，沿接通的路继续走吧。"
 	if id.begins_with("drop:"):
 		var target: String = ":".join(parts.slice(2))
 		if point_for(target).get("kind") == "root": return _fail("先把关键物件放到固定台或庭院上的放置槽。")
 		state.items[parts[1]].tile = target
 		state.items[parts[1]].erase("holder")
+		if level.id == "3-2" and parts[1] in ["sunPost", "moonPost"]:
+			return "日影柱已放稳。" if parts[1] == "sunPost" else "月影柱已放稳。"
 		return "稳稳放好了，看看光与道路有没有一起改变。"
 	if id.begins_with("angle:"):
 		state.items[parts[1]].angle = (int(state.items[parts[1]].angle) + 1) % (4 if parts[1] == "lamp" else 2)
@@ -881,6 +1080,7 @@ func _apply(id: String) -> String:
 		state.items.dew.erase("holder")
 		state.items.dew.tile = ""
 		_set_flag("root" if level.id == "3-3" else "care")
+		if level.id == "3-3": return "根系蓄住了清露，根路稳定了；花台升高后会接上通往花坛的路。"
 		return "被照顾的根系学会蓄水，留下了一条安定的路。"
 	if id == "use:plant":
 		_set_flag("plant")
@@ -958,10 +1158,40 @@ func hint() -> Dictionary:
 		"2-4": message = "走上移动花园种蜜花，再在靠近左岸时邀请光虫。" if not flag("plant") else "把花园停近左岸，邀请光虫落在蜜花上。" if state.items.bug.tile != module_cell("boat") and not flag("pollinated") else "载光虫一起移到右岸，再邀请它飞向核心花岸授粉。" if not flag("pollinated") else "远岸成熟了，沿接上的石板过去，一起播种。"
 		"3-1": message = "让小苔灵提灯穿南侧低通道，到右下照孔，灯朝上；露薇穿门后移开石窗。" if not flag("window") else "灯井已经自亮，提灯沿低通道回来。两人带灯在核心旁会合。"
 		"3-2": message = "露薇搬起左岸日影柱，放到起点日影槽(0,0)，先接上去中台的路。" if state.items.sunPost.tile != cell(0, 0) else "把左岸月影柱带过日影路，放在右上月影槽(3,-1)，再回起点。" if state.items.moonPost.tile != cell(3, -1) else "固定日影再切月光；或先固定月影再切日光。留影保存的是当时的实际形状。"
-		"3-3": message = "保持分水庭0°，沿北口去藤根，引芽：右、右、右、下，接往花台。" if not connected() else "乘东侧花台上升取露珠，降回藤根，把露珠留给它。" if not flag("root") else "藤根已经自给，转分水庭到90°，水同时去花台与苔藓。沿固定根阶再升高，走南侧影路。"
-		"3-4": message = "从内庭北口到根台，引芽向右三节，固定叶阶。" if not flag("root") else "小苔灵沿南侧低拱去送水庭，转90°接水；露薇搬起北台重镜叶，走上花台。" if not flag("rain") else "露薇带镜叶升高，放在右岸高槽。沿右侧石阶到外庭，将光源转90°朝北。" if not flag("star") else "把内庭转到90°，接上花台到藤根的回流通路。" if state.turns.inner != 1 else "把送水庭恢复到90°，继续给花台供水。" if state.turns.water != 1 else "保持高槽镜叶与外庭朝向，让光实际到达西侧核心。" if not beam_hits(-4, 0) else "切换角色，沿已经固定的归途，让两位在西岸会合。" if not together() else "路、水与光都已相连，一起种下微光吧。"
+		"3-3": message = "保持分水庭0°，沿北口去藤根，引芽：右、右、右、下，接往花台。" if not connected() else "乘东侧花台上升取露珠，降回藤根，把露珠留给它。" if not flag("root") else "花台已接上南侧根路，沿路到花坛旁照料；分水方向不会再收走这条路。" if symbiosis_final_route_open() else "根系已蓄住清露。花台仍需水力才能上升，升高后会接上南侧根路，不必为这条路另调分水方向。"
+		"3-4": message = _guardian_hint()
 	return {"message": message}
 
+func _guardian_hint() -> String:
+	# Read-only detailed help; default goals and the first two tiers stay separate.
+	# Positions describe the current journey; historical milestones do not
+	# imply that the lift is still at the high dock or that light still lands.
+	if not flag("root"): return "从内庭北口到根台，引芽向右三节，固定叶阶。"
+	if not flag("rain"): return "小苔灵沿南侧低拱去引水台，把出水口接向管道，灌满升降台的储水罐；露薇搬起北台重镜叶，走上花台。"
+	if not flag("star"): return "露薇带镜叶升高，放在右岸高槽。沿右侧石阶到外庭，将光源转90°朝北。"
+	if not beam_hits(-4, 0): return "光路现在没有照到西岸。把镜叶留在右岸高槽，调整镜叶与外庭朝向，让光实际到达西侧核心。"
+	var board: Array = tiles()
+	var hero: Dictionary = point_for(str(state.actors.luvie), board)
+	var buddy: Dictionary = point_for(str(state.actors.buddy), board)
+	var hero_high := not hero.is_empty() and float(hero.h) >= 2.0
+	var buddy_high := not buddy.is_empty() and float(buddy.h) >= 2.0
+	var raised := int(state.turns.lift) % 2 == 1
+	if hero_high:
+		if raised: return "光已接通，镜叶留在高槽。露薇沿高岸原路回到水力花台，登台后操作安全下降，再沿北侧根路返回内庭。"
+		if not buddy_high: return "花台已经降到低位，高岸不能远程召台。切换小苔灵，沿低处归途和北侧根路到花台，乘台升高接回露薇。"
+		return "花台在低位，两位仍在高岸，当前够不到升降操作点。若有可用撤销，可退回降台前，再安排一位旅人乘台接人。"
+	if buddy_high:
+		if raised: return "露薇已在低处。切换高岸的小苔灵，回到水力花台，登台安全下降，再沿原路回西岸会合。"
+		return "小苔灵仍在高岸，花台在低位。露薇沿北侧根路登上花台，升高接回小苔灵，再一起下行。"
+	if not near(cell(-4, 0), "luvie", board):
+		if not has_path_to(cell(-4, 0), "luvie"): return "两位已在低处，露薇当前的出口还没接上归途。转动脚下中央庭院，让出口靠向北侧根路，再沿固定归途回西岸。"
+		return "储水罐已经蓄满，水渠与中央庭院不用为种植保持某个角度。露薇沿北侧固定归途回到西岸花坛旁，镜叶继续留在高槽。"
+	if not near(cell(-4, 0), "buddy", board):
+		if not has_path_to(cell(-4, 0), "buddy"): return "露薇已到西岸。切换小苔灵，转动脚下庭院接回低处小路；蓄满的水不会流失，接路后回花坛会合。"
+		if not buddy.is_empty() and float(buddy.z) >= 4.0: return "露薇已到西岸。切换小苔灵，沿送水庭西口和南侧低路返回，到花坛旁与露薇会合。"
+		return "露薇已到西岸。切换小苔灵，沿已经接通的根路和固定归途回到西岸花坛旁。"
+	if not together(board): return "两位都已回到西岸，让小苔灵再靠近露薇，在花坛旁会合。"
+	return "水已蓄满、光照着花坛，两位也已在西岸会合。切换露薇，一起种下微光吧。"
 func mirror_guidance() -> Dictionary:
 	if level.id != "2-2" or state.completed: return {}
 	var a: Dictionary = state.items.mirrorA

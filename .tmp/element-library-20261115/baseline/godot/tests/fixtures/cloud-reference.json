@@ -1,0 +1,1765 @@
+{
+  "source": "Original TypeScript CloudModel; BFS full discovery and repair",
+  "levels": [
+    {
+      "id": "cloud-1",
+      "initial": {
+        "version": 1,
+        "levelId": "cloud-1",
+        "tile": "floor:1:7",
+        "bridge": "north",
+        "lift": "low",
+        "seed": false,
+        "latch": false,
+        "buddy": "sleep",
+        "found": [],
+        "repaired": false
+      },
+      "steps": [
+        {
+          "command": {
+            "kind": "act",
+            "value": "discover:wind"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:1:7",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:1:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:1:6",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:2:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:2:6",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:3:6",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "stair:3:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "stair:3:5",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "stair:3:4"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "stair:3:4",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:3:3",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:2"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:3:2",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:4:2"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:4:2",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:4:1"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:4:1",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:4:0"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:4:0",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:4:-1"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:4:-1",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:4:-2"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:4:-2",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:-2"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:3:-2",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:-3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:3:-3",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "seed"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:3:-3",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "discover:letter"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:3:-3",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:-2"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:3:-2",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:4:-2"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:4:-2",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:4:-1"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:4:-1",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:4:0"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:4:0",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:4:1"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:4:1",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:4:2"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:4:2",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:4:3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:4:3",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:5:3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:5:3",
+            "bridge": "north",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "rotate"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:5:3",
+            "bridge": "east",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:6:3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:6:3",
+            "bridge": "east",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:7:3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:7:3",
+            "bridge": "east",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:8:3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "bridge:8:3",
+            "bridge": "east",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:9:3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:9:3",
+            "bridge": "east",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sleep",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "repair"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-1",
+            "tile": "floor:9:3",
+            "bridge": "east",
+            "lift": "low",
+            "seed": true,
+            "latch": false,
+            "buddy": "sit",
+            "found": [
+              "wind",
+              "letter"
+            ],
+            "repaired": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "cloud-2",
+      "initial": {
+        "version": 1,
+        "levelId": "cloud-2",
+        "tile": "floor:1:7",
+        "bridge": "north",
+        "lift": "low",
+        "seed": false,
+        "latch": false,
+        "buddy": "follow",
+        "found": [],
+        "repaired": false
+      },
+      "steps": [
+        {
+          "command": {
+            "kind": "act",
+            "value": "discover:rain"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:1:7",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:1:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:1:6",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:2:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:2:6",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:3:6",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:3:5",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:4"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:3:4",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:4:4"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:4:4",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:5:4"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:5:4",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "lift:6:4"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "lift:6:4",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "lift:7:4"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "lift:7:4",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "lift"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "lift:7:4",
+            "bridge": "north",
+            "lift": "high",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:8:4"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:8:4",
+            "bridge": "north",
+            "lift": "high",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:8:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:8:5",
+            "bridge": "north",
+            "lift": "high",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:9:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:9:5",
+            "bridge": "north",
+            "lift": "high",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:10:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:10:5",
+            "bridge": "north",
+            "lift": "high",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "discover:bird"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:10:5",
+            "bridge": "north",
+            "lift": "high",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "rain",
+              "bird"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "repair"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-2",
+            "tile": "floor:10:5",
+            "bridge": "north",
+            "lift": "high",
+            "seed": false,
+            "latch": false,
+            "buddy": "sit",
+            "found": [
+              "rain",
+              "bird"
+            ],
+            "repaired": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "cloud-3",
+      "initial": {
+        "version": 1,
+        "levelId": "cloud-3",
+        "tile": "floor:1:7",
+        "bridge": "east",
+        "lift": "low",
+        "seed": false,
+        "latch": false,
+        "buddy": "follow",
+        "found": [],
+        "repaired": false
+      },
+      "steps": [
+        {
+          "command": {
+            "kind": "act",
+            "value": "discover:home"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:1:7",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:1:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:1:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:2:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:2:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:3:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:3:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "wait"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:3:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "gate:4:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:4:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "gate:5:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:5:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "gate:6:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:6:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:7:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:7:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": false,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "latch"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:7:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "gate:6:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:6:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "gate:5:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:5:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "gate:4:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:4:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "wait",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "call"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:4:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "gate:5:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:5:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "gate:6:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "gate:6:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:7:6"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:7:6",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:7:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:7:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:8:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:8:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:9:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:9:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:10:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:10:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:11:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:11:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:12:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:12:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:13:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:13:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "discover:star"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:13:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:12:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:12:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:11:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:11:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:10:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:10:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:9:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:9:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:8:5"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:8:5",
+            "bridge": "east",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "rotate"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:8:5",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:8:4"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:8:4",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:8:3"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:8:3",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "bridge:8:2"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "bridge:8:2",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "move",
+            "value": "floor:8:1"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:8:1",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "follow",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": false
+          }
+        },
+        {
+          "command": {
+            "kind": "act",
+            "value": "repair"
+          },
+          "snapshot": {
+            "version": 1,
+            "levelId": "cloud-3",
+            "tile": "floor:8:1",
+            "bridge": "north",
+            "lift": "low",
+            "seed": false,
+            "latch": true,
+            "buddy": "sit",
+            "found": [
+              "home",
+              "star"
+            ],
+            "repaired": true
+          }
+        }
+      ]
+    }
+  ]
+}

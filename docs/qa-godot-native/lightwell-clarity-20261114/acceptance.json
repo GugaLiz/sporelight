@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-11-13T20:39:31.720Z",
+  "passed": true,
+  "source": {
+    "sha256": "8421abf03cbed580d0dfefe61ca7d4a28d15c74536c1b3a8d8e6b020ecf6f52e",
+    "files": 622
+  },
+  "cpu": {
+    "checks": 4338,
+    "suites": [
+      {
+        "suite": "native_interaction_query_test",
+        "checks": 575,
+        "passed": true,
+        "testSha256": "d5229377a3d473bbd7e65073a316ed83f8f5486edf54a70aeb748c4cc1118cb5",
+        "evidence": "cpu-delivery/native_interaction_query_test.log"
+      },
+      {
+        "suite": "native_lightwell_presentation_test",
+        "checks": 184,
+        "passed": true,
+        "testSha256": "641f6137f51c087ca92823110ffdbfaba59044f9c9c2db6326854444de3394fe",
+        "evidence": "cpu-delivery/native_lightwell_presentation_test.log"
+      },
+      {
+        "suite": "native_mechanism_props_test",
+        "checks": 647,
+        "passed": true,
+        "testSha256": "c9410f0ee3ef5fdbcfadc38c707d11fe34149f9e3a8aa74e580156bc0d1bf37e",
+        "evidence": "cpu-delivery/native_mechanism_props_test.log"
+      },
+      {
+        "suite": "native_prop_scale_test",
+        "checks": 971,
+        "passed": true,
+        "testSha256": "a65dfc3aa1aeef8f8d62e10fe344c5af59b9a1546866f864056ca13932bed9e9",
+        "evidence": "cpu-delivery/native_prop_scale_test.log"
+      },
+      {
+        "suite": "native_rain_song_rules_test",
+        "checks": 687,
+        "passed": true,
+        "testSha256": "eab0a18af38afa4849a11dd4aeb94eaa299783bcf7bf47efb3340f2130b5383c",
+        "evidence": "cpu-delivery/native_rain_song_rules_test.log"
+      },
+      {
+        "suite": "native_rule_ray_presentation_test",
+        "checks": 938,
+        "passed": true,
+        "testSha256": "4824c2b366045625e7763d69c8efa5bfa33d431151e2c0a952df0afd71c183c0",
+        "evidence": "cpu-delivery/native_rule_ray_presentation_test.log"
+      },
+      {
+        "suite": "native_small_planter_test",
+        "checks": 336,
+        "passed": true,
+        "testSha256": "07338fbe388517418632a386f24e5e60767d687896f11723abfe48878663f26b",
+        "evidence": "cpu-delivery/native_small_planter_test.log"
+      }
+    ]
+  },
+  "lightwell": {
+    "checks": 698,
+    "images": 46,
+    "routes": [
+      {
+        "completed": true,
+        "expectedSteps": 43,
+        "level": "3-1",
+        "steps": 43,
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "completed": true,
+        "expectedSteps": 43,
+        "level": "3-1",
+        "steps": 43,
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      }
+    ],
+    "evidence": "gpu-delivery/checks.json"
+  },
+  "rain": {
+    "checks": 275,
+    "images": 28,
+    "detailCrops": 2,
+    "routes": [
+      {
+        "completed": true,
+        "expectedSteps": 27,
+        "extraDemosReturnedThroughLegalCommands": true,
+        "level": "2-3",
+        "steps": 27,
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "completed": true,
+        "expectedSteps": 27,
+        "extraDemosReturnedThroughLegalCommands": true,
+        "level": "2-3",
+        "steps": 27,
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      }
+    ],
+    "evidence": "../rain-courtyard-20261114/gpu-delivery/checks.json"
+  },
+  "delivery": "delivery.json",
+  "scope": "Native real-body walk and application E/menu events, unchanged authored fixtures. Independent GPU visual review. AudioStub; no OS/browser/audio/performance claim."
+}

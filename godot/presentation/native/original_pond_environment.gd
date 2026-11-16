@@ -10,6 +10,7 @@ const Art = preload("res://presentation/native/original_pond_art.gd")
 const WaterShader = preload("res://presentation/native/original_pond_water.gdshader")
 const BankShader = preload("res://presentation/native/original_pond_bank.gdshader")
 const RibbonShader = preload("res://presentation/native/original_pond_ribbon.gdshader")
+const Assets = preload("res://elements/element_assets.gd")
 var geometry_key := 0
 var builds := 0
 var water: MeshInstance3D
@@ -28,12 +29,15 @@ func refresh(stage: Node) -> void:
 		visible = false
 		return
 	visible = true
-	var key := hash([stage.world.level, stage._tiles])
+	# Ecological sprites and shader uniforms also retain texture resources.
+	# Rebuild on a theme transaction even when the physical shoreline is fixed.
+	var key := hash([stage.world.level, stage._tiles, Assets.revision()])
 	if geometry_key == key:
 		update(stage)
 		return
 	geometry_key = key
 	builds += 1
+	_materials.clear()
 	for child in get_children(): remove_child(child); child.queue_free()
 	frogs.clear()
 	inventory = {"bank_props": 0, "meadow_shrubs": 0, "pads": 0, "reeds": 0, "frogs": 0, "leaves": 0, "moss": 0}
@@ -142,7 +146,7 @@ func _build_bank(stage: Node, outline: PackedVector2Array) -> void:
 		var seed := index * 29 % 67
 		if point.y < minimum + (maximum - minimum) * .24: rear.append(point)
 		if index % 3 != 0:
-			_ellipse("MossPocket_" + str(index), point + Vector2(0,-2), Vector2(10 + seed % 18,5 + seed % 7), -.002, _material(Color("a7bd92"),stage._texture("paving-grass")))
+			_ellipse("MossPocket_" + str(index), point + Vector2(0,-2), Vector2(10 + seed % 18,5 + seed % 7), -.002, _material(Color("a7bd92"),stage._texture("paving-grass"),true))
 			inventory.moss += 1
 		if index % 5 == 0: _bank_sprite(stage, "river-rock" if index % 2 else "small-pebbles", point + Vector2(0,-2), 22 + seed % 16, index)
 		if index % 4 == 1: _bank_sprite(stage,"fern",point,20 + seed % 10,index,.75)
@@ -154,7 +158,7 @@ func _build_bank(stage: Node, outline: PackedVector2Array) -> void:
 		if rear.is_empty(): break
 		var point := rear[int(floor((rear.size()-1)*(.18 if index==0 else .76)))]
 		var radii := Vector2(62,23) if index==0 else Vector2(48,18)
-		_ellipse("MeadowBank_"+str(index),point+Vector2(0,-8),radii,-.001,_material(Color("a6bd8c"),stage._texture("paving-grass")))
+		_ellipse("MeadowBank_"+str(index),point+Vector2(0,-8),radii,-.001,_material(Color("a6bd8c"),stage._texture("paving-grass"),true))
 		var pixels := 53.0 if index==0 else 44.0
 		_bank_sprite(stage,"bush" if index==0 else "berry-bush",point+Vector2(-pixels*.2,-15),pixels,-1)
 		inventory.bank_props -= 1
@@ -229,10 +233,10 @@ func _art_sprite(label: String, texture: Texture2D, point: Vector2, pixels: floa
 	add_child(sprite)
 	return sprite
 
-func _material(color: Color, texture: Texture2D=null) -> Material:
-	var key := str(color)+":"+str(texture.get_instance_id() if texture else 0)
+func _material(color: Color, texture: Texture2D=null, grass: bool=false) -> Material:
+	var key := str(color)+":"+str(texture.get_instance_id() if texture else 0)+":"+str(grass)
 	if _materials.has(key): return _materials[key]
-	if texture != null and texture.resource_path.ends_with("paving-grass.jpg"):
+	if texture != null and grass:
 		var grass_material := ShaderMaterial.new()
 		grass_material.shader = BankShader
 		grass_material.set_shader_parameter("grass", texture)

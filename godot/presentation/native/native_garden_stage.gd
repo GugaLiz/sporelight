@@ -8,19 +8,25 @@ signal command_selected(id: String)
 
 const HEIGHT_UNIT := 0.65
 const WorldScene = preload("res://presentation/native/native_world.tscn")
-const ActorScene = preload("res://presentation/native/native_actor.tscn")
+const ActorDefinitions = preload("res://elements/actor_definitions.gd")
+const ActorVisualFactory = preload("res://presentation/native/actor_visual_factory.gd")
 const ActorPose = preload("res://presentation/native/native_actor_pose.gd")
 const CameraScale = preload("res://presentation/native/garden_camera_scale.gd")
 const Surface = preload("res://presentation/native/native_surface.gd")
+const GrowthPrepare = preload("res://presentation/native/native_growth_prepare.gd")
 const IslandFoundations = preload("res://presentation/native/island_foundations.gd")
 const Profiles = preload("res://presentation/native/level_presentation_profiles.gd")
 const TerraceMaterials = preload("res://presentation/native/terrace_materials.gd")
+const ElementAssets = preload("res://elements/element_assets.gd")
+const SurfaceDefinitions = preload("res://elements/surface_definitions.gd")
+const PropDefinitions = preload("res://elements/prop_definitions.gd")
 const ChapterSurfaceMaterials = preload("res://presentation/native/chapter_surface_materials.gd")
 const BuddySurface = preload("res://presentation/actors/buddy_surface.gd")
 const RuleWorld = preload("res://core/garden_world.gd")
 const WaterShader = preload("res://presentation/native/garden_water.gdshader")
 const PropShader = preload("res://presentation/native/garden_prop.gdshader")
 const ContactShader = preload("res://presentation/native/garden_contact.gdshader")
+const MirrorShader = preload("res://presentation/native/garden_mirror.gdshader")
 const MoleArt = preload("res://presentation/native/native_mole_art.gd")
 const OriginalSanctuary = preload("res://presentation/native/original_sanctuary_dressing.gd")
 const LowArch = preload("res://presentation/native/native_low_arch.tscn")
@@ -28,6 +34,9 @@ const MechanismProfile = preload("res://presentation/native/mechanism_visual_pro
 const MechanismProps = preload("res://presentation/native/mechanism_props.gd")
 const PropVisualScale = preload("res://presentation/native/prop_visual_scale.gd")
 const RuleRayPresentation = preload("res://presentation/native/rule_ray_presentation.gd")
+const LightwellDressing = preload("res://presentation/native/lightwell_dressing.gd")
+const ShadowDressing = preload("res://presentation/native/shadow_dressing.gd")
+const SymbiosisDressing = preload("res://presentation/native/symbiosis_dressing.gd")
 const GardenEffects = preload("res://presentation/native/native_garden_effects.gd")
 const OriginalCloud = preload("res://presentation/native/original_cloud_dressing.gd")
 const OriginalPond = preload("res://presentation/native/original_pond_environment.gd")
@@ -68,6 +77,7 @@ var _props: Node3D
 var _effects: Node3D
 var _garden_effects: Node3D
 var _original_pond: Node3D
+var _lightwell_dressing := LightwellDressing.new()
 var _actors: Node3D
 var _surfaces: Dictionary = {}
 var _bodies: Dictionary = {}
@@ -103,6 +113,7 @@ var _motion_after_tiles: Dictionary = {}
 var _motion_geometry_modules: Dictionary = {}
 var _motion_geometry_active := false
 var _motion_terrain_tiles: Array = []
+var _motion_visual_leaves: Dictionary = {}
 var _motion_destination_tiles: Array = []
 var _motion_cloud_bridge: Dictionary = {}
 var _props_nodes: Dictionary = {}
@@ -126,6 +137,11 @@ var _interaction_context: Dictionary = {}
 var _interaction_ring: MeshInstance3D
 var _interaction_ring_key := ""
 var _interaction_ring_anchor := Vector3.ZERO
+var _bridge_materials_prepared := false
+var _element_asset_revision := -1
+var _element_surface_revision := -1
+var _element_prop_revision := -1
+var _image_asset_revision := -1
 
 class ContextOverlay:
 	extends Node2D
@@ -137,10 +153,11 @@ var _context_overlay: Node2D
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	var manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://content/visual-assets.json"))
-	if manifest is Dictionary:
-		for entry: Dictionary in manifest.get("entries", []):
-			_asset_map[str(entry.id)] = str(entry.resource)
+	_asset_map = ElementAssets.paths()
+	_element_asset_revision = ElementAssets.revision()
+	_element_surface_revision = SurfaceDefinitions.revision()
+	_element_prop_revision = PropDefinitions.revision()
+	_errors.append_array(ElementAssets.errors())
 	_viewport = WorldScene.instantiate()
 	add_child(_viewport)
 	_scene = _viewport.get_node("Garden")
@@ -176,12 +193,15 @@ func _ready() -> void:
 		set_world(world)
 
 func _texture(alias: String) -> Texture2D:
+	if _image_asset_revision != ElementAssets.revision():
+		images.clear()
+		_image_asset_revision = ElementAssets.revision()
 	if images.has(alias):
 		return images[alias]
-	var path: String = str(_asset_map.get(alias, ""))
+	var path: String = ElementAssets.resource_path(alias)
 	if path.is_empty():
 		return null
-	var texture := load(path) as Texture2D
+	var texture := ElementAssets.texture(alias)
 	if texture == null:
 		_errors.append("Missing native texture: " + path)
 	images[alias] = texture
@@ -190,97 +210,80 @@ func _texture(alias: String) -> Texture2D:
 func asset_errors() -> Array[String]:
 	return _errors.duplicate()
 
+func apply_element_theme(theme: Dictionary) -> Dictionary:
+	if _motion_geometry_active: return {"ok":false,"error":"Wait for the moving platform to settle"}
+	var result := ElementAssets.apply_theme(theme)
+	if result.ok: reload_element_visuals()
+	return result
+
+func reload_element_visuals() -> Dictionary:
+	if _motion_geometry_active: return {"ok":false,"error":"Wait for the moving platform to settle"}
+	_invalidate_element_visuals()
+	if world != null: refresh_world(world, true)
+	return {"ok":true,"revision":ElementAssets.revision()}
+
+func _invalidate_element_visuals() -> void:
+	_element_asset_revision = ElementAssets.revision()
+	_element_surface_revision = SurfaceDefinitions.revision()
+	_element_prop_revision = PropDefinitions.revision()
+	_asset_map = ElementAssets.paths()
+	images.clear()
+	_materials.clear()
+	_occlusion_texture_bounds.clear()
+	_terrain_signature = -1
+	_props_signature = -1
+	_effect_signature = -1
+	_bridge_materials_prepared = false
+	if _actors != null: refresh_actor_visuals()
+
 func _create_actor(who: String) -> void:
-	var body := ActorScene.instantiate() as CharacterBody3D
-	body.name = "Luvie" if who == "luvie" else "Buddy"
-	body.set_meta("actor_id", who)
+	var body := ActorVisualFactory.create_body(who)
 	_actors.add_child(body)
 	_bodies[who] = body
-	_actor_state[who] = {"facing": "front", "moving": false, "action": "", "velocity": Vector3.ZERO, "rolling": false, "emote": ""}
-	var art: AnimatedSprite3D = body.get_node("Visual/Art")
-	if who == "buddy":
-		var capsule := CapsuleShape3D.new()
-		capsule.radius = 0.13
-		capsule.height = 0.56
-		(body.get_node("Collision") as CollisionShape3D).shape = capsule
-		body.get_node("Collision").position.y = 0.28
-	var frames := SpriteFrames.new()
-	frames.remove_animation("default")
-	if who == "luvie":
-		for facing: String in ["front", "back", "left", "right"]:
-			var idle := "idle-back" if facing == "back" else "idle-side" if facing in ["left", "right"] else "idle-front"
-			_add_clip(frames, "idle_" + facing, [idle], 1.0)
-			# All directions share the same step cycle duration; only coherent views
-			# from the original frame sheets are included.
-			var keys: Array[String] = []
-			if facing == "back":
-				for frame in range(1, 13): keys.append("walk-back-%d" % frame)
-			elif facing in ["left", "right"]:
-				# The old three poses all extended the same leg. Use the existing
-				# complete cycle, including passing feet and the opposite contact.
-				for frame in range(1, 13): keys.append("walk-side-%d" % frame)
-			else:
-				keys.assign(["walk-1", "walk-7", "walk-8", "walk-9", "walk-10", "walk-11", "walk-12", "walk-8"])
-			_add_clip(frames, "walk_" + facing, keys, keys.size() / 0.55)
-		_add_clip(frames, "interact", ["interact"], 1)
-		# Holding a waist-height lever is a sustained upright side pose. The
-		# crouching pickup card remains exclusive to short ground interactions.
-		_add_clip(frames, "hold_lever", ["idle-side"], 1)
-		_add_clip(frames, "sow", ["sow-1", "sow-2", "sow-3", "sow-4", "sow-5"], 9)
-		_add_clip(frames, "complete", ["salute"], 1)
-		var jump_keys: Array[String] = []
-		for index in range(1, 13): jump_keys.append("jump-%d" % index)
-		_add_clip(frames, "jump", jump_keys, 24)
-		_add_clip(frames, "roll", ["ball"], 1)
-		art.offset = Vector2(0, 108)
-	else:
-		frames.add_animation("idle_front")
-		frames.add_frame("idle_front", _buddy_surface.get_texture())
-		_add_clip(frames, "roll", ["ball"], 1)
-		art.pixel_size = 0.0062
-		art.offset = Vector2(0, 48)
-	art.sprite_frames = frames
-	if who == "luvie": ActorPose.bind_sprite(art)
-	art.play("idle_front")
+	_actor_state[who] = {"facing":"front", "moving":false, "action":"", "velocity":Vector3.ZERO, "rolling":false, "emote":""}
+	var skin_id := ActorDefinitions.default_skin(who)
+	var generated := ActorVisualFactory.frames(self, skin_id)
+	assert(generated.ok, str(generated.get("error", "Actor frames failed")))
+	ActorVisualFactory.apply_skin(body, skin_id, generated.frames)
+	body.get_node("Visual/Art").play("idle_front")
 	var shadow_mat := _solid_material(Color(0.25, 0.28, 0.19, 0.19), false)
 	shadow_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	shadow_mat.no_depth_test = false
 	(body.get_node("Shadow") as MeshInstance3D).material_override = shadow_mat
 	var player: AnimationPlayer = body.get_node("Visual/AnimationPlayer")
-	var library := AnimationLibrary.new()
-	var breathe := Animation.new()
-	breathe.length = 2.4
-	breathe.loop_mode = Animation.LOOP_LINEAR
-	var track := breathe.add_track(Animation.TYPE_VALUE)
-	breathe.track_set_path(track, NodePath(".:scale"))
-	breathe.track_insert_key(track, 0.0, Vector3.ONE)
-	breathe.track_insert_key(track, 1.2, Vector3(1.004, 1.01, 1.004))
-	breathe.track_insert_key(track, 2.4, Vector3.ONE)
-	library.add_animation("breathe", breathe)
-	for soft: bool in [false, true]:
-		var jump := Animation.new()
-		jump.length = 0.55
-		var jump_track := jump.add_track(Animation.TYPE_VALUE)
-		jump.track_set_path(jump_track, NodePath("Art:position"))
-		jump.track_set_interpolation_type(jump_track, Animation.INTERPOLATION_CUBIC)
-		jump.track_insert_key(jump_track, 0.0, Vector3.ZERO)
-		jump.track_insert_key(jump_track, 0.26, Vector3(0, 0.04 if soft else 0.3, 0))
-		jump.track_insert_key(jump_track, 0.55, Vector3.ZERO)
-		library.add_animation("jump_soft" if soft else "jump", jump)
-	player.add_animation_library("", library)
+	ActorVisualFactory.create_animations(player)
 	player.animation_finished.connect(func(clip: StringName) -> void:
 		if str(clip).begins_with("jump"):
 			_actor_state[who].emote = ""
 			if not bool(settings.get("lowMotion", false)): player.play("breathe"))
 	player.play("breathe")
 
-func _add_clip(frames: SpriteFrames, clip: String, aliases: Array, fps: float) -> void:
-	frames.add_animation(clip)
-	frames.set_animation_speed(clip, fps)
-	frames.set_animation_loop(clip, clip.begins_with("walk") or clip.begins_with("idle"))
-	for alias: String in aliases:
-		var texture := _texture(alias)
-		if texture != null: frames.add_frame(clip, texture)
+func actor_skin_id(who: String) -> String:
+	var body := get_actor_body(who)
+	return str(body.get_node("Visual/Art").get_meta("actor_skin_id", ActorDefinitions.default_skin(who))) if body != null else ""
+
+func set_actor_skin(who: String, skin_id: String) -> Dictionary:
+	var body := get_actor_body(who)
+	if body == null: return {"ok":false, "error":"unknown_actor"}
+	var skin := ActorDefinitions.skin(skin_id)
+	if skin.is_empty(): return {"ok":false, "error":"unknown_skin"}
+	if not who in skin.allowed_actors: return {"ok":false, "error":"incompatible_actor_skin"}
+	# Prepare completely before replacing the visual; physical body and rule state survive.
+	var generated := ActorVisualFactory.frames(self, skin_id)
+	if not generated.ok: return generated
+	ActorVisualFactory.apply_skin(body, skin_id, generated.frames)
+	var state: Dictionary = _actor_state[who]
+	if world != null:
+		update_actor_visual(who, state.velocity, str(state.facing), str(state.action))
+		body.get_node("Visual/CarryModel").remove_meta("carry_signature")
+		_update_carry(who)
+	_prepare_occlusion_bounds()
+	return {"ok":true, "actor_id":who, "skin_id":skin_id}
+
+func refresh_actor_visuals() -> void:
+	for who: String in _bodies:
+		var result := set_actor_skin(who, actor_skin_id(who))
+		if not result.ok: push_warning("Actor refresh failed: " + str(result.error))
 
 func get_actor_body(who: String) -> CharacterBody3D:
 	return _bodies.get(who)
@@ -382,6 +385,11 @@ func set_world(value: RefCounted) -> void:
 	(_scene.get_node("Sun") as DirectionalLight3D).shadow_enabled = false
 	(_scene.get_node("Environment") as WorldEnvironment).environment.ambient_light_energy = 0.82
 	refresh_world(value, not changed_level)
+	if str(world.level.id) == "1-4" and not _bridge_materials_prepared:
+		_bridge_materials_prepared = true
+		var bridge_materials := _terrain_materials(true).duplicate()
+		bridge_materials.top = _root_material("root")
+		GrowthPrepare.prepare(self, bridge_materials)
 	if changed_level:
 		_calculate_bounds()
 		_focus = _fit_focus
@@ -393,6 +401,8 @@ func refresh_world(value: RefCounted, preserve_pose: bool = true, cached_tiles: 
 	world = value
 	_select_presentation()
 	if _viewport == null or world == null: return
+	if not _motion_geometry_active and (_element_asset_revision != ElementAssets.revision() or _element_surface_revision != SurfaceDefinitions.revision() or _element_prop_revision != PropDefinitions.revision()):
+		_invalidate_element_visuals()
 	_tiles = cached_tiles if not cached_tiles.is_empty() else world.tiles()
 	# Runtime foot offsets do not participate in tiles(). Keep all other
 	# fields so a direct state change safely falls back until the next refresh.
@@ -406,7 +416,7 @@ func refresh_world(value: RefCounted, preserve_pose: bool = true, cached_tiles: 
 	for tile: Dictionary in _tiles: _tile_map[str(tile.id)] = tile
 	# A moving garden keeps its departure mesh until it docks. The logical
 	# preview still describes the destination for props, rules and UI.
-	var terrain_key := hash([str(world.level.id), _motion_terrain_tiles if _motion_geometry_active else _tiles, _motion_geometry_active, world.state.get("mode", 0), world.state.get("frozen", null)])
+	var terrain_key := hash([str(world.level.id), _geometry_tiles(_motion_terrain_tiles if _motion_geometry_active else _tiles), _motion_geometry_active, world.state.get("mode", 0), world.state.get("frozen", null)])
 	if terrain_key != _terrain_signature:
 		_terrain_signature = terrain_key
 		_update_terrain()
@@ -418,14 +428,23 @@ func refresh_world(value: RefCounted, preserve_pose: bool = true, cached_tiles: 
 	for mark: Dictionary in world.level.get("marks", []):
 		if str(mark.get("kind", "")) == "plate":
 			plate_occupancy[str(mark.id)] = str(world.state.actors.get("buddy", "")) == str(mark.tile)
-	var props_key := hash([str(world.level.id), world.state.get("items", {}), world.state.get("collected", []), world.state.get("flags", []), world.state.get("completed", false), world.state.get("water", 0), world.state.get("mode", 0), world.state.get("frozen", -1), world.state.get("turns", {}), world.state.get("growth", {}), world.state.get("discovered", []), world.state.get("observations", []), plate_occupancy, world.state.get("cloudSeed", false), world.state.get("cloudLatch", false), world.state.get("cloudBuddy", ""), MechanismProps.state_signature(world)])
+	var flags_for_props: Array = world.state.get("flags", [])
+	var props_geometry_key := _terrain_signature
+	if str(world.level.id) == "1-4":
+		# Keeping/releasing the lever changes its existing arm and conditional
+		# bridge, not the whole static courtyard or its obstacle identities.
+		flags_for_props = flags_for_props.filter(func(flag: Variant) -> bool: return str(flag) != "hold")
+		props_geometry_key = _permanent_props_geometry_key(_motion_terrain_tiles if _motion_geometry_active else _tiles)
+	var props_key := hash([str(world.level.id), world.state.get("items", {}), world.state.get("collected", []), flags_for_props, world.state.get("completed", false), world.state.get("water", 0), world.state.get("mode", 0), world.state.get("frozen", -1), world.state.get("turns", {}), world.state.get("growth", {}), world.state.get("discovered", []), world.state.get("observations", []), plate_occupancy, world.state.get("cloudSeed", false), world.state.get("cloudLatch", false), world.state.get("cloudBuddy", ""), MechanismProps.state_signature(world)])
 	# A returning low bank can appear in the destination snapshot before its
 	# physical surface exists. Restore deferred art once geometry is ready.
-	props_key = hash([props_key, _terrain_signature])
+	props_key = hash([props_key, props_geometry_key])
 	var props_changed := props_key != _props_signature
 	if props_changed:
 		_props_signature = props_key
 		_update_props()
+	elif str(world.level.id) == "1-4":
+		MechanismProps.sync_hold(self)
 	var mirror_ray: Array = world.rays()
 	var lamp_ray: Array = world.lamp_ray()
 	var ray_bounds := RuleRayPresentation.visible_bounds(world, _tiles) if mirror_ray.size() > 1 or lamp_ray.size() > 1 else Rect2()
@@ -448,6 +467,7 @@ func refresh_world(value: RefCounted, preserve_pose: bool = true, cached_tiles: 
 		_update_carry(who)
 		update_actor_visual(who, body.velocity, str(_actor_state[who].facing))
 	MechanismProps.update_motion(self, world, world, 1.0)
+	preload("res://presentation/native/guardian_dressing.gd").sync_current(self)
 	RuleRayPresentation.update_motion(self, world, world, 1.0)
 	if not _preserve_first_prop_anchors():
 		_update_prop_supports()
@@ -458,14 +478,44 @@ func refresh_world(value: RefCounted, preserve_pose: bool = true, cached_tiles: 
 		prop_obstacle_revision += 1
 	_garden_effects.refresh(self)
 	_original_pond.refresh(self)
+	_lightwell_dressing.update(self)
 	if props_changed or str(world.level.id).begins_with("cloud-") or _original_pond.visible: _calculate_bounds()
 	queue_redraw()
+
+func _permanent_props_geometry_key(values: Array) -> int:
+	var rows: Array = []
+	for tile: Dictionary in _geometry_tiles(values):
+		if str(tile.get("kind","fixed")) in ["root","bridge","shadow"]: continue
+		rows.append([str(tile.id),float(tile.x),float(tile.z),float(tile.h),bool(tile.get("solid",false)),bool(tile.get("small",false))])
+	rows.sort_custom(func(a: Array,b: Array) -> bool: return str(a[0])<str(b[0]))
+	return hash(rows)
+
+func _geometry_tiles(values: Array) -> Array:
+	if _terrain_profile!=null:return values # Keep approved authored profiles.
+	var result: Array=[]
+	for tile: Dictionary in values:
+		var owned: Dictionary=tile
+		# A conditional line may share an occupied endpoint's identity with
+		# an existing shore. Retain current rule flags, but the permanent bank
+		# owns its paving and foundation. Never merge another height or ID.
+		if str(tile.id).begins_with("f:") and str(tile.get("kind","fixed"))=="root":
+			for source: Dictionary in world.level.get("tiles",[]):
+				if str(source.id)!=str(tile.id):continue
+				if not is_equal_approx(float(source.x),float(tile.x)) or not is_equal_approx(float(source.z),float(tile.z)) or not is_equal_approx(float(source.h),float(tile.h)):continue
+				if str(source.get("kind","fixed"))!="fixed":continue
+				owned=tile.duplicate()
+				if source.has("kind"):owned.kind=source.kind
+				else:owned.erase("kind")
+				break
+		result.append(owned)
+	return result
 
 func _update_terrain() -> void:
 	_build_count += 1
 	var live: Dictionary = {}
-	var geometry_tiles: Array = _motion_terrain_tiles if _motion_geometry_active else _tiles
+	var geometry_tiles: Array = _geometry_tiles(_motion_terrain_tiles if _motion_geometry_active else _tiles)
 	var geometry_neighbors: Array = geometry_tiles if _motion_geometry_active or _terrain_profile == null else _architecture_tiles
+	var neighbor_index := _terrain_neighbor_index(geometry_neighbors)
 	var foundations := IslandFoundations.bottoms(geometry_tiles) if _terrain_profile == null else {}
 	var materials := _terrain_materials()
 	for tile: Dictionary in geometry_tiles:
@@ -477,10 +527,10 @@ func _update_terrain() -> void:
 			_terrain.add_child(surface)
 			_surfaces[id] = surface
 		var heights: Array[float] = []
-		for direction: Vector2 in DIRECTIONS: heights.append(_ramp_rise(tile, direction, geometry_neighbors))
+		for direction: Vector2 in DIRECTIONS: heights.append(_ramp_rise(tile, direction, geometry_neighbors, neighbor_index))
 		var exposed: Array[bool] = []
 		for direction: Vector2 in DIRECTIONS:
-			exposed.append(not _has_motion_neighbor(tile, direction, geometry_neighbors) if _motion_geometry_active else not _has_neighbor(tile, direction))
+			exposed.append(not _has_motion_neighbor(tile, direction, geometry_neighbors, neighbor_index) if _motion_geometry_active else not _has_neighbor(tile, direction, neighbor_index))
 		if _terrain_profile != null:
 			# Socket reservations are not walls or floors. Close the island edge
 			# underneath a future bridge and keep that foundation stable on sow.
@@ -502,10 +552,14 @@ func _update_terrain() -> void:
 			own_materials = _terrace_materials(tile)
 		elif not str(world.level.id).begins_with("cloud-") and not Profiles.for_level(str(world.level.id)).is_empty() and not str(tile.get("kind","")) in ["root","shadow","bridge"]:
 			own_materials = _chapter_tile_materials(tile,own_materials)
+		own_materials = _surface_texture_materials(tile, own_materials)
 		# configure samples its own local tread heights. Do not leave the last
 		# animation rotation on a reused surface while constructing docked mesh.
 		surface.rotation = Vector3.ZERO
 		surface.configure(tile, heights, exposed, _terrain_profile.foundation(tile) if _terrain_profile != null else float(foundations[id]), own_materials)
+		# A leaf hidden by logical shore deduplication is only restored for
+		# the departing object's appearance, never as an extra walkable tile.
+		surface._body.collision_layer = 0 if _motion_geometry_active and _motion_visual_leaves.has(id) else 1
 		surface.position = tile_position(tile)
 		surface.scale = _surface_scale(surface)
 		surface.visible = world.visible(tile, _tiles)
@@ -537,22 +591,41 @@ func _corner_height(tile: Dictionary, offset: Vector2) -> float:
 	for value: Dictionary in connected: sum += float(value.h) * HEIGHT_UNIT
 	return sum / connected.size()
 
-func _ramp_rise(tile: Dictionary, direction: Vector2, candidates: Array = []) -> float:
+func _terrain_neighbor_index(candidates: Array) -> Dictionary:
+	if _terrain_profile != null or world==null or str(world.level.id)!="1-4": return {}
+	var result: Dictionary = {}
+	for other: Dictionary in candidates:
+		var x := float(other.x)
+		var z := float(other.z)
+		# Fractional coordinates and approximate integer aliases retain the
+		# original scans. Each bucket keeps every height in candidate order.
+		if x != roundf(x) or z != roundf(z) or is_equal_approx(x, x + 1.0) or is_equal_approx(z, z + 1.0): return {}
+		var key := Vector2i(int(x), int(z))
+		if not result.has(key): result[key] = []
+		result[key].append(other)
+	return result
+
+func _ramp_rise(tile: Dictionary, direction: Vector2, candidates: Array = [], neighbor_index: Dictionary = {}) -> float:
 	if tile.get("solid", false): return 0.0
-	for other: Dictionary in (_architecture_tiles if candidates.is_empty() else candidates):
+	var neighbors: Array = _architecture_tiles if candidates.is_empty() else candidates
+	if not neighbor_index.is_empty(): neighbors = neighbor_index.get(Vector2i(int(float(tile.x) + direction.x), int(float(tile.z) + direction.y)), [])
+	for other: Dictionary in neighbors:
 		if other.get("solid", false): continue
 		if _motion_geometry_active and _motion_surface_group(tile) != _motion_surface_group(other): continue
 		if is_equal_approx(float(other.x), float(tile.x) + direction.x) and is_equal_approx(float(other.z), float(tile.z) + direction.y) and absf(float(other.h) - float(tile.h)) <= 1.001:
 			return (float(other.h) - float(tile.h)) * HEIGHT_UNIT
 	return 0.0
 
-func _has_motion_neighbor(tile: Dictionary, direction: Vector2, candidates: Array) -> bool:
+func _has_motion_neighbor(tile: Dictionary, direction: Vector2, candidates: Array, neighbor_index: Dictionary = {}) -> bool:
 	# A shore and a moving module stop hiding each other's foundations as
 	# soon as departure begins. Tiles on the same rigid module retain seams.
 	var group := _motion_surface_group(tile)
-	for other: Dictionary in candidates:
+	var neighbors: Array = candidates
+	if not neighbor_index.is_empty(): neighbors = neighbor_index.get(Vector2i(int(float(tile.x) + direction.x), int(float(tile.z) + direction.y)), [])
+	for other: Dictionary in neighbors:
 		var other_group := _motion_surface_group(other)
 		if group != other_group: continue
+		if _terrain_profile==null and bool(tile.get("solid",false)) and float(tile.h)>float(other.h):continue
 		if is_equal_approx(float(other.x), float(tile.x) + direction.x) and is_equal_approx(float(other.z), float(tile.z) + direction.y) and absf(float(other.h) - float(tile.h)) <= 1.001 and not other.get("solid", false):
 			return true
 	return false
@@ -563,8 +636,13 @@ func _motion_surface_group(tile: Dictionary) -> String:
 	var module := str(tile.get("module", ""))
 	return module if _motion_geometry_modules.has(module) else ""
 
-func _has_neighbor(tile: Dictionary, direction: Vector2) -> bool:
-	for other: Dictionary in (_architecture_tiles if _terrain_profile != null else _tiles):
+func _has_neighbor(tile: Dictionary, direction: Vector2, neighbor_index: Dictionary = {}) -> bool:
+	var neighbors: Array = _architecture_tiles if _terrain_profile != null else _tiles
+	if not neighbor_index.is_empty(): neighbors = neighbor_index.get(Vector2i(int(float(tile.x) + direction.x), int(float(tile.z) + direction.y)), [])
+	for other: Dictionary in neighbors:
+		# A closed high gate has no descending stair. Its full cut face must
+		# remain sealed even while a lower, walkable neighbour exists.
+		if _terrain_profile==null and bool(tile.get("solid",false)) and float(tile.h)>float(other.h):continue
 		if is_equal_approx(float(other.x), float(tile.x) + direction.x) and is_equal_approx(float(other.z), float(tile.z) + direction.y) and absf(float(other.h) - float(tile.h)) <= 1.001 and not other.get("solid", false):
 			return true
 	return false
@@ -579,9 +657,10 @@ func _terrain_materials(connector: bool = false) -> Dictionary:
 		_materials[key] = painted
 		return painted
 	var top := _solid_material(Color.WHITE)
-	top.albedo_texture = _texture("paving-pond" if chapter == "pond" else "paving-moss" if chapter == "cave" else "paving-valley")
+	var theme := SurfaceDefinitions.theme(chapter)
+	top.albedo_texture = _texture(str(theme.terrainTop))
 	var side := _solid_material(Color.WHITE)
-	side.albedo_texture = _texture("masonry-pond" if chapter == "pond" else "masonry-valley")
+	side.albedo_texture = _texture(str(theme.terrainSide))
 	var stair := _solid_material(Color("bcc1a4"))
 	var trim := _solid_material(Color("e4dfc1"))
 	var values := {"top": top, "side": side, "ramp": stair, "trim": trim, "key": key}
@@ -606,6 +685,37 @@ func _chapter_tile_materials(tile: Dictionary,base: Dictionary) -> Dictionary:
 		_materials[key]=result
 	return _materials[key]
 
+func _surface_texture_materials(tile: Dictionary, base: Dictionary) -> Dictionary:
+	if str(tile.get("kind", "")) != "module": return base
+	# Departure meshes are carried rigidly during animation. Destination
+	# meshes receive their accumulated pose only when docking is committed.
+	var source: RefCounted = _motion_before if _motion_geometry_active else world
+	var module_id := str(tile.get("module", ""))
+	for module: Dictionary in source.level.get("modules", []):
+		if str(module.id) != module_id: continue
+		var local: Array = tile.get("local", [0, 0])
+		var turn := posmod(int(source.state.turns.get(module_id, 0)), 4) if str(module.kind) == "rotate" else 0
+		var key := str(base.key) + "_board_paint_" + str(turn)
+		if not _materials.has(key):
+			var painted := base.duplicate()
+			# Only shader face selection depends on turn. Keep at most four
+			# material variants; per-tile UV origins belong to the mesh below.
+			for face: String in ["side", "trim"]:
+				if base[face] is ShaderMaterial and base[face].shader == TerraceMaterials.IslandStoneShader:
+					var material: ShaderMaterial = base[face].duplicate()
+					material.set_shader_parameter("texture_turn", turn)
+					painted[face] = material
+			painted.key = key
+			_materials[key] = painted
+		var result: Dictionary = _materials[key].duplicate()
+		var original_height := float(module.get("low", module.h)) if str(module.kind) == "lift" else float(module.h)
+		# The float follows water, whose authored initial state is zero.
+		if module_id == "float": original_height = 0.0
+		result.texture_origin = Vector3(float(module.x) + float(local[0]), original_height * HEIGHT_UNIT, float(module.z) + float(local[1]))
+		result.texture_turn = turn
+		return result
+	return base
+
 func _root_material(kind: String, tile: Dictionary = {}) -> Material:
 	if world != null and str(world.level.id).begins_with("cloud-"):
 		var cloud_key := "original_cloud_top_" + kind
@@ -617,15 +727,12 @@ func _root_material(kind: String, tile: Dictionary = {}) -> Material:
 	var memory: bool = kind == "shadow" and world.state.get("frozen", null) == mode
 	var key := "top_" + kind + ("_%d_%s" % [mode, str(memory)] if kind == "shadow" else "")
 	if not _materials.has(key):
-		var color := Color("bfcc9b")
+		var style := SurfaceDefinitions.root_style(kind, mode, memory)
+		var material := _solid_material(style.color)
+		material.albedo_texture = _texture(str(style.texture))
 		if kind == "shadow":
-			color = Color("dacb8c") if mode == 0 else Color("aebcd6")
-			if memory: color = color.lightened(0.18)
-		var material := _solid_material(color)
-		material.albedo_texture = _texture("paving-moss" if kind != "shadow" else "paving-pond")
-		if kind == "shadow":
-			material.emission_enabled = memory
-			material.emission = color * 0.08
+			material.emission_enabled = bool(style.emission_enabled)
+			material.emission = style.emission
 		_materials[key] = material
 	return _materials[key]
 
@@ -669,6 +776,7 @@ func _clear_group(group: Node3D) -> void:
 		child.queue_free()
 
 func _update_props() -> void:
+	_lightwell_dressing.begin_build()
 	_clear_group(_props)
 	# Rays have an independent data/bounds signature. A terrain landing can
 	# rebuild scenery without changing the beam: keep those nodes so motion
@@ -693,13 +801,14 @@ func _update_props() -> void:
 		_props.add_child(root)
 		_props_nodes["mark:" + str(mark.id)] = root
 		var kind := str(mark.get("kind", ""))
-		if OriginalCloud.build_mark(self, root, mark) or MechanismProps.build_mark(self, root, mark):
+		if _lightwell_dressing.build_mark(self, root, mark) or ShadowDressing.build_mark(self, root, mark) or SymbiosisDressing.build_mark(self, root, mark) or OriginalCloud.build_mark(self, root, mark) or MechanismProps.build_mark(self, root, mark):
 			continue
 		match kind:
 			"core":
 				# First garden retains the entire authored isometric flowerbed.
 				if has_presentation_feature("integrated_props"):
 					_dressing.planter(self, root)
+					preload("res://presentation/native/guardian_dressing.gd").build_core(self, root)
 				else:
 					_box(root, Vector3(0.48, 0.07, 0.48), Vector3(0, 0.035, 0), Color("b4bf94"))
 					_sprite(root, "bloom" if bool(world.state.get("completed", false)) else "flower", 0.76, Vector3(0, 0.07, 0), true)
@@ -774,25 +883,13 @@ func _update_props() -> void:
 			leaf.billboard = BaseMaterial3D.BILLBOARD_DISABLED
 			leaf.rotation.x = -PI / 2
 			if not _preserve_first_prop_anchors(): leaf.offset = Vector2.ZERO
-			_mirror_panel(node, item, Vector3(0, 0.32, 0))
+			_mirror_panel(node, item, Vector3(0, 0.37 if str(world.level.id) in ["2-2", "3-4"] else 0.32, 0))
 		elif id == "bell":
 			_bell(node, Vector3.ZERO)
-		elif id in ["sunPost", "moonPost"]:
-			var post := _sprite(node, "crystal", 0.5, Vector3.ZERO)
-			PropVisualScale.ground_body(post, "crystal")
-			post.modulate = Color("ffe5a2") if id == "sunPost" else Color("bfd7ff")
-			var crest := Label3D.new()
-			crest.text = "日" if id == "sunPost" else "月"
-			crest.font = preload("res://assets/fonts/NotoSansSC-Variable.ttf")
-			crest.position.y = post.texture.get_height() * post.pixel_size + 0.05
-			crest.font_size = 42
-			crest.pixel_size = 0.006
-			crest.outline_size = 4
-			crest.outline_modulate = Color("58685c")
-			crest.modulate = Color("f3dea2") if id == "sunPost" else Color("c3d7ee")
-			crest.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-			crest.no_depth_test = false
-			node.add_child(crest)
+		elif ShadowDressing.build_item(self, node, id):
+			pass
+		elif SymbiosisDressing.build_item(self, node, id, item):
+			pass
 		else:
 			var alias := _item_alias(id, item)
 			var item_sprite := _sprite(node, alias, 0.4 if id != "dew" else 0.46, Vector3.ZERO)
@@ -814,6 +911,8 @@ func _update_props() -> void:
 	_add_sanctuary()
 	_add_mole()
 	_add_low_passages()
+	_lightwell_dressing.finish_build(self)
+	ShadowDressing.finish_build(self)
 	_add_mechanism_flows()
 	_prepare_occlusion_bounds()
 
@@ -856,14 +955,28 @@ func _update_carry(who: String) -> void:
 			break
 
 func _mirror_panel(parent: Node3D, item: Dictionary, centre: Vector3) -> void:
+	if str(world.level.id) in ["2-2", "3-4"]:
+		# Centre the glass on the established lantern aperture. A real short
+		# spindle connects its lower frame to the unchanged grounded seat.
+		var seat_top := 0.09
+		var lower_frame := centre.y - 0.21
+		var spindle := _cylinder(parent, 0.025, lower_frame - seat_top, Vector3(centre.x, (seat_top + lower_frame) * 0.5, centre.z), Color("bdac73"))
+		spindle.name = "ReflectionSpindle"
 	var mirror := _box(parent, Vector3(0.53, 0.42, 0.025), centre, Color("d9e6c5"))
 	mirror.name = "ReflectionFace"
-	mirror.rotation.y = PI / 4 + int(item.get("angle", 0)) * PI / 2
+	mirror.rotation.y = MechanismProps.mirror_yaw(float(item.get("angle", 0)))
 	var glass := _solid_material(Color("d5e8cd"))
 	glass.albedo_texture = _texture("water-pigment")
 	glass.uv1_scale = Vector3(0.35, 0.35, 1)
 	glass.roughness = 0.35
 	mirror.material_override = glass
+	if str(world.level.id) in ["2-2", "3-4"]:
+		var pond_glass:=ShaderMaterial.new()
+		pond_glass.shader=MirrorShader
+		pond_glass.set_shader_parameter("mirror_paint",_texture("water-pigment"))
+		mirror.material_override=pond_glass
+		_pond_mirror_frame(parent, mirror, centre)
+		return
 	for side in [-1, 1]:
 		_box(mirror, Vector3(0.022, 0.45, 0.04), Vector3(side * 0.265, 0, 0), Color("bdac73"))
 		_box(mirror, Vector3(0.55, 0.022, 0.04), Vector3(0, side * 0.21, 0), Color("bdac73"))
@@ -873,8 +986,95 @@ func _mirror_panel(parent: Node3D, item: Dictionary, centre: Vector3) -> void:
 	leaf_back.offset = Vector2.ZERO
 	leaf_back.rotation.y = mirror.rotation.y + PI
 
+func _pond_mirror_frame(parent: Node3D, face: MeshInstance3D, centre: Vector3) -> void:
+	# The inner mirror keeps its real optical normal. A separate metal-only
+	# gimbal is fixed in the world, so an edge-on glass still has a legible oval
+	# mounting. This ring contains no glass and never follows the camera.
+	var silver := _solid_material(Color("d3e0df"))
+	silver.metallic = 0.15
+	silver.roughness = 0.23
+	var rim := MeshInstance3D.new()
+	rim.name = "SilverBeveledRim"
+	rim.mesh = _pond_mirror_rim_mesh()
+	rim.material_override = silver
+	rim.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	face.add_child(rim)
+	var mount_color := Color("849a97")
+	var gimbal := MeshInstance3D.new()
+	gimbal.name = "FixedMirrorGimbal"
+	gimbal.mesh = _pond_mirror_gimbal_mesh()
+	gimbal.position = centre
+	gimbal.rotation.y = PI / 4
+	gimbal.material_override = silver
+	gimbal.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	gimbal.set_meta("metal_only", true)
+	parent.add_child(gimbal)
+	var top_bearing := _cylinder(parent, 0.018, 0.020, Vector3(centre.x, centre.y + 0.232, centre.z), mount_color)
+	top_bearing.name = "TopGimbalBearing"
+	top_bearing.material_override = silver
+	var bottom_bearing := _cylinder(parent, 0.018, 0.020, Vector3(centre.x, centre.y - 0.232, centre.z), mount_color)
+	bottom_bearing.name = "BottomGimbalBearing"
+	bottom_bearing.material_override = silver
+	var swivel := _cylinder(parent, 0.052, 0.025, Vector3(centre.x, 0.1025, centre.z), mount_color)
+	swivel.name = "ReflectionSwivel"
+	swivel.material_override = silver
+	parent.set_meta("mirror_form", "double-sided-oval-silver")
+	parent.set_meta("mirror_mount", "fixed-world-metal-gimbal")
+	face.set_meta("visible_glass_half_size", Vector2(0.218, 0.174))
+	face.set_meta("frame_outer_half_size", Vector3(0.248, 0.222, 0.04))
+
+func _pond_mirror_rim_mesh() -> ArrayMesh:
+	# Closed elliptical cross-section: inner lip, front bevel, broad silver
+	# side wall and the matching rear bevel. The glass stays at z=+/-0.0125.
+	var profile: Array[Vector3] = [
+		Vector3(0.218, 0.174, 0.014), Vector3(0.230, 0.188, 0.034),
+		Vector3(0.244, 0.212, 0.04), Vector3(0.248, 0.222, 0.022),
+		Vector3(0.248, 0.222, -0.022), Vector3(0.244, 0.212, -0.04),
+		Vector3(0.230, 0.188, -0.034), Vector3(0.218, 0.174, -0.014)
+	]
+	return _mirror_profile_mesh(profile)
+
+func _pond_mirror_gimbal_mesh() -> ArrayMesh:
+	# Its .54 x .50 x .025m envelope projects to a .19976m X/Z half-width
+	# at the fixed 45-degree mounting, within the original .205m hard base.
+	var profile: Array[Vector3] = [
+		Vector3(0.255, 0.232, 0.007), Vector3(0.259, 0.237, 0.0125),
+		Vector3(0.266, 0.246, 0.0125), Vector3(0.270, 0.250, 0.004),
+		Vector3(0.270, 0.250, -0.004), Vector3(0.266, 0.246, -0.0125),
+		Vector3(0.259, 0.237, -0.0125), Vector3(0.255, 0.232, -0.007)
+	]
+	return _mirror_profile_mesh(profile)
+
+func _mirror_profile_mesh(profile: Array[Vector3]) -> ArrayMesh:
+	var vertices := PackedVector3Array()
+	var normals := PackedVector3Array()
+	for ring in range(profile.size()):
+		var first := profile[ring]
+		var last := profile[(ring + 1) % profile.size()]
+		for segment in range(48):
+			var a := float(segment) * TAU / 48.0
+			var b := float(segment + 1) * TAU / 48.0
+			var near_a := Vector3(cos(a) * first.x, sin(a) * first.y, first.z)
+			var near_b := Vector3(cos(b) * first.x, sin(b) * first.y, first.z)
+			var far_a := Vector3(cos(a) * last.x, sin(a) * last.y, last.z)
+			var far_b := Vector3(cos(b) * last.x, sin(b) * last.y, last.z)
+			for triangle: Array in [[near_a, far_b, near_b], [near_a, far_a, far_b]]:
+				var normal: Vector3 = (triangle[1] - triangle[0]).cross(triangle[2] - triangle[0]).normalized()
+				for vertex: Vector3 in triangle:
+					vertices.append(vertex)
+					normals.append(normal)
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	return mesh
+
 func _add_mole() -> void:
-	if str(world.level.id) != "1-4" and not (str(world.level.id) == "3-4" and bool(world.state.get("completed", false))): return
+	# The resident belongs to the bell-return story. The final garden blooms;
+	# it does not introduce this unrelated character after care.
+	if str(world.level.id) != "1-4": return
 	var point: Dictionary = {}
 	for mark: Dictionary in world.level.get("marks", []):
 		if str(mark.get("id", "")) == "home": point = _tile_map.get(str(mark.tile), {})
@@ -920,6 +1120,9 @@ func _add_low_passages() -> void:
 		_props.add_child(arch)
 
 func _add_mechanism_flows() -> void:
+	if str(world.level.id) == "3-4":
+		preload("res://presentation/native/guardian_waterworks.gd").build(self)
+		return
 	for module: Dictionary in world.level.get("modules", []):
 		if str(module.id) != "water": continue
 		var root := Node3D.new()
@@ -1022,6 +1225,9 @@ func _update_water_presentation() -> void:
 	var after: RefCounted = world if _motion_after == null else _motion_after
 	var progress := 1.0 if _motion_before == null else clampf(_motion_progress, 0, 1)
 	var eased := progress * progress * (3 - 2 * progress)
+	if str(world.level.id) == "3-4":
+		preload("res://presentation/native/guardian_waterworks.gd").update(self, before, after, eased)
+		return
 	for id: String in _water_module_roots:
 		var root: Node3D = _water_module_roots[id]
 		root.position = _water_anchor_between(before, after, "m:%s:0:0" % id, eased)
@@ -1270,20 +1476,8 @@ func _add_water() -> void:
 	_effects.add_child(water)
 
 func _add_rays() -> void:
-	var paths: Array = [world.rays()]
-	if world.has_method("lamp_ray"): paths.append(world.lamp_ray())
-	for points: Array in paths:
-		for segment: Array in RuleRayPresentation.segments(world, points, _tiles):
-			var a := tile_position(segment[0]) + Vector3(0, 0.37, 0)
-			var b := tile_position(segment[1]) + Vector3(0, 0.37, 0)
-			var mesh := CylinderMesh.new()
-			mesh.top_radius = 0.018
-			mesh.bottom_radius = 0.018
-			mesh.height = a.distance_to(b)
-			mesh.radial_segments = 8
-			var beam := _mesh_instance(_effects, mesh, Color("ffe3a0"), a.lerp(b, 0.5), false)
-			beam.set_meta("rule_ray", true)
-			beam.quaternion = Quaternion(Vector3.UP, (b - a).normalized())
+	RuleRayPresentation.build(self)
+	_lightwell_dressing.bind_ray(self)
 
 func _sprite(parent: Node3D, alias: String, width: float, at: Vector3, soft := false) -> Sprite3D:
 	var sprite := Sprite3D.new()
@@ -1587,6 +1781,7 @@ func prop_segment_clear(from: Vector3, to: Vector3, who: String) -> bool:
 		var rect: Rect2 = entry.rect
 		var at := Vector2(from.x,from.z)
 		var normal := at-at.clamp(rect.position,rect.end)
+		if entry.has("polygon") and rect.grow(radius).has_point(at):normal=PropObstacles.contact_normal(at,entry)
 		if normal.length()>=radius-.022 and normal.dot(Vector2(to.x-from.x,to.z-from.z))>=0:
 			if not PropObstacles.clear(from,radius,[entry],height): continue
 		if not PropObstacles.segment_clear(from,to,radius,[entry],height): return false
@@ -1624,7 +1819,11 @@ func prop_drop_stance(tile_id: String, who: String, item_id: String = "mirrorB")
 	var body: CharacterBody3D = get_actor_body(who)
 	var preferred := body.position
 	preferred.y = tile_position(tile).y
-	var result := PropObstacles.waypoint(self,tile,who,preferred,predicted)
+	# Only the newly appearing base requires a traveller to move. Existing
+	# physical contacts can lie inside the planner's extra safety envelope;
+	# a distant waiting companion must not block an unrelated placement.
+	var primary_clear := PropObstacles.clear(body.position,_prop_actor_radius(who),[pending],_prop_actor_height(who))
+	var result := {"point":preferred} if primary_clear else PropObstacles.waypoint(self,tile,who,preferred,predicted)
 	if result.is_empty(): return {}
 	# A real same-support walk must be possible before the mirror appears.
 	if not prop_segment_clear(body.position,result.point,who): return {}
@@ -1635,7 +1834,7 @@ func prop_drop_stance(tile_id: String, who: String, item_id: String = "mirrorB")
 	for other: String in _bodies:
 		if other == who: continue
 		var other_body: CharacterBody3D = get_actor_body(other)
-		if PropObstacles.clear(other_body.position,_prop_actor_radius(other),predicted,_prop_actor_height(other)): continue
+		if PropObstacles.clear(other_body.position,_prop_actor_radius(other),[pending],_prop_actor_height(other)): continue
 		var other_tile: Dictionary = _tile_map.get(str(world.state.actors[other]),{})
 		var other_preferred := other_body.position
 		other_preferred.y = tile_position(other_tile).y
@@ -1643,6 +1842,7 @@ func prop_drop_stance(tile_id: String, who: String, item_id: String = "mirrorB")
 		if other_safe.is_empty() or not prop_segment_clear(other_body.position,other_safe.point,other): return {}
 		companions[other] = other_safe.point
 	result["companions"] = companions
+	result["ready"] = primary_clear and companions.is_empty()
 	return result
 
 func actor_rest_offset(tile: Dictionary, who: String) -> Vector3:
@@ -1656,7 +1856,7 @@ func actor_rest_offset(tile: Dictionary, who: String) -> Vector3:
 			var repair_tile := "f:0:-4" if str(world.level.id) == "1-3" else "f:0:4"
 			if id == repair_tile: return Vector3(.36,0,.44) if who == "luvie" else Vector3(-.36,0,.44)
 		"1-4":
-			if id == "f:-9:0": return Vector3(.04,0,-.35) if who == "luvie" else Vector3(-.04,0,.44)
+			if id == "f:-9:0": return Vector3(.04,0,-.35) if who == "luvie" else Vector3(.44,0,.30)
 		"2-1":
 			if id == "f:4:0": return Vector3(-.44,0,-.24) if who == "luvie" else Vector3(-.44,0,.44)
 		"2-2":
@@ -1670,6 +1870,10 @@ func actor_rest_offset(tile: Dictionary, who: String) -> Vector3:
 					return Vector3(-.36,0,.36) if who == "luvie" else Vector3(.36,0,.36)
 			if id == "f:0:1": return Vector3(-.36,0,.36) if who == "luvie" else Vector3(-.38,0,-.26)
 		"2-3", "3-1":
+			if str(world.level.id) == "2-3" and id == "f:-4:0":
+				# Real same-shore operation stances beside the west-offset piano.
+				# The east landing and original shore planter remain unobstructed.
+				return Vector3(.35,0,-.28) if who == "luvie" else Vector3(.30,0,-.06)
 			var core := "f:1:-4" if str(world.level.id) == "2-3" else "f:4:0"
 			var approach := "f:0:-4" if str(world.level.id) == "2-3" else "f:3:0"
 			if id == core: return Vector3(-.32,0,.44) if who == "luvie" else Vector3(.32,0,.32)
@@ -1681,7 +1885,9 @@ func actor_rest_offset(tile: Dictionary, who: String) -> Vector3:
 			if id == "f:0:0": return Vector3(.32,0,.32) if who == "luvie" else Vector3(-.34,0,.34)
 		"3-4":
 			if id == "f:-3:0": return Vector3(.18,0,-.28) if who == "luvie" else Vector3(.18,0,.30)
-			if id == "f:-4:0": return Vector3(.44 if who == "luvie" else .12,0,.44)
+			# Keep both real bodies on the planter's open east side. Separating
+			# them along the camera's horizontal axis makes reunion visible.
+			if id == "f:-4:0": return Vector3(.44,0,.44 if who == "luvie" else -.32)
 	return MechanismProps.standing_offset(world, id, who)
 
 func set_actor_mode(who: String, rolling: bool) -> void:
@@ -1748,6 +1954,9 @@ func update_actor_visual(who: String, velocity: Vector3, facing: String = "", ac
 	state.velocity = velocity
 	state.action = action
 	var sprite: AnimatedSprite3D = body.get_node("Visual/Art")
+	var skin: Dictionary = sprite.get_meta("actor_skin_definition")
+	var motion: Dictionary = skin.motion
+	var roll_visual: Dictionary = skin.roll
 	var emote := str(state.get("emote", ""))
 	var holding_lever: bool = str(world.level.id) == "1-4" and who == "luvie" and world.lever_held()
 	var rolling := bool(state.get("rolling", false)) and emote.is_empty() and not holding_lever
@@ -1756,25 +1965,26 @@ func update_actor_visual(who: String, velocity: Vector3, facing: String = "", ac
 	if not rolling and emote.is_empty(): sprite.position = Vector3.ZERO
 	sprite.scale = Vector3.ONE
 	sprite.rotation = Vector3.ZERO
-	if who == "buddy":
+	if skin.renderer == "procedural_buddy":
+		sprite.flip_h = false
+		sprite.speed_scale = 1.0
 		# Retain the original companion artwork as one cached texture. Breathing
 		# and movement are native transforms; the texture is not redrawn per tick.
 		var visual: Node3D = body.get_node("Visual")
-		visual.rotation.z = 0.0 if rolling or not moving or settings.get("lowMotion", false) else sin(visual_time * 0.014) * 0.025
+		visual.rotation.z = 0.0 if rolling or not moving or settings.get("lowMotion", false) else sin(visual_time * float(motion.walk_sway_speed)) * float(motion.walk_sway_angle)
 		if rolling:
 			sprite.play("roll")
-			sprite.pixel_size = 0.56 / 99.0
+			sprite.pixel_size = float(roll_visual.pixel_size)
 			sprite.offset = Vector2.ZERO
-			sprite.position.y = 0.28
-			sprite.rotation.z = 0.0 if bool(settings.get("lowMotion", false)) else visual_time * 0.01 * (-1 if str(state.facing) == "left" else 1)
+			sprite.position.y = float(roll_visual.height)
+			sprite.rotation.z = 0.0 if bool(settings.get("lowMotion", false)) else visual_time * float(roll_visual.rotation_speed) * (-1 if str(state.facing) == "left" else 1)
 		else:
 			sprite.play("idle_front")
-			sprite.pixel_size = 0.0062
-			sprite.offset = Vector2(0, 48)
+			ActorPose.apply(sprite)
 		var mode := str(world.state.get("cloudBuddy", ""))
 		var waiting := mode in ["sleep", "wait", "sit"] or (not bool(world.state.get("follow", false)) and not moving and str(world.state.get("active", "")) != who)
 		if waiting and emote.is_empty() and not rolling:
-			sprite.scale = Vector3(1.04, 0.78 if mode in ["sleep", "sit"] else 0.9, 1)
+			sprite.scale = ActorVisualFactory.vector3(motion.sleep_scale if mode in ["sleep", "sit"] else motion.waiting_scale)
 		_align_actor_depth(sprite)
 		return
 	var clip := ("walk_" if moving else "idle_") + str(state.facing)
@@ -1784,18 +1994,20 @@ func update_actor_visual(who: String, velocity: Vector3, facing: String = "", ac
 	# the active repair transaction may select the salute; returning to the
 	# garden, loading a completed save or stopping a walk restores idle.
 	if action == "repair" and bool(world.state.get("completed", false)): clip = "complete"
-	var holding: bool = str(world.level.id) == "1-4" and not moving and world.lever_held() and action.is_empty()
-	var pulling := action in ["use:hold","release:hold"] and str(world.level.id) == "1-4"
+	var holding: bool = who == "luvie" and str(world.level.id) == "1-4" and not moving and world.lever_held() and action.is_empty()
+	var pulling := who == "luvie" and action in ["use:hold","release:hold"] and str(world.level.id) == "1-4"
 	if holding or pulling:
 		clip = "hold_lever"
 		state.facing = "left"
 	if rolling:
 		clip = "roll"
-		sprite.pixel_size = 0.8 / 99.0
+		sprite.pixel_size = float(roll_visual.pixel_size)
 		sprite.offset = Vector2.ZERO
-		sprite.position.y = 0.4
-		sprite.rotation.z = 0.0 if bool(settings.get("lowMotion", false)) else visual_time * 0.008 * (-1 if str(state.facing) == "left" else 1)
+		sprite.position.y = float(roll_visual.height)
+		sprite.rotation.z = 0.0 if bool(settings.get("lowMotion", false)) else visual_time * float(roll_visual.rotation_speed) * (-1 if str(state.facing) == "left" else 1)
 	if emote == "jump": clip = "jump"
+	if not sprite.sprite_frames.has_animation(clip): clip = "idle_front"
+	visual_root.rotation.z = 0.0
 	if sprite.sprite_frames.has_animation(clip):
 		if str(sprite.animation) != clip:
 			var was_walking := str(sprite.animation).begins_with("walk_")
@@ -1805,8 +2017,8 @@ func update_actor_visual(who: String, velocity: Vector3, facing: String = "", ac
 			if was_walking and clip.begins_with("walk_"):
 				var frame_position := phase * sprite.sprite_frames.get_frame_count(clip)
 				sprite.set_frame_and_progress(int(frame_position), fposmod(frame_position, 1.0))
-		sprite.flip_h = str(state.facing) == "right"
-		if moving: sprite.speed_scale = clampf(Vector2(velocity.x, velocity.z).length() / 3.2, 0.45, 1.4)
+		sprite.flip_h = bool(motion.get("flip_right", false)) and str(state.facing) == "right"
+		if moving: sprite.speed_scale = clampf(Vector2(velocity.x, velocity.z).length() / float(motion.get("walk_reference_speed", 3.2)), float(motion.get("walk_speed_min", .45)), float(motion.get("walk_speed_max", 1.4)))
 		else: sprite.speed_scale = 1.0
 	ActorPose.apply(sprite)
 	_align_actor_depth(sprite)
@@ -1894,6 +2106,7 @@ func _process(delta: float) -> void:
 	var body := get_actor_body(str(world.state.get("active", "luvie")))
 	if str(world.level.id).begins_with("cloud-"): OriginalCloud.update(self)
 	_original_pond.update(self)
+	_lightwell_dressing.update(self)
 	if body != null and _motes != null: _motes.position = body.position + Vector3(0, 0.7, 0)
 	queue_redraw()
 
@@ -2078,9 +2291,37 @@ func _module_motion_point(snapshot_world: RefCounted, id: String) -> Dictionary:
 	# motion; falling back to the other endpoint rotates that tile twice.
 	var parts := id.split(":")
 	if parts.size() != 4 or parts[0] != "m": return {}
-	var point: Dictionary = snapshot_world.module_point(parts[1], [int(parts[2]), int(parts[3])])
-	if not point.is_empty(): point.merge({"id": id, "module": parts[1], "kind": "module"})
+	var local := [int(parts[2]), int(parts[3])]
+	var point: Dictionary = snapshot_world.module_point(parts[1], local)
+	if not point.is_empty():
+		point.merge({"id": id, "module": parts[1], "kind": "module", "local": local})
+		for module: Dictionary in snapshot_world.level.get("modules", []):
+			if str(module.id) == parts[1] and module.has("small"): point.small = module.small
 	return point
+
+func _restore_deduplicated_motion_leaves() -> void:
+	# Rules return one owner per coordinate. A rigid module may therefore
+	# have an authored end hidden inside its dock in the departure snapshot.
+	# Restore only that deduplicated geometry, not conditionally absent parts.
+	for module: Dictionary in _motion_before.level.get("modules", []):
+		var module_id := str(module.id)
+		if not _motion_geometry_modules.has(module_id): continue
+		for local: Array in module.shape:
+			if str(_motion_before.level.id) == "3-3" and module_id == "lift" and float(local[0]) == -1.0 and float(local[1]) == 0.0 and not _motion_before.flag("root"): continue
+			var id := "m:%s:%d:%d" % [module_id, int(local[0]), int(local[1])]
+			if _motion_before_tiles.has(id): continue
+			var leaf := _module_motion_point(_motion_before, id)
+			if leaf.is_empty(): continue
+			var dock_owner := false
+			for tile: Dictionary in _motion_terrain_tiles:
+				if is_equal_approx(float(tile.x), float(leaf.x)) and is_equal_approx(float(tile.z), float(leaf.z)) and is_equal_approx(float(tile.h), float(leaf.h)):
+					dock_owner = true
+					break
+			if not dock_owner: continue
+			_motion_before_tiles[id] = leaf
+			if not _motion_after_tiles.has(id): _motion_after_tiles[id] = _module_motion_point(_motion_after, id)
+			_motion_terrain_tiles.append(leaf)
+			_motion_visual_leaves[id] = true
 
 func _reset_motion_snapshots() -> void:
 	_motion_key = 0
@@ -2093,6 +2334,7 @@ func _reset_motion_snapshots() -> void:
 	_motion_geometry_modules.clear()
 	_motion_geometry_active = false
 	_motion_terrain_tiles.clear()
+	_motion_visual_leaves.clear()
 	_motion_destination_tiles.clear()
 	_motion_cloud_bridge.clear()
 
@@ -2112,6 +2354,7 @@ func set_motion(before: Dictionary, after: Dictionary, progress: float, kind: St
 		# aliases for tiles that exist at just one end of the transaction.
 		_motion_destination_tiles = _motion_after_tiles.values()
 		_motion_terrain_tiles = _motion_before_tiles.values()
+		_motion_visual_leaves.clear()
 		_motion_cloud_bridge = _cloud_bridge_motion(_motion_before, _motion_after, _motion_terrain_tiles, _motion_after_tiles.values())
 		_motion_geometry_modules.clear()
 		if not _motion_cloud_bridge.is_empty(): _motion_geometry_modules["cloud:bridge"] = true
@@ -2120,6 +2363,7 @@ func set_motion(before: Dictionary, after: Dictionary, progress: float, kind: St
 			var id := str(module.id)
 			if _module_changes_between(_motion_before, _motion_after, module):
 				_motion_geometry_modules[id] = true
+		_restore_deduplicated_motion_leaves()
 		for id: String in _motion_before_tiles.keys() + _motion_after_tiles.keys():
 			var parts := id.split(":")
 			if parts.size() != 4 or parts[0] != "m" or not _motion_geometry_modules.has(parts[1]): continue
@@ -2135,6 +2379,10 @@ func set_motion(before: Dictionary, after: Dictionary, progress: float, kind: St
 	var eased := _motion_progress * _motion_progress * (3 - 2 * _motion_progress)
 	for id: String in _surfaces:
 		var surface: Node3D = _surfaces[id]
+		if _motion_geometry_active and _motion_visual_leaves.has(id):
+			# At the exact departure pose the permanent dock owns the surface.
+			# As soon as motion starts this leaf follows the full rigid module.
+			surface.visible = _motion_progress > 0.0
 		var from: Dictionary = _motion_point(_motion_before, id)
 		var to: Dictionary = _motion_point(_motion_after, id)
 		if to.is_empty() and not _motion_geometry_active: continue

@@ -1,0 +1,550 @@
+{
+  "timestamp": "2026-11-13T18:39:32.895Z",
+  "passed": true,
+  "source": {
+    "sha256": "0292f4d721d8c495d6a28e2dcc0aab7fd0b5696babbb8b489e2f1d02e19ae0aa",
+    "files": 620
+  },
+  "cpu": {
+    "suites": [
+      {
+        "suite": "native_generic_stair_movement_test",
+        "passed": true,
+        "checks": 35,
+        "testSha256": "c0798b8fb4f697df4c335be862673af8e0868bf4f2ec502b529e1ade61cd570d",
+        "evidence": "cpu-final/native_generic_stair_movement_test.log"
+      },
+      {
+        "suite": "native_interaction_priority_test",
+        "passed": true,
+        "checks": 27,
+        "testSha256": "958ff19fa752ca53ce77627d19e3649ded48632c881bab3c2b8c716785a2b42a",
+        "evidence": "cpu-final/native_interaction_priority_test.log"
+      },
+      {
+        "suite": "native_interaction_query_test",
+        "passed": true,
+        "checks": 575,
+        "testSha256": "d5229377a3d473bbd7e65073a316ed83f8f5486edf54a70aeb748c4cc1118cb5",
+        "evidence": "cpu-final/native_interaction_query_test.log"
+      },
+      {
+        "suite": "native_mechanism_props_test",
+        "passed": true,
+        "checks": 572,
+        "testSha256": "03f0008e3cfe73073e6a878ae38369d9920c66e8fbe6af4c10d987c5f7a97f2b",
+        "evidence": "cpu-final/native_mechanism_props_test.log"
+      },
+      {
+        "suite": "native_rain_song_guidance_test",
+        "passed": true,
+        "checks": 116,
+        "testSha256": "6f8fbf1c0b1dceb5969e062e908829b8049fd9e9c3ff9e154e9664ec026b52e8",
+        "evidence": "cpu-final/native_rain_song_guidance_test.log"
+      },
+      {
+        "suite": "native_rain_song_rules_test",
+        "passed": true,
+        "checks": 687,
+        "testSha256": "eab0a18af38afa4849a11dd4aeb94eaa299783bcf7bf47efb3340f2130b5383c",
+        "evidence": "cpu-final/native_rain_song_rules_test.log"
+      },
+      {
+        "suite": "native_small_planter_test",
+        "passed": true,
+        "checks": 336,
+        "testSha256": "07338fbe388517418632a386f24e5e60767d687896f11723abfe48878663f26b",
+        "evidence": "cpu-final/native_small_planter_test.log"
+      },
+      {
+        "suite": "native_audio_service_test",
+        "passed": true,
+        "checks": 33,
+        "testSha256": "55ae4a4361e71f29fa25968df8639e550183d64b02c1ea08f721e44ec627ee9a",
+        "evidence": "audio-verified/native_audio_service_test.log"
+      }
+    ],
+    "checks": 2381,
+    "note": "Original cpu-final batch failed only the audio fixture cleanup; retained unchanged. audio-verified supersedes that test after test-only wall-clock/cleanup repair. No production change or source-digest change."
+  },
+  "gpu": {
+    "checks": 620,
+    "images": 60,
+    "detailCrops": 2,
+    "flowCases": [
+      {
+        "elapsedMs": 4634,
+        "id": "reverse-division",
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "elapsedMs": 9070,
+        "id": "two-passenger-continuation",
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "elapsedMs": 4756,
+        "id": "automatic-open-menu",
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "elapsedMs": 4141,
+        "id": "stage-edge-reset",
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "elapsedMs": 7661,
+        "id": "reunion-stair-reset",
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "elapsedMs": 4145,
+        "id": "reverse-division",
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      },
+      {
+        "elapsedMs": 8492,
+        "id": "two-passenger-continuation",
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      },
+      {
+        "elapsedMs": 4373,
+        "id": "automatic-open-menu",
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      },
+      {
+        "elapsedMs": 3804,
+        "id": "stage-edge-reset",
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      },
+      {
+        "elapsedMs": 7220,
+        "id": "reunion-stair-reset",
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      }
+    ],
+    "originalRoutes": [
+      {
+        "completed": true,
+        "expectedSteps": 27,
+        "extraDemosReturnedThroughLegalCommands": true,
+        "level": "2-3",
+        "steps": 27,
+        "success": true,
+        "viewport": [
+          1280,
+          720
+        ]
+      },
+      {
+        "completed": true,
+        "expectedSteps": 27,
+        "extraDemosReturnedThroughLegalCommands": true,
+        "level": "2-3",
+        "steps": 27,
+        "success": true,
+        "viewport": [
+          844,
+          390
+        ]
+      }
+    ],
+    "trialPoseRestores": [
+      {
+        "label": "reverse reset",
+        "viewport": [
+          1280,
+          720
+        ],
+        "passed": true,
+        "deltas": {
+          "buddy": {
+            "actualFacing": "right",
+            "actualPosition": [
+              0.281399995088577,
+              -0.0124333342537284,
+              -0.236699998378754
+            ],
+            "expectedFacing": "right",
+            "expectedPosition": [
+              0.281399995088577,
+              0.000899999984540045,
+              -0.236699998378754
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0.0133333342382684
+          },
+          "luvie": {
+            "actualFacing": "front",
+            "actualPosition": [
+              -3.65000009536743,
+              0.000300000014249235,
+              -0.280000001192093
+            ],
+            "expectedFacing": "front",
+            "expectedPosition": [
+              -3.65000009536743,
+              0.000300000014249235,
+              -0.280000001192093
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0
+          }
+        }
+      },
+      {
+        "label": "two-passenger restored",
+        "viewport": [
+          1280,
+          720
+        ],
+        "passed": true,
+        "deltas": {
+          "buddy": {
+            "actualFacing": "left",
+            "actualPosition": [
+              0.00499999988824129,
+              -0.0125333350151777,
+              0.977999985218048
+            ],
+            "expectedFacing": "left",
+            "expectedPosition": [
+              0.00499999988824129,
+              0.0007999999797903,
+              0.977999985218048
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0.013333334994968
+          },
+          "luvie": {
+            "actualFacing": "front",
+            "actualPosition": [
+              -3.65000009536743,
+              0.000300000014249235,
+              -0.280000001192093
+            ],
+            "expectedFacing": "front",
+            "expectedPosition": [
+              -3.65000009536743,
+              0.000300000014249235,
+              -0.280000001192093
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0
+          }
+        }
+      },
+      {
+        "label": "flow-stage-edge-reset restored",
+        "viewport": [
+          1280,
+          720
+        ],
+        "passed": true,
+        "deltas": {
+          "buddy": {
+            "actualFacing": "right",
+            "actualPosition": [
+              -3.70490002632141,
+              0.000899999984540045,
+              -0.0423999987542629
+            ],
+            "expectedFacing": "right",
+            "expectedPosition": [
+              -3.70490002632141,
+              0.000899999984540045,
+              -0.0423999987542629
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0
+          },
+          "luvie": {
+            "actualFacing": "front",
+            "actualPosition": [
+              -0.330700010061264,
+              -0.0125333350151777,
+              0.230199992656708
+            ],
+            "expectedFacing": "front",
+            "expectedPosition": [
+              -0.330700010061264,
+              0.0007999999797903,
+              0.230199992656708
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0.013333334994968
+          }
+        }
+      },
+      {
+        "label": "flow-reunion-stair-reset restored",
+        "viewport": [
+          1280,
+          720
+        ],
+        "passed": true,
+        "deltas": {
+          "buddy": {
+            "actualFacing": "right",
+            "actualPosition": [
+              -3.70490002632141,
+              0.000899999984540045,
+              -0.0423999987542629
+            ],
+            "expectedFacing": "right",
+            "expectedPosition": [
+              -3.70490002632141,
+              0.000899999984540045,
+              -0.0423999987542629
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0
+          },
+          "luvie": {
+            "actualFacing": "front",
+            "actualPosition": [
+              -0.330700010061264,
+              -0.0125333350151777,
+              0.230199992656708
+            ],
+            "expectedFacing": "front",
+            "expectedPosition": [
+              -0.330700010061264,
+              0.0007999999797903,
+              0.230199992656708
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0.013333334994968
+          }
+        }
+      },
+      {
+        "label": "reverse reset",
+        "viewport": [
+          844,
+          390
+        ],
+        "passed": true,
+        "deltas": {
+          "buddy": {
+            "actualFacing": "right",
+            "actualPosition": [
+              0.281399995088577,
+              -0.0124333342537284,
+              -0.236699998378754
+            ],
+            "expectedFacing": "right",
+            "expectedPosition": [
+              0.281399995088577,
+              0.000899999984540045,
+              -0.236699998378754
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0.0133333342382684
+          },
+          "luvie": {
+            "actualFacing": "front",
+            "actualPosition": [
+              -3.65000009536743,
+              0.000300000014249235,
+              -0.280000001192093
+            ],
+            "expectedFacing": "front",
+            "expectedPosition": [
+              -3.65000009536743,
+              0.000300000014249235,
+              -0.280000001192093
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0
+          }
+        }
+      },
+      {
+        "label": "two-passenger restored",
+        "viewport": [
+          844,
+          390
+        ],
+        "passed": true,
+        "deltas": {
+          "buddy": {
+            "actualFacing": "left",
+            "actualPosition": [
+              0.00499999988824129,
+              -0.0125333350151777,
+              0.977999985218048
+            ],
+            "expectedFacing": "left",
+            "expectedPosition": [
+              0.00499999988824129,
+              0.0007999999797903,
+              0.977999985218048
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0.013333334994968
+          },
+          "luvie": {
+            "actualFacing": "front",
+            "actualPosition": [
+              -3.65000009536743,
+              0.000300000014249235,
+              -0.280000001192093
+            ],
+            "expectedFacing": "front",
+            "expectedPosition": [
+              -3.65000009536743,
+              0.000300000014249235,
+              -0.280000001192093
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0
+          }
+        }
+      },
+      {
+        "label": "flow-stage-edge-reset restored",
+        "viewport": [
+          844,
+          390
+        ],
+        "passed": true,
+        "deltas": {
+          "buddy": {
+            "actualFacing": "right",
+            "actualPosition": [
+              -3.70490002632141,
+              0.000899999984540045,
+              -0.0423999987542629
+            ],
+            "expectedFacing": "right",
+            "expectedPosition": [
+              -3.70490002632141,
+              0.000899999984540045,
+              -0.0423999987542629
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0
+          },
+          "luvie": {
+            "actualFacing": "front",
+            "actualPosition": [
+              -0.330700010061264,
+              -0.0125333350151777,
+              0.230199992656708
+            ],
+            "expectedFacing": "front",
+            "expectedPosition": [
+              -0.330700010061264,
+              0.0007999999797903,
+              0.230199992656708
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0.013333334994968
+          }
+        }
+      },
+      {
+        "label": "flow-reunion-stair-reset restored",
+        "viewport": [
+          844,
+          390
+        ],
+        "passed": true,
+        "deltas": {
+          "buddy": {
+            "actualFacing": "right",
+            "actualPosition": [
+              -3.70490002632141,
+              0.000899999984540045,
+              -0.0423999987542629
+            ],
+            "expectedFacing": "right",
+            "expectedPosition": [
+              -3.70490002632141,
+              0.000899999984540045,
+              -0.0423999987542629
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0
+          },
+          "luvie": {
+            "actualFacing": "front",
+            "actualPosition": [
+              -0.330700010061264,
+              -0.0125333350151777,
+              0.230199992656708
+            ],
+            "expectedFacing": "front",
+            "expectedPosition": [
+              -0.330700010061264,
+              0.0007999999797903,
+              0.230199992656708
+            ],
+            "horizontalError": 0,
+            "runtimeMatches": true,
+            "verticalError": 0.013333334994968
+          }
+        }
+      }
+    ],
+    "evidence": "gpu-final/checks.json"
+  },
+  "delivery": "delivery.json",
+  "limits": "Native OpenGL real application/body/menu events; HTTP delivery verified. No browser input/audio/performance or subjective listening claim."
+}

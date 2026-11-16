@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "6bdbe7e18b0c9a3a0c5b9e59d9837b5928dcf36487a35e07c5ac3e17cf3977b5",
+    "files": 584
+  },
+  "source": {
+    "sha256": "426bde446f4533f5bc6fec878f46e06015598dbd2bd9581ba515aa3d247a9f50",
+    "files": 584
+  },
+  "stable": false,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_fountain_contact_test",
+      "code": null,
+      "elapsedMs": 180011,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n",
+      "stderr": "ERROR: Failed to open 'user://logs/godot2026-11-12T20.56.49.log'.\r\n   at: copy (core/io/dir_access.cpp:429)\r\nERROR: Failed to open log file for writing: user://logs/godot.log\r\n   at: rotate_file (core/io/logger.cpp:169)\r\nERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\nERROR: Original fountain has no same-height complete support\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] build (res://presentation/native/original_sanctuary_dressing.gd:113)\r\n       [1] _add_sanctuary (res://presentation/native/native_garden_stage.gd:900)\r\n       [2] _update_props (res://presentation/native/native_garden_stage.gd:814)\r\n       [3] refresh_world (res://presentation/native/native_garden_stage.gd:428)\r\n       [4] set_world (res://presentation/native/native_garden_stage.gd:384)\r\n       [5] _run (res://tests/native_fountain_contact_test.gd:28)\r\nERROR: Node not found: \"SanctuaryFountain\" (relative to \"/root/@Node2D@2/NativeWorldViewport/Garden/Props\").\r\n   at: get_node (scene/main/node.cpp:1975)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_fountain_contact_test.gd:30)\r\nSCRIPT ERROR: Cannot call method 'get_meta' on a null value.\r\n   at: _run (res://tests/native_fountain_contact_test.gd:32)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_fountain_contact_test.gd:32)\r\n",
+      "passed": false
+    }
+  ]
+}

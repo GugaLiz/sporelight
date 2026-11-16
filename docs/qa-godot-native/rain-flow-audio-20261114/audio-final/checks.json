@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "0292f4d721d8c495d6a28e2dcc0aab7fd0b5696babbb8b489e2f1d02e19ae0aa",
+    "files": 620
+  },
+  "source": {
+    "sha256": "0292f4d721d8c495d6a28e2dcc0aab7fd0b5696babbb8b489e2f1d02e19ae0aa",
+    "files": 620
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_audio_service_test",
+      "code": 1,
+      "elapsedMs": 562,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":33,\"failures\":[\"cue is available again after its short cooldown\"],\"suite\":\"native_audio_service\"}\r\n",
+      "stderr": "ERROR: cue is available again after its short cooldown\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_audio_service_test.gd:17)\r\n       [1] _run (res://tests/native_audio_service_test.gd:56)\r\nWARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).\r\n   at: cleanup (core/object/object.cpp:2536)\r\nERROR: 4 resources still in use at exit (run with --verbose for details).\r\n   at: clear (core/io/resource.cpp:822)\r\n",
+      "passed": false
+    }
+  ]
+}

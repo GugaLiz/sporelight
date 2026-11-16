@@ -1,0 +1,56 @@
+{
+  "manifest": [
+    {
+      "file": "godot/ui/garden_hud.gd",
+      "patches": 2
+    },
+    {
+      "file": "godot/application/native_action_policy.gd",
+      "patches": 1
+    },
+    {
+      "file": "godot/application/journey_view.gd",
+      "patches": 1
+    },
+    {
+      "file": "godot/presentation/native/mechanism_props.gd",
+      "patches": 1
+    },
+    {
+      "file": "godot/presentation/native/native_garden_stage.gd",
+      "patches": 1
+    }
+  ],
+  "patches": [
+    {
+      "time": "2026-11-15T04:02:36.873Z",
+      "rel": "godot/ui/garden_hud.gd",
+      "body": "@@\n-\t_score.text = collection_number + (\" 赠礼\" if guardian else \" 沿途微光\")\n-\t_collection_count.text = (\"赠礼 \" if guardian else \"\") + collection_number\n-\tvar collection_help: String = _score.text + (\"\\n\" + GuardianFlow.gift_tooltip() if guardian else \"\")\n+\t# Guardian progress is visible in the bridge, water and flower. Historical\n+\t# gift IDs remain save data, not an unexplained collection checklist.\n+\t_score.text = \"\" if guardian else collection_number + \" 沿途微光\"\n+\t_collection_count.text = \"\" if guardian else collection_number\n+\t_collection_count.visible = not guardian\n+\t_collection_icon.visible = not guardian\n+\tvar collection_help: String = _score.text\n"
+    },
+    {
+      "time": "2026-11-15T04:02:36.873Z",
+      "rel": "godot/application/native_action_policy.gd",
+      "body": "@@\n-\tif clip.begins_with(\"turn:\") or clip.begins_with(\"valve:\") or clip in [\"rotate\", \"lift\", \"beat\"]:\n+\tif clip.begins_with(\"turn:\") or clip.begins_with(\"valve:\") or clip in [\"call:lift\", \"rotate\", \"lift\", \"beat\"]:\n"
+    },
+    {
+      "time": "2026-11-15T04:02:36.873Z",
+      "rel": "godot/application/journey_view.gd",
+      "body": "@@\n-\t\"3-4\": [\"和伙伴唤醒沉睡的守护者。\", \"根路通向远岸，清水为升降台蓄力，光唤醒花坛。\", \"储水罐灌满后不会流失；让光留在花坛上，再和伙伴回来照料。\"],\n+\t\"3-4\": [\"把高处的光送回花坛，再和伙伴一起照料。\", \"镜子需要过桥上岸；旁边的小水闸为升降台供能。搭桥和引水可以先做任意一件。\", \"固定灯照向空镜座。装好镜子后，转动镜面把光送回花坛；上下岸都能召回空升降台。\"],\n"
+    },
+    {
+      "time": "2026-11-15T04:07:29.580Z",
+      "rel": "godot/presentation/native/mechanism_props.gd",
+      "body": "@@\n \tfor mark: Dictionary in world.level.get(\"marks\", []):\n+\t\tif str(world.level.id)==\"3-4\" and str(mark.get(\"kind\",\"\"))==\"lift_call\" and str(mark.get(\"tile\",\"\"))==tile_id:\n+\t\t\treturn Vector3(-.26,0,.20) if who==\"luvie\" else Vector3(-.25,0,-.25)\n \t\tif str(mark.get(\"tile\", \"\")) == tile_id and str(mark.get(\"kind\", \"\")) in [\"turn\", \"valve\", \"lift\"] and str(mark.id) != \"mirrorA\":\n"
+    },
+    {
+      "time": "2026-11-15T04:14:19.672Z",
+      "rel": "godot/presentation/native/native_garden_stage.gd",
+      "body": "@@\n func _add_low_passages() -> void:\n \tfor tile: Dictionary in _tiles:\n \t\tif not bool(tile.get(\"small\", false)) or not world.visible(tile, _tiles): continue\n+\t\t# The guardian's fixed water garden has one low entrance. Its three\n+\t\t# bank tiles beside the lift are not three additional doorways.\n+\t\tif str(world.level.id)==\"3-4\" and str(tile.id)!=\"f:-4:2\": continue\n"
+    },
+    {
+      "time": "2026-11-15T04:15:43.681Z",
+      "rel": "godot/ui/garden_hud.gd",
+      "body": "@@\n-\tbox.add_child(_label(\"%d / %d 粒微光已收集 · 纪事已点亮\" % [count, int(snapshot.get(\"total\", level.get(\"total\", 0)))], 13, MUTED))\n+\tvar completion_detail := \"和伙伴一起唤醒了花坛 · 纪事已点亮\" if str(level.get(\"id\",\"\"))==\"3-4\" else \"%d / %d 粒微光已收集 · 纪事已点亮\" % [count, int(snapshot.get(\"total\", level.get(\"total\", 0)))]\n+\tbox.add_child(_label(completion_detail, 13, MUTED))\n"
+    }
+  ]
+}

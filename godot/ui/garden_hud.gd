@@ -19,6 +19,8 @@ const MenuButtons := preload("res://ui/menu_button_styles.gd")
 const ChapterMap := preload("res://ui/chapter_map.gd")
 const GameHUDSkin := preload("res://ui/game_hud_skin.gd")
 const FourthGuidance := preload("res://ui/fourth_garden_guidance.gd")
+const RainSong := preload("res://application/rain_song_guidance.gd")
+const GuardianFlow := preload("res://application/guardian_flow_guidance.gd")
 
 var _built := false
 var _chrome_layout_pending := false
@@ -91,8 +93,12 @@ var _panel_separator: HSeparator
 var _score_row: HBoxContainer
 var _context_open := false
 var _context_choices: Array = []
+var _context_action_states: Dictionary = {}
+var _context_render_key := ""
 var _context_index := 0
 var _context_title: Label
+var _rain_summary: Label
+var _context_scroll: ScrollContainer
 var _context_screen := Vector2(-1, -1)
 var _primary_id := ""
 var _touch_mode := false
@@ -197,7 +203,15 @@ func setup() -> void:
 	_panel = _paper_panel(self, "compact")
 	_panel.name = "NearbyActions"
 	_panel.visible = false
-	var panel_box := _column(_panel)
+	# The paper owns a bounded viewport, not the content's minimum height.
+	# A plain Control breaks PanelContainer's upward minimum-size propagation;
+	# the inner VBox can then give its remaining space to the scroll region.
+	var context_frame := Control.new()
+	context_frame.name = "ContextFrame"
+	context_frame.clip_contents = true
+	_panel.add_child(context_frame)
+	var panel_box := _column(context_frame)
+	panel_box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	panel_box.add_theme_constant_override("separation", 7)
 	var context_header := HBoxContainer.new()
 	context_header.add_theme_constant_override("separation", 6)
@@ -212,17 +226,27 @@ func setup() -> void:
 	cancel_context.pressed.connect(close_context_choices)
 	context_header.add_child(cancel_context)
 	var panel_scroll := ScrollContainer.new()
+	_context_scroll = panel_scroll
 	panel_scroll.name = "ContextChoicesScroll"
 	panel_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	panel_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	panel_scroll.follow_focus = true
 	panel_scroll.custom_minimum_size.y = 44
 	panel_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel_box.add_child(panel_scroll)
+	var context_body := VBoxContainer.new()
+	context_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	context_body.add_theme_constant_override("separation", 6)
+	panel_scroll.add_child(context_body)
+	_rain_summary = _label("", 11, MUTED)
+	_rain_summary.name = "RainPhraseSummary"
+	_rain_summary.visible = false
+	context_body.add_child(_rain_summary)
 	_commands = GridContainer.new()
 	_commands.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_commands.add_theme_constant_override("h_separation", 8)
 	_commands.add_theme_constant_override("v_separation", 5)
-	panel_scroll.add_child(_commands)
+	context_body.add_child(_commands)
 	_panel_header = HBoxContainer.new()
 	_panel_header.visible = false
 	panel_box.add_child(_panel_header)
@@ -394,10 +418,13 @@ func update_state(world: Variant, locked: bool = false, message: String = "", bu
 		if item.get("holder", "") == actor:
 			_status.text += "  ·  " + _item_label(String(item_id))
 	var collected: int = state.get("collected", []).size()
-	_score.text = "%d / %d 沿途微光" % [collected, int(level.get("total", 0))]
-	_collection_count.text = "%d / %d" % [collected, int(level.get("total", 0))]
-	_collection_count.tooltip_text = _score.text
-	_collection_icon.tooltip_text = _score.text
+	var guardian: bool = str(level.id) == "3-4"
+	var collection_number := "%d / %d" % [collected, int(level.get("total", 0))]
+	_score.text = collection_number + (" 赠礼" if guardian else " 沿途微光")
+	_collection_count.text = ("赠礼 " if guardian else "") + collection_number
+	var collection_help: String = _score.text + ("\n" + GuardianFlow.gift_tooltip() if guardian else "")
+	_collection_count.tooltip_text = collection_help
+	_collection_icon.tooltip_text = collection_help
 	if bool(level.get("dual", false)) and get_viewport_rect().size.x >= 650:
 		_status.text += "  ·  伙伴" + ("同行" if bool(state.get("follow", false)) else "等候")
 	if str(level.get("companionMode", "")) == "cloud":
@@ -411,7 +438,9 @@ func update_state(world: Variant, locked: bool = false, message: String = "", bu
 	_nearby_commands = []
 	for entry: Dictionary in world.commands():
 		if str(entry.get("id", "")) not in ["switch", "follow"]:
-			_nearby_commands.append(entry)
+			var display_entry: Dictionary = entry.duplicate(true)
+			display_entry.label = GuardianFlow.command_label(world, str(entry.id), str(entry.label))
+			_nearby_commands.append(display_entry)
 	_last_command_key = JSON.stringify(_nearby_commands)
 	for button in _tool_buttons:
 		var action := String(button.get_meta("action"))
@@ -457,6 +486,7 @@ func set_action_enabled(action: String, enabled: bool) -> void:
 
 func set_action_feedback(primary_id: String, states: Dictionary) -> void:
 	setup()
+	_context_action_states = states.duplicate(true)
 	var key := primary_id + JSON.stringify(states) + str(_locked) + str(_busy)
 	if key == _feedback_key:
 		return
@@ -568,25 +598,75 @@ func set_interaction_context(primary_id: String, label: String, choices: Array =
 	set_action_label("primary", _interaction_label + ("" if _touch_mode else " · E"))
 	if not choices.is_empty() and not _context_open:
 		_context_choices = choices.duplicate(true)
+	elif _context_open and RainSong.applies(_world):
+		_refresh_rehearsal_choices(choices)
 	_layout()
 
 
 func show_context_choices(choices: Array = [], title: String = "选择操作") -> void:
 	setup()
-	_context_choices = (_nearby_commands if choices.is_empty() else choices).duplicate(true)
-	# Keep every nearby object accessible when the principal target has its
-	# own direction/slot choices. The menu does not choose a solution branch.
-	var included: Dictionary = {}
-	for entry: Dictionary in _context_choices:
-		included[str(entry.get("id", ""))] = true
-	for entry: Dictionary in _nearby_commands:
-		if not included.has(str(entry.get("id", ""))):
-			_context_choices.append(entry.duplicate(true))
+	_context_choices = _merged_context_choices(choices)
 	_context_open = not _context_choices.is_empty()
 	_context_index = 0
+	_context_scroll.scroll_vertical = 0
 	_context_title.text = _display_text(title)
 	_render_context_choices()
 	_layout()
+
+
+func _merged_context_choices(choices: Array) -> Array:
+	var merged: Array = (_nearby_commands if choices.is_empty() else choices).duplicate(true)
+	# Keep every nearby object accessible when the principal target has its
+	# own direction/slot choices. The menu does not choose a solution branch.
+	var included: Dictionary = {}
+	for entry: Dictionary in merged:
+		included[str(entry.get("id", ""))] = true
+	for entry: Dictionary in _nearby_commands:
+		if not included.has(str(entry.get("id", ""))):
+			merged.append(entry.duplicate(true))
+	if RainSong.applies(_world):
+		for entry: Dictionary in merged:
+			var state: Dictionary = _context_action_states.get(str(entry.get("id", "")), {})
+			if not state.is_empty():
+				entry["disabled"] = not bool(state.get("available", false))
+				entry["reason"] = str(state.get("reason", ""))
+	return merged
+
+
+func _context_content_key(choices: Array) -> String:
+	return JSON.stringify(choices) + (RainSong.summary(_world) if RainSong.applies(_world) else "")
+
+
+func _refresh_rehearsal_choices(choices: Array) -> void:
+	var current: Array = _merged_context_choices(choices)
+	if _context_content_key(current) == _context_render_key:
+		return
+	if current.is_empty():
+		close_context_choices()
+		return
+	var selected_id := str(_context_choices[_context_index].get("id", "")) if _context_index < _context_choices.size() else ""
+	var focus: Control = get_viewport().gui_get_focus_owner()
+	var had_focus := focus != null and _commands.is_ancestor_of(focus)
+	var scroll := _context_scroll.scroll_vertical
+	_context_choices = current
+	_context_index = clampi(_context_index, 0, current.size() - 1)
+	for index in current.size():
+		if str(current[index].get("id", "")) == selected_id:
+			_context_index = index
+			break
+	_render_context_choices(false)
+	_restore_context_navigation.call_deferred(scroll, had_focus)
+
+
+func _restore_context_navigation(scroll: int, had_focus: bool) -> void:
+	if not is_context_open():
+		return
+	var follow_focus := _context_scroll.follow_focus
+	_context_scroll.follow_focus = false
+	if had_focus:
+		_focus_context_choice()
+	_context_scroll.scroll_vertical = scroll
+	_context_scroll.follow_focus = follow_focus
 
 
 func close_context_choices() -> void:
@@ -700,7 +780,12 @@ func handle_context_key(event: InputEventKey) -> bool:
 	return false
 
 
-func _render_context_choices() -> void:
+func _render_context_choices(focus_choice: bool = true) -> void:
+	_context_render_key = _context_content_key(_context_choices)
+	var rain := RainSong.applies(_world) and _context_choices.any(func(entry: Dictionary) -> bool: return RainSong.is_song_action(str(entry.id)))
+	_rain_summary.visible = rain
+	if rain:
+		_rain_summary.text = _display_text(RainSong.summary(_world))
 	_commands.columns = 2 if _context_choices.size() == 2 and not _context_choices.any(func(entry: Dictionary) -> bool: return bool(entry.get("disabled", false))) else 1
 	for child in _commands.get_children():
 		_commands.remove_child(child)
@@ -724,7 +809,8 @@ func _render_context_choices() -> void:
 		button.focus_mode = Control.FOCUS_ALL
 		if button.disabled and not button.tooltip_text.is_empty():
 			_commands.add_child(_label(button.tooltip_text, 11, MUTED))
-	_focus_context_choice.call_deferred()
+	if focus_choice:
+		_focus_context_choice.call_deferred()
 	_layout.call_deferred()
 
 
@@ -1689,7 +1775,11 @@ func _layout() -> void:
 	_panel.visible = _game_interface_visible and _context_open and not is_modal_open()
 	_pad.visible = _game_interface_visible and _touch_mode and bool(_settings.get("touchControls", false)) and not _context_open
 	var fourth_stages: bool=not _fourth_journey.is_empty() and _guidance_level=="1-4"
-	_rule.visible = extent.y > 500 and not fourth_stages
+	var guardian_flow: bool = _guidance_level == "3-4"
+	_rule.visible = (extent.y > 500 or guardian_flow) and not fourth_stages
+	_set_layout_font(_rule, 10 if _short_landscape else 11)
+	var rule_height: float = _rule.get_line_height() * 2 + _rule.get_theme_constant("line_spacing")
+	if _rule.custom_minimum_size.y != rule_height: _rule.custom_minimum_size.y = rule_height
 	_chapter_label.hide()
 	_journey_count.visible=fourth_stages
 	_journey_steps.visible=fourth_stages and not _short_landscape
@@ -1706,6 +1796,7 @@ func _layout() -> void:
 	var separation:=2 if _short_landscape else 4
 	if _heading_content.get_theme_constant("separation")!=separation:_heading_content.add_theme_constant_override("separation",separation)
 	var heading_height: float=(62 if _short_landscape else 124) if fourth_stages else (46 if _short_landscape else 82 if extent.y > 500 else 62)
+	if guardian_flow: heading_height = 78 if _short_landscape else 82
 	_heading.size = Vector2(minf(360, maxf(120, extent.x - 196 - margin)), heading_height)
 	_set_layout_font(_title,13 if _short_landscape else 14 if extent.x < 650 else 16)
 	_set_layout_font(_status,9 if _short_landscape else 10 if extent.x < 650 else 11)
@@ -1749,10 +1840,20 @@ func _layout() -> void:
 		var panel_width := minf(410, extent.x - margin * 2)
 		# Account for the actual 44px close button, gaps, content and insets.
 		# The old estimate cut the second direction off even in a two-item menu.
-		var content_height := maxf(44, _commands.get_combined_minimum_size().y)
+		var summary_height := 0.0
+		if _rain_summary.visible:
+			# Label minimums are transient while a new menu wraps. Measure at the
+			# actual target width instead of retaining the initial narrow height.
+			var summary_font := _rain_summary.get_theme_font("font")
+			var summary_size := summary_font.get_multiline_string_size(_rain_summary.text, HORIZONTAL_ALIGNMENT_LEFT, panel_width - 36.0, _rain_summary.get_theme_font_size("font_size"), -1, TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE)
+			summary_height = summary_size.y + 6.0
+		var content_height: float = maxf(44, _commands.get_combined_minimum_size().y) + summary_height
 		var panel_height := minf(67 + content_height, maxf(111, _tools.position.y - 86))
-		var preferred := Vector2((extent.x - panel_width) / 2, _tools.position.y - panel_height - 10)
-		_panel.position = Vector2(clampf(preferred.x, margin, maxf(margin, extent.x - margin - panel_width)), clampf(preferred.y, 80, maxf(80, _tools.position.y - panel_height - 10)))
+		var bottom_edge := _tools.position.y - 10.0
+		var panel_top := maxf(80.0, bottom_edge - panel_height)
+		panel_height = maxf(0.0, bottom_edge - panel_top)
+		var preferred := Vector2((extent.x - panel_width) / 2, panel_top)
+		_panel.position = Vector2(clampf(preferred.x, margin, maxf(margin, extent.x - margin - panel_width)), panel_top)
 		_panel.size = Vector2(panel_width, panel_height)
 		_message_panel.visible = false
 	layout_changed.emit()

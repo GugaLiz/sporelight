@@ -2,28 +2,59 @@ class_name OriginalSanctuaryDressing
 extends RefCounted
 ## Source: garden2/render.ts (112 px gate, 92 px fountain, 58 px mole).
 ## Source canvases retain registration. Gate/fountain full-base limits are
-## explicit local exceptions; no collisions, rules or terrain are altered.
+## explicit local exceptions; rules/terrain stay intact. The complete basin
+## outline is shared with native_prop_obstacles for local anti-entry collision.
 const Dressing = preload("res://presentation/native/original_garden_dressing.gd")
 const PIXEL := 1.4142135623730951 / 70.0
 const FOUNTAIN_PIXEL := PIXEL * 92.0 / 90.0
 const RASTER := 4.0
 const FOUNTAIN_FOOT := 22.0
+const FOUNTAIN_SOURCE_RADIUS := .54
+const FOUNTAIN_RIGHT := Vector3(0.70710678, 0, -0.70710678)
+const FOUNTAIN_FRONT := Vector3(0.70710678, 0, 0.70710678)
+const FOUNTAIN_BASIN := Vector2(43, 20)
 const GATE_SOURCE_RADIUS := 112.0 / 70.0 * .5
 static var _fountain_texture: Texture2D
 static var rasterizations := 0
 static var _fountain_offsets: Array[Vector2] = []
+static var _placement_offsets: Array[Dictionary] = []
+static var _placement_cache: Dictionary = {}
+static var _fountain_cache: Dictionary = {}
+static var _fountain_outlines: Dictionary = {}
+static var placement_cache_hits := 0
+static var fountain_cache_hits := 0
+static var fountain_searches := 0
+
+static func _support_identity(stage: Node, desired: Vector3, reach: float) -> Array:
+	# Only the real surfaces that a local search can touch invalidate it.
+	# Remote lever bridges must not restart a static courtyard search, while
+	# changed steps, transforms, missing supports and rule flags still do.
+	var rows: Array = []
+	for id: String in stage._surfaces:
+		var surface: Node3D = stage._surfaces[id]
+		var at: Vector3 = surface.global_position
+		var scale: Vector3 = surface.global_basis.get_scale()
+		if absf(at.x-desired.x)>reach+absf(scale.x)*.5 or absf(at.z-desired.z)>reach+absf(scale.z)*.5: continue
+		var tile: Dictionary = stage._tile_map.get(id,{})
+		rows.append([id, tile.get("kind","fixed"), tile.get("solid",false), tile.get("small",false), surface.global_transform, surface.get("_geometry_key")])
+	rows.sort_custom(func(a: Array,b: Array) -> bool: return str(a[0])<str(b[0]))
+	return rows
 
 static func placement(stage: Node, desired: Vector3, height: float, radius: float) -> Dictionary:
 	# Fine local search is only performed during a props rebuild. Unlike the
 	# generic scenery fallback, never migrate between physical height levels.
-	var candidates: Array[Dictionary] = []
-	for ix in range(-30, 31):
-		for iz in range(-30, 31):
-			var delta := Vector2(ix, iz) * 0.05
-			if delta.length() > 1.6: continue
-			candidates.append({"delta": delta, "score": delta.length_squared()})
-	candidates.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a.score) < float(b.score))
-	for entry: Dictionary in candidates:
+	var key := hash([str(stage.world.level.id),desired,height,radius,_support_identity(stage,desired,1.6+radius)])
+	if _placement_cache.has(key):
+		placement_cache_hits += 1
+		return (_placement_cache[key] as Dictionary).duplicate(true)
+	if _placement_offsets.is_empty():
+		for ix in range(-30, 31):
+			for iz in range(-30, 31):
+				var delta := Vector2(ix, iz) * 0.05
+				if delta.length() > 1.6: continue
+				_placement_offsets.append({"delta": delta, "score": delta.length_squared()})
+		_placement_offsets.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a.score) < float(b.score))
+	for entry: Dictionary in _placement_offsets:
 		var at := desired + Vector3(entry.delta.x, 0, entry.delta.y)
 		var logical: Vector3 = stage.logical_position(at)
 		var support := "f:%d:%d" % [roundi(logical.x), roundi(logical.z)]
@@ -31,7 +62,9 @@ static func placement(stage: Node, desired: Vector3, height: float, radius: floa
 		if absf(stage.support_height(at, support) - height) > 0.012: continue
 		if not Dressing.flat_footprint(stage, at, support, radius): continue
 		at.y = stage.support_height(at, support) + 0.008
-		return {"at": at, "support": support, "radius": radius, "desired": desired}
+		var result := {"at": at, "support": support, "radius": radius, "desired": desired}
+		_placement_cache[key] = result
+		return result.duplicate(true)
 	return {}
 
 static func annotate(node: Node3D, data: Dictionary, source_pixels: float) -> void:
@@ -101,13 +134,11 @@ static func build(stage: Node) -> void:
 	var desired: Vector3 = stage.tile_position(fountain)
 	# Preserve the original permanent solid cell's visible blocking object.
 	# Its own solid floor IS legitimate structural support, unlike scenery
-	# migration onto arbitrary blocked or preview tiles. Prefer full size,
-	# then the largest supported basin clear of the existing full-size core.
-	var radius := .64
+	# migration onto arbitrary blocked or preview tiles. Preserve the accepted
+	# artwork size; search the complete basin around its real centre instead
+	# of shrinking an incorrectly centred square until the old check passes.
+	var radius := FOUNTAIN_SOURCE_RADIUS
 	var data := fountain_candidate(stage,desired,radius)
-	while data.is_empty() and radius>.2:
-		radius -= .01
-		data = fountain_candidate(stage,desired,radius)
 	if data.is_empty(): push_error("Original fountain has no same-height complete support"); return
 	var ratio := radius/.64
 	var sprite := Sprite3D.new()
@@ -116,7 +147,7 @@ static func build(stage: Node) -> void:
 	sprite.texture = fountain_texture()
 	sprite.pixel_size = FOUNTAIN_PIXEL / RASTER * ratio
 	sprite.offset = Vector2(0, (FOUNTAIN_FOOT + 22.0) * RASTER)
-	sprite.position = data.at
+	sprite.position = fountain_card_position(data.at,ratio)
 	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	sprite.shaded = false
 	sprite.no_depth_test = false
@@ -125,10 +156,42 @@ static func build(stage: Node) -> void:
 	annotate(sprite, data, 92)
 	sprite.set_meta("original_ratio_exception","solid_fountain_full_basin_and_core_clearance_limit")
 	sprite.set_meta("original_fountain_ratio",ratio)
+	sprite.set_meta("original_sanctuary_ground_center",data.at)
+	sprite.set_meta("original_sanctuary_ground_outline",fountain_ground_outline(data.at,ratio))
+	sprite.set_meta("original_sanctuary_ground_bounds",fountain_ground_bounds(data.at,ratio))
 	stage._props.add_child(sprite)
 	stage._occluders.append(sprite)
 
+static func fountain_card_position(center: Vector3, ratio: float) -> Vector3:
+	# Preserve the lowest painted front rim as the card's ground anchor.
+	# The whole basin centre is behind that foot on the real ground plane;
+	# using its source y=2 as a card foot clips the front half into terrain.
+	return center+FOUNTAIN_FRONT*(FOUNTAIN_FOOT-2.0)*FOUNTAIN_PIXEL*ratio*2.0
+
+static func fountain_ground_outline(at: Vector3, ratio: float) -> PackedVector2Array:
+	if not _fountain_outlines.has(ratio):
+		var local := PackedVector2Array()
+		var unit := FOUNTAIN_PIXEL * ratio
+		for index: int in range(128):
+			var angle := TAU * index / 128.0
+			var point := FOUNTAIN_RIGHT * cos(angle) * FOUNTAIN_BASIN.x * unit + FOUNTAIN_FRONT * sin(angle) * FOUNTAIN_BASIN.y * unit * 2.0
+			local.append(Vector2(point.x,point.z))
+		_fountain_outlines[ratio] = local
+	var outline: PackedVector2Array = (_fountain_outlines[ratio] as PackedVector2Array).duplicate()
+	for index: int in range(outline.size()): outline[index] += Vector2(at.x,at.z)
+	return outline
+
+static func fountain_ground_radius(ratio: float) -> float:
+	# The source ellipse has axes 43/20 px. Ground depth doubles screen y;
+	# the 45-degree ground axes determine the actual X/Z bounding extent.
+	return FOUNTAIN_PIXEL * ratio * Vector2(FOUNTAIN_BASIN.x,FOUNTAIN_BASIN.y*2.0).length() / sqrt(2.0)
+
+static func fountain_ground_bounds(at: Vector3, ratio: float) -> Rect2:
+	var radius := fountain_ground_radius(ratio)
+	return Rect2(Vector2(at.x-radius,at.z-radius),Vector2.ONE*radius*2.0)
+
 static func fountain_candidate(stage: Node, desired: Vector3, radius: float) -> Dictionary:
+	var ratio := radius / .64
 	if _fountain_offsets.is_empty():
 		for ix in range(-7,8):
 			for iz in range(-7,8): _fountain_offsets.append(Vector2(ix,iz)*.05)
@@ -141,25 +204,40 @@ static func fountain_candidate(stage: Node, desired: Vector3, radius: float) -> 
 			if child.has_meta("core_planter"):
 				center=core.to_global(child.get_meta("ground_footprint_center"))
 				half=Vector2(child.get_meta("ground_footprint_span"))*.5
+	var key := hash([str(stage.world.level.id),desired,radius,FOUNTAIN_BASIN,FOUNTAIN_PIXEL,center,half,_support_identity(stage,desired,.35+fountain_ground_radius(ratio))])
+	if _fountain_cache.has(key):
+		fountain_cache_hits += 1
+		return (_fountain_cache[key] as Dictionary).duplicate(true)
+	fountain_searches += 1
 	for delta: Vector2 in _fountain_offsets:
 		var at := desired+Vector3(delta.x,0,delta.y)
-		if absf(center.x-at.x)<half.x+radius+.01 and absf(center.z-at.z)<half.y+radius+.01: continue
-		if not fountain_footprint(stage,at,radius): continue
+		var outline := fountain_ground_outline(at,ratio)
+		var rect := Rect2(Vector2(center.x,center.z)-half,half*2.0).grow(.02)
+		var core_outline := PackedVector2Array([rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y)])
+		if half != Vector2.ZERO and not Geometry2D.intersect_polygons(outline,core_outline).is_empty(): continue
+		# Keep the existing solid cell visibly occupied, rather than moving the
+		# basin to an unrelated empty corner and leaving an invisible obstacle.
+		if not Geometry2D.is_point_in_polygon(Vector2(desired.x,desired.z),outline): continue
+		var ground_radius := fountain_ground_radius(ratio)
+		if not fountain_footprint(stage,at,ground_radius): continue
 		at.y += .008
-		return {"at":at,"desired":desired,"radius":radius,"support":"f:-9:-2"}
+		var result := {"at":at,"desired":desired,"radius":ground_radius,"support":"f:-9:-2"}
+		_fountain_cache[key] = result
+		return result.duplicate(true)
 	return {}
 
 static func fountain_footprint(stage: Node, at: Vector3, radius: float) -> bool:
-	for ix in range(9):
-		for iz in range(9):
-			var sample := at+Vector3(lerpf(-radius,radius,ix/8.0),0,lerpf(-radius,radius,iz/8.0))
+	var ratio := radius / fountain_ground_radius(1.0)
+	for ring: float in [0.0,.25,.5,.75,1.0]:
+		for point: Vector2 in fountain_ground_outline(at,ratio*ring):
+			var sample := Vector3(point.x,at.y,point.y)
 			var logical: Vector3 = stage.logical_position(sample)
 			var id := "f:%d:%d" % [roundi(logical.x),roundi(logical.z)]
 			if not stage._surfaces.has(id) or not stage._tile_map.has(id): return false
 			var tile: Dictionary = stage._tile_map[id]
 			if bool(tile.get("solid",false)) and id!="f:-9:-2": return false
 			if str(tile.get("kind","fixed"))!="fixed" or bool(tile.get("small",false)): return false
-			if absf(logical.x-float(tile.x))>.499 or absf(logical.z-float(tile.z))>.499: return false
+			if absf(logical.x-float(tile.x))>.5001 or absf(logical.z-float(tile.z))>.5001: return false
 			if absf(stage.support_height(sample,id)-stage.tile_position_id("f:-9:-2").y)>.012: return false
 	return true
 

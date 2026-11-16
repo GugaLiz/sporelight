@@ -22,11 +22,12 @@ func _initialize() -> void:
 	for entry: Dictionary in fixture.cases:
 		if not selected_level.is_empty() and str(entry.levelId) != selected_level: continue
 		var world = World.new(str(entry.levelId), entry.get("saved", {}))
-		_check(entry.initial, _observe(world), str(entry.name) + "/initial")
+		_check(_shadow_feedback_reference(entry.initial) if entry.levelId == "3-2" else entry.initial, _observe(world), str(entry.name) + "/initial")
 		for index: int in range(entry.steps.size()):
 			if _failed: break
 			var step: Dictionary = entry.steps[index]
 			var command: Dictionary = step.command
+			var before_state: Dictionary = world.snapshot()
 			var result: Dictionary = {}
 			match str(command.kind):
 				"move": result = world.move(str(command.value))
@@ -39,7 +40,7 @@ func _initialize() -> void:
 			actual.command = command
 			actual.result = result
 			var label: String = "%s/step-%d/%s/%s" % [entry.name, index, command.kind, command.value]
-			_check(step, actual, label)
+			_check(_shadow_feedback_reference(step, before_state) if entry.levelId == "3-2" else step, actual, label)
 			var restored = World.new(str(entry.levelId), JSON.parse_string(JSON.stringify(world.snapshot())))
 			_check(world.snapshot(), restored.snapshot(), label + "/snapshot-roundtrip")
 			_check(world.tiles(), world.tiles_for_state(world.snapshot()), label + "/future-world-isolation")
@@ -53,6 +54,43 @@ func _initialize() -> void:
 
 func _observe(world: RefCounted) -> Dictionary:
 	return {"snapshot": world.snapshot(), "tiles": world.tiles(), "commands": world.commands(), "ready": world.ready(), "together": world.together(), "budget": world.budget(), "rays": world.rays(), "lampRay": world.lamp_ray(), "hint": world.hint(), "canUndo": world.can_undo()}
+
+func _shadow_feedback_reference(expected: Dictionary, before_state: Dictionary = {}) -> Dictionary:
+	# Explicit 2026-11-14 presentation copy migration only. Keep the immutable
+	# TS fixture and compare every command, field and result, including exact
+	# new text. Unknown old wording is never silently ignored or normalized.
+	var result: Dictionary = expected.duplicate(true)
+	const DROP_LABELS := {
+		"日影柱": {"放在脚边的固定地面": "日影柱：放在脚边的固定地面", "放到日影柱槽": "日影柱：放到日影柱槽", "放到月影柱槽": "日影柱：放到月影柱槽"},
+		"月影柱": {"放在脚边的固定地面": "月影柱：放在脚边的固定地面", "放到日影柱槽": "月影柱：放到日影柱槽", "放到月影柱槽": "月影柱：放到月影柱槽"}
+	}
+	for command: Dictionary in result.get("commands", []):
+		var id := str(command.id)
+		if id == "switch":
+			const SWITCH_LABELS := {"换手：操控小苔灵": "切换角色：操控小苔灵", "换手：操控露薇": "切换角色：操控露薇", "换手看看花园": "切换角色看看花园"}
+			command.label = SWITCH_LABELS.get(command.label, command.label)
+		elif id == "take:sunPost" and command.label == "搬起日月影柱": command.label = "搬起日影柱"
+		elif id == "take:moonPost" and command.label == "搬起日月影柱": command.label = "搬起月影柱"
+		elif id.begins_with("drop:sunPost:") or id.begins_with("drop:moonPost:"):
+			var name := "日影柱" if id.begins_with("drop:sunPost:") else "月影柱"
+			command.label = DROP_LABELS[name].get(command.label, command.label)
+	if not result.has("command") or result.command.kind != "act" or not result.result.has("message"): return result
+	var id := str(result.command.value)
+	var message := str(result.result.message)
+	if id == "take:sunPost" and message == "稳稳带好了，沿接通的路继续走吧。": result.result.message = "日影柱已收进叶包。"
+	elif id == "take:moonPost" and message == "稳稳带好了，沿接通的路继续走吧。": result.result.message = "月影柱已收进叶包。"
+	elif id.begins_with("drop:sunPost:") and message == "稳稳放好了，看看光与道路有没有一起改变。": result.result.message = "日影柱已放稳。"
+	elif id.begins_with("drop:moonPost:") and message == "稳稳放好了，看看光与道路有没有一起改变。": result.result.message = "月影柱已放稳。"
+	elif id == "valve:mode" and message == "水位与落岸变化了，脚下的旅人和物件也一起移动。":
+		result.result.message = ("庭院转为日光。" if int(result.snapshot.mode) == 0 else "庭院转为月光。") + ("留影苔记住的道路保持原样。" if result.snapshot.frozen != null else "")
+	elif id == "freeze" and message == "留影苔记住了这段实际投影，再换一个时刻看看。":
+		var name := "日影" if int(result.snapshot.mode) == 0 else "月影"
+		result.result.message = "留影苔已用当前" + name + "替换上一次留影。" if before_state.get("frozen") != null else "留影苔记住了当前" + name + "。"
+	elif id == "freeze" and message == "先把当前光照对应的影柱放到槽中，再留影。":
+		var post_id := "sunPost" if int(before_state.get("mode", 0)) == 0 else "moonPost"
+		var name := "日影柱" if post_id == "sunPost" else "月影柱"
+		result.result.message = name + "还在手中，没有可留住的投影。" if before_state.get("items", {}).get(post_id, {}).get("holder", "") != "" else "当前没有可留住的投影。"
+	return result
 
 func _validate_saves(path: String) -> void:
 	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))

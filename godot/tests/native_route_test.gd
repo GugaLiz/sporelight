@@ -19,6 +19,10 @@ class Harness:
 	extends "res://application/main.gd"
 	func _ready() -> void:
 		pass
+	func _notification(what: int) -> void:
+		if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_IN, NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_RESUMED] and session != null:
+			print("HARNESS WINDOW EVENT ", JSON.stringify({"event":what,"ticksMs":Time.get_ticks_msec(),"level":session.world.level.id,"actors":session.world.state.actors,"movement":native_movement.qa_state() if native_movement != null else {},"motion":not motion.is_empty()}))
+		super._notification(what)
 
 class AudioStub:
 	extends Node
@@ -133,6 +137,7 @@ func _walk_to(id: String, label: String) -> bool:
 			reached = app.session.world.near(id) and app.view.prop_point_clear(body.position,app.session.world.actor())
 	if not _check(reached, label + " reaches " + id):
 		print("ROUTE WRONG SUPPORT ", JSON.stringify(app.native_movement.qa_state()))
+		print("ROUTE REQUEST STATUS ",app.status_message," goal=",id," planner=",app.native_movement._prop_path(id,app.session.world.actor()))
 	return reached
 
 func _replay(id: String, steps: Array, initial: Dictionary) -> void:

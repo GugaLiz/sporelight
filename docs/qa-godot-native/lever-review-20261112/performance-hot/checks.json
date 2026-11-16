@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "e4e126cad04ca6f1d006468892e287a2fc8fb99deffb5709b827674e834b8fcb",
+    "files": 585
+  },
+  "source": {
+    "sha256": "e4e126cad04ca6f1d006468892e287a2fc8fb99deffb5709b827674e834b8fcb",
+    "files": 585
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_hold_performance_test",
+      "code": 0,
+      "elapsedMs": 6689,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cacheCounters\":{\"convexBuilds\":1,\"convexHits\":15,\"fountainHits\":19,\"fountainSearches\":4,\"moleHits\":13},\"checks\":20,\"failures\":[],\"gpuPixelsVerified\":false,\"measurements\":[{\"commandMs\":1155.947,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":16.464},\"props\":{\"calls\":1,\"inclusiveMs\":981.703},\"refresh\":{\"calls\":1,\"inclusiveMs\":1153.32},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":918.813},\"supportHeight\":{\"calls\":82914,\"inclusiveMs\":573.305},\"terrain\":{\"calls\":1,\"inclusiveMs\":167.101}},\"phase\":\"cold-enter\"}],\"passed\":true,\"scope\":\"Native CPU only, memory repository; real commands and continuous motor. Nested timings overlap.\",\"suite\":\"native-hold-performance\",\"timingsInclusive\":true}\r\n",
+      "stderr": "ERROR: Failed to open 'user://logs/godot2026-11-13T00.09.10.log'.\r\n   at: copy (core/io/dir_access.cpp:429)\r\nERROR: Failed to open log file for writing: user://logs/godot.log\r\n   at: rotate_file (core/io/logger.cpp:169)\r\nSCRIPT ERROR: Parse Error: Cannot infer the type of \"held_restore\" variable because the value doesn't have a set type.\r\n   at: GDScript::reload (res://application/native_movement.gd:308)\r\nSCRIPT ERROR: Compile Error: Failed to compile depended scripts.\r\n   at: GDScript::reload (res://application/main.gd:0)\r\nSCRIPT ERROR: Compile Error: Failed to compile depended scripts.\r\n   at: GDScript::reload (res://tests/native_route_test.gd:0)\r\nSCRIPT ERROR: Compile Error: Failed to compile depended scripts.\r\n   at: GDScript::reload (res://tests/native_hold_performance_test.gd:0)\r\nERROR: Failed to load script \"res://tests/native_hold_performance_test.gd\" with error \"Compilation failed\".\r\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)\r\nERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\nSCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.\r\n   at: Harness._enter_level (res://application/main.gd:226)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _enter_level (res://application/main.gd:226)\r\n       [1] _run (res://tests/native_hold_performance_test.gd:146)\r\nSCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.\r\n   at: _measure_command (res://tests/native_hold_performance_test.gd:72)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _measure_command (res://tests/native_hold_performance_test.gd:72)\r\nSCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.\r\n   at: _measure_command (res://tests/native_hold_performance_test.gd:72)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _measure_command (res://tests/native_hold_performance_test.gd:72)\r\nSCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.\r\n   at: _measure_command (res://tests/native_hold_performance_test.gd:72)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _measure_command (res://tests/native_hold_performance_test.gd:72)\r\nSCRIPT ERROR: Invalid call. Nonexistent function 'is_moving' in base 'Nil'.\r\n   at: _measure_command (res://tests/native_hold_performance_test.gd:64)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _measure_command (res://tests/native_hold_performance_test.gd:64)\r\n       [1] _run (res://tests/native_hold_performance_test.gd:154)\r\n       [2] _measure_command (res://tests/native_hold_performance_test.gd:72)\r\n",
+      "passed": false
+    }
+  ]
+}

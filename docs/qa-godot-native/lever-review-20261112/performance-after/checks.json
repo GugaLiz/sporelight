@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "5de40ad846a1f4b85a0980a651003f3fb54bb2ac83fe78c24fddcd131348b028",
+    "files": 585
+  },
+  "source": {
+    "sha256": "5de40ad846a1f4b85a0980a651003f3fb54bb2ac83fe78c24fddcd131348b028",
+    "files": 585
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_hold_performance_test",
+      "code": 0,
+      "elapsedMs": 4421,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cacheCounters\":{\"convexBuilds\":1,\"convexHits\":4,\"fountainHits\":8,\"fountainSearches\":4,\"moleHits\":4},\"checks\":20,\"failures\":[],\"gpuPixelsVerified\":false,\"measurements\":[{\"commandMs\":1022.709,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":11.43},\"props\":{\"calls\":1,\"inclusiveMs\":855.375},\"refresh\":{\"calls\":2,\"inclusiveMs\":1007.854},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":806.666},\"supportHeight\":{\"calls\":82923,\"inclusiveMs\":510.34},\"terrain\":{\"calls\":1,\"inclusiveMs\":147.036}},\"phase\":\"cold-enter\"},{\"commandMs\":46.223,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":0.092},\"props\":{\"calls\":1,\"inclusiveMs\":14.42},\"refresh\":{\"calls\":3,\"inclusiveMs\":36.838},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":0.922},\"supportHeight\":{\"calls\":684,\"inclusiveMs\":4.546},\"terrain\":{\"calls\":1,\"inclusiveMs\":18.985}},\"maximumSynchronousSliceMs\":46.223,\"phase\":\"use:hold\",\"simulationFrames\":22,\"synchronousTotalMs\":74.742},{\"commandMs\":30.103,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":0.08},\"props\":{\"calls\":1,\"inclusiveMs\":7.436},\"refresh\":{\"calls\":3,\"inclusiveMs\":22.157},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":1.616},\"supportHeight\":{\"calls\":264,\"inclusiveMs\":3.015},\"terrain\":{\"calls\":1,\"inclusiveMs\":11.448}},\"maximumSynchronousSliceMs\":30.103,\"phase\":\"release:hold\",\"simulationFrames\":22,\"synchronousTotalMs\":59.835},{\"commandMs\":35.027,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":0.096},\"props\":{\"calls\":1,\"inclusiveMs\":6.38},\"refresh\":{\"calls\":3,\"inclusiveMs\":28.543},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":1.623},\"supportHeight\":{\"calls\":265,\"inclusiveMs\":3.178},\"terrain\":{\"calls\":1,\"inclusiveMs\":18.373}},\"maximumSynchronousSliceMs\":35.027,\"phase\":\"use:hold\",\"simulationFrames\":22,\"synchronousTotalMs\":74.998},{\"commandMs\":35.089,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":0.191},\"props\":{\"calls\":1,\"inclusiveMs\":7.995},\"refresh\":{\"calls\":3,\"inclusiveMs\":27.732},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":2.058},\"supportHeight\":{\"calls\":147,\"inclusiveMs\":1.683},\"terrain\":{\"calls\":1,\"inclusiveMs\":16.706}},\"maximumSynchronousSliceMs\":35.089,\"phase\":\"undo\",\"simulationFrames\":0,\"synchronousTotalMs\":35.089}],\"passed\":true,\"scope\":\"Native CPU only, memory repository; real commands and continuous motor. Nested timings overlap.\",\"suite\":\"native-hold-performance\",\"timingsInclusive\":true}\r\n",
+      "stderr": "ERROR: Failed to open 'user://logs/godot2026-11-13T00.00.14.log'.\r\n   at: copy (core/io/dir_access.cpp:429)\r\nERROR: Failed to open log file for writing: user://logs/godot.log\r\n   at: rotate_file (core/io/logger.cpp:169)\r\nERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n",
+      "passed": false
+    }
+  ]
+}

@@ -24,8 +24,8 @@ func _run() -> void:
 	_test_receiver("2-2", "repair", Vector2(4, 0), false)
 	_test_receiver("3-4", "repair", Vector2(-4, 0), false)
 	_test_alignment_motion("3-4", "turn:light")
-	_test_alignment_motion("2-2", "angle:mirrorA")
-	print(JSON.stringify({"suite": "native-rule-ray-presentation", "passed": failures.is_empty(), "checks": checks, "failures": failures, "gpuPixelsVerified": false, "scope": "Slab clipping, real native light endpoints, current discovery bounds and unchanged receiver/reflection rules."}))
+	_test_pond_motion()
+	print(JSON.stringify({"suite": "native-rule-ray-presentation", "passed": failures.is_empty(), "checks": checks, "failures": failures, "gpuPixelsVerified": false, "scope": "Slab clipping, native light endpoints, pond stable incident prefixes and contacts, unchanged receiver rules, and legacy chapter alignment."}))
 	stage.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)
@@ -132,6 +132,126 @@ func _test_alignment_motion(level: String, action: String) -> void:
 	_check(_beam_nodes().all(func(beam: MeshInstance3D) -> bool: return beam.visible), level + " unchanged light is not hidden by unrelated motion")
 	stage.clear_motion(false)
 	_check(world.snapshot() == after and before_world.snapshot() == before, level + " visibility never mutates domain snapshots")
+
+func _test_pond_motion() -> void:
+	var a_world := _before_action("2-2", "angle:mirrorA")
+	_check(not a_world.beam_hits(4, 0), "pond A starts with an unlit receiver")
+	_pond_transition(a_world, "angle:mirrorA", [Vector2(0, 1), Vector2(1, 1)], "turn A")
+	_check(a_world.beam_hits(4, 0), "pond A real aligned turn reaches the receiver")
+	# Independent negative-angle state: the incident path reaches both mirrors,
+	# but B sends it west. A real B action must retain exactly two incoming legs.
+	var b_world := _before_action("2-2", "angle:mirrorA")
+	b_world.state.items.mirrorA.angle = 1
+	b_world.state.items.mirrorB.angle = 0
+	b_world.state.actors = {"luvie": "f:1:0", "buddy": "f:1:0"}
+	b_world.state.active = "luvie"
+	b_world.state.follow = false
+	_check(not b_world.beam_hits(4, 0), "pond B wrong angle does not light the receiver")
+	_pond_transition(b_world, "angle:mirrorB", [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)], "turn B")
+	_check(b_world.beam_hits(4, 0), "pond B real aligned turn reaches the receiver")
+	_pond_transition(b_world, "take:mirrorB", [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)], "take B")
+	_check(not b_world.beam_hits(4, 0), "pond lifted mirror cannot keep the receiver lit")
+	_pond_transition(b_world, "drop:mirrorB:f:1:0", [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)], "drop B")
+	_check(b_world.beam_hits(4, 0), "pond legal replacement restores the receiver")
+	var snapshot: Dictionary = b_world.snapshot()
+	stage.set_world(b_world)
+	stage.set_motion(snapshot, snapshot, 0.5, "stationary")
+	_check(_beam_nodes().all(func(beam: MeshInstance3D) -> bool: return beam.visible), "pond unchanged path remains visible during unrelated movement")
+	stage.clear_motion(false)
+	_check(b_world.snapshot() == snapshot, "pond stationary visibility never changes progress")
+
+func _pond_transition(world: RefCounted, action: String, shared: Array, label: String) -> void:
+	var before: Dictionary = world.snapshot()
+	var before_ray: Array = world.rays().duplicate(true)
+	_check(world.act(action).ok, "pond " + label + " uses an accepted domain action")
+	var after: Dictionary = world.snapshot()
+	var after_ray: Array = world.rays().duplicate(true)
+	_check(before_ray != after_ray, "pond " + label + " changes the downstream rule path")
+	for index: int in range(shared.size()):
+		var expected: Vector2 = shared[index]
+		_check(Vector2(before_ray[index].x, before_ray[index].z) == expected and Vector2(after_ray[index].x, after_ray[index].z) == expected, "pond " + label + " independently authored incident point " + str(index))
+	_check(before_ray[shared.size()] != after_ray[shared.size()], "pond " + label + " next point truly diverges")
+	var before_world := World.new("2-2", before)
+	stage.set_world(before_world)
+	stage.set_motion(before, after, 0.0, action)
+	var beams := _beam_nodes()
+	var identities := _beam_ids(beams)
+	_check(not beams.is_empty(), "pond " + label + " builds actual native light")
+	_check(beams.any(func(beam: MeshInstance3D) -> bool: return str(beam.get_meta("rule_contact_item", "")) == "mirrorA"), "pond " + label + " has a real A surface contact")
+	var reference_face: MeshInstance3D = stage._props_nodes["item:mirrorA"].get_node("ReflectionFace")
+	var glass_height := reference_face.position.y
+	var glass_width: float = reference_face.mesh.size.x
+	for beam: MeshInstance3D in beams:
+		_check(beam.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF, "pond light casts no solid prop shadow")
+		_check(beam.material_override is ShaderMaterial and not (beam.material_override as ShaderMaterial).shader.code.contains("depth_test_disabled"), "pond glow retains normal depth testing")
+		if beam.has_meta("rule_segment_index"):
+			var part := str(beam.get_meta("rule_ray_part", ""))
+			_check(part in ["core", "halo"] and (beam.mesh is CylinderMesh if part == "core" else beam.mesh is QuadMesh), "pond segment has a real cylindrical light body and feathered local halo")
+			var pair: Array = beam.get_meta("rule_segment_points", [])
+			var segment_index := int(beam.get_meta("rule_segment_index"))
+			var start := Vector2(after_ray[segment_index].x, after_ray[segment_index].z)
+			var end := Vector2(after_ray[segment_index + 1].x, after_ray[segment_index + 1].z)
+			_check(pair.size() == 2 and pair.all(func(point: Dictionary) -> bool: return Geometry2D.get_closest_point_to_segment(Vector2(point.x, point.z), start, end).distance_to(Vector2(point.x, point.z)) < 0.0001), "pond segment metadata stays on its actual adjacent rule points")
+			var segment_length: float = beam.mesh.height if part == "core" else beam.mesh.size.y
+			var diameter: float = beam.mesh.top_radius * 2.0 if part == "core" else beam.mesh.size.x
+			var half_axis := beam.basis.y * segment_length * 0.5
+			_check((beam.position - half_axis).distance_to(stage.tile_position(pair[0]) + Vector3(0, glass_height, 0)) < 0.0001 and (beam.position + half_axis).distance_to(stage.tile_position(pair[1]) + Vector3(0, glass_height, 0)) < 0.0001, "pond actual mesh endpoints follow the clipped rule segment through the real glass centre")
+			# The previous transparent band was rejected. The light now has a
+			# body with its own round cross-section, inside the existing frame.
+			_check(diameter > glass_width * 0.2 and diameter < glass_width * 0.4 if part == "core" else diameter > glass_width * 0.4 and diameter < glass_width * 0.7, "pond visible cylindrical body and contained halo fit the real glass")
+			var tint: Color=beam.material_override.get_shader_parameter("tint")
+			if part == "core":
+				_check(not beam.material_override.shader.code.contains("ALPHA =") and not beam.mesh.cap_top and not beam.mesh.cap_bottom, "pond body is opaque with no internal joining discs")
+				_check(is_equal_approx(beam.mesh.top_radius, beam.mesh.bottom_radius) and beam.mesh.radial_segments >= 16, "pond light has a smooth real circular cross-section")
+			else:
+				_check(tint.a > 0.05 and tint.a <= 0.2, "pond faint fringe does not tint the floor as a broad yellow band")
+		elif str(beam.get_meta("rule_contact_item", "")) != "source":
+			var item_id := str(beam.get_meta("rule_contact_item"))
+			var mirror: Node3D = stage._props_nodes["item:" + item_id]
+			var face := mirror.get_node("ReflectionFace") as MeshInstance3D
+			var normal := face.global_basis.z.normalized()
+			var distance := absf((beam.global_position - face.global_position).dot(normal))
+			_check(is_equal_approx(distance, face.mesh.get_aabb().size.z * 0.5 + 0.002), "pond contact lies on real glass rather than inside its opaque body")
+			_check(is_equal_approx(beam.global_position.y, face.global_position.y), "pond reflection contact is vertically centred on the real glass")
+			_check(absf(beam.global_basis.z.normalized().dot(normal)) > 0.9999, "pond contact card lies on the real glass plane rather than cutting it")
+	for phase: float in [0.0, 0.25, 0.5, 0.75, 1.0]:
+		stage.set_motion(before, after, phase, action)
+		_pond_visibility(beams, before, after, shared.size(), phase, label)
+		_check(_beam_ids(_beam_nodes()) == identities, "pond " + label + " reuses meshes at " + str(phase))
+	stage.set_motion(before, after, 0.5, action)
+	stage.set_paused(true)
+	_pond_visibility(beams, before, after, shared.size(), 0.5, label + " paused")
+	stage.set_paused(false)
+	stage.clear_motion(false)
+	_check(_beam_nodes().all(func(beam: MeshInstance3D) -> bool: return beam.visible), "pond " + label + " clear restores the committed beam")
+	stage.set_motion(after, before, 0.0, "undo")
+	var reverse := _beam_nodes()
+	for phase: float in [0.0, 0.5, 1.0]:
+		stage.set_motion(after, before, phase, "undo")
+		_pond_visibility(reverse, after, before, shared.size(), phase, label + " reverse")
+	stage.clear_motion(false)
+	_check(world.snapshot() == after and before_world.snapshot() == before, "pond " + label + " leaves both domain snapshots untouched")
+
+func _pond_visibility(beams: Array[MeshInstance3D], before: Dictionary, after: Dictionary, shared_points: int, phase: float, label: String) -> void:
+	var visible_incoming := 0
+	var hidden_downstream := 0
+	for beam: MeshInstance3D in beams:
+		var expected := phase == 1.0
+		if phase < 1.0:
+			if beam.has_meta("rule_segment_index"):
+				expected = int(beam.get_meta("rule_segment_index")) < shared_points - 1
+			else:
+				expected = int(beam.get_meta("rule_point_index", -1)) < shared_points
+				var item := str(beam.get_meta("rule_contact_item", ""))
+				if item != "source":
+					var old_item: Dictionary = before.items[item]
+					var new_item: Dictionary = after.items[item]
+					expected = expected and str(old_item.get("holder", "")).is_empty() and str(new_item.get("holder", "")).is_empty() and old_item.tile == new_item.tile
+		_check(beam.visible == expected, "pond " + label + " incident-only visibility at " + str(phase) + " / " + str(beam.get_meta("rule_ray_part")))
+		if phase < 1.0:
+			if expected: visible_incoming += 1
+			else: hidden_downstream += 1
+	_check(phase == 1.0 or visible_incoming > 0 and hidden_downstream > 0, "pond " + label + " keeps incoming light while downstream waits")
 
 func _beam_nodes() -> Array[MeshInstance3D]:
 	var result: Array[MeshInstance3D] = []

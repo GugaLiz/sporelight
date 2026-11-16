@@ -73,7 +73,4 @@ static func wall_uv(at: Vector3) -> Vector2:
 	return Vector2((physical.x + physical.z) / 4.5, -physical.y / 4.5)
 
 static func material_spec(tile: Dictionary) -> Dictionary:
-	var connector := str(tile.id).begins_with("g:")
-	var paving := "paving-moss" if connector else "paving-grass" if str(tile.id) in ["f:-1:0", "f:-1:2", "f:5:0", "f:5:2"] else "paving-valley"
-	var width := tile_scale(float(tile.x)).x
-	return {"paving": paving, "connector": connector, "top_scale": Vector3(width,1,1), "face_repeat": width, "key": "second_garden_" + paving + ("_root" if connector else "") + ("_wide" if width > 1.0 else "")}
+	return preload("res://elements/surface_definitions.gd").terrace_spec("second", tile, tile_scale(float(tile.x)).x)

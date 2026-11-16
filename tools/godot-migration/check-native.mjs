@@ -3,11 +3,17 @@ import {mkdir,writeFile,readdir} from 'node:fs/promises';
 import {resolve,dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {sourceDigest} from './source-digest.mjs';
+import {CORE_TESTS,inspectSceneIntegrity} from './check-scene-integrity.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const option=(key,fallback)=>process.argv.find(value=>value.startsWith('--'+key+'='))?.slice(key.length+3)??fallback;
 const engine=option('godot',process.env.GODOT_BIN??join(process.env.USERPROFILE??'','.cache/sporelight-godot/4.7.2/engine/Godot_v4.7.2-stable_win64_console.exe'));
 const output=resolve(root,option('output','docs/qa-godot-native/headless'));
 const filter=option('only','').split(',').filter(Boolean);
+const integrity=await inspectSceneIntegrity(root,filter);
+if(!integrity.passed){
+ console.error(JSON.stringify({suite:'scene-integrity',passed:false,errors:integrity.errors},null,2));
+ process.exit(1);
+}
 const results=[];
 await mkdir(output,{recursive:true});
 let initialSource=null,failure=null;
@@ -28,7 +34,7 @@ async function run(label,args){
 try{
  if(!filter.length)await run('import',['--headless','--path',join(root,'godot'),'--editor','--import']);
  initialSource=await sourceDigest(root);
- const core=['rule_reference.gd','rule_normalize.gd','rule_query_scope.gd','service_save_test.gd','service_snapshot_normalizer_test.gd','service_hud_test.gd','service_button_test.gd','service_modal_lifecycle_test.gd','service_home_navigation_test.gd','session_test.gd','rule_input.gd','rule_integration.gd','rule_application.gd'];
+ const core=CORE_TESTS;
  const native=(await readdir(join(root,'godot/tests'))).filter(f=>/^native_.*test\.gd$/.test(f)).sort();
  for(const file of [...core,...native]){
   const label=file.replace(/\.gd$/,'');

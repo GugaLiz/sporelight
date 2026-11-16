@@ -24,6 +24,8 @@ func _run() -> void:
 	await _fresh()
 	var hero: CharacterBody3D = app.view.get_actor_body("luvie")
 	var sprite: AnimatedSprite3D = hero.get_node("Visual/Art")
+	_check(not app.session.world.flag("hold") and not app.session.world.flag("latch") and app.view._props_nodes["mark:hold"].get_meta("mechanism_state")=="released","empty-repository cold entry is unheld and unlatched")
+	_check(app.view._props_nodes["mark:latch"].get_meta("mechanism_state")=="unfixed" and app.session.world.point_for("f:0:0").is_empty(),"cold pin is free and temporary road is absent")
 	_check(not app.session.world.act("release:hold").ok,"release not available when untouched")
 	app._on_command("use:hold")
 	_check(await _drain(),"actual initial pull settles")
@@ -98,6 +100,25 @@ func _run() -> void:
 	app.view.set_world(app.session.world);app.native_movement.setup(app.session,app.view,app.input_router)
 	await _tick()
 	_check(app.session.world.lever_held() and str(sprite.animation)=="hold_lever","held save restores logical and visual state")
+	var invalid_hold:=saved_hold.duplicate(true)
+	invalid_hold.runtime.poses.luvie={"support":"f:-3:0","offset":[-.4,0,.4],"facing":"front"}
+	invalid_hold.actors.buddy="f:0:0"
+	invalid_hold.runtime.poses.buddy={"support":"f:0:0","offset":[0,0,0],"facing":"front"}
+	app.repository.data.mainline.runs["1-4"]=invalid_hold
+	app._enter_level("1-4");await _tick();await _tick()
+	hero=app.view.get_actor_body("luvie");sprite=hero.get_node("Visual/Art")
+	var grip: Vector3=app.view.actor_rest_position(app.session.world.point_for("f:-3:0"),"luvie")
+	_check(Vector2(hero.position.x-grip.x,hero.position.z-grip.z).length()<.06,"invalid held offset recovers the real grip")
+	_check(app.session.world.lever_held() and app.session.world.state.actors.buddy=="f:0:0" and not app.session.world.point_for("f:0:0").is_empty(),"held recovery preserves bridge passenger support")
+	_check(app.session.world.state.items==invalid_hold.items and app.session.world.state.collected==invalid_hold.collected,"held recovery preserves items and collections")
+	var permanent:=invalid_hold.duplicate(true)
+	permanent.flags=["hold","latch"]
+	app.repository.data.mainline.runs["1-4"]=permanent
+	app._enter_level("1-4");await _tick()
+	_check(not app.session.world.lever_held() and not app.session.world.flag("hold") and app.view._props_nodes["mark:hold"].get_meta("mechanism_state")=="latched","permanent saved road does not resume temporary hold")
+	_check(app.view._props_nodes["mark:latch"].get_meta("mechanism_state")=="fixed" and str(app.view.get_actor_body("luvie").get_node("Visual/Art").animation)!="hold_lever","fixed pin and released actor agree")
+	app.repository.data.mainline.runs["1-4"]=saved_hold
+	app._enter_level("1-4");await _tick()
 	app.settings.lowMotion = true;app.view.set_settings(app.settings)
 	_check(app.session.world.lever_held(),"reduced motion leaves mechanism state intact")
 	app.settings.lowMotion = false;app.view.set_settings(app.settings)

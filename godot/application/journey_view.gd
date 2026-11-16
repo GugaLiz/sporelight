@@ -1,6 +1,7 @@
 class_name GardenJourney
 extends RefCounted
 ## Public goals describe intentions. Help is opt-in and never drives actions.
+const GuardianFlow := preload("res://application/guardian_flow_guidance.gd")
 
 const GOALS := {
 	"1-1": ["让缺口彼端的花床重新醒来。", "根台里的一节嫩芽，正在等你决定去向。", "芽节有限，可以收回后重新安排；先观察想去的地方。"],
@@ -13,8 +14,8 @@ const GOALS := {
 	"2-4": ["陪池塘的小生命完成一次相遇。", "花、庭院和微光生灵之间，还有等待发生的联系。", "先观察它们对环境的回应，再安排可以相遇的通路。"],
 	"3-1": ["把暖光和伙伴一起带过暗处。", "低处通道、照孔和石窗透出的光各有不同。", "伙伴能进入的空间与你不同；一束光也能从另一侧帮助你。"],
 	"3-2": ["让不同时刻的影子共同成为道路。", "日与月照出的轮廓，各自只覆盖一部分空隙。", "留影保存当时真实的形状，再观察另一种光照下的连接。"],
-	"3-3": ["让有限的水，照顾整座花园。", "有些生命安定下来后，对水的需要会发生变化。", "观察根系是否已经稳定，再思考是否能把资源让给别处。"],
-	"3-4": ["和伙伴唤醒沉睡的守护者。", "根、水和光之间需要保持连通。", "曾经点亮过还不够；准备会合时，再检查现在仍在起作用的连接。"],
+	"3-3": ["让清露与藤根，唤醒远岸的花园。", "根碗里的清露与花台的高度，都会改变花园的回应。", "根系蓄水后，留意高处是否出现新的连接；水轮仍影响花台上升的动力。"],
+	"3-4": ["和伙伴唤醒沉睡的守护者。", "根路通向远岸，清水为升降台蓄力，光唤醒花坛。", "储水罐灌满后不会流失；让光留在花坛上，再和伙伴回来照料。"],
 	"cloud-1": ["把花种带到风中的塔庭。", "转桥两端连接着不同的庭院。", "桥的朝向改变目的地，携带的物件也会随你一起前往。"],
 	"cloud-2": ["让高处的花院重新得到清水。", "花台会靠岸，也能改变高度。", "在可靠的停靠处登台，再观察另一高度能连接哪里。"],
 	"cloud-3": ["和伙伴一起，让星灯成为归途。", "门、压板和桥相互牵连。", "伙伴可以保持机关；已经固定的门闩也许能让它重新加入你。"]
@@ -26,12 +27,15 @@ static func describe(world: Variant) -> Dictionary:
 	var id := str(level.get("id", ""))
 	var entry: Array = GOALS.get(id, [str(level.get("rule", "慢慢探索这片花园。")), "先观察身边的变化。", "尝试一个动作，再看看它改变了什么。"])
 	var complete := bool(state.get("completed", false))
+	# 3-4 now communicates the current journey in the existing objective row.
+	# Its opt-in hint tiers below retain their authored discovery/solution split.
+	var goal := str(GuardianFlow.describe(world).goal) if id == "3-4" else str(entry[0])
 	var steps: Array = [{"label": "花园复苏", "done": complete}]
 	return {
 		"steps": steps, "current": -1 if complete else 0,
 		"done": 1 if complete else 0, "total": 1,
-		"goal": str(entry[0]),
-		"next": str(level.get("story", "")) if complete else str(entry[0])
+		"goal": goal,
+		"next": str(level.get("story", "")) if complete else goal
 	}
 
 static func hint(world: Variant, tier: int = 0) -> Dictionary:

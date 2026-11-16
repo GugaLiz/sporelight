@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "b0066359b247ee276a5d9fdf6ebc2afb120030eadf0c3f34b6c1024c1f7bbbca",
+    "files": 585
+  },
+  "source": {
+    "sha256": "b0066359b247ee276a5d9fdf6ebc2afb120030eadf0c3f34b6c1024c1f7bbbca",
+    "files": 585
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_prop_collision_test",
+      "code": 1,
+      "elapsedMs": 44143,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nROUTE WRONG SUPPORT {\"actors\":{\"buddy\":{\"facing\":\"front\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-8.5600004196167,0.650335013866425,0.300000011920929],\"support\":\"f:-9:0\",\"velocity\":[0.0,0.0,0.0]},\"luvie\":{\"facing\":\"left\",\"floorHeight\":0.649999976158142,\"onFloor\":true,\"position\":[-8.44881725311279,0.650932788848877,-0.900100946426392],\"support\":\"f:-8:-1\",\"velocity\":[0.0,0.0,0.0]}},\"moving\":false,\"path\":[],\"stable\":true}\r\nROUTE REQUEST STATUS 石基占住了这个落脚点，请选择旁边的空地。 goal=f:-9:0 planner={ \"found\": false, \"path\": [], \"requested\": \"f:-9:0\", \"approach\": \"f:-9:0\" }\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\nDROP RESULT {\"actors\":{\"buddy\":{\"facing\":\"left\",\"floorHeight\":0.0,\"onFloor\":true,\"position\":[2.59749150276184,0.00093540595844388,3.0000011920929],\"support\":\"f:3:3\",\"velocity\":[0.0,0.0,0.0]},\"luvie\":{\"facing\":\"right\",\"floorHeight\":0.0,\"onFloor\":true,\"position\":[3.43338012695313,0.000935403455514461,3.0],\"support\":\"f:3:3\",\"velocity\":[0.0,0.0,0.0]}},\"moving\":false,\"path\":[],\"stable\":true} status=稳稳放好了，看看光与道路有没有一起改变。 item={ \"tile\": \"f:3:3\", \"angle\": 0.0 }\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":21,\"level\":\"2-2\",\"steps\":21,\"success\":true}\r\n{\"checks\":436,\"failures\":[\"walk around stone base reaches f:-9:0\",\"original care support remains reachable\"],\"passed\":false,\"peakPenetration\":0.0,\"routes\":[{\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true},{\"completed\":true,\"expectedSteps\":21,\"level\":\"2-2\",\"steps\":21,\"success\":true}],\"samples\":3598,\"suite\":\"native-prop-collision\"}\r\n",
+      "stderr": "ERROR: walk around stone base reaches f:-9:0\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _walk_to (res://tests/native_route_test.gd:134)\r\n       [2] _drain (res://tests/native_route_test.gd:98)\r\n       [3] _tick (res://tests/native_route_test.gd:92)\r\nERROR: original care support remains reachable\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _run (res://tests/native_prop_collision_test.gd:52)\r\n       [2] _walk_to (res://tests/native_route_test.gd:137)\r\n       [3] _drain (res://tests/native_route_test.gd:98)\r\n       [4] _tick (res://tests/native_route_test.gd:92)\r\n",
+      "passed": false
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="CapsuleShape3D" id="Capsule_character"]
+radius = 0.16
+height = 0.8
+
+[sub_resource type="CylinderMesh" id="Mesh_shadow"]
+top_radius = 0.21
+bottom_radius = 0.21
+height = 0.004
+radial_segments = 24
+
+[node name="GardenCharacter" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+floor_max_angle = 0.959931
+floor_snap_length = 0.28
+floor_constant_speed = true
+platform_floor_layers = 1
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.4, 0)
+shape = SubResource("Capsule_character")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Art" type="AnimatedSprite3D" parent="Visual"]
+pixel_size = 0.00625
+billboard = 1
+alpha_cut = 2
+shaded = false
+texture_filter = 2
+no_depth_test = false
+offset = Vector2(0, 108)
+
+[node name="Carry" type="Sprite3D" parent="Visual"]
+position = Vector3(0.17, 0.46, 0.06)
+pixel_size = 0.0022
+billboard = 1
+alpha_cut = 2
+shaded = false
+no_depth_test = false
+
+[node name="CarryModel" type="Node3D" parent="Visual"]
+position = Vector3(0.19, 0.35, 0.07)
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.012, 0)
+mesh = SubResource("Mesh_shadow")
+cast_shadow = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visual"]

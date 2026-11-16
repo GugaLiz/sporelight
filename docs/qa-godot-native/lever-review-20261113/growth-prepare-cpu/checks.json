@@ -1,0 +1,47 @@
+{
+  "initialSource": {
+    "sha256": "d95fb5ad8f3704d6a335499867e3a21427c3860e462d3d99e0fa0bca33e051c0",
+    "files": 586
+  },
+  "source": {
+    "sha256": "d95fb5ad8f3704d6a335499867e3a21427c3860e462d3d99e0fa0bca33e051c0",
+    "files": 586
+  },
+  "stable": true,
+  "passed": true,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_fixed_shore_integrity_test",
+      "code": 0,
+      "elapsedMs": 2568,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":68,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"suite\":\"native-fixed-shore-integrity\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_heavy_lever_test",
+      "code": 0,
+      "elapsedMs": 26858,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\n{\"checks\":241,\"failures\":[],\"passed\":true,\"routes\":[{\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}],\"samples\":2404,\"scope\":\"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route\",\"suite\":\"native-heavy-lever\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_hold_performance_test",
+      "code": 0,
+      "elapsedMs": 6078,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cacheCounters\":{\"convexBuilds\":1,\"convexHits\":15,\"fountainHits\":19,\"fountainSearches\":4,\"moleHits\":13},\"checks\":38,\"failures\":[],\"gpuPixelsVerified\":false,\"measurements\":[{\"commandMs\":1423.611,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":12.387},\"props\":{\"calls\":1,\"inclusiveMs\":1199.925},\"refresh\":{\"calls\":2,\"inclusiveMs\":1401.226},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":1140.064},\"supportHeight\":{\"calls\":82923,\"inclusiveMs\":699.388},\"terrain\":{\"calls\":1,\"inclusiveMs\":194.053}},\"phase\":\"cold-enter\"},{\"commandMs\":38.457,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":27.916},\"supportHeight\":{\"calls\":72,\"inclusiveMs\":1.435},\"terrain\":{\"calls\":1,\"inclusiveMs\":20.954}},\"maximumSynchronousSliceMs\":38.457,\"obstacleRevisionUnchanged\":true,\"phase\":\"use:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":93.287},{\"commandMs\":35.356,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":21.134},\"supportHeight\":{\"calls\":125,\"inclusiveMs\":2.784},\"terrain\":{\"calls\":1,\"inclusiveMs\":14.987}},\"maximumSynchronousSliceMs\":35.356,\"obstacleRevisionUnchanged\":true,\"phase\":\"release:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":95.152},{\"commandMs\":50.084,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":34.873},\"supportHeight\":{\"calls\":124,\"inclusiveMs\":2.849},\"terrain\":{\"calls\":1,\"inclusiveMs\":28.163}},\"maximumSynchronousSliceMs\":50.084,\"obstacleRevisionUnchanged\":true,\"phase\":\"use:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":117.875},{\"commandMs\":42.105,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":26.388},\"supportHeight\":{\"calls\":16,\"inclusiveMs\":0.349},\"terrain\":{\"calls\":1,\"inclusiveMs\":19.51}},\"maximumSynchronousSliceMs\":42.105,\"obstacleRevisionUnchanged\":true,\"phase\":\"undo\",\"propNodesReused\":true,\"simulationFrames\":0,\"synchronousTotalMs\":42.105}],\"passed\":true,\"scope\":\"Native CPU only, memory repository; real commands and continuous motor. Nested timings overlap.\",\"suite\":\"native-hold-performance\",\"timingsInclusive\":true}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_mechanism_props_test",
+      "code": 0,
+      "elapsedMs": 12174,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":539,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"scope\":\"Current-state cues, actual actions and undo, refresh invalidation, registered hard-base collisions matching visible mesh footprints, and unchanged domain snapshots.\",\"suite\":\"native-mechanism-props\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

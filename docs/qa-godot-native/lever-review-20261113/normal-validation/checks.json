@@ -1,0 +1,55 @@
+{
+  "initialSource": {
+    "sha256": "277c19e553135ad49b1594d0c9dd99b942a07649c29050f3c5ee5b81efae76af",
+    "files": 585
+  },
+  "source": {
+    "sha256": "277c19e553135ad49b1594d0c9dd99b942a07649c29050f3c5ee5b81efae76af",
+    "files": 585
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_fixed_shore_integrity_test",
+      "code": 0,
+      "elapsedMs": 2369,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":68,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"suite\":\"native-fixed-shore-integrity\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_fountain_contact_test",
+      "code": 0,
+      "elapsedMs": 2178,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":695,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"sourceEllipseSamples\":2560,\"suite\":\"native-fountain-contact\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_heavy_lever_test",
+      "code": 1,
+      "elapsedMs": 26201,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\n{\"checks\":241,\"failures\":[\"held recovery preserves bridge passenger support\",\"permanent saved road does not resume temporary hold\",\"fixed pin and released actor agree\",\"reduced motion leaves mechanism state intact\"],\"passed\":false,\"routes\":[{\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}],\"samples\":2402,\"scope\":\"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route\",\"suite\":\"native-heavy-lever\"}\r\n",
+      "stderr": "ERROR: held recovery preserves bridge passenger support\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _run (res://tests/native_heavy_lever_test.gd:111)\r\n       [2] _tick (res://tests/native_route_test.gd:92)\r\nERROR: permanent saved road does not resume temporary hold\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _run (res://tests/native_heavy_lever_test.gd:117)\r\n       [2] _tick (res://tests/native_route_test.gd:92)\r\nERROR: fixed pin and released actor agree\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _run (res://tests/native_heavy_lever_test.gd:118)\r\n       [2] _tick (res://tests/native_route_test.gd:92)\r\nERROR: reduced motion leaves mechanism state intact\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_route_test.gd:46)\r\n       [1] _run (res://tests/native_heavy_lever_test.gd:120)\r\n       [2] _tick (res://tests/native_route_test.gd:92)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_hold_performance_test",
+      "code": 0,
+      "elapsedMs": 5599,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cacheCounters\":{\"convexBuilds\":1,\"convexHits\":15,\"fountainHits\":19,\"fountainSearches\":4,\"moleHits\":13},\"checks\":38,\"failures\":[],\"gpuPixelsVerified\":false,\"measurements\":[{\"commandMs\":1202.322,\"inclusiveTimings\":{\"mole\":{\"calls\":1,\"inclusiveMs\":12.144},\"props\":{\"calls\":1,\"inclusiveMs\":1010.825},\"refresh\":{\"calls\":2,\"inclusiveMs\":1185.097},\"sanctuary\":{\"calls\":1,\"inclusiveMs\":951.223},\"supportHeight\":{\"calls\":82923,\"inclusiveMs\":591.767},\"terrain\":{\"calls\":1,\"inclusiveMs\":168.924}},\"phase\":\"cold-enter\"},{\"commandMs\":43.741,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":32.77},\"supportHeight\":{\"calls\":66,\"inclusiveMs\":0.923},\"terrain\":{\"calls\":1,\"inclusiveMs\":29.172}},\"maximumSynchronousSliceMs\":43.741,\"obstacleRevisionUnchanged\":true,\"phase\":\"use:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":83.871},{\"commandMs\":39.548,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":23.983},\"supportHeight\":{\"calls\":133,\"inclusiveMs\":2.331},\"terrain\":{\"calls\":1,\"inclusiveMs\":17.779}},\"maximumSynchronousSliceMs\":39.548,\"obstacleRevisionUnchanged\":true,\"phase\":\"release:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":86.114},{\"commandMs\":60.291,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":45.837},\"supportHeight\":{\"calls\":120,\"inclusiveMs\":2.3},\"terrain\":{\"calls\":1,\"inclusiveMs\":39.526}},\"maximumSynchronousSliceMs\":60.291,\"obstacleRevisionUnchanged\":true,\"phase\":\"use:hold\",\"propNodesReused\":true,\"simulationFrames\":22,\"synchronousTotalMs\":119.972},{\"commandMs\":46.638,\"inclusiveTimings\":{\"refresh\":{\"calls\":3,\"inclusiveMs\":31.096},\"supportHeight\":{\"calls\":16,\"inclusiveMs\":0.288},\"terrain\":{\"calls\":1,\"inclusiveMs\":25.159}},\"maximumSynchronousSliceMs\":46.638,\"obstacleRevisionUnchanged\":true,\"phase\":\"undo\",\"propNodesReused\":true,\"simulationFrames\":0,\"synchronousTotalMs\":46.638}],\"passed\":true,\"scope\":\"Native CPU only, memory repository; real commands and continuous motor. Nested timings overlap.\",\"suite\":\"native-hold-performance\",\"timingsInclusive\":true}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_mechanism_props_test",
+      "code": 0,
+      "elapsedMs": 11068,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":539,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"scope\":\"Current-state cues, actual actions and undo, refresh invalidation, registered hard-base collisions matching visible mesh footprints, and unchanged domain snapshots.\",\"suite\":\"native-mechanism-props\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+extends SceneTree
+const World=preload("res://core/garden_world.gd")
+const Flow=preload("res://application/guardian_flow_guidance.gd")
+var checks:=0
+var failures:Array[String]=[]
+func _initialize()->void: _run.call_deferred()
+func _check(ok:bool,label:String)->void:
+	checks+=1
+	if not ok: failures.append(label); push_error(label)
+func _act(w:RefCounted,id:String)->void:
+	_check(w.act(id).ok,"legal action "+id)
+func _walk(w:RefCounted,target:String)->void:
+	_check(w.has_path_to(target),"real route to "+target)
+	for id:String in w.path_to(target): _check(w.move(id).ok,"walk "+id)
+func _bridge(w:RefCounted)->void:
+	_walk(w,"f:1:-4")
+	_act(w,"take:mirror")
+	for x:int in range(2,5):
+		_act(w,"grow:root:right")
+		_walk(w,"g:root:%d:-4"%x)
+func _water(w:RefCounted)->void:
+	_act(w,"switch")
+	_walk(w,"m:water:0:0")
+	_act(w,"valve:water")
+	_check(w.flag("rain"),"water is stored immediately")
+	_act(w,"valve:water")
+	_check(w.flag("rain") and w.state.turns.water==0,"closing gate preserves stored water")
+	_walk(w,"f:-3:0")
+	_act(w,"switch")
+func _run()->void:
+	for water_first:bool in [true,false]:
+		var w:=World.new("3-4")
+		_check(w.state.layoutRevision==2,"new layout revision")
+		_check(Flow.describe(w).phase=="prepare" and Flow.describe(w).target=="highslot","whole optical goal visible from start")
+		_check(not w.point_for("f:4:-3").is_empty() and not w.point_for("f:4:-2").is_empty(),"far landing exists before bridge")
+		_check(w.point_for("f:-4:-4").is_empty(),"no hidden northwest return loop")
+		_check(w.rays()[0]=={"x":8,"z":3,"h":2} and w.rays().back()=={"x":8,"z":-1,"h":2},"fixed north beam stops at visible backstop")
+		_check(w.state.items.mirror.angle==1,"new mirror still needs optical adjustment")
+		for id:String in ["turn:inner","turn:light","turn:water","call:lift"]:
+			var before:Dictionary=w.snapshot()
+			_check(not w.act(id,true).ok and before==w.snapshot(),"quiet stale/remote command rejected "+id)
+		_check(not w.act("valve:water",true).ok,"hero cannot remotely open buddy gate")
+		if water_first:
+			_water(w)
+			_check(not w.flag("root") and w.flag("rain"),"water-first has no root dependency")
+			_bridge(w)
+		else:
+			_bridge(w)
+			_check(w.flag("root") and not w.flag("rain"),"bridge-first does not invent stored water")
+			_walk(w,"m:lift:0:0")
+			var before:Dictionary=w.snapshot()
+			_check(not w.act("valve:lift").ok and before==w.snapshot(),"empty pool cannot lift mirror")
+			_water(w)
+		_walk(w,"m:lift:0:0")
+		_act(w,"valve:lift")
+		_walk(w,"f:7:0")
+		_act(w,"drop:mirror:f:8:0")
+		_check(not w.flag("star") and not w.beam_hits(-4,0),"placing wrong-angle mirror alone cannot light flower")
+		_act(w,"angle:mirror")
+		_check(w.flag("star") and w.beam_hits(-4,0),"real reflected beam supplies flower")
+		var before:Dictionary=w.snapshot()
+		_check(not w.act("repair",true).ok and before==w.snapshot(),"cannot care remotely at high bank")
+		_walk(w,"m:lift:0:0")
+		_act(w,"valve:lift")
+		_walk(w,"f:-4:0")
+		_check(w.ready() and w.flag("moon") and w.state.turns.water==0,"return via original bridge completes actual reunion with gate closed")
+		_act(w,"repair")
+		_check(w.state.completed,"full water/bridge order completes")
+		_check(World.new("3-4",w.snapshot()).snapshot()==w.snapshot(),"v2 completed roundtrip exact")
+		_check(w.undo() and not w.state.completed,"care undo retains current progress")
+		_act(w,"switch"); _walk(w,"m:water:0:0")
+		_check(not w.ready(),"companion away invalidates actual reunion")
+	# Calls are station-bound, target a landing and never move a rider remotely.
+	var call:=World.new("3-4")
+	call.state.actors.luvie="f:7:0"
+	_check(call.guardian_lift_call_station()=="f:7:0","high physical call station")
+	_check(not call.act("call:lift").ok,"empty reservoir cannot summon upward")
+	call.state.flags.append("rain")
+	call.state.actors.buddy="m:lift:0:0"
+	_check(not call.act("call:lift").ok,"cannot call platform occupied by partner")
+	call.state.actors.buddy="f:-3:0"
+	_act(call,"call:lift")
+	_check(call.state.turns.lift==1,"high call raises empty lift")
+	_check(not call.act("call:lift",true).ok,"already at station is not another toggle")
+	_check(call.undo() and call.state.turns.lift==0,"call undo restores exact lift height")
+	_act(call,"call:lift")
+	call.state.actors.luvie="f:4:-2"
+	_act(call,"call:lift")
+	_check(call.state.turns.lift==0,"low station safely recalls empty lift")
+	_check(not call.has_path_to("m:water:0:0","luvie"),"hero cannot enter small water court")
+	print(JSON.stringify({"suite":"guardian-v2-rules","checks":checks,"passed":failures.is_empty(),"failures":failures,"scope":"Full domain routes in both preparation orders; native physical motion and GPU separately."}))
+	quit(0 if failures.is_empty() else 1)

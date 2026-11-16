@@ -1,0 +1,62 @@
+{
+  "scope": "One native CPU hot-path sample; concurrent host load means no claim of extra wall-time speedup over the earlier cache sample. Structural proof: zero prop rebuilds and unchanged obstacle identities.",
+  "source": {
+    "sha256": "e5871e19f3d7815754c0e7ea5ae39855838022290cf7a8453ad579e396010eea",
+    "files": 585
+  },
+  "stable": true,
+  "semanticPassed": true,
+  "checks": 38,
+  "failures": [],
+  "runnerPassed": false,
+  "environmentLimit": "Child sandbox still prevents user:// engine logs and system certificate access; normal-host recheck is required, no escalation was requested.",
+  "measurements": [
+    {
+      "phase": "use:hold",
+      "commandMs": 42.894,
+      "totalSynchronousMs": 81.359,
+      "terrainInclusiveMs": 25.97,
+      "propsCalls": 0,
+      "sanctuaryCalls": 0,
+      "moleCalls": 0,
+      "propNodesReused": true,
+      "obstacleRevisionUnchanged": true
+    },
+    {
+      "phase": "release:hold",
+      "commandMs": 23.875,
+      "totalSynchronousMs": 67.56,
+      "terrainInclusiveMs": 13.484,
+      "propsCalls": 0,
+      "sanctuaryCalls": 0,
+      "moleCalls": 0,
+      "propNodesReused": true,
+      "obstacleRevisionUnchanged": true
+    },
+    {
+      "phase": "use:hold",
+      "commandMs": 54.169,
+      "totalSynchronousMs": 111.134,
+      "terrainInclusiveMs": 35.768,
+      "propsCalls": 0,
+      "sanctuaryCalls": 0,
+      "moleCalls": 0,
+      "propNodesReused": true,
+      "obstacleRevisionUnchanged": true
+    },
+    {
+      "phase": "undo",
+      "commandMs": 37.205,
+      "totalSynchronousMs": 37.205,
+      "terrainInclusiveMs": 22.036,
+      "propsCalls": 0,
+      "sanctuaryCalls": 0,
+      "moleCalls": 0,
+      "propNodesReused": true,
+      "obstacleRevisionUnchanged": true
+    }
+  ],
+  "earlierCacheComparison": "performance-comparison.json",
+  "retainedInterfaceCompileFailure": "performance-hot/",
+  "normalEnvironmentRecheckRequired": true
+}

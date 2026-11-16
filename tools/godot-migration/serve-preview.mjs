@@ -2,6 +2,7 @@ import http from 'node:http';
 import {readFile,stat} from 'node:fs/promises';
 import {resolve,dirname,extname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {createStandardsPortal} from '../standards/portal.mjs';
 
 const projectRoot=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const option=(key,fallback)=>process.argv.find(value=>value.startsWith('--'+key+'='))?.slice(key.length+3)??fallback;
@@ -9,11 +10,12 @@ const variant=option('variant',process.env.GODOT_PREVIEW_VARIANT??'web');
 if(!/^[a-z][a-z0-9-]{0,48}$/.test(variant))throw Error('Invalid preview variant');
 const directory=resolve(projectRoot,'godot/build',variant);
 const port=Number(option('port',process.env.GODOT_PREVIEW_PORT??4185));
-const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.wasm':'application/wasm','.pck':'application/octet-stream','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.ico':'image/x-icon'};
+const standards=createStandardsPortal({projectRoot,enabled:option('standards','on')!=='off'});
+const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.wasm':'application/wasm','.pck':'application/octet-stream','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.ico':'image/x-icon','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json; charset=utf-8'};
 const server=http.createServer(async(request,response)=>{
  try{
+  if(await standards.handle(request,response))return;
   const url=new URL(request.url??'/', 'http://localhost');
-  if(url.pathname==='/favicon.ico'){response.writeHead(204).end();return;}
   if(url.pathname==='/__build.json'){
    const data=await readFile(resolve(directory,'build.json')).catch(error=>{if(error.code!=='ENOENT')throw error;return readFile(resolve(projectRoot,'godot/build/build.json'));});
    response.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(data);return;
@@ -23,8 +25,10 @@ const server=http.createServer(async(request,response)=>{
   if(file!==directory&&!file.startsWith(directory+sep)){response.writeHead(403).end();return;}
   const info=await stat(file);
   if(!info.isFile()){response.writeHead(404).end();return;}
-  response.writeHead(200,{'Content-Type':types[extname(file)]??'application/octet-stream','Content-Length':info.size,'Cache-Control':'no-store','Cross-Origin-Opener-Policy':'same-origin','Cross-Origin-Embedder-Policy':'require-corp'});
-  response.end(await readFile(file));
+  let data=await readFile(file);
+  if(extname(file)==='.html')data=Buffer.from(standards.inject(data.toString('utf8'),request));
+  response.writeHead(200,{'Content-Type':types[extname(file)]??'application/octet-stream','Content-Length':data.length,'Cache-Control':'no-store','Cross-Origin-Opener-Policy':'same-origin','Cross-Origin-Embedder-Policy':'require-corp'});
+  response.end(data);
  }catch(error){response.writeHead(error.code==='ENOENT'?404:500).end();}
 });
 server.on('error',error=>{console.error(error.message);process.exitCode=1;});

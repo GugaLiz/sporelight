@@ -32,22 +32,18 @@ func _run() -> void:
 				var desired: Vector3 = child.get_meta("original_sanctuary_desired")
 				_check(stage._surfaces.has(support), id+"/"+state+" physical support "+child.name)
 				var gate := str(child.name).begins_with("OriginalSanctuaryGate")
-				var full_support: bool = Sanctuary.gate_footprint(stage,child.position,support,radius) if gate else Sanctuary.fountain_footprint(stage,child.position,radius) if child.name=="SanctuaryFountain" else Dressing.flat_footprint(stage,child.position,support,radius)
+				var full_support: bool = Sanctuary.gate_footprint(stage,child.position,support,radius) if gate else Sanctuary.fountain_footprint(stage,child.get_meta("original_sanctuary_ground_center"),radius) if child.name=="SanctuaryFountain" else Dressing.flat_footprint(stage,child.position,support,radius)
 				_check(full_support, id+"/"+state+" complete same-height footprint "+child.name)
 				_check(absf(child.position.y-stage.support_height(child.position,support)-.008)<.0001, "foot meets physical top "+child.name)
 				_check(absf(child.position.y-desired.y-.008)<.0001, "no vertical migration "+child.name)
-				_check(not child.no_depth_test and child.get_child_count()==0,"normal depth and no added collision "+child.name)
+				_check(not child.no_depth_test,"normal world depth "+child.name)
+				_check(child.get_child_count()==(1 if child.name=="SanctuaryFountain" else 0),"only complete hard basin owns its registered anti-entry volume "+child.name)
 				rows.append({"level":id,"state":state,"node":child.name,"at":[child.position.x,child.position.y,child.position.z],"source_at":[desired.x,desired.y,desired.z],"support":support,"support_visible":stage._surfaces[support].visible,"width":child.pixel_size*child.texture.get_width(),"radius":radius})
 			var mole: Sprite3D = stage._props.get_node_or_null("MoleResident")
-			_check((mole!=null)==(id=="1-4" or state=="completed"),id+"/"+state+" original mole visibility condition")
+			_check((mole!=null)==(id=="1-4"),id+"/"+state+" resident belongs only to the bell-return garden")
 			if mole != null:
 				_check(is_equal_approx(mole.pixel_size*150,58*sqrt(2.0)/70),"mole uses 58 px source with 150 px cached draw scale")
 				_check(is_equal_approx(mole.offset.y+128,222+11*150.0/62),"mole retains full mound and paws above its foot")
-				if id=="3-4":
-					_check(mole.position.is_equal_approx(Vector3(-2.92,.008,-.20)),"final resident uses complete supported front-right terrace")
-					_check(Vector3(mole.get_meta("original_sanctuary_desired")).is_equal_approx(Vector3(-5,0,.3)),"final resident preserves original source location metadata")
-					_check(str(mole.get_meta("original_sanctuary_migration",""))=="same_height_front_right_terrace_clear_of_final_core_and_actors","final resident records real-depth core occlusion migration")
-					_mole_clearance(stage,mole)
 			if id=="1-4": _sanctuary(stage,world,state)
 			var ids := tagged.map(func(n: Node) -> int: return n.get_instance_id())
 			for frame in range(3): stage.refresh_world(world)
@@ -60,7 +56,9 @@ func _run() -> void:
 	_check(image.get_size()==Vector2i(416,384),"fountain original art uses complete 104 by 96 source canvas at 4x")
 	_check(image.get_pixel(208,367).a>.9,"fountain lower basin edge is present")
 	var output := {"checks":checks,"failures":failures,"scope":"CPU source ratios, feet, full support, state reversal, retained effects clocks and caches; GPU pending","rows":rows}
-	var file := FileAccess.open("res://../docs/qa-godot-native/original-elements-audit/native-sanctuary-headless.json",FileAccess.WRITE)
+	var output_folder := ProjectSettings.globalize_path("res://").path_join("../docs/qa-godot-native/guardian-causality-20261115").simplify_path()
+	DirAccess.make_dir_recursive_absolute(output_folder)
+	var file := FileAccess.open(output_folder.path_join("original-sanctuary-current.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(output,"  ")+"\n")
 	print(JSON.stringify({"checks":checks,"failures":failures,"states":8,"gpuPixelsVerified":false}))
 	stage.queue_free()
@@ -103,8 +101,8 @@ func _sanctuary(stage: Node, world: RefCounted, state: String) -> void:
 		_check(seal.offset==frame.offset and seal.position==frame.position and seal.pixel_size==frame.pixel_size,"frame and seal retain identical source registration")
 	var fountain_ratio := float(fountain.get_meta("original_fountain_ratio"))
 	_check(is_equal_approx(fountain.pixel_size*4*86,92.0/90*86*sqrt(2.0)/70*fountain_ratio),"fountain 86-unit lower basin retains original 92/90 proportions within explicit local scale")
-	_check(Sanctuary.fountain_candidate(stage,fountain.get_meta("original_sanctuary_desired"),float(fountain.get_meta("original_sanctuary_foot_radius"))+.01).is_empty(),"larger complete fountain cannot fit without intersecting actual core or losing support")
-	_check(bool(stage._tile_map["f:-9:-2"].solid) and absf(fountain.position.x+9)<.36 and absf(fountain.position.z+2)<.36,"original permanent solid cell still visibly contains fountain")
+	_check(is_equal_approx(fountain_ratio,.84375),"accepted fountain size stays fixed instead of shrinking to pass a misplaced foot test")
+	_check(bool(stage._tile_map["f:-9:-2"].solid) and Geometry2D.is_point_in_polygon(Vector2(-9,-2),fountain.get_meta("original_sanctuary_ground_outline")),"original permanent solid cell remains inside the complete visible basin")
 	var core: Node3D = stage._props_nodes["mark:core"]
 	var planter: Sprite3D = null
 	for child in core.get_children():
@@ -114,6 +112,11 @@ func _sanctuary(stage: Node, world: RefCounted, state: String) -> void:
 		var center: Vector3 = core.to_global(planter.get_meta("ground_footprint_center"))
 		var span: Vector2 = planter.get_meta("ground_footprint_span")
 		for prop: Sprite3D in [fountain,frame]:
+			if prop==fountain:
+				var rect:=Rect2(Vector2(center.x,center.z)-span*.5,span).grow(.02)
+				var polygon:=PackedVector2Array([rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y)])
+				_check(Geometry2D.intersect_polygons(fountain.get_meta("original_sanctuary_ground_outline"),polygon).is_empty(),"complete painted fountain ellipse clears actual core with 2cm margin")
+				continue
 			var radius := float(prop.get_meta("original_sanctuary_foot_radius"))
 			_check(absf(center.x-prop.position.x)>span.x*.5+radius or absf(center.z-prop.position.z)>span.y*.5+radius,prop.name+" clear of actual relocated planter square, not interaction origin")
 	var combined_radius := float(frame.get_meta("original_sanctuary_foot_radius"))+float(fountain.get_meta("original_sanctuary_foot_radius"))

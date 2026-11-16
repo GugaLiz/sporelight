@@ -5,16 +5,25 @@ extends RefCounted
 const COLLISION_LAYER: int = 8
 const LEVELS: Array[String] = ["1-2", "1-3", "1-4", "2-1", "2-2", "2-3", "2-4", "3-1", "3-2", "3-3", "3-4", "cloud-1", "cloud-2", "cloud-3"]
 const CloudDressing = preload("res://presentation/native/original_cloud_dressing.gd")
+const ArchFootprint = preload("res://presentation/native/native_arch_footprint.gd")
 const HARD_SCENERY: Array[String] = ["stone-lantern", "wood-lantern", "river-rock", "light-tower", "violet-crystal", "lotus-pool"]
 const BODY_NAME: String = "CoreStoneObstacle"
 const CLEARANCE: float = .02
 const HEIGHT_TOLERANCE: float = .025
 const WAYPOINT_OFFSETS: Array[float] = [-.44, -.33, -.30, -.22, -.11, 0.0, .11, .22, .30, .33, .44]
+static var _basin_shapes: Dictionary = {}
+static var basin_shape_builds := 0
+static var basin_shape_cache_hits := 0
 
 static func placement_offset(item_id: String,tile_id: String,level_id: String) -> Vector3:
 	# Keep the original day-post slot and projection rule; its complete stone
 	# foot sits to the north so a full capsule can enter the eastern shadow.
 	if level_id=="3-2" and item_id=="sunPost" and tile_id=="f:0:0": return Vector3(0,0,-.20)
+	# The final garden must be crossed while the heavy mirror is still here:
+	# continuous construction now follows the built root. Keep the complete
+	# 0.41m base inside its original tile, leaving a southern lane to the east.
+	# Rendering, hard collision and drop preparation consume this same offset.
+	if level_id=="3-4" and item_id=="mirror" and tile_id=="f:1:-4": return Vector3(0,0,-.20)
 	return Vector3.ZERO
 
 static func placement_entry(item_id: String, at: Vector3, level_id: String) -> Dictionary:
@@ -87,6 +96,8 @@ static func _other_bases(stage: Node) -> Array[Dictionary]:
 				entries.append(_rect_obstacle(child,key+"/FlowerStoneFoot",rect,center.y,center.y+.41,"FlowerStoneFoot"))
 	for child: Node in stage._props.get_children():
 		if not child is Node3D or not child.is_visible_in_tree(): continue
+		if child.has_meta("original_sanctuary_ground_outline"):
+			entries.append(_basin_obstacle(stage,child))
 		if child is Sprite3D and str(child.get_meta("original_scenery_alias", "")) in HARD_SCENERY:
 			var half: float = float(child.get_meta("original_scenery_foot_radius"))
 			var entry: Dictionary = _small_obstacle(child, str(child.name), half, child.global_position.y + .41)
@@ -98,23 +109,53 @@ static func _other_bases(stage: Node) -> Array[Dictionary]:
 			entries.append_array(_main_arch_bases(child,str(child.name)))
 	return entries
 
+static func _basin_obstacle(stage: Node, card: Node3D) -> Dictionary:
+	# The basin extends beyond its original solid cell. Its painted ellipse
+	# supplies both the physical convex volume and the navigator's exact edge.
+	var polygon: PackedVector2Array=card.get_meta("original_sanctuary_ground_outline")
+	var rect: Rect2=card.get_meta("original_sanctuary_ground_bounds")
+	var floor_y:=card.global_position.y
+	var top:=floor_y+.41
+	for tile: Dictionary in stage._tiles:
+		if not bool(tile.get("solid",false)):top=maxf(top,stage.tile_position(tile).y+.41)
+	var body: StaticBody3D=card.get_node_or_null("FountainBasinFoot") as StaticBody3D
+	if body==null:
+		body=StaticBody3D.new()
+		body.name="FountainBasinFoot"
+		card.add_child(body)
+	body.collision_layer=COLLISION_LAYER
+	body.collision_mask=0
+	var center:=Vector3(rect.get_center().x,floor_y,rect.get_center().y)
+	body.global_transform=Transform3D(Basis.IDENTITY,center)
+	var volume: CollisionShape3D=body.get_node_or_null("BasinVolume") as CollisionShape3D
+	if volume==null:
+		volume=CollisionShape3D.new()
+		volume.name="BasinVolume"
+		body.add_child(volume)
+	var local_outline := PackedVector2Array()
+	for point: Vector2 in polygon: local_outline.append(point-Vector2(center.x,center.z))
+	var shape_key := hash([local_outline,top-floor_y])
+	if not _basin_shapes.has(shape_key):
+		var vertices:=PackedVector3Array()
+		for point: Vector2 in local_outline:
+			for y: float in [0.0,top-floor_y]: vertices.append(Vector3(point.x,y,point.y))
+		var shape:=ConvexPolygonShape3D.new()
+		shape.points=vertices
+		_basin_shapes[shape_key] = shape
+		basin_shape_builds += 1
+	else:
+		basin_shape_cache_hits += 1
+	volume.shape=_basin_shapes[shape_key]
+	body.set_meta("prop_obstacle_id","sanctuary:fountain")
+	body.set_meta("not_walkable_support",true)
+	_opaque_structure(card)
+	return {"id":"sanctuary:fountain","rect":rect,"polygon":polygon,"floor":floor_y,"top":top,"height_scoped":true}
+
 static func _main_arch_bases(card: Sprite3D, id: String) -> Array[Dictionary]:
 	var entries: Array[Dictionary] = []
-	# Painted stone feet in the original 256px arch, independently of its
-	# ivy/flower crown. The current Sprite offset supplies the actual source
-	# anchor (scenery and latch cards deliberately use different anchors).
-	var anchor := Vector2(card.texture.get_width()*.5-card.offset.x,card.texture.get_height()*.5+card.offset.y)
-	var feet := [Vector4(72,188,30,15),Vector4(164,213,32,16)]
-	for index: int in range(feet.size()):
-		var foot: Vector4 = feet[index]
-		var minimum := Vector2(INF,INF)
-		var maximum := Vector2(-INF,-INF)
-		for corner: Vector2 in [Vector2(-foot.z,0),Vector2(0,-foot.w),Vector2(foot.z,0),Vector2(0,foot.w)]:
-			var pixel: Vector2 = Vector2(foot.x,foot.y)+corner-anchor
-			var point: Vector3 = card.global_position+CloudDressing.RIGHT*pixel.x*card.pixel_size+CloudDressing.FRONT*pixel.y*card.pixel_size*2
-			minimum=minimum.min(Vector2(point.x,point.z))
-			maximum=maximum.max(Vector2(point.x,point.z))
-		entries.append(_rect_obstacle(card,id+"/column"+str(index),Rect2(minimum,maximum-minimum),card.global_position.y,card.global_position.y+.41,"HardColumn_"+str(index)))
+	var rectangles: Array[Rect2] = ArchFootprint.card(card)
+	for index: int in range(rectangles.size()):
+		entries.append(_rect_obstacle(card,id+"/column"+str(index),rectangles[index],card.global_position.y,card.global_position.y+.41,"HardColumn_"+str(index)))
 	return entries
 
 static func _cloud_bases(root: Node3D, mark_kind: String = "") -> Array[Dictionary]:
@@ -266,6 +307,10 @@ static func physical_clear(point: Vector3, radius: float, entries: Array, height
 		if not height_overlap(point.y,point.y,entry,height): continue
 		var rect: Rect2 = entry.rect
 		var at := Vector2(point.x,point.z)
+		if entry.has("polygon"):
+			if at.distance_to(at.clamp(rect.position,rect.end))>=radius:continue
+			if _polygon_distance(at,entry.polygon)<radius-.002:return false
+			continue
 		if at.distance_to(at.clamp(rect.position,rect.end)) < radius-.002: return false
 	return true
 
@@ -273,6 +318,10 @@ static func clear(point: Vector3, radius: float, entries: Array, height: float =
 	for entry_value: Variant in entries:
 		var entry: Dictionary = entry_value
 		if not height_overlap(point.y,point.y,entry,height): continue
+		if entry.has("polygon"):
+			if not (entry.rect as Rect2).grow(maxf(0.0,radius)).has_point(Vector2(point.x,point.z)):continue
+			if _polygon_distance(Vector2(point.x,point.z),entry.polygon)<=radius:return false
+			continue
 		var bounds: Rect2 = (entry.rect as Rect2).grow(maxf(0.0, radius))
 		if point.x >= bounds.position.x and point.x <= bounds.end.x and point.z >= bounds.position.y and point.z <= bounds.end.y:
 			return false
@@ -289,8 +338,39 @@ static func segment_clear(from: Vector3, to: Vector3, radius: float, entries: Ar
 		if interval.x > interval.y: continue
 		var first_height: float = lerpf(from.y, to.y, interval.x)
 		var last_height: float = lerpf(from.y, to.y, interval.y)
-		if height_overlap(first_height,last_height,entry,height): return false
+		if not height_overlap(first_height,last_height,entry,height):continue
+		if entry.has("polygon"):
+			var a:=Vector2(from.x,from.z);var b:=Vector2(to.x,to.z)
+			if _polygon_distance(a,entry.polygon)<=radius or _polygon_distance(b,entry.polygon)<=radius:return false
+			var polygon: PackedVector2Array=entry.polygon
+			for index in range(polygon.size()):
+				var edge_a:=polygon[index];var edge_b:=polygon[(index+1)%polygon.size()]
+				if Geometry2D.segment_intersects_segment(a,b,edge_a,edge_b)!=null:return false
+				if edge_a.distance_to(Geometry2D.get_closest_point_to_segment(edge_a,a,b))<=radius:return false
+				if a.distance_to(Geometry2D.get_closest_point_to_segment(a,edge_a,edge_b))<=radius:return false
+				if b.distance_to(Geometry2D.get_closest_point_to_segment(b,edge_a,edge_b))<=radius:return false
+			continue
+		return false
 	return true
+
+static func _polygon_distance(point: Vector2, polygon: PackedVector2Array) -> float:
+	if Geometry2D.is_point_in_polygon(point,polygon):return 0.0
+	var nearest:=INF
+	for index in range(polygon.size()):
+		nearest=minf(nearest,point.distance_to(Geometry2D.get_closest_point_to_segment(point,polygon[index],polygon[(index+1)%polygon.size()])))
+	return nearest
+
+static func contact_normal(point: Vector2, entry: Dictionary) -> Vector2:
+	var rect: Rect2=entry.rect
+	if not entry.has("polygon"):return point-point.clamp(rect.position,rect.end)
+	var polygon: PackedVector2Array=entry.polygon
+	var nearest:=Vector2.ZERO
+	var distance:=INF
+	for index in range(polygon.size()):
+		var candidate:=Geometry2D.get_closest_point_to_segment(point,polygon[index],polygon[(index+1)%polygon.size()])
+		var squared:=point.distance_squared_to(candidate)
+		if squared<distance:distance=squared;nearest=candidate
+	return point-nearest
 
 static func _segment_rect_interval(from: Vector2, to: Vector2, rect: Rect2) -> Vector2:
 	var enter: float = 0.0

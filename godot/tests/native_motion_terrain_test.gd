@@ -3,6 +3,7 @@ extends SceneTree
 ## Destination stairs appear only after docking, with no intermediate rebuild.
 const Stage = preload("res://presentation/native/native_garden_stage.gd")
 const World = preload("res://core/garden_world.gd")
+const Surface = preload("res://presentation/native/native_surface.gd")
 var checks := 0
 var failures: Array[String] = []
 var cases: Array = []
@@ -89,16 +90,27 @@ func _test_pair(first: RefCounted, last: RefCounted, action: String, reverse: bo
 	var closed_seams := 0
 	for id: String in stage._surfaces:
 		var surface: Node3D = stage._surfaces[id]
+		var oracle_tile:=_oracle_tile(first,id)
+		_check(not oracle_tile.is_empty(),label+" rendered leaf belongs to authored source module or rule board "+id)
+		if not reference._surfaces.has(id):
+			# A fixed bank can own the coincident source coordinate. Construct
+			# this independent flat module leaf from the authored shape, never
+			# from the tested stage's interpolation aliases or texture helpers.
+			var leaf: Node3D=Surface.new()
+			reference._terrain.add_child(leaf)
+			reference._surfaces[id]=leaf
+			expected_rises[id]=[0.0,0.0,0.0,0.0]
+			_check(surface._body.collision_layer==0 and not surface.visible,label+" overlap-restored first frame is visual-only and hidden "+id)
 		var original: Node3D = reference._surfaces[id]
 		_check(surface.rises == expected_rises[id], label + "/" + id + " external stairs retract and internal stairs remain")
 		# This independent stage supplies the post-retraction rigid support oracle.
 		var active_rises: Array[float] = []
 		active_rises.assign(expected_rises[id])
 		var exposed: Array[bool] = [true, true, true, true]
-		original.configure(first.point_for(id), active_rises, exposed, original.center.y - 0.67, reference._terrain_materials())
+		original.configure(oracle_tile, active_rises, exposed, float(oracle_tile.h)*.65 - 0.67, reference._terrain_materials())
 		meshes[id] = _mesh_identity(surface)
 		rises[id] = surface.rises.duplicate()
-		var tile: Dictionary = first.point_for(id)
+		var tile: Dictionary = oracle_tile
 		for edge in range(4):
 			var direction: Vector2 = Stage.DIRECTIONS[edge]
 			for neighbor: Dictionary in first.tiles():
@@ -119,7 +131,7 @@ func _test_pair(first: RefCounted, last: RefCounted, action: String, reverse: bo
 			var original: Node3D = reference._surfaces[id]
 			_check(_mesh_identity(surface) == meshes[id], label + "/" + id + " rigid mesh and collision reused")
 			_check(surface.rises == rises[id], label + "/" + id + " no premature destination ramps")
-			var tile: Dictionary = first.point_for(id)
+			var tile: Dictionary = _oracle_tile(first,id)
 			var angle := _angle(first, last, str(tile.get("module", "")), eased)
 			_check(is_equal_approx(surface.rotation.y, -angle), label + "/" + id + " departure mesh rotation")
 			for offset: Vector3 in [Vector3.ZERO, Vector3(0.3, 0, 0), Vector3(-0.3, 0, 0), Vector3(0, 0, 0.3), Vector3(0, 0, -0.3)]:
@@ -143,6 +155,21 @@ func _test_pair(first: RefCounted, last: RefCounted, action: String, reverse: bo
 	_check(stage._build_count == builds + 1, label + " clear does not rebuild settled geometry")
 	_check(first.snapshot() == before and last.snapshot() == after, label + " rule states remain unchanged")
 	cases.append({"label": label, "surfaces": meshes.size(), "closedSeams": closed_seams, "motionBuilds": 2})
+
+func _oracle_tile(world: RefCounted,id: String) -> Dictionary:
+	var actual: Dictionary=world.point_for(id)
+	if not actual.is_empty():return actual
+	var parts:=id.split(":")
+	if parts.size()!=4 or parts[0]!="m":return {}
+	for module: Dictionary in world.level.modules:
+		if str(module.id)!=parts[1]:continue
+		for cell: Array in module.shape:
+			if int(cell[0])!=int(parts[2]) or int(cell[1])!=int(parts[3]):continue
+			if str(world.level.id)=="3-3" and parts[1]=="lift" and int(parts[2])==-1 and int(parts[3])==0 and not world.flag("root"):return {}
+			var tile: Dictionary=world.module_point(str(module.id),cell)
+			tile.merge({"id":id,"module":str(module.id),"kind":"module","local":cell})
+			return tile
+	return {}
 
 func _angle(first: RefCounted, last: RefCounted, module_id: String, progress: float) -> float:
 	for module: Dictionary in first.level.get("modules", []):

@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="Environment" id="Environment_garden"]
+background_mode = 0
+ambient_light_source = 3
+ambient_light_color = Color(1, 0.95, 0.84, 1)
+ambient_light_energy = 0.82
+tonemap_mode = 0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributes_garden"]
+dof_blur_far_enabled = false
+dof_blur_near_enabled = false
+
+[node name="NativeWorldViewport" type="SubViewport"]
+transparent_bg = true
+own_world_3d = true
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+msaa_3d = 2
+
+[node name="Garden" type="Node3D" parent="."]
+
+[node name="Terrain" type="Node3D" parent="Garden"]
+
+[node name="Props" type="Node3D" parent="Garden"]
+
+[node name="Effects" type="Node3D" parent="Garden"]
+
+[node name="Actors" type="Node3D" parent="Garden"]
+
+[node name="Environment" type="WorldEnvironment" parent="Garden"]
+environment = SubResource("Environment_garden")
+
+[node name="Sun" type="DirectionalLight3D" parent="Garden"]
+rotation_degrees = Vector3(-52, -24, 0)
+light_color = Color(1, 0.94, 0.78, 1)
+light_energy = 0.65
+shadow_enabled = false
+
+[node name="Camera" type="Camera3D" parent="Garden"]
+projection = 1
+size = 12.0
+near = 0.05
+far = 200.0
+current = true
+attributes = SubResource("CameraAttributes_garden")

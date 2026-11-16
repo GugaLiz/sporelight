@@ -1,0 +1,74 @@
+{
+  "beforeSource": {
+    "sha256": "277c19e553135ad49b1594d0c9dd99b942a07649c29050f3c5ee5b81efae76af",
+    "files": 585
+  },
+  "afterSource": {
+    "sha256": "ea44ba9d84f40a25a1a257a25d13b4d86f2581bb7635648734e85d065dbfcafc",
+    "files": 585
+  },
+  "beforeSourceStable": true,
+  "afterSourceStable": true,
+  "measurements": [
+    {
+      "phase": "cold-enter",
+      "beforeCommandMs": 1346.817,
+      "afterCommandMs": 1186.722,
+      "beforeTerrainMs": 186.343,
+      "afterTerrainMs": 162.657,
+      "terrainReductionPercent": 12.71
+    },
+    {
+      "phase": "use:hold",
+      "beforeCommandMs": 40.564,
+      "afterCommandMs": 32.096,
+      "beforeTerrainMs": 27.573,
+      "afterTerrainMs": 15.857,
+      "terrainReductionPercent": 42.49
+    },
+    {
+      "phase": "release:hold",
+      "beforeCommandMs": 42.736,
+      "afterCommandMs": 18.958,
+      "beforeTerrainMs": 23.882,
+      "afterTerrainMs": 8.896,
+      "terrainReductionPercent": 62.75
+    },
+    {
+      "phase": "use:hold",
+      "beforeCommandMs": 61.356,
+      "afterCommandMs": 38.859,
+      "beforeTerrainMs": 39.086,
+      "afterTerrainMs": 21.991,
+      "terrainReductionPercent": 43.74
+    },
+    {
+      "phase": "undo",
+      "beforeCommandMs": 46.657,
+      "afterCommandMs": 31.054,
+      "beforeTerrainMs": 24.809,
+      "afterTerrainMs": 12.008,
+      "terrainReductionPercent": 51.6
+    }
+  ],
+  "semanticChecks": {
+    "fixedShore": 68,
+    "holdPerformance": 38,
+    "neighborEquivalence": 7208,
+    "passed": true
+  },
+  "runnerPassed": false,
+  "environmentErrors": [
+    "user://log write access denied",
+    "root certificate store read denied"
+  ],
+  "equivalenceProbe": {
+    "script": "performance-neighbors-after/neighbor-equivalence.gd",
+    "checks": 7208,
+    "passed": true,
+    "exitCode": 0,
+    "firstProbeFailed": "The test used x=100000 as an approximate integer alias; Godot rejects the difference at that exact tolerance boundary. Corrected test fixture to x=200000; production code unchanged."
+  },
+  "scope": "Single-process native CPU before/after samples; timings include overlapping nested scopes and parallel-host noise. No GPU, browser, cold-start completion, or release performance claim.",
+  "implementation": "Per-build exact integer x/z buckets retain every height and original candidate order; fractional or approximately aliased integer coordinates use original scans; first two dedicated profiles bypass indexing."
+}

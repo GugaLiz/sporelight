@@ -1,0 +1,36 @@
+{
+  "sourceSha256": "6baaf3a6b254e641b4c4fc366fec68a26c78c15531aea6e139df243d955ad3cb",
+  "reviewed": [
+    "gpu-receiver-release/guardian-receiver-cold-original-initial-1280x720.png",
+    "gpu-receiver-release/guardian-receiver-original-step45-before-light-1280x720.png",
+    "gpu-receiver-release/guardian-receiver-original-step94-lit-before-care-1280x720.png",
+    "gpu-receiver-release/guardian-receiver-actual-e-care-bloom-1280x720.png",
+    "gpu-receiver-release/guardian-receiver-cold-original-initial-844x390.png",
+    "gpu-receiver-release/guardian-receiver-original-step45-before-light-844x390.png",
+    "gpu-receiver-release/guardian-receiver-original-step94-lit-before-care-844x390.png",
+    "gpu-receiver-release/guardian-receiver-actual-e-care-bloom-844x390.png",
+    "gpu-return-release/guardian-return-both-at-planter-ready-1280x720.png",
+    "gpu-return-release/guardian-return-completed-small-planter-1280x720.png",
+    "gpu-return-release/guardian-return-both-at-planter-ready-844x390.png",
+    "gpu-return-release/guardian-return-completed-small-planter-844x390.png"
+  ],
+  "findings": [
+    "Visible small stone base remains supported and constant from bud to bloom.",
+    "Receiving shoot visibly connects stone bed to existing straight beam endpoint; endpoint no longer floats above small plant.",
+    "Hero face remains readable in both sizes. Small screen leaf detail is secondary to silhouette."
+  ],
+  "limits": [
+    "QA receiver framing is fixed at core with normal camera size; return captures use actual gameplay follow camera.",
+    "Actual final same-cell reunion can hide companion behind hero; this was not attributed to new shoot and is not asserted solved.",
+    "No browser/audio/performance verification."
+  ],
+  "productionComparedToPrior96Intentions": {
+    "oldSha256": "956295fe",
+    "newSha256": "6baaf3a6b254e641b4c4fc366fec68a26c78c15531aea6e139df243d955ad3cb",
+    "changedInRecordedSources": [
+      "presentation/native/guardian_dressing.gd",
+      "presentation/native/native_garden_stage.gd"
+    ],
+    "coverage": "Prior complete route on old art; final same-source receiver actual care plus complete prepared high-bank return/rescue."
+  }
+}

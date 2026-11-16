@@ -6,6 +6,9 @@ var plan: RefCounted
 var growth_queue: Array[String] = []
 var phase := "explore"
 var _playtest_clock := 0.0
+var _walking_frontier := false
+var _frontier_tick := false
+var _frontier_elapsed := 0.0
 
 class MemoryRepository:
 	extends "res://services/save_repository.gd"
@@ -36,6 +39,8 @@ func _is_weaving() -> bool:
 func _enter_level(level_id: String, review: bool = false) -> void:
 	plan = null
 	growth_queue.clear()
+	_walking_frontier = false
+	_frontier_elapsed = 0.0
 	phase = "explore"
 	view.planning = false
 	view.draft.clear()
@@ -54,7 +59,15 @@ func _show_menu() -> void:
 	hud.show_menu(levels, progress)
 
 func _locked() -> bool:
-	return super._locked() or (_is_weaving() and phase in ["planning", "growing"])
+	return super._locked() or (_is_weaving() and (phase == "planning" or (phase == "growing" and not _frontier_tick)))
+
+func _physics_process(delta: float) -> void:
+	# Keep player commands locked while allowing only the queued real walk.
+	# The inherited physics/save path still owns actual support and poses.
+	_frontier_tick = _is_weaving() and phase == "growing" and _walking_frontier
+	if _frontier_tick: input_router.clear()
+	super._physics_process(delta)
+	_frontier_tick = false
 
 func _planned_count() -> int:
 	return session.world.state.growth.root.size() + (plan.commands.size() if plan != null else 0)
@@ -107,6 +120,8 @@ func _on_command(id: String) -> void:
 			if id == "restart":
 				# Restart owns the whole pending route, including its current preview.
 				growth_queue.clear()
+				_walking_frontier = false
+				_frontier_elapsed = 0.0
 				plan = null
 				phase = "explore"
 				motion.clear()
@@ -127,11 +142,35 @@ func _on_command(id: String) -> void:
 
 func _advance_actions(delta: float) -> void:
 	if _is_weaving() and phase == "growing":
-		if paused or _portrait_blocked or not motion.is_empty(): return
+		if paused or home_active or _portrait_blocked or not motion.is_empty(): return
 		if growth_queue.is_empty():
+			_walking_frontier = false
 			phase = "crossing" if session.world.connected() else "explore"
 			_sync_hud()
 		else:
+			var root: Dictionary = session.world.level.roots[0]
+			if _walking_frontier:
+				_frontier_elapsed += minf(delta, .05)
+				if _frontier_elapsed > 20.0:
+					_abort_growth_walk()
+					return
+				if native_movement.is_moving(): return
+				_walking_frontier = false
+				if not session.world.can_grow_root(root):
+					_abort_growth_walk()
+					return
+			if not session.world.can_grow_root(root):
+				var station: Dictionary = session.world.root_growth_station(root)
+				var path: Array = session.world.path_to(str(station.get("id", "")))
+				if native_movement == null or path.is_empty():
+					_abort_growth_walk()
+					return
+				input_router.clear()
+				hud.close_context_choices()
+				native_movement.request_path(path)
+				_walking_frontier = true
+				_frontier_elapsed = 0.0
+				return
 			_execute(Command.interact(growth_queue[0]), growth_queue[0])
 			if motion.is_empty():
 				growth_queue.clear()
@@ -139,6 +178,15 @@ func _advance_actions(delta: float) -> void:
 				_sync_hud()
 		return
 	super._advance_actions(delta)
+
+func _abort_growth_walk() -> void:
+	if native_movement != null: native_movement.stop()
+	_walking_frontier = false
+	_frontier_elapsed = 0.0
+	growth_queue.clear()
+	phase = "explore"
+	_message("还走不到道路前端，已搭好的石板会保留。")
+	_sync_hud()
 
 func _commit(prepared: GardenCommandResult) -> void:
 	super._commit(prepared)
@@ -216,7 +264,7 @@ func _weaving_journey() -> Dictionary:
 			next = "点击发光落点或按方向键；撤销可退一步，空草稿再撤销可退出。"
 		"growing":
 			goal = "根桥正沿路线生长 %d / %d。" % [_planned_count(), _root_budget()]
-			next = "等它落稳，再走向对岸花坛。"
+			next = "每节落稳后走到前端，再搭下一节；最后一节接向对岸。"
 		"crossing":
 			goal = "根桥已接通，去对岸照料第一朵花。"
 			next = "走到花坛旁互动；沿途微光可以自由收集。"
@@ -228,11 +276,11 @@ func _weaving_hint() -> String:
 	match phase:
 		"planning":
 			if plan.ready():
-				messages = ["路线已接到对岸，现在仍是草稿。", "确认后根桥才会逐节长出；想改路线，可以先撤销。", "点击“让根桥生长”或按 E，等根桥落稳后再过桥。"]
+				messages = ["路线已接到对岸，现在仍是草稿。", "确认后走到每段前端逐节搭建；想改路线，可以先撤销。", "点击“让根桥生长”或按 E，露薇会沿已搭好的石板前进。"]
 			else:
 				messages = ["正在规划，根桥还没有长出；还可安排 %d 节。" % (_root_budget() - _planned_count()), "每一节都从根尖继续。点发光的＋或按方向键；撤销可以退一步。", "沿岩石上侧或下侧连续绕行，最后一节接回对岸入口，再确认生长。"]
 		"growing":
-			messages = ["根桥正在沿你安排的路线生长。", "等最后一节落稳，就可以走到对岸。", "现在不需要再选落点；根桥接通后，走到花坛旁互动。"]
+			messages = ["正沿已建石板前进，逐节搭到最后一节。", "每一节都从已建道路前端继续，最后接上对岸。", "现在不需要再选落点；根桥接通后，走到花坛旁互动。"]
 		"crossing":
 			messages = ["你安排的根桥已经接通，小花还在对岸等你。", "接通道路后，还需要亲自到花坛旁照料它。", "点击对岸花坛所在的地面前往，再用主操作按钮或 E 照料；不必收齐微光。"]
 		_:

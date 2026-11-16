@@ -1,0 +1,23 @@
+{
+  "initialSource": {
+    "sha256": "56fcc1721be7b6bda97ca83f6cf0351ee78c4fdf4400bba1652745658015e5ea",
+    "files": 640
+  },
+  "source": {
+    "sha256": "56fcc1721be7b6bda97ca83f6cf0351ee78c4fdf4400bba1652745658015e5ea",
+    "files": 640
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_symbiosis_final_route_test",
+      "code": 1,
+      "elapsedMs": 681,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":16,\"failures\":[\"root=false lift=0 water=0 permanent shore stays fixed high ground\"],\"passed\":false,\"scope\":\"Prepared root/lift/water, occupied descent, undo and save boundaries; real travel is a separate GPU suite.\",\"suite\":\"symbiosis-final-route\"}\r\n",
+      "stderr": "ERROR: root=false lift=0 water=0 permanent shore stays fixed high ground\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_symbiosis_final_route_test.gd:11)\r\n       [1] _matrix (res://tests/native_symbiosis_final_route_test.gd:43)\r\n       [2] _run (res://tests/native_symbiosis_final_route_test.gd:82)\r\nSCRIPT ERROR: Invalid access to property or key 'kind' on a base object of type 'Dictionary'.\r\n   at: _matrix (res://tests/native_symbiosis_final_route_test.gd:46)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _matrix (res://tests/native_symbiosis_final_route_test.gd:46)\r\n       [1] _run (res://tests/native_symbiosis_final_route_test.gd:82)\r\nSCRIPT ERROR: Invalid access to property or key 'kind' on a base object of type 'Dictionary'.\r\n   at: _descent (res://tests/native_symbiosis_final_route_test.gd:75)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _descent (res://tests/native_symbiosis_final_route_test.gd:75)\r\n       [1] _run (res://tests/native_symbiosis_final_route_test.gd:83)\r\n",
+      "passed": false
+    }
+  ]
+}
