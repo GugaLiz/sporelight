@@ -11,6 +11,10 @@ func check(ok: bool, label: String) -> void:
 	checks += 1
 	if not ok: failures.append(label)
 func _run() -> void:
+	# This fixture checks complete theme replacement and reset against the base
+	# resource library; the shipped art theme is validated by the redraw capture.
+	Assets.reset_theme()
+	Assets.reset_bitmap_redraw()
 	var stage := Stage.new()
 	root.add_child(stage)
 	await process_frame

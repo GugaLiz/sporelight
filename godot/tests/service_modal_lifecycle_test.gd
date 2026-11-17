@@ -4,6 +4,7 @@ extends "res://tests/rule_application.gd"
 ## browser rendering, audible playback or operating-system dialogs.
 
 const RealHUD := preload("res://ui/garden_hud.gd")
+const CloudWorld := preload("res://core/cloud_garden_world.gd")
 
 class ObservableView:
 	extends QuietView
@@ -158,6 +159,11 @@ func _review_is_direct_stroll() -> void:
 	_check(app.reviewing and app.strolling and app.session.world.state.completed, "review/enter-loads-the-memory-directly-as-a-stroll")
 	_same(memory, app.session.world.snapshot(), "review/initial-world-is-the-archived-memory")
 	_walk_once(app, "review/walking")
+	_press(app, "前往下一片微光 · E", "review/reopen-completion")
+	_paused_modal(app, "review/reopened-completion")
+	_press(app, "留下看看", "review/return-to-memory-stroll")
+	_returned(app, "review/return-to-memory-stroll")
+	_check(app.reviewing and app.strolling, "review/continuation-sheet-preserves-review-ownership")
 	_same(active, app.repository.data.mainline.runs["1-1"], "review/does-not-replace-the-active-run")
 	_same(memory, app.repository.data.mainline.memories["1-1"], "review/does-not-replace-the-memory")
 	app.free()
@@ -207,6 +213,52 @@ func _ending_caption_follows_catalog() -> void:
 		_check(next != null and next.get_meta("action", "") == "next", label + "/caption-matches-the-actual-catalog-navigation")
 		_same(original_level, app.session.world.level, label + "/UI-property-does-not-change-the-rule-level")
 		app.free()
+
+func _stroll_can_continue_the_journey() -> void:
+	var mainline_levels := _levels.duplicate()
+	_levels.append_array(JSON.parse_string(FileAccess.get_file_as_string("res://content/cloud-levels.json")).levels)
+	for sample: Dictionary in [{"id": "1-1", "next": "1-2"}, {"id": "3-4", "next": "cloud-1"}, {"id": "cloud-1", "next": "cloud-2"}, {"id": "cloud-3", "next": ""}]:
+		var id := str(sample.id)
+		var completed: Dictionary = {}
+		if id.begins_with("cloud-"):
+			var fixtures: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/cloud-reference.json"))
+			for fixture: Dictionary in fixtures.levels:
+				if fixture.id == id:
+					completed = CloudWorld.new(id, fixture.steps.back().snapshot).snapshot()
+		else:
+			completed = _fixture("authored/" + id).steps.back().snapshot
+		var app := _real_app(id, completed)
+		app.repository.stage_run(completed)
+		var saved: Dictionary = app.repository.data.mainline.duplicate(true)
+		var writes: int = app.repository.commits
+		app._show_ending()
+		_press(app, "留下看看", "continue-stroll/" + id)
+		_returned(app, "continue-stroll/" + id)
+		_walk_once(app, "continue-stroll/" + id + "/away-from-completion")
+		var strolling_snapshot: Dictionary = app.session.world.snapshot()
+		var action := "前往下一片微光 · E" if not str(sample.next).is_empty() else "查看旅程纪事 · E"
+		var next := "去下一片微光 ↗" if not str(sample.next).is_empty() else "看看一路的纪事 ↗"
+		for attempt: int in range(2):
+			_press(app, action, "continue-stroll/" + id + "/reopen-" + str(attempt))
+			_paused_modal(app, "continue-stroll/" + id + "/reopened")
+			_check(_find_button(app.hud, next) != null, "continue-stroll/" + id + "/next-remains-reachable")
+			_same(strolling_snapshot, app.session.world.snapshot(), "continue-stroll/" + id + "/reopen-does-not-repair-again")
+			_same(saved, app.repository.data.mainline, "continue-stroll/" + id + "/completion-and-active-run-stay-unchanged")
+			_check(app.repository.commits == writes, "continue-stroll/" + id + "/reopen-does-not-save-a-stroll")
+			if attempt == 0:
+				_press(app, "留下看看", "continue-stroll/" + id + "/stay-again")
+				_returned(app, "continue-stroll/" + id + "/stay-again")
+		_press(app, next, "continue-stroll/" + id + "/advance")
+		if not str(sample.next).is_empty():
+			_returned(app, "continue-stroll/next-garden")
+			_check(app.session.world.level.id == sample.next and not app.session.world.state.completed and not app.strolling and not app.reviewing, "continue-stroll/starts-the-next-garden-as-a-normal-run")
+			_check(_find_button(app.hud, action) == null, "continue-stroll/unfinished-garden-clears-completion-action")
+		else:
+			_paused_modal(app, "continue-stroll/final-journal")
+			_check(app.hud._page_kind == "journal" and app.session.world.level.id == id, "continue-stroll/final-garden-opens-the-journal")
+		_same(saved.memories[id], app.repository.data.mainline.memories[id], "continue-stroll/" + id + "/advance-preserves-the-completion-memory")
+		app.free()
+	_levels = mainline_levels
 
 func _resume_cannot_bypass_a_modal() -> void:
 	var app := _real_app()
@@ -320,6 +372,7 @@ func _run() -> void:
 	_review_is_direct_stroll()
 	_completed_undo_availability()
 	_ending_caption_follows_catalog()
+	_stroll_can_continue_the_journey()
 	_resume_cannot_bypass_a_modal()
 	_import_lifecycle()
 	await _modal_resize_contract()

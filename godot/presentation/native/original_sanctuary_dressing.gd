@@ -5,6 +5,7 @@ extends RefCounted
 ## explicit local exceptions; rules/terrain stay intact. The complete basin
 ## outline is shared with native_prop_obstacles for local anti-entry collision.
 const Dressing = preload("res://presentation/native/original_garden_dressing.gd")
+const Assets = preload("res://elements/element_assets.gd")
 const PIXEL := 1.4142135623730951 / 70.0
 const FOUNTAIN_PIXEL := PIXEL * 92.0 / 90.0
 const RASTER := 4.0
@@ -15,6 +16,7 @@ const FOUNTAIN_FRONT := Vector3(0.70710678, 0, 0.70710678)
 const FOUNTAIN_BASIN := Vector2(43, 20)
 const GATE_SOURCE_RADIUS := 112.0 / 70.0 * .5
 static var _fountain_texture: Texture2D
+static var _fountain_asset_revision := -1
 static var rasterizations := 0
 static var _fountain_offsets: Array[Vector2] = []
 static var _placement_offsets: Array[Dictionary] = []
@@ -260,7 +262,8 @@ static func effect_position(at: Vector3, camera: Camera3D, x: float, y: float, r
 	return at + (camera.global_basis.x * x + camera.global_basis.y * (FOUNTAIN_FOOT - y)) * FOUNTAIN_PIXEL * ratio + camera.global_basis.z * .002
 
 static func fountain_texture() -> Texture2D:
-	if _fountain_texture != null: return _fountain_texture
+	var revision := Assets.revision()
+	if _fountain_texture != null and _fountain_asset_revision == revision: return _fountain_texture
 	var definitions := '<defs>'
 	var gradients := [["basin",-8,-8,51,"#fff4dc","#e6d0a9","#b7a180"],["rim",-9,-8,46,"#fff9e8","#ecdabb","#c8b18c"],["water",-8,-9,36,"#ecfbef","#a6dce0","#74b7c4"],["base",-4,-16,17,"#fff5dc","#e1cfaa","#bba681"],["stem",-3,-27,23,"#fff9e7","#e8d7b6","#c2ae8a"],["upper",-6,-39,24,"#fff8e3","#e5d1aa","#bca680"]]
 	for g: Array in gradients:
@@ -282,6 +285,7 @@ static func fountain_texture() -> Texture2D:
 	_stone_grain(image)
 	image.generate_mipmaps()
 	_fountain_texture = ImageTexture.create_from_image(image)
+	_fountain_asset_revision = revision
 	rasterizations += 1
 	return _fountain_texture
 
@@ -289,7 +293,10 @@ static func _stone_grain(image: Image) -> void:
 	# Original texturedOval uses the actual terrain stone at .08/.06/.08.
 	# Composite only exposed stone, once. Water, stem, nozzle and leaves keep
 	# their authored colours; no resource reads or pixel loops happen warm.
-	var texture: Texture2D = load("res://assets/images/grid-world/stone.png")
+	var texture: Texture2D = Assets.texture("stone")
+	if texture == null:
+		push_error("Sanctuary fountain requires the shared stone texture")
+		return
 	var stone := texture.get_image()
 	if stone.is_compressed(): stone.decompress()
 	for y in range(image.get_height()):

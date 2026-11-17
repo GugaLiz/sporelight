@@ -8,6 +8,9 @@ func check(ok: bool, label: String) -> void:
 	if not ok: failures.append(label); push_error(label)
 func _run() -> void:
 	Assets.reset_theme()
+	# This suite exercises the original resource library, independently of
+	# the separately verified shipped redraw map.
+	Assets.reset_bitmap_redraw()
 	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/visual-assets.json"))
 	for entry: Dictionary in manifest.entries:
 		check(Assets.resource_path(entry.id) == entry.resource, "default resource preserved: " + str(entry.id))

@@ -2,6 +2,7 @@ extends Control
 ## A small watercolor still life inside the existing selected-level paper.
 ## Reuses game art; never adds another card, button, or landscape platform.
 const ROOT := "res://assets/images/"
+const Assets := preload("res://elements/element_assets.gd")
 const ART := {
 	"1-1":[["production/vine.png",Rect2(39,0,64,52)]],
 	"1-2":[["garden-scenery/river-rock.png",Rect2(24,15,55,36)],["production/vine.png",Rect2(66,0,55,51)]],
@@ -24,7 +25,7 @@ func configure(id: String) -> void:
 	custom_minimum_size=Vector2(140,54);size=custom_minimum_size;clip_contents=true
 	_art.clear()
 	for item: Array in ART.get(id,[]):
-		var texture: Texture2D=load(ROOT+str(item[0]))
+		var texture: Texture2D=Assets.texture_for_source(ROOT+str(item[0]))
 		var box: Rect2=item[1]
 		var image_size:=texture.get_size()
 		var fitted:=(image_size*minf(box.size.x/image_size.x,box.size.y/image_size.y)).min(box.size)

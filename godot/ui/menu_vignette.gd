@@ -3,6 +3,7 @@ extends Node2D
 ## 24-second choreography are shared by all viewport sizes.
 const Paint := preload("res://presentation/world/garden_paint.gd")
 const Creatures := preload("res://presentation/actors/creature_art.gd")
+const Assets := preload("res://elements/element_assets.gd")
 const LOOP_MS := 24000.0
 const LIGHTS := [[0, 390, 468], [2400, 444, 458], [5800, 548, 478], [7500, 552, 528], [10000, 542, 530], [11350, 542, 530], [12750, 475, 460], [14500, 340, 480], [16500, 282, 508], [18500, 280, 440], [21000, 390, 440], [24000, 390, 468]]
 
@@ -93,7 +94,7 @@ func _ready() -> void:
 	name = "MenuVignette"
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	backdrop.name = "OriginalScenery"
-	backdrop.texture = load("res://assets/images/main/bg.png")
+	backdrop.texture = Assets.texture_for_source("res://assets/images/main/bg.png")
 	backdrop.centered = false
 	backdrop.scale = Vector2(1280, 720) / backdrop.texture.get_size()
 	# Draw behind this vignette's shadows without falling behind HUD's older
@@ -101,23 +102,23 @@ func _ready() -> void:
 	backdrop.show_behind_parent = true
 	add_child(backdrop)
 	for key in ["idle-front", "idle-side", "crouch-lower", "crouch", "crouch-happy", "turn-quarter"]:
-		_frames[key] = load("res://assets/images/menu-walk-redrawn/%s.png" % key)
+		_frames[key] = Assets.texture_for_source("res://assets/images/menu-walk-redrawn/%s.png" % key)
 	for index in 8:
-		_frames["step-%d" % (index + 1)] = load("res://assets/images/menu-walk-redrawn/step-%d.png" % (index + 1))
+		_frames["step-%d" % (index + 1)] = Assets.texture_for_source("res://assets/images/menu-walk-redrawn/step-%d.png" % (index + 1))
 	hero.name = "CoverLuvie"
 	hero.centered = false
 	add_child(hero)
 	buddy.name = "CoverBuddy"
-	buddy.images = {"ball": load("res://assets/images/journey-gardens/buddy-ball.png")}
+	buddy.images = {"ball": Assets.texture_for_source("res://assets/images/journey-gardens/buddy-ball.png")}
 	add_child(buddy)
 	orb.name = "LeadingLight"
-	orb.texture = load("res://assets/images/menu-fx-redrawn/orb.png")
+	orb.texture = Assets.texture_for_source("res://assets/images/menu-fx-redrawn/orb.png")
 	orb.scale = Vector2.ONE * 86.0 / orb.texture.get_width()
 	add_child(orb)
 	for index in 4:
 		var fly := Sprite2D.new()
 		fly.name = "Firefly%d" % index
-		fly.texture = load("res://assets/images/menu-fx-redrawn/firefly.png")
+		fly.texture = Assets.texture_for_source("res://assets/images/menu-fx-redrawn/firefly.png")
 		_flies.append(fly)
 		add_child(fly)
 	_ready_art = true

@@ -3,6 +3,7 @@ extends Control
 ## scenery and actors share a transform so resize cannot detach their feet.
 const Vignette := preload("res://ui/menu_vignette.gd")
 const MenuButtons := preload("res://ui/menu_button_styles.gd")
+const Assets := preload("res://elements/element_assets.gd")
 const INK := Color("6d5439")
 const MUTED := Color("6a7655")
 var scenery := Vignette.new()
@@ -33,7 +34,7 @@ func setup() -> void:
 	_shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(_shade)
 	logo.name = "HomeLogo"
-	logo.texture = load("res://assets/images/material-ready/menu-logo.png")
+	logo.texture = Assets.texture_for_source("res://assets/images/material-ready/menu-logo.png")
 	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -142,7 +143,7 @@ func _buttons(node: Node) -> Array[Button]:
 func style_primary(button: Button) -> void:
 	button.set_meta("cover_primary", true)
 	var paper := StyleBoxTexture.new()
-	paper.texture = load("res://assets/images/material-ready/menu-paper.png")
+	paper.texture = Assets.texture_for_source("res://assets/images/material-ready/menu-paper.png")
 	paper.content_margin_left = 20
 	paper.content_margin_right = 20
 	paper.content_margin_top = 8

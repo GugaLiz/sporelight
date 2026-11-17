@@ -15,6 +15,7 @@ const TERRACES := [Vector2(112, 441), Vector2(260, 390), Vector2(561, 485), Vect
 const MenuButtons := preload("res://ui/menu_button_styles.gd")
 const LivingInk := preload("res://ui/chapter_map_effects.gd")
 const DetailArt := preload("res://ui/chapter_map_detail_art.gd")
+const Assets := preload("res://elements/element_assets.gd")
 
 var entries: Array[Dictionary] = []
 var chapter := "valley"
@@ -431,7 +432,7 @@ func _build_overview() -> void:
 
 func _picture(parent: Control, file: String, rect: Rect2, keep_aspect: bool = true) -> TextureRect:
 	var node := TextureRect.new()
-	node.texture = load("res://assets/images/" + file)
+	node.texture = Assets.texture_for_source("res://assets/images/" + file)
 	node.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED if keep_aspect else TextureRect.STRETCH_SCALE
 	node.mouse_filter = Control.MOUSE_FILTER_IGNORE

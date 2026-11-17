@@ -1,9 +1,11 @@
 extends RefCounted
 ## Reuse the original art without changing HUD geometry or input ownership.
-const ORNAMENT := preload("res://assets/images/material-ready/panel-paper.png")
-const SPORE := preload("res://assets/images/material-ready/icon-spore.png")
-const PRIMARY := preload("res://assets/images/material-ready/button-green.png")
+const Assets := preload("res://elements/element_assets.gd")
 var _primary_styles: Dictionary = {}
+var _style_revision := -1
+
+static func spore_texture() -> Texture2D:
+	return Assets.texture_for_source("res://assets/images/material-ready/icon-spore.png")
 
 
 func attach(panel: PanelContainer, role: String) -> void:
@@ -12,6 +14,7 @@ func attach(panel: PanelContainer, role: String) -> void:
 
 
 func _draw_edge(panel: PanelContainer) -> void:
+	var ornament := Assets.texture_for_source("res://assets/images/material-ready/panel-paper.png")
 	# Existing paper texture and inner border remain in GardenHUD. The leaves
 	# stay wholly in its existing bottom padding, below the text content rect.
 	var inset := panel.get_theme_stylebox("panel").content_margin_bottom
@@ -19,17 +22,20 @@ func _draw_edge(panel: PanelContainer) -> void:
 	var width := height * 3
 	var y := panel.size.y - height - 1
 	var tint := Color(1, 1, 1, 0.42 if height > 3 else 0.24)
-	panel.draw_texture_rect_region(ORNAMENT, Rect2(8, y, width, height), Rect2(8.8889, 262.2222, 84.4444, 88.8889), tint)
-	panel.draw_texture_rect_region(ORNAMENT, Rect2(panel.size.x - width - 8, y, width, height), Rect2(500, 262.2222, 84.4444, 88.8889), tint)
+	panel.draw_texture_rect_region(ornament, Rect2(8, y, width, height), Rect2(8.8889, 262.2222, 84.4444, 88.8889), tint)
+	panel.draw_texture_rect_region(ornament, Rect2(panel.size.x - width - 8, y, width, height), Rect2(500, 262.2222, 84.4444, 88.8889), tint)
 	if str(panel.get_meta("game_paper_role", "")) == "message":
-		panel.draw_texture_rect_region(ORNAMENT, Rect2(panel.size.x * 0.5 - 14, panel.size.y - height, 28, height - 1), Rect2(180, 16.6667, 226.6667, 40), Color(1, 1, 1, 0.4))
+		panel.draw_texture_rect_region(ornament, Rect2(panel.size.x * 0.5 - 14, panel.size.y - height, 28, height - 1), Rect2(180, 16.6667, 226.6667, 40), Color(1, 1, 1, 0.4))
 
 
 func apply_primary(button: Button) -> void:
+	if _style_revision != Assets.revision():
+		_primary_styles.clear()
+		_style_revision = Assets.revision()
 	if _primary_styles.is_empty():
 		for state: String in ["normal", "hover", "pressed", "disabled"]:
 			var style := StyleBoxTexture.new()
-			style.texture = PRIMARY
+			style.texture = Assets.texture_for_source("res://assets/images/material-ready/button-green.png")
 			style.content_margin_left = 18
 			style.content_margin_right = 18
 			style.content_margin_top = 7

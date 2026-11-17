@@ -18,6 +18,7 @@ const MenuCover := preload("res://ui/menu_cover.gd")
 const MenuButtons := preload("res://ui/menu_button_styles.gd")
 const ChapterMap := preload("res://ui/chapter_map.gd")
 const GameHUDSkin := preload("res://ui/game_hud_skin.gd")
+const Assets := preload("res://elements/element_assets.gd")
 const FourthGuidance := preload("res://ui/fourth_garden_guidance.gd")
 const RainSong := preload("res://application/rain_song_guidance.gd")
 const GuardianFlow := preload("res://application/guardian_flow_guidance.gd")
@@ -172,7 +173,7 @@ func setup() -> void:
 	_status_row.add_child(_status)
 	_collection_icon = TextureRect.new()
 	_collection_icon.name = "CollectionSpore"
-	_collection_icon.texture = GameHUDSkin.SPORE
+	_collection_icon.texture = GameHUDSkin.spore_texture()
 	_collection_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_collection_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_collection_icon.custom_minimum_size = Vector2(14, 14)
@@ -1937,7 +1938,7 @@ func _draw_paper_surface(panel: PanelContainer) -> void:
 
 
 func _texture(resource: String) -> Texture2D:
-	return load(resource) if ResourceLoader.exists(resource) else null
+	return Assets.texture_for_source(resource) if ResourceLoader.exists(resource) else null
 
 
 func _set_button_icon(button: Button, resource: String, above: bool = false) -> void:

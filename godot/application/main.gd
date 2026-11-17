@@ -435,6 +435,8 @@ func _command_states() -> Dictionary:
 	_command_cache_revision = session.revision
 	_command_cache = {}
 	var snapshot: Dictionary = session.world.snapshot()
+	if bool(snapshot.get("completed", false)):
+		_command_cache["ending"] = {"available": true, "reason": ""}
 	for command in session.world.commands():
 		var preview: RefCounted = session.world.fork(snapshot)
 		var result: Dictionary = preview.act(str(command.id))
@@ -443,6 +445,8 @@ func _command_states() -> Dictionary:
 	return _command_cache
 
 func _primary() -> String:
+	if bool(session.world.state.completed):
+		return "ending"
 	if native_movement != null:
 		return _context_primary(_native_interaction_context())
 	var commands: Array = _local_commands()
@@ -544,6 +548,13 @@ func _on_command(id: String) -> void:
 			_enter_level(str(levels[index].id))
 		else:
 			hud.show_journal(levels, repository.data.mainline)
+		return
+	if id == "ending" and bool(session.world.state.completed):
+		# Completing the garden removes repair from world commands. Keep the
+		# completion sheet reachable after the player chooses to stroll, from
+		# either the main action or E, without replaying repair or saving a walk.
+		if not paused and motion.is_empty():
+			_show_ending()
 		return
 	if paused or (session.world.state.completed and not strolling):
 		return
@@ -855,8 +866,14 @@ func _after_motion() -> void:
 
 func _show_ending() -> void:
 	var presentation: Dictionary = session.world.level.duplicate()
-	presentation["has_next_garden"] = not levels.is_empty() and str(session.world.level.id) != str(levels.back().id)
+	presentation["has_next_garden"] = _has_next_garden()
 	hud.show_ending(presentation, session.world.snapshot())
+
+func _has_next_garden() -> bool:
+	return not levels.is_empty() and str(session.world.level.id) != str(levels.back().id)
+
+func _ending_action_label() -> String:
+	return "前往下一片微光" if _has_next_garden() else "查看旅程纪事"
 
 func _show_growth_hint() -> void:
 	_growth_hint = true
@@ -947,6 +964,8 @@ func _sync_hud() -> void:
 	for command in session.world.commands():
 		if str(command.id) == primary:
 			primary_label = str(command.label) + " · E"
+	if primary == "ending":
+		primary_label = _ending_action_label() + " · E"
 	hud.set_action_label("primary", primary_label)
 	hud.set_action_label("mode", "滚动中" if rolling else "行走")
 	hud.set_action_feedback(primary, _command_states())
@@ -1263,7 +1282,14 @@ func _native_interaction_context() -> Dictionary:
 	var body: CharacterBody3D = view.get_actor_body(session.world.actor())
 	if body == null:
 		return {}
-	return NativeInteraction.context(session.world, _local_commands(), _command_states(), body.position, view.tile_position, PresentationProfiles.for_level(str(session.world.level.id)))
+	var context: Dictionary = NativeInteraction.context(session.world, _local_commands(), _command_states(), body.position, view.tile_position, PresentationProfiles.for_level(str(session.world.level.id)))
+	if bool(session.world.state.completed):
+		# Keep optional nearby observations available while making continuation
+		# reachable everywhere in a finished garden, including away from its core.
+		var choices: Array = [{"id": "ending", "label": _ending_action_label()}]
+		choices.append_array(context.get("choices", []))
+		return {"id": "ending" if choices.size() == 1 else "context", "label": _ending_action_label() if choices.size() == 1 else "看看附近 / 继续旅程", "choices": choices, "tile": context.get("tile", session.world.point())}
+	return context
 
 func _native_command_tile(command: Dictionary) -> Dictionary:
 	return NativeInteraction.command_tile(session.world, command)
