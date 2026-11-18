@@ -7,7 +7,8 @@ const Assets := preload("res://elements/element_assets.gd")
 const AttentionShader := preload("res://ui/cover_attention.gdshader")
 const LOOP_MS := 24000.0
 const LIGHTS := [[0, 390, 468], [2400, 444, 458], [5800, 548, 478], [7500, 552, 528], [10000, 542, 530], [11350, 542, 530], [11950, 572, 365], [12750, 475, 355], [14500, 340, 420], [16500, 282, 508], [18500, 280, 400], [21000, 390, 420], [24000, 390, 468]]
-# Cover-only gaze/gesture and walk poses share the approved character identity.
+# Cover gaze poses are edited from the quarter idle/walk identity, with a closed
+# smile and the same view; do not reintroduce the rejected frontal baby-face set.
 # Garden profile frames stay local to their world view.
 const HERO_POSES := {"idle-front":"idle-front", "idle-side":"cover-idle-side", "turn-quarter":"idle-front"}
 const PALM_ART := [
@@ -21,14 +22,14 @@ const PALM_ART := [
 # Measured on the registered 512px whole-pose canvases, not on the face/hat.
 const PALM_ANCHORS := [Vector2(214,391),Vector2(193,383),Vector2(175,367),Vector2(157,331),Vector2(165,329),Vector2(169,329)]
 const ATTENTION_ART := [
-	"res://assets/images/cover-proportions-20261118/attention-0.png",
-	"res://assets/images/cover-proportions-20261118/attention-1.png",
-	"res://assets/images/cover-proportions-20261118/attention-2.png",
-	"res://assets/images/cover-proportions-20261118/attention-3.png",
-	"res://assets/images/cover-proportions-20261118/attention-4.png",
-	"res://assets/images/cover-proportions-20261118/attention-5.png",
+	"res://assets/images/cover-identity-20261118/attention-0.png",
+	"res://assets/images/cover-identity-20261118/attention-1.png",
+	"res://assets/images/cover-identity-20261118/attention-2.png",
+	"res://assets/images/cover-identity-20261118/attention-3.png",
+	"res://assets/images/cover-identity-20261118/attention-4.png",
+	"res://assets/images/cover-identity-20261118/attention-5.png",
 ]
-const ATTENTION_NECKS := [Vector2(238,275),Vector2(235,279),Vector2(244,297),Vector2(250,282),Vector2(260,281),Vector2(255,281)]
+const ATTENTION_NECKS := [Vector2(246,277),Vector2(240,278),Vector2(260,287),Vector2(245,283),Vector2(241,286),Vector2(262,287)]
 
 class BuddyArt:
 	extends Node2D
