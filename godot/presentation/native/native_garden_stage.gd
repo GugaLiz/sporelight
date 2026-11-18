@@ -1800,6 +1800,44 @@ func prop_core_approaches(tile_id: String,_who: String) -> Array[String]:
 	if str(world.level.id)=="3-4" and tile_id=="f:-4:0": return ["f:-3:0"]
 	return []
 
+func core_bedside_target(actor_position: Vector3, who: String = "") -> Dictionary:
+	# Both travellers can discover the visible flowerbed. Their original
+	# command/ability policy still owns which role may actually cultivate it.
+	if world == null or str(world.level.id) != "1-4" or bool(world.state.completed) or not world.flag("home"):
+		return {}
+	if who.is_empty(): who = world.actor()
+	if not world.state.actors.has(who): return {}
+	var core: Dictionary = {}
+	for mark: Dictionary in world.level.get("marks", []):
+		if str(mark.get("kind", "")) == "core":
+			core = world.point_for(str(mark.tile), _tiles)
+			break
+	if core.is_empty(): return {}
+	var support: Dictionary = world.point_for(str(world.state.actors[who]), _tiles)
+	if support.is_empty() or absf(float(support.h) - float(core.h)) > .1 or absf(actor_position.y - tile_position(core).y) > .08:
+		return {}
+	var planter: Node3D = _props_nodes.get("mark:core")
+	if planter == null or not planter.is_visible_in_tree(): return {}
+	var point_xz := Vector2(actor_position.x, actor_position.z)
+	var operation_position := tile_position(core)
+	# The legal operation stance can sit outside the shifted full base's
+	# discovery rim. Retain role/follow guidance in the original near range.
+	if world.near(str(core.id), who, _tiles) and point_xz.distance_to(Vector2(operation_position.x, operation_position.z)) <= 1.65:
+		return core
+	for entry: Dictionary in _prop_obstacles:
+		if str(entry.get("id", "")) != "mark:core": continue
+		var base: Rect2 = entry.rect
+		if point_xz.distance_to(point_xz.clamp(base.position, base.end)) <= 1.0 and world.has_path_to(str(core.id), who):
+			return core
+	return {}
+
+func core_approach_hint(actor_position: Vector3) -> Dictionary:
+	# Walk the same legal route as a flower click; never expand repair range.
+	if world == null or world.actor() != "luvie": return {}
+	var core := core_bedside_target(actor_position, "luvie")
+	if core.is_empty() or world.near(str(core.id), "luvie", _tiles): return {}
+	return core
+
 func prop_waypoint(tile: Dictionary, who: String, preferred: Vector3) -> Dictionary:
 	if not prop_obstacles_enabled(): return {"point": preferred}
 	var key := hash([str(tile.get("id", "")), who, preferred, _prop_actor_radius(who), _prop_actor_height(who)])
@@ -1857,6 +1895,10 @@ func actor_rest_offset(tile: Dictionary, who: String) -> Vector3:
 			if id == repair_tile: return Vector3(.36,0,.44) if who == "luvie" else Vector3(-.36,0,.44)
 		"1-4":
 			if id == "f:-9:0": return Vector3(.04,0,-.35) if who == "luvie" else Vector3(.44,0,.30)
+			# The shifted stone planter leaves this support's front rim clear.
+			# Share two real endpoints for either leader; the ordinary follower's
+			# blocked default otherwise collapses onto the leader's fallback point.
+			if id == "f:-8:1": return Vector3(-.44 if who == "luvie" else .44,0,-.44)
 		"2-1":
 			if id == "f:4:0": return Vector3(-.44,0,-.24) if who == "luvie" else Vector3(-.44,0,.44)
 		"2-2":

@@ -50,11 +50,21 @@ for(const [name,args]of operations){
   // Bootstrap images must be public files: the PCK is not available while downloading.
   const directory=join(build,webDirectory,'loader');
   await mkdir(directory,{recursive:true});
-  for(const file of ['bg.webp','logo.png','hero.png','orb.png']){
+  for(const file of ['bg.webp','logo.png','hero.png','orb.png','sowing.png','moss.png','lantern.png','flowers.png','night-ruins.webp']){
    const sourceFile=join(root,'godot/web/loader',file);
    const bytes=await readFile(sourceFile);
    await copyFile(sourceFile,join(directory,file));
    browserAssets.push({file:'loader/'+file,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});
+  }
+  // The illustrated loading view is a standalone public document, available
+  // before the engine/PCK and embedded by the custom HTML bootstrap shell.
+  const loadingDirectory=join(build,webDirectory,'loading');
+  await mkdir(loadingDirectory,{recursive:true});
+  for(const file of ['index.html','loading.css','loading-page.js']){
+   const sourceFile=join(root,'godot/web/loading',file);
+   const bytes=await readFile(sourceFile);
+   await copyFile(sourceFile,join(loadingDirectory,file));
+   browserAssets.push({file:'loading/'+file,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});
   }
   // Browser tabs and launchers load these directly, outside the game PCK.
   const brandingDirectory=join(build,webDirectory,'branding');

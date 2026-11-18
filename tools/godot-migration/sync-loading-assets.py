@@ -9,7 +9,9 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--check",action="store_true",help="Compare the saved pictures and manifest without writing.")
 args=parser.parse_args()
 root=Path(__file__).resolve().parents[2];out=root/"godot/web/loader"
-items=[("bg.webp","main/bg.png",1600,"WEBP"),("logo.png","material-ready/menu-logo.png",648,"PNG"),("hero.png","menu-walk-redrawn/idle-front.png",384,"PNG"),("orb.png","menu-fx-redrawn/orb.png",128,"PNG")]
+items=[("bg.webp","main/bg.png",1600,"WEBP"),("logo.png","material-ready/menu-logo.png",648,"PNG"),("hero.png","character-refined/idle-front.png",384,"PNG"),("orb.png","menu-fx-redrawn/orb.png",128,"PNG"),
+       ("sowing.png","character-refined/sow-1.png",384,"PNG"),("moss.png","production/moss.png",384,"PNG"),("lantern.png","garden-scenery/stone-lantern.png",192,"PNG"),("flowers.png","garden-scenery/yellow-flowers.png",192,"PNG"),
+       ("night-ruins.webp","home-loading-refine-20261118/masters/night-ruins.png",1600,"WEBP")]
 rows=[]
 
 # The loading shell is outside the PCK and cannot call ElementAssets. Resolve

@@ -11,7 +11,7 @@ if(!/^[a-z][a-z0-9-]{0,48}$/.test(variant))throw Error('Invalid preview variant'
 const directory=resolve(projectRoot,'godot/build',variant);
 const port=Number(option('port',process.env.GODOT_PREVIEW_PORT??4185));
 const standards=createStandardsPortal({projectRoot,enabled:option('standards','on')!=='off'});
-const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.wasm':'application/wasm','.pck':'application/octet-stream','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.ico':'image/x-icon','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json; charset=utf-8'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript','.wasm':'application/wasm','.pck':'application/octet-stream','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.ico':'image/x-icon','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json; charset=utf-8'};
 const server=http.createServer(async(request,response)=>{
  try{
   if(await standards.handle(request,response))return;

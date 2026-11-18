@@ -434,6 +434,10 @@ func _command_states() -> Dictionary:
 	_command_cache_session = session_id
 	_command_cache_revision = session.revision
 	_command_cache = {}
+	if str(session.world.level.id) == "1-4" and not bool(session.world.state.completed):
+		# Native context offers this application navigation intent only beside
+		# the visible bed. It never becomes a domain repair command.
+		_command_cache["approach:core"] = {"available": true, "reason": ""}
 	var snapshot: Dictionary = session.world.snapshot()
 	if bool(snapshot.get("completed", false)):
 		_command_cache["ending"] = {"available": true, "reason": ""}
@@ -578,6 +582,14 @@ func _on_command(id: String) -> void:
 		return
 	audio.start()
 	match id:
+		"approach:core":
+			if native_movement == null or not view.has_method("core_approach_hint"): return
+			var body: CharacterBody3D = view.get_actor_body(session.world.actor())
+			var target: Dictionary = view.core_approach_hint(body.position) if body != null else {}
+			if target.is_empty(): return
+			_message("走到播种台的操作位置，再和伙伴一起种下微光。")
+			_go(str(target.id))
+			return
 		"restart":
 			repository.data.mainline.runs.erase(str(session.world.level.id))
 			_enter_level(str(session.world.level.id))
@@ -1283,6 +1295,30 @@ func _native_interaction_context() -> Dictionary:
 	if body == null:
 		return {}
 	var context: Dictionary = NativeInteraction.context(session.world, _local_commands(), _command_states(), body.position, view.tile_position, PresentationProfiles.for_level(str(session.world.level.id)))
+	if view.has_method("core_bedside_target"):
+		var bedside: Dictionary = view.core_bedside_target(body.position)
+		var role_command := ""
+		var role_label := ""
+		if not bedside.is_empty():
+			if session.world.actor() == "buddy":
+				role_command = "switch"
+				role_label = "切换露薇来播种"
+			elif session.world.near(str(bedside.id)) and not session.world.together() and not bool(session.world.state.follow):
+				role_command = "follow"
+				role_label = "叫上伙伴同行"
+		if not role_command.is_empty():
+			# Expose the existing switch/follow command instead of silently
+			# changing roles, summoning a traveller or granting buddy repair.
+			var availability: Dictionary = _command_states().get(role_command, {})
+			var choices: Array = context.get("choices", []).duplicate(true)
+			choices.push_front({"id": role_command, "label": role_label, "disabled": not bool(availability.get("available", false)), "reason": str(availability.get("reason", ""))})
+			context = {"id": role_command if choices.size() == 1 else "context", "label": role_label if choices.size() == 1 else "选择附近操作", "choices": choices, "tile": context.get("tile", session.world.point())}
+	if view.has_method("core_approach_hint"):
+		var approach: Dictionary = view.core_approach_hint(body.position)
+		if not approach.is_empty():
+			var choices: Array = context.get("choices", []).duplicate(true)
+			choices.append({"id": "approach:core", "label": "走近播种台", "disabled": false, "reason": ""})
+			context = {"id": "approach:core" if choices.size() == 1 else "context", "label": "走近播种台" if choices.size() == 1 else "选择附近操作", "choices": choices, "tile": context.get("tile", session.world.point())}
 	if bool(session.world.state.completed):
 		# Keep optional nearby observations available while making continuation
 		# reachable everywhere in a finished garden, including away from its core.

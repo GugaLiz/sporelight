@@ -609,6 +609,13 @@ func show_context_choices(choices: Array = [], title: String = "选择操作") -
 	_context_choices = _merged_context_choices(choices)
 	_context_open = not _context_choices.is_empty()
 	_context_index = 0
+	# A nearby but unavailable mechanism may precede a legal pickup on the
+	# same support (for example a bell dropped at its return point). Initial
+	# keyboard/controller confirmation must select an action that can run.
+	for index in _context_choices.size():
+		if not bool(_context_choices[index].get("disabled", false)):
+			_context_index = index
+			break
 	_context_scroll.scroll_vertical = 0
 	_context_title.text = _display_text(title)
 	_render_context_choices()

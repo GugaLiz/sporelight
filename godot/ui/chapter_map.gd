@@ -25,8 +25,16 @@ var can_resume := false
 var can_save := false
 var story_labels: Dictionary = {}
 var preferred_focus: Button
+var _map_scroll: ScrollContainer
+var _map_content: Control
 var _canvas: Control
 var _body: Control
+var _chrome: Control
+var _tools_open := false
+var _extent := Vector2(1280, 720)
+var _card_rect := Rect2()
+var _enter_rect := Rect2()
+const SCENERY_RECT := Rect2(0, 80, 876, 528)
 var _overview: Control
 var _scale := 1.0
 var _pending_layout := false
@@ -140,6 +148,11 @@ func select_chapter(id: String) -> void:
 
 
 func close_overview() -> bool:
+	if _tools_open:
+		_tools_open = false
+		relayout()
+		_focus_selected.call_deferred()
+		return true
 	if not overview_open:
 		return false
 	overview_open = false
@@ -149,6 +162,7 @@ func close_overview() -> bool:
 
 
 func show_overview() -> void:
+	_tools_open = false
 	overview_open = true
 	relayout()
 	_focus_selected.call_deferred()
@@ -181,20 +195,63 @@ func relayout() -> void:
 		child.queue_free()
 	preferred_focus = null
 	var extent := size if size.x > 0 and size.y > 0 else Vector2(1280, 720)
-	_scale = minf(extent.x / 1280.0, extent.y / 720.0)
+	_extent = extent
+	var portrait := extent.x < 700 and extent.y > extent.x
+	var enter_height := 56.0 if extent.y > 500 else 48.0
+	_enter_rect = Rect2(Vector2((extent.x - minf(280, extent.x - 32)) * .5, extent.y - enter_height - 12), Vector2(minf(280, extent.x - 32), enter_height))
+	var card_height := 88.0 if extent.y > 500 else 62.0 if extent.y > 340 else 44.0
+	var card_bottom := _enter_rect.position.y - (64 if portrait else 12)
+	_card_rect = Rect2(Vector2((extent.x - minf(282, extent.x - 144)) * .5, card_bottom - card_height), Vector2(minf(282, extent.x - 144), card_height))
+	var scene_top := 72.0 if extent.y > 500 else 54.0
+	var scene_height := maxf(132, _card_rect.position.y - scene_top - 8)
+	_scale = extent.x / SCENERY_RECT.size.x
+	var scene_display_height := minf(scene_height, SCENERY_RECT.size.y * _scale)
 	var backdrop := ColorRect.new()
-	backdrop.color = Color("d4d0bb")
+	backdrop.color = Color("b7c7c0")
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(backdrop)
 	_canvas = Control.new()
-	_canvas.size = Vector2(1280, 720)
-	_canvas.scale = Vector2.ONE * _scale
-	_canvas.position = (extent - Vector2(1280, 720) * _scale) * 0.5
+	# The supplied illustration contains baked UI outside this scenic crop.
+	# Both artwork and live landmarks share this transform; no bitmap is stretched.
+	var atmosphere := _picture(self, "main/bg.png", Rect2(Vector2.ZERO, extent))
+	atmosphere.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	atmosphere.modulate = Color("cad5c0a0")
+	_canvas.name = "ChapterSceneryViewport"
+	_canvas.size = Vector2(extent.x, scene_display_height)
+	_canvas.position = Vector2(0, scene_top + (scene_height - scene_display_height) * .5)
+	_canvas.clip_contents = true
 	add_child(_canvas)
-	_picture(_canvas, "reference-scenes/map-%s.jpg" % ("valley" if chapter == "cloud" else chapter), Rect2(0, 0, 1280, 720), false)
+	_map_scroll = ScrollContainer.new()
+	_map_scroll.name = "MapSceneryScroll"
+	_map_scroll.size = _canvas.size
+	_map_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_map_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	_map_scroll.follow_focus = true
+	_canvas.add_child(_map_scroll)
+	_map_content = Control.new()
+	_map_content.custom_minimum_size = SCENERY_RECT.size * _scale
+	_map_content.clip_contents = true
+	_map_content.mouse_filter = Control.MOUSE_FILTER_PASS
+	_map_scroll.add_child(_map_content)
 	_body = Control.new()
 	_body.size = Vector2(1280, 720)
-	_canvas.add_child(_body)
+	_body.scale = Vector2.ONE * _scale
+	_body.position = -SCENERY_RECT.position * _scale
+	_body.mouse_filter = Control.MOUSE_FILTER_PASS
+	_map_content.add_child(_body)
+	# Exclude every baked button/counter from the opaque picture. Foreground
+	# landmarks may extend into the small mist margin above its scenic crop.
+	var scenery := _picture(_body, "reference-scenes/map-%s.jpg" % ("valley" if chapter == "cloud" else chapter), Rect2(0,112,876,496), false)
+	var scenic_crop := AtlasTexture.new()
+	scenic_crop.atlas = scenery.texture
+	scenic_crop.region = Rect2(0,112,876,496)
+	scenery.texture = scenic_crop
+
+	_chrome = Control.new()
+	_chrome.name = "MapNavigation"
+	_chrome.size = extent
+	_chrome.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_chrome)
 	_scenery_overlays()
 	_living_ink=LivingInk.new()
 	_body.add_child(_living_ink)
@@ -203,17 +260,37 @@ func relayout() -> void:
 	_living_ink.apply_settings(_settings)
 	_living_ink.set_paused(_paused or overview_open)
 	_header()
+	if SCENERY_RECT.size.y * _scale > _canvas.size.y + 1:
+		_label(_chrome, "上下滑动地图选关", Rect2(extent.x - 150, _canvas.position.y + 4, 140, 24), 12, Color("fff7e4"), true)
 	_markers()
 	_detail()
-	_previews()
 	_utilities()
+	_build_tools()
 	if overview_open:
 		# The illustration contains old baked counters/buttons. Keep our live
 		# presentation covering them while the overview owns all interaction.
 		_make_backdrop_inert(_body)
+		_make_backdrop_inert(_chrome)
 		_build_overview()
+	_center_selected.call_deferred()
 	if had_focus:
 		_focus_selected.call_deferred()
+
+
+func _center_selected() -> void:
+	if not is_inside_tree(): return
+	var tree := get_tree()
+	var scroll := _map_scroll
+	await tree.process_frame
+	if not is_inside_tree() or not is_instance_valid(scroll) or scroll != _map_scroll: return
+	await tree.process_frame
+	if not is_inside_tree() or not is_instance_valid(scroll) or scroll != _map_scroll: return
+	var list := _chapter_entries(chapter)
+	for index in list.size():
+		if str(list[index].id) != selected_id: continue
+		var source_y: float = (TERRACES[index].y - 54 - SCENERY_RECT.position.y) * _scale
+		_map_scroll.scroll_vertical = roundi(maxf(0, source_y - _map_scroll.size.y * .5))
+		break
 
 
 func _scenery_overlays() -> void:
@@ -227,18 +304,25 @@ func _scenery_overlays() -> void:
 
 
 func _header() -> void:
-	var back := _button(_body, "返回", Rect2(24, 22, maxf(68, 44 / _scale), maxf(80, 44 / _scale)), func() -> void: action_requested.emit("home"))
+	var short := _extent.y <= 500
+	var bar := _panel(_chrome, Rect2(0, 0, _extent.x, 62 if short else 70), Color("fff5e5e8"), 0)
+	bar.name = "MapHeader"
+	var back := _button(_chrome, "返回", Rect2(12, 9, 60, 44), func() -> void: action_requested.emit("home"))
 	back.set_meta("action", "home")
 	var total := 0
 	for entry: Dictionary in entries:
-		if entry.chapter != "cloud":
-			total += int(entry.collected_count)
-	_panel(_body, Rect2(1114, 23, 156, 80), Color("807a6d"), 24)
-	_label(_body, "☀ %d" % total, Rect2(1120, 26, 144, 38), 25, Color("fff6dc"))
-	_label(_body, "旅程微光", Rect2(1120, 63, 144, 30), 12, Color("fff6dc"))
-	_panel(_body, Rect2(453, 27, 418, 104), Color("fff3dbdd"), 24)
-	_label(_body, TITLES[chapter], Rect2(460, 34, 404, 42), 28)
-	_label(_body, DESCRIPTIONS[chapter], Rect2(463, 79, 398, 40), 13)
+		if entry.chapter != "cloud": total += int(entry.collected_count)
+	var title_width := 140.0 if _extent.x < 500 else 300.0
+	var title_x := 80.0 if _extent.x < 500 else (_extent.x - title_width) * .5
+	_label(_chrome, TITLES[chapter], Rect2(title_x, 8, title_width, 28 if short else 31), 19 if short else 23)
+	if _extent.x >= 700 and not short:
+		_label(_chrome, DESCRIPTIONS[chapter], Rect2(title_x - 45, 38, title_width + 90, 23), 12, MUTED)
+	var count_width := 72.0 if _extent.x < 500 else 122.0
+	var counter := _panel(_chrome, Rect2(_extent.x - count_width - 82, 9, count_width, 44), Color("f4ebd6"), 18)
+	counter.tooltip_text = "旅程中已收集的微光"
+	_label(counter, "☀ %d" % total, Rect2(3, 0, count_width - 6, 44), 17)
+	var settings := _button(_chrome, "设置", Rect2(_extent.x - 72, 9, 60, 44), func() -> void: action_requested.emit("settings"))
+	settings.set_meta("action", "settings")
 
 
 func _markers() -> void:
@@ -247,7 +331,12 @@ func _markers() -> void:
 		var entry := list[index]
 		var at: Vector2 = TERRACES[index % TERRACES.size()]
 		var id := str(entry.id)
-		var marker := _button(_body, "", Rect2(at - Vector2(63, 117), Vector2(126, 158)), select_level.bind(id), true)
+		var visual_origin := at - Vector2(63, 117)
+		var hit_width := maxf(126, 44 / _scale)
+		var hit_height := maxf(158, 44 / _scale)
+		var hit_origin := Vector2(clampf(at.x - hit_width * .5, SCENERY_RECT.position.x, SCENERY_RECT.end.x - hit_width), maxf(SCENERY_RECT.position.y, at.y - 117))
+		var marker := _button(_body, "", Rect2(hit_origin, Vector2(hit_width, hit_height)), select_level.bind(id), true)
+		var art_origin := visual_origin - hit_origin
 		# The fourth authored landmark sits behind the chapter heading. Inset
 		# only its feedback paint, preserving the original art and hit rectangle.
 		if index==3:
@@ -262,13 +351,13 @@ func _markers() -> void:
 		var art := "plant-bloom" if entry.completed else "plant-bud" if entry.unlocked else "plant-dormant"
 		if entry.completed and chapter in ["pond", "cave"]:
 			art = "plant-%s-bloom" % chapter
-		_picture(marker, "reference-scenes/%s.png" % art, Rect2(-7, -4, 140, 140))
+		_picture(marker, "reference-scenes/%s.png" % art, Rect2(art_origin + Vector2(-7, -4), Vector2(140, 140)))
 		if not entry.unlocked:
-			_label(marker, "待唤醒", Rect2(9, 60, 108, 36), 13, Color("fff6df"), true)
+			_label(marker, "待唤醒", Rect2(art_origin + Vector2(9, 60), Vector2(108, 36)), 13, Color("fff6df"), true)
 		if id == selected_id and entry.unlocked:
-			_picture(marker, "character-refined/idle-front.png", Rect2(18, 10, 89, 89))
-		_panel(marker, Rect2(8, 118, 110, 38), Color("fff2d8"), 18)
-		_label(marker, id + (" ✓" if entry.completed else ""), Rect2(8, 118, 110, 38), 17)
+			_picture(marker, "character-refined/idle-front.png", Rect2(art_origin + Vector2(18, 10), Vector2(89, 89)))
+		_panel(marker, Rect2(art_origin + Vector2(8, 118), Vector2(110, 38)), Color("fff2d8"), 18)
+		_label(marker, id + (" ✓" if entry.completed else ""), Rect2(art_origin + Vector2(8, 118), Vector2(110, 38)), 17)
 		if id == selected_id:
 			if index==3:
 				# Keep the same resource captured by focus_like_hover so leaving
@@ -285,36 +374,41 @@ func _markers() -> void:
 
 func _detail() -> void:
 	var entry := _entry(selected_id)
-	if entry.is_empty():
-		return
-	var panel := _panel(_body, Rect2(930, 165, 318, 350), Color("faecd9"), 32)
+	if entry.is_empty(): return
+	var panel := _panel(_chrome, _card_rect, Color("fff2dfed"), 26)
 	panel.name = "MapSelectedCard"
-	var compact := _scale < 0.8
-	_label(panel, "已唤醒的微光" if entry.completed else "下一段旅程" if entry.unlocked else "沉睡中的微光", Rect2(10, 5 if compact else 14, 298, 36 if compact else 30), 14, Color("78866a"))
-	if DetailArt.ART.has(selected_id):
-		var still_life:=DetailArt.new()
-		panel.add_child(still_life)
-		still_life.configure(selected_id)
-		still_life.position=Vector2(104.4,42) if compact else Vector2(89,44)
-		if compact: still_life.scale=Vector2.ONE*.78
-		still_life.tooltip_text=str(LivingInk.CAPTIONS.get(selected_id,""))
-	else:
-		_label(panel, TITLES[chapter], Rect2(10, 43 if compact else 48, 298, 43), 27)
-	_label(panel, "%s · %s" % [selected_id, entry.get("title", "")], Rect2(12, 88 if compact else 99, 294, 38 if compact else 36), 17)
+	var compact := _card_rect.size.y < 70
+	var title := "%s · %s" % [selected_id, entry.get("title", "")]
+	_label(panel, title, Rect2(8, 2, panel.size.x - 16, 24 if compact else 32), 16 if compact else 19)
+	var status := "微光 %d / %d" % [entry.collected_count, int(entry.get("total", 0))]
+	if not entry.unlocked: status = "先让前一关苏醒"
+	elif entry.completed: status += "  ·  已唤醒"
+	if _card_rect.size.y > 48:
+		_label(panel, status, Rect2(8, 28 if compact else 36, panel.size.x - 16, 24), 12, MUTED)
 	if not compact:
-		_label(panel, str(entry.get("rule", entry.get("subtitle", ""))), Rect2(18, 141, 282, 26), 12, MUTED)
-	_label(panel, "微光  %d / %d" % [entry.collected_count, int(entry.get("total", 0))], Rect2(20, 127 if compact else 171, 278, 36), 18)
-	var enter_text := "继续关卡" if entry.has_run else "重访关卡" if entry.completed else "进入关卡" if entry.unlocked else "等待前一关苏醒"
-	var enter := _button(panel, enter_text, Rect2(24, 166 if compact else 222, 270, maxf(55, 44 / _scale)), _enter_selected, false, true)
+		var values := _chapter_progress(chapter)
+		_label(panel, "本章已唤醒 %d / %d" % [values.completed, values.count], Rect2(8, 62, panel.size.x - 16, 20), 11, MUTED)
+	var enter := _button(_chrome, "继续关卡" if entry.has_run else "重访关卡" if entry.completed else "开始冒险" if entry.unlocked else "等待前一关苏醒", _enter_rect, _enter_selected, false, true)
 	enter.name = "MapEnterLevel"
 	enter.set_meta("level_id", selected_id)
+	enter.tooltip_text = "继续关卡" if entry.has_run else "重访关卡" if entry.completed else "进入关卡" if entry.unlocked else "先让前一关苏醒"
 	enter.disabled = not entry.unlocked
 	enter.focus_mode = Control.FOCUS_NONE if enter.disabled else Control.FOCUS_ALL
-	if entry.unlocked:
-		preferred_focus = enter
-	var values := _chapter_progress(chapter)
-	_label(panel, "本章微光 %d / %d" % [values.collected, values.total], Rect2(12, 270 if compact else 286, 294, 36 if compact else 24), 12, MUTED)
-	_label(panel, "已唤醒 %d / %d" % [values.completed, values.count], Rect2(12, 307 if compact else 314, 294, 36 if compact else 24), 12, MUTED)
+	if entry.unlocked: preferred_focus = enter
+	var list := _chapter_entries(chapter)
+	var current := 0
+	for index in list.size():
+		if str(list[index].id) == selected_id: current = index
+	for direction in [-1,1]:
+		var target_index: int = current + direction
+		var x := _card_rect.position.x - 54 if direction < 0 else _card_rect.end.x + 10
+		var previous_next := _button(_chrome, "‹" if direction < 0 else "›", Rect2(x,_card_rect.position.y + (_card_rect.size.y - 44) * .5,44,44), func() -> void:
+			if target_index >= 0 and target_index < list.size(): select_level(str(list[target_index].id)))
+		previous_next.name = "MapPreviousLevel" if direction < 0 else "MapNextLevel"
+		previous_next.set_meta("action", "map_previous" if direction < 0 else "map_next")
+		previous_next.tooltip_text = "上一座花园" if direction < 0 else "下一座花园"
+		previous_next.disabled = target_index < 0 or target_index >= list.size()
+		previous_next.focus_mode = Control.FOCUS_NONE if previous_next.disabled else Control.FOCUS_ALL
 
 
 func _enter_selected() -> void:
@@ -360,35 +454,56 @@ func _chapter_card(parent: Control, id: String, rect: Rect2, large: bool) -> But
 
 
 func _utilities() -> void:
-	var world_size := maxf(82, 44 / _scale)
-	var world := _button(_body, "世界\n总览", Rect2(24, 704 - world_size, world_size, world_size), show_overview)
-	world.set_meta("action", "world_overview")
-	var actions := [{"id": "settings", "text": "设置"}, {"id": "gallery", "text": "图鉴"}, {"id": "journal", "text": "花园纪事"}]
-	if can_save:
-		actions.append({"id": "save", "text": "导入 / 导出旅程"})
-	if not _chapter_entries("cloud").is_empty():
-		actions.append({"id": "cloud", "text": "云庭微光"})
 	var toolbar := Control.new()
 	toolbar.name = "MapUtilities"
-	_body.add_child(toolbar)
+	toolbar.size = _extent
+	toolbar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_chrome.add_child(toolbar)
+	var actions := [{"id":"world_overview","text":"世界总览"},{"id":"gallery","text":"图鉴"},{"id":"journal","text":"花园纪事"},{"id":"map_tools","text":"更多"}]
+	var portrait := _extent.x < 700 and _extent.y > _extent.x
+	var gap := 8.0
+	var width := (_extent.x - 40) / 4 if portrait else minf(140, (_extent.x - _enter_rect.size.x - 64) / 4)
+	var height := 46.0 if _extent.y <= 500 else 52.0
+	var y := _enter_rect.position.y - height - 10 if portrait else _enter_rect.position.y + (_enter_rect.size.y - height) * .5
+	for index in actions.size():
+		var action: Dictionary = actions[index]
+		var x := 8 + index * (width + gap) if portrait else 12 + index * (width + gap) if index < 2 else _extent.x - 12 - (4 - index) * width - (3 - index) * gap
+		var target := str(action.id)
+		var button := _button(toolbar, action.text, Rect2(x, y, width, height), func() -> void:
+			if target == "world_overview": show_overview()
+			elif target == "map_tools":
+				_tools_open = not _tools_open
+				relayout()
+			else: action_requested.emit(target))
+		button.add_theme_font_size_override("font_size", 13 if width < 110 else 16)
+		button.set_meta("action", target)
+
+
+func _build_tools() -> void:
+	var actions := []
+	if can_resume: actions.append({"id":"resume","text":"继续当前关卡"})
+	if can_save: actions.append({"id":"save","text":"导入 / 导出旅程"})
+	if not _chapter_entries("cloud").is_empty(): actions.append({"id":"cloud","text":"云庭微光"})
+	if chapter == "cloud": actions.append({"id":"cloud_story","text":str(story_labels.get(selected_id, "口袋里的小事"))})
+	var width := minf(300, _extent.x - 32)
+	var height := 50.0 + actions.size() * 48
+	var panel := _panel(_chrome, Rect2(_extent.x - width - 16, maxf(64, _enter_rect.position.y - height - 12), width, height), Color("fff5e8"), 22)
+	panel.name = "MapMoreActions"
+	panel.visible = _tools_open
+	var close := _button(panel, "收起", Rect2(width - 76, 6, 68, 44), func() -> void: _tools_open = false; relayout())
+	close.set_meta("action", "close_map_tools")
 	for index in actions.size():
 		var action: Dictionary = actions[index]
 		var target := str(action.id)
-		var button := _button(toolbar, action.text, Rect2(130 + index * 142, 704 - maxf(52, 44 / _scale), 136, maxf(52, 44 / _scale)), func() -> void:
+		var button := _button(panel, action.text, Rect2(10, 46 + index * 48, width - 20, 44), func() -> void:
 			if target == "cloud":
+				_tools_open = false
 				select_chapter("cloud")
-			else:
-				action_requested.emit(target))
+			elif target == "cloud_story": cloud_story_requested.emit(selected_id)
+			else: action_requested.emit(target))
 		button.set_meta("action", target)
-		if target == "save" and _scale < 0.8:
-			button.text = "旅程存档"
-			button.tooltip_text = "导入 / 导出旅程"
-	if can_resume:
-		var resume := _button(_body, "继续当前关卡", Rect2(130, 552, 245, maxf(52, 44 / _scale)), func() -> void: action_requested.emit("resume"))
-		resume.set_meta("action", "resume")
-	if chapter == "cloud":
-		var story := _button(_body, str(story_labels.get(selected_id, "口袋里的小事")), Rect2(400, 552, 400, maxf(52, 44 / _scale)), func() -> void: cloud_story_requested.emit(selected_id))
-		story.set_meta("cloud_story_level", selected_id)
+		if target == "cloud_story": button.set_meta("cloud_story_level", selected_id)
+		if index == 0 and _tools_open: preferred_focus = button
 
 
 func _make_backdrop_inert(node: Control) -> void:
@@ -410,11 +525,15 @@ func _build_overview() -> void:
 	_overview = Control.new()
 	_overview.name = "WorldOverview"
 	_overview.size = Vector2(1280, 720)
-	_canvas.add_child(_overview)
+	var dialog_scale := minf(_extent.x / 1280.0, _extent.y / 720.0)
+	_overview.scale = Vector2.ONE * dialog_scale
+	_overview.position = (_extent - Vector2(1280,720) * dialog_scale) * .5
+	add_child(_overview)
 	var shade := ColorRect.new()
 	shade.color = Color("324335bb")
-	shade.size = Vector2(1280, 720)
-	_overview.add_child(shade)
+	shade.size = _extent
+	add_child(shade)
+	move_child(shade, _overview.get_index())
 	_panel(_overview, Rect2(110, 84, 1060, 552), Color("fbefdb"), 32)
 	_label(_overview, "微光走过的地方", Rect2(240, 102, 800, 60), 30)
 	var close := _button(_overview, "返回地图", Rect2(955, 100, 190, maxf(50, 44 / _scale)), close_overview)
@@ -442,6 +561,12 @@ func _picture(parent: Control, file: String, rect: Rect2, keep_aspect: bool = tr
 	return node
 
 
+func _control_scale(parent: Control) -> float:
+	if is_instance_valid(_chrome) and (parent == _chrome or _chrome.is_ancestor_of(parent)): return 1.0
+	if is_instance_valid(_overview) and (parent == _overview or _overview.is_ancestor_of(parent)): return _overview.scale.x
+	return _scale
+
+
 func _label(parent: Control, value: String, rect: Rect2, font_size: int, color: Color = INK, backing: bool = false) -> Label:
 	if backing:
 		_panel(parent, rect, Color("81796bcc"), 14)
@@ -453,7 +578,7 @@ func _label(parent: Control, value: String, rect: Rect2, font_size: int, color: 
 	node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	node.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	node.add_theme_font_size_override("font_size", maxi(font_size, ceili(11 / _scale)))
+	node.add_theme_font_size_override("font_size", maxi(font_size, ceili(11 / _control_scale(parent))))
 	node.add_theme_color_override("font_color", color)
 	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(node)
@@ -484,7 +609,7 @@ func _panel(parent: Control, rect: Rect2, color: Color, radius: int) -> Panel:
 func _button(parent: Control, value: String, rect: Rect2, callback: Callable, transparent: bool = false, primary: bool = false) -> Button:
 	var button := Button.new()
 	button.text = value
-	button.add_theme_font_size_override("font_size", maxi(17, ceili(12 / _scale)))
+	button.add_theme_font_size_override("font_size", maxi(17, ceili(12 / _control_scale(parent))))
 	button.add_theme_color_override("font_color", INK)
 	button.add_theme_color_override("font_hover_color", INK)
 	button.add_theme_color_override("font_pressed_color", INK)
@@ -494,10 +619,12 @@ func _button(parent: Control, value: String, rect: Rect2, callback: Callable, tr
 	button.add_theme_stylebox_override("pressed", _style(Color("ead7b780"), Color("cfb887"), 22))
 	button.add_theme_stylebox_override("disabled", _style(Color("e5dfd0"), Color("d1c6ae"), 22))
 	if primary:
-		button.add_theme_stylebox_override("normal", _style(Color("8a9e79"), Color("718466"), 26))
-		button.add_theme_stylebox_override("hover", _style(Color("9daf8b"), Color("718466"), 26))
+		button.add_theme_stylebox_override("normal", _style(Color("dda24b"), Color("b98036"), 26))
+		button.add_theme_stylebox_override("hover", _style(Color("ecc071"), Color("b98036"), 26))
 		button.add_theme_color_override("font_color", Color("fff9e1"))
 		button.add_theme_color_override("font_hover_color", Color("fff9e1"))
+		button.add_theme_color_override("font_pressed_color", Color("fff9e1"))
+		button.add_theme_stylebox_override("pressed", _style(Color("c58c39"), Color("a5722d"), 26))
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	button.pressed.connect(callback)
 	MenuButtons.focus_like_hover(button)

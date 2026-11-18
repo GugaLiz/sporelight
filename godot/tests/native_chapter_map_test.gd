@@ -74,7 +74,7 @@ func _check_inert_backdrop(node: Control) -> void:
 
 
 func _geometry_and_keyboard() -> void:
-	for dimensions: Vector2i in [Vector2i(1280, 720), Vector2i(844, 390), Vector2i(568, 320)]:
+	for dimensions: Vector2i in [Vector2i(1280, 720), Vector2i(844, 390), Vector2i(568, 320), Vector2i(390, 844)]:
 		root.size = dimensions
 		var app := _real_app()
 		app._show_menu()
@@ -83,11 +83,13 @@ func _geometry_and_keyboard() -> void:
 		var viewport := Rect2(Vector2.ZERO, Vector2(dimensions))
 		var label := "%dx%d" % [dimensions.x, dimensions.y]
 		for button: Node in map.find_children("*", "Button", true, false):
+			if map._body.is_ancestor_of(button): continue # Scroll content is verified through selecting every landmark below.
 			if not button.is_visible_in_tree():
 				continue
 			_check(viewport.grow(1).encloses(button.get_global_rect()), label + "/visible-button-contained/" + str(button.get_meta("map_level", button.text)))
 			_check(button.get_global_rect().size.x >= 43.5 and button.get_global_rect().size.y >= 43.5, label + "/minimum-hit-area/" + str(button.get_meta("map_level", button.text)))
 		for caption: Node in map.find_children("*", "Label", true, false):
+			if map._body.is_ancestor_of(caption): continue # Offscreen scenic content is intentionally clipped by the scroll viewport.
 			if not caption.is_visible_in_tree():
 				continue
 			_check(viewport.grow(1).encloses(caption.get_global_rect()), label + "/caption-contained/" + caption.text + str(caption.get_global_rect()))
@@ -97,7 +99,23 @@ func _geometry_and_keyboard() -> void:
 					_check(ancestor.get_global_rect().grow(1).encloses(caption.get_global_rect()), label + "/caption-not-clipped/" + caption.text)
 				ancestor = ancestor.get_parent()
 		_check(root.gui_get_focus_owner() == map.preferred_focus, label + "/initial-keyboard-focus-is-enter")
-		var card: Panel = map._body.get_node("MapSelectedCard")
+		for id: String in ["1-1","1-2","1-3","1-4"]:
+			map.select_level(id)
+			await _settle_map()
+			var marker := _meta_button(map,"map_level",id)
+			_check(map._map_scroll.get_global_rect().grow(1).encloses(marker.get_global_rect()),label + "/selected-landmark-scrolls-fully-into-view/" + id)
+		map.select_level("1-1")
+		await _settle_map()
+		_check(_meta_button(map,"action","map_previous").disabled and not _meta_button(map,"action","map_next").disabled,label + "/first-garden-has-next-only")
+		_meta_button(map,"action","map_next").pressed.emit()
+		await _settle_map()
+		_check(map.selected_id == "1-2",label + "/next-button-selects-real-adjacent-garden")
+		map.select_level("1-4")
+		await _settle_map()
+		_check(_meta_button(map,"action","map_next").disabled,label + "/last-garden-next-is-disabled")
+		map.select_level("1-1")
+		await _settle_map()
+		var card: Panel = map._chrome.get_node("MapSelectedCard")
 		var card_controls: Array[Control] = []
 		for item: Node in card.get_children():
 			if item is Label or item is Button:
@@ -106,6 +124,13 @@ func _geometry_and_keyboard() -> void:
 		for index in card_controls.size():
 			for next in range(index + 1, card_controls.size()):
 				_check(not card_controls[index].get_rect().intersection(card_controls[next].get_rect()).has_area(), label + "/detail-rows-do-not-overlap/" + card_controls[index].text + "/" + card_controls[next].text)
+		var enter: Button = map._chrome.get_node("MapEnterLevel")
+		_check(absf(enter.get_global_rect().get_center().x - dimensions.x * .5) <= 1, label + "/primary-action-centered")
+		_check(card.get_global_rect().end.y <= enter.get_global_rect().position.y, label + "/selected-paper-above-primary")
+		_meta_button(map, "action", "map_tools").pressed.emit()
+		await _settle_map()
+		_check(map._chrome.get_node("MapMoreActions").visible and _meta_button(map, "action", "save").is_visible_in_tree(), label + "/more-opens-real-save-action")
+		map.close_overview()
 		map.show_overview()
 		await _settle_map()
 		_check(map._body.is_visible_in_tree(), label + "/overview-keeps-live-map-visible")
@@ -135,5 +160,5 @@ func _run() -> void:
 	await _navigation()
 	await _geometry_and_keyboard()
 	_failures.append_array(_logger.captured_errors())
-	print(JSON.stringify({"suite": "native-chapter-map", "passed": _failures.is_empty(), "checks": _checks, "failures": _failures, "scope": "Live progress, navigation, pause/save protection, real Enter input and landscape control bounds; GPU artwork and pointer/touch acceptance remain separate."}))
+	print(JSON.stringify({"suite": "native-chapter-map", "passed": _failures.is_empty(), "checks": _checks, "failures": _failures, "scope": "Live progress, navigation, pause/save protection, real Enter input and responsive control bounds; GPU artwork and pointer/touch acceptance remain separate."}))
 	quit(0 if _failures.is_empty() else 1)

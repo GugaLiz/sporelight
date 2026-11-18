@@ -83,13 +83,14 @@ def run(browser,mode,size=(1280,720),js=True,reduced=False):
             shot("no-javascript")
             assert "JavaScript" in page.locator(".no-script").inner_text()
         elif mode=="slow":
-            page.wait_for_function("() => {const p=document.querySelector('#status-progress');return p?.hasAttribute('value')&&p.value>0&&p.value<p.max*.9;}",timeout=30000)
-            page.wait_for_function("() => [...document.images].every(i=>i.complete&&i.naturalWidth>0)")
-            row["layout"]=page.evaluate("""() => {
+            page.wait_for_function("() => {const p=document.querySelector('#loading-page')?.contentDocument?.querySelector('#status-progress');return p?.hasAttribute('value')&&p.value>0&&p.value<p.max*.9;}",timeout=30000)
+            loading=page.locator("#loading-page").element_handle().content_frame()
+            loading.wait_for_function("() => [...document.images].every(i=>i.complete&&i.naturalWidth>0)")
+            row["layout"]=loading.evaluate("""() => {
                 const c=document.querySelector('.loading-copy'),p=document.querySelector('#status-progress'),r=p.getBoundingClientRect(),b=c.getBoundingClientRect();
-                const h=document.querySelector('.hero').getBoundingClientRect(),s=document.querySelector('.scenery').getBoundingClientRect(),l=document.querySelector('.brand').getBoundingClientRect();
+                const h=document.querySelector('.island').getBoundingClientRect(),l=document.querySelector('.brand').getBoundingClientRect();
                 const overlap=Math.max(0,Math.min(l.right,b.right)-Math.max(l.left,b.left))*Math.max(0,Math.min(l.bottom,b.bottom)-Math.max(l.top,b.top));
-                return {value:p.value,max:p.max,percent:document.querySelector('#load-percent').textContent,viewport:[innerWidth,innerHeight],progress:[r.x,r.y,r.width,r.height],copy:[b.x,b.y,b.width,b.height],copyOverflowX:c.scrollWidth>c.clientWidth+1,brandOverlap:overlap,footError:Math.abs(h.y+h.height*236/256-(s.y+s.height*642/720))};
+                return {value:p.value,max:p.max,percent:document.querySelector('#load-percent').textContent,viewport:[innerWidth,innerHeight],progress:[r.x,r.y,r.width,r.height],copy:[b.x,b.y,b.width,b.height],copyOverflowX:c.scrollWidth>c.clientWidth+1,brandOverlap:overlap,island:[h.x,h.y,h.width,h.height],url:location.pathname};
             }""")
             v=row["layout"];x,y,w,h=v["progress"];cx,cy,cw,ch=v["copy"]
             assert v["value"]>0 and v["value"]<v["max"],"actual streamed engine bytes reported"
@@ -97,7 +98,8 @@ def run(browser,mode,size=(1280,720),js=True,reduced=False):
             assert y>=cy and y+h<=cy+ch+1 and x>=0 and x+w<=size[0]+1,"progress is on screen without scrolling"
             assert not v["copyOverflowX"],"loading panel does not develop horizontal overflow"
             assert v["brandOverlap"]<1,"brand and loading text remain separate"
-            assert v["footError"]<1,"hero retains the original scene foot registration"
+            assert v["url"].endswith("/loading/index.html"),"loading is an independently served document"
+            assert page.locator("#canvas").evaluate("e=>getComputedStyle(e).visibility")=="hidden","native home never shows behind the loading page"
             shot("loading")
             ready();shot("home")
             page.keyboard.press("Enter");page.wait_for_timeout(250);page.keyboard.press("Enter")
@@ -111,25 +113,30 @@ def run(browser,mode,size=(1280,720),js=True,reduced=False):
         elif mode.endswith("-contract"):
             expected="opening" if mode=="opening-contract" else "preparing"
             page.wait_for_selector("#status[data-phase='"+expected+"']")
+            page.wait_for_function("() => document.querySelector('#loading-page')?.contentDocument?.querySelector('#loading-view')?.dataset.scriptReady==='true'")
+            loading=page.locator("#loading-page").element_handle().content_frame()
+            loading.wait_for_selector("#loading-view[data-phase='"+expected+"']")
             page.wait_for_timeout(500)
             assert page.locator("#status").is_visible(),"download completion is not game readiness"
             if mode=="opening-contract":
-                assert page.locator("#load-percent").inner_text()=="100%"
-                assert "唤醒" in page.locator("#loading-label").inner_text()
-                assert page.evaluate("() => {const c=document.querySelector('.loading-copy');return c.scrollWidth<=c.clientWidth+1;}"),"full progress has no horizontal scrollbar"
+                assert loading.locator("#load-percent").inner_text()=="100%"
+                assert "唤醒" in loading.locator("#loading-label").inner_text()
+                assert loading.evaluate("() => {const c=document.querySelector('.loading-copy');return c.scrollWidth<=c.clientWidth+1;}"),"full progress has no horizontal scrollbar"
             else:
-                assert page.locator("#status-progress").get_attribute("value") is None
-                assert page.locator("#load-percent").inner_text()=="加载中"
+                assert loading.locator("#status-progress").get_attribute("value") is None
+                assert loading.locator("#load-percent").inner_text()==""
                 if reduced:
-                    assert page.locator(".scene-orb").evaluate("e=>getComputedStyle(e).animationName")=="none"
+                    assert loading.locator(".island-spark").evaluate("e=>getComputedStyle(e).animationName")=="none"
             shot(expected)
         else:
             page.wait_for_selector("#status[data-phase='error']",timeout=45000)
-            assert page.locator("#retry-button").is_visible()
-            assert "微光" in page.locator("#status-heading").inner_text()
+            page.wait_for_function("() => document.querySelector('#loading-page')?.contentDocument?.querySelector('#loading-view')?.dataset.phase==='error'")
+            loading=page.locator("#loading-page").element_handle().content_frame()
+            assert loading.locator("#retry-button").is_visible()
+            assert "微光" in loading.locator("#status-heading").inner_text()
             shot("error")
             server.mode="fast"
-            page.locator("#retry-button").click()
+            loading.locator("#retry-button").click()
             ready();shot("retried-home")
         row["passed"]=True
     except Exception as e:
