@@ -77,7 +77,12 @@ func _shadow_feedback_reference(expected: Dictionary, before_state: Dictionary =
 	if not result.has("command") or result.command.kind != "act" or not result.result.has("message"): return result
 	var id := str(result.command.value)
 	var message := str(result.result.message)
-	if id == "take:sunPost" and message == "稳稳带好了，沿接通的路继续走吧。": result.result.message = "日影柱已收进叶包。"
+	# Feedback 119 changes only these exact presentation strings. Frozen fixture,
+	# states, roads, commands and unknown messages remain compared unchanged.
+	if id == "switch" and message == "换你来帮我啦。另一位会留在原地安心等候。":
+		result.result.message = "当前控制：小苔灵。露薇原地等候。" if str(result.snapshot.active) == "buddy" else "当前控制：露薇。小苔灵原地等候。"
+	elif id.begins_with("drop:bell:") and message == "稳稳放好了，看看光与道路有没有一起改变。": result.result.message = "门铃已放在这块石台上。走近可重新拾起，由露薇带回鼹鼠家门。"
+	elif id == "take:sunPost" and message == "稳稳带好了，沿接通的路继续走吧。": result.result.message = "日影柱已收进叶包。"
 	elif id == "take:moonPost" and message == "稳稳带好了，沿接通的路继续走吧。": result.result.message = "月影柱已收进叶包。"
 	elif id.begins_with("drop:sunPost:") and message == "稳稳放好了，看看光与道路有没有一起改变。": result.result.message = "日影柱已放稳。"
 	elif id.begins_with("drop:moonPost:") and message == "稳稳放好了，看看光与道路有没有一起改变。": result.result.message = "月影柱已放稳。"

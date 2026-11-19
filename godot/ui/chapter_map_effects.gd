@@ -23,9 +23,11 @@ var particles := true
 var frames_drawn := 0
 var _pending := 0.0
 var _path := PackedVector2Array()
+var _placement_scale := Vector2.ONE
 
-func configure(id: String,entries: Array[Dictionary],terraces: Array) -> void:
+func configure(id: String,entries: Array[Dictionary],terraces: Array,placement_scale := Vector2.ONE) -> void:
 	chapter=id;landmarks.clear();mouse_filter=Control.MOUSE_FILTER_IGNORE
+	_placement_scale=placement_scale
 	name="ChapterLivingInk";size=Vector2(1280,720)
 	for index in entries.size():
 		var entry:=entries[index]
@@ -39,6 +41,7 @@ func configure(id: String,entries: Array[Dictionary],terraces: Array) -> void:
 			_path.append(start*(1-t)*(1-t)+segment[0]*2*t*(1-t)+segment[1]*t*t)
 		start=segment[1]
 	_path.append(start);queue_redraw()
+	for index in _path.size(): _path[index]*=_placement_scale
 
 func apply_settings(settings: Dictionary) -> void:
 	low_motion=bool(settings.get("lowMotion",false));particles=bool(settings.get("particles",true));queue_redraw()
@@ -76,5 +79,5 @@ func _draw() -> void:
 			var x:=float((index*137+42)%830+38)
 			var y:=float((index*79+160)%410+160)-sin(t*.35+index)*7
 			var alpha:=.25+.22*(.5+.5*sin(t*.65+index*1.7))
-			draw_circle(Vector2(x,y),float(index%3+1),Color(tint,alpha))
+			draw_circle(Vector2(x,y)*_placement_scale,float(index%3+1),Color(tint,alpha))
 

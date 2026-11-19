@@ -210,8 +210,12 @@ func _test_instruments() -> void:
 			_test_cloud_action(str(entry[0]),"lift" if str(entry[0]) == "cloud-2" else "rotate")
 			continue
 		_check(str(node.get_meta("motion_kind")) == str(entry[2]), str(entry[0]) + " instrument uses actual module kind")
-		if str(entry[0]) == "3-3":
-			_check(node.has_node("NaturalWheel" if str(entry[1]) == "turn" else "NaturalLift"), "3-3 retains a distinct natural mechanism silhouette")
+		if str(entry[0]) in ["1-3","3-3"]:
+			_check(node.has_node("NaturalWheel" if str(entry[1]) == "turn" else "NaturalLift"), str(entry[0])+" retains a distinct natural mechanism silhouette")
+			if str(entry[0]) == "1-3":
+				var wheel: Sprite3D = node.get_node("NaturalWheel")
+				var natural := preload("res://presentation/native/symbiosis_dressing.gd")
+				_check(wheel.texture == natural.asset_texture("wheel") and is_equal_approx(wheel.pixel_size,float(natural.asset_spec("wheel").pixelSize)),"1-3 shares accepted 3-3 wheel artwork and scale")
 			_check(node.find_children("*", "Label3D", true, false).is_empty(), "3-3 mechanisms no longer encode identity in text")
 			_check_hard_bases(node, 1, "3-3 natural mechanism retains its real stone base")
 			_check(snapshot == world.snapshot(), "3-3 natural mechanism preserves domain snapshot")
@@ -223,7 +227,12 @@ func _test_instruments() -> void:
 			_check(art != null and art.texture is AtlasTexture and not art.no_depth_test,label + " uses natural wood/stone art with real depth")
 			_check(node.find_children("*", "Label3D", true, false).is_empty() and not node.has_node("InstrumentStem") and not node.has_node("InstrumentWheel"),label + " replaces the old text-post construction")
 			var attachment := str({"inner":"GardenDriveGear","water":"WaterOutletTrough","lift":"GuardianLiftFloat","light":"LightBearingFork"}[role])
-			_check(node.has_node(attachment) and str(node.get_meta("guardian_role", "")) == role,label + " retains its distinct physical mechanism")
+			var attached := node.has_node(attachment)
+			if role == "light":
+				# The existing optical emitter superseded the old decorative fork.
+				var emitter: Node3D = stage._props_nodes.get("guardian:emitter")
+				attached = emitter != null and emitter.has_node("TurningLamp/LampLens") and not art.visible
+			_check(attached and str(node.get_meta("guardian_role", "")) == role,label + " retains its distinct physical mechanism")
 			var natural_base: MeshInstance3D = node.get_node("InstrumentBase")
 			var expected_axis := Vector2(.28,-.04 if role == "light" else 0.0)
 			_check(Vector2(natural_base.position.x,natural_base.position.z).is_equal_approx(expected_axis) and is_zero_approx(natural_base.position.y-natural_base.mesh.height*.5),label + " existing grounded control axis is preserved")

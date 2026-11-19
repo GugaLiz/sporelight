@@ -88,10 +88,14 @@ func draw_context(canvas: CanvasItem) -> void:
 	var previous := draft_origin()
 	for i in range(draft.size()):
 		var at := target_position(draft[i])
-		canvas.draw_colored_polygon(_polygon(draft[i]), Color(0.68, 0.80, 0.47, 0.65))
+		var preview := _polygon(draft[i])
+		canvas.draw_colored_polygon(preview, Color("799758b8"))
+		preview.append(preview[0])
+		canvas.draw_polyline(preview, Color("40563be6"), 5.5, true)
+		canvas.draw_polyline(preview, Color("ffe4a7"), 2.5, true)
 		var direction := previous.direction_to(at)
 		canvas.draw_line(previous + direction * 13, at - direction * 13, Color("f8e2a2"), 3, true)
-		canvas.draw_circle(at, 12, Color("537151"))
+		canvas.draw_circle(at, 14, Color("40563b"))
 		var number := str(draft_number(i))
 		canvas.draw_string(font, at + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x / 2, 5), number, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("fff6dd"))
 		previous = at

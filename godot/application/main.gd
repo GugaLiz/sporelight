@@ -17,6 +17,7 @@ const Command = preload("res://contracts/game_command.gd")
 const Snapshot = preload("res://contracts/snapshot_data.gd")
 const Journey = preload("res://application/journey_view.gd")
 const NativeMovement = preload("res://application/native_movement.gd")
+const MovementFeedback = preload("res://application/movement_feedback.gd")
 
 var session: RefCounted
 var view: Node2D
@@ -40,6 +41,7 @@ var comfort_mode: bool = false
 var safe_camera: bool = false
 var qa_mode: bool = false
 var qa_unlock_all: bool = true
+var unlock_all_levels: bool = bool(ProjectSettings.get_setting("sporelight/testing/unlock_all_levels", false))
 var status_message: String = ""
 var _qa_callback: JavaScriptObject
 var _qa_timer: float = 0.0
@@ -411,7 +413,7 @@ func _go(tile_id: String) -> void:
 	audio.start()
 	var path: Array = session.world.path_to(tile_id)
 	if path.is_empty() and tile_id != str(session.world.point().id):
-		_message("这里暂时走不到，先观察道路的连接。")
+		_message(MovementFeedback.blocked(session.world, tile_id, "这里暂时走不到，先观察道路的连接。"))
 		return
 	_approaching_heavy_lever = false
 	route = path.duplicate()
@@ -425,6 +427,12 @@ func _local_commands() -> Array:
 	for command in session.world.commands():
 		if str(command.id) not in ["switch", "follow"]:
 			local.append(command)
+	# Dew keeps its original Luvie-only pickup rule. Beside it, buddy should
+	# see the existing role switch, not an empty interaction panel.
+	if str(session.world.level.id) == "2-1" and session.world.actor() == "buddy" and not session.world.state.completed:
+		var dew: Dictionary = session.world.state.items.get("dew",{})
+		if str(dew.get("holder","")).is_empty() and not str(dew.get("tile","")).is_empty():
+			local.append({"id":"switch","label":"切换露薇接清露","target":str(dew.tile)})
 	return local
 
 func _command_states() -> Dictionary:
@@ -438,6 +446,8 @@ func _command_states() -> Dictionary:
 		# Native context offers this application navigation intent only beside
 		# the visible bed. It never becomes a domain repair command.
 		_command_cache["approach:core"] = {"available": true, "reason": ""}
+	if not session.world.level.get("roots",[]).is_empty():
+		_command_cache["approach:root"] = {"available": true, "reason": ""}
 	var snapshot: Dictionary = session.world.snapshot()
 	if bool(snapshot.get("completed", false)):
 		_command_cache["ending"] = {"available": true, "reason": ""}
@@ -466,7 +476,9 @@ func _primary() -> String:
 
 func _context_primary(context: Dictionary) -> String:
 	var choices: Array = context.get("choices", [])
-	return str(choices[0].id) if choices.size() == 1 and not str(choices[0].id).begins_with("grow:") else "context" if not choices.is_empty() else ""
+	if choices.size() == 1 and not str(choices[0].id).begins_with("grow:") and not str(choices[0].id).begins_with("retract:"):
+		return str(choices[0].id)
+	return "context" if not choices.is_empty() else str(context.get("id", ""))
 
 func _on_command(id: String) -> void:
 	_cancel_prop_drop()
@@ -479,6 +491,13 @@ func _on_command(id: String) -> void:
 		return
 	if id == "map":
 		_show_menu()
+		return
+	if id == "journey_start":
+		# Replay the first garden, never clear unlocked chapters or keepsakes.
+		if has_active_game and not home_active: _save()
+		repository.data.mainline.runs.erase("1-1")
+		_enter_level("1-1")
+		_save()
 		return
 	if id == "continue":
 		if not has_active_game:
@@ -582,6 +601,12 @@ func _on_command(id: String) -> void:
 		return
 	audio.start()
 	match id:
+		"approach:root":
+			var target := _root_frontier_target()
+			if not target.is_empty():
+				_message("先走到已长出的最后一节石板，再选择下一节方向。")
+				_go(str(target.id))
+			return
 		"approach:core":
 			if native_movement == null or not view.has_method("core_approach_hint"): return
 			var body: CharacterBody3D = view.get_actor_body(session.world.actor())
@@ -665,7 +690,7 @@ func _on_command(id: String) -> void:
 			if native_movement != null:
 				var context := _native_interaction_context()
 				var choices: Array = context.get("choices", [])
-				if choices.size() == 1 and not str(choices[0].id).begins_with("grow:"):
+				if choices.size() == 1 and not str(choices[0].id).begins_with("grow:") and not str(choices[0].id).begins_with("retract:"):
 					_on_command(str(choices[0].id))
 				elif not choices.is_empty():
 					native_movement.stop()
@@ -933,7 +958,7 @@ func _apply_settings() -> void:
 
 func _show_menu() -> void:
 	var progress: Dictionary = repository.data.mainline.duplicate(true)
-	progress["unlock_all"] = qa_mode and qa_unlock_all
+	progress["unlock_all"] = unlock_all_levels or (qa_mode and qa_unlock_all)
 	hud.show_menu(levels, progress)
 
 func _show_home(save_progress: bool = true) -> void:
@@ -1288,6 +1313,17 @@ func _handle_native_pad_ui(event: InputEvent) -> bool:
 	return false
 
 
+func _root_frontier_target() -> Dictionary:
+	# Navigation to existing ground, never a remote build or new puzzle rule.
+	if session == null or session.world.level.get("roots",[]).is_empty() or session.world.actor() != "luvie" or bool(session.world.state.completed): return {}
+	var world: RefCounted = session.world
+	var root: Dictionary = world.level.roots[0]
+	var path: Array = world.state.growth.get(str(root.id),[])
+	if path.is_empty() or path.size() >= int(root.budget) or world.can_grow_root(root): return {}
+	var station: Dictionary = world.root_growth_station(root)
+	if station.is_empty() or world.path_to(str(station.id)).is_empty(): return {}
+	return station
+
 func _native_interaction_context() -> Dictionary:
 	if session == null or native_movement == null:
 		return {}
@@ -1295,6 +1331,13 @@ func _native_interaction_context() -> Dictionary:
 	if body == null:
 		return {}
 	var context: Dictionary = NativeInteraction.context(session.world, _local_commands(), _command_states(), body.position, view.tile_position, PresentationProfiles.for_level(str(session.world.level.id)))
+	var frontier := _root_frontier_target()
+	if not frontier.is_empty():
+		var choices: Array = context.get("choices", []).duplicate(true)
+		var root: Dictionary = session.world.level.roots[0]
+		var label := "走到根路前端 %d/%d" % [session.world.state.growth.get(str(root.id),[]).size(), int(root.budget)]
+		choices.push_front({"id":"approach:root", "label":label, "disabled":false, "reason":""})
+		context = {"id":"approach:root" if choices.size() == 1 else "context", "label":label, "choices":choices, "tile":frontier}
 	if view.has_method("core_bedside_target"):
 		var bedside: Dictionary = view.core_bedside_target(body.position)
 		var role_command := ""

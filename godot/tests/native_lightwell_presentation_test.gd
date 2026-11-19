@@ -48,6 +48,9 @@ func _inspect_ray(world: RefCounted, label: String) -> void:
 	var previous := origin
 	for beam: MeshInstance3D in beams:
 		var ends := _endpoints(beam)
+		for name: String in ["LampInnerGlow","LampOuterGlow"]:
+			var layer: MeshInstance3D = beam.get_node(name)
+			_check(layer.transform.is_equal_approx(Transform3D.IDENTITY) and is_equal_approx(layer.mesh.height,beam.mesh.height),label+" glow stays registered to the moving and clipped light core")
 		_check(ends[0].distance_to(previous) < .001, label + " beam join is continuous at segment " + str(beam.get_meta("rule_segment_index")))
 		for point: Vector3 in ends:
 			_check((point - origin).cross(axis).length() < .001, label + " every beam endpoint shares one straight axis")
@@ -57,14 +60,15 @@ func _inspect_ray(world: RefCounted, label: String) -> void:
 	var receiver := _part("receiver")
 	_check((receiver.global_position - origin).cross(axis).length() < .001, label + " current receiving leaf lies on the straight beam")
 	# These measurements use actual art openings, not enlarged test tolerances.
-	# The beam has radius .018; its body must fit inside the clear aperture.
+	# Measure the current core; do not retain the old .018 placeholder radius.
+	var radius: float = (beams.front().mesh as CylinderMesh).top_radius
 	var lamp: Dictionary = world.state.items.lamp
 	var lamp_tile := str(world.state.actors.get(str(lamp.get("holder", "")), lamp.get("tile", "")))
 	if lamp_tile == "f:3:5":
 		var socket := _part("socket")
 		var mouth := socket.get_node("LeafAperture") as Node3D
 		var hit := _plane_hit(mouth, origin, axis)
-		var ellipse := pow(hit.x / (.28 - .018), 2) + pow(hit.y / (.24 - .018), 2)
+		var ellipse := pow(hit.x / (.28 - radius), 2) + pow(hit.y / (.24 - radius), 2)
 		aperture_samples.append({"state": label, "part": "socket", "localHit": [hit.x, hit.y, hit.z], "ellipse": ellipse})
 		_check(ellipse <= 1.0, label + " beam clears actual leaf aperture: " + str(hit) + " ellipse=" + str(ellipse))
 	var crosses_window := false
@@ -74,7 +78,7 @@ func _inspect_ray(world: RefCounted, label: String) -> void:
 		var window := _part("window")
 		var hit := _plane_hit(window, origin, axis)
 		aperture_samples.append({"state": label, "part": "window", "localHit": [hit.x, hit.y, hit.z], "open": world.flag("window")})
-		_check(absf(hit.x) + .018 <= .33 and hit.y - .018 >= -.2525 and hit.y + .018 <= .2575, label + " beam meets actual stone-window opening: " + str(hit))
+		_check(absf(hit.x) + radius <= .33 and hit.y - radius >= -.2525 and hit.y + radius <= .2575, label + " beam meets actual stone-window opening: " + str(hit))
 		if not world.flag("window"):
 			_check(absf(window.to_local(last[1]).z) < .001, label + " closed stone window terminates the whole straight beam")
 

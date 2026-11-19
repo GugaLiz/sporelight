@@ -53,6 +53,18 @@ static func hint(world: Variant,tier: int) -> String:
 		_: lines=["花开啦，连蝴蝶都来做客了。以后也常来坐坐呀。","归途、门铃和伙伴都回到了这里，可以留下慢慢看看。",str(world.level.get("story","这座小花园已经安定下来。"))]
 	return str(lines[clampi(tier,0,2)])
 
+static func cooperation(world: Variant) -> String:
+	var luvie: bool = world.actor() == "luvie"
+	match phase(world):
+		"hold_lever": return "露薇能扳重杆，小苔灵能穿低拱。" if luvie else "重杆需要露薇，按 T 或点「切换角色」。"
+		"cross_arch": return "露薇保持重杆；切换小苔灵行动。" if luvie else "露薇正保持重杆，小苔灵可以穿过低拱。"
+		"fix_latch": return "小苔灵正守住踏板；露薇可固定归途。" if luvie else "留在踏板上，切换露薇去固定门闩。"
+		"find_bell": return "归途已固定。门铃若曾放下，可回到那块石台拾起。" if luvie else "归途已固定，可切换露薇去取门铃。"
+		"handoff_bell": return "门铃在小苔灵的叶包里，可在固定石台放下交接。"
+		"return_bell": return "露薇带着门铃，可沿已固定的道路回到鼹鼠家门。" if luvie else "露薇带着门铃，切换露薇回鼹鼠家门。"
+		"welcome": return "花门已打开。播种前叫上伙伴同行。" if luvie else "播种由露薇照料，切换后记得叫上伙伴同行。"
+	return "这片花园已经复苏。可以留下慢慢看看。"
+
 static func conversation(world: Variant) -> Dictionary:
 	if bool(world.state.get("completed",false)): return {"stage":"restored","text":"花开啦，连蝴蝶都来做客了。以后也常来坐坐呀。"}
 	if world.flag("home"): return {"stage":"welcome","text":"谢谢你们！花门开了，带上小伙伴去喷泉边看看吧。"}

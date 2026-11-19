@@ -36,6 +36,8 @@ func _initialize() -> void:
 	var states := {"grow:root:right":{"available":true}, "observe:test":{"available":true}}
 	context = Interaction.context(world, commands, states, Vector3(-0.5,0,0), _position)
 	_check(context.tile.id == "f:0:0", "observation keeps original proximity penalty among available actions")
+	context = Interaction.context(world, commands, states, Vector3(-1,0,0), _position)
+	_check(context.tile.id == "f:0:0" and context.choices.any(func(c: Dictionary) -> bool: return c.id == "observe:test"), "rest directly underfoot does not steal a legal root action, but remains selectable")
 	_check(Interaction.context(world, commands, states, Vector3(30,0,30), _position).is_empty(), "availability cannot extend interaction range")
 	var original := commands.duplicate(true)
 	states["grow:root:right"] = {"available":false, "reason":"occupied"}
@@ -61,8 +63,36 @@ func _initialize() -> void:
 	context = Interaction.context(world, commands, states, Vector3.ZERO, _position)
 	_check(context.tile.id == "f:0:0", "mixed available and disabled choices count as an actionable group")
 	_check(context.choices[0].id == "grow:root:right" and context.choices[0].reason == "occupied" and context.choices[1].id == "grow:root:down", "same-group order and denial reason are preserved")
+	_audit_authored_contexts(fixture)
 	print(JSON.stringify({"suite":"native-interaction-priority", "checks":checks, "passed":failures.is_empty(), "failures":failures}))
 	quit(0 if failures.is_empty() else 1)
+
+func _audit_authored_contexts(fixture: Dictionary) -> void:
+	var cases: Array = fixture.cases.filter(func(c: Dictionary) -> bool: return str(c.name).begins_with("authored/"))
+	var cloud: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/cloud-reference.json"))
+	for c: Dictionary in cloud.levels:
+		cases.append({"levelId":c.id, "initial":{"snapshot":c.initial}, "steps":c.steps})
+	for c: Dictionary in cases:
+		var id := str(c.levelId)
+		var snapshots: Array = [c.initial.snapshot]
+		for step: Dictionary in c.steps: snapshots.append(step.snapshot)
+		var substantive := 0
+		var optional := 0
+		for snapshot: Dictionary in snapshots:
+			var world: RefCounted = Cloud.new(id,snapshot) if id.begins_with("cloud-") else World.new(id,snapshot)
+			var before: Dictionary = world.snapshot()
+			var context := _context(world)
+			if context.is_empty(): continue
+			var choices: Array = context.get("choices",[])
+			var actionable: Array = choices.filter(func(choice: Dictionary) -> bool: return not choice.disabled and not str(choice.id).begins_with("observe:") and not str(choice.id).begins_with("discover:"))
+			if not actionable.is_empty():
+				substantive += 1
+				var target: Dictionary = Interaction.command_tile(world,actionable[0])
+				var global_rehearsal := id == "2-3" and choices.all(func(choice: Dictionary) -> bool: return str(choice.id) in ["play","resetSong"])
+				_check(global_rehearsal or str(target.get("id","")) == str(context.tile.id), id+" usable mechanism retains focus ahead of optional rest/discovery (original global rehearsal retained)")
+			if choices.any(func(choice: Dictionary) -> bool: return str(choice.id).begins_with("observe:") or str(choice.id).begins_with("discover:")): optional += 1
+			_check(world.snapshot() == before, id+" evaluating live local context never moves, rests or commits")
+		print("CONTEXT AUDIT ",JSON.stringify({"level":id,"states":snapshots.size(),"substantive":substantive,"optional":optional}))
 
 func _context(world: RefCounted) -> Dictionary:
 	var commands: Array = world.commands().filter(func(command: Dictionary) -> bool: return not str(command.id) in ["switch", "follow"])

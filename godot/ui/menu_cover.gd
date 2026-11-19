@@ -4,6 +4,7 @@ extends Control
 const Vignette := preload("res://ui/menu_vignette.gd")
 const MenuButtons := preload("res://ui/menu_button_styles.gd")
 const Assets := preload("res://elements/element_assets.gd")
+const PrimaryArt := preload("res://ui/cover_button_art.gd")
 const INK := Color("6d5439")
 const MUTED := Color("6a7655")
 var scenery := Vignette.new()
@@ -53,8 +54,10 @@ func setup() -> void:
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 10)
 	invitation.add_child(content)
+	content.minimum_size_changed.connect(_position_invitation)
 	footer.name = "CoverFooter"
-	footer.text = "探索 · 播种 · 共生                     没有失败，只有慢慢生长。"
+	footer.text = "没有失败，只有慢慢生长。"
+	footer.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	footer.add_theme_color_override("font_color", MUTED)
 	footer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	footer.clip_text = true
@@ -111,7 +114,7 @@ func relayout() -> void:
 		tagline.size = Vector2(450 * ui_scale, 28)
 		tagline.add_theme_font_size_override("font_size", 11 if short else 14)
 		var margin := 12.0 if short else 32.0
-		var width := minf(460, viewport.x * (0.43 if viewport.x < 800 else 0.285))
+		var width := minf(500, viewport.x * (0.43 if viewport.x < 800 else 0.34))
 		var right := minf(94 * ui_scale, viewport.x * 0.055)
 		invitation.position = Vector2(viewport.x - right - width, margin if short else 76 * ui_scale)
 		invitation.size = Vector2(width, viewport.y - invitation.position.y - (margin if short else 54))
@@ -119,7 +122,7 @@ func relayout() -> void:
 		footer.size = Vector2(viewport.x - 144 * ui_scale, 25)
 		footer.add_theme_font_size_override("font_size", 12)
 		footer.visible = not short
-	content.add_theme_constant_override("separation", 7 if portrait or short else 10)
+	content.add_theme_constant_override("separation", 7 if portrait or short else clampi(roundi(viewport.y*.018),13,20))
 	for button in _buttons(content):
 		if button.get_meta("cover_primary", false):
 			button.custom_minimum_size.y = 58 if portrait or short else 83
@@ -127,8 +130,20 @@ func relayout() -> void:
 		elif button.get_meta("cover_secondary", false):
 			button.add_theme_font_size_override("font_size", 12 if invitation.size.x < 290 else 14)
 	for node in content.get_children():
+		if node.get_meta("cover_spacer", false): node.custom_minimum_size.y = 3 if portrait or short else clampf(viewport.y*.04,24,40)
 		if node is Label and node.get_meta("cover_heading", false):
-			node.add_theme_font_size_override("font_size", 22 if portrait or short else 29)
+			node.add_theme_font_size_override("font_size", 22 if portrait or short else 32)
+	for button in _buttons(content):
+		if button.get_meta("cover_restart", false):
+			button.custom_minimum_size.y = 44 if portrait or short else 54
+			button.add_theme_font_size_override("font_size", 15 if portrait or short else 18)
+	_position_invitation.call_deferred()
+
+func _position_invitation() -> void:
+	if not _built or size.y > size.x or size.y <= 420: return
+	var top := clampf((size.y-content.get_combined_minimum_size().y)*.5,size.y*.09,size.y*.23)
+	invitation.position.y = top
+	invitation.size.y = maxf(80,size.y-top-60)
 
 
 func _buttons(node: Node) -> Array[Button]:
@@ -142,16 +157,16 @@ func _buttons(node: Node) -> Array[Button]:
 
 func style_primary(button: Button) -> void:
 	button.set_meta("cover_primary", true)
-	var paper := StyleBoxTexture.new()
-	paper.texture = Assets.texture_for_source("res://assets/images/material-ready/menu-paper.png")
+	var paper := StyleBoxEmpty.new()
 	paper.content_margin_left = 20
 	paper.content_margin_right = 20
 	paper.content_margin_top = 8
 	paper.content_margin_bottom = 8
 	for state in ["normal", "hover", "pressed", "disabled"]:
-		var style := paper.duplicate() as StyleBoxTexture
-		style.modulate_color = Color(1.05, 1.05, 1.02) if state == "hover" else Color(0.93, 0.91, 0.85, 0.55) if state == "disabled" else Color.WHITE
-		button.add_theme_stylebox_override(state, style)
+		button.add_theme_stylebox_override(state, paper)
+	var art := PrimaryArt.new()
+	art.name = "UndistortedCoverPaper"
+	button.add_child(art)
 	button.add_theme_color_override("font_color", INK)
 	button.add_theme_color_override("font_hover_color", INK)
 	button.add_theme_color_override("font_pressed_color", INK)
@@ -178,6 +193,15 @@ func style_secondary(button: Button, quiet: bool = false) -> void:
 	button.add_theme_color_override("font_hover_color", INK)
 	button.add_theme_color_override("font_pressed_color", INK)
 	_use_hover_for_focus(button)
+
+func style_utility(button: Button) -> void:
+	style_secondary(button)
+	for state_name: String in ["normal", "hover", "pressed", "disabled"]:
+		var paper := button.get_theme_stylebox(state_name) as StyleBoxFlat
+		paper.bg_color = Color("fff4decc") if state_name == "normal" else Color("fff9eb") if state_name == "hover" else Color("efddbc")
+		paper.border_color = Color("cdb18c")
+		paper.set_border_width_all(1)
+	button.custom_minimum_size.y = 44
 
 
 func _use_hover_for_focus(button: Button) -> void:

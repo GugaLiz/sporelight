@@ -96,6 +96,12 @@ static func _other_bases(stage: Node) -> Array[Dictionary]:
 				entries.append(_rect_obstacle(child,key+"/FlowerStoneFoot",rect,center.y,center.y+.41,"FlowerStoneFoot"))
 	for child: Node in stage._props.get_children():
 		if not child is Node3D or not child.is_visible_in_tree(): continue
+		if child.name == "MoleResident" and str(stage.world.level.id) == "1-4":
+			# Real mound/paws footprint, not the whole tall image. Both keyboard
+			# collision and click/follower planning consume the same occupied base.
+			var at: Vector3 = child.global_position
+			var rect := Rect2(Vector2(at.x-.30,at.z-.18),Vector2(.60,.36))
+			entries.append(_rect_obstacle(child,"resident:mole",rect,at.y,at.y+.55,"ResidentFoot"))
 		if child.has_meta("original_sanctuary_ground_outline"):
 			entries.append(_basin_obstacle(stage,child))
 		if child is Sprite3D and str(child.get_meta("original_scenery_alias", "")) in HARD_SCENERY:

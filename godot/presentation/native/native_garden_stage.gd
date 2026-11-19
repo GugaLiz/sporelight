@@ -177,6 +177,11 @@ func _ready() -> void:
 	_image.name = "NativeGardenImage"
 	_image.centered = false
 	_image.texture = _viewport.get_texture()
+	# Transparent 3D viewports already contain premultiplied colour. Mixing
+	# them a second time darkened every soft glow/anti-aliased silhouette.
+	var image_material := CanvasItemMaterial.new()
+	image_material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+	_image.material = image_material
 	add_child(_image)
 	_context_overlay = ContextOverlay.new()
 	_context_overlay.stage = self
@@ -382,6 +387,10 @@ func set_world(value: RefCounted) -> void:
 	if _viewport == null: return
 	var changed_level := _last_level != str(world.level.id)
 	_last_level = str(world.level.id)
+	# Static upright props sample the camera while refresh_world builds them.
+	# On a cold entry the scene camera still has its default identity basis;
+	# fitting only after the build leaves those cards edge-on until rebuilt.
+	_camera.basis = Basis.looking_at(-CAMERA_RAY, Vector3.UP)
 	(_scene.get_node("Sun") as DirectionalLight3D).shadow_enabled = false
 	(_scene.get_node("Environment") as WorldEnvironment).environment.ambient_light_energy = 0.82
 	refresh_world(value, not changed_level)
@@ -847,7 +856,8 @@ func _update_props() -> void:
 				lever.rotation.z = -0.38 if held else 0.38
 				_sphere(root, 0.09, Vector3(0.11 if held else 0.29, 0.54, 0.1), Color("cf9870"))
 			"latch":
-				_sprite(root, "arch", 0.92, Vector3(0, 0, -0.1))
+				var arch := _sprite(root, "arch", 0.92, Vector3(0, 0, -0.1))
+				if str(world.level.id) == "1-4": _upright_card(arch)
 			"flower":
 				MechanismProps.flower(self, root, bool(world.flag(str(mark.id))))
 			"song":
@@ -1094,6 +1104,9 @@ func _add_mole() -> void:
 		sprite.queue_free()
 		return
 	_props.add_child(sprite)
+	_upright_card(sprite)
+	# The resident keeps its opaque body; actual navigation goes around it.
+	sprite.set_meta("opaque_structure", true)
 	_occluders.append(sprite)
 
 func _add_sanctuary() -> void:
@@ -1713,7 +1726,9 @@ func _fit_camera(immediate: bool = false) -> void:
 	var safe := _safe_rect()
 	var small_screen := dimensions.x < 650 or dimensions.y < 430
 	var fit_size := maxf(5.8, _framing_size)
-	_camera.size = maxf(5.8, _overview_framing_size) if overview else CameraScale.normal_size(dimensions, safe)
+	# Sidebars affect the camera centre, not the established body/prop density.
+	var density_area := Rect2(Vector2(14,100), Vector2(dimensions.x-28, dimensions.y-180)) if dimensions.x >= 1050 and dimensions.y > 500 else safe
+	_camera.size = maxf(5.8, _overview_framing_size) if overview else CameraScale.normal_size(dimensions, density_area)
 	var tower_context: bool = not overview and str(world.level.id) == "cloud-1" and float(world.point_for(str(world.state.actors[world.state.active])).x) >= 7
 	if tower_context: _camera.size = maxf(_camera.size, dimensions.y / (38.0 if small_screen else 80.0))
 	var close_follow := not overview and (small_screen or fit_size > _camera.size * 1.02)
@@ -1894,6 +1909,9 @@ func actor_rest_offset(tile: Dictionary, who: String) -> Vector3:
 			var repair_tile := "f:0:-4" if str(world.level.id) == "1-3" else "f:0:4"
 			if id == repair_tile: return Vector3(.36,0,.44) if who == "luvie" else Vector3(-.36,0,.44)
 		"1-4":
+			# Greet from the open southern rim, rather than routing a follower
+			# behind the opaque resident. Both endpoints are real body positions.
+			if id == "f:-4:-1": return Vector3(.44 if who == "luvie" else -.30,0,.44)
 			if id == "f:-9:0": return Vector3(.04,0,-.35) if who == "luvie" else Vector3(.44,0,.30)
 			# The shifted stone planter leaves this support's front rim clear.
 			# Share two real endpoints for either leader; the ordinary follower's
@@ -2064,6 +2082,15 @@ func update_actor_visual(who: String, velocity: Vector3, facing: String = "", ac
 		else: sprite.speed_scale = 1.0
 	ActorPose.apply(sprite)
 	_align_actor_depth(sprite)
+
+func _upright_card(sprite: SpriteBase3D) -> void:
+	# Match the actors' vertical depth plane while retaining the same screen
+	# footprint, foot pivot and world depth. Camera-facing props otherwise
+	# intersect the actor halfway up its hat/body at close range.
+	var right := _camera.global_basis.x.normalized()
+	var up := Vector3.UP / _camera.global_basis.y.dot(Vector3.UP)
+	sprite.billboard = BaseMaterial3D.BILLBOARD_DISABLED
+	sprite.basis = Basis(right, up, right.cross(Vector3.UP).normalized())
 
 func _align_actor_depth(sprite: AnimatedSprite3D) -> void:
 	# A camera-facing card leans backwards into ascending terrain. Use a
@@ -2547,6 +2574,12 @@ func _growth_target(id: String) -> Dictionary:
 
 func hit_test(screen: Vector2) -> String:
 	if world == null or _camera == null: return ""
+	# Click the floating artwork, then walk to its real support to collect.
+	# This preserves reachability, occlusion and the existing collection rule.
+	var collectible_support := preload("res://presentation/native/native_prop_picking.gd").collectible_support(self, screen)
+	if not collectible_support.is_empty(): return collectible_support
+	var mechanism_support := preload("res://presentation/native/native_prop_picking.gd").mechanism_support(self, screen)
+	if not mechanism_support.is_empty(): return mechanism_support
 	# Shifted flower artwork selects its original legal repair support.
 	# The accepted first garden retains its existing ground picking behavior.
 	if str(world.level.id) != "1-1":

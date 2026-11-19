@@ -27,7 +27,10 @@ shape = SubResource("Capsule_character")
 [node name="Art" type="AnimatedSprite3D" parent="Visual"]
 pixel_size = 0.00625
 billboard = 1
-alpha_cut = 2
+alpha_cut = 1
+alpha_scissor_threshold = 0.15
+alpha_antialiasing_mode = 1
+alpha_antialiasing_edge = 0.2
 shaded = false
 texture_filter = 2
 no_depth_test = false
@@ -37,7 +40,10 @@ offset = Vector2(0, 108)
 position = Vector3(0.17, 0.46, 0.06)
 pixel_size = 0.0022
 billboard = 1
-alpha_cut = 2
+alpha_cut = 1
+alpha_scissor_threshold = 0.15
+alpha_antialiasing_mode = 1
+alpha_antialiasing_edge = 0.2
 shaded = false
 no_depth_test = false
 

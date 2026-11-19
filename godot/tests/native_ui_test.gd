@@ -106,12 +106,20 @@ func _run() -> void:
 	hud.set_interaction_context("grow:root:right", "照料根台", world.commands())
 	await _settle()
 	_check(world.hint_reads == 0, "Default HUD and journey never consult the solution helper")
-	_check(not hud._panel.visible and not hud._pad.visible, "Desktop has no persistent command card or direction pad")
-	_check(not hud._journey_steps.visible and not hud._journey_count.visible, "Future puzzle steps stay off the play screen")
-	_check(hud._rule.visible and hud._rule.text == Journey.describe(world).goal, "A short natural goal remains readable without exposing solution steps")
+	_check(not hud._panel.visible and hud._action_card.visible and hud._pad.visible, "Desktop exposes local actions and directions without opening the modal choice menu")
+	_check(hud._journey_steps.visible and hud._journey_count.visible, "Requested journey progress remains visible without consulting the solver")
+	_check(hud._rule.visible and hud._rule.text.contains(Journey.describe(world).goal) and hud._rule.text.contains(world.level.rule), "Rule and natural objective both remain readable")
 	_check(hud._status.text.contains("芽节 1/1"), "Seed budget remains readable")
 	_check(_action(hud, "undo").disabled, "Undo cannot advertise nonexistent history")
 	_check(_action(hud, "primary").text.contains("照料根台"), "Primary action names the current object")
+	world.state.completed = true
+	hud.update_state(world)
+	hud.set_interaction_context("grow:root:right", "照料根台", world.commands())
+	_check(hud._action_help.text.contains("已经复苏"), "Completion refreshes the action card help even with identical choices")
+	world.state.completed = false
+	hud.update_state(world)
+	hud.set_interaction_context("grow:root:right", "照料根台", world.commands())
+	_check(not hud._action_help.text.contains("已经复苏") and hud._action_help.text.contains("Esc"), "Restart restores walking controls rather than stale completed guidance")
 	var repair_command := {"id": "repair", "label": "一起种下微光 ✧"}
 	var raw_repair := JSON.stringify(repair_command)
 	hud.set_action_label("primary", repair_command.label + " · E")
@@ -134,7 +142,7 @@ func _run() -> void:
 	_check(_events == ["grow:root:down"] and not hud.is_context_open(), "The player's direction selects the root branch without solver defaults")
 	hud.show_context_choices(world.commands())
 	_events.clear()
-	_find(hud._panel, "×").pressed.emit()
+	_find(hud._panel, "返回行走").pressed.emit()
 	_check(not hud.is_context_open() and _events.is_empty(), "Touch cancellation closes choices without executing anything")
 	hud.show_context_choices([{"id": "grow:root:right", "label": "引芽 →", "disabled": true, "reason": "芽节不足"}])
 	_events.clear()
@@ -166,7 +174,10 @@ func _run() -> void:
 			var r: Array = region.rect
 			_check(viewport.grow(1).encloses(Rect2(r[0], r[1], r[2], r[3])), "%s: visible %s remains inside viewport" % [dimensions, region.name])
 		var safe: Rect2 = hud.safe_world_rect()
-		_check(safe.size.x >= dimensions.x * 0.55 and safe.size.y >= dimensions.y * 0.3, "%s: a substantial world view survives compact HUD" % dimensions)
+		if dimensions.x >= 1050 and dimensions.y > 500:
+			_check(safe.get_area() >= viewport.get_area()*.4 and absf(safe.get_center().x-dimensions.x*.5)<1 and safe.get_center().y<dimensions.y*.5, "%s: central corridor keeps substantial area and centres above toolbar" % dimensions)
+		else:
+			_check(safe.size.x >= dimensions.x * 0.55 and safe.size.y >= dimensions.y * 0.3, "%s: a substantial world view survives compact HUD" % dimensions)
 		var tools := hud._tools.get_global_rect()
 		for button: Button in _buttons(hud._tools):
 			if button.is_visible_in_tree():
@@ -180,7 +191,7 @@ func _run() -> void:
 	hud.set_message(world.level.intro)
 	await _settle()
 	_check(not hud._message_panel.visible, "Low landscape does not repeat the introduction in a large message card")
-	_check(hud._tools.size.y <= 50, "Low landscape keeps a single shallow tool row")
+	_check(hud._tools.size.y <= 50, "Low landscape keeps the requested seven tools in one shallow row")
 	for button: Button in _buttons(hud._tools):
 		if button.is_visible_in_tree():
 			_check(button.size.y >= 44, "Compact tools retain a usable touch height")
@@ -296,7 +307,7 @@ func _run() -> void:
 	hud.navigate_back()
 	_check(hud.is_modal_open() and hud._page_kind == "map" and not _events.has("resume"), "Backing out of map settings returns to the map without resuming the level")
 	hud.show_gallery({"mainline": {"records": {"1-1": {"completed": true}}}})
-	_find(hud._overlay, "读一段微光故事").pressed.emit()
+	_find(hud._overlay, "故事").pressed.emit()
 	hud.navigate_back()
 	_check(hud._page_kind == "gallery", "A gallery story returns to its gallery")
 	hud.navigate_back()
@@ -323,8 +334,8 @@ func _run() -> void:
 	hud.show_home(levels, {}, false)
 	await _settle()
 	_check(not hud.is_game_interface_visible() and not hud._heading.visible and not hud._tools.visible, "Home hides play controls")
-	_check(_action(hud, "continue").disabled, "A new player cannot continue an unstarted run")
-	_check(root.gui_get_focus_owner() == _action(hud._overlay, "map"), "Gamepad home navigation has a real focused destination without a mouse")
+	_check(_action(hud._overlay, "continue") == null, "A new player has no unavailable continue control")
+	_check(root.gui_get_focus_owner() == _action(hud._overlay, "journey_start"), "Gamepad home navigation focuses the real start journey destination")
 	hud.show_gallery({})
 	_events.clear()
 	hud.navigate_back()
@@ -332,7 +343,7 @@ func _run() -> void:
 	hud.close_overlay(false)
 	hud.set_game_interface_visible(true)
 	hud.show_gallery({"mainline": {"records": {"1-1": {"completed": true}}}})
-	_check(_find(hud._overlay, "读一段微光故事") != null, "Existing gallery assets and story access remain available")
+	_check(_find(hud._overlay, "故事") != null, "Existing gallery assets and story access remain available")
 	hud.queue_free()
 	await process_frame
 	print(JSON.stringify({"suite": "native-ui", "passed": _failures.is_empty(), "checks": _checks, "failures": _failures, "scope": "Actual HUD controls, layout and intents; not GPU/pointer/audio verification."}))

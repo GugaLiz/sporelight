@@ -81,7 +81,7 @@ func _run() -> void:
 	check(app.phase == "explore" and app.session.world.snapshot() == initial, "empty draft undo cancels without spending seeds")
 	app._on_command("primary")
 	for direction in ["up", "right", "right", "down"]: app._on_command("dir:" + direction)
-	check(app.hud._interaction_label == "让根桥生长" and "确认" in app.hud._rule.text, "ready route has an explicit confirmation state")
+	check(app.hud._interaction_label == "确认生长根桥" and "确认" in app.hud._rule.text, "ready route has an explicit confirmation state")
 	check(not app.hud.is_hint_visible(), "planning never reopens dismissed help")
 	app._on_command("hint")
 	check("确认后" in app.hud._hint_label.text, "ready hint explains that the road has not grown yet")

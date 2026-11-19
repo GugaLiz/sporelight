@@ -77,9 +77,10 @@ static func annotate(node: Node3D, data: Dictionary, source_pixels: float) -> vo
 
 static func mole(stage: Node, sprite: Sprite3D, point: Dictionary) -> bool:
 	var desired: Vector3 = stage.tile_position(point) + Vector3(-1, 0, .3)
-	# The entrance acquires stairs when home opens. Reserve their future edge
-	# now, so opening/undo cannot make the resident shuffle or lose a paw.
-	var preferred := desired + Vector3(.15,0,-.25) if str(stage.world.level.id)=="1-4" else desired
+	# Keep the resident on the original same-height courtyard, clear of the
+	# one-cell west stair. Its former centre occupied that only entrance and
+	# overlapped both travellers. The north paving supports the complete mound.
+	var preferred := desired + Vector3(1.10,0,-1.25) if str(stage.world.level.id)=="1-4" else desired
 	# The restored 3-4 core fully occludes the original painter-ordered NPC.
 	# Its existing front-right terrace gives the complete mound genuine support
 	# and a visible depth position, without lifting it or disabling depth.
@@ -96,6 +97,7 @@ static func mole(stage: Node, sprite: Sprite3D, point: Dictionary) -> bool:
 	sprite.no_depth_test = false
 	sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	annotate(sprite, data, 58)
+	if str(stage.world.level.id)=="1-4": sprite.set_meta("original_sanctuary_migration","same_height_north_courtyard_clear_of_west_stair_and_travellers")
 	if str(stage.world.level.id)=="3-4": sprite.set_meta("original_sanctuary_migration","same_height_front_right_terrace_clear_of_final_core_and_actors")
 	return true
 
@@ -119,6 +121,7 @@ static func build(stage: Node) -> void:
 			# Both source PNGs have the same 272 x 405 canvas. The transparent
 			# seal must use the FRAME anchor, or its light jumps to the ground.
 			frame.offset = Vector2(0, 404.5 - 405.0 * .5)
+			stage._upright_card(frame)
 			annotate(frame, data, 112)
 			frame.set_meta("original_ratio_exception","entrance_full_masonry_footprint_limit")
 			frame.set_meta("original_canvas_world_width",112.0*PIXEL)
@@ -126,6 +129,7 @@ static func build(stage: Node) -> void:
 				var seal: Sprite3D = stage._sprite(stage._props, "flower-gate-seal", width, data.at, true)
 				seal.name = "OriginalSanctuaryGateSeal"
 				seal.offset = frame.offset
+				stage._upright_card(seal)
 				seal.render_priority = 1
 				annotate(seal, data, 112)
 				seal.set_meta("original_ratio_exception","entrance_full_masonry_footprint_limit")

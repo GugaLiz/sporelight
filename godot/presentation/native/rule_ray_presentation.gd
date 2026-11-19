@@ -4,6 +4,7 @@ extends RefCounted
 
 const RayShader = preload("res://presentation/native/garden_ray.gdshader")
 const ColumnShader = preload("res://presentation/native/garden_beam_column.gdshader")
+const LampShader = preload("res://presentation/native/lamp_beam.gdshader")
 const VIEW_NORMAL := Vector3(0.612372, 0.5, 0.612372)
 const RAY_HEIGHT := 0.37
 const POND_CORE_WIDTH := 0.115
@@ -41,6 +42,9 @@ static func build(stage: Node) -> void:
 				for part: String in ["core", "halo"]:
 					var beam := _soft_segment(stage, a, b, part, core_head if part == "core" else head_fade, core_tail if part == "core" else tail_fade)
 					_tag_segment(beam, path_name, int(entry.index), pair, part)
+			elif str(stage.world.level.id) == "3-1" and path_name == "lamp":
+				var beam := _lamp_segment(stage,a,b,index == 0,index == drawn.size()-1)
+				_tag_segment(beam,path_name,int(entry.index),pair,"lamp_volume")
 			else:
 				# Other chapters keep their reviewed native beam geometry.
 				var mesh := CylinderMesh.new()
@@ -61,6 +65,37 @@ static func _tag_segment(node: MeshInstance3D, path_name: String, index: int, pa
 	node.set_meta("rule_segment_index", index)
 	node.set_meta("rule_segment_points", pair.duplicate(true))
 	node.set_meta("rule_ray_part", part)
+
+static func _lamp_segment(stage: Node, a: Vector3, b: Vector3, first: bool, last: bool) -> MeshInstance3D:
+	# One bound segment owns every concentric layer. Movement, turning,
+	# obstruction and discovery therefore cannot leave detached glow strips.
+	var root := MeshInstance3D.new()
+	for i in 3:
+		var layer := root if i == 0 else MeshInstance3D.new()
+		var mesh := CylinderMesh.new()
+		# Keep the bright core inside the authored leaf/window apertures;
+		# dimensional softness belongs to the low-opacity fringe, not a pipe.
+		mesh.top_radius = [0.020,0.078,0.14][i]
+		mesh.bottom_radius = mesh.top_radius
+		mesh.height = a.distance_to(b)
+		mesh.radial_segments = 32
+		mesh.cap_top = false; mesh.cap_bottom = false
+		layer.mesh = mesh
+		layer.name = ["LampLightCore","LampInnerGlow","LampOuterGlow"][i]
+		var material := ShaderMaterial.new()
+		material.shader = LampShader
+		material.set_shader_parameter("segment_length",mesh.height)
+		material.set_shader_parameter("tint",[Color(1,.92,.68,.44),Color(1,.76,.32,.15),Color(1,.68,.24,.055)][i])
+		material.set_shader_parameter("softness",[.7,1.8,3.0][i])
+		material.set_shader_parameter("head_fade",.10/mesh.height if first else 0.0)
+		material.set_shader_parameter("tail_fade",.20/mesh.height if last else 0.0)
+		layer.material_override = material
+		layer.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		if i > 0: root.add_child(layer)
+	root.quaternion = Quaternion(Vector3.UP,(b-a).normalized())
+	root.position = a.lerp(b,.5)
+	stage._effects.add_child(root)
+	return root
 
 static func _soft_segment(stage: Node, a: Vector3, b: Vector3, part: String, head_fade: float, tail_fade: float) -> MeshInstance3D:
 	if part == "core": return _column_segment(stage, a, b, head_fade, tail_fade)

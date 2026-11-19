@@ -17,6 +17,7 @@ func _meta_button(node: Node, key: String, value: String) -> Button:
 
 func _navigation() -> void:
 	var app := _real_app()
+	app.unlock_all_levels = false
 	var store: Dictionary = app.repository.data.mainline
 	store.records["1-1"] = {"completed": true, "collected": 2, "stars": 2}
 	store.last_level = "1-2"
@@ -39,6 +40,7 @@ func _navigation() -> void:
 	_find_button(map, "等待前一关苏醒").pressed.emit()
 	_same(state_before, app.session.world.snapshot(), "locked-intent-cannot-replace-current-world")
 	map.select_level("1-2")
+	_meta_button(map,"action","map_tools").pressed.emit()
 	_press(app, "图鉴", "map/gallery")
 	app.hud.navigate_back()
 	await _settle_map()
@@ -48,6 +50,8 @@ func _navigation() -> void:
 	map.show_overview()
 	await _settle_map()
 	_check(map.overview_open and map._body.is_visible_in_tree(), "world-overview-preserves-live-map-covering-baked-ui")
+	_check(_meta_button(map._overview,"map_chapter","cloud") == null,"world-overview-hides-independent-cloud-chapter")
+	_check(map._overview.find_children("ChapterPreview_*","Button",true,false).size() == 3,"world-overview-has-three-mainline-chapters")
 	_check_inert_backdrop(map._body)
 	app.hud.navigate_back()
 	_check(not map.overview_open and app.hud.is_modal_open() and app.paused, "back-closes-overview-without-resuming-game")
@@ -74,7 +78,7 @@ func _check_inert_backdrop(node: Control) -> void:
 
 
 func _geometry_and_keyboard() -> void:
-	for dimensions: Vector2i in [Vector2i(1280, 720), Vector2i(844, 390), Vector2i(568, 320), Vector2i(390, 844)]:
+	for dimensions: Vector2i in [Vector2i(1280,720),Vector2i(1913,938),Vector2i(844,390),Vector2i(568,320),Vector2i(390,844)]:
 		root.size = dimensions
 		var app := _real_app()
 		app._show_menu()
@@ -82,14 +86,16 @@ func _geometry_and_keyboard() -> void:
 		var map: Control = app.hud._chapter_map
 		var viewport := Rect2(Vector2.ZERO, Vector2(dimensions))
 		var label := "%dx%d" % [dimensions.x, dimensions.y]
+		if dimensions.x > dimensions.y:
+			_check(map._canvas.get_global_rect().is_equal_approx(viewport),label+"/map-canvas-fills-viewport")
+			var background: Control = map._body.get_node("FullBleedMapScenery")
+			_check(background.get_global_rect().is_equal_approx(viewport),label+"/actual-background-fills-viewport")
 		for button: Node in map.find_children("*", "Button", true, false):
-			if map._body.is_ancestor_of(button): continue # Scroll content is verified through selecting every landmark below.
 			if not button.is_visible_in_tree():
 				continue
 			_check(viewport.grow(1).encloses(button.get_global_rect()), label + "/visible-button-contained/" + str(button.get_meta("map_level", button.text)))
 			_check(button.get_global_rect().size.x >= 43.5 and button.get_global_rect().size.y >= 43.5, label + "/minimum-hit-area/" + str(button.get_meta("map_level", button.text)))
 		for caption: Node in map.find_children("*", "Label", true, false):
-			if map._body.is_ancestor_of(caption): continue # Offscreen scenic content is intentionally clipped by the scroll viewport.
 			if not caption.is_visible_in_tree():
 				continue
 			_check(viewport.grow(1).encloses(caption.get_global_rect()), label + "/caption-contained/" + caption.text + str(caption.get_global_rect()))
@@ -103,16 +109,7 @@ func _geometry_and_keyboard() -> void:
 			map.select_level(id)
 			await _settle_map()
 			var marker := _meta_button(map,"map_level",id)
-			_check(map._map_scroll.get_global_rect().grow(1).encloses(marker.get_global_rect()),label + "/selected-landmark-scrolls-fully-into-view/" + id)
-		map.select_level("1-1")
-		await _settle_map()
-		_check(_meta_button(map,"action","map_previous").disabled and not _meta_button(map,"action","map_next").disabled,label + "/first-garden-has-next-only")
-		_meta_button(map,"action","map_next").pressed.emit()
-		await _settle_map()
-		_check(map.selected_id == "1-2",label + "/next-button-selects-real-adjacent-garden")
-		map.select_level("1-4")
-		await _settle_map()
-		_check(_meta_button(map,"action","map_next").disabled,label + "/last-garden-next-is-disabled")
+			_check(viewport.grow(1).encloses(marker.get_global_rect()),label + "/selected-landmark-is-visible/" + id)
 		map.select_level("1-1")
 		await _settle_map()
 		var card: Panel = map._chrome.get_node("MapSelectedCard")
@@ -124,12 +121,12 @@ func _geometry_and_keyboard() -> void:
 		for index in card_controls.size():
 			for next in range(index + 1, card_controls.size()):
 				_check(not card_controls[index].get_rect().intersection(card_controls[next].get_rect()).has_area(), label + "/detail-rows-do-not-overlap/" + card_controls[index].text + "/" + card_controls[next].text)
-		var enter: Button = map._chrome.get_node("MapEnterLevel")
-		_check(absf(enter.get_global_rect().get_center().x - dimensions.x * .5) <= 1, label + "/primary-action-centered")
-		_check(card.get_global_rect().end.y <= enter.get_global_rect().position.y, label + "/selected-paper-above-primary")
+		var enter: Button = card.get_node("MapEnterLevel")
+		_check(absf(enter.get_global_rect().get_center().x - card.get_global_rect().get_center().x) <= 1, label + "/primary-action-centered-in-detail-card")
+		_check(card.get_global_rect().grow(1).encloses(enter.get_global_rect()), label + "/primary-action-inside-reference-side-card")
 		_meta_button(map, "action", "map_tools").pressed.emit()
 		await _settle_map()
-		_check(map._chrome.get_node("MapMoreActions").visible and _meta_button(map, "action", "save").is_visible_in_tree(), label + "/more-opens-real-save-action")
+		_check(map._more_panel.visible and _meta_button(map, "action", "save").is_visible_in_tree(), label + "/more-opens-real-save-action")
 		map.close_overview()
 		map.show_overview()
 		await _settle_map()

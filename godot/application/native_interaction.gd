@@ -29,6 +29,9 @@ static func context(world: RefCounted, commands: Array, availability: Dictionary
 		return _rehearsal_context(world, commands, availability, world_tiles)
 	var sorted: Array = groups.values()
 	sorted.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var a_action: bool = a.choices.any(func(c: Dictionary) -> bool: return not bool(c.disabled) and not str(c.id).begins_with("observe:") and not str(c.id).begins_with("discover:"))
+		var b_action: bool = b.choices.any(func(c: Dictionary) -> bool: return not bool(c.disabled) and not str(c.id).begins_with("observe:") and not str(c.id).begins_with("discover:"))
+		if a_action != b_action: return a_action
 		# Nearby observation does not steal the main action from a mechanism.
 		var a_observe := str(a.choices[0].id).begins_with("observe:") or str(a.choices[0].id).begins_with("discover:")
 		var b_observe := str(b.choices[0].id).begins_with("observe:") or str(b.choices[0].id).begins_with("discover:")
@@ -49,7 +52,7 @@ static func context(world: RefCounted, commands: Array, availability: Dictionary
 			root_action = true
 	var label := "安排根路" if root_action else str(choices[0].label) if choices.size() == 1 else "选择操作"
 	if root_action and policy.has("root_prompt"):
-		label = str(policy.root_prompt) if choices.size() > 1 else "收回根路" if str(choices[0].id).begins_with("retract:") else str(policy.root_prompt)
+		label = str(policy.root_prompt) if choices.size() > 1 or not str(choices[0].id).begins_with("retract:") else "根路操作"
 		var labels: Dictionary = policy.get("root_labels", {})
 		for choice: Dictionary in choices:
 			choice.label = str(labels.get(str(choice.id), choice.label))
@@ -62,7 +65,7 @@ static func context(world: RefCounted, commands: Array, availability: Dictionary
 				continue
 			for root: Dictionary in world.level.get("roots", []):
 				if str(root.id) == parts[1]:
-					label = "根路 %d/%d" % [world.state.get("growth", {}).get(root.id, []).size(), int(root.budget)]
+					label = ("继续生长 %d/%d" if choices.any(func(c: Dictionary) -> bool: return str(c.id).begins_with("grow:")) else "根路操作 %d/%d") % [world.state.get("growth", {}).get(root.id, []).size(), int(root.budget)]
 			break
 	# A single nearby pet/action must not bypass the menu and hide another
 	# reachable object. Keep the focused group first and retain blocked reasons.

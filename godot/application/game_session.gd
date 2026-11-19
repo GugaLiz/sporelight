@@ -84,6 +84,21 @@ func _undo(command: GardenCommand) -> GardenCommandResult:
 		world.state.playing = false
 	result.message = "回到刚才的稳定时刻。" if result.accepted else "还没有可以退回的步骤。"
 	result.after = world.snapshot()
+	if result.accepted:
+		var removed := 0
+		var restored := 0
+		var remaining := 0
+		var total := 0
+		for root: Dictionary in world.level.get("roots", []):
+			remaining += result.after.get("growth", {}).get(str(root.id), []).size()
+			total += int(root.budget)
+		for root_id: String in result.before.get("growth", {}):
+			var delta: int = result.before.growth[root_id].size() - result.after.get("growth", {}).get(root_id, []).size()
+			removed += maxi(delta, 0)
+			restored += maxi(-delta, 0)
+		result.message = "已撤销上一步操作，恢复操作前的位置和状态。"
+		if removed > 0: result.message = "已撤销生长，收回 %d 节根路，现有 %d/%d 节；其余进度保留。" % [removed,remaining,total]
+		elif restored > 0: result.message = "已撤销收回，恢复 %d 节根路，现有 %d/%d 节。" % [restored,remaining,total]
 	result.changed = not Snapshot.equivalent(result.before, result.after)
 	if result.accepted and result.changed:
 		revision += 1

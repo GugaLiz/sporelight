@@ -37,7 +37,7 @@ func _run() -> void:
 				_check(absf(child.position.y-stage.support_height(child.position,support)-.008)<.0001, "foot meets physical top "+child.name)
 				_check(absf(child.position.y-desired.y-.008)<.0001, "no vertical migration "+child.name)
 				_check(not child.no_depth_test,"normal world depth "+child.name)
-				_check(child.get_child_count()==(1 if child.name=="SanctuaryFountain" else 0),"only complete hard basin owns its registered anti-entry volume "+child.name)
+				_check(child.get_child_count()==(1 if child.name in ["SanctuaryFountain","MoleResident"] else 0),"complete basin and resident own their registered anti-entry volumes "+child.name)
 				rows.append({"level":id,"state":state,"node":child.name,"at":[child.position.x,child.position.y,child.position.z],"source_at":[desired.x,desired.y,desired.z],"support":support,"support_visible":stage._surfaces[support].visible,"width":child.pixel_size*child.texture.get_width(),"radius":radius})
 			var mole: Sprite3D = stage._props.get_node_or_null("MoleResident")
 			_check((mole!=null)==(id=="1-4"),id+"/"+state+" resident belongs only to the bell-return garden")

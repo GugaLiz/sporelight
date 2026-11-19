@@ -33,8 +33,8 @@ func _hidden_game(app: Node, label: String) -> void:
 func _home(app: Node, label: String) -> void:
 	_hidden_game(app, label)
 	_check(app.hud.is_modal_open(), label + "/home-interface-is-present")
-	_check(_find_action(app.hud, "map") != null, label + "/home-offers-start-journey")
-	_check(_find_action(app.hud, "continue") != null, label + "/home-offers-an-explicit-continue-control")
+	_check(_find_action(app.hud, "journey_start") != null, label + "/home-offers-start-journey")
+	_check((_find_action(app.hud, "continue") != null) == app.has_active_game, label + "/continue-only-for-started-journey")
 	_check(_find_button(app.hud._overlay, "继续当前关卡") == null, label + "/home-does-not-pretend-to-be-a-pause-overlay")
 
 func _active(app: Node, label: String) -> void:
@@ -82,7 +82,9 @@ func _home_map_and_child_pages() -> void:
 	var app := _home_app()
 	app._show_home(false)
 	var before: Dictionary = app.session.world.snapshot()
-	_press_action(app, "map", "home/start")
+	# The homepage start now directly enters 1-1. Inspect the map via its
+	# controller destination; fresh/restart entry is covered separately.
+	app._show_menu()
 	_hidden_game(app, "home/map")
 	var first: Button
 	for node: Node in app.hud._overlay.find_children("", "Button", true, false):
@@ -91,11 +93,8 @@ func _home_map_and_child_pages() -> void:
 	_check(first != null and not first.disabled, "home/start/shows-a-real-unlocked-first-garden")
 	_press_action(app, "home", "home/map/back")
 	_home(app, "home/map/back")
-	for entry: String in ["设置", "花园纪事", "图鉴", "导入 / 导出旅程"]:
-		if entry in ["花园纪事", "图鉴"]:
-			var exploration := _find_action(app.hud, "home_explore")
-			exploration.button_pressed = true
-		elif entry == "导入 / 导出旅程":
+	for entry: String in ["设置", "纪事", "图鉴", "导入 / 导出旅程"]:
+		if entry == "导入 / 导出旅程":
 			_press(app, "设置", "home/child/save-settings")
 		_press(app, entry, "home/child/" + entry)
 		_hidden_game(app, "home/child/" + entry)
@@ -106,7 +105,7 @@ func _home_map_and_child_pages() -> void:
 			app._input(_event(KEY_ESCAPE))
 		_home(app, "home/child/" + entry + "/escape")
 		_same(before, app.session.world.snapshot(), "home/child/" + entry + "/keeps-the-hidden-world-stable")
-	_press_action(app, "map", "home/map/select")
+	app._show_menu()
 	first = null
 	for node: Node in app.hud._overlay.find_children("", "Button", true, false):
 		if node.get_meta("level_id", "") == "1-1":
@@ -206,7 +205,7 @@ func _new_home_cannot_continue_a_hidden_initial_level() -> void:
 	app._show_home(false)
 	_home(app, "home/new-journey")
 	var button := _find_action(app.hud, "continue")
-	_check(button != null and button.disabled, "home/new-journey/continue-is-unavailable-without-a-started-or-saved-journey")
+	_check(button == null, "home/new-journey/continue-is-absent-without-a-started-or-saved-journey")
 	app._on_command("continue")
 	_home(app, "home/new-journey/rejected-continue")
 	app.free()

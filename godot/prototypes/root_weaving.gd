@@ -83,9 +83,11 @@ func _native_interaction_context() -> Dictionary:
 		# the existing primary action, where both mouse and touch can read it.
 		var label := "根桥生长 %d/%d" % [_planned_count(), _root_budget()]
 		if phase == "planning":
-			label = "让根桥生长" if plan != null and plan.ready() else "规划根桥 %d/%d" % [_planned_count(), _root_budget()]
+			label = "确认生长根桥" if plan != null and plan.ready() else "规划根桥 %d/%d" % [_planned_count(), _root_budget()]
 		return {"id": "weave:confirm", "label": label, "choices": [], "tile": session.world.point_for("f:1:1")}
 	if not session.world.connected():
+		if not _root_frontier_target().is_empty():
+			return {"id":"weave:plan", "label":"规划根桥", "tile":session.world.root_growth_station(session.world.level.roots[0]), "choices":[{"id":"weave:plan", "label":"规划根桥"}]}
 		for choice: Dictionary in context.get("choices", []):
 			if str(choice.id).begins_with("grow:root:"):
 				return {"id": "weave:plan", "label": "规划根桥", "tile": session.world.point_for("f:1:1"), "choices": [{"id": "weave:plan", "label": "规划根桥"}]}
@@ -110,6 +112,7 @@ func _on_command(id: String) -> void:
 					plan = null
 					phase = "growing"
 					_sync_hud()
+				else: _message("先点带＋的下一格，四节连到对岸后再确认；Z 可撤销草稿。")
 				return
 			if id.begins_with("dir:") or id.begins_with("grow:root:"):
 				plan.append("grow:root:" + id.get_slice(":", id.get_slice_count(":") - 1))
@@ -239,6 +242,8 @@ func _sync_hud() -> void:
 	view.options = plan.choices() if view.planning else []
 	super._sync_hud()
 	if not _is_weaving(): return
+	if phase == "planning":
+		hud.set_action_label("primary", ("确认生长根桥" if plan.ready() else "继续规划 %d/%d" % [_planned_count(), _root_budget()]) + " · E")
 	if not session.world.state.completed:
 		hud.set_journey(_weaving_journey())
 	if phase in ["planning", "growing"]:
@@ -257,7 +262,7 @@ func _sync_hud() -> void:
 
 func _weaving_journey() -> Dictionary:
 	var goal := "为岩石另一侧的小花找到一条路。"
-	var next := "像上一片花园一样走近根台，这次先规划，再让根桥生长。"
+	var next := "走近根台，先点＋安排四节草稿，再确认生长；草稿还不能行走。"
 	match phase:
 		"planning":
 			goal = "路线已接到对岸，确认后根桥才会生长。" if plan.ready() else "规划根桥 %d / %d · 还可安排 %d 节" % [_planned_count(), _root_budget(), _root_budget() - _planned_count()]
@@ -276,7 +281,7 @@ func _weaving_hint() -> String:
 	match phase:
 		"planning":
 			if plan.ready():
-				messages = ["路线已接到对岸，现在仍是草稿。", "确认后走到每段前端逐节搭建；想改路线，可以先撤销。", "点击“让根桥生长”或按 E，露薇会沿已搭好的石板前进。"]
+				messages = ["路线已接到对岸，现在仍是草稿。点「确认生长根桥」或按 E 执行。", "确认后走到每段前端逐节搭建；想改路线，可以先撤销。", "点击「确认生长根桥」或按 E，露薇会沿已搭好的石板前进。"]
 			else:
 				messages = ["正在规划，根桥还没有长出；还可安排 %d 节。" % (_root_budget() - _planned_count()), "每一节都从根尖继续。点发光的＋或按方向键；撤销可以退一步。", "沿岩石上侧或下侧连续绕行，最后一节接回对岸入口，再确认生长。"]
 		"growing":

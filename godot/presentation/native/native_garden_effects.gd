@@ -2,6 +2,7 @@ extends Node3D
 ## Cached visual-only attachments. No collision, domain mutation or per-frame
 ## tile queries; clocks are supplied by the stage so pause freezes every effect.
 const Halo = preload("res://presentation/native/garden_effect_halo.gdshader")
+const CollectibleGlow = preload("res://presentation/native/collectible_glow.gdshader")
 const Runoff = preload("res://presentation/native/garden_runoff.gdshader")
 const Atmosphere = preload("res://presentation/native/native_garden_atmosphere.gd")
 ## A readable stream on a one-unit bank; feathering must not reduce it to a thread.
@@ -63,9 +64,18 @@ func refresh(owner_stage: Node) -> void:
 		var anchor: Vector3 = surface.global_position
 		anchor.y = surface.sample_height(anchor)
 		entry.anchor = surface.to_local(anchor)
+		# A pickup and the bouquet/dew on its cell used parallel billboard
+		# cards at almost identical depth. Their opaque prepasses fought,
+		# breaking the SAME redraw into ragged patches. Give the floating
+		# pickup its own spot inside that support, with actual depth retained.
+		entry.offset = _shared_mark_offset(str(item.tile))
+		if level_id == "1-2" and str(item.tile) in ["f:-1:0", "f:0:0"]:
+			# Separate the floating body from the mushroom/blue-flower card,
+			# inside its original support; picking consumes this same transform.
+			entry.offset = Vector3(-.10,0,-.34) if str(item.tile) == "f:-1:0" else Vector3(.28,0,-.26)
 		# The old renderer offsets a collectible sharing the carried bell tile.
 		var bell: Dictionary = stage.world.state.get("items", {}).get("bell", {})
-		entry.offset = Vector3(-0.18, 0, 0.18) if str(bell.get("tile", "")) == str(item.tile) else Vector3.ZERO
+		if str(bell.get("tile", "")) == str(item.tile): entry.offset = Vector3(-0.18, 0, 0.18)
 		if level_id=="1-4":
 			# Stable offsets inside the original collection cells. Rules and
 			# bobbing stay unchanged; leave the operator and resident readable.
@@ -81,6 +91,15 @@ func refresh(owner_stage: Node) -> void:
 		add_child(atmosphere)
 	atmosphere.refresh(self)
 	update()
+
+func _shared_mark_offset(tile_id: String) -> Vector3:
+	# Keep the approved first two gardens and fourth-garden per-pickup poses.
+	if level_id in ["1-1","1-2","1-4"]: return Vector3.ZERO
+	for mark: Dictionary in stage.world.level.get("marks",[]):
+		if str(mark.get("tile","")) != tile_id: continue
+		if str(mark.get("kind","")) in ["rest","observe","item","flower","lamp"]:
+			return Vector3(-.32,0,.20)
+	return Vector3.ZERO
 
 func _free_node(node: Node) -> void:
 	if not is_instance_valid(node): return
@@ -115,10 +134,18 @@ func _collectible(id: String) -> Dictionary:
 	var sprite: Sprite3D = stage._sprite(root, "spore", 35.0 * sqrt(2.0) / 70.0, Vector3(0, 0.42, 0))
 	sprite.offset = Vector2.ZERO
 	# Maintain the source sprite and actual scene depth; glow never overrides it.
-	sprite.no_depth_test = false
+	# The bell-side pickup is an explicit foreground exception requested for
+	# 1-4. All other pickups retain the shared normal depth/collection anchor.
+	sprite.no_depth_test = level_id == "1-4" and id == "spore-0"
+	if sprite.no_depth_test: sprite.render_priority = 127
+	# A translucent floating light does not own an opaque depth prepass.
+	sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISABLED
+	sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	var halo := _card(root, _plane, _material(Color(1.0, 0.81, 0.30, 0.62)), Vector3(0.58, 1, 0.58))
 	halo.position.y = 0.018
-	var aura := _card(root, _quad, _material(Color(1, 0.87, 0.43, 0.35)), Vector3.ONE * 0.66)
+	var glow := ShaderMaterial.new()
+	glow.shader = CollectibleGlow
+	var aura := _card(root, _quad, glow, Vector3.ONE * 0.66)
 	var sparks: Array[MeshInstance3D] = []
 	var spark_material := _material(Color(1, 0.95, 0.69, 0.85), true)
 	for index in range(4):
@@ -228,7 +255,7 @@ func update() -> void:
 		entry.halo.visible = light
 		entry.aura.visible = light
 		entry.halo.material_override.set_shader_parameter("phase", phase)
-		entry.aura.position = entry.sprite.position
+		entry.aura.position = entry.sprite.position - stage._camera.global_basis.z * .025
 		entry.aura.basis = stage._camera.global_basis.scaled_local(Vector3.ONE * 0.66)
 		entry.aura.material_override.set_shader_parameter("phase", phase)
 		for index in range(entry.sparks.size()):

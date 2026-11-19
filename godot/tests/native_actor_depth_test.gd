@@ -41,7 +41,7 @@ func _run() -> void:
 					var expected := stage.world_to_screen(foot + stage._camera.global_basis.y)
 					_check(stage.world_to_screen(head).distance_to(expected) < 0.01, "vertical depth correction preserves projected artwork height")
 					_check(absf(foot.y - stage.support_height(foot, world.state.actors[who])) < 0.0001, "foot anchor stays on actual tread")
-					_check(not art.no_depth_test and art.alpha_cut == SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS, "foreground still occludes actor through real depth")
+					_check(not art.no_depth_test and art.alpha_cut == SpriteBase3D.ALPHA_CUT_DISCARD, "foreground still occludes actor through real depth")
 					var before := art.basis
 					for repeat in range(5): stage.update_actor_visual(who, Vector3.ZERO, facing)
 					_check(art.basis.is_equal_approx(before), "pose updates never accumulate projection compensation")
@@ -82,7 +82,7 @@ func _check_chapter_depth(stage: Node) -> void:
 					_check(Vector2(head.x - foot.x, head.z - foot.z).length() < 0.0001, id + " artwork stays vertical above its real foot")
 					_check(stage.world_to_screen(head).distance_to(stage.world_to_screen(foot + stage._camera.global_basis.y * original_pose_height)) < 0.01, id + " keeps original projected artwork height including waiting/sleeping pose")
 					_check(absf(foot.y - stage.support_height(foot, str(tile.id), who)) < 0.0001, id + " foot stays on actual support")
-					_check(not art.no_depth_test and art.alpha_cut == SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS, id + " preserves structural occlusion")
+					_check(not art.no_depth_test and art.alpha_cut == SpriteBase3D.ALPHA_CUT_DISCARD, id + " preserves structural occlusion")
 					var before := art.basis
 					for repeat in range(3): stage.update_actor_visual(who, Vector3.ZERO, facing)
 					_check(art.basis.is_equal_approx(before), id + " does not accumulate depth compensation")

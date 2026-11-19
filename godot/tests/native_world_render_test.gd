@@ -72,8 +72,8 @@ func _run() -> void:
 	var body: CharacterBody3D = stage.get_actor_body("luvie")
 	var art: AnimatedSprite3D = body.get_node("Visual/Art")
 	_check(not art.no_depth_test, "actor participates in native depth")
-	_check(art.alpha_cut == SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS, "actor uses opaque alpha depth prepass")
-	_check(body.collision_layer == 2 and body.collision_mask == 1, "actor/world layers do not collide actor against actor")
+	_check(art.alpha_cut == SpriteBase3D.ALPHA_CUT_DISCARD, "actor uses a single opaque cutout pass without self-competing translucent depth")
+	_check(body.collision_layer == 2 and body.get_collision_mask_value(1) and not body.get_collision_mask_value(2) and body.get_collision_mask_value(4) == stage.prop_obstacles_enabled(), "actor/world layers do not collide actor against actor")
 	_check(stage.asset_errors().is_empty(), "native asset resources load")
 	await _state_feedback_contract()
 	var result := {"suite": "native-world-render-contract", "passed": failures.is_empty(), "checks": checks, "states": cases, "levels": level_ids, "failures": failures, "gpuPixelsVerified": false, "scope": "Actual 3D mesh/collider support samples, level-independent flat landings and bounded ramps, topology refresh caching and circular module motion. GPU appearance and moving character contact require separate checks."}

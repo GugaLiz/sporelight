@@ -35,7 +35,7 @@ static func standing_offset(world: RefCounted, tile_id: String, who: String) -> 
 	if str(world.level.id) == "1-4" and tile_id == "f:-3:5":
 		# Approach the latch beside its complete arch, rather than standing
 		# in its doorway or between the arch and the adjacent bell.
-		return Vector3(-.38,0,.38) if who == "luvie" else Vector3(-.32,0,-.32)
+		return Vector3(-.44,0,.44) if who == "luvie" else Vector3(.44,0,.44)
 	if str(world.level.id) == "1-4" and tile_id == "f:-4:0":
 		return Vector3(.38,0,.08) if who == "luvie" else Vector3(-.30,0,.38)
 	# Keep the cloud operator on its original fixed terrace but outside the
@@ -560,6 +560,13 @@ static func _instrument(stage: Node, root: Node3D, mark: Dictionary) -> void:
 		offset = offset.rotated(Vector3.UP,-float(world.state.turns.get(rotating,0))*PI/2)
 		root.set_meta("instrument_module",rotating)
 		root.set_meta("instrument_offset",offset)
+	if level == "1-3" and id == "turn":
+		var natural := preload("res://presentation/native/symbiosis_dressing.gd")
+		var seat: MeshInstance3D = stage._cylinder(root,.19,.025,offset+Vector3(0,.0125,0),Color("707963"))
+		seat.name = "InstrumentBase"
+		natural._art(stage,root,"wheel",offset+Vector3(0,.025,0),"NaturalWheel")
+		root.set_meta("motion_kind","rotate")
+		return
 	var base: MeshInstance3D = stage._cylinder(root, 0.19, 0.12, Vector3(0, 0.06, 0) + offset, Color("aaad82"))
 	base.name = "InstrumentBase"
 	var stem: MeshInstance3D = stage._cylinder(root, 0.055, 0.37, Vector3(0, 0.28, 0) + offset, Color("b9a471"))

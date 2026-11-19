@@ -4,9 +4,9 @@ extends RefCounted
 const GuardianFlow := preload("res://application/guardian_flow_guidance.gd")
 
 const GOALS := {
-	"1-1": ["让缺口彼端的花床重新醒来。", "根台里的一节嫩芽，正在等你决定去向。", "芽节有限，可以收回后重新安排；先观察想去的地方。"],
-	"1-2": ["为岩石另一侧的小花找到一条路。", "岩石挡住了直路，周围还留有空隙。", "根须从根尖连续生长，预算相同也可能走出不同的路。"],
-	"1-3": ["让苔藓庭院与远岸相遇。", "石纹与岸边的缺口并不总在同一方向。", "转动庭院时，站在上面的人与出口会一起改变位置。"],
+	"1-1": ["让缺口彼端的花床重新醒来。", "点根台旁的＋选择方向，石板就会生长；再点对岸地面走过去，最后到花坛旁互动。", "E 打开附近操作；选方向后立即生长，无需再次确认。Z 撤销上一步，收回根路需在操作面板中选择。"],
+	"1-2": ["为岩石另一侧的小花找到一条路。", "岩石挡住了直路。先在岩石上侧或下侧选一个＋；长出一节后，点击新石板走上去，再继续选方向。", "四节根路逐节生长，每次先走到已建末端；最后一节接向对岸。Z 可撤销一步，微光与休息都不影响接桥。"],
+	"1-3": ["让苔藓庭院与远岸相遇。", "沿已接通的石板走上庭院，到中心把手旁按 E 转动；休息后可直接用方向键走开。", "转动庭院时，站在上面的人与出口会一起改变位置。"],
 	"1-4": ["和伙伴一起，把门铃带回家。", "低拱和沉重的机关各自需要不同的帮手。", "有人保持机关时，另一位可以继续行动；门闩能让已接通的路稳定下来。"],
 	"2-1": ["听听池塘需要哪一层水。", "池壁留下几道水线，不同高度有不同的生命。", "水位更高不一定更合适；浮台和岸边会随它改变关系。"],
 	"2-2": ["把一束光送回花床。", "光照到镜叶会转向，碰到石壁会停下来。", "镜叶的位置和朝向共同决定光路；观察实际光束再试一次。"],
@@ -31,9 +31,26 @@ static func describe(world: Variant) -> Dictionary:
 	# Its opt-in hint tiers below retain their authored discovery/solution split.
 	var goal := str(GuardianFlow.describe(world).goal) if id == "3-4" else str(entry[0])
 	var steps: Array = [{"label": "花园复苏", "done": complete}]
+	if id == "2-1":
+		var cared: bool = world.flag("care")
+		var dew: Dictionary = state.get("items",{}).get("dew",{})
+		steps = [{"label":"带回清露","done":complete or cared or bool(dew.get("picked",false))}, {"label":"照料睡莲","done":complete or cared}, {"label":"花园复苏","done":complete}]
+	if id in ["1-1", "1-2"] and world.has_method("point"):
+		var built: int = state.get("growth",{}).get("root",[]).size()
+		var budget: int = int(level.roots[0].get("budget",1))
+		var core: Dictionary = world.point_for(str(level.get("core","")))
+		if core.is_empty():
+			for mark: Dictionary in level.get("marks",[]):
+				if str(mark.kind) == "core": core = world.point_for(str(mark.tile))
+		var active_tile: Dictionary = world.point()
+		var arrived := complete or (not core.is_empty() and absf(float(active_tile.x)-float(core.x)) + absf(float(active_tile.z)-float(core.z)) <= 1)
+		steps = [{"label":"接通根路", "done":complete or built >= budget}, {"label":"抵达花床", "done":arrived}, {"label":"种下微光", "done":complete}]
+	var done := 0
+	for step: Dictionary in steps:
+		if bool(step.done): done += 1
 	return {
-		"steps": steps, "current": -1 if complete else 0,
-		"done": 1 if complete else 0, "total": 1,
+		"steps": steps, "current": -1 if complete else done,
+		"done": done, "total": steps.size(),
 		"goal": goal,
 		"next": str(level.get("story", "")) if complete else goal
 	}
@@ -44,6 +61,8 @@ static func hint(world: Variant, tier: int = 0) -> Dictionary:
 	var stage := clampi(tier, 0, 2)
 	if bool(world.state.get("completed", false)):
 		return {"tier": stage, "title": "已经复苏的花园", "message": str(level.get("story", "留下慢慢看看，也可以前往下一片花园。"))}
+	if str(level.get("id", "")) == "2-1" and stage == 0 and not world.flag("care"):
+		return {"tier":stage,"title":"清露与微光","message":"发光水滴是清露，需要露薇走近后主动接住；已收集的微光不能替代清露。"}
 	if stage == 0:
 		return {"tier": stage, "title": "先看看这里", "message": str(entry[1])}
 	if stage == 1:

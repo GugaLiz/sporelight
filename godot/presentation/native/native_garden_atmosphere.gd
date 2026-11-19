@@ -134,12 +134,9 @@ func _build_sanctuary() -> void:
 		var material := ShaderMaterial.new()
 		material.shader = Butterfly
 		material.set_shader_parameter("tint", Color("f9dfce") if index % 2 == 0 else Color("fff3cb"))
-		var wings: Array[MeshInstance3D] = []
-		for side: int in [-1, 1]:
-			var wing: MeshInstance3D = fx._card(root, fx._quad, material, Vector3.ONE * 0.16)
-			wing.position.x = side * 0.055
-			wings.append(wing)
-		butterflies.append({"node": root, "wings": wings})
+		var silhouette: MeshInstance3D = fx._card(root, fx._quad, material, Vector3(.34,.28,1))
+		silhouette.name = "PaintedButterfly"
+		butterflies.append({"node": root, "silhouette": silhouette, "material": material})
 
 func _jet_point(u: float, side: int) -> Vector2:
 	# Exact quadratic source control points, in the fountain's 90-unit art.
@@ -219,9 +216,9 @@ func update(time: float, particles: bool, low: bool, light: bool) -> void:
 	for index in range(butterflies.size()):
 		var entry: Dictionary = butterflies[index]
 		entry.node.visible = particles
-		var group := mini(index, 2)
-		var duration: float = [34.0, 41.0, 46.0][group]
-		var elapsed: float = time + [0.0, 19.0, 14.0][group]
+		var group := index
+		var duration: float = [34.0, 41.0, 46.0, 52.0][group]
+		var elapsed: float = time + [0.0, 19.0, 14.0, 28.0][group]
 		var cycle := int(elapsed / duration)
 		var phase := fposmod(elapsed, duration) / duration
 		var u := maxf(0, (phase - 0.38) / 0.62)
@@ -229,8 +226,6 @@ func update(time: float, particles: bool, low: bool, light: bool) -> void:
 		var b := flower_anchors[(cycle + group * 2 + 1) % flower_anchors.size()]
 		entry.node.global_position = a.lerp(b, smoothstep(0, 1, u)) + Vector3(0, sin(u * PI) * 0.35, (index - 1.5) * 0.08)
 		entry.node.basis = camera.global_basis
-		var flap := 0.45 if low else 0.25 + absf(cos(time * TAU / (1.0 + index * 0.09) + index)) * 0.75
-		for wing_index in range(2):
-			var side := -1.0 if wing_index == 0 else 1.0
-			entry.wings[wing_index].scale = Vector3(side * 0.16 * flap, 0.16, 0.16)
-			entry.wings[wing_index].position.x = side * 0.055 * flap
+		var flap := 0.78 if low else 0.38 + (0.5 + 0.5*cos(time * TAU / (0.70 + index * 0.07) + index)) * 0.62
+		entry.material.set_shader_parameter("flap", flap)
+		entry.silhouette.rotation.z = 0.0 if low else sin(time*2.1+index)*.14

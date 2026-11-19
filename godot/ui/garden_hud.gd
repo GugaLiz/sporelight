@@ -15,6 +15,8 @@ const ACCENT := Color("92734c")
 const GalleryCatalog := preload("res://ui/gallery_catalog.gd")
 const Journey := preload("res://application/journey_view.gd")
 const MenuCover := preload("res://ui/menu_cover.gd")
+const GalleryPage := preload("res://ui/gallery_page.gd")
+const SettingsPage := preload("res://ui/settings_page.gd")
 const MenuButtons := preload("res://ui/menu_button_styles.gd")
 const ChapterMap := preload("res://ui/chapter_map.gd")
 const GameHUDSkin := preload("res://ui/game_hud_skin.gd")
@@ -47,17 +49,20 @@ var _nav: HBoxContainer
 var _overlay: Control
 var _overlay_paper: PanelContainer
 var _overlay_scroll: ScrollContainer
+var _ending_content: VBoxContainer
 var _map_frame: VBoxContainer
 var _map_heading: Label
 var _map_description: Label
 var _chapter_map: Control
 var _map_selection: Dictionary = {}
+var _gallery_page: Control
 var _gallery_frame: VBoxContainer
 var _gallery_heading: Label
 var _gallery_description: Label
 var _home_background: TextureRect
 var _home_logo: TextureRect
 var _home_cover: Control
+var _settings_page: Control
 var _game_interface_visible := true
 var _tool_buttons: Array[Button] = []
 var _last_command_key := ""
@@ -71,7 +76,6 @@ var _message_tween: Tween
 var _repository: Variant
 var _import_candidate: Dictionary = {}
 var _paper_texture: Texture2D
-var _ornament_texture: Texture2D
 var _inner_trim: StyleBoxFlat
 var _pad: GridContainer
 var _overview: Button
@@ -119,6 +123,11 @@ var _page_restore: Callable
 var _page_stack: Array[Dictionary] = []
 var _navigating_back := false
 var _cloud_catalog: Array = []
+var _action_card: PanelContainer
+var _action_list: VBoxContainer
+var _action_help: Label
+var _action_card_key := ""
+var _key_guide: Label
 
 
 func _ready() -> void:
@@ -131,7 +140,6 @@ func setup() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_paper_texture = _texture("res://assets/images/gallery-journal/paper-texture.jpg")
-	_ornament_texture = _texture("res://assets/images/material-ready/panel-paper.png")
 	_inner_trim = StyleBoxFlat.new()
 	_inner_trim.bg_color = Color(0, 0, 0, 0)
 	_inner_trim.border_color = Color("e6c69d65")
@@ -149,7 +157,7 @@ func setup() -> void:
 	_home_background.visible = false
 	add_child(_home_background)
 
-	_heading = _paper_panel(self, "compact")
+	_heading = _paper_panel(self, "card")
 	_heading.name = "Heading"
 	_heading_content = _column(_heading)
 	_heading_content.add_theme_constant_override("separation", 4)
@@ -200,6 +208,30 @@ func setup() -> void:
 	_journey_steps.add_theme_constant_override("v_separation",2)
 	_journey_steps.visible = false
 	_heading_content.add_child(_journey_steps)
+	_action_card = _paper_panel(self, "card")
+	_action_card.name = "CurrentActions"
+	var action_frame := Control.new()
+	action_frame.clip_contents = true
+	_action_card.add_child(action_frame)
+	var action_box := _column(action_frame)
+	action_box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	action_box.add_theme_constant_override("separation", 10)
+	action_box.add_child(_label("此刻可以做", 15))
+	_status_row.reparent(action_box)
+	action_box.add_child(HSeparator.new())
+	var action_scroll := ScrollContainer.new()
+	action_scroll.name = "CurrentActionsScroll"
+	action_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	action_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	action_scroll.follow_focus = true
+	action_box.add_child(action_scroll)
+	_action_list = VBoxContainer.new()
+	_action_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_action_list.add_theme_constant_override("separation", 7)
+	action_scroll.add_child(_action_list)
+	_action_help = _label("走近根台、物件或庭院中心，查看附近操作。", 11, MUTED)
+	_action_help.custom_minimum_size.y = 48
+	action_box.add_child(_action_help)
 
 	_panel = _paper_panel(self, "compact")
 	_panel.name = "NearbyActions"
@@ -220,10 +252,12 @@ func setup() -> void:
 	_context_title = _label("选择操作", 13)
 	_context_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	context_header.add_child(_context_title)
-	var cancel_context := _button("×")
+	var cancel_context := _button("返回行走")
 	cancel_context.name = "CloseContext"
 	cancel_context.tooltip_text = "取消选择 · Esc"
 	_compact_button(cancel_context)
+	cancel_context.custom_minimum_size.x = 88
+	cancel_context.clip_text = false
 	cancel_context.pressed.connect(close_context_choices)
 	context_header.add_child(cancel_context)
 	var panel_scroll := ScrollContainer.new()
@@ -263,28 +297,32 @@ func setup() -> void:
 	_journey_next.visible = false
 	panel_box.add_child(_journey_next)
 
-	_tools = _paper_panel(self, "compact")
+	_tools = _paper_panel(self, "tools")
 	_tools.name = "JourneyTools"
 	_tool_grid = Control.new()
 	_tool_grid.resized.connect(_layout_tool_buttons)
 	_tools.add_child(_tool_grid)
-	for pair in [["撤销", "undo"], ["走近物件", "primary"], ["切换角色", "switch"], ["提示", "hint"]]:
+	for pair in [["返回", "menu"], ["撤销 Z", "undo"], ["行走", "mode"], ["走近物件", "primary"], ["切换角色 T", "switch"], ["跳跃 J", "jump"], ["提示 H", "hint"], ["重来", "restart"]]:
 		var action := String(pair[1])
 		var button := _button(String(pair[0]))
 		button.name = "Action_" + action
 		_compact_button(button)
-		button.pressed.connect(func() -> void: command_requested.emit(action))
+		button.pressed.connect(func() -> void:
+			if action == "menu": menu_requested.emit()
+			else: command_requested.emit(action))
 		button.set_meta("action", action)
-		button.set_meta("default_tooltip", String({"undo": "撤销上一次意图 · Z", "primary": "操作当前对象 · E", "switch": "切换角色 · T", "hint": "主动请求一点帮助 · H"}.get(action, "")))
+		button.set_meta("default_tooltip", String({"menu":"返回花园地图", "undo": "撤销上一次意图 · Z", "mode":"切换行走 / 蘑菇球滚动", "primary": "操作当前对象 · E", "switch": "切换角色 · T", "jump":"原地轻跳 · J / 空格（不能越过缺口）", "hint": "主动请求一点帮助 · H", "restart":"重新游玩本关，保留已解锁关卡和收藏"}.get(action, "")))
 		button.tooltip_text = String(button.get_meta("default_tooltip"))
 		_tool_grid.add_child(button)
 		_tool_buttons.append(button)
+		_game_skin.decorate_tool(button, action)
 	_follow = _button("同行")
 	_follow.name = "CompanionFollow"
 	_compact_button(_follow)
 	_follow.set_meta("action", "follow")
 	_follow.pressed.connect(func() -> void: command_requested.emit("follow"))
 	_tool_grid.add_child(_follow)
+	_game_skin.decorate_tool(_follow, "follow")
 
 	_message_panel = _paper_panel(self, "compact")
 	_message_panel.name = "JourneyMessage"
@@ -362,6 +400,10 @@ func setup() -> void:
 	_overview.pressed.connect(func() -> void: command_requested.emit("overview"))
 	_compact_button(_overview)
 	add_child(_overview)
+	_key_guide = _label("方向键 / WASD 移动   E 操作   T 切换角色   Z 撤销   H 提示   J / 空格 轻跳", 10, Color("fff5df"))
+	_key_guide.add_theme_color_override("font_shadow_color", Color("69573e"))
+	_key_guide.add_theme_constant_override("shadow_offset_y", 1)
+	add_child(_key_guide)
 	_built = true
 	# Container minimum sizes settle after text shaping and theme changes.
 	# Reapply authored sizes then, rather than waiting for the next game action.
@@ -401,10 +443,13 @@ func update_state(world: Variant, locked: bool = false, message: String = "", bu
 		_guidance_level=str(level.id);_mole_conversation=FourthGuidance.new();_mole_message_active=false
 	var state: Dictionary = world.state
 	_title.text = "%s · %s" % [level.get("id", ""), level.get("title", "微光苔原")]
+	_chapter_label.text = str({"valley":"苔藓山谷 · MOSS & BLOOM", "pond":"涟漪庭园 · RIPPLE GARDEN", "cave":"月影洞庭 · MOON & LIGHT", "cloud":"云上花庭 · SKY GARDEN"}.get(str(level.get("chapter", "")), "微光苔原 · SPORELIGHT"))
 	_rule.text = str(Journey.describe(world).get("goal", level.get("rule", "")))
+	if not str(level.get("rule", "")).is_empty(): _rule.text = str(level.rule) + "\n" + _rule.text
 	_rule.tooltip_text = _rule.text
 	var actor := String(state.get("active", "luvie"))
 	_status.text = "露薇" if actor == "luvie" else "小苔灵"
+	if bool(level.get("dual", false)): _status.text = "操控：" + _status.text
 	var used := 0
 	var budget := 0
 	for root in level.get("roots", []):
@@ -512,10 +557,8 @@ func set_action_feedback(primary_id: String, states: Dictionary) -> void:
 
 
 func _action_styles(button: Button, available: bool, primary: bool) -> void:
-	if primary and available:
-		_game_skin.apply_primary(button)
-		return
 	button.set_meta("game_action_skin", "secondary" if available else "unavailable")
+	if primary and available: button.set_meta("game_action_skin", "primary")
 	for state_name in ["normal", "hover", "pressed", "disabled"]:
 		var background := Color("f7e8cf")
 		if primary and available:
@@ -535,8 +578,13 @@ func _action_styles(button: Button, available: bool, primary: bool) -> void:
 		style.content_margin_right = 5
 		style.content_margin_top = 9 if state_name == "pressed" else 7
 		style.content_margin_bottom = 5 if state_name == "pressed" else 7
+		if button.has_meta("tool_icon"):
+			style.content_margin_top = 28
+			style.content_margin_bottom = 2
 		style.shadow_size = 0 if state_name == "pressed" else 3
 		button.add_theme_stylebox_override(state_name, style)
+	if button.has_meta("tool_icon"):
+		_game_skin.style_tool(button, str(button.get_meta("action", "")) == "primary", available)
 	button.add_theme_color_override("font_color", INK if available else MUTED)
 	button.add_theme_color_override("font_hover_color", INK)
 	button.add_theme_color_override("font_pressed_color", INK)
@@ -553,8 +601,10 @@ func set_journey(journey: Dictionary) -> void:
 	_journey_key = key
 	_fourth_journey=display if fourth else {}
 	_rule.text = str(display.get("goal", _rule.text))
+	if _world != null and not str(_world.level.get("rule", "")).is_empty():
+		_rule.text = str(_world.level.rule) + "\n" + _rule.text
 	_journey_next.text = String(display.get("next", ""))
-	_journey_count.text = ""
+	_journey_count.text = "修复旅程   %d / %d" % [int(display.get("done",0)), int(display.get("total",1))]
 	_journey_step_count = 0
 	_current_journey_step = -1
 	_journey_steps.visible = false
@@ -562,15 +612,15 @@ func set_journey(journey: Dictionary) -> void:
 	for child in _journey_steps.get_children():
 		_journey_steps.remove_child(child)
 		child.queue_free()
-	if fourth:
-		_journey_step_count=4
+	if display.has("steps"):
+		_journey_step_count=display.steps.size()
 		_current_journey_step=int(display.current)
 		for index in display.steps.size():
 			var step: Dictionary=display.steps[index]
 			var prefix: String="✓ " if step.done else "› " if index==_current_journey_step else "· "
 			var label:=_label(prefix+str(step.label),11,Color("78866a") if step.done else INK if index==_current_journey_step else MUTED)
 			label.autowrap_mode=TextServer.AUTOWRAP_OFF
-			label.custom_minimum_size.x=150
+			label.custom_minimum_size.x=0
 			_journey_steps.add_child(label)
 			_journey_labels.append(label)
 	# Other gardens retain their existing compact goal; staged help stays opt-in.
@@ -597,11 +647,44 @@ func set_interaction_context(primary_id: String, label: String, choices: Array =
 	_interaction_label = label if not label.is_empty() else "走近物件"
 	_context_screen = screen_position
 	set_action_label("primary", _interaction_label + ("" if _touch_mode else " · E"))
-	if not choices.is_empty() and not _context_open:
+	if not _context_open:
 		_context_choices = choices.duplicate(true)
 	elif _context_open and RainSong.applies(_world):
 		_refresh_rehearsal_choices(choices)
+	_refresh_action_card(choices)
 	_layout()
+
+func _refresh_action_card(choices: Array) -> void:
+	var completed := _world != null and bool(_world.state.get("completed",false))
+	var cooperation := FourthGuidance.cooperation(_world) if _world != null and _guidance_level == "1-4" else ""
+	var key := JSON.stringify(choices) + str(_locked) + str(_guidance_level) + str(completed) + cooperation
+	if key == _action_card_key: return
+	_action_card_key = key
+	for child in _action_list.get_children():
+		_action_list.remove_child(child)
+		child.queue_free()
+	for choice: Dictionary in choices:
+		var id := str(choice.id)
+		var optional := id.begins_with("observe:") or id.begins_with("discover:")
+		var button := _button(("可选 · " if optional else "") + str(choice.label))
+		button.set_meta("command_id", id)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 12)
+		button.disabled = _locked or bool(choice.get("disabled",false))
+		button.tooltip_text = str(choice.get("reason", "")) if button.disabled else str(choice.label)
+		_action_styles(button, not button.disabled, not id.begins_with("observe:") and not id.begins_with("discover:"))
+		button.pressed.connect(func() -> void:
+			close_context_choices()
+			command_requested.emit(id))
+		_action_list.add_child(button)
+		if bool(choice.get("disabled",false)) and not str(choice.get("reason","")).is_empty():
+			_action_list.add_child(_label(str(choice.reason), 10, MUTED))
+	if choices.is_empty():
+		_action_list.add_child(_label("附近暂无可操作物件", 12, MUTED))
+	_action_help.text = "方向键或点击石板继续行走；E 打开附近操作，Esc 返回行走。"
+	if not cooperation.is_empty(): _action_help.text = cooperation
+	if completed:
+		_action_help.text = "这片花园已经复苏。可以留下慢慢看看。"
 
 
 func show_context_choices(choices: Array = [], title: String = "选择操作") -> void:
@@ -925,7 +1008,7 @@ func layout_regions() -> Array[Dictionary]:
 	if is_instance_valid(_overlay) and _overlay.is_visible_in_tree():
 		var overlay_rect := _overlay.get_global_rect()
 		return [{"name": "ModalOverlay", "rect": [overlay_rect.position.x, overlay_rect.position.y, overlay_rect.size.x, overlay_rect.size.y]}]
-	for entry in [["Heading", _heading], ["NearbyActions", _panel], ["JourneyTools", _tools], ["JourneyMessage", _message_panel], ["Navigation", _nav], ["DirectionPad", _pad], ["Overview", _overview]]:
+	for entry in [["Heading", _heading], ["CurrentActions", _action_card], ["NearbyActions", _panel], ["JourneyTools", _tools], ["JourneyMessage", _message_panel], ["Navigation", _nav], ["DirectionPad", _pad], ["Overview", _overview]]:
 		var control: Control = entry[1]
 		if not control.is_visible_in_tree():
 			continue
@@ -938,14 +1021,23 @@ func safe_world_rect() -> Rect2:
 	setup()
 	# Temporary feedback and object menus must not resize/recenter the world.
 	# They still appear in layout_regions() for pointer blocking.
-	return _uncovered_world_rect([_heading, _tools, _nav, _pad, _overview])
+	var extent := get_viewport_rect().size
+	if extent.x >= 1050 and extent.y > 500:
+		# The largest free rectangle often lies BELOW the side cards, pulling
+		# the player down toward the toolbar. Use the stable central corridor.
+		var side := 14.0
+		if _heading.visible: side = maxf(side,_heading.get_rect().end.x+12)
+		if _action_card.visible: side = maxf(side,extent.x-_action_card.position.x+12)
+		var bottom := _tools.position.y-12 if _tools.visible else extent.y-14
+		return Rect2(side,14,maxf(1,extent.x-side*2),maxf(1,bottom-14))
+	return _uncovered_world_rect([_heading, _tools, _nav, _pad, _overview, _action_card])
 
 
 func overview_world_rect() -> Rect2:
 	setup()
 	# Overview promises the whole garden, including its foreground. Keep hints
 	# and local choices usable, but frame the map clear of their visible panels.
-	return _uncovered_world_rect([_heading, _tools, _nav, _pad, _overview, _message_panel, _panel])
+	return _uncovered_world_rect([_heading, _tools, _nav, _pad, _overview, _action_card, _message_panel, _panel])
 
 
 func _uncovered_world_rect(blockers: Array) -> Rect2:
@@ -1015,11 +1107,9 @@ func show_home(levels: Array, progress: Dictionary, can_continue: bool, explore_
 	var box: VBoxContainer = _home_cover.content
 	var completed := 0
 	var total := 0
-	var has_cloud := false
 	for level: Dictionary in levels:
 		var id := str(level.get("id", ""))
 		if id.begins_with("cloud-"):
-			has_cloud = true
 			continue
 		total += 1
 		if bool(progress.get("records", {}).get(id, {}).get("completed", false)):
@@ -1032,84 +1122,63 @@ func show_home(levels: Array, progress: Dictionary, can_continue: bool, explore_
 	if _repository != null:
 		player = str(_repository.data.get("player", {}).get("name", "露薇"))
 	box.add_child(_label("%s，这里没有需要赶上的时间。\n走一走，让沉睡的生命重新发光。" % player, 13, MUTED))
-	var start := _button("选择花园" if can_continue else "开始旅程")
-	start.set_meta("action", "map")
-	start.pressed.connect(func() -> void: command_requested.emit("map"))
-	var resume := _button("继续上次的微光")
-	resume.set_meta("action", "continue")
-	resume.disabled = not can_continue
-	resume.focus_mode = Control.FOCUS_ALL if can_continue else Control.FOCUS_NONE
-	resume.tooltip_text = "继续已保存的旅程。" if can_continue else "先开始一段旅程，再回来继续。"
-	resume.pressed.connect(func() -> void: command_requested.emit("continue"))
+	var breathing := Control.new()
+	breathing.set_meta("cover_spacer", true)
+	box.add_child(breathing)
 	if can_continue:
+		var resume := _button("继续上次的微光")
+		resume.name = "CoverContinue"
+		resume.set_meta("action", "continue")
+		resume.pressed.connect(func() -> void: command_requested.emit("continue"))
 		_home_cover.style_primary(resume)
-		_home_cover.style_secondary(start, true)
 		box.add_child(resume)
-		box.add_child(start)
-	else:
-		_home_cover.style_primary(start)
-		_home_cover.style_secondary(resume, true)
-		box.add_child(start)
-		box.add_child(resume)
-	box.add_child(_label("已唤醒 %d / %d 片微光" % [completed, total], 12, MUTED))
-	if not str(progress.get("storage_warning", "")).is_empty():
-		box.add_child(_label(str(progress.storage_warning), 12, MUTED))
-	var divider := HSeparator.new()
-	divider.modulate = Color(1, 1, 1, 0.35)
-	box.add_child(divider)
+	var start := _button("重新开始旅程" if can_continue else "开始旅程")
+	start.name = "CoverStartJourney"
+	start.set_meta("action", "journey_start")
+	start.tooltip_text = "从首关重新游玩，保留已解锁关卡、收藏和纪事。" if can_continue else "从第一片花园开始。"
+	start.pressed.connect(func() -> void: command_requested.emit("journey_start"))
+	if can_continue:
+		_home_cover.style_secondary(start)
+		start.set_meta("cover_restart", true)
+	else: _home_cover.style_primary(start)
+	box.add_child(start)
+	var utility_gap := Control.new()
+	utility_gap.set_meta("cover_spacer", true)
+	box.add_child(utility_gap)
 	var utilities := HBoxContainer.new()
 	utilities.name = "CoverUtilityEntries"
 	utilities.add_theme_constant_override("separation", 12)
 	box.add_child(utilities)
-	var explore := _button("探索与收藏  −" if explore_open else "探索与收藏  ＋")
-	explore.name = "CoverExploreToggle"
-	explore.set_meta("action", "home_explore")
-	explore.toggle_mode = true
-	explore.button_pressed = explore_open
-	explore.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_home_cover.style_secondary(explore, true)
-	utilities.add_child(explore)
-	var settings_button := _button("设置")
-	settings_button.set_meta("action", "settings")
-	settings_button.custom_minimum_size.x = 76
-	settings_button.pressed.connect(func() -> void: command_requested.emit("settings"))
-	_home_cover.style_secondary(settings_button, true)
-	utilities.add_child(settings_button)
-	var collection := VBoxContainer.new()
-	collection.name = "CoverExplorationEntries"
-	collection.add_theme_constant_override("separation", 6)
-	collection.visible = explore_open
-	box.add_child(collection)
-	explore.toggled.connect(func(open: bool) -> void:
-		collection.visible = open
-		explore.text = "探索与收藏  −" if open else "探索与收藏  ＋"
-		# Back from a collection page restores the expanded group. A fresh
-		# home destination still starts compact with just four entry points.
-		_page_restore = show_home.bind(levels, progress, can_continue, open)
-		if open:
-			_overlay_scroll.ensure_control_visible.call_deferred(collection))
-	if has_cloud:
-		var cloud := _button("云庭微光 · 独立花园")
-		cloud.name = "CoverCloudEntry"
-		cloud.set_meta("action", "cloud_map")
-		cloud.tooltip_text = "和小苔灵修复空中花园。"
-		cloud.pressed.connect(func() -> void:
-			command_requested.emit("map")
-			_focus_cloud_entry.call_deferred())
-		_home_cover.style_secondary(cloud)
-		collection.add_child(cloud)
-	var secondary := HBoxContainer.new()
-	secondary.name = "CoverCollectionEntries"
-	secondary.add_theme_constant_override("separation", 6)
-	collection.add_child(secondary)
-	var journal := _button("花园纪事")
-	journal.pressed.connect(func() -> void: show_journal(levels, progress))
-	var gallery := _button("图鉴")
-	gallery.pressed.connect(func() -> void: show_gallery(_repository.data if _repository != null else {"mainline": progress}))
-	for button: Button in [gallery, journal]:
+	for entry: Array in [["图鉴", "gallery"], ["纪事", "journal"], ["设置", "settings"]]:
+		var button := _button(str(entry[0]))
+		button.set_meta("action", str(entry[1]))
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_home_cover.style_secondary(button)
-		secondary.add_child(button)
+		_home_cover.style_utility(button)
+		match str(entry[1]):
+			"gallery": button.pressed.connect(func() -> void: show_gallery(_repository.data if _repository != null else {"mainline": progress}))
+			"journal": button.pressed.connect(func() -> void: show_journal(levels, progress))
+			"settings": button.pressed.connect(func() -> void: command_requested.emit("settings"))
+		utilities.add_child(button)
+	var meter := ProgressBar.new()
+	meter.name = "CoverJourneyProgress"
+	meter.max_value = maxi(1, total)
+	meter.value = completed
+	meter.show_percentage = false
+	meter.custom_minimum_size.y = 4
+	meter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	meter.add_theme_stylebox_override("background", _paper_style(Color("dce1ce"), 2))
+	meter.add_theme_stylebox_override("fill", _paper_style(Color("7e976a"), 2))
+	# Progress is a quiet line below the three permanent utility entries.
+	for style_name: String in ["background", "fill"]:
+		var style: StyleBoxFlat = meter.get_theme_stylebox(style_name)
+		style.set_border_width_all(0)
+		style.content_margin_top = 0
+		style.content_margin_bottom = 0
+		style.shadow_size = 0
+	box.add_child(meter)
+	box.add_child(_label("已唤醒 %d / %d 片微光" % [completed, total], 12, MUTED))
+	if not str(progress.get("storage_warning", "")).is_empty():
+		box.add_child(_label(str(progress.storage_warning), 12, MUTED))
 	_resize_overlay()
 	_focus_modal.call_deferred()
 
@@ -1287,53 +1356,48 @@ func _add_fixed_return_buttons(frame: VBoxContainer, node_name: String) -> void:
 
 func show_settings(settings: Dictionary = {}) -> void:
 	_settings = settings.duplicate(true)
-	var box := _open_page("settings", "暂停与设置" if _game_interface_visible else "设置", show_settings.bind(_settings))
-	for item in [["bgm", "音乐"], ["sfx", "音效"], ["ambient", "环境声"]]:
-		var key := String(item[0])
-		box.add_child(_label(String(item[1]), 13))
-		var slider := HSlider.new()
-		slider.name = "Setting_" + key
-		slider.set_meta("setting_id", key)
-		slider.min_value = 0
-		slider.max_value = 1
-		slider.step = 0.05
-		slider.value = float(_settings.get(key, {"bgm": 0.35, "sfx": 0.6, "ambient": 0.25}.get(key, 0.5)))
-		slider.custom_minimum_size.y = 28
-		slider.value_changed.connect(func(value: float) -> void:
-			_settings[key] = value
-			settings_changed.emit(_settings.duplicate(true)))
-		box.add_child(slider)
-	for item in [["lowMotion", "减少动态效果"], ["dynamicLight", "柔和光效"], ["particles", "环境粒子"], ["touchControls", "显示触屏方向键"]]:
-		var key := String(item[0])
-		var toggle := CheckButton.new()
-		toggle.name = "Setting_" + key
-		toggle.set_meta("setting_id", key)
-		toggle.text = String(item[1])
-		toggle.button_pressed = bool(_settings.get(key, key in ["dynamicLight", "particles", "continuousInput"]))
-		toggle.toggled.connect(func(value: bool) -> void:
-			_settings[key] = value
-			settings_changed.emit(_settings.duplicate(true))
-			_layout())
-		box.add_child(toggle)
-	box.add_child(_label("移动始终保持连续；镜头会自动为当前操作留出空间。", 12, MUTED))
+	_open_page("settings", "设置", show_settings.bind(_settings))
+	# Keep the existing page stack and pause contract, draw a dedicated page.
+	var old_frame := _overlay_paper.get_parent()
+	_overlay.remove_child(old_frame)
+	old_frame.queue_free()
+	_overlay_paper = null
+	_settings_page = SettingsPage.new()
+	_overlay.add_child(_settings_page)
+	_settings_page.configure(_settings)
+	_overlay_scroll = _settings_page.scroll
+	_settings_page.changed.connect(func(value: Dictionary) -> void:
+		_settings = value.duplicate(true)
+		settings_changed.emit(_settings.duplicate(true))
+		_layout())
+	_settings_page.dismissed.connect(navigate_back)
+	var box: VBoxContainer = _settings_page.extra
 	if _repository != null and not _game_interface_visible:
-		box.add_child(HSeparator.new())
-		box.add_child(_label("旅程管理", 16))
-		var saves := _button("导入 / 导出旅程")
+		var saves: Button = _settings_page.button("导入 / 导出旅程")
 		saves.set_meta("action", "save_tools")
 		saves.pressed.connect(func() -> void: show_save_tools(_repository))
 		box.add_child(saves)
 	if _game_interface_visible:
-		box.add_child(HSeparator.new())
+		var actions := HFlowContainer.new()
+		actions.add_theme_constant_override("h_separation",10)
+		actions.add_theme_constant_override("v_separation",8)
+		box.add_child(actions)
 		for pair in [["变成蘑菇球 / 站起来", "mode"], ["轻轻跳跃", "jump"], ["重新开始本关", "restart"]]:
 			var action := str(pair[1])
-			var button := _button(str(pair[0]))
+			var button: Button = _settings_page.button(str(pair[0]))
 			button.set_meta("action", action)
 			button.pressed.connect(func() -> void:
 				close_overlay()
 				command_requested.emit(action))
-			box.add_child(button)
-	_add_return_buttons(box)
+			actions.add_child(button)
+	var returns := VBoxContainer.new()
+	_add_return_buttons(returns)
+	for button: Button in returns.get_children():
+		returns.remove_child(button)
+		_settings_page.style_button(button,button.get_meta("action","") == "resume")
+		_settings_page.footer.add_child(button)
+	returns.free()
+	_settings_page.relayout.call_deferred()
 
 
 func set_repository(repository: Variant) -> void:
@@ -1490,24 +1554,47 @@ func show_ending(world: Variant, stats: Dictionary = {}) -> void:
 	var collected: Variant = snapshot.get("collected", [])
 	var count: int = collected.size() if collected is Array else int(collected)
 	var box := _open_page("ending", "这里，又可以成为家。", show_ending.bind(world, stats))
-	box.add_child(_label(String(level.get("story", "这片花园，因你而安定。")), 16))
-	box.add_child(_label("%d / %d 粒微光已收集 · 纪事已点亮" % [count, int(snapshot.get("total", level.get("total", 0)))], 13, MUTED))
+	_ending_content = box
+	box.name = "EndingContent"
+	box.minimum_size_changed.connect(_resize_overlay,CONNECT_DEFERRED)
+	box.add_theme_constant_override("separation", 8)
+	var title := box.get_child(0) as Label
+	title.add_theme_font_size_override("font_size", 22)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var story := _label(String(level.get("story", "这片花园，因你而安定。")), 14)
+	story.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(story)
+	var summary := _label("%d / %d 粒微光已收集 · 纪事已点亮" % [count, int(snapshot.get("total", level.get("total", 0)))], 12, MUTED)
+	summary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(summary)
+	var space := Control.new()
+	space.custom_minimum_size.y = 4
+	box.add_child(space)
 	var next := _button("去下一片微光 ↗" if bool(level.get("has_next_garden", true)) else "看看一路的纪事 ↗")
+	_game_skin.decorate_completion(next, true)
 	next.set_meta("action", "next")
 	next.pressed.connect(func() -> void:
 		close_overlay(false)
 		command_requested.emit("next"))
 	box.add_child(next)
+	var choices := HBoxContainer.new()
+	choices.add_theme_constant_override("separation", 10)
+	box.add_child(choices)
 	var stay := _button("留下看看")
+	_game_skin.decorate_completion(stay, false)
+	stay.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stay.pressed.connect(func() -> void:
 		close_overlay()
 		command_requested.emit("stay"))
-	box.add_child(stay)
+	choices.add_child(stay)
 	var back := _button("返回地图")
+	_game_skin.decorate_completion(back, false)
+	back.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	back.pressed.connect(func() -> void:
 		close_overlay(false)
 		menu_requested.emit())
-	box.add_child(back)
+	choices.add_child(back)
+	_resize_overlay()
 
 
 func show_journal(levels: Array, progress: Dictionary = {}) -> void:
@@ -1530,50 +1617,24 @@ func show_journal(levels: Array, progress: Dictionary = {}) -> void:
 
 
 func show_gallery(store: Dictionary = {}, category: String = "全部") -> void:
-	var box := _open_page("gallery", "微光图鉴", show_gallery.bind(store, category))
-	var categories := _configure_fixed_menu_frame(box, "GalleryFrame", "每一种生命，都有自己的微光。")
-	var group := ButtonGroup.new()
-	group.allow_unpress = false
-	_overlay.set_meta("gallery_category", category)
-	for category_name in GalleryCatalog.CATEGORIES:
-		var selected := String(category_name)
-		var filter_button := _button(selected)
-		filter_button.toggle_mode = true
-		filter_button.button_group = group
-		filter_button.button_pressed = selected == category
-		filter_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		MenuButtons.category_tab(filter_button)
-		filter_button.pressed.connect(func() -> void:
-			if selected != category:
-				show_gallery(store, selected))
-		categories.add_child(filter_button)
-		if selected == category:
-			_overlay.set_meta("preferred_focus", filter_button)
-	for item in GalleryCatalog.ITEMS:
-		if category != "全部" and item.category != category:
-			continue
-		var unlocked := GalleryCatalog.unlocked(item, store)
-		box.add_child(HSeparator.new())
-		box.add_child(_label(String(item.title) if unlocked else "尚未相遇的微光", 19))
-		if unlocked:
-			var picture := TextureRect.new()
-			picture.texture = _texture("res://assets/images/" + String(item.image))
-			picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			picture.custom_minimum_size = Vector2(0, 150)
-			box.add_child(picture)
-			box.add_child(_label(String(item.habitat), 11, MUTED))
-			box.add_child(_label(String(item.desc), 13))
-			var story_button := _button("读一段微光故事")
-			var entry: Dictionary = item.duplicate(true)
-			story_button.pressed.connect(func() -> void: _show_gallery_story(entry, store, category))
-			box.add_child(story_button)
-		else:
-			box.add_child(_label("在 %s 完成一次新的相遇。" % item.levels[0], 13, MUTED))
-	_add_fixed_return_buttons(_gallery_frame, "GalleryReturnActions")
+	_open_page("gallery", "微光图鉴", show_gallery.bind(store, category))
+	var old_frame := _overlay_paper.get_parent()
+	_overlay.remove_child(old_frame)
+	old_frame.queue_free()
+	_overlay_paper = null
+	_gallery_page = GalleryPage.new()
+	_overlay.add_child(_gallery_page)
+	_gallery_page.configure(store,category)
+	_gallery_page._resume.visible = _game_interface_visible
+	_gallery_page.resumed.connect(func() -> void: close_overlay())
+	_overlay_scroll = _gallery_page.scroll
+	_overlay.set_meta("gallery_category",category)
+	_overlay.set_meta("preferred_focus",_gallery_page._tabs[category])
+	_gallery_page.category_changed.connect(func(value: String) -> void:
+		_overlay.set_meta("gallery_category",value)
+		_page_restore = show_gallery.bind(store,value))
+	_gallery_page.dismissed.connect(navigate_back)
 	_resize_overlay()
-	if not _navigating_back:
-		_request_scroll_position(0)
 
 
 func _show_gallery_story(item: Dictionary, store: Dictionary, category: String) -> void:
@@ -1594,15 +1655,18 @@ func close_overlay(resume_game: bool = true) -> void:
 	_overlay = null
 	_overlay_paper = null
 	_overlay_scroll = null
+	_ending_content = null
 	_map_frame = null
 	_map_heading = null
 	_map_description = null
 	_chapter_map = null
+	_gallery_page = null
 	_gallery_frame = null
 	_gallery_heading = null
 	_gallery_description = null
 	_home_logo = null
 	_home_cover = null
+	_settings_page = null
 	layout_changed.emit()
 	if resume_game:
 		_page_kind = ""
@@ -1612,6 +1676,8 @@ func close_overlay(resume_game: bool = true) -> void:
 
 
 func navigate_back() -> void:
+	if is_instance_valid(_gallery_page) and _gallery_page.close_detail():
+		return
 	if is_context_open():
 		close_context_choices()
 		return
@@ -1733,6 +1799,12 @@ func _focus_first_control(node: Node) -> bool:
 
 
 func _resize_overlay() -> void:
+	if is_instance_valid(_gallery_page):
+		_gallery_page.relayout()
+		return
+	if is_instance_valid(_settings_page):
+		_settings_page.relayout()
+		return
 	if is_instance_valid(_chapter_map):
 		_chapter_map._schedule_layout()
 		return
@@ -1744,6 +1816,9 @@ func _resize_overlay() -> void:
 	if is_instance_valid(_home_logo):
 		_home_logo.custom_minimum_size.y = 64 if get_viewport_rect().size.y <= 400 else 104
 	var available := (get_viewport_rect().size - Vector2(28, 28)).max(Vector2.ZERO)
+	if _page_kind == "ending" and is_instance_valid(_ending_content):
+		_resize_ending(available)
+		return
 	var outer := Vector2(minf(560, available.x), minf(580, available.y))
 	var fixed_frame := _map_frame if is_instance_valid(_map_frame) else _gallery_frame
 	if is_instance_valid(fixed_frame):
@@ -1769,6 +1844,31 @@ func _resize_overlay() -> void:
 		_overlay_paper.get_parent().queue_sort()
 
 
+func _resize_ending(available: Vector2) -> void:
+	# Fit this short completion sheet to its content, rather than the full menu frame.
+	var short := get_viewport_rect().size.y <= 420
+	_set_layout_font(_ending_content.get_child(0),20 if short else 22)
+	_set_layout_font(_ending_content.get_child(1),13 if short else 14)
+	_set_layout_font(_ending_content.get_child(2),11 if short else 12)
+	var separation := 6 if short else 8
+	if _ending_content.get_theme_constant("separation") != separation:
+		_ending_content.add_theme_constant_override("separation",separation)
+	var style := _overlay_paper.get_theme_stylebox("panel") as StyleBoxFlat
+	style.content_margin_left = 24
+	style.content_margin_right = 24
+	style.content_margin_top = 32 if short else 38
+	style.content_margin_bottom = 28 if short else 34
+	var inset := style.get_minimum_size()
+	var width := maxf(1,minf(432,available.x)-inset.x)
+	# Container minimums include the real Label line heights and wrapping.
+	# The deferred minimum-size signal reconciles again after a width change.
+	var height := _ending_content.get_combined_minimum_size().y
+	var content := Vector2(width,minf(ceilf(height),maxf(1,available.y-inset.y)))
+	if _overlay_scroll.custom_minimum_size != content:
+		_overlay_scroll.custom_minimum_size = content
+		_overlay_paper.get_parent().queue_sort()
+
+
 func _layout() -> void:
 	if not _built:
 		return
@@ -1781,16 +1881,19 @@ func _layout() -> void:
 	_nav.visible = _game_interface_visible
 	_overview.visible = _game_interface_visible
 	_panel.visible = _game_interface_visible and _context_open and not is_modal_open()
-	_pad.visible = _game_interface_visible and _touch_mode and bool(_settings.get("touchControls", false)) and not _context_open
+	var desktop := extent.x >= 1050 and extent.y > 500
+	_action_card.visible = _game_interface_visible and desktop and not is_modal_open()
+	_pad.visible = _game_interface_visible and (desktop or (_touch_mode and bool(_settings.get("touchControls", false)))) and not _context_open
+	_key_guide.visible = _game_interface_visible and desktop
 	var fourth_stages: bool=not _fourth_journey.is_empty() and _guidance_level=="1-4"
 	var guardian_flow: bool = _guidance_level == "3-4"
 	_rule.visible = (extent.y > 500 or guardian_flow) and not fourth_stages
 	_set_layout_font(_rule, 10 if _short_landscape else 11)
 	var rule_height: float = _rule.get_line_height() * 2 + _rule.get_theme_constant("line_spacing")
 	if _rule.custom_minimum_size.y != rule_height: _rule.custom_minimum_size.y = rule_height
-	_chapter_label.hide()
-	_journey_count.visible=fourth_stages
-	_journey_steps.visible=fourth_stages and not _short_landscape
+	_chapter_label.visible = desktop
+	_journey_count.visible = desktop or fourth_stages
+	_journey_steps.visible = not _short_landscape and _journey_step_count > 0
 	if fourth_stages:
 		var progress_text: String="%d/4 · %s" % [int(_fourth_journey.done),str(_fourth_journey.next)] if _short_landscape else "归家旅程  %d / 4" % int(_fourth_journey.done)
 		if _journey_count.text!=progress_text:_journey_count.text=progress_text
@@ -1800,16 +1903,24 @@ func _layout() -> void:
 	_score_row.hide()
 	_journey_next.hide()
 	_heading.position = Vector2(margin, margin)
-	_set_panel_inset(_heading, 4 if _short_landscape else 8)
-	var separation:=2 if _short_landscape else 4
+	_set_card_inset(_heading, desktop)
+	var separation:=2 if _short_landscape else 10 if desktop else 4
 	if _heading_content.get_theme_constant("separation")!=separation:_heading_content.add_theme_constant_override("separation",separation)
 	var heading_height: float=(62 if _short_landscape else 124) if fourth_stages else (46 if _short_landscape else 82 if extent.y > 500 else 62)
 	if guardian_flow: heading_height = 78 if _short_landscape else 82
-	_heading.size = Vector2(minf(360, maxf(120, extent.x - 196 - margin)), heading_height)
-	_set_layout_font(_title,13 if _short_landscape else 14 if extent.x < 650 else 16)
+	if desktop: heading_height = 224 if fourth_stages else 204
+	_heading.size = Vector2(282 if desktop else minf(360, maxf(120, extent.x - 196 - margin)), heading_height)
+	_set_layout_font(_title,13 if _short_landscape else 14 if extent.x < 650 else 18 if desktop else 16)
 	_set_layout_font(_status,9 if _short_landscape else 10 if extent.x < 650 else 11)
 	_set_layout_font(_collection_count,9 if _short_landscape else 10 if extent.x < 650 else 11)
-	_collection_icon.custom_minimum_size = Vector2(12, 12) if _short_landscape else Vector2(14, 14)
+	_collection_icon.custom_minimum_size = Vector2(20, 20) if desktop else Vector2(12, 12)
+	_action_card.position = Vector2(extent.x - margin - 250, 92)
+	_action_card.size = Vector2(250, minf(360, extent.y - 220))
+	_set_card_inset(_action_card, true)
+	var status_parent: Node = _action_card.get_child(0).get_child(0) if desktop else _heading_content
+	if _status_row.get_parent() != status_parent: _status_row.reparent(status_parent)
+	if desktop: _status_row.get_parent().move_child(_status_row, 1)
+	else: _heading_content.move_child(_status_row, 2)
 	_nav.position = Vector2(extent.x - margin - 94, margin)
 	_nav.size = Vector2(94, 44)
 	for child in _nav.get_children():
@@ -1817,12 +1928,14 @@ func _layout() -> void:
 			child.custom_minimum_size = Vector2(44, 44)
 	_overview.position = Vector2(_nav.position.x - 66, margin)
 	_overview.size = Vector2(60, 44)
-	var tools_width := minf(520 if _follow.visible else 410, extent.x - margin * 2)
-	var tools_height := 50.0 if _short_landscape else 60.0
-	_set_panel_inset(_tools, 3 if _short_landscape else 8)
+	var tools_width := minf(892 if _follow.visible else 748, extent.x - margin * 2)
+	var tools_height := 50.0 if _short_landscape else 94.0
+	if extent.x < 600 and not _short_landscape:
+		tools_height = 112 if extent.x >= 360 or not _follow.visible else 160
+	_set_tools_inset(18 if _short_landscape or extent.x < 600 else 24, 3 if _short_landscape else 8 if extent.x < 600 else 11)
 	_tools.position = Vector2((extent.x - tools_width) / 2, extent.y - margin - tools_height)
 	_tools.size = Vector2(tools_width, tools_height)
-	_tool_grid.custom_minimum_size.y = 44
+	_tool_grid.custom_minimum_size.y = 44 if _short_landscape else 72
 	_layout_tool_buttons.call_deferred()
 	var message_width := minf(520, extent.x - margin * 2)
 	_set_panel_inset(_message_panel, 3 if _short_landscape else 8)
@@ -1843,7 +1956,11 @@ func _layout() -> void:
 	if not _inline_hint and _short_landscape and _world != null and _message.text == str(_world.level.get("intro", "")):
 		_message_panel.hide()
 	_pad.position = Vector2(margin, maxf(80, _tools.position.y - 144))
+	if desktop: _pad.position = Vector2(margin, extent.y - 174)
 	_pad.size = Vector2(132, 132)
+	_key_guide.position = Vector2(margin, extent.y - 26)
+	_key_guide.size = Vector2(maxf(0, _tools.position.x - margin - 12), 20)
+	_key_guide.text = "方向键 / WASD 移动 · E 操作 · Z 撤销 · H 提示"
 	if _panel.visible:
 		var panel_width := minf(410, extent.x - margin * 2)
 		# Account for the actual 44px close button, gaps, content and insets.
@@ -1855,7 +1972,7 @@ func _layout() -> void:
 			var summary_font := _rain_summary.get_theme_font("font")
 			var summary_size := summary_font.get_multiline_string_size(_rain_summary.text, HORIZONTAL_ALIGNMENT_LEFT, panel_width - 36.0, _rain_summary.get_theme_font_size("font_size"), -1, TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE)
 			summary_height = summary_size.y + 6.0
-		var content_height: float = maxf(44, _commands.get_combined_minimum_size().y) + summary_height
+		var content_height: float = maxf(44, _context_content_height(panel_width-32)) + summary_height
 		var panel_height := minf(67 + content_height, maxf(111, _tools.position.y - 86))
 		var bottom_edge := _tools.position.y - 10.0
 		var panel_top := maxf(80.0, bottom_edge - panel_height)
@@ -1865,6 +1982,31 @@ func _layout() -> void:
 		_panel.size = Vector2(panel_width, panel_height)
 		_message_panel.visible = false
 	layout_changed.emit()
+
+
+func _context_content_height(width: float) -> float:
+	# Wrapped labels may still report their first, narrow layout height when
+	# the menu opens. Measure at the final width so two reasons don't create
+	# a tall empty sheet that covers the player.
+	var columns := maxi(1,_commands.columns)
+	var column_width := (width-(columns-1)*_commands.get_theme_constant("h_separation"))/columns
+	var total := 0.0
+	var row := 0.0
+	var count := 0
+	for child: Control in _commands.get_children():
+		if not child.visible: continue
+		var height := child.get_combined_minimum_size().y
+		if child is Label:
+			var font := child.get_theme_font("font")
+			var font_size := child.get_theme_font_size("font_size")
+			var measured := font.get_multiline_string_size(child.text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1,column_width),font_size,-1,TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE)
+			height = measured.y + maxi(0,ceili(measured.y/maxf(1,font.get_height(font_size)))-1)*child.get_theme_constant("line_spacing")
+		row = maxf(row,height)
+		count += 1
+		if count%columns == 0:
+			total += row+_commands.get_theme_constant("v_separation")
+			row = 0
+	return maxf(0,total+row-(_commands.get_theme_constant("v_separation") if count%columns == 0 else 0))
 
 
 func _set_layout_font(label: Label,font_size: int) -> void:
@@ -1879,6 +2021,30 @@ func _set_panel_inset(panel: PanelContainer, inset: float) -> void:
 	style.set_content_margin_all(inset)
 	panel.add_theme_stylebox_override("panel", style)
 
+func _set_card_inset(panel: PanelContainer, decorated: bool) -> void:
+	var existing := panel.get_theme_stylebox("panel")
+	var left := 22.0 if decorated else 8.0
+	var top := 30.0 if decorated else 4.0
+	if existing.content_margin_left == left and existing.content_margin_top == top: return
+	var style := existing.duplicate()
+	style.content_margin_left = left
+	style.content_margin_right = left
+	style.content_margin_top = top
+	style.content_margin_bottom = 32 if decorated else 4
+	panel.add_theme_stylebox_override("panel", style)
+	panel.set_meta("paper_kind", "card" if decorated else "compact")
+	panel.queue_redraw()
+
+func _set_tools_inset(horizontal: float, vertical: float) -> void:
+	var existing := _tools.get_theme_stylebox("panel")
+	if existing.content_margin_left == horizontal and existing.content_margin_top == vertical: return
+	var style := existing.duplicate()
+	style.content_margin_left = horizontal
+	style.content_margin_right = horizontal
+	style.content_margin_top = vertical
+	style.content_margin_bottom = vertical
+	_tools.add_theme_stylebox_override("panel",style)
+
 
 func _layout_tool_buttons() -> void:
 	if _tool_grid == null or _tools == null:
@@ -1892,15 +2058,34 @@ func _layout_tool_buttons() -> void:
 	if visible.is_empty():
 		return
 	var gap := 5.0
+	if get_viewport_rect().size.x < 600 and not _short_landscape:
+		var columns := 5 if get_viewport_rect().size.x >= 360 else 4
+		var cell_width := (_tool_grid.size.x-gap*(columns-1))/columns
+		for index in visible.size():
+			var button := visible[index]
+			button.custom_minimum_size = Vector2.ZERO
+			button.add_theme_font_size_override("font_size",10)
+			if button.get_meta("action", "") == "switch": button.text = "切换角色"
+			_game_skin.fit_tool(button,44)
+			button.position = Vector2((index%columns)*(cell_width+gap), (index/columns)*48)
+			button.size = Vector2(cell_width,44)
+		return
 	var available := maxf(44, _tool_grid.size.x - gap * (visible.size() - 1))
-	var secondary := minf(64, maxf(44, (available - 112) / maxf(1, visible.size() - 1)))
+	var secondary := minf(78, maxf(44, (available - 164) / maxf(1, visible.size() - 1)))
 	var offset := 0.0
 	for button in visible:
-		var width := available - secondary * (visible.size() - 1) if button.get_meta("action", "") == "primary" else secondary
+		if button.get_meta("action", "") == "undo":
+			var label := "撤销" if _touch_mode else "撤销 Z"
+			if button.text != label: button.text = label
+		var switch_extra := 16.0 if _follow.visible and not _short_landscape else 0.0
+		var action := str(button.get_meta("action", ""))
+		var width := available - secondary * (visible.size() - 1) - switch_extra if action == "primary" else secondary + switch_extra if action == "switch" else secondary
+		if action == "switch": button.text = "切换角色" if _touch_mode or _short_landscape or get_viewport_rect().size.x < 650 else "切换角色 T"
 		button.custom_minimum_size = Vector2(0, 44)
+		button.add_theme_font_size_override("font_size", 11 if _short_landscape or get_viewport_rect().size.x < 650 else 13)
+		_game_skin.fit_tool(button,44 if _short_landscape else 72)
 		button.position = Vector2(offset, 0)
-		button.size = Vector2(maxf(44, width), 44)
-		button.add_theme_font_size_override("font_size", 11 if get_viewport_rect().size.x < 650 else 12)
+		button.size = Vector2(maxf(44, width), 44 if _short_landscape else 72)
 		offset += button.size.x + gap
 
 func _paper_panel(parent: Node, kind: String = "card") -> PanelContainer:
@@ -1929,19 +2114,16 @@ func _draw_paper_surface(panel: PanelContainer) -> void:
 	var extent := panel.size
 	if extent.x < 20 or extent.y < 20:
 		return
-	if _paper_texture != null:
-		panel.draw_texture_rect(_paper_texture, Rect2(Vector2(8, 8), extent - Vector2(16, 16)), true, Color(1, 1, 1, 0.18))
 	var kind := String(panel.get_meta("paper_kind", "card"))
+	if _paper_texture != null and kind != "tools":
+		panel.draw_texture_rect(_paper_texture, Rect2(Vector2(8, 8), extent - Vector2(16, 16)), true, Color(1, 1, 1, 0.18))
 	var trim: StyleBoxFlat = _inner_trim.duplicate()
 	trim.set_corner_radius_all(11 if kind == "compact" else 36 if kind == "tools" else 20)
 	panel.draw_style_box(trim, Rect2(Vector2(5, 5), extent - Vector2(10, 10)))
-	if _ornament_texture != null:
-		# Exact source regions used by garden-journey.css, separated from resize.
-		if kind in ["card", "tools"]:
-			panel.draw_texture_rect_region(_ornament_texture, Rect2((extent.x - 136) / 2, -6 if kind == "tools" else 6, 136, 24), Rect2(180, 16.6667, 226.6667, 40), Color(1, 1, 1, 0.9))
-		if kind == "card":
-			panel.draw_texture_rect_region(_ornament_texture, Rect2(7, extent.y - 47, 38, 40), Rect2(8.8889, 262.2222, 84.4444, 88.8889), Color(1, 1, 1, 0.82))
-			panel.draw_texture_rect_region(_ornament_texture, Rect2(extent.x - 45, extent.y - 47, 38, 40), Rect2(500, 262.2222, 84.4444, 88.8889), Color(1, 1, 1, 0.82))
+	if kind == "card":
+		_game_skin.draw_flourish(panel,Vector2(extent.x*.5,18))
+		_game_skin.draw_corner_leaves(panel,Vector2(46,extent.y-12))
+		_game_skin.draw_corner_leaves(panel,Vector2(extent.x-46,extent.y-12),true)
 
 
 func _texture(resource: String) -> Texture2D:

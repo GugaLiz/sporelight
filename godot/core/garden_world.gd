@@ -816,6 +816,8 @@ func _transaction(change: Callable, record_history: bool = true) -> Dictionary:
 			for item: Dictionary in state.items.values():
 				if item.tile != "" and item.get("holder", "") == "" and _find_tile(item.tile, world_tiles).is_empty():
 					_error = "先把关键物件放到安全台，再改变这段路。"
+					if level.id == "2-1" and item == state.items.get("dew", {}):
+						_error = "升水会淹没低路上的清露。请先让露薇走近并「接住露珠」。"
 					break
 	if _error != "":
 		state = before
@@ -960,7 +962,7 @@ func _apply(id: String) -> String:
 	if id == "switch":
 		state.active = "buddy" if actor() == "luvie" else "luvie"
 		state.follow = false
-		return "换你来帮我啦。另一位会留在原地安心等候。"
+		return "当前控制：小苔灵。露薇原地等候。" if actor() == "buddy" else "当前控制：露薇。小苔灵原地等候。"
 	if id == "rejoin":
 		var path: Array = path_to(str(state.actors.luvie), "buddy")
 		if path.is_empty(): return _fail("伙伴身旁的路还没有接通，先切换角色看看。")
@@ -986,7 +988,7 @@ func _apply(id: String) -> String:
 		var target := "g:%s:%d:%d" % [root.id, x, z]
 		if path.size() >= int(root.budget) or not _socket(root, x, z) or target in path: return _fail("这里暂时不能再搭下一节石板。")
 		path.append(target)
-		return "根须托起一节石板，你安排的小路正在生长。"
+		return "已长出 %d/%d 节根路。%s" % [path.size(), int(root.budget), "走到新石板上，再选下一节方向。" if path.size() < int(root.budget) else "道路已长出，点击对岸地面前往。"]
 	if id.begins_with("retract:"):
 		if parts.size() != 2: return _fail("先走近根台，或退到最后一节前面的石板。")
 		var root: Dictionary = {}
@@ -994,7 +996,7 @@ func _apply(id: String) -> String:
 			if candidate.id == parts[1]: root = candidate
 		if root.is_empty() or not can_retract_root(root): return _fail("先走近根台，或退到最后一节前面的石板。")
 		state.growth[parts[1]].pop_back()
-		return "叶片合拢休息，可以重新安排方向。"
+		return "已收回最后 1 节根路，现有 %d/%d 节；其余进度保留。" % [state.growth[parts[1]].size(), int(root.budget)]
 	if id.begins_with("turn:"):
 		var period: int = 4
 		for module: Dictionary in level.modules:
@@ -1046,6 +1048,8 @@ func _apply(id: String) -> String:
 		if point_for(target).get("kind") == "root": return _fail("先把关键物件放到固定台或庭院上的放置槽。")
 		state.items[parts[1]].tile = target
 		state.items[parts[1]].erase("holder")
+		if level.id == "1-4" and parts[1] == "bell":
+			return "门铃已放在这块石台上。走近可重新拾起，由露薇带回鼹鼠家门。"
 		if level.id == "3-2" and parts[1] in ["sunPost", "moonPost"]:
 			return "日影柱已放稳。" if parts[1] == "sunPost" else "月影柱已放稳。"
 		return "稳稳放好了，看看光与道路有没有一起改变。"
@@ -1076,6 +1080,12 @@ func _apply(id: String) -> String:
 		_set_flag("home")
 		return "门铃响了，花门打开了！接上小苔灵，沿花径去小花园中央种下微光吧。"
 	if id == "use:care":
+		if level.id == "2-1":
+			if flag("care"): return _fail("睡莲已经收到清露，无需重复交付。")
+			var holder := str(state.items.dew.get("holder", ""))
+			if not holder.is_empty() and holder != actor():
+				return _fail("清露在%s的挎袋里。切换到这位伙伴，走近睡莲再交付。" % ("露薇" if holder == "luvie" else "小苔灵"))
+			if holder.is_empty(): return _fail("让露薇走近水滴并「接住露珠」，再带回睡莲旁。")
 		if state.items.dew.get("holder") != actor(): return _fail("先带回一滴清露，再把它留给花心。")
 		state.items.dew.erase("holder")
 		state.items.dew.tile = ""

@@ -177,7 +177,7 @@ func _completed_undo_availability() -> void:
 	_walk_once(app, "completed-undo/create-real-history")
 	_check(app.session.world.can_undo(), "completed-undo/real-completed-walk-creates-raw-history")
 	app._sync_hud()
-	var undo := _find_button(app.hud, "撤销")
+	var undo := _find_button(app.hud, "撤销 Z")
 	_check(undo != null, "completed-undo/actual-undo-tool-exists")
 	var completed_reason := ""
 	if undo != null:
@@ -188,7 +188,7 @@ func _completed_undo_availability() -> void:
 	_check(not app.session.world.state.completed, "completed-undo/ordinary-entry-creates-an-unfinished-run")
 	_walk_once(app, "completed-undo/new-unfinished-history")
 	app._sync_hud()
-	undo = _find_button(app.hud, "撤销")
+	undo = _find_button(app.hud, "撤销 Z")
 	_check(undo != null and app.session.world.can_undo() and not undo.disabled, "completed-undo/unfinished-legal-move-enables-undo-again")
 	if undo != null:
 		_check(not completed_reason.is_empty() and not undo.tooltip_text.contains(completed_reason), "completed-undo/unfinished-tool-clears-the-completion-only-reason")
@@ -341,15 +341,9 @@ func _modal_resize_contract() -> void:
 		_check(scrollers.size() == 1, label + "/real-modal-scroll-exists")
 		if scrollers.size() == 1:
 			var scroll: ScrollContainer = scrollers[0]
-			var paper: PanelContainer
-			var ancestor: Node = scroll.get_parent()
-			while ancestor != null and ancestor != app.hud._overlay:
-				if ancestor is PanelContainer:
-					paper = ancestor
-				ancestor = ancestor.get_parent()
-			_check(paper != null, label + "/scroll-has-an-actual-paper-ancestor")
-			if paper != null:
-				_check(viewport.grow(0.5).encloses(paper.get_global_rect()), label + "/paper-stays-in-the-viewport")
+			var page: Control = app.hud._settings_page
+			_check(page != null, label + "/dedicated-settings-paper-exists")
+			_check(viewport.grow(0.5).encloses(page._frame), label + "/paper-stays-in-the-viewport")
 			_check(viewport.grow(0.5).encloses(scroll.get_global_rect()), label + "/scroll-hit-region-stays-in-the-viewport")
 			scroll.scroll_vertical = ceili(scroll.get_v_scroll_bar().max_value)
 			await process_frame
@@ -357,8 +351,8 @@ func _modal_resize_contract() -> void:
 			var back := _find_button(app.hud, "继续当前关卡")
 			_check(back != null, label + "/return-button-exists")
 			if back != null:
-				var hit := back.get_global_rect().intersection(scroll.get_global_rect()).intersection(viewport)
-				_check(hit.size.x >= 44.0 and hit.size.y >= 40.0, label + "/scrolled-return-retains-a-real-hit-area")
+				var hit := back.get_global_rect().intersection(viewport)
+				_check(hit.size.x >= 44.0 and hit.size.y >= 40.0, label + "/fixed-return-retains-a-real-hit-area")
 		app.free()
 	root.size = Vector2i(1280, 720)
 

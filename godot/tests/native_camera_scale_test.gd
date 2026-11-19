@@ -21,7 +21,7 @@ func run() -> void:
 		stage._fit_camera(true)
 		var limit := 52.0 if dimensions.y < 430 else 68.0 if dimensions.x < 650 else 57.0
 		var approved := dimensions.y / limit if dimensions.x < 650 or dimensions.y < 430 else minf(maxf(5.8, stage._framing_size), dimensions.y / limit)
-		check(is_equal_approx(stage._camera.size, approved), str(dimensions) + " approved first camera unchanged")
+		check(is_equal_approx(stage._camera.size, approved * 1.18), str(dimensions) + " follow camera is one wider step from former baseline")
 		var size: float = stage._camera.size
 		for id: String in IDS:
 			stage.set_world(Factory.create(id))

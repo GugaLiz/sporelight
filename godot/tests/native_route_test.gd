@@ -20,6 +20,7 @@ class Harness:
 	func _ready() -> void:
 		pass
 	func _notification(what: int) -> void:
+		if get_meta("scripted_gpu_capture",false): return
 		if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_IN, NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_RESUMED] and session != null:
 			print("HARNESS WINDOW EVENT ", JSON.stringify({"event":what,"ticksMs":Time.get_ticks_msec(),"level":session.world.level.id,"actors":session.world.state.actors,"movement":native_movement.qa_state() if native_movement != null else {},"motion":not motion.is_empty()}))
 		super._notification(what)
@@ -163,8 +164,19 @@ func _replay(id: String, steps: Array, initial: Dictionary) -> void:
 			if id == "1-1" and str(command.value) == "repair":
 				for mark: Dictionary in app.session.world.level.get("marks", []):
 					if str(mark.kind) == "core": intended = str(mark.tile)
-			if not intended.is_empty() and intended != str(app.session.world.state.actors[actor]):
+			var growing := str(command.value).begins_with("grow:")
+			if not growing and not intended.is_empty() and intended != str(app.session.world.state.actors[actor]):
 				if not await _walk_to(intended, label + "/approach"):
+					success = false
+					break
+			if growing and not app.session.world.can_grow_root(app.session.world.level.roots[0]):
+				var frontier: Dictionary = app._root_frontier_target()
+				if not _check(not frontier.is_empty(), label+" offers actual existing frontier navigation"):
+					success = false
+					break
+				var before_growth: Dictionary = app.session.world.state.growth.duplicate(true)
+				app._on_command("approach:root")
+				if not _check(await _drain(800) and app.session.world.can_grow_root(app.session.world.level.roots[0]) and app.session.world.state.growth == before_growth, label+" physically reaches frontier without remotely building"):
 					success = false
 					break
 			var revision: int = app.session.revision

@@ -1,6 +1,7 @@
 extends RefCounted
-## Match the approved first garden at this viewport/safe area. Big gardens use
-## following at this density; overview alone fits their entire authored extent.
+## Keep the common first-garden density, with one wider follow zoom step.
+## Overview alone fits the entire authored extent.
+const FOLLOW_ZOOM_OUT := 1.18
 const World = preload("res://core/garden_world.gd")
 const First = preload("res://presentation/native/first_garden_profile.gd")
 static var _reference_span := Vector2.ZERO
@@ -28,10 +29,10 @@ static func reference_span() -> Vector2:
 	return _reference_span
 
 static func normal_size(dimensions: Vector2, safe: Rect2) -> float:
-	# Retain the already approved mobile first-garden framing exactly.
+	# Scale the lens, never individual characters or terrain.
 	if dimensions.x < 650 or dimensions.y < 430:
-		return dimensions.y / (52.0 if dimensions.y < 430 else 68.0)
+		return dimensions.y / (52.0 if dimensions.y < 430 else 68.0) * FOLLOW_ZOOM_OUT
 	var span := reference_span()
 	var aspect := safe.size.x / maxf(1.0, safe.size.y)
 	var framing := maxf(span.y + 0.75, (span.x + 1.0) / aspect) * dimensions.y / maxf(1.0, safe.size.y)
-	return minf(maxf(5.8, framing), dimensions.y / 57.0)
+	return minf(maxf(5.8, framing), dimensions.y / 57.0) * FOLLOW_ZOOM_OUT

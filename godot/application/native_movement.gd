@@ -14,6 +14,7 @@ const ARRIVE_DISTANCE := 0.055
 const LANDING_RELEASE_EPSILON := 0.002
 const ACTORS := ["luvie", "buddy"]
 const GenericStairs = preload("res://presentation/native/generic_stair_geometry.gd")
+const MovementFeedback = preload("res://application/movement_feedback.gd")
 
 var session: RefCounted
 var stage: Node2D
@@ -468,7 +469,7 @@ func nudge(direction: String) -> void:
 		if int(candidate.x - p.x) == offset.x and int(candidate.z - p.z) == offset.y:
 			request_path([str(candidate.id)])
 			return
-	_notify_blocked("这里还没有接通的道路。")
+	_notify_blocked(MovementFeedback.blocked(session.world, session.world.cell(int(p.x) + offset.x, int(p.z) + offset.y), "这里还没有接通的道路。"))
 
 func tick(delta: float, enabled: bool = true) -> void:
 	if session == null or stage == null:
@@ -710,7 +711,9 @@ func _move_actor(who: String, intent: Vector2, delta: float, following: bool = f
 		_last_facing[who] = _facing(Vector2(displacement.x, displacement.z))
 	stage.update_actor_visual(who, Vector3(displacement.x, 0, displacement.z) / maxf(delta, 0.001), str(_last_facing[who]), "")
 	if not intent.is_zero_approx() and Vector2(displacement.x, displacement.z).length() < 0.001 and not following:
-		_notify_blocked("这边还没有可走的连接。")
+		var direction := Vector2i(int(signf(intent.x)), 0) if absf(intent.x) >= absf(intent.y) else Vector2i(0, int(signf(intent.y)))
+		var attempted: String = session.world.cell(int(current.x) + direction.x, int(current.z) + direction.y)
+		_notify_blocked(MovementFeedback.blocked(session.world, attempted, "这边还没有可走的连接。"))
 	return bool(_moving[who])
 
 func _guard(planned: Vector2, center: Vector3, allowed: Array, prop_route: bool = false) -> Dictionary:

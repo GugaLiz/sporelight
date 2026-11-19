@@ -23,8 +23,8 @@ func _settle() -> void:
 
 
 func _tab(hud: Control, caption: String) -> Button:
-	for button in hud._gallery_frame.get_node("GalleryCategories").get_children():
-		if button is Button and button.text == caption:
+	for button in hud._gallery_page.categories.get_children():
+		if button is Button and button.name == "Category_"+caption:
 			return button
 	return null
 
@@ -43,10 +43,10 @@ func _run() -> void:
 		await _settle()
 		var bounds := Rect2(Vector2.ZERO, Vector2(extent))
 		var prefix := "%dx%d/" % [extent.x, extent.y]
-		_check(bounds.encloses(hud._gallery_frame.get_global_rect()), prefix + "native gallery frame fits viewport")
+		_check(bounds.encloses(hud._gallery_page.get_global_rect()), prefix + "native gallery frame fits viewport")
 		_check(hud._overlay_scroll.scroll_vertical == 0, prefix + "fresh gallery starts at its content top")
 		_check(root.gui_get_focus_owner() == _tab(hud, "全部"), prefix + "selected tab owns focus outside scroller")
-		_check(hud._gallery_heading.get_global_rect().end.y <= hud._overlay_scroll.get_global_rect().position.y, prefix + "title stays above scroll body")
+		_check(hud._gallery_page.title.get_global_rect().end.y <= hud._overlay_scroll.get_global_rect().position.y, prefix + "title stays above scroll body")
 		for category in Catalog.CATEGORIES:
 			hud._overlay_scroll.scroll_vertical = 190
 			await _settle()
@@ -56,7 +56,7 @@ func _run() -> void:
 				_check(hud._overlay_scroll.scroll_vertical == 0, prefix + str(category) + "/switch starts at top")
 			_check(root.gui_get_focus_owner() == _tab(hud, str(category)), prefix + str(category) + "/selected category owns keyboard focus")
 			var selected_count := 0
-			for button in hud._gallery_frame.get_node("GalleryCategories").get_children():
+			for button in hud._gallery_page.categories.get_children():
 				selected_count += int(button.button_pressed)
 				_check(button.size.x >= 44 and button.size.y >= 44, prefix + button.text + "/minimum tab hit area")
 			_check(selected_count == 1, prefix + "only one category is selected")
