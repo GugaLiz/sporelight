@@ -7,6 +7,7 @@ signal tile_selected(id: String)
 signal command_selected(id: String)
 
 const HEIGHT_UNIT := 0.65
+const ChapterBackdrop = preload("res://presentation/native/chapter_backdrop.gd")
 const WorldScene = preload("res://presentation/native/native_world.tscn")
 const ActorDefinitions = preload("res://elements/actor_definitions.gd")
 const ActorVisualFactory = preload("res://presentation/native/actor_visual_factory.gd")
@@ -2626,13 +2627,7 @@ func _draw() -> void:
 		return
 	var dimensions := get_viewport_rect().size
 	var chapter := str(world.level.get("chapter", "valley")) if world != null else "valley"
-	var background := _texture("background-cave" if chapter == "cave" else "background-pond" if chapter == "pond" else "background-valley")
-	if background != null:
-		var image_size := background.get_size()
-		var scale := maxf(dimensions.x / image_size.x, dimensions.y / image_size.y)
-		var draw_size := image_size * scale
-		draw_texture_rect(background, Rect2((dimensions - draw_size) / 2, draw_size), false, Color(0.92, 0.94, 0.88, 1))
-	else: draw_rect(Rect2(Vector2.ZERO, dimensions), Color("e5e8d5"))
+	ChapterBackdrop.draw(self, dimensions, chapter)
 	if _context_overlay != null: _context_overlay.queue_redraw()
 
 func draw_context(canvas: CanvasItem) -> void:

@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "fa1555f45c248cc183c59c8b0a315d2bc2931b270d3462f8feac709e71d31352",
+    "files": 919
+  },
+  "source": {
+    "sha256": "fa1555f45c248cc183c59c8b0a315d2bc2931b270d3462f8feac709e71d31352",
+    "files": 919
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_chapter_map_test",
+      "code": 1,
+      "elapsedMs": 3377,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":679,\"failures\":[\"568x320/detail-stays-inside-card/本章微光 0 / 14 · 已唤醒 0 / 4\",\"568x320/detail-rows-do-not-overlap/下一段旅程/苔藓山谷\",\"core/variant/variant_utility.cpp:1023 568x320/detail-stays-inside-card/本章微光 0 / 14 · 已唤醒 0 / 4 \",\"core/variant/variant_utility.cpp:1023 568x320/detail-rows-do-not-overlap/下一段旅程/苔藓山谷 \"],\"passed\":false,\"scope\":\"Live progress, navigation, pause/save protection, real Enter input and responsive control bounds; GPU artwork and pointer/touch acceptance remain separate.\",\"suite\":\"native-chapter-map\"}\r\n",
+      "stderr": "ERROR: 568x320/detail-stays-inside-card/本章微光 0 / 14 · 已唤醒 0 / 4\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _geometry_and_keyboard (res://tests/native_chapter_map_test.gd:113)\r\n       [2] _settle_map (res://tests/native_chapter_map_test.gd:8)\r\nERROR: 568x320/detail-rows-do-not-overlap/下一段旅程/苔藓山谷\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _geometry_and_keyboard (res://tests/native_chapter_map_test.gd:116)\r\n       [2] _settle_map (res://tests/native_chapter_map_test.gd:8)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_menu_home_entry_test",
+      "code": 0,
+      "elapsedMs": 2154,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":13,\"failures\":[],\"passed\":true,\"suite\":\"menu-home-entry\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,1186 @@
+{
+  "checks": 87,
+  "events": [
+    {
+      "accepted": true,
+      "branch": "1-2",
+      "command": "grow:root:up",
+      "input": "application E press/release and actual menu Button signal",
+      "label": "step-1-grow-root-up",
+      "settled": true,
+      "status": "已长出 1/4 节根路。走到新石板上，再选下一节方向。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "accepted": true,
+      "branch": "1-2",
+      "command": "grow:root:up",
+      "input": "application E press/release and actual menu Button signal",
+      "label": "step-1-grow-root-up-rebuild",
+      "settled": true,
+      "status": "已长出 1/4 节根路。走到新石板上，再选下一节方向。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "accepted": true,
+      "branch": "1-2",
+      "command": "grow:root:right",
+      "input": "application E press/release and actual menu Button signal",
+      "label": "step-3-grow-root-right",
+      "settled": true,
+      "status": "已长出 3/4 节根路。走到新石板上，再选下一节方向。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "accepted": true,
+      "branch": "1-2",
+      "command": "repair",
+      "input": "application E press/release and actual menu Button signal",
+      "label": "step-10-repair",
+      "settled": true,
+      "status": "根系绕过石头，一条由你安排的小路开满了花。",
+      "viewport": [
+        1280,
+        720
+      ]
+    }
+  ],
+  "extraWalks": [
+    {
+      "beforeSection": 2,
+      "from": "f:1:1",
+      "level": "1-2",
+      "to": "g:root:1:0",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "beforeSection": 3,
+      "from": "g:root:1:0",
+      "level": "1-2",
+      "to": "g:root:2:0",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "beforeSection": 4,
+      "from": "g:root:2:0",
+      "level": "1-2",
+      "to": "g:root:3:0",
+      "viewport": [
+        1280,
+        720
+      ]
+    }
+  ],
+  "failures": [],
+  "finalSources": {
+    "application/main.gd": "73a3beb29729fec7babae14d5186c1285b771aee7f04aac290b9a05451977526",
+    "application/native_interaction.gd": "52c76c6de044d8abede3426c89b1d548c690bae50e29229fb63ab77202ae79f7",
+    "application/native_movement.gd": "2b633b1e55125bfb7c92e1c2df8cd6804e091dfbf61c1ce7e74583b524cbb8ae",
+    "core/garden_world.gd": "4d37eb73692589b418706551bad242a1155e9daf3492ef119d2d81963f9c6c8b",
+    "presentation/native/native_garden_stage.gd": "dec4403417f7037adc0e8f277b45177ba38bfc7d9f9d7e8ce7d0d65ee57f1f4c",
+    "presentation/native/native_prop_obstacles.gd": "f5ef43470dada18b33e3485ad4a3ac726f3b59781adfa4b08c5105e3033c0e49",
+    "presentation/native/original_prop_ratios.gd": "7b25870512238b85a79c7a0f3ff660323795654209e9a18e8cb813fdbee43dcc",
+    "tests/fixtures/reference.json": "26fa81bfdcccbdf288e4a70ddbc7aab3976315cd47b8d76b22ef0ab17c4ce8a2",
+    "tests/native_growth_frontier_capture.gd": "8cf382740dd1b8c3f78a6d3fc7668966bc96c7a608c4bcde3f9c78ac9cadbfcc",
+    "tests/native_route_test.gd": "53fcc7be99231cad7bec0346ce258549f3b90686c603a6f612ab8d8bb5f9ccd5",
+    "tests/native_symbiosis_capture.gd": "19041c87769c3ed0a49007f24cd3033210fa52ae1401994bd6911aa67c618b19"
+  },
+  "growthInputs": [
+    {
+      "input": "E/menu",
+      "level": "1-2",
+      "path": [
+        "g:root:1:0"
+      ],
+      "section": 1,
+      "support": "f:1:1",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "input": "scene mouse plus",
+      "level": "1-2",
+      "path": [
+        "g:root:1:0",
+        "g:root:2:0"
+      ],
+      "section": 2,
+      "support": "g:root:1:0",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "input": "E/menu",
+      "level": "1-2",
+      "path": [
+        "g:root:1:0",
+        "g:root:2:0",
+        "g:root:3:0"
+      ],
+      "section": 3,
+      "support": "g:root:2:0",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "input": "scene mouse plus",
+      "level": "1-2",
+      "path": [
+        "g:root:1:0",
+        "g:root:2:0",
+        "g:root:3:0",
+        "g:root:3:1"
+      ],
+      "section": 4,
+      "support": "g:root:3:0",
+      "viewport": [
+        1280,
+        720
+      ]
+    }
+  ],
+  "images": [
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-cold-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:0:1",
+          "luvie": "f:0:1"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": []
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.23,
+                0.0003,
+                0.2
+              ],
+              "support": "f:0:1"
+            },
+            "luvie": {
+              "facing": "front",
+              "offset": [
+                0.0,
+                0.0003,
+                0.0
+              ],
+              "support": "f:0:1"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "为岩石另一侧的小花找到一条路。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-1-grow-root-up-menu-1280x720.png",
+      "menuOpen": true,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:1:1",
+          "luvie": "f:1:1"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": []
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2869,
+                0.0008,
+                0.1838
+              ],
+              "support": "f:1:1"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0249,
+                0.0009,
+                0.0
+              ],
+              "support": "f:1:1"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "为岩石另一侧的小花找到一条路。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-1-grow-root-up-built-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:1:1",
+          "luvie": "f:1:1"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2869,
+                0.0008,
+                0.1838
+              ],
+              "support": "f:1:1"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0249,
+                0.0009,
+                0.0
+              ],
+              "support": "f:1:1"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "已长出 1/4 节根路。走到新石板上，再选下一节方向。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-1-grow-root-up-undone-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:1:1",
+          "luvie": "f:1:1"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": []
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2869,
+                0.0008,
+                0.1838
+              ],
+              "support": "f:1:1"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0249,
+                0.0009,
+                0.0
+              ],
+              "support": "f:1:1"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "已撤销生长，收回 1 节根路，现有 0/4 节；其余进度保留。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-1-grow-root-up-rebuild-menu-1280x720.png",
+      "menuOpen": true,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:1:1",
+          "luvie": "f:1:1"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": []
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2869,
+                0.0008,
+                0.1838
+              ],
+              "support": "f:1:1"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0249,
+                0.0009,
+                0.0
+              ],
+              "support": "f:1:1"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "已撤销生长，收回 1 节根路，现有 0/4 节；其余进度保留。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-2-grow-root-right-on-frontier-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "g:root:1:0",
+          "luvie": "g:root:1:0"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "back",
+              "offset": [
+                -0.2163,
+                0.0008,
+                0.253
+              ],
+              "support": "g:root:1:0"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0006,
+                0.0009,
+                0.0253
+              ],
+              "support": "g:root:1:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "走近操作点，或换一位旅人试试。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-2-grow-root-right-built-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "g:root:1:0",
+          "luvie": "g:root:1:0"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0",
+            "g:root:2:0"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "back",
+              "offset": [
+                -0.2163,
+                0.0008,
+                0.253
+              ],
+              "support": "g:root:1:0"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0006,
+                0.0009,
+                0.0253
+              ],
+              "support": "g:root:1:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "已长出 2/4 节根路。走到新石板上，再选下一节方向。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-3-grow-root-right-on-frontier-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "g:root:2:0",
+          "luvie": "g:root:2:0"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0",
+            "g:root:2:0"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2737,
+                0.0009,
+                0.1929
+              ],
+              "support": "g:root:2:0"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0259,
+                0.0009,
+                0.0007
+              ],
+              "support": "g:root:2:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "走近操作点，或换一位旅人试试。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-3-grow-root-right-menu-1280x720.png",
+      "menuOpen": true,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "g:root:2:0",
+          "luvie": "g:root:2:0"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0",
+            "g:root:2:0"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2737,
+                0.0009,
+                0.1929
+              ],
+              "support": "g:root:2:0"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0259,
+                0.0009,
+                0.0007
+              ],
+              "support": "g:root:2:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "走近操作点，或换一位旅人试试。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-3-grow-root-right-built-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "g:root:2:0",
+          "luvie": "g:root:2:0"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0",
+            "g:root:2:0",
+            "g:root:3:0"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2737,
+                0.0009,
+                0.1929
+              ],
+              "support": "g:root:2:0"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0259,
+                0.0009,
+                0.0007
+              ],
+              "support": "g:root:2:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "已长出 3/4 节根路。走到新石板上，再选下一节方向。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-4-grow-root-down-on-frontier-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "g:root:3:0",
+          "luvie": "g:root:3:0"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0",
+            "g:root:2:0",
+            "g:root:3:0"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2819,
+                0.0009,
+                0.1928
+              ],
+              "support": "g:root:3:0"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0509,
+                0.0009,
+                0.0
+              ],
+              "support": "g:root:3:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "走近操作点，或换一位旅人试试。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-4-grow-root-down-built-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "g:root:3:0",
+          "luvie": "g:root:3:0"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": false,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0",
+            "g:root:2:0",
+            "g:root:3:0",
+            "g:root:3:1"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                -0.2819,
+                0.0009,
+                0.1928
+              ],
+              "support": "g:root:3:0"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.0509,
+                0.0009,
+                0.0
+              ],
+              "support": "g:root:3:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "已长出 4/4 节根路。道路已长出，点击对岸地面前往。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-step-10-repair-settled-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:4:1",
+          "luvie": "f:4:1"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": true,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0",
+            "g:root:2:0",
+            "g:root:3:0",
+            "g:root:3:1"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "right",
+              "offset": [
+                -0.061,
+                0.0009,
+                0.32
+              ],
+              "support": "f:4:1"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.066,
+                0.0008,
+                -0.1763
+              ],
+              "support": "f:4:1"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "根系绕过石头，一条由你安排的小路开满了花。",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "branch": "1-2",
+      "captureExcludesAppTicks": true,
+      "file": "1-2-completed-1280x720.png",
+      "menuOpen": false,
+      "motion": {},
+      "overview": false,
+      "sceneWords": [],
+      "snapshot": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:4:1",
+          "luvie": "f:4:1"
+        },
+        "beat": 0,
+        "collected": [],
+        "completed": true,
+        "designVersion": 2,
+        "discovered": [],
+        "flags": [],
+        "follow": true,
+        "frozen": null,
+        "growth": {
+          "root": [
+            "g:root:1:0",
+            "g:root:2:0",
+            "g:root:3:0",
+            "g:root:3:1"
+          ]
+        },
+        "items": {},
+        "layoutRevision": 2,
+        "levelId": "1-2",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "right",
+              "offset": [
+                -0.061,
+                0.0009,
+                0.32
+              ],
+              "support": "f:4:1"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.066,
+                0.0008,
+                -0.1763
+              ],
+              "support": "f:4:1"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "status": "留下走走，坐一会儿。已经修复的花园会在纪事里等你。",
+      "viewport": [
+        1280,
+        720
+      ]
+    }
+  ],
+  "initialSources": {
+    "application/main.gd": "73a3beb29729fec7babae14d5186c1285b771aee7f04aac290b9a05451977526",
+    "application/native_interaction.gd": "52c76c6de044d8abede3426c89b1d548c690bae50e29229fb63ab77202ae79f7",
+    "application/native_movement.gd": "2b633b1e55125bfb7c92e1c2df8cd6804e091dfbf61c1ce7e74583b524cbb8ae",
+    "core/garden_world.gd": "4d37eb73692589b418706551bad242a1155e9daf3492ef119d2d81963f9c6c8b",
+    "presentation/native/native_garden_stage.gd": "dec4403417f7037adc0e8f277b45177ba38bfc7d9f9d7e8ce7d0d65ee57f1f4c",
+    "presentation/native/native_prop_obstacles.gd": "f5ef43470dada18b33e3485ad4a3ac726f3b59781adfa4b08c5105e3033c0e49",
+    "presentation/native/original_prop_ratios.gd": "7b25870512238b85a79c7a0f3ff660323795654209e9a18e8cb813fdbee43dcc",
+    "tests/fixtures/reference.json": "26fa81bfdcccbdf288e4a70ddbc7aab3976315cd47b8d76b22ef0ab17c4ce8a2",
+    "tests/native_growth_frontier_capture.gd": "8cf382740dd1b8c3f78a6d3fc7668966bc96c7a608c4bcde3f9c78ac9cadbfcc",
+    "tests/native_route_test.gd": "53fcc7be99231cad7bec0346ce258549f3b90686c603a6f612ab8d8bb5f9ccd5",
+    "tests/native_symbiosis_capture.gd": "19041c87769c3ed0a49007f24cd3033210fa52ae1401994bd6911aa67c618b19"
+  },
+  "maxBodySurfaceGap": 0.101311251521111,
+  "maxVisualContactError": 0.089994398644194,
+  "passed": true,
+  "routes": [
+    {
+      "addedFrontierWalks": 3,
+      "completed": true,
+      "level": "1-2",
+      "originalIntentions": 11,
+      "viewport": [
+        1280,
+        720
+      ]
+    }
+  ],
+  "samples": 652,
+  "scope": "Original intentions plus physically walked frontier approaches; E/menu and scene mouse/touch plus. No actor snapshot injection. AudioStub; not browser input, performance or audio acceptance.",
+  "sourceFilesStable": true,
+  "sourceSha256": "",
+  "suite": "growth-frontier-real-input-gpu"
+}

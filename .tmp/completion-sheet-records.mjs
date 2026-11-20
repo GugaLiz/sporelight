@@ -1,0 +1,14 @@
+import {readFile,writeFile} from 'node:fs/promises';
+const path='G:/works/liuli/sporelight/docs/69-游戏开发基础质量规则与问题台账.md';
+const report='125-通关弹窗紧凑布局与花纹按钮优化.md';
+let text=await readFile(path,'utf8');
+if(text.includes('[125号]'))throw Error('Already recorded');
+const rows=text.split('\n');
+const index=rows.findIndex(row=>row.startsWith('| GQ-030 |'));
+if(index<0)throw Error('Missing GQ-030');
+const last=rows[index].lastIndexOf('|');
+rows[index]=rows[index].slice(0,last).trimEnd()+'<br>11-19通关弹窗新反馈见[125号]('+report+')：独立按实际文字高度收紧至最大宽432，46高主按钮与两枚并排44高次按钮，增加透明叶枝花纹；保留续关／漫步／地图语义。最终a3c1c9f1/933，712项定向检查、六尺寸GPU84项／12图及正式Web真实通关与再次续关通过，4222的30资源一致。长文案滚动候选已否决，未以初轮范围检查关闭视觉问题。 |';
+text=rows.join('\n');
+const first=text.indexOf('\n');
+text=text.slice(0,first+1)+'\n2026-11-19 通关弹窗反馈（GQ-030）：取消普通菜单固定大高度，按真实文案自适应，缩小并并排次按钮、增加叶枝花纹。源码a3c1c9f1/933，712项、六尺寸GPU和正式Web真实通关／续关通过；原4222地址与存档保留，见[125号]('+report+')。\n'+text.slice(first+1);
+await writeFile(path,text);

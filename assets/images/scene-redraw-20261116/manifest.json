@@ -1,0 +1,865 @@
+{
+  "schema_version": 1,
+  "id": "scene-redraw-20261116",
+  "generator": "built-in image_gen",
+  "sampling": "sharp 0.35.5 / libvips 8.18.7",
+  "scope": "Appearance only. Original resources, logical canvases, world scale, anchors, hard bases, collision, topology and save state are retained.",
+  "notes": [
+    "Masters are generated redraws; this exporter performs only lossless packaging, transparent cropping and alpha-aware resampling.",
+    "Only the seven world aliases are overridden; UI icon-spore retains its original alias.",
+    "Flower and bloom share the same master-to-canvas transform and painted stone-base registration.",
+    "Arch complete pillar-foot reference points are registered to the existing canonical hard-base coordinates. GPU verification remains required.",
+    "Spore uses one uniform scale, measured from the main gold sphere rather than its old white-rim/halo bounds; its original sphere diameter and centre are retained.",
+    "Fractional alpha is preserved. Mipmaps are generated for all new world sprites; opaque prepass and depth testing remain unchanged."
+  ],
+  "entries": [
+    {
+      "alias": "arch",
+      "original": {
+        "path": "godot/assets/images/grid-world/arch.png",
+        "sha256": "6d3ee98996884b6c7d37cd9283f5aaca2326336ab2eb521352d9c0e443e51d60",
+        "canvas": [
+          256,
+          256
+        ],
+        "alpha8": {
+          "rect": [
+            37,
+            8,
+            182,
+            224
+          ],
+          "pixels": 24817
+        },
+        "alpha128": {
+          "rect": [
+            37,
+            8,
+            182,
+            224
+          ],
+          "pixels": 24014
+        },
+        "alpha": {
+          "opaque": 21865,
+          "partial": 4190,
+          "clear": 39481
+        }
+      },
+      "master": {
+        "path": "assets/images/scene-redraw-20261116/masters/arch.png",
+        "sha256": "bf777ed08baacfeb284411470b870b1b19694cb4c45293cda0c2c82339d884ca",
+        "canvas": [
+          1254,
+          1254
+        ],
+        "alpha8": {
+          "rect": [
+            189,
+            32,
+            899,
+            1136
+          ],
+          "pixels": 602987
+        },
+        "alpha128": {
+          "rect": [
+            190,
+            33,
+            897,
+            1134
+          ],
+          "pixels": 590730
+        },
+        "generator": "built-in image_gen",
+        "generationId": "75b57e9e-fafa-47f3-bd9f-ac2960440c42"
+      },
+      "transform": {
+        "crop": [
+          189,
+          32,
+          899,
+          1136
+        ],
+        "left": 31,
+        "top": 6,
+        "width": 184,
+        "height": 225,
+        "method": "crop-alpha8-and-premultiplied-lanczos3-to-logical-canvas",
+        "sharedWith": null
+      },
+      "output": {
+        "path": "godot/assets/images/scene-redraw-20261116/arch.png",
+        "sha256": "e4d6bb84e3d2b487453fd5aacc0c439238eea6c0f633ea92a4be34d432abd249",
+        "canvas": [
+          256,
+          256
+        ],
+        "alpha8": {
+          "rect": [
+            31,
+            6,
+            184,
+            225
+          ],
+          "pixels": 25044
+        },
+        "alpha128": {
+          "rect": [
+            31,
+            6,
+            184,
+            225
+          ],
+          "pixels": 23910
+        },
+        "alpha": {
+          "opaque": 844,
+          "partial": 25789,
+          "clear": 38903
+        },
+        "mipmaps": true
+      },
+      "archFeet": {
+        "master": [
+          [
+            390,
+            950
+          ],
+          [
+            840,
+            1076
+          ]
+        ],
+        "logical": [
+          [
+            72,
+            188
+          ],
+          [
+            164,
+            213
+          ]
+        ],
+        "logicalHalfAxes": [
+          [
+            30,
+            15
+          ],
+          [
+            32,
+            16
+          ]
+        ],
+        "mapped": [
+          [
+            72.13904338153503,
+            187.82218309859155
+          ],
+          [
+            164.24137931034483,
+            212.7781690140845
+          ]
+        ],
+        "acceptance": "registration points preserved within 0.3 logical pixels; complete painted plinth and passage require GPU review"
+      }
+    },
+    {
+      "alias": "gold-lotus",
+      "original": {
+        "path": "godot/assets/images/garden-scenery/gold-lotus.png",
+        "sha256": "9f4651677f2671532c942c8fc21ee0e976cc3b4b277f485b7d3f6b878a3b8b22",
+        "canvas": [
+          128,
+          148
+        ],
+        "alpha8": {
+          "rect": [
+            0,
+            0,
+            128,
+            148
+          ],
+          "pixels": 8329
+        },
+        "alpha128": {
+          "rect": [
+            0,
+            0,
+            128,
+            148
+          ],
+          "pixels": 8329
+        },
+        "alpha": {
+          "opaque": 8329,
+          "partial": 0,
+          "clear": 10615
+        }
+      },
+      "master": {
+        "path": "assets/images/scene-redraw-20261116/masters/gold-lotus.png",
+        "sha256": "2383ecb1cf45e838cfa8b93d2c39db5767820065abc7b9e959d185eee9497e59",
+        "canvas": [
+          1166,
+          1349
+        ],
+        "alpha8": {
+          "rect": [
+            21,
+            70,
+            1110,
+            1169
+          ],
+          "pixels": 570924
+        },
+        "alpha128": {
+          "rect": [
+            22,
+            71,
+            1108,
+            1167
+          ],
+          "pixels": 563523
+        },
+        "generator": "built-in image_gen",
+        "generationId": "cfbef614-fb76-4a96-87d1-8947907c38b5"
+      },
+      "transform": {
+        "crop": [
+          21,
+          70,
+          1110,
+          1169
+        ],
+        "left": 0,
+        "top": 0,
+        "width": 128,
+        "height": 148,
+        "method": "crop-alpha8-and-premultiplied-lanczos3-to-logical-canvas",
+        "sharedWith": null
+      },
+      "output": {
+        "path": "godot/assets/images/scene-redraw-20261116/gold-lotus.png",
+        "sha256": "592dfff6992dd0763158e7a8ae6d0881a85fe109f4447cd8c3d39cb49ac17e91",
+        "canvas": [
+          128,
+          148
+        ],
+        "alpha8": {
+          "rect": [
+            0,
+            0,
+            128,
+            148
+          ],
+          "pixels": 8686
+        },
+        "alpha128": {
+          "rect": [
+            0,
+            0,
+            128,
+            148
+          ],
+          "pixels": 8221
+        },
+        "alpha": {
+          "opaque": 550,
+          "partial": 8881,
+          "clear": 9513
+        },
+        "mipmaps": true
+      }
+    },
+    {
+      "alias": "ivory-lotus",
+      "original": {
+        "path": "godot/assets/images/garden-scenery/ivory-lotus.png",
+        "sha256": "669f9eb5551b85a9028603ff410a5b0bd797bdc730af650e236c370c5a3a2843",
+        "canvas": [
+          94,
+          102
+        ],
+        "alpha8": {
+          "rect": [
+            0,
+            0,
+            94,
+            102
+          ],
+          "pixels": 5154
+        },
+        "alpha128": {
+          "rect": [
+            0,
+            0,
+            94,
+            102
+          ],
+          "pixels": 5154
+        },
+        "alpha": {
+          "opaque": 5154,
+          "partial": 0,
+          "clear": 4434
+        }
+      },
+      "master": {
+        "path": "assets/images/scene-redraw-20261116/masters/ivory-lotus.png",
+        "sha256": "90efcaa27b7801f5780d72a982088bb1b27cc4232563b695b0feceb4c83d26b7",
+        "canvas": [
+          1204,
+          1306
+        ],
+        "alpha8": {
+          "rect": [
+            15,
+            16,
+            1174,
+            1274
+          ],
+          "pixels": 742234
+        },
+        "alpha128": {
+          "rect": [
+            16,
+            17,
+            1173,
+            1272
+          ],
+          "pixels": 735302
+        },
+        "generator": "built-in image_gen",
+        "generationId": "236f3012-9c91-4c13-a55d-4b4953ac5035"
+      },
+      "transform": {
+        "crop": [
+          15,
+          16,
+          1174,
+          1274
+        ],
+        "left": 0,
+        "top": 0,
+        "width": 94,
+        "height": 102,
+        "method": "crop-alpha8-and-premultiplied-lanczos3-to-logical-canvas",
+        "sharedWith": null
+      },
+      "output": {
+        "path": "godot/assets/images/scene-redraw-20261116/ivory-lotus.png",
+        "sha256": "52a12ed3e396f6547d32d2331b47c97973b23779c6743946abeaacc2a7d58645",
+        "canvas": [
+          94,
+          102
+        ],
+        "alpha8": {
+          "rect": [
+            0,
+            0,
+            94,
+            102
+          ],
+          "pixels": 5042
+        },
+        "alpha128": {
+          "rect": [
+            0,
+            0,
+            94,
+            102
+          ],
+          "pixels": 4706
+        },
+        "alpha": {
+          "opaque": 373,
+          "partial": 5128,
+          "clear": 4087
+        },
+        "mipmaps": true
+      }
+    },
+    {
+      "alias": "blue-flowers",
+      "original": {
+        "path": "godot/assets/images/garden-scenery/blue-flowers.png",
+        "sha256": "dfd66082f695221ecf540fae9f265c5977257113ba1be7389027eecff524542d",
+        "canvas": [
+          112,
+          118
+        ],
+        "alpha8": {
+          "rect": [
+            0,
+            0,
+            112,
+            118
+          ],
+          "pixels": 6195
+        },
+        "alpha128": {
+          "rect": [
+            0,
+            0,
+            112,
+            118
+          ],
+          "pixels": 6195
+        },
+        "alpha": {
+          "opaque": 6195,
+          "partial": 0,
+          "clear": 7021
+        }
+      },
+      "master": {
+        "path": "assets/images/scene-redraw-20261116/masters/blue-flowers.png",
+        "sha256": "5068ebe2537409f3423ee954ccd48c6c8604cbbb5715844abdaf9f5e08fcc68c",
+        "canvas": [
+          1222,
+          1287
+        ],
+        "alpha8": {
+          "rect": [
+            33,
+            0,
+            1157,
+            1277
+          ],
+          "pixels": 582470
+        },
+        "alpha128": {
+          "rect": [
+            33,
+            6,
+            1157,
+            1270
+          ],
+          "pixels": 570937
+        },
+        "generator": "built-in image_gen",
+        "generationId": "b76aea6f-3c33-48a2-b6fb-4e624f8380ee"
+      },
+      "transform": {
+        "crop": [
+          33,
+          0,
+          1157,
+          1277
+        ],
+        "left": 0,
+        "top": 0,
+        "width": 112,
+        "height": 118,
+        "method": "crop-alpha8-and-premultiplied-lanczos3-to-logical-canvas",
+        "sharedWith": null
+      },
+      "output": {
+        "path": "godot/assets/images/scene-redraw-20261116/blue-flowers.png",
+        "sha256": "8860f45d8d7f02724edb0cccfbfb6ecae788780a6ee62c7b2f26ccc2d8f24600",
+        "canvas": [
+          112,
+          118
+        ],
+        "alpha8": {
+          "rect": [
+            0,
+            0,
+            112,
+            118
+          ],
+          "pixels": 5703
+        },
+        "alpha128": {
+          "rect": [
+            0,
+            1,
+            112,
+            117
+          ],
+          "pixels": 5123
+        },
+        "alpha": {
+          "opaque": 652,
+          "partial": 5990,
+          "clear": 6574
+        },
+        "mipmaps": true
+      }
+    },
+    {
+      "alias": "spore",
+      "original": {
+        "path": "godot/assets/images/material-ready/icon-spore.png",
+        "sha256": "cbb194459878968f500ed693c6d338f315ed20b61521b3806001e91ada30ada6",
+        "canvas": [
+          209,
+          161
+        ],
+        "alpha8": {
+          "rect": [
+            6,
+            6,
+            197,
+            149
+          ],
+          "pixels": 20360
+        },
+        "alpha128": {
+          "rect": [
+            6,
+            6,
+            197,
+            149
+          ],
+          "pixels": 20360
+        },
+        "alpha": {
+          "opaque": 20360,
+          "partial": 0,
+          "clear": 13289
+        }
+      },
+      "master": {
+        "path": "assets/images/scene-redraw-20261116/masters/spore.png",
+        "sha256": "17ea7cd9709ebf454d4814e7c8ae401e12f5a4ee9805854d502dfc125a4d719a",
+        "canvas": [
+          1429,
+          1101
+        ],
+        "alpha8": {
+          "rect": [
+            257,
+            136,
+            834,
+            777
+          ],
+          "pixels": 501921
+        },
+        "alpha128": {
+          "rect": [
+            266,
+            156,
+            795,
+            722
+          ],
+          "pixels": 411031
+        },
+        "generator": "built-in image_gen",
+        "generationId": "24281f83-9277-4a5f-a834-88535bdc8117"
+      },
+      "transform": {
+        "crop": [
+          257,
+          136,
+          834,
+          834
+        ],
+        "left": 32,
+        "top": 20,
+        "width": 136,
+        "height": 136,
+        "method": "uniform-scale-main-sphere-registration-premultiplied-lanczos3",
+        "sharedWith": null
+      },
+      "output": {
+        "path": "godot/assets/images/scene-redraw-20261116/spore.png",
+        "sha256": "7cffd6bd033ebc5765e663f63c7faf4032a41c76ec0205cf586aa9f05e6e875b",
+        "canvas": [
+          209,
+          161
+        ],
+        "alpha8": {
+          "rect": [
+            32,
+            20,
+            136,
+            126
+          ],
+          "pixels": 13308
+        },
+        "alpha128": {
+          "rect": [
+            33,
+            23,
+            130,
+            118
+          ],
+          "pixels": 10932
+        },
+        "alpha": {
+          "opaque": 83,
+          "partial": 14749,
+          "clear": 18817
+        },
+        "mipmaps": true
+      },
+      "mainOrb": {
+        "original": {
+          "pixels": 8181,
+          "rect": [
+            49,
+            29,
+            112,
+            111
+          ],
+          "centre": [
+            105,
+            84.5
+          ],
+          "diameter": 112,
+          "aspect": 1.009009009009009
+        },
+        "master": {
+          "pixels": 328486,
+          "rect": [
+            362,
+            188,
+            687,
+            684
+          ],
+          "centre": [
+            705.5,
+            530
+          ],
+          "diameter": 687,
+          "aspect": 1.0043859649122806
+        },
+        "output": {
+          "pixels": 8765,
+          "rect": [
+            49,
+            30,
+            112,
+            110
+          ],
+          "centre": [
+            105,
+            85
+          ],
+          "diameter": 112,
+          "aspect": 1.018181818181818
+        },
+        "scale": 0.1630695443645084,
+        "measurement": "Largest connected gold region: alpha>220, r>180, 80<g<245, b<180, r-g>10, g-b>20. Cream outline and halo excluded."
+      }
+    },
+    {
+      "alias": "bloom",
+      "original": {
+        "path": "godot/assets/images/production/bloom.png",
+        "sha256": "61adb1ab88be2ae6167fd915efd26a4d2fd5788dcb880cc06bf9691f34c34633",
+        "canvas": [
+          256,
+          256
+        ],
+        "alpha8": {
+          "rect": [
+            16,
+            42,
+            224,
+            190
+          ],
+          "pixels": 27770
+        },
+        "alpha128": {
+          "rect": [
+            16,
+            42,
+            224,
+            190
+          ],
+          "pixels": 27093
+        },
+        "alpha": {
+          "opaque": 25442,
+          "partial": 3263,
+          "clear": 36831
+        }
+      },
+      "master": {
+        "path": "assets/images/scene-redraw-20261116/masters/bloom.png",
+        "sha256": "83b58e69618f31c1ae98e6f7d4f98f708a2c770ceb8bdf5efb59a82fa5e2c07c",
+        "canvas": [
+          1254,
+          1254
+        ],
+        "alpha8": {
+          "rect": [
+            73,
+            211,
+            1111,
+            948
+          ],
+          "pixels": 650544
+        },
+        "alpha128": {
+          "rect": [
+            76,
+            212,
+            1105,
+            946
+          ],
+          "pixels": 644886
+        },
+        "generator": "built-in image_gen",
+        "generationId": "40754e20-9bbd-4ca8-b835-a49a7bbe4828"
+      },
+      "transform": {
+        "crop": [
+          73,
+          211,
+          1111,
+          948
+        ],
+        "left": 16,
+        "top": 42,
+        "width": 224,
+        "height": 190,
+        "method": "crop-alpha8-and-premultiplied-lanczos3-to-logical-canvas",
+        "sharedWith": null
+      },
+      "output": {
+        "path": "godot/assets/images/scene-redraw-20261116/bloom.png",
+        "sha256": "8289f23740a6f5031ab320a2c27cad7bf905513341c6677d553c3c9ad93d2ae9",
+        "canvas": [
+          256,
+          256
+        ],
+        "alpha8": {
+          "rect": [
+            16,
+            42,
+            224,
+            190
+          ],
+          "pixels": 26696
+        },
+        "alpha128": {
+          "rect": [
+            17,
+            42,
+            222,
+            190
+          ],
+          "pixels": 26040
+        },
+        "alpha": {
+          "opaque": 622,
+          "partial": 27186,
+          "clear": 37728
+        },
+        "mipmaps": true
+      }
+    },
+    {
+      "alias": "flower",
+      "original": {
+        "path": "godot/assets/images/production/flower.png",
+        "sha256": "e69e58eb8acee53f7714b8cc6106da13eeb6f1d305ef27882ddffce8fdf0ae04",
+        "canvas": [
+          256,
+          256
+        ],
+        "alpha8": {
+          "rect": [
+            16,
+            50,
+            224,
+            182
+          ],
+          "pixels": 25675
+        },
+        "alpha128": {
+          "rect": [
+            16,
+            50,
+            224,
+            182
+          ],
+          "pixels": 25076
+        },
+        "alpha": {
+          "opaque": 23685,
+          "partial": 2816,
+          "clear": 39035
+        }
+      },
+      "master": {
+        "path": "assets/images/scene-redraw-20261116/masters/flower.png",
+        "sha256": "7341283e8dd94381f123fcb26aa1e4b1d56c7d538cbe8a892df96c2de9a3ba22",
+        "canvas": [
+          1254,
+          1254
+        ],
+        "alpha8": {
+          "rect": [
+            76,
+            246,
+            1105,
+            913
+          ],
+          "pixels": 606943
+        },
+        "alpha128": {
+          "rect": [
+            77,
+            247,
+            1103,
+            911
+          ],
+          "pixels": 600758
+        },
+        "generator": "built-in image_gen",
+        "generationId": "3ac1564f-d687-4ef9-8e76-8bd6b45bb681"
+      },
+      "transform": {
+        "crop": [
+          73,
+          211,
+          1111,
+          948
+        ],
+        "left": 16,
+        "top": 42,
+        "width": 224,
+        "height": 190,
+        "method": "crop-alpha8-and-premultiplied-lanczos3-to-logical-canvas",
+        "sharedWith": "bloom"
+      },
+      "output": {
+        "path": "godot/assets/images/scene-redraw-20261116/flower.png",
+        "sha256": "373c60b67864b38f471fe064db95d5852a69e6e08dbf8f69338ce458302a6f61",
+        "canvas": [
+          256,
+          256
+        ],
+        "alpha8": {
+          "rect": [
+            16,
+            49,
+            224,
+            183
+          ],
+          "pixels": 24914
+        },
+        "alpha128": {
+          "rect": [
+            17,
+            49,
+            222,
+            183
+          ],
+          "pixels": 24259
+        },
+        "alpha": {
+          "opaque": 580,
+          "partial": 25329,
+          "clear": 39627
+        },
+        "mipmaps": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,2667 @@
+{
+  "suite": "full-redraw-path-coverage",
+  "candidate": false,
+  "passed": true,
+  "scope": "Frozen current native scene/UI/actor consumer paths, effective theme/bitmap resolution and generated-master/output hashes. No GPU, pointer input, visual acceptance or independently re-encoded loader-byte claim.",
+  "requiredPaths": 102,
+  "coveredPaths": 102,
+  "remainingPaths": 0,
+  "actorUniqueGroups": 33,
+  "coveredActorGroups": 33,
+  "errors": [],
+  "bypasses": [],
+  "loader": {
+    "source": "godot/assets/images/full-asset-redraw-20261116/cover-logo.png",
+    "expectedSource": "godot/assets/images/full-asset-redraw-20261116/cover-logo.png",
+    "sourceMatches": true,
+    "byteCheck": "Run sync-loading-assets.py --check after final generation; this audit checks declared source identity only."
+  },
+  "rows": [
+    {
+      "source": "res://assets/images/garden-scenery/berry-bush.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "berry-bush"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "983383a73d1bf3b6c81aa7ef006960a8f7606966f7ff158166ff3429b7d03bd7",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/berry-bush.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "berry-bush",
+        "master": "assets/images/full-asset-redraw-20261116/masters/berry-bush.png",
+        "masterSha256": "c530a6786af1bbc0aafc9e2b250e48abe7cc68a1574bc6946feef543d388d975"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/blue-mushroom.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "blue-mushroom"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "6203f2d95ee3a31ccbfbbb3aea3da1b56bd9a2ec1e7f9da049ceae68a509da30",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/blue-mushroom.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "blue-mushroom",
+        "master": "assets/images/full-asset-redraw-20261116/masters/blue-mushroom.png",
+        "masterSha256": "47f808d444470c5d2c636439cdc0bac1f149c03e2159a845b8c65868094d67b6"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/dew-parcel.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "dew-parcel"
+      ],
+      "consumers": [
+        "carry-thumbnail-source"
+      ],
+      "originalSha256": "7f3236c2950f5af8750c2e949155cc2b53277ff8533ed3fb885f71467c8ca744",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/dew-parcel.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "dew-parcel",
+        "master": "assets/images/full-asset-redraw-20261116/masters/dew-parcel.png",
+        "masterSha256": "92108aa3270bff334dced1eb685fb4fc26e5f4134ce7eb1d08fc62cbdc9d6421"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/dew-plant.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "dew-plant"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "df384965fa736472f158a6037a6e135f778803b69e05d51d1960d1e4f0c8966e",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/dew-plant.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "dew-plant",
+        "master": "assets/images/full-asset-redraw-20261116/masters/dew-plant.png",
+        "masterSha256": "2154889c5f564736e6b9e9ba4978fa0e66e562fac0075955c3d010f133a8b14d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/fern.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "fern"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "224026803ba4ba0808a4df502b08ed8b4a9d062b1c6c95ce73a980bf4d8b1ccf",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/fern.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "fern",
+        "master": "assets/images/full-asset-redraw-20261116/masters/fern.png",
+        "masterSha256": "ac0c32cee50fc5cfd36c33252888e9cae9e0b65c44ffbde4dcdc001d4c452496"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/flower-gate-frame.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "flower-gate-frame"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "a233c0a455acf635ae5ab1ed7a5785dfa936dc74df09777a91892a6260809215",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/flower-gate-frame.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "flower-gate-frame",
+        "master": "assets/images/full-asset-redraw-20261116/masters/light-tower.png",
+        "masterSha256": "ddbecaec257dde1a4103570b903d2562cc1176d872a34f0a6e5ef4ba9e960d9f"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/flower-gate-seal.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "flower-gate-seal"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "edad35f21993bcef6491f4d62f179c2e414320eaf08974dc2904c8f0eac558a9",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/flower-gate-seal.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "flower-gate-seal",
+        "master": "assets/images/full-asset-redraw-20261116/masters/light-tower.png",
+        "masterSha256": "ddbecaec257dde1a4103570b903d2562cc1176d872a34f0a6e5ef4ba9e960d9f"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/glow-flower.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "glow-flower"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "b9d104c081274e1169b8bda2d601a8971aaaacb40dab68660f81f0fdb54dac12",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/glow-flower.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "glow-flower",
+        "master": "assets/images/full-asset-redraw-20261116/masters/glow-flower.png",
+        "masterSha256": "73fdc512fdb0814564c269dff8a3ef2248d6068c58ee2968b2474c48e697cf22"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/light-tower.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "light-tower"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "053287548175a3fce464989b17de030902fa9986751f08675e119cc99da9b221",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/light-tower.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "light-tower",
+        "master": "assets/images/full-asset-redraw-20261116/masters/light-tower.png",
+        "masterSha256": "ddbecaec257dde1a4103570b903d2562cc1176d872a34f0a6e5ef4ba9e960d9f"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/lotus-pool.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "lotus-pool"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "73f7fceeeef3412220b009e7a7fc92f43f3bb831ef8f7ed6bef98c9509be4de6",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/lotus-pool.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "lotus-pool",
+        "master": "assets/images/full-asset-redraw-20261116/masters/lotus-pool.png",
+        "masterSha256": "88aa6e5424ac589aeffdcc739c2834fa46484ee8794d194877906e0247c175ba"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/pink-flowers.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "pink-flowers"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "68315dd9a44d21329a6c946e6523034c2859ae4db33e98b89f830dd1e910256a",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/pink-flowers.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "pink-flowers",
+        "master": "assets/images/full-asset-redraw-20261116/masters/pink-flowers.png",
+        "masterSha256": "8b3099451327436cfcfe747fa144fedf2590fbef85468bf8efd0ce180590f5c6"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/red-mushroom.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "red-mushroom"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "d3ab5b3db9bbf8e167f7c6d34e25cf98901915c960bbbca8e731a2f42e3ec89e",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/red-mushroom.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "red-mushroom",
+        "master": "assets/images/full-asset-redraw-20261116/masters/red-mushroom.png",
+        "masterSha256": "aabad86dc5752d146cd3a5b072bbd82922b6fb1b8a36ab5ba7848c909befc45f"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/river-rock.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "river-rock"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "2cb2b0e997496270900cd8c39c8b5163271dfaabed681fd34f1007a41a8903fa",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/river-rock.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "river-rock",
+        "master": "assets/images/full-asset-redraw-20261116/masters/river-rock.png",
+        "masterSha256": "baae12f8071de59b1a875a44030e21dd5b0c9ef457ca46b656b8397b966943ce"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/small-pebbles.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "small-pebbles"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "e84b97c6d0502a74834b25cb359744620166ccfbb8e12137e3e3c3584131c4ed",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/small-pebbles.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "small-pebbles",
+        "master": "assets/images/full-asset-redraw-20261116/masters/small-pebbles.png",
+        "masterSha256": "faf08dbb416250722c34803ce204f30918873404dda6cf6edf94f52cdfe93924"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/stone-lantern.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "stone-lantern"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "fa36bcda5b65ff667eb521308f1d3a13e13fd7c4c15f1c575bc227b9c9f72ed0",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/stone-lantern.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "stone-lantern",
+        "master": "assets/images/full-asset-redraw-20261116/masters/stone-lantern.png",
+        "masterSha256": "d3a741ccee37ab9a8430ff5569eea2da0de5e04394e51f8b194b90997bd228c1"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/trailing-vine.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "trailing-vine"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "58f094e37a43d6232e049832e4b95e45617cb0a37d7f643d1c3269e998c93f43",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/trailing-vine.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "trailing-vine",
+        "master": "assets/images/full-asset-redraw-20261116/masters/trailing-vine.png",
+        "masterSha256": "818d0428479c879d1ca24796aeda4e94032b7a74c06526691152dd09f7218d2d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/violet-crystal.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "violet-crystal"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "7c65b30fab092fdf00a4a736c8c04cff2eb7c73fa1f96841923714604052ed99",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/violet-crystal.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "violet-crystal",
+        "master": "assets/images/full-asset-redraw-20261116/masters/violet-crystal.png",
+        "masterSha256": "0e2e8675c098e4b2272cd36a7751512a2c354b7925621828e101f13d4e62104a"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/wood-lantern.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "wood-lantern"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "ae3649b7bd385b4465cbc43faee6baf12401258b66635f05384816dc07f2af6d",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/wood-lantern.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "wood-lantern",
+        "master": "assets/images/full-asset-redraw-20261116/masters/wood-lantern.png",
+        "masterSha256": "92ad9516cf2b43ae85329369e0f650b24395fd9393d5786d0e021739fadd5589"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/yellow-flowers.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "yellow-flowers"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "88e464df40af95c881b0570a39468fd93282aac7d4dc5f3393a2437bd8176315",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/yellow-flowers.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "yellow-flowers",
+        "master": "assets/images/full-asset-redraw-20261116/masters/yellow-flowers.png",
+        "masterSha256": "fc23906e4c589c4131a86c52ca412514c9e7724ad16c68eea91c0da3181eec0a"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/grid-world/bush.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "bush"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "ecc022bcbf502a74588e5ffdded54b85082aeaa3e3cadb0ba6185ecf559b7761",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/bush.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "bush",
+        "master": "assets/images/full-asset-redraw-20261116/masters/bush.png",
+        "masterSha256": "fed6f27802f6901a5cdbb75a96ed2d70a38ee3c351e0fea5addb268f7306938a"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/grid-world/crystal.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "crystal"
+      ],
+      "consumers": [
+        "carry-thumbnail-source; other crystal loads are overwritten placeholders"
+      ],
+      "originalSha256": "745a5cb2cfc728fc752f919adf2a9cc1531a5bd1f4e44d630a4789b211d80684",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/crystal.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "crystal",
+        "master": "assets/images/full-asset-redraw-20261116/masters/crystal.png",
+        "masterSha256": "fa53c15ff86b91fa3522d54c1307e92500ecc1e1893fe0be14318f238a1dd20f"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/grid-world/flowers.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "flowers"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "01e5131e0a87ca699d604fb27f1bd16bde1513d8d18a55e10bed060fb5197f29",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/flowers.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "flowers",
+        "master": "assets/images/full-asset-redraw-20261116/masters/pink-flowers.png",
+        "masterSha256": "8b3099451327436cfcfe747fa144fedf2590fbef85468bf8efd0ce180590f5c6"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/grid-world/lilypad.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "lilypad"
+      ],
+      "consumers": [
+        "sprite3d",
+        "material/albedo_texture",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "cc2ffa3c40368f9991cc8a643ac765f136cd6b690e4fa0ef0be471e1fbeb07db",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/lilypad.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "lilypad",
+        "master": "assets/images/full-asset-redraw-20261116/masters/lilypad.png",
+        "masterSha256": "710c55bc772a3e2f40c6531a4c1c0f9e5fa3953dceb0500a8b911f15d89fe7b7"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/grid-world/rock.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "rock"
+      ],
+      "consumers": [
+        "sprite3d"
+      ],
+      "originalSha256": "93feb9b8c8e985cbba034efbc8296af5d544845d3246884b9c91a3f4fd69d176",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/rock.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "rock",
+        "master": "assets/images/full-asset-redraw-20261116/masters/rock.png",
+        "masterSha256": "c777e315e8691ffdcc9ae9aaa32d79d6db204d1b54f73ca48fd70ce73d209f8e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/grid-world/stairs.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "stairs"
+      ],
+      "consumers": [
+        "shader/original_stair"
+      ],
+      "originalSha256": "d348041fc9e454c935c46f02cd32f39ebe4a844580cdd23a7d8655de5aa5ec0c",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/stairs.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "stairs",
+        "master": "assets/images/full-asset-redraw-20261116/masters/stairs.png",
+        "masterSha256": "9f3fc463f6ac2039c8916c242f8077d440ab55ce5db195eb74c1fab351b93724"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/grid-world/stone.png",
+      "kinds": [
+        "scene"
+      ],
+      "aliases": [
+        "stone"
+      ],
+      "consumers": [
+        "CPU-composited stone grain, interior samples only"
+      ],
+      "originalSha256": "b565f2a85476001326b24dd0ad1393f594cfa73d174c086797d115039572513d",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/stone.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "stone",
+        "master": "assets/images/full-asset-redraw-20261116/masters/stone.png",
+        "masterSha256": "3fb2a7307e824f244b4eba84af9d44b51b569cf23b4fccf12e4cb2c6a0c33030"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/production/bug.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "bug"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd",
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "originalSha256": "77b6ea178abebff5d1b39efbac518fe804c8c549f5101e0e0570cb9693a855cd",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/bug.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "bug",
+        "master": "assets/images/full-asset-redraw-20261116/masters/bug-v2.png",
+        "masterSha256": "ef2bf7a52dbacb30d23107b021a225204eb83dbe2d62b87b307d1357eab28a8c"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/production/light.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "light"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map.gd",
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "originalSha256": "164961457060b51ee81ef2b423a301e8791e245f685b30a166207050039e80f8",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/light.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "light",
+        "master": "assets/images/full-asset-redraw-20261116/masters/light.png",
+        "masterSha256": "ea6150d7f10bf129f0a8a76cfd936feb073c77004584077de7c7d109a425a442"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/production/vine.png",
+      "kinds": [
+        "scene",
+        "ui"
+      ],
+      "aliases": [
+        "vine"
+      ],
+      "consumers": [
+        "sprite3d",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "7f9bc88c5a559c80e1197e4f61d96f46e2858ce389b0216335e8fc1cabfcae40",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/vine.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "vine",
+        "master": "assets/images/full-asset-redraw-20261116/masters/vine.png",
+        "masterSha256": "4149879ebd2e946c7cb8b626bae5599175058390e34604a94d9f15d616fbbd85"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/idle-back.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "idle-back"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/idle_back"
+      ],
+      "originalSha256": "bffd13d8439e3da7371c5bceb41c080b32bf2ac0d4f6f478c5cc9a30bcdfdbb9",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-idle-back.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-idle-back",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/idle-front.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "idle-front"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/idle_front",
+        "godot/ui/chapter_map.gd"
+      ],
+      "originalSha256": "2ab248a9161362cc18260381f82ec6e19c0d70a44d10290b9a616366d616dd77",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-idle-front.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-idle-front",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-idle-front.png",
+        "masterSha256": "e0c87c6ed041c83e487fbd3f0735d139d00ea24528730cc1a2ce114bc3fed53d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/idle-side.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "idle-side"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/idle_left",
+        "actor-elements.json:luvie.original/idle_right",
+        "actor-elements.json:luvie.original/hold_lever"
+      ],
+      "originalSha256": "437426cb039577c72d208383e033078dcd5aeeaf9c958c6d8569452969067a76",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-idle-side.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-idle-side",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/interact.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "interact"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/interact"
+      ],
+      "originalSha256": "02711af9ede817080678a8e904aee749a814db5cfb2f0ce6f1d0622a49d7d919",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-interact.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-interact",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-interact.png",
+        "masterSha256": "81f1c4f1bb75b5703cc3881f687aa92af91b535f630ffdd15f23961b465a66b4"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-1.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-10.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-10"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "2acc1e05dedaf1ff056628857a8d62b704b8c30fd253e22befd54c44b1cbc6da",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-10.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-10",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-11.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-11"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-12.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-12"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-2.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-2"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-3.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-3"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "2acc1e05dedaf1ff056628857a8d62b704b8c30fd253e22befd54c44b1cbc6da",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-10.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-10",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-4.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-4"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "3e6ac720bd144f6121d4dbb7bd4efd0c458a985a0218ae8cd56f308b9c61bd2e",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-4.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-4",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-5.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-5"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "a570dc6704a59d2ab38bf760c9f443b29a3d85e4f3de4898b36edf46974be785",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-5.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-5",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-6.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-6"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "21d2d2e1eeb8562cf8489b15694bd4cbc7999e19607e06146deb52880ca4f0ea",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-6.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-6",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-7.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-7"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "21d2d2e1eeb8562cf8489b15694bd4cbc7999e19607e06146deb52880ca4f0ea",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-6.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-6",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-8.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-8"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "a570dc6704a59d2ab38bf760c9f443b29a3d85e4f3de4898b36edf46974be785",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-5.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-5",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/jump-9.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "jump-9"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "originalSha256": "3e6ac720bd144f6121d4dbb7bd4efd0c458a985a0218ae8cd56f308b9c61bd2e",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-jump-4.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-jump-4",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-jump-sheet.png",
+        "masterSha256": "30128e7b907d7583699abe201f1869203b54a0cfad8c2a07b5086a1c8e9b3812"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/salute.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "salute"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/complete"
+      ],
+      "originalSha256": "e03b15b9f5bd3fa94b97adec8d862d0ac0c5c059e7a07c9fa60013014067c8a6",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-salute.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-salute",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-salute.png",
+        "masterSha256": "c98df2c943e8249b6c3302a7b004a4c6da496cc612b59147c8eee31ea905720f"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/sow-1.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "sow-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "originalSha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-sow-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-sow-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sow-1.png",
+        "masterSha256": "e959eedbd69007835e5bb1c62c40f5531e0c51de4080a7ffb906e846fb82d0e2"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/sow-2.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "sow-2"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "originalSha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-sow-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-sow-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sow-1.png",
+        "masterSha256": "e959eedbd69007835e5bb1c62c40f5531e0c51de4080a7ffb906e846fb82d0e2"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/sow-3.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "sow-3"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "originalSha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-sow-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-sow-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sow-1.png",
+        "masterSha256": "e959eedbd69007835e5bb1c62c40f5531e0c51de4080a7ffb906e846fb82d0e2"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/sow-4.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "sow-4"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "originalSha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-sow-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-sow-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sow-1.png",
+        "masterSha256": "e959eedbd69007835e5bb1c62c40f5531e0c51de4080a7ffb906e846fb82d0e2"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/sow-5.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "sow-5"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "originalSha256": "ec27c4fbac5a611b1353f72bc009064e7fc5fbe0f0b8300c30690bb80faa3a6f",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-sow-5.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-sow-5",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-salute.png",
+        "masterSha256": "c98df2c943e8249b6c3302a7b004a4c6da496cc612b59147c8eee31ea905720f"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-1.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "originalSha256": "87099cbcc1866f8df3f55f363a89e755f4a5ceb64926ab2f5d7e82e4d5fbfafa",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-frontwalk-sheet.png",
+        "masterSha256": "b279230a28c74ff5bebcd6ccb508c3e8f43d342a5fb03cde2d38e34c193dcd1e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-10.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-10"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "originalSha256": "f5de509597dbcde8c22b7a72445ab034bf2a12ea80bb224857200838dc2a8f61",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-10.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-10",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-frontwalk-sheet.png",
+        "masterSha256": "b279230a28c74ff5bebcd6ccb508c3e8f43d342a5fb03cde2d38e34c193dcd1e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-11.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-11"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "originalSha256": "19513929ece1869203da61423106b3b0849b2bbb9bf494369e660bfb0ba37a8f",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-11.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-11",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-frontwalk-sheet.png",
+        "masterSha256": "b279230a28c74ff5bebcd6ccb508c3e8f43d342a5fb03cde2d38e34c193dcd1e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-12.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-12"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "originalSha256": "6c6f53c70833389482dd90ae419a9988e0fbbbb943b33f03a08625bfc52f4736",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-12.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-12",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-frontwalk-sheet.png",
+        "masterSha256": "b279230a28c74ff5bebcd6ccb508c3e8f43d342a5fb03cde2d38e34c193dcd1e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-7.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-7"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "originalSha256": "98d05caf7da0cace5f4bddaa7b93b435721ae6032a5196f286fed8e427777a4b",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-7.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-7",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-frontwalk-sheet.png",
+        "masterSha256": "b279230a28c74ff5bebcd6ccb508c3e8f43d342a5fb03cde2d38e34c193dcd1e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-8.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-8"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "originalSha256": "f4879b65ea83248ea6e6655736fe2c8dfc324293824e307a8a29a30f21271726",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-8.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-8",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-frontwalk-sheet.png",
+        "masterSha256": "b279230a28c74ff5bebcd6ccb508c3e8f43d342a5fb03cde2d38e34c193dcd1e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-9.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-9"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "originalSha256": "4db030336dee2b9d4447af33fd97c54f6b1d5af737eaca6156f466defef9f24a",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-9.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-9",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-frontwalk-sheet.png",
+        "masterSha256": "b279230a28c74ff5bebcd6ccb508c3e8f43d342a5fb03cde2d38e34c193dcd1e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-1.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "bffd13d8439e3da7371c5bceb41c080b32bf2ac0d4f6f478c5cc9a30bcdfdbb9",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-idle-back.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-idle-back",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-10.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-10"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "658b91a11266f5cd2583e215c9165e731ce8e04dd7d6a324fc8c24d6d6c76fee",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-10.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-10",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-11.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-11"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "a41aac57fcbfbdcbb0ca7a0a9645c4c65c25044e5ece0047b99619227ed24f24",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-11.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-11",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-12.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-12"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "452f009799d0c263b8d0a98861256c03db27f95cb25abd8e4e8297f6ecc46855",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-12.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-12",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-2.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-2"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "f4acc24312d0bd06c1bb14d04888a713cdf25a0ba77bc83be726d1da5bd00b29",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-2.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-2",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-3.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-3"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "502bf2a7d84f91123e791ef2739078c41e7c6e9194bfe372ee7d784414ab3fce",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-3.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-3",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-4.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-4"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "0cf5ec9aef1bd9b0ad616f325f69b49d367927356b027b81d9bd5318c979eb08",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-4.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-4",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-5.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-5"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "502bf2a7d84f91123e791ef2739078c41e7c6e9194bfe372ee7d784414ab3fce",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-3.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-3",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-6.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-6"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "f4acc24312d0bd06c1bb14d04888a713cdf25a0ba77bc83be726d1da5bd00b29",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-2.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-2",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-7.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-7"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "bffd13d8439e3da7371c5bceb41c080b32bf2ac0d4f6f478c5cc9a30bcdfdbb9",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-idle-back.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-idle-back",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-8.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-8"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "452f009799d0c263b8d0a98861256c03db27f95cb25abd8e4e8297f6ecc46855",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-12.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-12",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/character-refined/walk-back-9.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-back-9"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "originalSha256": "a41aac57fcbfbdcbb0ca7a0a9645c4c65c25044e5ece0047b99619227ed24f24",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-back-11.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-back-11",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-backwalk-sheet-v2.png",
+        "masterSha256": "e4a21d282ebbc8fca602f313b5910eeb3bd54b4468493490a2428f2b8e7c5e8d"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/gallery-journal/mushroom.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "gallery-mushroom"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "originalSha256": "330b48ddea3b6e18bacad8a3caf32a18f12a819bdb287fb31cb5b9787f6b4e49",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/gallery-mushroom.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "gallery-mushroom",
+        "master": "assets/images/full-asset-redraw-20261116/masters/gallery-mushroom.png",
+        "masterSha256": "e5a1ea0c35d7850d72673abe6b25ffbc8d492ce94c68613651048db891c981bd"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/gallery-journal/vine.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "gallery-vine"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "originalSha256": "de0ff0c1d793737a547b1bf479593fb44e056840d32a8df2ebb16b4519bbcf4b",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/gallery-vine.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "gallery-vine",
+        "master": "assets/images/full-asset-redraw-20261116/masters/gallery-vine.png",
+        "masterSha256": "fbe086ed83383fc31b63722ebe1f00c9cd85fb0455b1cb581113c0079a5deb29"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/garden-scenery/gold-lotus.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "gold-lotus"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "9f4651677f2671532c942c8fc21ee0e976cc3b4b277f485b7d3f6b878a3b8b22",
+      "resolved": "res://assets/images/scene-redraw-20261116/gold-lotus.png",
+      "provenance": {
+        "batch": "previous-seven",
+        "id": "gold-lotus",
+        "master": "assets/images/scene-redraw-20261116/masters/gold-lotus.png",
+        "masterSha256": "2383ecb1cf45e838cfa8b93d2c39db5767820065abc7b9e959d185eee9497e59"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/journey-gardens/buddy-ball.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "ball"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/roll",
+        "actor-elements.json:buddy.original/roll",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "originalSha256": "77b16955bac0d648eb87ad0cc95d6f3917a54f1d15de3a892fdbd7bd53543502",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-ball.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-ball",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-ball.png",
+        "masterSha256": "99012a28909d198dff328c5509482a01cb3402c6d2f70f82721b991c29e31f3e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/material-ready/button-green.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "button-green"
+      ],
+      "consumers": [
+        "godot/ui/game_hud_skin.gd"
+      ],
+      "originalSha256": "ba55dcd9615553bd4e5bf22b54f436843bc4eb8d60743f97a43465c200af14a3",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/button-green.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "button-green",
+        "master": "assets/images/full-asset-redraw-20261116/masters/button-green.png",
+        "masterSha256": "3527b16962ccc4b8ca54b1e6752b971e9f6c794b0919d6aa9936ec66b7257ddc"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/material-ready/icon-leaf.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "icon-leaf"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "ffd62484dc0f59c1b30a825c63f38e6d8df0d277d29fd81c9fe1e63f7123d7b1",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/icon-leaf.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "icon-leaf",
+        "master": "assets/images/full-asset-redraw-20261116/masters/icon-leaf.png",
+        "masterSha256": "b2b2a452cef0cb5fa2196a9e38cb41927398c65087d15f4386d930507cd74f85"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/material-ready/icon-spore.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "icon-spore",
+        "spore"
+      ],
+      "consumers": [
+        "godot/ui/game_hud_skin.gd"
+      ],
+      "originalSha256": "cbb194459878968f500ed693c6d338f315ed20b61521b3806001e91ada30ada6",
+      "resolved": "res://assets/images/scene-redraw-20261116/spore.png",
+      "provenance": {
+        "batch": "previous-seven",
+        "id": "spore",
+        "master": "assets/images/scene-redraw-20261116/masters/spore.png",
+        "masterSha256": "17ea7cd9709ebf454d4814e7c8ae401e12f5a4ee9805854d502dfc125a4d719a"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/material-ready/menu-logo.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "cover-logo"
+      ],
+      "consumers": [
+        "godot/ui/menu_cover.gd"
+      ],
+      "originalSha256": "09678d4b5e799c076651d939dfc4e365af0364f9445321ae24541087d3e8348e",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/cover-logo.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "cover-logo",
+        "master": "assets/images/full-asset-redraw-20261116/masters/cover-logo.png",
+        "masterSha256": "410589efc992ba48a6a982c7c2a6077a9ba3b248519f4d9b8f5430e25042b364"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/material-ready/menu-paper.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "cover-paper"
+      ],
+      "consumers": [
+        "godot/ui/menu_cover.gd"
+      ],
+      "originalSha256": "750d4fe52a27b5125b29964d8ce0b888d8a5798551804363ecf65427d9215296",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/cover-paper.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "cover-paper",
+        "master": "assets/images/full-asset-redraw-20261116/masters/cover-paper.png",
+        "masterSha256": "ef47093e7d8dee2e941aefe5cf44ced1b4f201c4927d78e2d4c816e0fd4f44de"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/material-ready/panel-paper.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "panel-paper"
+      ],
+      "consumers": [
+        "godot/ui/game_hud_skin.gd",
+        "godot/ui/garden_hud.gd"
+      ],
+      "originalSha256": "5726ab900ca8e86e9e4937431d2899543589405849830baaaf417652a2b43ee7",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/panel-paper.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "panel-paper",
+        "master": "assets/images/full-asset-redraw-20261116/masters/panel-paper.png",
+        "masterSha256": "0d8b3364cc4166141a92f4d74c8ac9e2e73394288f93e91f774d82e29449298b"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-1.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "523d656230764cc860e7987d1b8cfb615e2ae65dcfe4d92b7dddacd3ae9fc21c",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-10.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-10"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "a5e2f8ff2147690eaf308b5f71a95dd4a002a568303691e89386581909f39b21",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-10.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-10",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-11.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-11"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "80e61df21eec9b8c97bf803ff66f584faea39efad7647d6a5ee44d7127a986a2",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-11.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-11",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-12.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-12"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "522a893c08a99607c0f659fbe3610d913e6862ec37d81a19b5b3e23c33d1d675",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-12.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-12",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-2.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-2"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "f7464e607c21df5dcf3473e811f5e8fd8e401d36951059a707f7a12ec9d4ceef",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-2.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-2",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-3.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-3"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "d2c1c51c6aebe102ae95d925bc5e892dda98bd9b51b0c038c7ff31a4f54f5311",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-3.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-3",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-4.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-4"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "d0a57f73e4c8743629f52a6475dc95af4cb00c9dc3ffeefdbd0aa4429265a6eb",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-4.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-4",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-5.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-5"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "d2c1c51c6aebe102ae95d925bc5e892dda98bd9b51b0c038c7ff31a4f54f5311",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-3.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-3",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-6.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-6"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "f7464e607c21df5dcf3473e811f5e8fd8e401d36951059a707f7a12ec9d4ceef",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-2.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-2",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-7.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-7"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "523d656230764cc860e7987d1b8cfb615e2ae65dcfe4d92b7dddacd3ae9fc21c",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-1.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-1",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-8.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-8"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "522a893c08a99607c0f659fbe3610d913e6862ec37d81a19b5b3e23c33d1d675",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-12.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-12",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/menu-walk/step-9.png",
+      "kinds": [
+        "actor"
+      ],
+      "aliases": [
+        "walk-side-9"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "originalSha256": "80e61df21eec9b8c97bf803ff66f584faea39efad7647d6a5ee44d7127a986a2",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/actor-walk-side-11.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "actor-walk-side-11",
+        "master": "assets/images/full-asset-redraw-20261116/masters/actor-sidewalk-sheet.png",
+        "masterSha256": "6525af85fbb57734081ce4c62700c67f5995ba96f79dd3180ea533a367d66257"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/production/arch.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "gallery-arch"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "originalSha256": "482b075cf7d3ae7f9631c99c6bb6b2c7c85f34e48ed4b08c1eb5c41e4df791c8",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/gallery-arch.png",
+      "provenance": {
+        "batch": "previous-seven",
+        "id": "gallery-arch",
+        "master": "godot/assets/images/scene-redraw-20261116/arch.png",
+        "masterSha256": "e4d6bb84e3d2b487453fd5aacc0c439238eea6c0f633ea92a4be34d432abd249"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/production/bloom.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "bloom"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "originalSha256": "61adb1ab88be2ae6167fd915efd26a4d2fd5788dcb880cc06bf9691f34c34633",
+      "resolved": "res://assets/images/scene-redraw-20261116/bloom.png",
+      "provenance": {
+        "batch": "previous-seven",
+        "id": "bloom",
+        "master": "assets/images/scene-redraw-20261116/masters/bloom.png",
+        "masterSha256": "83b58e69618f31c1ae98e6f7d4f98f708a2c770ceb8bdf5efb59a82fa5e2c07c"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/production/lily-open.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "gallery-lily"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd",
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "originalSha256": "0e7730ba2ca2e1e574fc298eefc5c4740c20b86340cd957a872127f0b0429a16",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/gallery-lily.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "gallery-lily",
+        "master": "assets/images/full-asset-redraw-20261116/masters/lotus-pool.png",
+        "masterSha256": "88aa6e5424ac589aeffdcc739c2834fa46484ee8794d194877906e0247c175ba"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/production/moss.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "map-moss"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd"
+      ],
+      "originalSha256": "aa9a4e0825bfe43f78eb4ef319660436640b991ffed7312a62f288f71478c105",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/map-moss.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "map-moss",
+        "master": "assets/images/full-asset-redraw-20261116/masters/map-moss.png",
+        "masterSha256": "6dc75321dac2e21a09efc59a811539512f979377bb4e2bd41fde3f012bde6e42"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/reference-scenes/plant-bloom.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "map-plant-bloom"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:landmark state plant-bloom"
+      ],
+      "originalSha256": "2f59c14fe6c36b10b61f723975678c32b4ca2da769b4688959ba6336d471982b",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/map-plant-bloom.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "map-plant-bloom",
+        "master": "assets/images/full-asset-redraw-20261116/masters/map-plant-bloom.png",
+        "masterSha256": "2564446546ffe34fd29d62a4ba3cb703bc005e8fb3ecb0faaf5099f272de9493"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/reference-scenes/plant-bud.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "map-plant-bud"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:landmark state plant-bud"
+      ],
+      "originalSha256": "62c0aa5e26a90d544bebe0c3c168ddd302781997c05acb118f5ac813e8c5143a",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/map-plant-bud.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "map-plant-bud",
+        "master": "assets/images/full-asset-redraw-20261116/masters/map-plant-bud.png",
+        "masterSha256": "82ddda999eb5dd05fdd0bc01bc94c977fb539ff5a60f28841bfa84814e27ee4e"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/reference-scenes/plant-cave-bloom.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "gallery-cave-bloom"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd",
+        "godot/ui/chapter_map.gd:landmark state plant-cave-bloom"
+      ],
+      "originalSha256": "22fbdff5c7a0fa89c37e4e4894ff38caa1f85536c1197db75a63eaa72ebd8370",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/gallery-cave-bloom.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "gallery-cave-bloom",
+        "master": "assets/images/full-asset-redraw-20261116/masters/gallery-cave-bloom.png",
+        "masterSha256": "c69d1c1b79676ec5b7519855277a21d0b0651328f4f7c2706c745ad1cebf7d51"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/reference-scenes/plant-dormant.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "map-plant-dormant"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:landmark state plant-dormant"
+      ],
+      "originalSha256": "485147e5fea692657d88395d9c39de24f074d97fe1b7c7b621437f198df4416e",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/map-plant-dormant.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "map-plant-dormant",
+        "master": "assets/images/full-asset-redraw-20261116/masters/map-plant-dormant.png",
+        "masterSha256": "de6d566a49639eeb475c5725f3e1fc934661b4e04f6e4812a4abe194b883958c"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/reference-scenes/plant-pond-bloom.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "map-plant-pond-bloom"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:landmark state plant-pond-bloom"
+      ],
+      "originalSha256": "4d0a660ba46a23332f7295d41e95d9bd6ef899da95e530640c86e7e79d68ddd8",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/map-plant-pond-bloom.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "map-plant-pond-bloom",
+        "master": "assets/images/full-asset-redraw-20261116/masters/map-plant-pond-bloom.png",
+        "masterSha256": "f2a3d9555bef324eaab39866a610bb1a81e7d8b62cca0dc1f4e04e58e9a2c077"
+      },
+      "failures": [],
+      "covered": true
+    },
+    {
+      "source": "res://assets/images/reference-scenes/terrain-steps.png",
+      "kinds": [
+        "ui"
+      ],
+      "aliases": [
+        "map-terrain-steps"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "originalSha256": "9ee2d2a1f6890f882dd07a9ac4a2992826f176ec4370404725c9c1e759ec18b2",
+      "resolved": "res://assets/images/full-asset-redraw-20261116/map-terrain-steps.png",
+      "provenance": {
+        "batch": "full-redraw",
+        "id": "map-terrain-steps",
+        "master": "assets/images/full-asset-redraw-20261116/masters/map-terrain-steps.png",
+        "masterSha256": "ff95928c3b01d66ea25ea05d09ce10c3afdce96333ef9993b3181f945cb0165d"
+      },
+      "failures": [],
+      "covered": true
+    }
+  ],
+  "actorGroups": [
+    {
+      "originalSha256": "bffd13d8439e3da7371c5bceb41c080b32bf2ac0d4f6f478c5cc9a30bcdfdbb9",
+      "members": [
+        "res://assets/images/character-refined/idle-back.png",
+        "res://assets/images/character-refined/walk-back-1.png",
+        "res://assets/images/character-refined/walk-back-7.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-idle-back.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "2ab248a9161362cc18260381f82ec6e19c0d70a44d10290b9a616366d616dd77",
+      "members": [
+        "res://assets/images/character-refined/idle-front.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-idle-front.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "437426cb039577c72d208383e033078dcd5aeeaf9c958c6d8569452969067a76",
+      "members": [
+        "res://assets/images/character-refined/idle-side.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-idle-side.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "02711af9ede817080678a8e904aee749a814db5cfb2f0ce6f1d0622a49d7d919",
+      "members": [
+        "res://assets/images/character-refined/interact.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-interact.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "members": [
+        "res://assets/images/character-refined/jump-1.png",
+        "res://assets/images/character-refined/jump-11.png",
+        "res://assets/images/character-refined/jump-12.png",
+        "res://assets/images/character-refined/jump-2.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-jump-1.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "2acc1e05dedaf1ff056628857a8d62b704b8c30fd253e22befd54c44b1cbc6da",
+      "members": [
+        "res://assets/images/character-refined/jump-10.png",
+        "res://assets/images/character-refined/jump-3.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-jump-10.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "3e6ac720bd144f6121d4dbb7bd4efd0c458a985a0218ae8cd56f308b9c61bd2e",
+      "members": [
+        "res://assets/images/character-refined/jump-4.png",
+        "res://assets/images/character-refined/jump-9.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-jump-4.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "a570dc6704a59d2ab38bf760c9f443b29a3d85e4f3de4898b36edf46974be785",
+      "members": [
+        "res://assets/images/character-refined/jump-5.png",
+        "res://assets/images/character-refined/jump-8.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-jump-5.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "21d2d2e1eeb8562cf8489b15694bd4cbc7999e19607e06146deb52880ca4f0ea",
+      "members": [
+        "res://assets/images/character-refined/jump-6.png",
+        "res://assets/images/character-refined/jump-7.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-jump-6.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "e03b15b9f5bd3fa94b97adec8d862d0ac0c5c059e7a07c9fa60013014067c8a6",
+      "members": [
+        "res://assets/images/character-refined/salute.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-salute.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "members": [
+        "res://assets/images/character-refined/sow-1.png",
+        "res://assets/images/character-refined/sow-2.png",
+        "res://assets/images/character-refined/sow-3.png",
+        "res://assets/images/character-refined/sow-4.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-sow-1.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "ec27c4fbac5a611b1353f72bc009064e7fc5fbe0f0b8300c30690bb80faa3a6f",
+      "members": [
+        "res://assets/images/character-refined/sow-5.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-sow-5.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "87099cbcc1866f8df3f55f363a89e755f4a5ceb64926ab2f5d7e82e4d5fbfafa",
+      "members": [
+        "res://assets/images/character-refined/walk-1.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-1.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "f5de509597dbcde8c22b7a72445ab034bf2a12ea80bb224857200838dc2a8f61",
+      "members": [
+        "res://assets/images/character-refined/walk-10.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-10.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "19513929ece1869203da61423106b3b0849b2bbb9bf494369e660bfb0ba37a8f",
+      "members": [
+        "res://assets/images/character-refined/walk-11.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-11.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "6c6f53c70833389482dd90ae419a9988e0fbbbb943b33f03a08625bfc52f4736",
+      "members": [
+        "res://assets/images/character-refined/walk-12.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-12.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "98d05caf7da0cace5f4bddaa7b93b435721ae6032a5196f286fed8e427777a4b",
+      "members": [
+        "res://assets/images/character-refined/walk-7.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-7.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "f4879b65ea83248ea6e6655736fe2c8dfc324293824e307a8a29a30f21271726",
+      "members": [
+        "res://assets/images/character-refined/walk-8.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-8.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "4db030336dee2b9d4447af33fd97c54f6b1d5af737eaca6156f466defef9f24a",
+      "members": [
+        "res://assets/images/character-refined/walk-9.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-9.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "658b91a11266f5cd2583e215c9165e731ce8e04dd7d6a324fc8c24d6d6c76fee",
+      "members": [
+        "res://assets/images/character-refined/walk-back-10.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-back-10.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "a41aac57fcbfbdcbb0ca7a0a9645c4c65c25044e5ece0047b99619227ed24f24",
+      "members": [
+        "res://assets/images/character-refined/walk-back-11.png",
+        "res://assets/images/character-refined/walk-back-9.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-back-11.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "452f009799d0c263b8d0a98861256c03db27f95cb25abd8e4e8297f6ecc46855",
+      "members": [
+        "res://assets/images/character-refined/walk-back-12.png",
+        "res://assets/images/character-refined/walk-back-8.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-back-12.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "f4acc24312d0bd06c1bb14d04888a713cdf25a0ba77bc83be726d1da5bd00b29",
+      "members": [
+        "res://assets/images/character-refined/walk-back-2.png",
+        "res://assets/images/character-refined/walk-back-6.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-back-2.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "502bf2a7d84f91123e791ef2739078c41e7c6e9194bfe372ee7d784414ab3fce",
+      "members": [
+        "res://assets/images/character-refined/walk-back-3.png",
+        "res://assets/images/character-refined/walk-back-5.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-back-3.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "0cf5ec9aef1bd9b0ad616f325f69b49d367927356b027b81d9bd5318c979eb08",
+      "members": [
+        "res://assets/images/character-refined/walk-back-4.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-back-4.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "77b16955bac0d648eb87ad0cc95d6f3917a54f1d15de3a892fdbd7bd53543502",
+      "members": [
+        "res://assets/images/journey-gardens/buddy-ball.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-ball.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "523d656230764cc860e7987d1b8cfb615e2ae65dcfe4d92b7dddacd3ae9fc21c",
+      "members": [
+        "res://assets/images/menu-walk/step-1.png",
+        "res://assets/images/menu-walk/step-7.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-side-1.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "a5e2f8ff2147690eaf308b5f71a95dd4a002a568303691e89386581909f39b21",
+      "members": [
+        "res://assets/images/menu-walk/step-10.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-side-10.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "80e61df21eec9b8c97bf803ff66f584faea39efad7647d6a5ee44d7127a986a2",
+      "members": [
+        "res://assets/images/menu-walk/step-11.png",
+        "res://assets/images/menu-walk/step-9.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-side-11.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "522a893c08a99607c0f659fbe3610d913e6862ec37d81a19b5b3e23c33d1d675",
+      "members": [
+        "res://assets/images/menu-walk/step-12.png",
+        "res://assets/images/menu-walk/step-8.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-side-12.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "f7464e607c21df5dcf3473e811f5e8fd8e401d36951059a707f7a12ec9d4ceef",
+      "members": [
+        "res://assets/images/menu-walk/step-2.png",
+        "res://assets/images/menu-walk/step-6.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-side-2.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "d2c1c51c6aebe102ae95d925bc5e892dda98bd9b51b0c038c7ff31a4f54f5311",
+      "members": [
+        "res://assets/images/menu-walk/step-3.png",
+        "res://assets/images/menu-walk/step-5.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-side-3.png"
+      ],
+      "covered": true
+    },
+    {
+      "originalSha256": "d0a57f73e4c8743629f52a6475dc95af4cb00c9dc3ffeefdbd0aa4429265a6eb",
+      "members": [
+        "res://assets/images/menu-walk/step-4.png"
+      ],
+      "resolved": [
+        "res://assets/images/full-asset-redraw-20261116/actor-walk-side-4.png"
+      ],
+      "covered": true
+    }
+  ]
+}

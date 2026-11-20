@@ -1,0 +1,556 @@
+{
+  "checks": 137,
+  "failures": [
+    "latched graph reaches home luvie/f:2:4",
+    "latched graph reaches home luvie/f:4:4",
+    "latched graph reaches home luvie/f:2:5",
+    "latched graph reaches home luvie/f:3:5",
+    "latched graph reaches home luvie/f:4:5",
+    "latched graph reaches home luvie/f:2:6",
+    "latched graph reaches home luvie/f:3:6",
+    "latched graph reaches home luvie/f:4:6",
+    "core/variant/variant_utility.cpp:1023 latched graph reaches home luvie/f:2:4 ",
+    "core/variant/variant_utility.cpp:1023 latched graph reaches home luvie/f:4:4 ",
+    "core/variant/variant_utility.cpp:1023 latched graph reaches home luvie/f:2:5 ",
+    "core/variant/variant_utility.cpp:1023 latched graph reaches home luvie/f:3:5 ",
+    "core/variant/variant_utility.cpp:1023 latched graph reaches home luvie/f:4:5 ",
+    "core/variant/variant_utility.cpp:1023 latched graph reaches home luvie/f:2:6 ",
+    "core/variant/variant_utility.cpp:1023 latched graph reaches home luvie/f:3:6 ",
+    "core/variant/variant_utility.cpp:1023 latched graph reaches home luvie/f:4:6 "
+  ],
+  "images": [
+    "01-latched-bridges-overview.jpg",
+    "02-clicked-home-empty-handed.jpg",
+    "deliver-bell-menu.jpg",
+    "03-buddy-in-reported-corridor.jpg",
+    "04-completed-after-corridor-return.jpg"
+  ],
+  "observations": [
+    {
+      "label": "01-latched-bridges-overview",
+      "message": "门铃已放在这块石台上。走近可重新拾起，由露薇带回鼹鼠家门。",
+      "movement": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              3.0,
+              0.000335067510604858,
+              5.0
+            ],
+            "support": "f:3:5",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "right",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              2.95801138877869,
+              0.000936644442845136,
+              0.00000137299036850891
+            ],
+            "support": "f:3:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:3:5",
+          "luvie": "f:3:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch"
+        ],
+        "follow": false,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": "f:3:0"
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.0,
+                0.0003,
+                0.0
+              ],
+              "support": "f:3:5"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                -0.042,
+                0.0009,
+                0.0
+              ],
+              "support": "f:3:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    },
+    {
+      "label": "02-clicked-home-empty-handed",
+      "message": "门铃已放在这块石台上。走近可重新拾起，由露薇带回鼹鼠家门。",
+      "movement": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              3.0,
+              0.000335067510604858,
+              5.0
+            ],
+            "support": "f:3:5",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "left",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              -3.59441757202148,
+              0.000919799495022744,
+              0.035583633929491
+            ],
+            "support": "f:-4:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:3:5",
+          "luvie": "f:-4:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch"
+        ],
+        "follow": false,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": "f:3:0"
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.0,
+                0.0003,
+                0.0
+              ],
+              "support": "f:3:5"
+            },
+            "luvie": {
+              "facing": "left",
+              "offset": [
+                0.4056,
+                0.0009,
+                0.0356
+              ],
+              "support": "f:-4:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    },
+    {
+      "label": "deliver-bell-menu",
+      "message": "把门铃收进小挎袋，带回鼹鼠的家。",
+      "movement": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              3.0,
+              0.000335067510604858,
+              5.0
+            ],
+            "support": "f:3:5",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "left",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              -3.59441995620728,
+              0.000919820216950029,
+              0.0355865396559238
+            ],
+            "support": "f:-4:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:3:5",
+          "luvie": "f:-4:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch"
+        ],
+        "follow": false,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "holder": "luvie",
+            "tile": ""
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.0,
+                0.0003,
+                0.0
+              ],
+              "support": "f:3:5"
+            },
+            "luvie": {
+              "facing": "left",
+              "offset": [
+                0.4056,
+                0.0009,
+                0.0356
+              ],
+              "support": "f:-4:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    },
+    {
+      "label": "03-buddy-in-reported-corridor",
+      "message": "当前控制：小苔灵。露薇原地等候。",
+      "movement": {
+        "actors": {
+          "buddy": {
+            "facing": "right",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              3.00000023841858,
+              0.000936648808419704,
+              3.05007743835449
+            ],
+            "support": "f:3:3",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "left",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              -3.59441995620728,
+              0.000919820216950029,
+              0.0355865396559238
+            ],
+            "support": "f:-4:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "state": {
+        "active": "buddy",
+        "actors": {
+          "buddy": "f:3:3",
+          "luvie": "f:-4:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch",
+          "home"
+        ],
+        "follow": false,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": ""
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "right",
+              "offset": [
+                0.0,
+                0.0009,
+                0.0501
+              ],
+              "support": "f:3:3"
+            },
+            "luvie": {
+              "facing": "left",
+              "offset": [
+                0.4056,
+                0.0009,
+                0.0356
+              ],
+              "support": "f:-4:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    },
+    {
+      "label": "04-completed-after-corridor-return",
+      "message": "门铃响起，鼹鼠为两位小邻居留着门。",
+      "movement": {
+        "actors": {
+          "buddy": {
+            "facing": "left",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -8.54319190979004,
+              0.650937974452972,
+              0.294799566268921
+            ],
+            "support": "f:-9:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "back",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -8.9588451385498,
+              0.650834619998932,
+              -0.349583476781845
+            ],
+            "support": "f:-9:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:-9:0",
+          "luvie": "f:-9:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": true,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch",
+          "home"
+        ],
+        "follow": true,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": ""
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "left",
+              "offset": [
+                0.4568,
+                0.0009,
+                0.2948
+              ],
+              "support": "f:-9:0"
+            },
+            "luvie": {
+              "facing": "back",
+              "offset": [
+                0.0412,
+                0.0008,
+                -0.3496
+              ],
+              "support": "f:-9:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    }
+  ],
+  "passed": false,
+  "samples": 1938,
+  "scope": "1600x900 GPU; prepared legal post-latch snapshot then real motor, actual home pointer hit, E/menu drop/pickup/delivery, buddy f:3:3 corridor traversal and explicit completion. Read-only graph and illegal-save checks. Memory saves, AudioStub; not a browser replay or original reporter save.",
+  "sourceSha256": "bf3b5ffc76f8860167543204ad63a1985a53b0e2d45dfa5c3b5f1687e1175796"
+}

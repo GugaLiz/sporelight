@@ -1,0 +1,101 @@
+{
+  "scope": "Mechanical packaging smoke probes using previous approved generated masters in ignored .cache/.godot test outputs. No new art generated or playable theme activated.",
+  "checks": [
+    {
+      "name": "shared-states",
+      "flags": [],
+      "expectedExit": 0,
+      "actualExit": 0,
+      "passed": true,
+      "output": "{\"exported\":2,\"manifest\":\".cache/full-redraw-pipeline-smoke/pipeline-shared-states-v3/manifest.json\",\"proposedTheme\":\".cache/full-redraw-pipeline-smoke/pipeline-shared-states-v3/theme.proposed.json\",\"proposedSources\":\".cache/full-redraw-pipeline-smoke/pipeline-shared-states-v3/bitmap-redraw.proposed.json\",\"applied\":false,\"preservedOverrides\":5,\"preservedSourceOverrides\":0}"
+    },
+    {
+      "name": "shared-states",
+      "flags": [
+        "--check"
+      ],
+      "expectedExit": 0,
+      "actualExit": 0,
+      "passed": true,
+      "output": "{\"passed\":true,\"checked\":2,\"scope\":\"Hashes, logical canvas, alpha, imports, alias/source coverage, prior overrides and protected source identity; GPU review remains separate.\",\"applied\":false}"
+    },
+    {
+      "name": "states-use-identical-sampling-transform",
+      "passed": true
+    },
+    {
+      "name": "reject-anisotropic-feet",
+      "flags": [],
+      "expectedExit": 1,
+      "actualExit": 1,
+      "passed": true,
+      "output": "file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:18\r\nfunction fail(message){throw Error(message);}\r\n                             ^\r\n\r\nError: arch: paired feet/anchors differ by 27.857 logical pixels; review the art rather than stretching it\r\n    at fail (file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:18:30)\r\n    at makeTransform (file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:124:48)\r\n    at file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:271:20\r\n\r\nNode.js v20.19.5"
+    },
+    {
+      "name": "reject-wrong-source",
+      "flags": [],
+      "expectedExit": 1,
+      "actualExit": 1,
+      "passed": true,
+      "output": "file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:18\r\nfunction fail(message){throw Error(message);}\r\n                             ^\r\n\r\nError: bloom: declared original is not the registered source for flower\r\n    at fail (file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:18:30)\r\n    at file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:245:49\r\n\r\nNode.js v20.19.5"
+    },
+    {
+      "name": "reject-unknown-alias",
+      "flags": [],
+      "expectedExit": 1,
+      "actualExit": 1,
+      "passed": true,
+      "output": "file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:18\r\nfunction fail(message){throw Error(message);}\r\n                             ^\r\n\r\nError: bloom: unknown runtime alias no-such-slot\r\n    at fail (file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:18:30)\r\n    at file:///G:/works/liuli/sporelight/tools/godot-migration/export-full-asset-redraw.mjs:237:59\r\n\r\nNode.js v20.19.5"
+    },
+    {
+      "name": "dual-map-activation",
+      "flags": [
+        "--apply-theme"
+      ],
+      "expectedExit": 0,
+      "actualExit": 0,
+      "passed": true,
+      "output": "{\"exported\":1,\"manifest\":\".cache/full-redraw-pipeline-smoke/pipeline-dual-map-activation-v3/manifest.json\",\"proposedTheme\":\".cache/full-redraw-pipeline-smoke/pipeline-dual-map-activation-v3/theme.proposed.json\",\"proposedSources\":\".cache/full-redraw-pipeline-smoke/pipeline-dual-map-activation-v3/bitmap-redraw.proposed.json\",\"applied\":true,\"preservedOverrides\":6,\"preservedSourceOverrides\":0}"
+    },
+    {
+      "name": "dual-map-activation",
+      "flags": [
+        "--check",
+        "--expect-applied"
+      ],
+      "expectedExit": 0,
+      "actualExit": 0,
+      "passed": true,
+      "output": "{\"passed\":true,\"checked\":1,\"scope\":\"Hashes, logical canvas, alpha, imports, alias/source coverage, prior overrides and protected source identity; GPU review remains separate.\",\"applied\":true}"
+    },
+    {
+      "name": "sheet-cells-and-alpha-mask",
+      "flags": [],
+      "expectedExit": 0,
+      "actualExit": 0,
+      "passed": true,
+      "output": "{\"exported\":2,\"manifest\":\".cache/full-redraw-pipeline-smoke/pipeline-sheet-cells-v3/manifest.json\",\"proposedTheme\":\".cache/full-redraw-pipeline-smoke/pipeline-sheet-cells-v3/theme.proposed.json\",\"proposedSources\":\".cache/full-redraw-pipeline-smoke/pipeline-sheet-cells-v3/bitmap-redraw.proposed.json\",\"applied\":false,\"preservedOverrides\":5,\"preservedSourceOverrides\":0}"
+    },
+    {
+      "name": "sheet-cells-and-alpha-mask",
+      "flags": [
+        "--check"
+      ],
+      "expectedExit": 0,
+      "actualExit": 0,
+      "passed": true,
+      "output": "{\"passed\":true,\"checked\":2,\"scope\":\"Hashes, logical canvas, alpha, imports, alias/source coverage, prior overrides and protected source identity; GPU review remains separate.\",\"applied\":false}"
+    },
+    {
+      "name": "explicit-mask-clears-outside-registered-layer",
+      "passed": true
+    },
+    {
+      "name": "playable-theme-not-written",
+      "before": "6cd786998d582362ef69dbf30b82ad1fa78c88d40b2ae979233814c3f328e7b9",
+      "after": "6cd786998d582362ef69dbf30b82ad1fa78c88d40b2ae979233814c3f328e7b9",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

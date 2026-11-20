@@ -1,0 +1,103 @@
+{
+  "initialSource": {
+    "sha256": "bf3b5ffc76f8860167543204ad63a1985a53b0e2d45dfa5c3b5f1687e1175796",
+    "files": 935
+  },
+  "source": {
+    "sha256": "bf3b5ffc76f8860167543204ad63a1985a53b0e2d45dfa5c3b5f1687e1175796",
+    "files": 935
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "session_test",
+      "code": 0,
+      "elapsedMs": 490,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nPASS session/input: 17 checks\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "rule_integration",
+      "code": 1,
+      "elapsedMs": 1515,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":24,\"failures\":[\"Completing the root route clears persistent growth guidance\",\"core/variant/variant_utility.cpp:1023 Completing the root route clears persistent growth guidance \"],\"passed\":false,\"suite\":\"garden-session-controller\"}\r\n",
+      "stderr": "ERROR: Completing the root route clears persistent growth guidance\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_integration.gd:82)\r\n       [1] _hint_and_mode_tests (res://tests/rule_integration.gd:160)\r\n       [2] _run (res://tests/rule_integration.gd:233)\r\n",
+      "passed": false
+    },
+    {
+      "label": "rule_application",
+      "code": 1,
+      "elapsedMs": 1611,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"cases\":1,\"checks\":108,\"commands\":11,\"failures\":[\"authored/1-1/animated/10/act/repair/JS-oracle\",\"authored/1-1/animated/10/act/repair/exactly-one-save-per-change\",\"authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change\",\"authored/1-1/animated/10/act/repair/persisted-state\",\"authored/1-1/animated/10/act/repair/real-JSON-reload\",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/JS-oracle \",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/exactly-one-save-per-change \",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change \",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/persisted-state \",\"core/variant/variant_utility.cpp:1023 authored/1-1/animated/10/act/repair/real-JSON-reload \"],\"passed\":false,\"suite\":\"garden-application-replay\"}\r\n",
+      "stderr": "ERROR: authored/1-1/animated/10/act/repair/JS-oracle\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _same (res://tests/rule_application.gd:144)\r\n       [2] _replay (res://tests/rule_application.gd:201)\r\n       [3] _run (res://tests/rule_application.gd:350)\r\nERROR: authored/1-1/animated/10/act/repair/exactly-one-save-per-change\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _replay (res://tests/rule_application.gd:203)\r\n       [2] _run (res://tests/rule_application.gd:350)\r\nERROR: authored/1-1/animated/10/act/repair/exactly-one-rule-revision-per-change\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _replay (res://tests/rule_application.gd:204)\r\n       [2] _run (res://tests/rule_application.gd:350)\r\nERROR: authored/1-1/animated/10/act/repair/persisted-state\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _same (res://tests/rule_application.gd:144)\r\n       [2] _replay (res://tests/rule_application.gd:206)\r\n       [3] _run (res://tests/rule_application.gd:350)\r\nERROR: authored/1-1/animated/10/act/repair/real-JSON-reload\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _same (res://tests/rule_application.gd:144)\r\n       [2] _replay (res://tests/rule_application.gd:208)\r\n       [3] _run (res://tests/rule_application.gd:350)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_chapter_guidance_test",
+      "code": 1,
+      "elapsedMs": 2084,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":257,\"failures\":[\"1-4 fourth landmark retains original position and hit area\",\"1-4 normal feedback is configured below chapter heading\",\"1-4 hover feedback is configured below chapter heading\",\"1-4 pressed feedback is configured below chapter heading\",\"1-4 hover_pressed feedback is configured below chapter heading\",\"1-4 disabled feedback is configured below chapter heading\",\"1-4 keyboard focus obeys same painted inset\",\"1-4 focus exit restores selected golden border\",\"1-4 fourth landmark retains original position and hit area\",\"1-4 normal feedback is configured below chapter heading\",\"1-4 hover feedback is configured below chapter heading\",\"1-4 pressed feedback is configured below chapter heading\",\"1-4 hover_pressed feedback is configured below chapter heading\",\"1-4 disabled feedback is configured below chapter heading\",\"1-4 keyboard focus obeys same painted inset\",\"1-4 focus exit restores selected golden border\",\"2-4 fourth landmark retains original position and hit area\",\"2-4 normal feedback is configured below chapter heading\",\"2-4 hover feedback is configured below chapter heading\",\"2-4 pressed feedback is configured below chapter heading\",\"2-4 hover_pressed feedback is configured below chapter heading\",\"2-4 disabled feedback is configured below chapter heading\",\"2-4 keyboard focus obeys same painted inset\",\"2-4 focus exit restores selected golden border\",\"2-4 fourth landmark retains original position and hit area\",\"2-4 normal feedback is configured below chapter heading\",\"2-4 hover feedback is configured below chapter heading\",\"2-4 pressed feedback is configured below chapter heading\",\"2-4 hover_pressed feedback is configured below chapter heading\",\"2-4 disabled feedback is configured below chapter heading\",\"2-4 keyboard focus obeys same painted inset\",\"2-4 focus exit restores selected golden border\",\"3-4 fourth landmark retains original position and hit area\",\"3-4 normal feedback is configured below chapter heading\",\"3-4 hover feedback is configured below chapter heading\",\"3-4 pressed feedback is configured below chapter heading\",\"3-4 hover_pressed feedback is configured below chapter heading\",\"3-4 disabled feedback is configured below chapter heading\",\"3-4 keyboard focus obeys same painted inset\",\"3-4 focus exit restores selected golden border\",\"3-4 fourth landmark retains original position and hit area\",\"3-4 normal feedback is configured below chapter heading\",\"3-4 hover feedback is configured below chapter heading\",\"3-4 pressed feedback is configured below chapter heading\",\"3-4 hover_pressed feedback is configured below chapter heading\",\"3-4 disabled feedback is configured below chapter heading\",\"3-4 keyboard focus obeys same painted inset\",\"3-4 focus exit restores selected golden border\"],\"gpuVerified\":false,\"passed\":false,\"rows\":[{\"action\":\"让露薇走近外庭重杆并操作，再操控小苔灵过临时桥、穿低拱，到内庭的轻踏板。露薇移动会松手，先等伙伴站稳。\",\"first\":\"雨把小门铃吹到了内庭。先看看重杆与低拱，谁能帮谁打开一段路？\",\"phase\":\"hold_lever\"},{\"action\":\"保持露薇的位置，操控小苔灵沿桥穿低拱，走到内庭轻踏板。站稳后再让露薇从南门过去。\",\"first\":\"露薇把桥稳稳留住了。低拱另一头，有一块等待小脚步的石板。\",\"phase\":\"cross_arch\"},{\"action\":\"操控露薇沿南门进入内庭，走近门闩并操作。先让小苔灵继续等候；门闩固定后不必再保持重杆。\",\"first\":\"轻踏板已经有人守着。现在，该让归途不再依靠谁的力气。\",\"phase\":\"fix_latch\"},{\"action\":\"让露薇走到门铃所在的内庭石台，拾起门铃，再回鼹鼠家门操作。若曾放下门铃，就回到放下它的石台。\",\"first\":\"回家的路安定了，石台上还缺一声轻轻的叮铃。\",\"phase\":\"find_bell\"},{\"action\":\"让露薇带着门铃走近鼹鼠家门，操作归还门铃；花门打开后再和小苔灵一起进去。\",\"first\":\"叶包里传来轻轻的铃声，鼹鼠一定认得它。\",\"phase\":\"return_bell\"},{\"action\":\"让露薇穿过花门，走近喷泉前播种台。若伙伴未到，选择「叫上伙伴同行」；两位靠近后操作「一起种下微光」。\",\"first\":\"花门开了，喷泉把最后一段归途照得很亮。别忘了回头等一等伙伴。\",\"phase\":\"welcome\"},{\"action\":\"门铃响起，鼹鼠为两位小邻居留着门。\",\"first\":\"花开啦，连蝴蝶都来做客了。以后也常来坐坐呀。\",\"phase\":\"restored\"},{\"action\":\"让小苔灵在露薇可到达的固定石台放下门铃，再操控露薇拾起，带到鼹鼠家门操作。\",\"first\":\"小门铃已经找到了，让露薇把这声问候送到家门吧。\",\"phase\":\"handoff_bell\"}],\"suite\":\"native-chapter-guidance\"}\r\n",
+      "stderr": "",
+      "passed": false
+    },
+    {
+      "label": "native_fourth_bell_recovery_test",
+      "code": 0,
+      "elapsedMs": 16300,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":61,\"failures\":[],\"passed\":true,\"scope\":\"Headless native controller/HUD handlers, real physics motor and memory saves. No GPU pixels or browser pointer verification.\",\"suite\":\"native-fourth-bell-recovery\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_fourth_feedback_test",
+      "code": 0,
+      "elapsedMs": 61781,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\n{\"checks\":281,\"failures\":[],\"passed\":true,\"samples\":6446,\"suite\":\"fourth-feedback-119\"}\r\n",
+      "stderr": "WARNING: The path :res://.. is a reserved Windows system pipe, so it can't be used for creating directories.\r\n   at: make_dir (drivers/windows/dir_access_windows.cpp:230)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_fourth_feedback_test.gd:81)\r\n       [1] _walk_to (res://tests/native_route_test.gd:141)\r\n       [2] _drain (res://tests/native_route_test.gd:102)\r\n       [3] _tick (res://tests/native_route_test.gd:96)\r\nERROR: Could not create directory: 'res://..'.\r\n   at: make_dir_recursive (core/io/dir_access.cpp:179)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _run (res://tests/native_fourth_feedback_test.gd:81)\r\n       [1] _walk_to (res://tests/native_route_test.gd:141)\r\n       [2] _drain (res://tests/native_route_test.gd:102)\r\n       [3] _tick (res://tests/native_route_test.gd:96)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_heavy_lever_test",
+      "code": 0,
+      "elapsedMs": 24095,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNATIVE ROUTE {\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}\r\n{\"checks\":241,\"failures\":[],\"passed\":true,\"routes\":[{\"completed\":true,\"expectedSteps\":50,\"level\":\"1-4\",\"steps\":50,\"success\":true}],\"samples\":2150,\"scope\":\"same-tile physical release, occupancy rollback, explicit release, switch, undo, old permanent state and original 1-4 route\",\"suite\":\"native-heavy-lever\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_input_test",
+      "code": 0,
+      "elapsedMs": 2537,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nPASS native input routing: 9 checks\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_movement_test",
+      "code": 1,
+      "elapsedMs": 22804,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nNative floor samples: 2392, maximum contact error 0.11318\r\nFAIL native movement: 1 failures / 45 checks\r\n",
+      "stderr": "ERROR: cloud-2 uses shared physical motor on a legal edge\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_movement_test.gd:24)\r\n       [1] _run (res://tests/native_movement_test.gd:130)\r\n       [2] _frames (res://tests/native_movement_test.gd:51)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_session_test",
+      "code": 0,
+      "elapsedMs": 490,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\nPASS native session: 15 checks\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_ui_test",
+      "code": 0,
+      "elapsedMs": 2710,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":230,\"failures\":[],\"passed\":true,\"scope\":\"Actual HUD controls, layout and intents; not GPU/pointer/audio verification.\",\"suite\":\"native-ui\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

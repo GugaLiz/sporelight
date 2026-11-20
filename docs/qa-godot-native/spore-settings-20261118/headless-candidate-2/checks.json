@@ -1,0 +1,39 @@
+{
+  "initialSource": {
+    "sha256": "51176cac31eda2fe4dd76cd98277927dc0d8b43e4f23b88594f5b72ef8e2489b",
+    "files": 920
+  },
+  "source": {
+    "sha256": "51176cac31eda2fe4dd76cd98277927dc0d8b43e4f23b88594f5b72ef8e2489b",
+    "files": 920
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "service_modal_lifecycle_test",
+      "code": 1,
+      "elapsedMs": 3215,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":415,\"failures\":[\"completed-undo/actual-undo-tool-exists\",\"completed-undo/unfinished-legal-move-enables-undo-again\",\"core/variant/variant_utility.cpp:1023 completed-undo/actual-undo-tool-exists \",\"core/variant/variant_utility.cpp:1023 completed-undo/unfinished-legal-move-enables-undo-again \"],\"passed\":false,\"scope\":\"Real HUD/controller with in-memory saves and observable view/audio adapters; emitted pressed signals and headless layout are not real pointer, GPU or audible-playback verification.\",\"suite\":\"service-modal-lifecycle\"}\r\n",
+      "stderr": "ERROR: completed-undo/actual-undo-tool-exists\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _completed_undo_availability (res://tests/service_modal_lifecycle_test.gd:181)\r\n       [2] _run (res://tests/service_modal_lifecycle_test.gd:367)\r\nERROR: completed-undo/unfinished-legal-move-enables-undo-again\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/rule_application.gd:141)\r\n       [1] _completed_undo_availability (res://tests/service_modal_lifecycle_test.gd:192)\r\n       [2] _run (res://tests/service_modal_lifecycle_test.gd:367)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_bitmap_source_test",
+      "code": 0,
+      "elapsedMs": 2306,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":27,\"failures\":[],\"passed\":true,\"scope\":\"Headless shared bitmap resolver and actual UI texture bindings, not visual or pointer acceptance.\",\"suite\":\"bitmap-source-resolution\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_garden_effects_test",
+      "code": 0,
+      "elapsedMs": 7481,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":2156,\"failures\":[],\"gpuPixelsVerified\":false,\"passed\":true,\"suite\":\"native-garden-effects\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

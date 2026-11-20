@@ -1,0 +1,30 @@
+# 启动页透明PNG拆分素材（assets only）
+- 素材数量：24
+- 不含 source_original_full_canvas.png。
+- stable 表示边界较稳定；provisional 表示受原稿重叠/雾化/发光融合限制。
+- 未缩放、未重绘、未拉伸；原稿复位坐标见 manifest.csv。
+
+- `01_logo_title_text/logo_cn_weiguangtaiyuan.png` — stable — bbox=(556,259,566,133) — 中文主标题；从扁平稿按暗色笔画阈值提取，剔除了边缘藤蔓和星形碎片。
+- `01_logo_title_text/logo_en_sporelight.png` — stable — bbox=(705,415,273,49) — 英文副标题；过滤绿色装饰，仅保留棕色字母笔画。
+- `04_glow_decor/fx_title_star_top.png` — stable — bbox=(780,204,100,66) — 标题上方星形装饰。
+- `04_glow_decor/fx_title_vine_left_visible.png` — provisional — bbox=(502,317,191,128) — 标题左侧藤蔓可见部分；与中文笔画重叠处按可见边界保守切除。
+- `04_glow_decor/fx_title_vine_right_visible.png` — provisional — bbox=(988,317,190,128) — 标题右侧藤蔓可见部分；与中文笔画重叠处按可见边界保守切除。
+- `01_logo_title_text/logo_title_full_group.png` — stable — bbox=(501,203,678,264) — 标题组合组，保留各标题组件在原稿中的相对位置。
+- `02_ui_loading/ui_loading_bar_full_group.png` — stable — bbox=(505,529,705,56) — 进度条整体：左端光球、线条、粒子与右端花形节点。
+- `02_ui_loading/ui_loading_bar_base_line.png` — stable — bbox=(535,544,609,22) — 进度条基础线条；仍保留原稿线条上的小亮点。
+- `02_ui_loading/ui_loading_bar_left_orb.png` — stable — bbox=(505,538,47,42) — 进度条左端发光圆点。
+- `02_ui_loading/ui_loading_bar_right_flower.png` — stable — bbox=(1128,529,70,57) — 进度条右端花形节点。
+- `04_glow_decor/fx_progress_sparkles.png` — stable — bbox=(515,525,305,48) — 进度条上方和周围的独立粒子光点；长线条已尽量剔除。
+- `02_ui_loading/ui_loading_text_cn.png` — stable — bbox=(700,599,295,26) — 提示文字“正在唤醒沉睡的苔原……”
+- `02_ui_loading/ui_loading_text_decor_left.png` — stable — bbox=(638,597,51,23) — 提示文字两侧装饰符。
+- `02_ui_loading/ui_loading_text_decor_right.png` — stable — bbox=(986,606,52,14) — 提示文字两侧装饰符。
+- `02_ui_loading/ui_loading_full_group.png` — stable — bbox=(505,529,706,99) — 进度条与提示文字组合组，保留原稿相对位置。
+- `03_character/char_mushroom_center_backview.png` — stable — bbox=(776,659,122,199) — 中下方蘑菇主角背影；脚底与地面接触处按可见角色轮廓裁切，不含地面阴影。
+- `04_glow_decor/fx_glow_sprite_left_top.png` — provisional — bbox=(305,225,85,95) — 左上发光飞行生物；透明翅膀和外圈柔光受原稿背景融合影响，按可见轮廓保守处理。
+- `04_glow_decor/fx_glow_sprite_right_mid.png` — provisional — bbox=(1372,422,93,108) — 右侧发光飞行生物；透明翅膀和外圈柔光受原稿背景融合影响，按可见轮廓保守处理。
+- `05_scene_objects_temp/scene_ruin_left_waterfall_temp.png` — provisional — bbox=(0,232,178,442) — 左侧瀑布遗迹/前景平台；下方花草和雾气与结构粘连，未承诺完美分层。
+- `05_scene_objects_temp/scene_ruin_right_gate_temp.png` — provisional — bbox=(1507,368,159,370) — 右侧石门遗迹；边缘花草、前景光斑、背景孔洞与原稿融合，输出为保守暂定版。
+- `05_scene_objects_temp/scene_floating_ruin_top_right_temp.png` — provisional — bbox=(1231,23,263,270) — 右上大型浮空遗迹；原稿含强雾化和距离模糊，边界为暂定。
+- `05_scene_objects_temp/scene_floating_ruin_left_mid_temp.png` — provisional — bbox=(410,387,97,130) — 左中远景浮空遗迹；对象本身被雾气覆盖，边界为暂定。
+- `05_scene_objects_temp/scene_lamp_stone_base_bottom_left_temp.png` — provisional — bbox=(272,700,88,111) — 左下发光小灯与石台；光晕与背景融合，按可见灯体/石台保守处理。
+- `05_scene_objects_temp/scene_foreground_flower_grass_bottom_temp.png` — provisional — bbox=(0,682,1672,259) — 底部前景花草/石路组；原稿多处虚焦和雾气粘连，仅适合作为暂定组素材。

@@ -1,0 +1,566 @@
+{
+  "checks": 34,
+  "failures": [],
+  "observations": [
+    {
+      "bedsideHint": {
+        "h": 1.0,
+        "id": "f:-9:0",
+        "small": false,
+        "solid": false,
+        "x": -9.0,
+        "z": 0.0
+      },
+      "context": {
+        "choices": [
+          {
+            "disabled": false,
+            "id": "switch",
+            "label": "切换露薇来播种",
+            "reason": ""
+          }
+        ],
+        "id": "switch",
+        "label": "切换露薇来播种",
+        "tile": {
+          "h": 1.0,
+          "id": "f:-8:1",
+          "small": false,
+          "solid": false,
+          "x": -8.0,
+          "z": 1.0
+        }
+      },
+      "coreBase": [
+        {
+          "floor": 0.649999976158142,
+          "id": "mark:core",
+          "rect": "[P: (-9.166323, 0.903677), S: (1.532645, 1.532645)]",
+          "top": 1.70999995231628
+        }
+      ],
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -7.5896897315979,
+              0.650830566883087,
+              0.520330011844635
+            ],
+            "support": "f:-8:1",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "left",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -8.43257427215576,
+              0.650925993919373,
+              0.555290400981903
+            ],
+            "support": "f:-8:1",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "phase": "buddy-bedside",
+      "state": {
+        "active": "buddy",
+        "actors": {
+          "buddy": "f:-8:1",
+          "luvie": "f:-8:1"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch",
+          "home"
+        ],
+        "follow": true,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": ""
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.4103,
+                0.0008,
+                -0.4797
+              ],
+              "support": "f:-8:1"
+            },
+            "luvie": {
+              "facing": "left",
+              "offset": [
+                -0.4326,
+                0.0009,
+                -0.4447
+              ],
+              "support": "f:-8:1"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    },
+    {
+      "bedsideHint": {
+        "h": 1.0,
+        "id": "f:-9:0",
+        "small": false,
+        "solid": false,
+        "x": -9.0,
+        "z": 0.0
+      },
+      "context": {
+        "choices": [
+          {
+            "disabled": false,
+            "id": "follow",
+            "label": "叫上伙伴同行",
+            "reason": ""
+          },
+          {
+            "disabled": true,
+            "id": "repair",
+            "label": "一起种下微光 ✧",
+            "reason": "接上小苔灵，穿过鼹鼠旁已打开的花门，到小花园中央一起播种。"
+          }
+        ],
+        "id": "context",
+        "label": "选择附近操作",
+        "tile": {
+          "h": 1.0,
+          "id": "f:-9:0",
+          "small": false,
+          "solid": false,
+          "x": -9.0,
+          "z": 0.0
+        }
+      },
+      "coreBase": [
+        {
+          "floor": 0.649999976158142,
+          "id": "mark:core",
+          "rect": "[P: (-9.166323, 0.903677), S: (1.532645, 1.532645)]",
+          "top": 1.70999995231628
+        }
+      ],
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -7.5896897315979,
+              0.650830566883087,
+              0.520330011844635
+            ],
+            "support": "f:-8:1",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "back",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -8.93091773986816,
+              0.650933742523193,
+              -0.337678641080856
+            ],
+            "support": "f:-9:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "phase": "luvie-awaits-companion",
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:-8:1",
+          "luvie": "f:-9:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch",
+          "home"
+        ],
+        "follow": false,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": ""
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.4103,
+                0.0008,
+                -0.4797
+              ],
+              "support": "f:-8:1"
+            },
+            "luvie": {
+              "facing": "back",
+              "offset": [
+                0.0691,
+                0.0009,
+                -0.3377
+              ],
+              "support": "f:-9:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    },
+    {
+      "bedsideHint": {
+        "h": 1.0,
+        "id": "f:-9:0",
+        "small": false,
+        "solid": false,
+        "x": -9.0,
+        "z": 0.0
+      },
+      "context": {
+        "choices": [
+          {
+            "disabled": false,
+            "id": "repair",
+            "label": "一起种下微光 ✧",
+            "reason": ""
+          }
+        ],
+        "id": "repair",
+        "label": "一起种下微光 ✧",
+        "tile": {
+          "h": 1.0,
+          "id": "f:-9:0",
+          "small": false,
+          "solid": false,
+          "x": -9.0,
+          "z": 0.0
+        }
+      },
+      "coreBase": [
+        {
+          "floor": 0.649999976158142,
+          "id": "mark:core",
+          "rect": "[P: (-9.166323, 0.903677), S: (1.532645, 1.532645)]",
+          "top": 1.70999995231628
+        }
+      ],
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "left",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -8.52952098846436,
+              0.650889039039612,
+              0.305716842412949
+            ],
+            "support": "f:-9:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "back",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -8.93091773986816,
+              0.650933742523193,
+              -0.337678641080856
+            ],
+            "support": "f:-9:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "phase": "together-ready",
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:-9:0",
+          "luvie": "f:-9:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch",
+          "home"
+        ],
+        "follow": true,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": ""
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "left",
+              "offset": [
+                0.4705,
+                0.0009,
+                0.3057
+              ],
+              "support": "f:-9:0"
+            },
+            "luvie": {
+              "facing": "back",
+              "offset": [
+                0.0691,
+                0.0009,
+                -0.3377
+              ],
+              "support": "f:-9:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    },
+    {
+      "bedsideHint": {},
+      "context": {
+        "choices": [
+          {
+            "id": "ending",
+            "label": "前往下一片微光"
+          }
+        ],
+        "id": "ending",
+        "label": "前往下一片微光",
+        "tile": {
+          "h": 1.0,
+          "id": "f:-9:0",
+          "small": false,
+          "solid": false,
+          "x": -9.0,
+          "z": 0.0
+        }
+      },
+      "coreBase": [
+        {
+          "floor": 0.649999976158142,
+          "id": "mark:core",
+          "rect": "[P: (-9.166323, 0.903677), S: (1.532645, 1.532645)]",
+          "top": 1.70999995231628
+        }
+      ],
+      "native": {
+        "actors": {
+          "buddy": {
+            "facing": "left",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -8.52952098846436,
+              0.650889039039612,
+              0.305716842412949
+            ],
+            "support": "f:-9:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "back",
+            "floorHeight": 0.649999976158142,
+            "onFloor": true,
+            "position": [
+              -8.93091773986816,
+              0.650933742523193,
+              -0.337678641080856
+            ],
+            "support": "f:-9:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "phase": "completed",
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:-9:0",
+          "luvie": "f:-9:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": true,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch",
+          "home"
+        ],
+        "follow": true,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": ""
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "left",
+              "offset": [
+                0.4705,
+                0.0009,
+                0.3057
+              ],
+              "support": "f:-9:0"
+            },
+            "luvie": {
+              "facing": "back",
+              "offset": [
+                0.0691,
+                0.0009,
+                -0.3377
+              ],
+              "support": "f:-9:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    }
+  ],
+  "passed": true,
+  "scope": "Native controller/HUD, real E Input.parse_input_event, physics motor and in-memory progress. Optional GPU images are separate from browser pointer verification.",
+  "suite": "native-fourth-planting-context"
+}

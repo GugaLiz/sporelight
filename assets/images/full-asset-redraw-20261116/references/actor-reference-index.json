@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "date": "2026-11-16",
+  "method": "Alpha-preserving assembly of unchanged complete 256x256 source canvases; no text drawn into tiles.",
+  "scope": "Four animation reference sheets, not generated replacement art. Source aliases are the original source identity, regardless of a future bitmap theme.",
+  "sheets": [
+    {
+      "id": "frontwalk",
+      "file": "frontwalk.reference.png",
+      "sha256": "cb0d38a5a7e33cf0143ffc4edf863e0c05bd09a32f23039ce5af0e7aeb94609c",
+      "rgbaPixelsUnchanged": true,
+      "sourceClip": "walk_front",
+      "alsoUsedBy": [],
+      "columns": 4,
+      "rows": 2,
+      "cellSize": [
+        256,
+        256
+      ],
+      "sheetSize": [
+        1024,
+        512
+      ],
+      "cellOrder": "row-major, first appearances in the actual clip; no painted indices",
+      "emptyCells": [
+        7
+      ],
+      "fps": 14.545454545454545,
+      "loop": true,
+      "externalReuse": [],
+      "registration": {
+        "sourceDefaultFoot": [
+          128,
+          236
+        ],
+        "identityReference": "exec-db868f3e-8786-42ea-95d7-00eab19364c1.png (new front idle master; supplied by parent)",
+        "policy": "One common body/hat scale and canvas registration for the whole generated clip. Do not fit each frame by alpha bounds or equalize total height. Preserve native per-clip timing and poses."
+      },
+      "cellCount": 7,
+      "timelineLength": 8
+    },
+    {
+      "id": "backwalk",
+      "file": "backwalk.reference.png",
+      "sha256": "6bb6f470729598f43ec900d2bae4018ff395085854b3b203e564c18aed5795ad",
+      "rgbaPixelsUnchanged": true,
+      "sourceClip": "walk_back",
+      "alsoUsedBy": [],
+      "columns": 3,
+      "rows": 2,
+      "cellSize": [
+        256,
+        256
+      ],
+      "sheetSize": [
+        768,
+        512
+      ],
+      "cellOrder": "row-major, first appearances in the actual clip; no painted indices",
+      "emptyCells": [],
+      "fps": 21.818181818181817,
+      "loop": true,
+      "externalReuse": [
+        {
+          "alias": "idle-back",
+          "source": "godot/assets/images/character-refined/idle-back.png",
+          "sourceSha256": "bffd13d8439e3da7371c5bceb41c080b32bf2ac0d4f6f478c5cc9a30bcdfdbb9",
+          "oldShaGroup": [
+            "idle-back",
+            "walk-back-1",
+            "walk-back-7"
+          ]
+        }
+      ],
+      "registration": {
+        "sourceDefaultFoot": [
+          128,
+          236
+        ],
+        "identityReference": "exec-db868f3e-8786-42ea-95d7-00eab19364c1.png (new front idle master; supplied by parent)",
+        "policy": "One common body/hat scale and canvas registration for the whole generated clip. Do not fit each frame by alpha bounds or equalize total height. Preserve native per-clip timing and poses."
+      },
+      "cellCount": 6,
+      "timelineLength": 12
+    },
+    {
+      "id": "sidewalk",
+      "file": "sidewalk.reference.png",
+      "sha256": "a6dd87fb6093ae1749d5736fe44fd3a51f0226532f7fb4f735534951ff5d37f2",
+      "rgbaPixelsUnchanged": true,
+      "sourceClip": "walk_left",
+      "alsoUsedBy": [
+        "walk_right"
+      ],
+      "columns": 4,
+      "rows": 2,
+      "cellSize": [
+        256,
+        256
+      ],
+      "sheetSize": [
+        1024,
+        512
+      ],
+      "cellOrder": "row-major, first appearances in the actual clip; no painted indices",
+      "emptyCells": [
+        7
+      ],
+      "fps": 21.818181818181817,
+      "loop": true,
+      "externalReuse": [],
+      "registration": {
+        "sourceDefaultFoot": [
+          128,
+          236
+        ],
+        "identityReference": "exec-db868f3e-8786-42ea-95d7-00eab19364c1.png (new front idle master; supplied by parent)",
+        "policy": "One common body/hat scale and canvas registration for the whole generated clip. Do not fit each frame by alpha bounds or equalize total height. Preserve native per-clip timing and poses."
+      },
+      "cellCount": 7,
+      "timelineLength": 12
+    },
+    {
+      "id": "jump",
+      "file": "jump.reference.png",
+      "sha256": "03e5a5eb8a63d864ff52fda8741fcfcef5800a51552206802db67f1d9ca5c972",
+      "rgbaPixelsUnchanged": true,
+      "sourceClip": "jump",
+      "alsoUsedBy": [],
+      "columns": 3,
+      "rows": 2,
+      "cellSize": [
+        256,
+        256
+      ],
+      "sheetSize": [
+        768,
+        512
+      ],
+      "cellOrder": "row-major, first appearances in the actual clip; no painted indices",
+      "emptyCells": [
+        5
+      ],
+      "fps": 24,
+      "loop": false,
+      "externalReuse": [],
+      "registration": {
+        "sourceDefaultFoot": [
+          128,
+          236
+        ],
+        "identityReference": "exec-db868f3e-8786-42ea-95d7-00eab19364c1.png (new front idle master; supplied by parent)",
+        "policy": "One common body/hat scale and canvas registration for the whole generated clip. Do not fit each frame by alpha bounds or equalize total height. Preserve native per-clip timing and poses."
+      },
+      "cellCount": 5,
+      "timelineLength": 12
+    }
+  ]
+}

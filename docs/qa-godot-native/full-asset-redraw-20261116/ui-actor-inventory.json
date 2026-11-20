@@ -1,0 +1,4811 @@
+{
+  "date": "2026-11-16",
+  "scope": "Godot current native actor skins, UI/cover/maps/gallery and Web loading shell. Static path/clip audit plus alpha statistics, not a GPU runtime-visibility proof. Scene props shared with UI must be deduplicated by path against scene inventory.",
+  "method": "Actual UI source consumers + actor-elements clip arrays; explicit expansion of dynamic cover and map keys. Imported but unreferenced legacy assets are not automatically included.",
+  "summary": {
+    "paths": 113,
+    "uniqueBytes": 91,
+    "oldCutoutPaths": 86,
+    "redrawMasterPaths": 82,
+    "redrawMasterUniqueBytes": 61,
+    "rebindExistingRedrawPaths": 3,
+    "derivativePaths": 1,
+    "actorFilePaths": 54,
+    "actorUniqueBytes": 33
+  },
+  "clips": [
+    {
+      "skin": "luvie.original",
+      "clip": "idle_front",
+      "frames": [
+        "idle-front"
+      ],
+      "fps": 1,
+      "loop": true
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "walk_front",
+      "frames": [
+        "walk-1",
+        "walk-7",
+        "walk-8",
+        "walk-9",
+        "walk-10",
+        "walk-11",
+        "walk-12",
+        "walk-8"
+      ],
+      "fps": 14.545454545454545,
+      "loop": true
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "idle_back",
+      "frames": [
+        "idle-back"
+      ],
+      "fps": 1,
+      "loop": true
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "walk_back",
+      "frames": [
+        "walk-back-1",
+        "walk-back-2",
+        "walk-back-3",
+        "walk-back-4",
+        "walk-back-5",
+        "walk-back-6",
+        "walk-back-7",
+        "walk-back-8",
+        "walk-back-9",
+        "walk-back-10",
+        "walk-back-11",
+        "walk-back-12"
+      ],
+      "fps": 21.818181818181817,
+      "loop": true
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "idle_left",
+      "frames": [
+        "idle-side"
+      ],
+      "fps": 1,
+      "loop": true
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "walk_left",
+      "frames": [
+        "walk-side-1",
+        "walk-side-2",
+        "walk-side-3",
+        "walk-side-4",
+        "walk-side-5",
+        "walk-side-6",
+        "walk-side-7",
+        "walk-side-8",
+        "walk-side-9",
+        "walk-side-10",
+        "walk-side-11",
+        "walk-side-12"
+      ],
+      "fps": 21.818181818181817,
+      "loop": true
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "idle_right",
+      "frames": [
+        "idle-side"
+      ],
+      "fps": 1,
+      "loop": true
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "walk_right",
+      "frames": [
+        "walk-side-1",
+        "walk-side-2",
+        "walk-side-3",
+        "walk-side-4",
+        "walk-side-5",
+        "walk-side-6",
+        "walk-side-7",
+        "walk-side-8",
+        "walk-side-9",
+        "walk-side-10",
+        "walk-side-11",
+        "walk-side-12"
+      ],
+      "fps": 21.818181818181817,
+      "loop": true
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "interact",
+      "frames": [
+        "interact"
+      ],
+      "fps": 1,
+      "loop": false
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "hold_lever",
+      "frames": [
+        "idle-side"
+      ],
+      "fps": 1,
+      "loop": false
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "sow",
+      "frames": [
+        "sow-1",
+        "sow-2",
+        "sow-3",
+        "sow-4",
+        "sow-5"
+      ],
+      "fps": 9,
+      "loop": false
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "complete",
+      "frames": [
+        "salute"
+      ],
+      "fps": 1,
+      "loop": false
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "jump",
+      "frames": [
+        "jump-1",
+        "jump-2",
+        "jump-3",
+        "jump-4",
+        "jump-5",
+        "jump-6",
+        "jump-7",
+        "jump-8",
+        "jump-9",
+        "jump-10",
+        "jump-11",
+        "jump-12"
+      ],
+      "fps": 24,
+      "loop": false
+    },
+    {
+      "skin": "luvie.original",
+      "clip": "roll",
+      "frames": [
+        "ball"
+      ],
+      "fps": 1,
+      "loop": false
+    },
+    {
+      "skin": "buddy.original",
+      "clip": "idle_front",
+      "frames": [
+        "@procedural_buddy"
+      ],
+      "fps": 5,
+      "loop": true
+    },
+    {
+      "skin": "buddy.original",
+      "clip": "roll",
+      "frames": [
+        "ball"
+      ],
+      "fps": 1,
+      "loop": false
+    }
+  ],
+  "groups": {
+    "legacy-character-cutout-or-derived-frame": [
+      "godot/assets/images/character-refined/idle-back.png",
+      "godot/assets/images/character-refined/idle-front.png",
+      "godot/assets/images/character-refined/idle-side.png",
+      "godot/assets/images/character-refined/interact.png",
+      "godot/assets/images/character-refined/jump-1.png",
+      "godot/assets/images/character-refined/jump-10.png",
+      "godot/assets/images/character-refined/jump-11.png",
+      "godot/assets/images/character-refined/jump-12.png",
+      "godot/assets/images/character-refined/jump-2.png",
+      "godot/assets/images/character-refined/jump-3.png",
+      "godot/assets/images/character-refined/jump-4.png",
+      "godot/assets/images/character-refined/jump-5.png",
+      "godot/assets/images/character-refined/jump-6.png",
+      "godot/assets/images/character-refined/jump-7.png",
+      "godot/assets/images/character-refined/jump-8.png",
+      "godot/assets/images/character-refined/jump-9.png",
+      "godot/assets/images/character-refined/salute.png",
+      "godot/assets/images/character-refined/sow-1.png",
+      "godot/assets/images/character-refined/sow-2.png",
+      "godot/assets/images/character-refined/sow-3.png",
+      "godot/assets/images/character-refined/sow-4.png",
+      "godot/assets/images/character-refined/sow-5.png",
+      "godot/assets/images/character-refined/walk-1.png",
+      "godot/assets/images/character-refined/walk-10.png",
+      "godot/assets/images/character-refined/walk-11.png",
+      "godot/assets/images/character-refined/walk-12.png",
+      "godot/assets/images/character-refined/walk-7.png",
+      "godot/assets/images/character-refined/walk-8.png",
+      "godot/assets/images/character-refined/walk-9.png",
+      "godot/assets/images/character-refined/walk-back-1.png",
+      "godot/assets/images/character-refined/walk-back-10.png",
+      "godot/assets/images/character-refined/walk-back-11.png",
+      "godot/assets/images/character-refined/walk-back-12.png",
+      "godot/assets/images/character-refined/walk-back-2.png",
+      "godot/assets/images/character-refined/walk-back-3.png",
+      "godot/assets/images/character-refined/walk-back-4.png",
+      "godot/assets/images/character-refined/walk-back-5.png",
+      "godot/assets/images/character-refined/walk-back-6.png",
+      "godot/assets/images/character-refined/walk-back-7.png",
+      "godot/assets/images/character-refined/walk-back-8.png",
+      "godot/assets/images/character-refined/walk-back-9.png"
+    ],
+    "legacy-gallery-cutout": [
+      "godot/assets/images/gallery-journal/mushroom.png",
+      "godot/assets/images/gallery-journal/vine.png"
+    ],
+    "opaque-texture-sample": [
+      "godot/assets/images/gallery-journal/paper-texture.jpg"
+    ],
+    "shared-scene-prop-review-in-scene-inventory": [
+      "godot/assets/images/garden-scenery/dew-plant.png",
+      "godot/assets/images/garden-scenery/flower-gate-frame.png",
+      "godot/assets/images/garden-scenery/gold-lotus.png",
+      "godot/assets/images/garden-scenery/light-tower.png",
+      "godot/assets/images/garden-scenery/lotus-pool.png",
+      "godot/assets/images/garden-scenery/river-rock.png",
+      "godot/assets/images/garden-scenery/stone-lantern.png",
+      "godot/assets/images/garden-scenery/trailing-vine.png",
+      "godot/assets/images/garden-scenery/wood-lantern.png",
+      "godot/assets/images/grid-world/lilypad.png"
+    ],
+    "legacy-checker-cutout": [
+      "godot/assets/images/journey-gardens/buddy-ball.png"
+    ],
+    "opaque-complete-illustration": [
+      "godot/assets/images/main/bg.png",
+      "godot/assets/images/reference-scenes/chapter-cave.jpg",
+      "godot/assets/images/reference-scenes/chapter-pond.jpg",
+      "godot/assets/images/reference-scenes/chapter-valley.jpg",
+      "godot/assets/images/reference-scenes/map-cave.jpg",
+      "godot/assets/images/reference-scenes/map-pond.jpg",
+      "godot/assets/images/reference-scenes/map-valley.jpg"
+    ],
+    "legacy-ui-cutout": [
+      "godot/assets/images/material-ready/button-green.png",
+      "godot/assets/images/material-ready/icon-leaf.png",
+      "godot/assets/images/material-ready/icon-spore.png",
+      "godot/assets/images/material-ready/menu-logo.png",
+      "godot/assets/images/material-ready/menu-paper.png",
+      "godot/assets/images/material-ready/panel-paper.png"
+    ],
+    "already-redrawn-rgba": [
+      "godot/assets/images/menu-fx-redrawn/firefly.png",
+      "godot/assets/images/menu-fx-redrawn/orb.png",
+      "godot/assets/images/menu-walk-redrawn/crouch-happy.png",
+      "godot/assets/images/menu-walk-redrawn/crouch-lower.png",
+      "godot/assets/images/menu-walk-redrawn/crouch.png",
+      "godot/assets/images/menu-walk-redrawn/idle-front.png",
+      "godot/assets/images/menu-walk-redrawn/idle-side.png",
+      "godot/assets/images/menu-walk-redrawn/step-1.png",
+      "godot/assets/images/menu-walk-redrawn/step-2.png",
+      "godot/assets/images/menu-walk-redrawn/step-3.png",
+      "godot/assets/images/menu-walk-redrawn/step-4.png",
+      "godot/assets/images/menu-walk-redrawn/step-5.png",
+      "godot/assets/images/menu-walk-redrawn/step-6.png",
+      "godot/assets/images/menu-walk-redrawn/step-7.png",
+      "godot/assets/images/menu-walk-redrawn/step-8.png",
+      "godot/assets/images/menu-walk-redrawn/turn-quarter.png"
+    ],
+    "legacy-cutout-articulated-frame": [
+      "godot/assets/images/menu-walk/step-1.png",
+      "godot/assets/images/menu-walk/step-10.png",
+      "godot/assets/images/menu-walk/step-11.png",
+      "godot/assets/images/menu-walk/step-12.png",
+      "godot/assets/images/menu-walk/step-2.png",
+      "godot/assets/images/menu-walk/step-3.png",
+      "godot/assets/images/menu-walk/step-4.png",
+      "godot/assets/images/menu-walk/step-5.png",
+      "godot/assets/images/menu-walk/step-6.png",
+      "godot/assets/images/menu-walk/step-7.png",
+      "godot/assets/images/menu-walk/step-8.png",
+      "godot/assets/images/menu-walk/step-9.png"
+    ],
+    "legacy-sheet-cutout": [
+      "godot/assets/images/production/arch.png",
+      "godot/assets/images/production/bloom.png",
+      "godot/assets/images/production/bug.png",
+      "godot/assets/images/production/light.png",
+      "godot/assets/images/production/lily-open.png",
+      "godot/assets/images/production/moss.png",
+      "godot/assets/images/production/vine.png"
+    ],
+    "legacy-map-cutout-composite": [
+      "godot/assets/images/reference-scenes/plant-bloom.png",
+      "godot/assets/images/reference-scenes/plant-bud.png",
+      "godot/assets/images/reference-scenes/plant-cave-bloom.png",
+      "godot/assets/images/reference-scenes/plant-dormant.png",
+      "godot/assets/images/reference-scenes/plant-pond-bloom.png",
+      "godot/assets/images/reference-scenes/terrain-steps.png"
+    ],
+    "opaque-loader-derivative": [
+      "godot/web/loader/bg.webp"
+    ],
+    "already-redrawn-loader-derivative": [
+      "godot/web/loader/hero.png",
+      "godot/web/loader/orb.png"
+    ],
+    "legacy-ui-cutout-derivative": [
+      "godot/web/loader/logo.png"
+    ]
+  },
+  "entries": [
+    {
+      "path": "godot/assets/images/character-refined/idle-back.png",
+      "aliases": [
+        "idle-back"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/idle_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "bffd13d8439e3da7371c5bceb41c080b32bf2ac0d4f6f478c5cc9a30bcdfdbb9",
+      "alpha": {
+        "transparent": 49534,
+        "opaque": 13725,
+        "partial": 2277,
+        "partialOfVisible": 0.1422947131608549,
+        "bounds8": [
+          72,
+          20,
+          112,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/idle-front.png",
+      "aliases": [
+        "idle-front"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/idle_front",
+        "godot/ui/chapter_map.gd"
+      ],
+      "categories": [
+        "actor",
+        "ui"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "2ab248a9161362cc18260381f82ec6e19c0d70a44d10290b9a616366d616dd77",
+      "alpha": {
+        "transparent": 49164,
+        "opaque": 13875,
+        "partial": 2497,
+        "partialOfVisible": 0.15251649157097483,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/idle-side.png",
+      "aliases": [
+        "idle-side"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/idle_left",
+        "actor-elements.json:luvie.original/idle_right",
+        "actor-elements.json:luvie.original/hold_lever"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "437426cb039577c72d208383e033078dcd5aeeaf9c958c6d8569452969067a76",
+      "alpha": {
+        "transparent": 51260,
+        "opaque": 11968,
+        "partial": 2308,
+        "partialOfVisible": 0.1616699355561782,
+        "bounds8": [
+          77,
+          20,
+          101,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/interact.png",
+      "aliases": [
+        "interact"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/interact"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "02711af9ede817080678a8e904aee749a814db5cfb2f0ce6f1d0622a49d7d919",
+      "alpha": {
+        "transparent": 43406,
+        "opaque": 19342,
+        "partial": 2788,
+        "partialOfVisible": 0.12598282873926797,
+        "bounds8": [
+          47,
+          20,
+          161,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-1.png",
+      "aliases": [
+        "jump-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "alpha": {
+        "transparent": 49164,
+        "opaque": 13831,
+        "partial": 2541,
+        "partialOfVisible": 0.15520400684094796,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-10.png",
+      "aliases": [
+        "jump-10"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "2acc1e05dedaf1ff056628857a8d62b704b8c30fd253e22befd54c44b1cbc6da",
+      "alpha": {
+        "transparent": 46512,
+        "opaque": 16046,
+        "partial": 2978,
+        "partialOfVisible": 0.15653910849453323,
+        "bounds8": [
+          49,
+          20,
+          158,
+          218
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-11.png",
+      "aliases": [
+        "jump-11"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "alpha": {
+        "transparent": 49164,
+        "opaque": 13831,
+        "partial": 2541,
+        "partialOfVisible": 0.15520400684094796,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-12.png",
+      "aliases": [
+        "jump-12"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "alpha": {
+        "transparent": 49164,
+        "opaque": 13831,
+        "partial": 2541,
+        "partialOfVisible": 0.15520400684094796,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-2.png",
+      "aliases": [
+        "jump-2"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "56c6c1fe91b518d1a618dbf471a806c60efcc933bc388dc1108c25ef8c944564",
+      "alpha": {
+        "transparent": 49164,
+        "opaque": 13831,
+        "partial": 2541,
+        "partialOfVisible": 0.15520400684094796,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-3.png",
+      "aliases": [
+        "jump-3"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "2acc1e05dedaf1ff056628857a8d62b704b8c30fd253e22befd54c44b1cbc6da",
+      "alpha": {
+        "transparent": 46512,
+        "opaque": 16046,
+        "partial": 2978,
+        "partialOfVisible": 0.15653910849453323,
+        "bounds8": [
+          49,
+          20,
+          158,
+          218
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-4.png",
+      "aliases": [
+        "jump-4"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "3e6ac720bd144f6121d4dbb7bd4efd0c458a985a0218ae8cd56f308b9c61bd2e",
+      "alpha": {
+        "transparent": 46475,
+        "opaque": 16067,
+        "partial": 2994,
+        "partialOfVisible": 0.157074655054824,
+        "bounds8": [
+          49,
+          20,
+          158,
+          218
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-5.png",
+      "aliases": [
+        "jump-5"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "a570dc6704a59d2ab38bf760c9f443b29a3d85e4f3de4898b36edf46974be785",
+      "alpha": {
+        "transparent": 46431,
+        "opaque": 16108,
+        "partial": 2997,
+        "partialOfVisible": 0.15686992933786967,
+        "bounds8": [
+          49,
+          20,
+          158,
+          219
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-6.png",
+      "aliases": [
+        "jump-6"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "21d2d2e1eeb8562cf8489b15694bd4cbc7999e19607e06146deb52880ca4f0ea",
+      "alpha": {
+        "transparent": 46416,
+        "opaque": 16112,
+        "partial": 3008,
+        "partialOfVisible": 0.15732217573221757,
+        "bounds8": [
+          49,
+          20,
+          158,
+          219
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-7.png",
+      "aliases": [
+        "jump-7"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "21d2d2e1eeb8562cf8489b15694bd4cbc7999e19607e06146deb52880ca4f0ea",
+      "alpha": {
+        "transparent": 46416,
+        "opaque": 16112,
+        "partial": 3008,
+        "partialOfVisible": 0.15732217573221757,
+        "bounds8": [
+          49,
+          20,
+          158,
+          219
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-8.png",
+      "aliases": [
+        "jump-8"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "a570dc6704a59d2ab38bf760c9f443b29a3d85e4f3de4898b36edf46974be785",
+      "alpha": {
+        "transparent": 46431,
+        "opaque": 16108,
+        "partial": 2997,
+        "partialOfVisible": 0.15686992933786967,
+        "bounds8": [
+          49,
+          20,
+          158,
+          219
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/jump-9.png",
+      "aliases": [
+        "jump-9"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/jump"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "3e6ac720bd144f6121d4dbb7bd4efd0c458a985a0218ae8cd56f308b9c61bd2e",
+      "alpha": {
+        "transparent": 46475,
+        "opaque": 16067,
+        "partial": 2994,
+        "partialOfVisible": 0.157074655054824,
+        "bounds8": [
+          49,
+          20,
+          158,
+          218
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/salute.png",
+      "aliases": [
+        "salute"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/complete"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "e03b15b9f5bd3fa94b97adec8d862d0ac0c5c059e7a07c9fa60013014067c8a6",
+      "alpha": {
+        "transparent": 47736,
+        "opaque": 15479,
+        "partial": 2321,
+        "partialOfVisible": 0.13039325842696628,
+        "bounds8": [
+          61,
+          20,
+          134,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/sow-1.png",
+      "aliases": [
+        "sow-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "alpha": {
+        "transparent": 42027,
+        "opaque": 19444,
+        "partial": 4065,
+        "partialOfVisible": 0.17291250159513377,
+        "bounds8": [
+          24,
+          20,
+          208,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/sow-2.png",
+      "aliases": [
+        "sow-2"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "alpha": {
+        "transparent": 42027,
+        "opaque": 19444,
+        "partial": 4065,
+        "partialOfVisible": 0.17291250159513377,
+        "bounds8": [
+          24,
+          20,
+          208,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/sow-3.png",
+      "aliases": [
+        "sow-3"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "alpha": {
+        "transparent": 42027,
+        "opaque": 19444,
+        "partial": 4065,
+        "partialOfVisible": 0.17291250159513377,
+        "bounds8": [
+          24,
+          20,
+          208,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/sow-4.png",
+      "aliases": [
+        "sow-4"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "325f1effb69fb93a7c462c5a00e369021e89578b1ed5a2fa4f6bcda920f45958",
+      "alpha": {
+        "transparent": 42027,
+        "opaque": 19444,
+        "partial": 4065,
+        "partialOfVisible": 0.17291250159513377,
+        "bounds8": [
+          24,
+          20,
+          208,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/sow-5.png",
+      "aliases": [
+        "sow-5"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/sow"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "ec27c4fbac5a611b1353f72bc009064e7fc5fbe0f0b8300c30690bb80faa3a6f",
+      "alpha": {
+        "transparent": 47676,
+        "opaque": 15485,
+        "partial": 2375,
+        "partialOfVisible": 0.13297872340425532,
+        "bounds8": [
+          57,
+          20,
+          142,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-1.png",
+      "aliases": [
+        "walk-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "87099cbcc1866f8df3f55f363a89e755f4a5ceb64926ab2f5d7e82e4d5fbfafa",
+      "alpha": {
+        "transparent": 49802,
+        "opaque": 13586,
+        "partial": 2148,
+        "partialOfVisible": 0.13651963899834751,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-10.png",
+      "aliases": [
+        "walk-10"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "f5de509597dbcde8c22b7a72445ab034bf2a12ea80bb224857200838dc2a8f61",
+      "alpha": {
+        "transparent": 49503,
+        "opaque": 13051,
+        "partial": 2982,
+        "partialOfVisible": 0.18599139275244808,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-11.png",
+      "aliases": [
+        "walk-11"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "19513929ece1869203da61423106b3b0849b2bbb9bf494369e660bfb0ba37a8f",
+      "alpha": {
+        "transparent": 49828,
+        "opaque": 13493,
+        "partial": 2215,
+        "partialOfVisible": 0.14101094983447926,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-12.png",
+      "aliases": [
+        "walk-12"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "6c6f53c70833389482dd90ae419a9988e0fbbbb943b33f03a08625bfc52f4736",
+      "alpha": {
+        "transparent": 49420,
+        "opaque": 12952,
+        "partial": 3164,
+        "partialOfVisible": 0.19632663191859023,
+        "bounds8": [
+          70,
+          20,
+          116,
+          220
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-7.png",
+      "aliases": [
+        "walk-7"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "98d05caf7da0cace5f4bddaa7b93b435721ae6032a5196f286fed8e427777a4b",
+      "alpha": {
+        "transparent": 49821,
+        "opaque": 13432,
+        "partial": 2283,
+        "partialOfVisible": 0.14527521476296532,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-8.png",
+      "aliases": [
+        "walk-8"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "f4879b65ea83248ea6e6655736fe2c8dfc324293824e307a8a29a30f21271726",
+      "alpha": {
+        "transparent": 49482,
+        "opaque": 13008,
+        "partial": 3046,
+        "partialOfVisible": 0.1897346455711972,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-9.png",
+      "aliases": [
+        "walk-9"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_front"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "4db030336dee2b9d4447af33fd97c54f6b1d5af737eaca6156f466defef9f24a",
+      "alpha": {
+        "transparent": 49629,
+        "opaque": 13596,
+        "partial": 2311,
+        "partialOfVisible": 0.1452819513421764,
+        "bounds8": [
+          70,
+          20,
+          116,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-1.png",
+      "aliases": [
+        "walk-back-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "bffd13d8439e3da7371c5bceb41c080b32bf2ac0d4f6f478c5cc9a30bcdfdbb9",
+      "alpha": {
+        "transparent": 49534,
+        "opaque": 13725,
+        "partial": 2277,
+        "partialOfVisible": 0.1422947131608549,
+        "bounds8": [
+          72,
+          20,
+          112,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-10.png",
+      "aliases": [
+        "walk-back-10"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "658b91a11266f5cd2583e215c9165e731ce8e04dd7d6a324fc8c24d6d6c76fee",
+      "alpha": {
+        "transparent": 49791,
+        "opaque": 13522,
+        "partial": 2223,
+        "partialOfVisible": 0.14118767862813592,
+        "bounds8": [
+          77,
+          16,
+          113,
+          221
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-11.png",
+      "aliases": [
+        "walk-back-11"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "a41aac57fcbfbdcbb0ca7a0a9645c4c65c25044e5ece0047b99619227ed24f24",
+      "alpha": {
+        "transparent": 49796,
+        "opaque": 13516,
+        "partial": 2224,
+        "partialOfVisible": 0.14129606099110548,
+        "bounds8": [
+          76,
+          17,
+          113,
+          220
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-12.png",
+      "aliases": [
+        "walk-back-12"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "452f009799d0c263b8d0a98861256c03db27f95cb25abd8e4e8297f6ecc46855",
+      "alpha": {
+        "transparent": 49723,
+        "opaque": 13605,
+        "partial": 2208,
+        "partialOfVisible": 0.13963194839688864,
+        "bounds8": [
+          74,
+          18,
+          113,
+          219
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-2.png",
+      "aliases": [
+        "walk-back-2"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "f4acc24312d0bd06c1bb14d04888a713cdf25a0ba77bc83be726d1da5bd00b29",
+      "alpha": {
+        "transparent": 50120,
+        "opaque": 13504,
+        "partial": 1912,
+        "partialOfVisible": 0.12402698495070057,
+        "bounds8": [
+          69,
+          18,
+          113,
+          218
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-3.png",
+      "aliases": [
+        "walk-back-3"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "502bf2a7d84f91123e791ef2739078c41e7c6e9194bfe372ee7d784414ab3fce",
+      "alpha": {
+        "transparent": 50366,
+        "opaque": 13282,
+        "partial": 1888,
+        "partialOfVisible": 0.12445616348055373,
+        "bounds8": [
+          67,
+          18,
+          113,
+          217
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-4.png",
+      "aliases": [
+        "walk-back-4"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "0cf5ec9aef1bd9b0ad616f325f69b49d367927356b027b81d9bd5318c979eb08",
+      "alpha": {
+        "transparent": 50400,
+        "opaque": 13212,
+        "partial": 1924,
+        "partialOfVisible": 0.12711416490486258,
+        "bounds8": [
+          66,
+          17,
+          113,
+          218
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-5.png",
+      "aliases": [
+        "walk-back-5"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "502bf2a7d84f91123e791ef2739078c41e7c6e9194bfe372ee7d784414ab3fce",
+      "alpha": {
+        "transparent": 50366,
+        "opaque": 13282,
+        "partial": 1888,
+        "partialOfVisible": 0.12445616348055373,
+        "bounds8": [
+          67,
+          18,
+          113,
+          217
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-6.png",
+      "aliases": [
+        "walk-back-6"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "f4acc24312d0bd06c1bb14d04888a713cdf25a0ba77bc83be726d1da5bd00b29",
+      "alpha": {
+        "transparent": 50120,
+        "opaque": 13504,
+        "partial": 1912,
+        "partialOfVisible": 0.12402698495070057,
+        "bounds8": [
+          69,
+          18,
+          113,
+          218
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-7.png",
+      "aliases": [
+        "walk-back-7"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "bffd13d8439e3da7371c5bceb41c080b32bf2ac0d4f6f478c5cc9a30bcdfdbb9",
+      "alpha": {
+        "transparent": 49534,
+        "opaque": 13725,
+        "partial": 2277,
+        "partialOfVisible": 0.1422947131608549,
+        "bounds8": [
+          72,
+          20,
+          112,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-8.png",
+      "aliases": [
+        "walk-back-8"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "452f009799d0c263b8d0a98861256c03db27f95cb25abd8e4e8297f6ecc46855",
+      "alpha": {
+        "transparent": 49723,
+        "opaque": 13605,
+        "partial": 2208,
+        "partialOfVisible": 0.13963194839688864,
+        "bounds8": [
+          74,
+          18,
+          113,
+          219
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/character-refined/walk-back-9.png",
+      "aliases": [
+        "walk-back-9"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_back"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-character-cutout-or-derived-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "assets/images/character-refined/manifest.json",
+        "scripts/prepare_material_assets.py",
+        "scripts/character_matte.py"
+      ],
+      "reason": "Manifest explicitly records crop/background extraction and compositing rather than AI redrawing; a smooth matte alone does not change this provenance.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "a41aac57fcbfbdcbb0ca7a0a9645c4c65c25044e5ece0047b99619227ed24f24",
+      "alpha": {
+        "transparent": 49796,
+        "opaque": 13516,
+        "partial": 2224,
+        "partialOfVisible": 0.14129606099110548,
+        "bounds8": [
+          76,
+          17,
+          113,
+          220
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/gallery-journal/mushroom.png",
+      "aliases": [
+        "gallery-mushroom"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-gallery-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_gallery_assets.py"
+      ],
+      "reason": "Foreground illustration extracted from gallery reference page and edge-connected parchment removed.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        142,
+        138
+      ],
+      "sha256": "330b48ddea3b6e18bacad8a3caf32a18f12a819bdb287fb31cb5b9787f6b4e49",
+      "alpha": {
+        "transparent": 10061,
+        "opaque": 9535,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          142,
+          138
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/gallery-journal/paper-texture.jpg",
+      "aliases": [
+        "paper-texture"
+      ],
+      "consumers": [
+        "godot/ui/garden_hud.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "opaque-texture-sample",
+      "redrawRequired": false,
+      "evidence": [
+        "scripts/prepare_gallery_assets.py"
+      ],
+      "reason": "Rectangular parchment grain used as fill, not a cutout element.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        146,
+        68
+      ],
+      "sha256": "b9946084560be09356e71383280818e70310d80d79d37f56baca1bc78f1ac47b",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 9928,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          146,
+          68
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/gallery-journal/vine.png",
+      "aliases": [
+        "gallery-vine"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-gallery-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_gallery_assets.py"
+      ],
+      "reason": "Foreground illustration extracted from gallery reference page and edge-connected parchment removed.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        199,
+        164
+      ],
+      "sha256": "de0ff0c1d793737a547b1bf479593fb44e056840d32a8df2ebb16b4519bbcf4b",
+      "alpha": {
+        "transparent": 13285,
+        "opaque": 19351,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          199,
+          164
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/dew-plant.png",
+      "aliases": [
+        "dew-plant"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        119,
+        135
+      ],
+      "sha256": "df384965fa736472f158a6037a6e135f778803b69e05d51d1960d1e4f0c8966e",
+      "alpha": {
+        "transparent": 8974,
+        "opaque": 7091,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          119,
+          135
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/flower-gate-frame.png",
+      "aliases": [
+        "flower-gate-frame"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        272,
+        405
+      ],
+      "sha256": "a233c0a455acf635ae5ab1ed7a5785dfa936dc74df09777a91892a6260809215",
+      "alpha": {
+        "transparent": 64544,
+        "opaque": 45616,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          272,
+          405
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/gold-lotus.png",
+      "aliases": [
+        "gold-lotus"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": "res://assets/images/scene-redraw-20261116/gold-lotus.png",
+      "action": "rebind-existing-redraw",
+      "canvas": [
+        128,
+        148
+      ],
+      "sha256": "9f4651677f2671532c942c8fc21ee0e976cc3b4b277f485b7d3f6b878a3b8b22",
+      "alpha": {
+        "transparent": 10615,
+        "opaque": 8329,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          128,
+          148
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/light-tower.png",
+      "aliases": [
+        "light-tower"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        272,
+        405
+      ],
+      "sha256": "053287548175a3fce464989b17de030902fa9986751f08675e119cc99da9b221",
+      "alpha": {
+        "transparent": 57791,
+        "opaque": 52369,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          272,
+          405
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/lotus-pool.png",
+      "aliases": [
+        "lotus-pool"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        342,
+        200
+      ],
+      "sha256": "73f7fceeeef3412220b009e7a7fc92f43f3bb831ef8f7ed6bef98c9509be4de6",
+      "alpha": {
+        "transparent": 25273,
+        "opaque": 43127,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          342,
+          200
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/river-rock.png",
+      "aliases": [
+        "river-rock"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        113,
+        97
+      ],
+      "sha256": "2cb2b0e997496270900cd8c39c8b5163271dfaabed681fd34f1007a41a8903fa",
+      "alpha": {
+        "transparent": 3451,
+        "opaque": 7510,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          113,
+          97
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/stone-lantern.png",
+      "aliases": [
+        "stone-lantern"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        116,
+        158
+      ],
+      "sha256": "fa36bcda5b65ff667eb521308f1d3a13e13fd7c4c15f1c575bc227b9c9f72ed0",
+      "alpha": {
+        "transparent": 6867,
+        "opaque": 11461,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          116,
+          158
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/trailing-vine.png",
+      "aliases": [
+        "trailing-vine"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        57,
+        226
+      ],
+      "sha256": "58f094e37a43d6232e049832e4b95e45617cb0a37d7f643d1c3269e998c93f43",
+      "alpha": {
+        "transparent": 8154,
+        "opaque": 4728,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          57,
+          226
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/garden-scenery/wood-lantern.png",
+      "aliases": [
+        "wood-lantern"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        120,
+        154
+      ],
+      "sha256": "ae3649b7bd385b4465cbc43faee6baf12401258b66635f05384816dc07f2af6d",
+      "alpha": {
+        "transparent": 9003,
+        "opaque": 9477,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          120,
+          154
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/grid-world/lilypad.png",
+      "aliases": [
+        "lilypad"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "shared-scene-prop-review-in-scene-inventory",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_garden_scenery.py",
+        "scripts/prepare_grid_assets.py"
+      ],
+      "reason": "Direct UI reuse of a scene prop; merge by original path with scene audit to avoid duplicate generation.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        146,
+        85
+      ],
+      "sha256": "cc2ffa3c40368f9991cc8a643ac765f136cd6b690e4fa0ef0be471e1fbeb07db",
+      "alpha": {
+        "transparent": 2891,
+        "opaque": 9519,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          146,
+          85
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/journey-gardens/buddy-ball.png",
+      "aliases": [
+        "ball"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/roll",
+        "actor-elements.json:buddy.original/roll",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "categories": [
+        "actor",
+        "ui"
+      ],
+      "classification": "legacy-checker-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_journey_gardens.py"
+      ],
+      "reason": "Source mushroom-ball reference has boundary-connected checker removed. Shared by rolling poses and procedural companion cap texture.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        89,
+        99
+      ],
+      "sha256": "77b16955bac0d648eb87ad0cc95d6f3917a54f1d15de3a892fdbd7bd53543502",
+      "alpha": {
+        "transparent": 1793,
+        "opaque": 7018,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          89,
+          99
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/main/bg.png",
+      "aliases": [
+        "cover-background"
+      ],
+      "consumers": [
+        "godot/ui/garden_hud.gd",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "opaque-complete-illustration",
+      "redrawRequired": false,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "reason": "Complete painted scene, not a foreground silhouette with removed background. Chapter grading and removal of baked labels do not make it a cutout prop.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        1672,
+        941
+      ],
+      "sha256": "3015c6f2bdfd607db971159b2e99ce7865a1bfcff17b5888387155f25dc37e02",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 1573352,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          1672,
+          941
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/material-ready/button-green.png",
+      "aliases": [
+        "button-green"
+      ],
+      "consumers": [
+        "godot/ui/game_hud_skin.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-ui-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_material_assets.py",
+        "assets/images/material-ready/manifest.json"
+      ],
+      "reason": "UI sheet crop and connected-background removal. Panel ornaments have source-pixel crop consumers; replacements must retain those regions.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        246,
+        81
+      ],
+      "sha256": "ba55dcd9615553bd4e5bf22b54f436843bc4eb8d60743f97a43465c200af14a3",
+      "alpha": {
+        "transparent": 4407,
+        "opaque": 15519,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          6,
+          6,
+          234,
+          69
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/material-ready/icon-leaf.png",
+      "aliases": [
+        "icon-leaf"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-ui-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_material_assets.py",
+        "assets/images/material-ready/manifest.json"
+      ],
+      "reason": "UI sheet crop and connected-background removal. Panel ornaments have source-pixel crop consumers; replacements must retain those regions.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        147,
+        157
+      ],
+      "sha256": "ffd62484dc0f59c1b30a825c63f38e6d8df0d277d29fd81c9fe1e63f7123d7b1",
+      "alpha": {
+        "transparent": 9222,
+        "opaque": 13857,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          6,
+          6,
+          135,
+          145
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/material-ready/icon-spore.png",
+      "aliases": [
+        "icon-spore",
+        "spore"
+      ],
+      "consumers": [
+        "godot/ui/game_hud_skin.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-ui-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_material_assets.py",
+        "assets/images/material-ready/manifest.json"
+      ],
+      "reason": "UI sheet crop and connected-background removal. Panel ornaments have source-pixel crop consumers; replacements must retain those regions.",
+      "availableRedraw": "res://assets/images/scene-redraw-20261116/spore.png",
+      "action": "rebind-existing-redraw",
+      "canvas": [
+        209,
+        161
+      ],
+      "sha256": "cbb194459878968f500ed693c6d338f315ed20b61521b3806001e91ada30ada6",
+      "alpha": {
+        "transparent": 13289,
+        "opaque": 20360,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          6,
+          6,
+          197,
+          149
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/material-ready/menu-logo.png",
+      "aliases": [
+        "cover-logo"
+      ],
+      "consumers": [
+        "godot/ui/menu_cover.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-ui-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_material_assets.py",
+        "assets/images/material-ready/manifest.json"
+      ],
+      "reason": "UI sheet crop and connected-background removal. Panel ornaments have source-pixel crop consumers; replacements must retain those regions.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        648,
+        342
+      ],
+      "sha256": "09678d4b5e799c076651d939dfc4e365af0364f9445321ae24541087d3e8348e",
+      "alpha": {
+        "transparent": 100103,
+        "opaque": 121513,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          6,
+          6,
+          636,
+          330
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/material-ready/menu-paper.png",
+      "aliases": [
+        "cover-paper"
+      ],
+      "consumers": [
+        "godot/ui/menu_cover.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-ui-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_material_assets.py",
+        "assets/images/material-ready/manifest.json"
+      ],
+      "reason": "UI sheet crop and connected-background removal. Panel ornaments have source-pixel crop consumers; replacements must retain those regions.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        539,
+        210
+      ],
+      "sha256": "750d4fe52a27b5125b29964d8ce0b888d8a5798551804363ecf65427d9215296",
+      "alpha": {
+        "transparent": 16436,
+        "opaque": 96754,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          6,
+          6,
+          527,
+          198
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/material-ready/panel-paper.png",
+      "aliases": [
+        "panel-paper"
+      ],
+      "consumers": [
+        "godot/ui/game_hud_skin.gd",
+        "godot/ui/garden_hud.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-ui-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_material_assets.py",
+        "assets/images/material-ready/manifest.json"
+      ],
+      "reason": "UI sheet crop and connected-background removal. Panel ornaments have source-pixel crop consumers; replacements must retain those regions.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        589,
+        364
+      ],
+      "sha256": "5726ab900ca8e86e9e4937431d2899543589405849830baaaf417652a2b43ee7",
+      "alpha": {
+        "transparent": 14857,
+        "opaque": 199539,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          6,
+          6,
+          577,
+          352
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-fx-redrawn/firefly.png",
+      "aliases": [
+        "cover-firefly"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "docs/21-首页追光小剧场.md"
+      ],
+      "reason": "Imagegen-authored orb/firefly, generated transparency retained.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "sha256": "b551e027fa8f8fecd68ce34544c6ced2a4b12437d961f4ab6b99d2ae7b3f8c81",
+      "alpha": {
+        "transparent": 852168,
+        "opaque": 47,
+        "partial": 720301,
+        "partialOfVisible": 0.9999347537579059,
+        "bounds8": [
+          246,
+          201,
+          792,
+          767
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-fx-redrawn/orb.png",
+      "aliases": [
+        "cover-orb"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "docs/21-首页追光小剧场.md"
+      ],
+      "reason": "Imagegen-authored orb/firefly, generated transparency retained.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "sha256": "1b1d218a44251553a17b6a4cf27acef89f506c9d614df2c2e0e30e22cd5e2bac",
+      "alpha": {
+        "transparent": 1054114,
+        "opaque": 0,
+        "partial": 518402,
+        "partialOfVisible": 1,
+        "bounds8": [
+          328,
+          336,
+          572,
+          562
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/crouch-happy.png",
+      "aliases": [
+        "cover-crouch-happy"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "44950bc9299043eebb72a6f24e0cc28081033b97eb2379169a3b5e40ed239086",
+      "alpha": {
+        "transparent": 125038,
+        "opaque": 68,
+        "partial": 137038,
+        "partialOfVisible": 0.9995040333756363,
+        "bounds8": [
+          138,
+          72,
+          213,
+          405
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/crouch-lower.png",
+      "aliases": [
+        "cover-crouch-lower"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "ea2428454f00ca3103ff5aa3fb2146f89b405d6908b27ba44625db00e030e5bf",
+      "alpha": {
+        "transparent": 155493,
+        "opaque": 90,
+        "partial": 106561,
+        "partialOfVisible": 0.9991561260560144,
+        "bounds8": [
+          155,
+          64,
+          192,
+          424
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/crouch.png",
+      "aliases": [
+        "cover-crouch"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "a24c21128a04243d44d8c74cddd717c0b77aa4a4d6aa5e199f625727d6211ef2",
+      "alpha": {
+        "transparent": 164408,
+        "opaque": 84,
+        "partial": 97652,
+        "partialOfVisible": 0.999140541867889,
+        "bounds8": [
+          144,
+          105,
+          207,
+          371
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/idle-front.png",
+      "aliases": [
+        "cover-idle-front"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "0430e2ececff16e8ba0798fb5790767cc2b3249af2a2d2807c8a923bae51a920",
+      "alpha": {
+        "transparent": 123924,
+        "opaque": 77,
+        "partial": 138143,
+        "partialOfVisible": 0.9994429170886991,
+        "bounds8": [
+          151,
+          34,
+          215,
+          443
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/idle-side.png",
+      "aliases": [
+        "cover-idle-side"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "60158ffd017678d96b40a5ee6b6aa889e27a209e1666f9f7a055693c32b419a2",
+      "alpha": {
+        "transparent": 161185,
+        "opaque": 65,
+        "partial": 100894,
+        "partialOfVisible": 0.9993561742885726,
+        "bounds8": [
+          179,
+          36,
+          193,
+          453
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/step-1.png",
+      "aliases": [
+        "cover-step-1"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "e71f0b8f1e24be84c3abb9e7e27e58b66fdb37f99d1a72436237b813016b8fc2",
+      "alpha": {
+        "transparent": 199239,
+        "opaque": 273,
+        "partial": 62632,
+        "partialOfVisible": 0.9956601224068039,
+        "bounds8": [
+          158,
+          39,
+          195,
+          433
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/step-2.png",
+      "aliases": [
+        "cover-step-2"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "f2b41801b10200d3e69bec184be970985f593c3c1c8dcdebd92d467f13e39720",
+      "alpha": {
+        "transparent": 199679,
+        "opaque": 261,
+        "partial": 62204,
+        "partialOfVisible": 0.9958216601296727,
+        "bounds8": [
+          162,
+          39,
+          190,
+          432
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/step-3.png",
+      "aliases": [
+        "cover-step-3"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "f954a9b08c7ef4aa33f745b62fcc584e8454ae677195a5d8ac552b8d50401477",
+      "alpha": {
+        "transparent": 201766,
+        "opaque": 276,
+        "partial": 60102,
+        "partialOfVisible": 0.9954287985690152,
+        "bounds8": [
+          161,
+          40,
+          190,
+          432
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/step-4.png",
+      "aliases": [
+        "cover-step-4"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "86a9c0e5b6e2505ed301adf0915e104d0439c6f934e88518066cfccb21883be4",
+      "alpha": {
+        "transparent": 202226,
+        "opaque": 304,
+        "partial": 59614,
+        "partialOfVisible": 0.9949263994125305,
+        "bounds8": [
+          143,
+          48,
+          207,
+          424
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/step-5.png",
+      "aliases": [
+        "cover-step-5"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "fac658b77fb407cae559e183398181c50b18c38a218e9ea34a86fe9d11c22a1d",
+      "alpha": {
+        "transparent": 202817,
+        "opaque": 232,
+        "partial": 59095,
+        "partialOfVisible": 0.9960894702243498,
+        "bounds8": [
+          158,
+          42,
+          193,
+          430
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/step-6.png",
+      "aliases": [
+        "cover-step-6"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "00416e4043401c48990763e8b923c333ecdf752d1e4c3c2bf48175b083394cfe",
+      "alpha": {
+        "transparent": 197900,
+        "opaque": 291,
+        "partial": 63953,
+        "partialOfVisible": 0.9954703941224083,
+        "bounds8": [
+          161,
+          39,
+          191,
+          433
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/step-7.png",
+      "aliases": [
+        "cover-step-7"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "8b6f0ad9132d673d6e230092002a9886e64cf7d05dd2b2332e5f7b96092c5521",
+      "alpha": {
+        "transparent": 200668,
+        "opaque": 208,
+        "partial": 61268,
+        "partialOfVisible": 0.9966165658143015,
+        "bounds8": [
+          160,
+          39,
+          192,
+          435
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/step-8.png",
+      "aliases": [
+        "cover-step-8"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "f664b1c83a54775be37fb3a5d146a931cd105aea0de85a25ef5e06f3252a18b3",
+      "alpha": {
+        "transparent": 197762,
+        "opaque": 196,
+        "partial": 64186,
+        "partialOfVisible": 0.9969556708396757,
+        "bounds8": [
+          142,
+          38,
+          211,
+          434
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk-redrawn/turn-quarter.png",
+      "aliases": [
+        "cover-turn-quarter"
+      ],
+      "consumers": [
+        "godot/ui/menu_vignette.gd:dynamic frame key"
+      ],
+      "categories": [
+        "cover"
+      ],
+      "classification": "already-redrawn-rgba",
+      "redrawRequired": false,
+      "evidence": [
+        "assets/images/menu-walk-redrawn/manifest.json",
+        "assets/images/menu-walk-redrawn/poses-manifest.json",
+        "scripts/import_menu_redraw.py",
+        "scripts/import_menu_poses.py"
+      ],
+      "reason": "Whole generated poses; packaging retains generated alpha. Atlas slicing is not background extraction.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        512,
+        512
+      ],
+      "sha256": "c094be4aaf9d6983babe494995e733a310fc467af42067132e668e4e7ca60590",
+      "alpha": {
+        "transparent": 134952,
+        "opaque": 56,
+        "partial": 127136,
+        "partialOfVisible": 0.9995597207371533,
+        "bounds8": [
+          161,
+          33,
+          213,
+          442
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-1.png",
+      "aliases": [
+        "walk-side-1"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "523d656230764cc860e7987d1b8cfb615e2ae65dcfe4d92b7dddacd3ae9fc21c",
+      "alpha": {
+        "transparent": 51260,
+        "opaque": 11989,
+        "partial": 2287,
+        "partialOfVisible": 0.16019893527598766,
+        "bounds8": [
+          77,
+          20,
+          101,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-10.png",
+      "aliases": [
+        "walk-side-10"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "a5e2f8ff2147690eaf308b5f71a95dd4a002a568303691e89386581909f39b21",
+      "alpha": {
+        "transparent": 51343,
+        "opaque": 11918,
+        "partial": 2275,
+        "partialOfVisible": 0.16029028394278869,
+        "bounds8": [
+          77,
+          20,
+          101,
+          217
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-11.png",
+      "aliases": [
+        "walk-side-11"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "80e61df21eec9b8c97bf803ff66f584faea39efad7647d6a5ee44d7127a986a2",
+      "alpha": {
+        "transparent": 51346,
+        "opaque": 11918,
+        "partial": 2272,
+        "partialOfVisible": 0.16011275546159268,
+        "bounds8": [
+          77,
+          20,
+          101,
+          217
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-12.png",
+      "aliases": [
+        "walk-side-12"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "522a893c08a99607c0f659fbe3610d913e6862ec37d81a19b5b3e23c33d1d675",
+      "alpha": {
+        "transparent": 51324,
+        "opaque": 11912,
+        "partial": 2300,
+        "partialOfVisible": 0.16183506895581198,
+        "bounds8": [
+          77,
+          20,
+          101,
+          217
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-2.png",
+      "aliases": [
+        "walk-side-2"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "f7464e607c21df5dcf3473e811f5e8fd8e401d36951059a707f7a12ec9d4ceef",
+      "alpha": {
+        "transparent": 51258,
+        "opaque": 11985,
+        "partial": 2293,
+        "partialOfVisible": 0.1605967222300042,
+        "bounds8": [
+          77,
+          20,
+          101,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-3.png",
+      "aliases": [
+        "walk-side-3"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "d2c1c51c6aebe102ae95d925bc5e892dda98bd9b51b0c038c7ff31a4f54f5311",
+      "alpha": {
+        "transparent": 51273,
+        "opaque": 11981,
+        "partial": 2282,
+        "partialOfVisible": 0.1599943910818201,
+        "bounds8": [
+          77,
+          20,
+          101,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-4.png",
+      "aliases": [
+        "walk-side-4"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "d0a57f73e4c8743629f52a6475dc95af4cb00c9dc3ffeefdbd0aa4429265a6eb",
+      "alpha": {
+        "transparent": 51274,
+        "opaque": 11979,
+        "partial": 2283,
+        "partialOfVisible": 0.16007572570466974,
+        "bounds8": [
+          77,
+          20,
+          101,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-5.png",
+      "aliases": [
+        "walk-side-5"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "d2c1c51c6aebe102ae95d925bc5e892dda98bd9b51b0c038c7ff31a4f54f5311",
+      "alpha": {
+        "transparent": 51273,
+        "opaque": 11981,
+        "partial": 2282,
+        "partialOfVisible": 0.1599943910818201,
+        "bounds8": [
+          77,
+          20,
+          101,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-6.png",
+      "aliases": [
+        "walk-side-6"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "f7464e607c21df5dcf3473e811f5e8fd8e401d36951059a707f7a12ec9d4ceef",
+      "alpha": {
+        "transparent": 51258,
+        "opaque": 11985,
+        "partial": 2293,
+        "partialOfVisible": 0.1605967222300042,
+        "bounds8": [
+          77,
+          20,
+          101,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-7.png",
+      "aliases": [
+        "walk-side-7"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "523d656230764cc860e7987d1b8cfb615e2ae65dcfe4d92b7dddacd3ae9fc21c",
+      "alpha": {
+        "transparent": 51260,
+        "opaque": 11989,
+        "partial": 2287,
+        "partialOfVisible": 0.16019893527598766,
+        "bounds8": [
+          77,
+          20,
+          101,
+          216
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-8.png",
+      "aliases": [
+        "walk-side-8"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "522a893c08a99607c0f659fbe3610d913e6862ec37d81a19b5b3e23c33d1d675",
+      "alpha": {
+        "transparent": 51324,
+        "opaque": 11912,
+        "partial": 2300,
+        "partialOfVisible": 0.16183506895581198,
+        "bounds8": [
+          77,
+          20,
+          101,
+          217
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/menu-walk/step-9.png",
+      "aliases": [
+        "walk-side-9"
+      ],
+      "consumers": [
+        "actor-elements.json:luvie.original/walk_left",
+        "actor-elements.json:luvie.original/walk_right"
+      ],
+      "categories": [
+        "actor"
+      ],
+      "classification": "legacy-cutout-articulated-frame",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_menu_walk.py"
+      ],
+      "reason": "Arm/legs are cut from character-refined/idle-side.png and rotated/composited. This cycle is used by in-game actor clips, despite the home cover using newly redrawn frames.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "80e61df21eec9b8c97bf803ff66f584faea39efad7647d6a5ee44d7127a986a2",
+      "alpha": {
+        "transparent": 51346,
+        "opaque": 11918,
+        "partial": 2272,
+        "partialOfVisible": 0.16011275546159268,
+        "bounds8": [
+          77,
+          20,
+          101,
+          217
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/production/arch.png",
+      "aliases": [
+        "gallery-arch"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-sheet-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_assets.py"
+      ],
+      "reason": "Existing raster sheet isolated with edge-connected checker/background removal. Direct UI file paths currently bypass the world theme.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "482b075cf7d3ae7f9631c99c6bb6b2c7c85f34e48ed4b08c1eb5c41e4df791c8",
+      "alpha": {
+        "transparent": 39481,
+        "opaque": 21865,
+        "partial": 4190,
+        "partialOfVisible": 0.16081366340433698,
+        "bounds8": [
+          37,
+          8,
+          182,
+          224
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/production/bloom.png",
+      "aliases": [
+        "bloom"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-sheet-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_assets.py"
+      ],
+      "reason": "Existing raster sheet isolated with edge-connected checker/background removal. Direct UI file paths currently bypass the world theme.",
+      "availableRedraw": "res://assets/images/scene-redraw-20261116/bloom.png",
+      "action": "rebind-existing-redraw",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "61adb1ab88be2ae6167fd915efd26a4d2fd5788dcb880cc06bf9691f34c34633",
+      "alpha": {
+        "transparent": 36831,
+        "opaque": 25442,
+        "partial": 3263,
+        "partialOfVisible": 0.11367357603205017,
+        "bounds8": [
+          16,
+          42,
+          224,
+          190
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/production/bug.png",
+      "aliases": [
+        "bug"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd",
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-sheet-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_assets.py"
+      ],
+      "reason": "Existing raster sheet isolated with edge-connected checker/background removal. Direct UI file paths currently bypass the world theme.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "77b6ea178abebff5d1b39efbac518fe804c8c549f5101e0e0570cb9693a855cd",
+      "alpha": {
+        "transparent": 53754,
+        "opaque": 3694,
+        "partial": 8088,
+        "partialOfVisible": 0.6864708877949415,
+        "bounds8": [
+          62,
+          103,
+          132,
+          127
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/production/light.png",
+      "aliases": [
+        "light"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd",
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-sheet-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_assets.py"
+      ],
+      "reason": "Existing raster sheet isolated with edge-connected checker/background removal. Direct UI file paths currently bypass the world theme.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "164961457060b51ee81ef2b423a301e8791e245f685b30a166207050039e80f8",
+      "alpha": {
+        "transparent": 41519,
+        "opaque": 21253,
+        "partial": 2764,
+        "partialOfVisible": 0.11508514802015239,
+        "bounds8": [
+          16,
+          55,
+          224,
+          177
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/production/lily-open.png",
+      "aliases": [
+        "gallery-lily"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd",
+        "godot/ui/gallery_catalog.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-sheet-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_assets.py"
+      ],
+      "reason": "Existing raster sheet isolated with edge-connected checker/background removal. Direct UI file paths currently bypass the world theme.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "0e7730ba2ca2e1e574fc298eefc5c4740c20b86340cd957a872127f0b0429a16",
+      "alpha": {
+        "transparent": 45805,
+        "opaque": 17256,
+        "partial": 2475,
+        "partialOfVisible": 0.12543712939029952,
+        "bounds8": [
+          16,
+          101,
+          224,
+          131
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/production/moss.png",
+      "aliases": [
+        "map-moss"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-sheet-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_assets.py"
+      ],
+      "reason": "Existing raster sheet isolated with edge-connected checker/background removal. Direct UI file paths currently bypass the world theme.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "aa9a4e0825bfe43f78eb4ef319660436640b991ffed7312a62f288f71478c105",
+      "alpha": {
+        "transparent": 40769,
+        "opaque": 22063,
+        "partial": 2704,
+        "partialOfVisible": 0.10917753462268341,
+        "bounds8": [
+          16,
+          45,
+          224,
+          187
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/production/vine.png",
+      "aliases": [
+        "vine"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-sheet-cutout",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_assets.py"
+      ],
+      "reason": "Existing raster sheet isolated with edge-connected checker/background removal. Direct UI file paths currently bypass the world theme.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "7f9bc88c5a559c80e1197e4f61d96f46e2858ce389b0216335e8fc1cabfcae40",
+      "alpha": {
+        "transparent": 34809,
+        "opaque": 18982,
+        "partial": 11745,
+        "partialOfVisible": 0.3822371204478146,
+        "bounds8": [
+          17,
+          8,
+          222,
+          224
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/chapter-cave.jpg",
+      "aliases": [
+        "chapter-cave"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:dynamic chapter cave"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "opaque-complete-illustration",
+      "redrawRequired": false,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "reason": "Complete painted scene, not a foreground silhouette with removed background. Chapter grading and removal of baked labels do not make it a cutout prop.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        640,
+        360
+      ],
+      "sha256": "a97e11769557bfea89b8ebb2fba2ceb033bc08f7ed9f8f9f10a96c05a7131d34",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 230400,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          640,
+          360
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/chapter-pond.jpg",
+      "aliases": [
+        "chapter-pond"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:dynamic chapter pond"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "opaque-complete-illustration",
+      "redrawRequired": false,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "reason": "Complete painted scene, not a foreground silhouette with removed background. Chapter grading and removal of baked labels do not make it a cutout prop.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        640,
+        360
+      ],
+      "sha256": "bcd84e98ccda18e6b3e0daf410286c5944a815580e881e7a4173671970398595",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 230400,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          640,
+          360
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/chapter-valley.jpg",
+      "aliases": [
+        "chapter-valley"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:dynamic chapter valley"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "opaque-complete-illustration",
+      "redrawRequired": false,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "reason": "Complete painted scene, not a foreground silhouette with removed background. Chapter grading and removal of baked labels do not make it a cutout prop.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        640,
+        360
+      ],
+      "sha256": "670ec4cb3478b91b0b1e9c5969b861b2db2c1742ed2ff52018894dc0fd2eade6",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 230400,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          640,
+          360
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/map-cave.jpg",
+      "aliases": [
+        "map-cave"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:dynamic chapter cave"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "opaque-complete-illustration",
+      "redrawRequired": false,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "reason": "Complete painted scene, not a foreground silhouette with removed background. Chapter grading and removal of baked labels do not make it a cutout prop.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        1280,
+        720
+      ],
+      "sha256": "0f6ddfada4e2cc347f3e1c7e48f5a28e0c1d4c5e3d09fb45a0dcbd74e639fe92",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 921600,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          1280,
+          720
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/map-pond.jpg",
+      "aliases": [
+        "map-pond"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:dynamic chapter pond"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "opaque-complete-illustration",
+      "redrawRequired": false,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "reason": "Complete painted scene, not a foreground silhouette with removed background. Chapter grading and removal of baked labels do not make it a cutout prop.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        1280,
+        720
+      ],
+      "sha256": "b39201762e25f9e695866c558436a5df5ed72c41af5271a0ba11bb7be9dd0437",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 921600,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          1280,
+          720
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/map-valley.jpg",
+      "aliases": [
+        "map-valley"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:dynamic chapter valley"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "opaque-complete-illustration",
+      "redrawRequired": false,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py",
+        "godot/ui/menu_vignette.gd"
+      ],
+      "reason": "Complete painted scene, not a foreground silhouette with removed background. Chapter grading and removal of baked labels do not make it a cutout prop.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        1280,
+        720
+      ],
+      "sha256": "71cfc9f9146ab6d70b0584ea975070416404192b37de293147d64521ed6ef605",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 921600,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          1280,
+          720
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/plant-bloom.png",
+      "aliases": [
+        "map-plant-bloom"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:landmark state plant-bloom"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "legacy-map-cutout-composite",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py"
+      ],
+      "reason": "Background-keyed foreground plants, original soil base and terrain crop composited into transparent sprites.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "2f59c14fe6c36b10b61f723975678c32b4ca2da769b4688959ba6336d471982b",
+      "alpha": {
+        "transparent": 44691,
+        "opaque": 17414,
+        "partial": 3431,
+        "partialOfVisible": 0.16459582633725114,
+        "bounds8": [
+          45,
+          69,
+          165,
+          167
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/plant-bud.png",
+      "aliases": [
+        "map-plant-bud"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:landmark state plant-bud"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "legacy-map-cutout-composite",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py"
+      ],
+      "reason": "Background-keyed foreground plants, original soil base and terrain crop composited into transparent sprites.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "62c0aa5e26a90d544bebe0c3c168ddd302781997c05acb118f5ac813e8c5143a",
+      "alpha": {
+        "transparent": 47105,
+        "opaque": 15951,
+        "partial": 2480,
+        "partialOfVisible": 0.1345559112365037,
+        "bounds8": [
+          45,
+          76,
+          165,
+          160
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/plant-cave-bloom.png",
+      "aliases": [
+        "gallery-cave-bloom"
+      ],
+      "consumers": [
+        "godot/ui/gallery_catalog.gd",
+        "godot/ui/chapter_map.gd:landmark state plant-cave-bloom"
+      ],
+      "categories": [
+        "ui",
+        "chapter-map"
+      ],
+      "classification": "legacy-map-cutout-composite",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py"
+      ],
+      "reason": "Background-keyed foreground plants, original soil base and terrain crop composited into transparent sprites.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "22fbdff5c7a0fa89c37e4e4894ff38caa1f85536c1197db75a63eaa72ebd8370",
+      "alpha": {
+        "transparent": 44691,
+        "opaque": 17414,
+        "partial": 3431,
+        "partialOfVisible": 0.16459582633725114,
+        "bounds8": [
+          45,
+          69,
+          165,
+          167
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/plant-dormant.png",
+      "aliases": [
+        "map-plant-dormant"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:landmark state plant-dormant"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "legacy-map-cutout-composite",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py"
+      ],
+      "reason": "Background-keyed foreground plants, original soil base and terrain crop composited into transparent sprites.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "485147e5fea692657d88395d9c39de24f074d97fe1b7c7b621437f198df4416e",
+      "alpha": {
+        "transparent": 52622,
+        "opaque": 10221,
+        "partial": 2693,
+        "partialOfVisible": 0.20853337463218213,
+        "bounds8": [
+          45,
+          118,
+          165,
+          118
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/plant-pond-bloom.png",
+      "aliases": [
+        "map-plant-pond-bloom"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd:landmark state plant-pond-bloom"
+      ],
+      "categories": [
+        "chapter-map"
+      ],
+      "classification": "legacy-map-cutout-composite",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py"
+      ],
+      "reason": "Background-keyed foreground plants, original soil base and terrain crop composited into transparent sprites.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        256
+      ],
+      "sha256": "4d0a660ba46a23332f7295d41e95d9bd6ef899da95e530640c86e7e79d68ddd8",
+      "alpha": {
+        "transparent": 44691,
+        "opaque": 17414,
+        "partial": 3431,
+        "partialOfVisible": 0.16459582633725114,
+        "bounds8": [
+          45,
+          69,
+          165,
+          167
+        ]
+      }
+    },
+    {
+      "path": "godot/assets/images/reference-scenes/terrain-steps.png",
+      "aliases": [
+        "map-terrain-steps"
+      ],
+      "consumers": [
+        "godot/ui/chapter_map.gd",
+        "godot/ui/chapter_map_detail_art.gd"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "classification": "legacy-map-cutout-composite",
+      "redrawRequired": true,
+      "evidence": [
+        "scripts/prepare_reference_scenes.py"
+      ],
+      "reason": "Background-keyed foreground plants, original soil base and terrain crop composited into transparent sprites.",
+      "availableRedraw": null,
+      "action": "redraw-master",
+      "canvas": [
+        256,
+        218
+      ],
+      "sha256": "9ee2d2a1f6890f882dd07a9ac4a2992826f176ec4370404725c9c1e759ec18b2",
+      "alpha": {
+        "transparent": 17704,
+        "opaque": 35167,
+        "partial": 2937,
+        "partialOfVisible": 0.0770785219399538,
+        "bounds8": [
+          0,
+          0,
+          256,
+          218
+        ]
+      }
+    },
+    {
+      "path": "godot/web/loader/bg.webp",
+      "aliases": [],
+      "consumers": [
+        "godot/web/loading-shell.html"
+      ],
+      "categories": [
+        "web-loader"
+      ],
+      "classification": "opaque-loader-derivative",
+      "redrawRequired": false,
+      "evidence": [
+        "tools/godot-migration/sync-loading-assets.py"
+      ],
+      "reason": "Derived from complete opaque home backdrop.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        1600,
+        900
+      ],
+      "sha256": "05e4ef75ac6d923a83ca1f3fb24ae2bdc0da7b3322836b36dd35463d95f401dd",
+      "alpha": {
+        "transparent": 0,
+        "opaque": 1440000,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          0,
+          0,
+          1600,
+          900
+        ]
+      }
+    },
+    {
+      "path": "godot/web/loader/hero.png",
+      "aliases": [],
+      "consumers": [
+        "godot/web/loading-shell.html"
+      ],
+      "categories": [
+        "web-loader"
+      ],
+      "classification": "already-redrawn-loader-derivative",
+      "redrawRequired": false,
+      "evidence": [
+        "tools/godot-migration/sync-loading-assets.py"
+      ],
+      "reason": "Derived from already redrawn menu hero/orb; regenerate only when source changes.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        384,
+        384
+      ],
+      "sha256": "6b91c11811facee09dacac1e2fff8d7532114827d9e069660db99dac70ff6e39",
+      "alpha": {
+        "transparent": 69236,
+        "opaque": 200,
+        "partial": 78020,
+        "partialOfVisible": 0.9974431091792381,
+        "bounds8": [
+          113,
+          25,
+          162,
+          333
+        ]
+      }
+    },
+    {
+      "path": "godot/web/loader/logo.png",
+      "aliases": [],
+      "consumers": [
+        "godot/web/loading-shell.html"
+      ],
+      "categories": [
+        "web-loader"
+      ],
+      "classification": "legacy-ui-cutout-derivative",
+      "redrawRequired": true,
+      "derivedFrom": "assets/images/material-ready/menu-logo.png",
+      "evidence": [
+        "tools/godot-migration/sync-loading-assets.py"
+      ],
+      "reason": "Loader copy of old cutout logo; regenerate mechanically after its source is redrawn, no separate image generation.",
+      "availableRedraw": null,
+      "action": "regenerate-derivative",
+      "canvas": [
+        648,
+        342
+      ],
+      "sha256": "09678d4b5e799c076651d939dfc4e365af0364f9445321ae24541087d3e8348e",
+      "alpha": {
+        "transparent": 100103,
+        "opaque": 121513,
+        "partial": 0,
+        "partialOfVisible": 0,
+        "bounds8": [
+          6,
+          6,
+          636,
+          330
+        ]
+      }
+    },
+    {
+      "path": "godot/web/loader/orb.png",
+      "aliases": [],
+      "consumers": [
+        "godot/web/loading-shell.html"
+      ],
+      "categories": [
+        "web-loader"
+      ],
+      "classification": "already-redrawn-loader-derivative",
+      "redrawRequired": false,
+      "evidence": [
+        "tools/godot-migration/sync-loading-assets.py"
+      ],
+      "reason": "Derived from already redrawn menu hero/orb; regenerate only when source changes.",
+      "availableRedraw": null,
+      "action": "keep",
+      "canvas": [
+        128,
+        128
+      ],
+      "sha256": "4bbc3dbb8e49a38e28366ecf4bc8fd8bed9117db81fd732124b1af5b10228637",
+      "alpha": {
+        "transparent": 11127,
+        "opaque": 6,
+        "partial": 5251,
+        "partialOfVisible": 0.9988586646376261,
+        "bounds8": [
+          34,
+          34,
+          58,
+          57
+        ]
+      }
+    }
+  ],
+  "duplicateByteGroups": [
+    [
+      "godot/assets/images/character-refined/idle-back.png",
+      "godot/assets/images/character-refined/walk-back-1.png",
+      "godot/assets/images/character-refined/walk-back-7.png"
+    ],
+    [
+      "godot/assets/images/character-refined/jump-1.png",
+      "godot/assets/images/character-refined/jump-11.png",
+      "godot/assets/images/character-refined/jump-12.png",
+      "godot/assets/images/character-refined/jump-2.png"
+    ],
+    [
+      "godot/assets/images/character-refined/jump-10.png",
+      "godot/assets/images/character-refined/jump-3.png"
+    ],
+    [
+      "godot/assets/images/character-refined/jump-4.png",
+      "godot/assets/images/character-refined/jump-9.png"
+    ],
+    [
+      "godot/assets/images/character-refined/jump-5.png",
+      "godot/assets/images/character-refined/jump-8.png"
+    ],
+    [
+      "godot/assets/images/character-refined/jump-6.png",
+      "godot/assets/images/character-refined/jump-7.png"
+    ],
+    [
+      "godot/assets/images/character-refined/sow-1.png",
+      "godot/assets/images/character-refined/sow-2.png",
+      "godot/assets/images/character-refined/sow-3.png",
+      "godot/assets/images/character-refined/sow-4.png"
+    ],
+    [
+      "godot/assets/images/character-refined/walk-back-11.png",
+      "godot/assets/images/character-refined/walk-back-9.png"
+    ],
+    [
+      "godot/assets/images/character-refined/walk-back-12.png",
+      "godot/assets/images/character-refined/walk-back-8.png"
+    ],
+    [
+      "godot/assets/images/character-refined/walk-back-2.png",
+      "godot/assets/images/character-refined/walk-back-6.png"
+    ],
+    [
+      "godot/assets/images/character-refined/walk-back-3.png",
+      "godot/assets/images/character-refined/walk-back-5.png"
+    ],
+    [
+      "godot/assets/images/material-ready/menu-logo.png",
+      "godot/web/loader/logo.png"
+    ],
+    [
+      "godot/assets/images/menu-walk/step-1.png",
+      "godot/assets/images/menu-walk/step-7.png"
+    ],
+    [
+      "godot/assets/images/menu-walk/step-11.png",
+      "godot/assets/images/menu-walk/step-9.png"
+    ],
+    [
+      "godot/assets/images/menu-walk/step-12.png",
+      "godot/assets/images/menu-walk/step-8.png"
+    ],
+    [
+      "godot/assets/images/menu-walk/step-2.png",
+      "godot/assets/images/menu-walk/step-6.png"
+    ],
+    [
+      "godot/assets/images/menu-walk/step-3.png",
+      "godot/assets/images/menu-walk/step-5.png"
+    ]
+  ],
+  "proceduralResources": [
+    {
+      "id": "@procedural_buddy",
+      "source": "godot/presentation/actors/creature_art.gd",
+      "note": "Programmatic painted body/eyes/leaf/feet. Cap samples old buddy-ball.png, so update that texture while preserving generated body and animation."
+    },
+    {
+      "id": "carry leaf pouch / cord / bell thumbnail",
+      "source": "godot/presentation/native/original_carry_art.gd",
+      "note": "Programmatic SVG/raster composition with shared prop thumbnail; no independent photographed cutout."
+    }
+  ],
+  "excludedImportedExamples": [
+    "character-refined/portrait-front.png (no current native consumer found)",
+    "material-ready/icon-pause.png and most icon-*.png (only unused helper; no live button call sites)",
+    "gallery-journal/reading-companion.png, card-paper.png, detail-paper.png, book-scene.jpg (not consumed by current native UI)"
+  ],
+  "integrationRisks": [
+    "UI direct load/preload file paths bypass ElementAssets/theme; world-only alias overrides do not update map detail art, gallery or logo/loader.",
+    "Regenerate loader/logo.png from new logo source; do not generate a separate mismatching logo.",
+    "53 hero frame PNGs derive from cutouts. Preserve full walk clip phase, foot registrations, pose_overrides and fps; do not replace only idle or rewarp the old cutout body.",
+    "Map 5 landmark states share one soil base; preserve completed/locked identity and layout geometry.",
+    "GameHUD panel ornaments crop exact source-pixel rectangles; new panel must retain same canvas and decoration locations.",
+    "Logo contains Chinese/Latin branding and requires exact lettering review."
+  ]
+}

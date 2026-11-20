@@ -1,0 +1,55 @@
+{
+  "initialSource": {
+    "sha256": "bcba43d55dcf56240013556fb55fff439c2706c02de2ab97ea1e01126f2244c0",
+    "files": 953
+  },
+  "source": {
+    "sha256": "bcba43d55dcf56240013556fb55fff439c2706c02de2ab97ea1e01126f2244c0",
+    "files": 953
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "service_modal_lifecycle_test",
+      "code": 0,
+      "elapsedMs": 3551,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":418,\"failures\":[],\"passed\":true,\"scope\":\"Real HUD/controller with in-memory saves and observable view/audio adapters; emitted pressed signals and headless layout are not real pointer, GPU or audible-playback verification.\",\"suite\":\"service-modal-lifecycle\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_actor_depth_test",
+      "code": 0,
+      "elapsedMs": 4286,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":24948,\"failures\":[],\"passed\":true,\"suite\":\"actor-depth-clearance\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_chapter_map_test",
+      "code": 0,
+      "elapsedMs": 4202,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":712,\"failures\":[],\"passed\":true,\"scope\":\"Live progress, navigation, pause/save protection, real Enter input and responsive control bounds; GPU artwork and pointer/touch acceptance remain separate.\",\"suite\":\"native-chapter-map\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_fourth_cold_props_test",
+      "code": 1,
+      "elapsedMs": 2625,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":10,\"failures\":[\"window/gate and resident both checked\",\"window/gate and resident both checked\"],\"passed\":false,\"scope\":\"Fresh stage and warm switch to 1-4, before any tick; projected prop basis and legitimate collection rebuild. No save mutation.\",\"suite\":\"native-fourth-cold-props\"}\r\n",
+      "stderr": "ERROR: window/gate and resident both checked\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_fourth_cold_props_test.gd:9)\r\n       [1] _run (res://tests/native_fourth_cold_props_test.gd:27)\r\nERROR: window/gate and resident both checked\r\n   at: push_error (core/variant/variant_utility.cpp:1023)\r\n   GDScript backtrace (most recent call first):\r\n       [0] _check (res://tests/native_fourth_cold_props_test.gd:9)\r\n       [1] _run (res://tests/native_fourth_cold_props_test.gd:27)\r\n",
+      "passed": false
+    },
+    {
+      "label": "native_settings_page_test",
+      "code": 0,
+      "elapsedMs": 1887,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":35,\"failures\":[],\"passed\":true,\"suite\":\"native-settings-page\"}\r\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

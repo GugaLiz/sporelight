@@ -1,0 +1,212 @@
+{
+  "buddyContext": {},
+  "buddyNative": {
+    "actors": {
+      "buddy": {
+        "facing": "left",
+        "floorHeight": 0.649999976158142,
+        "onFloor": true,
+        "position": [
+          -7.99842929840088,
+          0.650922238826752,
+          0.649751961231232
+        ],
+        "support": "f:-8:1",
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "luvie": {
+        "facing": "left",
+        "floorHeight": 0.649999976158142,
+        "onFloor": true,
+        "position": [
+          -7.9882984161377,
+          0.650837540626526,
+          0.681463778018951
+        ],
+        "support": "f:-8:1",
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "moving": false,
+    "path": [],
+    "stable": true
+  },
+  "buddySnapshot": {
+    "active": "buddy",
+    "actors": {
+      "buddy": "f:-8:1",
+      "luvie": "f:-8:1"
+    },
+    "beat": 0,
+    "collected": [
+      "spore-0",
+      "spore-1"
+    ],
+    "completed": false,
+    "designVersion": 2.0,
+    "discovered": [],
+    "flags": [
+      "latch",
+      "home"
+    ],
+    "follow": true,
+    "frozen": null,
+    "growth": {},
+    "items": {
+      "bell": {
+        "angle": 0.0,
+        "tile": ""
+      }
+    },
+    "levelId": "1-4",
+    "mode": 0,
+    "observations": [],
+    "playing": false,
+    "runtime": {
+      "poses": {
+        "buddy": {
+          "facing": "left",
+          "offset": [
+            0.0016,
+            0.0009,
+            -0.3502
+          ],
+          "support": "f:-8:1"
+        },
+        "luvie": {
+          "facing": "left",
+          "offset": [
+            0.0117,
+            0.0008,
+            -0.3185
+          ],
+          "support": "f:-8:1"
+        }
+      },
+      "version": 1
+    },
+    "song": [
+      "turn",
+      "rise",
+      "rest"
+    ],
+    "turns": {},
+    "water": 0
+  },
+  "checks": 11,
+  "failures": [
+    "repair available after luvie approach and companion follows",
+    "switching then approach can complete"
+  ],
+  "final": {
+    "active": "luvie",
+    "actors": {
+      "buddy": "f:-8:1",
+      "luvie": "f:-9:0"
+    },
+    "beat": 0,
+    "collected": [
+      "spore-0",
+      "spore-1"
+    ],
+    "completed": false,
+    "designVersion": 2.0,
+    "discovered": [],
+    "flags": [
+      "latch",
+      "home"
+    ],
+    "follow": false,
+    "frozen": null,
+    "growth": {},
+    "items": {
+      "bell": {
+        "angle": 0.0,
+        "tile": ""
+      }
+    },
+    "levelId": "1-4",
+    "mode": 0,
+    "observations": [],
+    "playing": false,
+    "runtime": {
+      "poses": {
+        "buddy": {
+          "facing": "left",
+          "offset": [
+            0.0016,
+            0.0009,
+            -0.3502
+          ],
+          "support": "f:-8:1"
+        },
+        "luvie": {
+          "facing": "back",
+          "offset": [
+            0.0441,
+            0.0009,
+            -0.3484
+          ],
+          "support": "f:-9:0"
+        }
+      },
+      "version": 1
+    },
+    "song": [
+      "turn",
+      "rise",
+      "rest"
+    ],
+    "turns": {},
+    "water": 0
+  },
+  "luvieContext": {
+    "choices": [
+      {
+        "disabled": false,
+        "id": "approach:core",
+        "label": "走近播种台",
+        "reason": ""
+      }
+    ],
+    "id": "approach:core",
+    "label": "走近播种台",
+    "tile": {
+      "h": 1.0,
+      "id": "f:-8:1",
+      "small": false,
+      "solid": false,
+      "x": -8.0,
+      "z": 1.0
+    }
+  },
+  "passed": false,
+  "repairContext": {
+    "choices": [
+      {
+        "disabled": true,
+        "id": "repair",
+        "label": "一起种下微光 ✧",
+        "reason": "接上小苔灵，穿过鼹鼠旁已打开的花门，到小花园中央一起播种。"
+      }
+    ],
+    "id": "repair",
+    "label": "一起种下微光 ✧",
+    "tile": {
+      "h": 1.0,
+      "id": "f:-9:0",
+      "small": false,
+      "solid": false,
+      "x": -9.0,
+      "z": 0.0
+    }
+  }
+}

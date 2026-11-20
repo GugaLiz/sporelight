@@ -1,0 +1,79 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"checks":416,"failures":["normal/gallery/actual-button-exists","normal/gallery/modal-is-actually-gone","normal/gallery/controller-view-and-audio-resume-together","normal/gallery/normal-actions-are-unlocked","normal/gallery/real-controller-direction-reaches-the-neighbor","completed/gallery/actual-button-exists","completed/gallery/modal-is-actually-gone","completed/gallery/controller-view-and-audio-resume-together","completed/gallery/normal-actions-are-unlocked","completed/gallery/return-enters-completed-stroll","completed/gallery/real-controller-direction-reaches-the-neighbor","core/variant/variant_utility.cpp:1023 normal/gallery/actual-button-exists ","core/variant/variant_utility.cpp:1023 normal/gallery/modal-is-actually-gone ","core/variant/variant_utility.cpp:1023 normal/gallery/controller-view-and-audio-resume-together ","core/variant/variant_utility.cpp:1023 normal/gallery/normal-actions-are-unlocked ","core/variant/variant_utility.cpp:1023 normal/gallery/real-controller-direction-reaches-the-neighbor ","core/variant/variant_utility.cpp:1023 completed/gallery/actual-button-exists ","core/variant/variant_utility.cpp:1023 completed/gallery/modal-is-actually-gone ","core/variant/variant_utility.cpp:1023 completed/gallery/controller-view-and-audio-resume-together ","core/variant/variant_utility.cpp:1023 completed/gallery/normal-actions-are-unlocked ","core/variant/variant_utility.cpp:1023 completed/gallery/return-enters-completed-stroll ","core/variant/variant_utility.cpp:1023 completed/gallery/real-controller-direction-reaches-the-neighbor "],"passed":false,"scope":"Real HUD/controller with in-memory saves and observable view/audio adapters; emitted pressed signals and headless layout are not real pointer, GPU or audible-playback verification.","suite":"service-modal-lifecycle"}
+ERROR: normal/gallery/actual-button-exists
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _press (res://tests/service_modal_lifecycle_test.gd:61)
+       [2] _normal_return_paths (res://tests/service_modal_lifecycle_test.gd:115)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:364)
+ERROR: normal/gallery/modal-is-actually-gone
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _returned (res://tests/service_modal_lifecycle_test.gd:73)
+       [2] _normal_return_paths (res://tests/service_modal_lifecycle_test.gd:116)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:364)
+ERROR: normal/gallery/controller-view-and-audio-resume-together
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _returned (res://tests/service_modal_lifecycle_test.gd:74)
+       [2] _normal_return_paths (res://tests/service_modal_lifecycle_test.gd:116)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:364)
+ERROR: normal/gallery/normal-actions-are-unlocked
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _returned (res://tests/service_modal_lifecycle_test.gd:75)
+       [2] _normal_return_paths (res://tests/service_modal_lifecycle_test.gd:116)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:364)
+ERROR: normal/gallery/real-controller-direction-reaches-the-neighbor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _walk_once (res://tests/service_modal_lifecycle_test.gd:96)
+       [2] _normal_return_paths (res://tests/service_modal_lifecycle_test.gd:118)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:364)
+ERROR: completed/gallery/actual-button-exists
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _press (res://tests/service_modal_lifecycle_test.gd:61)
+       [2] _completed_return_paths (res://tests/service_modal_lifecycle_test.gd:139)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:365)
+ERROR: completed/gallery/modal-is-actually-gone
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _returned (res://tests/service_modal_lifecycle_test.gd:73)
+       [2] _completed_return_paths (res://tests/service_modal_lifecycle_test.gd:140)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:365)
+ERROR: completed/gallery/controller-view-and-audio-resume-together
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _returned (res://tests/service_modal_lifecycle_test.gd:74)
+       [2] _completed_return_paths (res://tests/service_modal_lifecycle_test.gd:140)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:365)
+ERROR: completed/gallery/normal-actions-are-unlocked
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _returned (res://tests/service_modal_lifecycle_test.gd:75)
+       [2] _completed_return_paths (res://tests/service_modal_lifecycle_test.gd:140)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:365)
+ERROR: completed/gallery/return-enters-completed-stroll
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _completed_return_paths (res://tests/service_modal_lifecycle_test.gd:141)
+       [2] _run (res://tests/service_modal_lifecycle_test.gd:365)
+ERROR: completed/gallery/real-controller-direction-reaches-the-neighbor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _walk_once (res://tests/service_modal_lifecycle_test.gd:96)
+       [2] _completed_return_paths (res://tests/service_modal_lifecycle_test.gd:142)
+       [3] _run (res://tests/service_modal_lifecycle_test.gd:365)

@@ -1,0 +1,11 @@
+import {createRequire} from 'node:module';
+import {resolve} from 'node:path';
+const require=createRequire(import.meta.url);
+const sharp=require(resolve(process.env.USERPROFILE,'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp'));
+const src='godot/assets/images/full-asset-redraw-20261116/light-tower.png';
+let grid='<svg xmlns="http://www.w3.org/2000/svg" width="272" height="405">';
+for(let x=60;x<=210;x+=10)grid+='<path d="M'+x+' 185V325" stroke="red" stroke-opacity=".25" stroke-width=".3"/><text x="'+x+'" y="182" fill="red" font-size="4">'+x+'</text>';
+for(let y=190;y<=320;y+=10)grid+='<path d="M60 '+y+'H210" stroke="red" stroke-opacity=".25" stroke-width=".3"/><text x="55" y="'+y+'" fill="red" font-size="4">'+y+'</text>';
+grid+='</svg>';
+const overlay=await sharp(src).composite([{input:Buffer.from(grid),left:0,top:0}]).png().toBuffer();
+await sharp(overlay).resize(1088,1620,{kernel:'nearest'}).png().toFile('docs/qa-godot-native/full-asset-redraw-20261116/tower-review/grid.png');

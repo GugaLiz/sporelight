@@ -1,0 +1,478 @@
+{
+  "checks": 44,
+  "failures": [
+    "relocated bell can be picked up through primary/E f:-4:0",
+    "bell delivery opens gate without completing",
+    "bring buddy back through permanent route physical route settles",
+    "buddy walks to home on real supports",
+    "walk together through flower gate has a permitted route from f:-4:0",
+    "real route reaches final core",
+    "full 1-4 final mechanism and reunion conditions satisfied",
+    "final native context exposes together planting",
+    "explicit repair settles",
+    "real together route can explicitly complete 1-4"
+  ],
+  "observations": [
+    {
+      "availability": {
+        "follow": {
+          "available": true,
+          "reason": ""
+        },
+        "switch": {
+          "available": true,
+          "reason": ""
+        },
+        "take:bell": {
+          "available": true,
+          "reason": ""
+        }
+      },
+      "context": {
+        "choices": [
+          {
+            "disabled": false,
+            "id": "take:bell",
+            "label": "收好门铃",
+            "reason": ""
+          }
+        ],
+        "id": "take:bell",
+        "label": "收好门铃",
+        "tile": {
+          "h": 0.0,
+          "id": "f:-2:4",
+          "small": false,
+          "x": -2.0,
+          "z": 4.0
+        }
+      },
+      "message": "稳稳放好了，看看光与道路有没有一起改变。",
+      "phase": "drop",
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:3:5",
+          "luvie": "f:-2:4"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch"
+        ],
+        "follow": false,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": "f:-2:4"
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.0,
+                0.0003,
+                0.0
+              ],
+              "support": "f:3:5"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                0.0,
+                0.0009,
+                0.025
+              ],
+              "support": "f:-2:4"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "support": "f:-2:4"
+    },
+    {
+      "availability": {
+        "follow": {
+          "available": true,
+          "reason": ""
+        },
+        "switch": {
+          "available": true,
+          "reason": ""
+        },
+        "take:bell": {
+          "available": true,
+          "reason": ""
+        },
+        "use:home": {
+          "available": false,
+          "reason": "门铃还在内庭，带回来给鼹鼠吧。"
+        }
+      },
+      "context": {
+        "choices": [
+          {
+            "disabled": false,
+            "id": "take:bell",
+            "label": "收好门铃",
+            "reason": ""
+          },
+          {
+            "disabled": true,
+            "id": "use:home",
+            "label": "归还鼹鼠的门铃",
+            "reason": "门铃还在内庭，带回来给鼹鼠吧。"
+          }
+        ],
+        "id": "context",
+        "label": "选择附近操作",
+        "tile": {
+          "h": 0.0,
+          "id": "f:-3:0",
+          "small": false,
+          "x": -3.0,
+          "z": 0.0
+        }
+      },
+      "message": "稳稳放好了，看看光与道路有没有一起改变。",
+      "phase": "drop",
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:3:5",
+          "luvie": "f:-3:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch"
+        ],
+        "follow": false,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": "f:-3:0"
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.0,
+                0.0003,
+                0.0
+              ],
+              "support": "f:3:5"
+            },
+            "luvie": {
+              "facing": "right",
+              "offset": [
+                0.38,
+                0.0009,
+                -0.0391
+              ],
+              "support": "f:-3:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "support": "f:-3:0"
+    },
+    {
+      "availability": {
+        "follow": {
+          "available": true,
+          "reason": ""
+        },
+        "observe:rest": {
+          "available": true,
+          "reason": ""
+        },
+        "switch": {
+          "available": true,
+          "reason": ""
+        },
+        "take:bell": {
+          "available": true,
+          "reason": ""
+        },
+        "use:home": {
+          "available": false,
+          "reason": "门铃还在内庭，带回来给鼹鼠吧。"
+        }
+      },
+      "context": {
+        "choices": [
+          {
+            "disabled": true,
+            "id": "use:home",
+            "label": "归还鼹鼠的门铃",
+            "reason": "门铃还在内庭，带回来给鼹鼠吧。"
+          },
+          {
+            "disabled": false,
+            "id": "take:bell",
+            "label": "收好门铃",
+            "reason": ""
+          },
+          {
+            "disabled": false,
+            "id": "observe:rest",
+            "label": "在这里坐一会儿",
+            "reason": ""
+          }
+        ],
+        "id": "context",
+        "label": "选择附近操作",
+        "tile": {
+          "h": 0.0,
+          "id": "f:-4:0",
+          "small": false,
+          "x": -4.0,
+          "z": 0.0
+        }
+      },
+      "message": "稳稳放好了，看看光与道路有没有一起改变。",
+      "phase": "drop",
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:3:5",
+          "luvie": "f:-4:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch"
+        ],
+        "follow": false,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": "f:-4:0"
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.0,
+                0.0003,
+                0.0
+              ],
+              "support": "f:3:5"
+            },
+            "luvie": {
+              "facing": "left",
+              "offset": [
+                0.4056,
+                0.0009,
+                0.0356
+              ],
+              "support": "f:-4:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      },
+      "support": "f:-4:0"
+    },
+    {
+      "context": {
+        "choices": [
+          {
+            "disabled": true,
+            "id": "use:home",
+            "label": "归还鼹鼠的门铃",
+            "reason": "门铃还在内庭，带回来给鼹鼠吧。"
+          },
+          {
+            "disabled": false,
+            "id": "take:bell",
+            "label": "收好门铃",
+            "reason": ""
+          },
+          {
+            "disabled": false,
+            "id": "observe:rest",
+            "label": "在这里坐一会儿",
+            "reason": ""
+          }
+        ],
+        "id": "context",
+        "label": "选择附近操作",
+        "tile": {
+          "h": 0.0,
+          "id": "f:-4:0",
+          "small": false,
+          "x": -4.0,
+          "z": 0.0
+        }
+      },
+      "message": "一起慢慢走。",
+      "movement": {
+        "actors": {
+          "buddy": {
+            "facing": "front",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              3.0,
+              0.000335067510604858,
+              5.0
+            ],
+            "support": "f:3:5",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "luvie": {
+            "facing": "left",
+            "floorHeight": 0.0,
+            "onFloor": true,
+            "position": [
+              -3.59442162513733,
+              0.000919838843401521,
+              0.0355882309377193
+            ],
+            "support": "f:-4:0",
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "moving": false,
+        "path": [],
+        "stable": true
+      },
+      "phase": "core",
+      "state": {
+        "active": "luvie",
+        "actors": {
+          "buddy": "f:3:5",
+          "luvie": "f:-4:0"
+        },
+        "beat": 0,
+        "collected": [
+          "spore-0",
+          "spore-1"
+        ],
+        "completed": false,
+        "designVersion": 2.0,
+        "discovered": [],
+        "flags": [
+          "latch"
+        ],
+        "follow": true,
+        "frozen": null,
+        "growth": {},
+        "items": {
+          "bell": {
+            "angle": 0.0,
+            "tile": "f:-4:0"
+          }
+        },
+        "levelId": "1-4",
+        "mode": 0,
+        "observations": [],
+        "playing": false,
+        "runtime": {
+          "poses": {
+            "buddy": {
+              "facing": "front",
+              "offset": [
+                0.0,
+                0.0003,
+                0.0
+              ],
+              "support": "f:3:5"
+            },
+            "luvie": {
+              "facing": "left",
+              "offset": [
+                0.4056,
+                0.0009,
+                0.0356
+              ],
+              "support": "f:-4:0"
+            }
+          },
+          "version": 1
+        },
+        "song": [
+          "turn",
+          "rise",
+          "rest"
+        ],
+        "turns": {},
+        "water": 0
+      }
+    }
+  ],
+  "passed": false
+}

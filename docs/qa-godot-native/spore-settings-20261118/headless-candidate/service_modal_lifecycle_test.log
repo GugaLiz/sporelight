@@ -1,0 +1,35 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"checks":395,"failures":["completed-undo/actual-undo-tool-exists","completed-undo/unfinished-legal-move-enables-undo-again","resize/594x462/real-modal-scroll-exists","resize/390x844/real-modal-scroll-exists","resize/568x320/real-modal-scroll-exists","resize/1280x720/real-modal-scroll-exists","core/variant/variant_utility.cpp:1023 completed-undo/actual-undo-tool-exists ","core/variant/variant_utility.cpp:1023 completed-undo/unfinished-legal-move-enables-undo-again ","core/variant/variant_utility.cpp:1023 resize/594x462/real-modal-scroll-exists ","core/variant/variant_utility.cpp:1023 resize/390x844/real-modal-scroll-exists ","core/variant/variant_utility.cpp:1023 resize/568x320/real-modal-scroll-exists ","core/variant/variant_utility.cpp:1023 resize/1280x720/real-modal-scroll-exists "],"passed":false,"scope":"Real HUD/controller with in-memory saves and observable view/audio adapters; emitted pressed signals and headless layout are not real pointer, GPU or audible-playback verification.","suite":"service-modal-lifecycle"}
+ERROR: completed-undo/actual-undo-tool-exists
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _completed_undo_availability (res://tests/service_modal_lifecycle_test.gd:181)
+       [2] _run (res://tests/service_modal_lifecycle_test.gd:373)
+ERROR: completed-undo/unfinished-legal-move-enables-undo-again
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _completed_undo_availability (res://tests/service_modal_lifecycle_test.gd:192)
+       [2] _run (res://tests/service_modal_lifecycle_test.gd:373)
+ERROR: resize/594x462/real-modal-scroll-exists
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _modal_resize_contract (res://tests/service_modal_lifecycle_test.gd:341)
+ERROR: resize/390x844/real-modal-scroll-exists
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _modal_resize_contract (res://tests/service_modal_lifecycle_test.gd:341)
+ERROR: resize/568x320/real-modal-scroll-exists
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _modal_resize_contract (res://tests/service_modal_lifecycle_test.gd:341)
+ERROR: resize/1280x720/real-modal-scroll-exists
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/rule_application.gd:141)
+       [1] _modal_resize_contract (res://tests/service_modal_lifecycle_test.gd:341)

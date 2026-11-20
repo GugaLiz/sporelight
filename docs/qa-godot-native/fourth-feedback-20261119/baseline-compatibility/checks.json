@@ -1,0 +1,32 @@
+{
+  "scope": "Temporarily reverse only this task's functional consumer changes; leave all earlier edits intact. Four expanded smoke failures compared to patched run. Consumers restored byte-for-byte in finally. New unused helper and cooperation function remain present.",
+  "results": [
+    {
+      "test": "rule_application",
+      "exitCode": 1,
+      "failed": true
+    },
+    {
+      "test": "rule_integration",
+      "exitCode": 1,
+      "failed": true
+    },
+    {
+      "test": "native_chapter_guidance_test",
+      "exitCode": 1,
+      "failed": true
+    },
+    {
+      "test": "native_movement_test",
+      "exitCode": 1,
+      "failed": true
+    }
+  ],
+  "restored": true,
+  "sha256": {
+    "godot/application/main.gd": "142373b7f490f44676c330b7c31f5cae3d3a934045cdb8a30097f6ac1b5c010f",
+    "godot/application/native_movement.gd": "217f3b39a8f9e46dda72d60433435f002d56336da2b52b6980ca57c96cfac70f",
+    "godot/core/garden_world.gd": "e276ecb118788196b760a02f885c2e5dff866524a1d4367602914eed4f7a3cfb",
+    "godot/ui/garden_hud.gd": "975d224c4f0c2f9304f2d8e443e3407ed330e357923f8f9274bc85104045df42"
+  }
+}

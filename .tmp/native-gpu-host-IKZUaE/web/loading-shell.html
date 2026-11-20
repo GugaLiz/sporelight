@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#183e47">
+  <title>$GODOT_PROJECT_NAME</title>
+  <link rel="icon" type="image/x-icon" href="./favicon.ico?v=sporelight-mushroom-2">
+  <link rel="icon" type="image/png" href="./branding/favicon-32.png?v=sporelight-mushroom-2" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="./branding/favicon.svg?v=sporelight-mushroom-2" sizes="any">
+  <link rel="apple-touch-icon" href="./branding/apple-touch-icon.png?v=sporelight-mushroom-2" sizes="180x180">
+  <link rel="manifest" href="./branding/site.webmanifest">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #183e47; }
+    body { font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; color: #705c40; }
+    [hidden] { display: none !important; }
+    #canvas { display: block; width: 100%; height: 100%; border: 0; outline: none; touch-action: none; }
+    #canvas[aria-busy="true"] { visibility: hidden; }
+    #status { position: fixed; inset: 0; z-index: 10; background: #183e47; transition: opacity 280ms ease; }
+    #status.is-leaving { opacity: 0; pointer-events: none; }
+    #loading-page { display: block; border: 0; width: 100%; height: 100%; }
+    #loading-fallback { position: absolute; inset: 0; padding: 32px; display: grid; align-content: center; justify-items: center; gap: 16px; text-align: center; color: #fff4d8; background: #183e47; }
+    #loading-fallback button { min-height: 44px; padding: 10px 28px; border: 1px solid #d9c99e; border-radius: 999px; background: #f4ecd4; color: #705c40; font: inherit; cursor: pointer; }
+    #rotate-screen { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom)); background: #f1ebd8; touch-action: none; }
+    .rotate-card { width: min(100%, 350px); padding: 36px 24px; text-align: center; border: 1px solid #d6bd8e; border-radius: 24px; background: #fff7e8; box-shadow: 0 12px 48px #735e3620; }
+    .rotate-phone { width: 82px; height: 46px; margin: 0 auto 25px; border: 3px solid #a48d60; border-radius: 10px; position: relative; }
+    .rotate-phone::after { content: ''; position: absolute; right: 5px; top: 16px; width: 3px; height: 9px; border-radius: 2px; background: #a48d60; }
+    #rotate-screen h2 { font-size: 23px; font-weight: 400; margin: 0 0 14px; }
+    #rotate-screen p { margin: 0; color: #727856; font-size: 14px; line-height: 1.9; }
+    #rotate-screen small { display: block; margin-top: 20px; color: #93866c; line-height: 1.7; }
+    @media (prefers-reduced-motion: reduce) { #status { transition: none; } }
+  </style>
+  $GODOT_HEAD_INCLUDE
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="微光苔原游戏画面" aria-busy="true">当前浏览器无法显示游戏画面。</canvas>
+  <section id="rotate-screen" hidden role="status" aria-live="polite" aria-label="请横屏游玩">
+    <div class="rotate-card"><div class="rotate-phone" aria-hidden="true"></div><h2>横过来，走进花园</h2><p>请将手机或平板转为横屏。<br>转回横屏后，继续刚才的旅程。</p><small>如果画面没有旋转，请关闭设备的方向锁定。</small></div>
+  </section>
+  <section id="status" data-phase="preparing" aria-label="正在加载微光苔原" aria-busy="true">
+    <iframe id="loading-page" src="loading/index.html" title="微光苔原加载页面"></iframe>
+    <div id="loading-fallback" hidden role="alert"><p id="fallback-message">加载页面未能打开，请重试。</p><button id="fallback-retry" type="button">重新加载</button></div>
+    <noscript><style>#loading-page { display: none; } .no-script { position: absolute; inset: 0; display: grid; align-content: center; padding: 32px; text-align: center; color: #fff4d8; }</style><p class="no-script">请启用浏览器的 JavaScript，再重新打开这片花园。</p></noscript>
+  </section>
+  <script>
+const GODOT_CONFIG = $GODOT_CONFIG;
+const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
+
+(function () {
+  'use strict';
+  const overlay = document.getElementById('status');
+  const canvas = document.getElementById('canvas');
+  const frame = document.getElementById('loading-page');
+  const fallback = document.getElementById('loading-fallback');
+  const rotate = document.getElementById('rotate-screen');
+  const touch = window.matchMedia('(any-pointer: coarse)');
+  const protocol = 'sporelight-loading-v1';
+  let state = {phase: 'preparing', current: null, total: null};
+  let failed = false;
+  let finished = false;
+  let pageReady = false;
+
+  function syncOrientation() {
+    const blocked = (touch.matches || navigator.maxTouchPoints > 0) && window.innerHeight > window.innerWidth;
+    const changed = window.__sporelightPortraitBlocked !== blocked;
+    window.__sporelightPortraitBlocked = blocked;
+    rotate.hidden = !blocked || canvas.getAttribute('aria-busy') === 'true';
+    canvas.inert = blocked;
+    canvas.setAttribute('aria-hidden', String(blocked));
+    if (blocked) canvas.blur();
+    else if (changed && canvas.getAttribute('aria-busy') === 'false') canvas.focus({preventScroll: true});
+  }
+  window.addEventListener('resize', syncOrientation);
+  window.addEventListener('orientationchange', syncOrientation);
+  touch.addEventListener('change', syncOrientation);
+  syncOrientation();
+
+  function publish() {
+    overlay.dataset.phase = state.phase;
+    if (pageReady) frame.contentWindow.postMessage({protocol, type: 'state', ...state}, window.location.origin);
+  }
+  function retry() { window.location.reload(); }
+  document.getElementById('fallback-retry').addEventListener('click', retry);
+  window.addEventListener('message', function (event) {
+    if (event.origin !== window.location.origin || event.source !== frame.contentWindow || event.data?.protocol !== protocol) return;
+    if (event.data.type === 'ready') { pageReady = true; fallback.hidden = true; publish(); }
+    else if (event.data.type === 'retry' && failed) retry();
+  });
+  frame.addEventListener('error', function () { fallback.hidden = false; });
+  frame.addEventListener('load', function () {
+    // The view is a local document. A missing 404 document cannot report ready.
+    if (frame.contentDocument?.getElementById('loading-view')?.dataset.scriptReady !== 'true') fallback.hidden = false;
+    else { pageReady = true; fallback.hidden = true; publish(); }
+  });
+
+  function showFailure(error) {
+    if (finished || failed) return;
+    failed = true;
+    state = {phase: 'error', message: error instanceof Error ? error.message : String(error || '未知加载错误')};
+    overlay.setAttribute('aria-busy', 'false');
+    document.getElementById('fallback-message').textContent = '花园暂时没能醒来，请重新加载。';
+    if (!pageReady) fallback.hidden = false;
+    publish();
+    console.error(error);
+  }
+  function updateProgress(current, total) {
+    if (failed || finished) return;
+    const known = Number.isFinite(current) && Number.isFinite(total) && current >= 0 && total > 0;
+    state = known ? {phase: current >= total ? 'opening' : 'downloading', current: Math.min(total, current), total} : {phase: 'preparing', current: null, total: null};
+    publish();
+  }
+  function revealGarden() {
+    if (failed || finished) return;
+    finished = true;
+    state = {phase: 'ready'};
+    overlay.setAttribute('aria-busy', 'false');
+    publish();
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        canvas.setAttribute('aria-busy', 'false');
+        overlay.inert = true;
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.classList.add('is-leaving');
+        syncOrientation();
+        const remove = function () {
+          if (!overlay.isConnected) return;
+          overlay.remove();
+          if (!window.__sporelightPortraitBlocked) canvas.focus({preventScroll: true});
+        };
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) remove();
+        else { overlay.addEventListener('transitionend', remove, {once: true}); window.setTimeout(remove, 340); }
+      });
+    });
+  }
+  async function startGarden() {
+    try {
+      if (typeof Engine !== 'function') throw new Error('启动文件尚未准备好，请刷新后重试。');
+      const missing = Engine.getMissingFeatures({threads: GODOT_THREADS_ENABLED});
+      if (missing.length) throw new Error('当前浏览器缺少运行花园所需的功能：' + missing.join('、') + '。请更新浏览器或确认图形加速已开启。');
+      const engine = new Engine(GODOT_CONFIG);
+      await engine.startGame({onProgress: updateProgress});
+      revealGarden();
+    } catch (error) { showFailure(error); }
+  }
+  const bootstrap = document.createElement('script');
+  bootstrap.src = '$GODOT_URL';
+  bootstrap.async = true;
+  bootstrap.addEventListener('load', startGarden, {once: true});
+  bootstrap.addEventListener('error', function () { showFailure(new Error('未能读取花园的启动文件，请检查连接后重试。')); }, {once: true});
+  document.body.appendChild(bootstrap);
+}());
+  </script>
+</body>
+</html>
