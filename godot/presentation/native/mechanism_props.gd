@@ -111,7 +111,10 @@ static func update_motion(stage: Node, before: RefCounted, after: RefCounted, pr
 		var finish := _height_step(after, module)
 		var value := lerpf(start, finish, clampf(progress, 0.0, 1.0))
 		var pointer: Node3D = node.get_node("HeightPointer")
-		pointer.position.y = 0.15 + value * 0.11
+		if node.has_meta("natural_height_origin"):
+			pointer.position = preload("res://presentation/native/symbiosis_dressing.gd").lift_gauge_point(node.get_meta("natural_height_origin"), value / 2.0)
+		else:
+			pointer.position.y = 0.15 + value * 0.11
 		node.set_meta("height_step", value)
 
 static func mirror_yaw(angle: float) -> float:
@@ -560,12 +563,15 @@ static func _instrument(stage: Node, root: Node3D, mark: Dictionary) -> void:
 		offset = offset.rotated(Vector3.UP,-float(world.state.turns.get(rotating,0))*PI/2)
 		root.set_meta("instrument_module",rotating)
 		root.set_meta("instrument_offset",offset)
-	if level == "1-3" and id == "turn":
+	if level == "2-1" and id == "water":
+		preload("res://presentation/native/symbiosis_dressing.gd").build_water_control(stage, root, offset)
+		return
+	if (level == "1-3" and id == "turn") or (level == "2-4" and id == "slide"):
 		var natural := preload("res://presentation/native/symbiosis_dressing.gd")
 		var seat: MeshInstance3D = stage._cylinder(root,.19,.025,offset+Vector3(0,.0125,0),Color("707963"))
 		seat.name = "InstrumentBase"
 		natural._art(stage,root,"wheel",offset+Vector3(0,.025,0),"NaturalWheel")
-		root.set_meta("motion_kind","rotate")
+		root.set_meta("motion_kind",motion)
 		return
 	var base: MeshInstance3D = stage._cylinder(root, 0.19, 0.12, Vector3(0, 0.06, 0) + offset, Color("aaad82"))
 	base.name = "InstrumentBase"

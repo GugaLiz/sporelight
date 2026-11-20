@@ -17,6 +17,14 @@ static func build(stage: Node, wall: Array) -> Node3D:
 	# The former box had no collider; neither this footing nor the art adds one.
 	var footing: MeshInstance3D = stage._box(root,Vector3(.86,.10,.86),Vector3(0,.025,0),Color("a7ada0"))
 	footing.name = "ObstacleFooting"
+	# The footprint remains the original blocked cell. Use the same painted
+	# stone family as its shore, instead of an unrelated flat grey slab.
+	var stone: StandardMaterial3D = stage._solid_material(Color("d0d5b6"))
+	stone.albedo_texture = stage._texture("paving-pond" if alias == "river-rock" else "paving-valley")
+	stone.uv1_triplanar = true
+	stone.uv1_scale = Vector3(2,2,2)
+	stone.roughness = .88
+	footing.material_override = stone
 	var rock: Sprite3D = stage._sprite(root,alias,pixels*sqrt(2.0)/70.0,Vector3(0,.075,0))
 	rock.name = "OriginalRock"
 	rock.offset = Vector2(0,(rock.texture.get_height()-1)*.5)

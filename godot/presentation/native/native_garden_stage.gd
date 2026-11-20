@@ -1001,9 +1001,11 @@ func _pond_mirror_frame(parent: Node3D, face: MeshInstance3D, centre: Vector3) -
 	# The inner mirror keeps its real optical normal. A separate metal-only
 	# gimbal is fixed in the world, so an edge-on glass still has a legible oval
 	# mounting. This ring contains no glass and never follows the camera.
-	var silver := _solid_material(Color("d3e0df"))
-	silver.metallic = 0.15
-	silver.roughness = 0.23
+	var silver := _solid_material(Color("d3ddd4"))
+	silver.metallic = 0.35
+	silver.roughness = 0.32
+	# Patinated silver, warm carved fittings and real bevels share the garden's
+	# stone/wood palette. The optical plane and its normal stay unchanged.
 	var rim := MeshInstance3D.new()
 	rim.name = "SilverBeveledRim"
 	rim.mesh = _pond_mirror_rim_mesh()
@@ -1020,6 +1022,21 @@ func _pond_mirror_frame(parent: Node3D, face: MeshInstance3D, centre: Vector3) -
 	gimbal.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	gimbal.set_meta("metal_only", true)
 	parent.add_child(gimbal)
+	var bronze := _solid_material(Color("b4a16c"))
+	bronze.metallic = .4
+	bronze.roughness = .4
+	gimbal.material_override = bronze
+	for side: int in [-1,1]:
+		var leaf := _sphere(gimbal,.032,Vector3(side*.247,0,.013),Color("b4a16c"))
+		leaf.name = "CarvedLeaf_" + str(side)
+		leaf.scale = Vector3(.6,1.8,.55)
+		leaf.rotation.z = side*-.25
+		leaf.material_override = bronze
+		var vein := _cylinder(leaf,.0025,.045,Vector3(0,0,.027),Color("ecdfac"))
+		vein.name = "LeafVein"
+		for direction: int in [-1,1]:
+			var rivet := _sphere(gimbal,.009,Vector3(side*.19,direction*.166,.014),Color("d8c38e"))
+			rivet.scale.z = .5
 	var top_bearing := _cylinder(parent, 0.018, 0.020, Vector3(centre.x, centre.y + 0.232, centre.z), mount_color)
 	top_bearing.name = "TopGimbalBearing"
 	top_bearing.material_override = silver
@@ -1029,6 +1046,9 @@ func _pond_mirror_frame(parent: Node3D, face: MeshInstance3D, centre: Vector3) -
 	var swivel := _cylinder(parent, 0.052, 0.025, Vector3(centre.x, 0.1025, centre.z), mount_color)
 	swivel.name = "ReflectionSwivel"
 	swivel.material_override = silver
+	var collar := _cylinder(parent,.039,.018,Vector3(centre.x,.137,centre.z),Color("b4a16c"))
+	collar.name = "SpindleCollar"
+	collar.material_override = bronze
 	parent.set_meta("mirror_form", "double-sided-oval-silver")
 	parent.set_meta("mirror_mount", "fixed-world-metal-gimbal")
 	face.set_meta("visible_glass_half_size", Vector2(0.218, 0.174))
@@ -1049,10 +1069,10 @@ func _pond_mirror_gimbal_mesh() -> ArrayMesh:
 	# Its .54 x .50 x .025m envelope projects to a .19976m X/Z half-width
 	# at the fixed 45-degree mounting, within the original .205m hard base.
 	var profile: Array[Vector3] = [
-		Vector3(0.255, 0.232, 0.007), Vector3(0.259, 0.237, 0.0125),
+		Vector3(0.235, 0.215, 0.007), Vector3(0.246, 0.225, 0.0125),
 		Vector3(0.266, 0.246, 0.0125), Vector3(0.270, 0.250, 0.004),
 		Vector3(0.270, 0.250, -0.004), Vector3(0.266, 0.246, -0.0125),
-		Vector3(0.259, 0.237, -0.0125), Vector3(0.255, 0.232, -0.007)
+		Vector3(0.246, 0.225, -0.0125), Vector3(0.235, 0.215, -0.007)
 	]
 	return _mirror_profile_mesh(profile)
 

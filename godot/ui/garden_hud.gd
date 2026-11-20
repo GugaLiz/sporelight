@@ -17,6 +17,7 @@ const Journey := preload("res://application/journey_view.gd")
 const MenuCover := preload("res://ui/menu_cover.gd")
 const GalleryPage := preload("res://ui/gallery_page.gd")
 const SettingsPage := preload("res://ui/settings_page.gd")
+const JourneyEnding := preload("res://ui/journey_ending.gd")
 const MenuButtons := preload("res://ui/menu_button_styles.gd")
 const ChapterMap := preload("res://ui/chapter_map.gd")
 const GameHUDSkin := preload("res://ui/game_hud_skin.gd")
@@ -63,6 +64,7 @@ var _home_background: TextureRect
 var _home_logo: TextureRect
 var _home_cover: Control
 var _settings_page: Control
+var _journey_ending: Control
 var _game_interface_visible := true
 var _tool_buttons: Array[Button] = []
 var _last_command_key := ""
@@ -644,6 +646,7 @@ func apply_settings(settings: Dictionary) -> void:
 	if is_instance_valid(_home_cover):
 		_home_cover.configure(_settings)
 	if is_instance_valid(_chapter_map): _chapter_map.apply_settings(_settings)
+	if is_instance_valid(_journey_ending): _journey_ending.apply_settings(_settings)
 	_layout()
 
 
@@ -1184,6 +1187,14 @@ func show_home(levels: Array, progress: Dictionary, can_continue: bool, explore_
 		style.shadow_size = 0
 	box.add_child(meter)
 	box.add_child(_label("已唤醒 %d / %d 片微光" % [completed, total], 12, MUTED))
+	if bool(ProjectSettings.get_setting("sporelight/testing/ending_preview", false)):
+		var preview := _button("终章预览 · 调试")
+		preview.name = "CoverEndingPreview"
+		preview.set_meta("action", "ending_preview")
+		preview.tooltip_text = "直接查看终章效果，不改变旅程进度。"
+		_home_cover.style_utility(preview)
+		preview.pressed.connect(show_journey_ending_preview)
+		box.add_child(preview)
 	if not str(progress.get("storage_warning", "")).is_empty():
 		box.add_child(_label(str(progress.storage_warning), 12, MUTED))
 	_resize_overlay()
@@ -1557,6 +1568,9 @@ func show_save_tools(repository: Variant) -> void:
 
 func show_ending(world: Variant, stats: Dictionary = {}) -> void:
 	var level: Dictionary = world if world is Dictionary else world.level
+	if str(level.get("id","")) == "3-4":
+		_show_journey_ending(world,stats)
+		return
 	var snapshot: Dictionary = stats if not stats.is_empty() else ({} if world is Dictionary else world.state)
 	var collected: Variant = snapshot.get("collected", [])
 	var count: int = collected.size() if collected is Array else int(collected)
@@ -1601,6 +1615,31 @@ func show_ending(world: Variant, stats: Dictionary = {}) -> void:
 		close_overlay(false)
 		menu_requested.emit())
 	choices.add_child(back)
+	_resize_overlay()
+
+
+func _show_journey_ending(world: Variant, stats: Dictionary) -> void:
+	_open_page("ending",JourneyEnding.TITLE,show_ending.bind(world,stats))
+	_mount_journey_ending(func(action: String) -> void:
+		close_overlay(action == "stay")
+		if action == "map": menu_requested.emit()
+		else: command_requested.emit(action))
+
+
+func show_journey_ending_preview() -> void:
+	_open_page("ending_preview",JourneyEnding.TITLE,show_journey_ending_preview)
+	_mount_journey_ending(func(action: String) -> void:
+		if action == "map": menu_requested.emit()
+		else: navigate_back())
+
+
+func _mount_journey_ending(on_action: Callable) -> void:
+	_overlay_paper.get_parent().hide()
+	_journey_ending = JourneyEnding.new()
+	_overlay.add_child(_journey_ending)
+	_journey_ending.configure(_settings)
+	_journey_ending.action_requested.connect(on_action)
+	_overlay.set_meta("preferred_focus",_journey_ending.buttons[0])
 	_resize_overlay()
 
 
@@ -1674,6 +1713,7 @@ func close_overlay(resume_game: bool = true) -> void:
 	_home_logo = null
 	_home_cover = null
 	_settings_page = null
+	_journey_ending = null
 	layout_changed.emit()
 	if resume_game:
 		_page_kind = ""
@@ -1806,6 +1846,9 @@ func _focus_first_control(node: Node) -> bool:
 
 
 func _resize_overlay() -> void:
+	if is_instance_valid(_journey_ending):
+		_journey_ending.relayout()
+		return
 	if is_instance_valid(_gallery_page):
 		_gallery_page.relayout()
 		return

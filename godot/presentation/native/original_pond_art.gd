@@ -3,12 +3,28 @@ extends RefCounted
 ## SVGs are rasterized only once per variant, never in the animation loop.
 static var _textures: Dictionary = {}
 
+const Assets = preload("res://elements/element_assets.gd")
+const Props = preload("res://elements/prop_definitions.gd")
+static var _frog_revision := ""
+
+static func frog_spec() -> Dictionary:
+	return Props.natural_spec("pond", "frog")
+
 static func frog(blink: bool) -> Texture2D:
+	var revision := str(Assets.revision()) + ":" + str(Props.revision())
+	if _frog_revision != revision:
+		_textures.erase("frog_closed"); _textures.erase("frog_open")
+		_frog_revision = revision
 	var key := "frog_closed" if blink else "frog_open"
 	if _textures.has(key): return _textures[key]
-	var eyes := '<path d="M-7 -16 Q-5 -14 -3 -16 M1 -16 Q3 -14 5 -16" fill="none" stroke="#465744" stroke-width="1.1"/>' if blink else '<ellipse cx="-5" cy="-16" rx="1.7" ry="2" fill="#394d3c"/><ellipse cx="3" cy="-16" rx="1.7" ry="2" fill="#394d3c"/><circle cx="-5.5" cy="-16.6" r=".6" fill="#ffffe6"/><circle cx="2.5" cy="-16.6" r=".6" fill="#ffffe6"/>'
-	var svg := '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48" viewBox="-32 -32 64 48"><defs><radialGradient id="body" cx="30%" cy="20%"><stop stop-color="#d9e6a0"/><stop offset=".55" stop-color="#9abb70"/><stop offset="1" stop-color="#5f8758"/></radialGradient><radialGradient id="head" cx="35%" cy="20%"><stop stop-color="#e4ecb5"/><stop offset=".6" stop-color="#a7c77a"/><stop offset="1" stop-color="#73965b"/></radialGradient></defs><ellipse cx="1" cy="-9" rx="10" ry="7" fill="url(#body)"/><ellipse cx="-6" cy="-5" rx="6" ry="3" fill="#83a761"/><ellipse cx="7" cy="-5" rx="5" ry="3" fill="#7e9e59"/><ellipse cx="-4" cy="-15" rx="6" ry="5" fill="url(#head)"/><ellipse cx="3" cy="-15" rx="5" ry="5" fill="#adc97d"/>' + eyes + '<path d="M-3 -10 Q0 -8 4 -10" fill="none" stroke="#6e8856" stroke-width=".7"/><path d="M16 0 Q15 -7 23 -4 Q23 1 16 0" fill="#94b676" stroke="#6a9568" stroke-width=".6"/></svg>'
-	return _cache(key, svg)
+	var spec := frog_spec()
+	var crop: Array = spec.atlasAlpha8
+	var atlas := AtlasTexture.new()
+	atlas.atlas = Assets.texture(str(spec.states.closed if blink else spec.states.open))
+	atlas.region = Rect2(crop[0],crop[1],crop[2],crop[3])
+	atlas.filter_clip = true
+	_textures[key] = atlas
+	return atlas
 
 static func reeds() -> Texture2D:
 	if _textures.has("reeds"): return _textures.reeds

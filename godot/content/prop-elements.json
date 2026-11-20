@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "resources": {
+    "pond-frog-open": "res://assets/images/pond-residents/frog-open-v1.png",
+    "pond-frog-closed": "res://assets/images/pond-residents/frog-closed-v1.png",
     "symbiosis-wheel": "res://assets/images/symbiosis/water-wheel-v1.png",
     "symbiosis-lift": "res://assets/images/symbiosis/lift-frame-v1.png",
     "symbiosis-root": "res://assets/images/symbiosis/root-basin-v1.png",
@@ -463,6 +465,15 @@
     }
   },
   "natural_assets": {
+    "pond": {
+      "frog": {
+        "states": {"open": "pond-frog-open", "closed": "pond-frog-closed"},
+        "atlasAlpha8": [270, 200, 770, 776],
+        "footPixel": [655, 965],
+        "canvasWidth": 24,
+        "semantics": "Decorative resident on existing 44x21 lily pad; shared blink registration, no collision or puzzle changes."
+      }
+    },
     "symbiosis": {
       "wheel": {
         "file": "water-wheel-v1.png",

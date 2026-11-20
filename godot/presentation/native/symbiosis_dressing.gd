@@ -104,9 +104,30 @@ static func _instrument(stage: Node, root: Node3D, lift: bool) -> void:
 		_set_float(root, float(int(stage.world.state.turns.get("lift", 0)) % 2))
 
 static func _set_float(root: Node3D, step: float) -> void:
-	var pixel := Vector2(397, lerpf(1000, 480, clampf(step, 0, 1)))
-	root.get_node("LiftFloat").position = _pixel_point("lift", LIFT_OFFSET + Vector3(0, BASE_HEIGHT, 0), pixel)
+	root.get_node("LiftFloat").position = lift_gauge_point(LIFT_OFFSET + Vector3(0, BASE_HEIGHT, 0), step)
 	root.set_meta("height_step", step)
+
+static func lift_gauge_point(at: Vector3, fraction: float) -> Vector3:
+	return _pixel_point("lift", at, Vector2(397, lerpf(1000, 480, clampf(fraction, 0, 1))))
+
+static func build_water_control(stage: Node, root: Node3D, offset: Vector3) -> void:
+	# The pond and chapter-three lift share the same measured glass/leaf
+	# controller. Only its read-only indicator maps to three water levels.
+	var base: MeshInstance3D = stage._cylinder(root, .19, BASE_HEIGHT, offset + Vector3(0, BASE_HEIGHT * .5, 0), Color("707963"))
+	base.name = "InstrumentBase"
+	var at := offset + Vector3(0, BASE_HEIGHT, 0)
+	_art(stage, root, "lift", at, "NaturalLift")
+	root.set_meta("motion_kind", "lift")
+	root.set_meta("height_module", "float")
+	root.set_meta("natural_height_origin", at)
+	root.set_meta("height_step", float(stage.world.state.water))
+	for index in 3:
+		var dot: MeshInstance3D = stage._sphere(root, .012, lift_gauge_point(at, float(index) / 2), Color("728f8d"))
+		dot.name = "Height_" + str(index)
+		dot.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var pointer: MeshInstance3D = stage._sphere(root, .025, lift_gauge_point(at, float(stage.world.state.water) / 2), Color("e5b764"))
+	pointer.name = "HeightPointer"
+	pointer.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 static func update_motion(stage: Node, before: RefCounted, after: RefCounted, progress: float) -> void:
 	if str(after.level.id) != "3-3": return

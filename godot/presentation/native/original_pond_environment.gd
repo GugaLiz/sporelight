@@ -183,7 +183,11 @@ func _frog(stage: Node, point: Dictionary, index: int) -> void:
 	var at := _resident_position(stage, source)
 	var projected := _project(at)
 	_ground_image("ResidentPad_"+str(index),stage._texture("lilypad"),Rect2(projected+Vector2(-22,-9),Vector2(44,21)),.017)
-	var sprite := _art_sprite("PondFrog_"+str(index),Art.frog(false),projected,64,32.0/48.0,.025)
+	var spec := Art.frog_spec()
+	var crop: Array = spec.atlasAlpha8
+	var foot: Array = spec.footPixel
+	var sprite := _art_sprite("PondFrog_"+str(index),Art.frog(false),projected,float(spec.canvasWidth),(float(foot[1])-float(crop[1]))/float(crop[3]),.025)
+	sprite.offset.x = float(crop[2])*.5-(float(foot[0])-float(crop[0]))
 	sprite.set_meta("original_resident_source",source)
 	sprite.set_meta("original_resident_position",at)
 	frogs.append({"sprite":sprite,"index":index,"blink":false,"open":Art.frog(false),"closed":Art.frog(true)})

@@ -32,6 +32,21 @@ func _run() -> void:
 	var memories: Dictionary = app.repository.data.mainline.memories.duplicate(true)
 	var gallery: Dictionary = app.repository.data.gallery.duplicate(true)
 	var other_run: Dictionary = app.repository.data.mainline.runs["1-2"].duplicate(true)
+	var saved_before: Dictionary = app.repository.data.duplicate(true)
+	var world_before: Dictionary = app.session.world.snapshot().duplicate(true)
+	_action(app,"ending_preview").pressed.emit()
+	for unused in 3: await process_frame
+	_check(is_instance_valid(app.hud._journey_ending), "home debug entry opens the actual ending")
+	_check(app.home_active and app.paused, "preview keeps the home session paused")
+	_find_button(app.hud,"留下看看").pressed.emit()
+	for unused in 3: await process_frame
+	_check(app.hud._page_kind == "home", "preview stay returns to home without a completed game")
+	_action(app,"ending_preview").pressed.emit()
+	app.hud.navigate_back()
+	for unused in 8: await process_frame
+	_check(app.hud._page_kind == "home", "preview back restores home")
+	_same(saved_before,app.repository.data,"ending preview preserves all save data")
+	_same(world_before,app.session.world.snapshot(),"ending preview preserves current puzzle")
 	var resume := _action(app,"continue")
 	var restart := _action(app,"journey_start")
 	_check(resume.get_global_rect().end.y <= restart.get_global_rect().position.y, "continue is above restart")

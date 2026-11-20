@@ -34,7 +34,7 @@ func _run() -> void:
 	Router.install_native_actions()
 	var reference: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/reference.json"))
 	var cloud: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/cloud-reference.json"))
-	for sample: Dictionary in [{"id": "1-1", "next": "1-2"}, {"id": "3-4", "next": "cloud-1"}, {"id": "cloud-1", "next": "cloud-2"}, {"id": "cloud-3", "next": ""}]:
+	for sample: Dictionary in [{"id": "1-1", "next": "1-2"}, {"id": "3-4", "next": ""}, {"id": "cloud-1", "next": "cloud-2"}, {"id": "cloud-3", "next": ""}]:
 		var id := str(sample.id)
 		var before: Dictionary = {}
 		if id.begins_with("cloud-"):
@@ -68,6 +68,7 @@ func _run() -> void:
 		app.hud = HUD.new()
 		app.add_child(app.hud)
 		app.hud.command_requested.connect(app._on_command)
+		app.hud.menu_requested.connect(app._show_menu)
 		app.hud.set_repository(app.repository)
 		app.native_enabled = true
 		_check(app.repository.stage_run(before).ok, id + " precompletion fixture is valid")
@@ -111,11 +112,19 @@ func _run() -> void:
 			primary.pressed.emit()
 			if app.hud.is_context_open():
 				_press_text(app, app._ending_action_label())
-		_press_text(app, "去下一片微光 ↗" if not str(sample.next).is_empty() else "看看一路的纪事 ↗")
+		if id == "3-4":
+			_check(app.hud._journey_ending != null and not app._has_next_garden(),"final mainline repair and repeated E open the dedicated farewell")
+			_check(_find_text(app.hud,"去下一片微光 ↗") == null,"mainline farewell offers no cloud continuation")
+			app._on_command("next")
+			_check(str(app.session.world.level.id) == "3-4" and app.hud._journey_ending != null,"stale next command cannot enter cloud-1")
+			_press_text(app,"返回花园地图")
+			_check(app.hud._chapter_map.selected_id == "3-4","ending map action returns to the completed final node")
+		else:
+			_press_text(app, "去下一片微光 ↗" if not str(sample.next).is_empty() else "看看一路的纪事 ↗")
 		await process_frame
 		if not str(sample.next).is_empty():
 			_check(app.session.world.level.id == sample.next and not app.paused and not app.strolling and not app.session.world.state.completed, id + " advances to the next real garden")
-		else:
+		elif id != "3-4":
 			_check(app.session.world.level.id == id and app.paused and app.hud._page_kind == "journal", id + " final garden opens the journal")
 		_check(Repository.json_equivalent(saved.memories[id], app.repository.data.mainline.memories[id]), id + " advancing preserves the completion memory")
 		app.queue_free()

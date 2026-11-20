@@ -567,6 +567,9 @@ func _on_command(id: String) -> void:
 		_sync_hud()
 		return
 	if id == "next":
+		if str(session.world.level.id) == "3-4":
+			if bool(session.world.state.completed): _show_ending()
+			return
 		var index: int = 0
 		for i in levels.size():
 			if str(levels[i].id) == str(session.world.level.id):
@@ -911,9 +914,11 @@ func _show_ending() -> void:
 	hud.show_ending(presentation, session.world.snapshot())
 
 func _has_next_garden() -> bool:
+	if str(session.world.level.id) == "3-4": return false
 	return not levels.is_empty() and str(session.world.level.id) != str(levels.back().id)
 
 func _ending_action_label() -> String:
+	if str(session.world.level.id) == "3-4": return "重温微光终章"
 	return "前往下一片微光" if _has_next_garden() else "查看旅程纪事"
 
 func _show_growth_hint() -> void:
@@ -962,6 +967,10 @@ func _apply_settings() -> void:
 
 func _show_menu() -> void:
 	var progress: Dictionary = repository.data.mainline.duplicate(true)
+	# Opening the map is a view operation. The current session may be newer
+	# than last_level (entering a level does not itself save a move).
+	if has_active_game and not home_active and session != null:
+		progress["last_level"] = str(session.world.level.id)
 	progress["unlock_all"] = unlock_all_levels or (qa_mode and qa_unlock_all)
 	hud.show_menu(levels, progress)
 

@@ -210,12 +210,18 @@ func _test_instruments() -> void:
 			_test_cloud_action(str(entry[0]),"lift" if str(entry[0]) == "cloud-2" else "rotate")
 			continue
 		_check(str(node.get_meta("motion_kind")) == str(entry[2]), str(entry[0]) + " instrument uses actual module kind")
-		if str(entry[0]) in ["1-3","3-3"]:
-			_check(node.has_node("NaturalWheel" if str(entry[1]) == "turn" else "NaturalLift"), str(entry[0])+" retains a distinct natural mechanism silhouette")
-			if str(entry[0]) == "1-3":
+		if str(entry[0]) in ["1-3","2-1","2-4","3-3"]:
+			_check(node.has_node("NaturalWheel" if str(entry[1]) in ["turn", "slide"] else "NaturalLift"), str(entry[0])+" retains a distinct natural mechanism silhouette")
+			if str(entry[0]) in ["1-3", "2-4"]:
 				var wheel: Sprite3D = node.get_node("NaturalWheel")
 				var natural := preload("res://presentation/native/symbiosis_dressing.gd")
 				_check(wheel.texture == natural.asset_texture("wheel") and is_equal_approx(wheel.pixel_size,float(natural.asset_spec("wheel").pixelSize)),"1-3 shares accepted 3-3 wheel artwork and scale")
+				if str(entry[0]) == "2-4":
+					_check(wheel.position.is_equal_approx(Props.FERRY_CONTROLLER_OFFSET + Vector3(0,.025,0)), "ferry wheel keeps its reviewed deck offset")
+			if str(entry[0]) == "2-1":
+				var art: Sprite3D = node.get_node("NaturalLift")
+				var natural := preload("res://presentation/native/symbiosis_dressing.gd")
+				_check(art.texture == natural.asset_texture("lift") and is_equal_approx(art.pixel_size,float(natural.asset_spec("lift").pixelSize)) and not art.no_depth_test,"2-1 shares chapter-three lift artwork, scale and real depth")
 			_check(node.find_children("*", "Label3D", true, false).is_empty(), "3-3 mechanisms no longer encode identity in text")
 			_check_hard_bases(node, 1, "3-3 natural mechanism retains its real stone base")
 			_check(snapshot == world.snapshot(), "3-3 natural mechanism preserves domain snapshot")
@@ -355,6 +361,10 @@ func _test_moving_gauge(level: String, action: String, mark: String) -> void:
 	stage.set_world(World.new(level, before))
 	stage.set_motion(before, after, 0.0, action)
 	var pointer: MeshInstance3D = _mark(mark).get_node("HeightPointer")
+	var low: Vector3 = _mark(mark).get_node("Height_0").position
+	var middle: Vector3 = _mark(mark).get_node("Height_1").position
+	var high: Vector3 = _mark(mark).get_node("Height_2").position
+	_check(low.y < middle.y and middle.y < high.y and middle.is_equal_approx(low.lerp(high,.5)), "pond has distinct, evenly spaced three-level gauge stops")
 	var identities := [pointer.get_instance_id(), pointer.mesh.get_instance_id()]
 	var body_transform: Transform3D = stage.get_actor_body("luvie").transform
 	for phase: float in [0.0, 0.25, 0.5, 0.75, 1.0]:
@@ -363,7 +373,7 @@ func _test_moving_gauge(level: String, action: String, mark: String) -> void:
 		# Inspect the live pointer; the old queued node is no longer rendered.
 		pointer = _mark(mark).get_node("HeightPointer")
 		var eased := phase * phase * (3 - 2 * phase)
-		_check(is_equal_approx(pointer.position.y, 0.15 + eased * 0.11), level + " gauge follows actual ascent phase " + str(phase))
+		_check(pointer.position.is_equal_approx(low.lerp(middle,eased)), level + " gauge follows actual ascent phase " + str(phase))
 		if phase < 1.0:
 			_check(identities == [pointer.get_instance_id(), pointer.mesh.get_instance_id()], level + " moving gauge reuses node and mesh")
 		else:
@@ -375,10 +385,10 @@ func _test_moving_gauge(level: String, action: String, mark: String) -> void:
 		stage.set_motion(after, before, phase, "undo")
 		pointer = _mark(mark).get_node("HeightPointer")
 		var eased := phase * phase * (3 - 2 * phase)
-		_check(is_equal_approx(pointer.position.y, 0.15 + (1.0 - eased) * 0.11), level + " reverse gauge follows descent phase " + str(phase))
+		_check(pointer.position.is_equal_approx(middle.lerp(low,eased)), level + " reverse gauge follows descent phase " + str(phase))
 	stage.set_motion(after, before, 0.5, "undo")
 	stage.clear_motion(false)
-	_check(is_equal_approx(_mark(mark).get_node("HeightPointer").position.y, 0.15), level + " clearing motion resets the gauge to current world state")
+	_check(_mark(mark).get_node("HeightPointer").position.is_equal_approx(low), level + " clearing motion resets the gauge to current world state")
 	_check(world.snapshot() == after, level + " gauge sampling preserves the actual domain transaction")
 
 func _before_action(level: String, action: String) -> RefCounted:
