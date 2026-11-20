@@ -1,0 +1,31 @@
+{
+  "initialSource": {
+    "sha256": "650c164f7240b197bfcf0251de034ef8f5dc2b6c924bbe2d66ce3ede2e3f09d1",
+    "files": 983
+  },
+  "source": {
+    "sha256": "650c164f7240b197bfcf0251de034ef8f5dc2b6c924bbe2d66ce3ede2e3f09d1",
+    "files": 983
+  },
+  "stable": true,
+  "passed": false,
+  "failure": null,
+  "results": [
+    {
+      "label": "native_completion_navigation_test",
+      "code": 0,
+      "elapsedMs": 6747,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":67,\"failures\":[],\"passed\":true,\"scope\":\"Headless real native stage/controller/HUD, Input.parse_input_event and emitted button signals; GPU pixels and browser pointer input require separate verification.\",\"suite\":\"native-completion-navigation\"}\r\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "label": "native_menu_home_entry_test",
+      "code": 0,
+      "elapsedMs": 3688,
+      "stdout": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\r\n\r\n{\"checks\":19,\"failures\":[],\"passed\":true,\"suite\":\"menu-home-entry\"}\r\n",
+      "stderr": "ERROR: Resumed function '_position_menu_scroll()' after await, but class instance is gone. At script: res://ui/garden_hud.gd:1770\r\n   at: resume (modules/gdscript/gdscript_function.cpp:323)\r\n",
+      "passed": false
+    }
+  ]
+}
