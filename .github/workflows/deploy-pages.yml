@@ -1,27 +1,24 @@
-name: Deploy to GitHub Pages
+name: Deploy main and dev to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  main:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -30,10 +27,101 @@ jobs:
       - run: npm run check
       - run: npm test
       - run: npm run build
+      - name: Record main revision
+        run: git rev-parse HEAD > dist/revision.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: main-site
+          path: dist
+          retention-days: 1
+
+  dev:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/sporelight-pages-godot
+            ~/AppData/Roaming/Godot/export_templates
+          key: pages-godot-windows-${{ hashFiles('godot/toolchain.json') }}-v1
+      - name: Install pinned official Godot editor and Web templates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $lock = Get-Content godot/toolchain.json -Raw | ConvertFrom-Json
+          $cache = Join-Path $env:USERPROFILE '.cache/sporelight-pages-godot'
+          $editor = Join-Path $cache 'engine/Godot_v4.7.2-stable_win64_console.exe'
+          $templates = Join-Path $env:APPDATA 'Godot/export_templates/4.7.2.stable'
+          New-Item -ItemType Directory -Force -Path $cache, $templates | Out-Null
+          $base = "https://github.com/$($lock.editorAsset.repository)/releases/download/$($lock.editorAsset.release)"
+          if (!(Test-Path $editor)) {
+            $archive = Join-Path $cache 'editor.zip'
+            Invoke-WebRequest "$base/$($lock.editorAsset.name)" -OutFile $archive
+            if ((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower() -ne $lock.editorAsset.sha256) { throw 'Editor checksum mismatch' }
+            Expand-Archive -LiteralPath $archive -DestinationPath (Join-Path $cache 'engine') -Force
+          }
+          if (!(Test-Path (Join-Path $templates 'web_nothreads_release.zip'))) {
+            $archive = Join-Path $cache 'templates.tpz'
+            Invoke-WebRequest "$base/Godot_v4.7.2-stable_export_templates.tpz" -OutFile $archive
+            if ((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower() -ne $lock.templateAsset.sha256) { throw 'Template checksum mismatch' }
+            Add-Type -AssemblyName System.IO.Compression.FileSystem
+            $zip = [IO.Compression.ZipFile]::OpenRead($archive)
+            try {
+              foreach ($entry in $zip.Entries) {
+                if ($entry.Name -in @('version.txt', 'icudt_godot.dat', 'web_nothreads_release.zip')) {
+                  [IO.Compression.ZipFileExtensions]::ExtractToFile($entry, (Join-Path $templates $entry.Name), $true)
+                }
+              }
+            } finally { $zip.Dispose() }
+            Remove-Item -LiteralPath $archive
+          }
+          "GODOT_BIN=$editor" >> $env:GITHUB_ENV
+      - name: Export dev Godot Web release
+        run: node tools/godot-migration/export.mjs --release --official-web --web-only --variant=pages-dev
+      - name: Record dev revision
+        shell: bash
+        run: git rev-parse HEAD > godot/build/pages-dev/revision.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dev-site
+          path: godot/build/pages-dev
+          retention-days: 1
+
+  deploy:
+    needs: [main, dev]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: main-site
+          path: site
+      - uses: actions/download-artifact@v4
+        with:
+          name: dev-site
+          path: site/dev
+      - name: Verify both entry points
+        run: |
+          test -s site/index.html
+          test -s site/dev/index.html
+          test -s site/dev/index.wasm
+          test -s site/dev/index.pck
+          touch site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
