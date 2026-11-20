@@ -74,16 +74,21 @@ npm run preview
 
 ## 部署到 GitHub Pages
 
-仓库已包含自动部署工作流。首次使用时，在 GitHub 仓库的 **Settings → Pages → Build and deployment** 中将 **Source** 设为 **GitHub Actions**，然后推送 `main` 分支：
+仓库通过同一个 GitHub Actions 工作流发布两个入口，Pages 的 **Source** 使用 **GitHub Actions**：
 
 ```sh
-git add -u
 git add .github/workflows/deploy-pages.yml
-git commit -m "chore: configure GitHub Pages deployment"
-git push origin main
+git commit -m "chore: configure main and dev Pages deployment"
+git push origin dev
 ```
 
-Actions 完成后可通过 `https://gugaliz.github.io/sporelight/` 访问。后续每次推送 `main` 都会重新检查、测试、构建并部署，无需提交 `dist` 目录。
+正式版（main）：https://gugaliz.github.io/sporelight/
+
+开发预览（dev，Godot Web release）：https://gugaliz.github.io/sporelight/dev/
+
+推送 `main` 或 `dev` 时，工作流分别检出两个分支：main 执行 TypeScript 检查、测试和 Vite 构建；dev 校验固定版本官方 Godot 引擎和模板的 SHA256，再导入并导出 Web release。两份构建都成功后，才将 main 放在站点根目录、dev 放在 `/dev/`，一次部署到 Pages。无需提交 `dist` 或 `godot/build`；任一构建失败都会保留上次上线内容。
+
+两个分支的 `.github/workflows/deploy-pages.yml` 应保持一致，避免旧工作流覆盖整个站点。两个入口的 `revision.txt` 分别记录其源码提交；dev 的 `build.json` 另含 Godot 源码摘要。首次发布需要在 `github-pages` environment 的部署分支规则中允许 main 和 dev。
 
 ## 操作
 
