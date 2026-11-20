@@ -9461,3 +9461,49 @@
 - 原组合图裁叶候选否决，使用内置imagegen参考现用造型补绘完整透明花蕾/粉花层，统一256px石圈土面锚点与坐姿；发光虫直接复用首页同源图并轻扑翼，暂停/减少动态/粒子关闭保留。
 - 首页纸面改五段绘制保留圆角/叶饰/菱星比例，桌面右侧增加宽度、行距和分组留白，按真实内容垂直定位；首次/续玩入口及重新开始保档行为不变。
 - 最终3e883f5b/927，无头4套1681项、GPU59项/35图、浏览器宽屏铺满/右上锁关节点/竖屏返回通过，正式Web变体menu-layout-polish-20261118与4222实发30资源一致。失败裁切候选保留，最终证据为gpu-reviewed；详见121号与69号GQ-029。未提交或远端发布。
+## 2026-11-20 15:03:15 +08:00 — maintenance
+
+- **摘要**：从当前 dev 工作区导出 Godot Web 正式包并在 localhost:4222 启动本地预览。
+- **涉及文件**：
+  - `godot/build/local-dev-20261120/`
+  - `godot/build/build.json`
+  - `godot/build/export-import.log`
+  - `godot/build/export-web.log`
+  - `godot/.godot/`
+  - `agentchanges/CHANGELOG.md`
+- **原因/目标**：用户要求分析并本地部署；现有 dist 属于旧版 Vite，历史 Godot 包早于当前源码。
+- **实现/结果**：使用官方 Godot 4.7.2 单线程 Web 正式模板；恢复首次导入自动改写的 133 个导入配置的换行符并重新导出，最终运行源码摘要 c2f69e76（975 文件）。服务仅监听本机 127.0.0.1:4222。临时对照包和测试 UID 移入系统临时目录。
+- **验证**：导入与正式导出成功。下载本地服务全部 34 个文件（107839289 字节），SHA256 全部与磁盘一致，WASM MIME 正确。独立 Chrome 会话从首页进入 1-1，操作向东生长、查看第一章地图并返回关卡；控制台警告、错误及失败请求均为零。
+- **风险/后续**：本次验证覆盖本地部署与首关流程。重启电脑后需重新运行项目预览命令。
+
+## 2026-11-20 21:10:49 +08:00 — maintenance
+
+- **摘要**：清除仓库内缓存与构建产物，剔除误跟踪的临时目录，4222 预览迁至仓库外。
+- **涉及文件**：
+  - `.gitignore`
+  - `.tmp/`
+  - `.cache/`
+  - `node_modules/`
+  - `dist/`
+  - `godot/.godot/`
+  - `godot/build/`
+  - `tools/godot-migration/__pycache__/`
+  - `docs/qa-godot-native/**/runtime-user/`
+  - `output/deployment-20261117/sporelight-dev-web-20261117.zip`
+  - `output/deployment-20261117/sporelight-cover-1920x1080-download.zip`
+  - `agentchanges/CHANGELOG.md`
+- **原因/目标**：本地缓存和临时测试工程的生成文件已进入 Git 索引，造成大量无关差异与合并冲突。
+- **实现/结果**：先无递归地解除 169 个临时目录链接，再将生成目录及 2 个 ZIP 移入 Windows 回收站。Git 已暂存 .tmp 下 35044 项和 2 份压缩包的删除以及新的忽略规则。当前正式版安装于 %LOCALAPPDATA%/Sporelight/preview，上一轮部署核对的重复临时包也已回收。
+- **验证**：全仓扫描确认清理范围内的磁盘路径及跟踪项均已消失；18 个忽略/保留路径样例通过。975 个游戏运行文件的 SHA256 摘要仍是 c2f69e76。清理后 localhost:4222 实发的所有 34 个文件与仓库外正式包逐一校验一致。
+- **风险/后续**：重启本地预览可在 %LOCALAPPDATA%/Sporelight/preview 运行 node tools/godot-migration/serve-preview.mjs --variant=local-dev-20261120 --port=4222 --standards=off。本次清理尚待提交，以便在其他签出中生效。
+
+## 2026-11-20 21:21:34 +08:00 — maintenance
+
+- **摘要**：按用户确认关闭 4222 本地预览并移除仓库外正式包。
+- **涉及文件**：
+  - `agentchanges/CHANGELOG.md`
+- **原因/目标**：用户选择同时停止服务并删除部署副本，更新上一条清理记录中的预览状态。
+- **实现/结果**：停止 Sporelight 预览进程，将 %LOCALAPPDATA%/Sporelight/preview 下的 34 个发布文件及 2 个预览脚本随部署目录移入 Windows 回收站。
+- **验证**：确认 4222 已无监听进程，外部部署目录与仓库内 godot/build 均不存在。
+- **风险/后续**：None
+

@@ -1,5 +1,0 @@
-# 选关页左侧旧界面清理
-
-2026-11-19，内置 imagegen。参考原 map-valley.jpg；clean-left-map.png 为编辑输出，仅在运行时采样左上／左下清理区域，其他地图像素继续使用原图。
-
-Edit target supplied Sporelight map-valley.jpg, a 1280x720 game background. ONLY remove the three baked LEFT interface elements: top-left back button at x25..92 y20..105, top-left logo/title '微光苔原 Sporelight' and its leaf decorations at x140..410 y20..110, bottom-left world overview button at x25..110 y620..700. Fill just those removed regions with a seamless continuation of the surrounding peach mist sky or mossy landscape. Preserve the exact existing terrain, flowerpots, bridge/path coordinates, lighting, colors, distant ruins, composition and all other pixels as closely as possible. In particular preserve all right-side UI exactly since those are covered separately by live game controls, and preserve the characteristic tiny blurred flowerpots in this existing art. No new objects, buttons, text, border or reframing. Output same 16:9 aspect ratio. This is minimal UI removal for a game: live native buttons and text replace those left interface elements later.
