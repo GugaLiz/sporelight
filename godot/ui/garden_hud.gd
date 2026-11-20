@@ -102,6 +102,7 @@ var _context_action_states: Dictionary = {}
 var _context_render_key := ""
 var _context_index := 0
 var _context_title: Label
+var _context_key_guide: Label
 var _rain_summary: Label
 var _context_scroll: ScrollContainer
 var _context_screen := Vector2(-1, -1)
@@ -282,6 +283,11 @@ func setup() -> void:
 	_commands.add_theme_constant_override("h_separation", 8)
 	_commands.add_theme_constant_override("v_separation", 5)
 	context_body.add_child(_commands)
+	var context_keys := _label("↑↓ / Tab 选择 · Enter / E 确认 · Esc 返回", 11, MUTED)
+	_context_key_guide = context_keys
+	context_keys.name = "ContextKeyboardGuide"
+	context_keys.custom_minimum_size.y = 18
+	panel_box.add_child(context_keys)
 	_panel_header = HBoxContainer.new()
 	_panel_header.visible = false
 	panel_box.add_child(_panel_header)
@@ -302,7 +308,7 @@ func setup() -> void:
 	_tool_grid = Control.new()
 	_tool_grid.resized.connect(_layout_tool_buttons)
 	_tools.add_child(_tool_grid)
-	for pair in [["返回", "menu"], ["撤销 Z", "undo"], ["行走", "mode"], ["走近物件", "primary"], ["切换角色 T", "switch"], ["跳跃 J", "jump"], ["提示 H", "hint"], ["重来", "restart"]]:
+	for pair in [["返回", "menu"], ["撤销 Z", "undo"], ["行走", "mode"], ["走近物件", "primary"], ["切换角色 T", "switch"], ["跳跃 J", "jump"], ["提示 H", "hint"], ["重来 R", "restart"]]:
 		var action := String(pair[1])
 		var button := _button(String(pair[0]))
 		button.name = "Action_" + action
@@ -388,7 +394,7 @@ func setup() -> void:
 			var dir := String(direction)
 			var button := _button(String({"up": "↑", "right": "→", "down": "↓", "left": "←"}[dir]))
 			button.custom_minimum_size = Vector2(40, 40)
-			button.tooltip_text = String({"up": "向前", "right": "向右", "down": "向后", "left": "向左"}[dir])
+			button.tooltip_text = String({"up": "沿石板向右上 · ↑ / W", "right": "沿石板向右下 · → / D", "down": "沿石板向左下 · ↓ / S", "left": "沿石板向左上 · ← / A"}[dir])
 			button.pressed.connect(func() -> void: command_requested.emit("dir:" + dir))
 			_compact_button(button)
 			_pad.add_child(button)
@@ -681,7 +687,7 @@ func _refresh_action_card(choices: Array) -> void:
 			_action_list.add_child(_label(str(choice.reason), 10, MUTED))
 	if choices.is_empty():
 		_action_list.add_child(_label("附近暂无可操作物件", 12, MUTED))
-	_action_help.text = "方向键或点击石板继续行走；E 打开附近操作，Esc 返回行走。"
+	_action_help.text = "沿石板方向移动，或点击石板。E 操作；菜单内 Esc 返回，菜单外 Esc 设置。R 重来。"
 	if not cooperation.is_empty(): _action_help.text = cooperation
 	if completed:
 		_action_help.text = "这片花园已经复苏。可以留下慢慢看看。"
@@ -873,6 +879,7 @@ func handle_context_key(event: InputEventKey) -> bool:
 
 func _render_context_choices(focus_choice: bool = true) -> void:
 	_context_render_key = _context_content_key(_context_choices)
+	_context_key_guide.text = "方向键引芽 · Tab 选择 · Enter 确认 · Esc 返回" if _context_choices.any(func(entry: Dictionary) -> bool: return str(entry.id).begins_with("grow:")) else "↑↓ / Tab 选择 · Enter / E 确认 · Esc 返回"
 	var rain := RainSong.applies(_world) and _context_choices.any(func(entry: Dictionary) -> bool: return RainSong.is_song_action(str(entry.id)))
 	_rain_summary.visible = rain
 	if rain:
@@ -1973,7 +1980,7 @@ func _layout() -> void:
 			var summary_size := summary_font.get_multiline_string_size(_rain_summary.text, HORIZONTAL_ALIGNMENT_LEFT, panel_width - 36.0, _rain_summary.get_theme_font_size("font_size"), -1, TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE)
 			summary_height = summary_size.y + 6.0
 		var content_height: float = maxf(44, _context_content_height(panel_width-32)) + summary_height
-		var panel_height := minf(67 + content_height, maxf(111, _tools.position.y - 86))
+		var panel_height := minf(92 + content_height, maxf(136, _tools.position.y - 86))
 		var bottom_edge := _tools.position.y - 10.0
 		var panel_top := maxf(80.0, bottom_edge - panel_height)
 		panel_height = maxf(0.0, bottom_edge - panel_top)

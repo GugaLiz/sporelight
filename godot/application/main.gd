@@ -350,6 +350,10 @@ func _input(event: InputEvent) -> void:
 			return
 		match event.keycode:
 			KEY_E: _on_command("primary")
+			KEY_R:
+				if not home_active and not _locked():
+					_on_command("restart")
+				get_viewport().set_input_as_handled()
 			KEY_T: _on_command("switch")
 			KEY_Z: _on_command("undo")
 			KEY_H: _on_command("hint")
